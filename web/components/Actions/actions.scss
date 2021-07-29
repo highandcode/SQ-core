@@ -1,0 +1,22 @@
+.sq-actions {
+  width: 100%;
+  text-align: right;
+  &__action {
+    margin-left: 10px;
+    display: inline-block;
+    border-left: solid 2px $sq-color-gray-light;
+    padding-left: 8px;
+    &:first-child {
+      border-left: none;
+      padding-left: 0;
+      margin-left: 0px;
+    }
+  }
+  &--flex {
+    display: flex;
+    .sq-actions__action {
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+  }
+}

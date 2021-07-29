@@ -1,0 +1,33 @@
+.sq-header {
+  &__eyebrow {
+    margin-bottom: 16px;
+    animation-duration: 1s;
+    animation-name: slidein;
+  }
+  &__header {
+    margin-bottom: 16px;
+    animation-duration: 1s;
+    animation-name: slidein;
+  }
+  &__sub-header {
+    animation-duration: 1s;
+    animation-name: slideout;
+  }
+  &__image {
+    max-width: 150px;
+    margin-top: 20px;
+    @media (min-width: $screen-sm) {
+      max-width: 200px;
+    }
+  }
+  padding-bottom: 48px;
+  &--center {
+    padding-top: 48px;
+    text-align: center;
+  }
+  &--light {
+    text-align: center;
+    background-color: white;
+    color: $sq-color-primary-darker;
+  }
+}

@@ -1,0 +1,25 @@
+.sq-button {
+  &--full-width {
+    width: 100%;
+  }
+  width: 100%;
+  .MuiButton-root {
+    width: 100%;
+  }
+  @media (min-width:$screen-sm) {
+    width: auto;
+    .MuiButton-root {
+      width: auto;
+    }
+  }
+  &--block {
+    width: 100%;
+    .MuiButton-root {
+      width: 100%;
+    }
+  }
+  display: inline-block;
+  .sq-icon {
+    margin-right: 8px;
+  }
+}

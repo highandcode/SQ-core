@@ -1,0 +1,43 @@
+.sq-tag-label {
+  border-radius: 5px;
+  &__container {
+    padding: 4px 6px;
+    display: flex;
+    align-items: center;
+  }
+  &--default {
+    &.primary {
+      color: $sq-color-primary;
+    }
+    &.secondary {
+      color: $sq-color-secondary;
+    }
+    &.success {
+      color: $sq-color-success;
+    }
+    &.info {
+      color: $sq-color-info;
+    }
+    &.warning {
+      color: $sq-color-warning;
+    }
+  }
+  &--filled {
+    color: white;
+    &.primary {
+      background-color: $sq-color-primary;
+    }
+    &.secondary {
+      background-color: $sq-color-secondary;
+    }
+    &.success {
+      background-color: $sq-color-success;
+    }
+    &.info {
+      background-color: $sq-color-info;
+    }
+    &.warning {
+      background-color: $sq-color-warning;
+    }
+  }
+}

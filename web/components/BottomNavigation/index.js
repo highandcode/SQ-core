@@ -1,0 +1,66 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import Icon from '../Icon';
+import './bottom-navigation.scss';
+
+class LabelBottomNavigation extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      value: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      value: this.props.value
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.value !== prevProps.value) {
+      this.setState({
+        value: this.props.value
+      });
+    }
+  }
+  handleChange(evt, newValue) {
+    const { onChange, links = [] } = this.props;
+    const item = _.filter(links, { value: newValue });
+    this.setState({
+      value: newValue
+    });
+    onChange && onChange(newValue, item[0]);
+  }
+
+  render() {
+    const { links = [], showLabels = false, iconOnly = false } = this.props;
+    return (
+      <div className="sq-bottom-navigation">
+        <BottomNavigation value={this.state.value} onChange={this.handleChange} className={`sq-bottom-navigation__nav`} showLabels={showLabels}>
+          {links.map((link) => {
+            return (
+              <BottomNavigationAction
+                key={link.value}
+                label={iconOnly ? '' : link.label}
+                value={link.value}
+                icon={<Icon name={link.icon} variant="normal" />}
+              />
+            );
+          })}
+        </BottomNavigation>
+      </div>
+    );
+  }
+}
+LabelBottomNavigation.propTypes = {
+  links: PropTypes.array,
+  onChange: PropTypes.func,
+  value: PropTypes.string
+};
+
+export default LabelBottomNavigation;

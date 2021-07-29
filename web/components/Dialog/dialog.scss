@@ -1,0 +1,42 @@
+.sq-dialog {
+  &__content-body {
+    min-height: 200px;
+    min-width: 280px;
+    height: 100%;
+    &--auto {
+      min-height: auto;
+      min-width: auto;
+    }
+    &--confirm {
+      min-height: auto;
+      padding: 10px 0 32px 0;
+      min-width: 280px;
+    }
+    .sq-content-page {
+      height: 100%;
+    }
+  }
+ 
+  &__title {
+    flex-grow: 1;
+    padding: 20px 0px;
+    margin: 0;
+  }
+  &__loader {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: $z-index-level-2ndtopest;
+  }
+}
+.MuiDialogContent-root {
+  position: relative;
+}
+.MuiDialog-paperWidthSm {
+  max-width: 850px!important;
+}

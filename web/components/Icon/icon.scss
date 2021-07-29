@@ -1,0 +1,125 @@
+.sq-icon {
+  svg {
+    width: 100%;
+    height: 100%;
+    float: left;
+  }
+  img {
+    height: 100%;
+  }
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  @include b3-style();
+  text-align: center;
+
+  &--wide {
+    width: 100px;
+    height: 40px;
+  }
+
+  &--text-icon {
+    background-color: currentColor;
+    border-radius: 50%;
+    padding: 5px;
+    box-sizing: content-box;
+    .sq-icon__text {
+      color: $sq-color-white;
+      text-transform: uppercase;
+    }
+  }
+  &--bg-icon {
+    background-color: $sq-color-gray-lightest;
+    border-radius: 50%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: content-box;
+    &.sq-icon--text-icon .sq-icon__text {
+      color: $sq-color-primary;
+    }
+  }
+  &--outline-icon {
+    border:solid 1px currentColor;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: content-box;
+    padding: 5px;
+    line-height: 22px;
+    .sq-icon__text {
+      color: $sq-color-white;
+      text-transform: uppercase;
+    }
+  }
+
+  &--xs {
+    width: 16px;
+    height: 16px;
+  }
+  &--small {
+    width: 20px;
+    height: 20px;
+  }
+  &--medium {
+    width: 30px;
+    height: 30px;
+  }
+  &--large {
+    width: 36px;
+    height: 36px;
+  }
+  &--xl {
+    width: 42px;
+    height: 42px;
+  }
+  &--xxl {
+    width: 50px;
+    height: 50px;
+  }
+  &--auto {
+    width: 100%;
+    height: 100%;
+  }
+  &--xxxl {
+    font-size: 50px;
+    width: 58px;
+    height: 58px;
+  }
+  &--full {
+    width: 100px;
+    height: 100px;
+  }
+  &--auto {
+    width: 100%;
+    height: 100%;
+  }
+
+  &--primary {
+    color: $sq-color-primary;
+  }
+  &--secondary {
+    color: $sq-color-secondary;
+  }
+  color: currentColor;
+  &--default {
+    color: $sq-color-muted;
+  }
+  &--invert {
+    color: $sq-color-white;
+  }
+  &--info {
+    color: $sq-color-info;
+  }
+  &--warning {
+    color: $sq-color-warning;
+  }
+  &--error {
+    color: $sq-color-error-light;
+  }
+  &--success {
+    color: $sq-color-success;
+  }
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title><%= siteMap.title %></title>
+  <link rel="stylesheet" href="/client/libs/bootstrap-4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/client/libs/froala-blocks/froala-blocks.min.css">
+  <link rel="stylesheet" href="/client/libs/core/css/core.css">
+  <link rel="stylesheet" href="/client/libs/basic/css/basic.css">
+  <link rel="stylesheet" href="/client/libs/highlightjs/highlightjs.min.css">
+  <link rel="stylesheet" href="/client/libs/sq-daterange/css/sq-daterange-slider.css">
+
+  <script src="/client/libs/jquery/jquery.min.js"></script>
+  <script src="/client/libs/bootstrap-4.4.1/js/bootstrap.min.js"></script>
+  <script src="/client/libs/highlightjs/highlightjs.min.js"></script>
+  <script src="/client/libs/vendor/js/moment.min.js"></script>
+  <script src="/client/libs/core/js/core.js"></script>
+  <script src="/client/libs/basic/js/basic.js"></script>
+  <script src="/client/libs/sq-daterange/js/sq-daterange-slider.min.js"></script>
+ 
+</head>
+
+<body>
+  <div class="alert alert-info text-center" role="alert">
+    DateRange is free for next 1 year. Hurry up <a href="#" class="alert-link">click here to avail offer</a>.
+  </div>
+  <%- include('../partials/topnav') %>
+  <div class="container">
+
+    <div class="content container-body">
+      <%- body %>
+    </div>
+  </div>
+
+  <%- include('../partials/footer') %>
+ 
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', (event) => {
+      document.querySelectorAll('code').forEach((block) => {
+        hljs.highlightBlock(block);
+      });
+    });
+  </script>
+</body>
+
+</html>

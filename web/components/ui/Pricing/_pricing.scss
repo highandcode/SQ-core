@@ -1,0 +1,39 @@
+.sq-pricing {
+  padding: 58px 0;
+  &__plan {
+    background-color:$sq-color-gray-lighter;
+    padding: 20px;
+    border-radius: 5px;
+    color: $sq-color-primary-darker;
+  }
+  &__featues-list {
+    list-style-type: none;
+    padding: 20px 0;
+    margin: 0;
+    @media (min-width: $screen-sm) {
+      min-height: 200px;
+    }
+  }
+  &__icon {
+    padding: 20px;
+  }
+  &__feature-item {
+    padding: 0px 0;
+    &-text {
+      margin-left: 10px;
+    }
+  }
+  &__actions {
+    margin-bottom: 50px;
+    color:$sq-color-gray-lightest;
+  }
+  &--default {
+    padding: 0 50px;
+    .sq-pricing__header {
+      text-align: center;
+    }
+    .sq-pricing__sub-header {
+      text-align: center;
+    }
+  }
+}

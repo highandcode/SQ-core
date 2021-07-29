@@ -1,0 +1,19 @@
+.sq-content-page {
+  width: 100%;
+  margin: auto;
+
+  &__body, .sq-global-navigation__wrapper {
+    max-width: $screen-lg;
+    margin: auto;
+  }
+  &--header-footer-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+    .dynamic-content__body {
+      flex-grow: 1;
+    }
+    
+  }
+}

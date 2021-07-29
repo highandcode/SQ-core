@@ -1,0 +1,20 @@
+.sq-form-cmp {
+  padding-bottom: 20px;
+  &__field {
+    margin-bottom: 20px;
+  }
+  &_actions {
+    margin-top: 56px;
+  }
+  &__action {
+    margin-bottom: 8px;
+    @media (min-width: $screen-sm) {
+      display: inline-block;
+      margin-bottom: 0;
+    }
+    &.block {
+      display: block;
+      margin-bottom: 8px;
+    }
+  }
+}

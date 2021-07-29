@@ -1,0 +1,19 @@
+.sq-navigation-list {
+  &__item {
+    margin-bottom: 20px;
+  }
+  &__link {
+    a {
+      color: $sq-color-primary;
+    }
+    &--active {
+      a {
+        color: $link-hover-color;
+      }
+    }
+  }
+  &__header {
+    border-left: 5px solid $sq-color-info;
+    padding-left: 10px;
+  }
+}

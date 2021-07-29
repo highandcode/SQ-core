@@ -1,0 +1,33 @@
+.sq-image-info-slider {
+  .sq-image-info-slider__template {
+    &-default {
+      padding: 60px 0;
+      &__list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        &-item {
+          position: relative;
+        }
+      }
+      &__banner {
+        width: 400px;
+        height: 200px;
+        background: $sq-color-gray-lightest;
+        padding: 20px;
+        @media (min-width: $screen-sm) {
+          position: absolute;
+          left: 30%;
+          top: 0;
+        }
+      }
+      &__eyebrow {
+        margin-bottom: 8px;
+      }
+      &__header {
+        @include t3-style();
+        margin-bottom: 16px;
+      }
+    }
+  }
+}

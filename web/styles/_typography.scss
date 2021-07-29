@@ -1,0 +1,31 @@
+h1, h2, h3, h4, h5, h6 {
+  padding: 0;
+  margin: 0;
+  margin-top: 0px;
+  margin-bottom:20px;
+}
+
+h1 {
+  @include t2-style();
+  @media screen and (min-width:$screen-md) {
+    @include t1-style();
+  }
+} 
+h2 {
+  @include t3-style();
+  @media screen and (min-width:$screen-md) {
+    @include t2-style();
+  }
+}
+h3 {
+  @include t4-style();
+  @media screen and (min-width:$screen-md) {
+    @include t3-style();
+  }
+}
+
+
+p {
+  @include b5-style();
+  margin: 0 0 40px 0;
+}

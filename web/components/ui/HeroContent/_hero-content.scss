@@ -1,0 +1,175 @@
+.sq-hero-content {
+  text-align: center;
+  position: relative;
+
+  &--animate {
+  }
+
+  &__eyebrow {
+    padding-bottom: 8px;
+    @include b4-style();
+  }
+  &__sub-header {
+    @include b3-style();
+  }
+
+  &__links-container {
+    margin-top: 16px;
+  }
+  &__image {
+    display: block;
+    text-align: center;
+    margin: auto;
+    height: 60%;
+    width: 60%;
+    max-width: 300px;
+    padding: 20px;
+    @media (min-width: $screen-sm) {
+      position: absolute;
+      height: 40%;
+      width: 40%;
+    }
+    img {
+      width: 100%;
+    }
+  }
+
+  &--default {
+    padding: 58px 0;
+    max-width: 100%;
+    @media (min-width: $screen-sm) {
+      padding: 98px 0;
+    }
+    .sq-hero-content__wrapper {
+      margin: 0 15px;
+      @media (min-width: $screen-sm) {
+        max-width: 50%;
+        margin: 0 auto;
+      }
+    }
+
+    &.sq-hero-content--animate-default {
+      &-reset {
+        .sq-hero-content__eyebrow, 
+        .sq-hero-content__header,
+        .sq-hero-content__sub-header,
+        .sq-hero-content__links-container,
+        .sq-hero-content__image {
+          opacity: 0;
+        }
+      }
+      .sq-hero-content__eyebrow {
+        animation: anim-swipe-in-up .4s ease;
+      }
+      .sq-hero-content__header {
+        animation: anim-hide .4s ease, anim-swipe-in-up .4s .4s ease;
+      }
+      .sq-hero-content__sub-header {
+        animation: anim-hide .8s ease, anim-swipe-in-up .4s .8s ease;
+      }
+      .sq-hero-content__links-container {
+        opacity: 1;
+        animation: anim-hide 1.2s ease, anim-swipe-in-up .4s 1.2s ease;
+      }
+      .sq-hero-content__image {
+        opacity: 1;
+        animation: anim-hide 1.2s ease, anim-swipe-in-left .4s 1.2s ease;
+      }
+    }
+    &.sq-hero-content--animate-type2 {
+      &-reset {
+        .sq-hero-content__eyebrow, 
+        .sq-hero-content__header,
+        .sq-hero-content__sub-header,
+        .sq-hero-content__links-container,
+        .sq-hero-content__image {
+          opacity: 0;
+        }
+      }
+      .sq-hero-content__eyebrow {
+        animation: anim-swipe-in-down .4s ease;
+      }
+      .sq-hero-content__header {
+        animation: anim-hide .4s ease, anim-swipe-in-left .4s .4s ease;
+      }
+      .sq-hero-content__sub-header {
+        animation: anim-hide .8s ease, anim-swipe-in-right .4s .8s ease;
+      }
+      .sq-hero-content__links-container {
+        opacity: 1;
+        animation: anim-hide 1.2s ease, anim-swipe-in-left .4s 1.2s ease;
+      }
+      .sq-hero-content__image {
+        opacity: 1;
+        animation: anim-hide 1.2s ease, anim-swipe-in-left .4s 1.2s ease;
+      }
+    }
+  }
+  &--with-background {
+    padding: 100px 0;
+    max-width: 100%;
+    .sq-hero-content__wrapper {
+      @media (min-width: $screen-sm) {
+        max-width: 50%;
+      }
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .sq-hero-content__eyebrow,
+    .sq-hero-content__header,
+    .sq-hero-content__sub-header {
+      color: $sq-color-muted-lightest;
+    }
+  }
+  &--left-aligned {
+    text-align: left;
+    .sq-hero-content__wrapper {
+      margin: 0 15px;
+      @media (min-width: $screen-sm) {
+        max-width: 50%;
+        margin: 0 50px;
+      }
+    }
+    .sq-hero-content__image {
+      right: 10%;
+      top: 10%;
+      bottom: 10%;
+    }
+  }
+  &--left-aligned-full {
+    text-align: left;
+    .sq-hero-content__wrapper {
+      margin: 0 15px;
+      @media (min-width: $screen-sm) {
+        max-width: 100%;
+        margin: 0 50px;
+      }
+    }
+    .sq-hero-content__image {
+      right: 10%;
+      top: 10%;
+    }
+  }
+  &--right-aligned {
+    text-align: right;
+    .sq-hero-content__wrapper {
+      margin: 0 15px;
+      @media (min-width: $screen-sm) {
+        max-width: 100%;
+        margin: 0 50px;
+      }
+    }
+    .sq-hero-content__image {
+      left: 50px;
+      top: 50px;
+    }
+  }
+  &--light {
+    background: $sq-color-muted-lightest;
+    color: $sq-color-primary-darker;
+  }
+  &--dark {
+    background: $sq-color-primary-darker;
+    color: $sq-color-muted-lightest;
+  }
+}
