@@ -2,8 +2,8 @@ image: node:latest
 stages:
   - test
 
-build_main:
-  stage: build
+test_library:
+  stage: test
   script:
     - npm install
     - npm run-script test
