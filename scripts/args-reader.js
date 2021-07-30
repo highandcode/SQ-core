@@ -3,6 +3,7 @@ class ArgsReader {
   constructor(keys = ['--']) {
     this.dataKeys = keys;
   }
+  
   get() {
     var args = {};
     this.dataKeys.forEach((dataKey) => {
