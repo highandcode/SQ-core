@@ -1,5 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const moment = require('moment');
 const spies = require('chai-spies');
 var chaiAsPromised = require('chai-as-promised');
 const logger = require('../server/src/utils/logger');
@@ -16,5 +17,6 @@ module.exports = {
   fakeDb,
   mocks,
   logger,
+  moment,
   utils
 };
