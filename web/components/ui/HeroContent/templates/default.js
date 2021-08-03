@@ -48,7 +48,7 @@ const TemplateDefault = ({
           <div className="sq-hero-content__links-container">
             {links.map((link, idx) => {
               const CompRender = componentMap.LinkButton;
-              return <CompRender onAnalytics={onAnalytics} key={idx} {...link} />;
+              return <CompRender className={`sq-hero-content__link`} onAnalytics={onAnalytics} key={idx} {...link} />;
             })}
           </div>
         )}

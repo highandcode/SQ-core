@@ -16,13 +16,11 @@ class Content extends Component {
     const { pageData = {}, ...rest } = this.props;
     const { className = '' } = pageData;
     const compMap = getMap();
-    console.log(compMap);
     return (
       <div className={`sq-content-page__body ${className}`}>
         {pageData.items &&
           pageData.items.map((block, idx) => {
             const Comp = compMap[block.component];
-            console.log(Comp)
             return Comp ? <Comp key={idx} {...rest} {...block} /> : undefined;
           })}
       </div>

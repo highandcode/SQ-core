@@ -184,7 +184,6 @@ class ColumnChart extends BaseChart {
   }
   mousemoveTooltip(e) {
     const x0 = this.x.invert(d3.mouse(e)[0]);
-    console.log(x0);
   }
 
   draw() {

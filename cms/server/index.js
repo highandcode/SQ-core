@@ -143,7 +143,6 @@ class ContentServer {
 
   getPageContent(path) {
     return new Promise((resolve, reject) => {
-      console.log(path);
       const data = this.getPageData(path);
       new PageBuilder(data)
         .build()
@@ -219,7 +218,6 @@ class ContentServer {
 
     let fileContents = fse.readFileSync(`${filePath}`, 'utf8');
     let currentNode = this.getPageNode(config.siteMap, filePath);
-    // let currentNode = config.siteMap;
     if (!currentNode) {
       currentNode = config.siteConfig.siteMap;
     }
@@ -227,11 +225,8 @@ class ContentServer {
     try {
       contents = yaml.loadAll(fileContents);
     } catch (ex) {
-      console.log('error');
-      console.log(ex);
       contents = [this.getErrorPage()];
     }
-    console.log(contents);
 
     const merged = {
       navigation: currentNode.children,

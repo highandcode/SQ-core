@@ -129,7 +129,6 @@ class BaseRepository {
         let buildErrors = {};
         if (res.length > 0) {
           errorKeys.forEach((filterKey) => {
-            console.log(filterKey);
             if (_.filter(res, (i) => i[filterKey] === filter[filterKey]).length > 0) {
               buildErrors[filterKey] = {
                 error: true,
@@ -138,7 +137,6 @@ class BaseRepository {
               };
             }
           });
-          console.log(buildErrors);
           reject(errors.duprecord(buildErrors));
         } else {
           resolve();

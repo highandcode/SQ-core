@@ -12,6 +12,7 @@ const CustomButton = ({
   actionValue,
   buttonText,
   iconName = '',
+  iconDirection = 'left',
   size = 'normal',
   onClick,
   analytics = {},
@@ -36,8 +37,9 @@ const CustomButton = ({
         color="primary"
         {...rest}
       >
-        {iconName && <Icon name={iconName} size={size} variant={rest.iconColor || 'normal'} />}
+        {iconName && iconDirection === 'left' && <Icon name={iconName} size={size} variant={rest.iconColor || 'normal'} />}
         {buttonText}
+        {iconName && iconDirection === 'right' && <Icon name={iconName} size={size} variant={rest.iconColor || 'normal'} />}
         {children}
       </Button>
     </div>

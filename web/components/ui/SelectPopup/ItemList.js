@@ -26,7 +26,6 @@ const applyFilter = (data, filter, fields = []) => {
         }
       }
     });
-    console.log(isMatch);
     return isMatch;
   });
   return items;

@@ -15,6 +15,13 @@
 
   &__links-container {
     margin-top: 16px;
+    
+  }
+  &__link {
+    margin-bottom: 16px;
+    @media (min-width: $screen-sm) {
+      margin-bottom: 0;
+    }
   }
   &__image {
     display: block;

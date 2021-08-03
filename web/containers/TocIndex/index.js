@@ -17,7 +17,6 @@ class TableOfContent extends Component {
   render() {
     const { metaData = {}, pageData = {}, ...rest } = this.props;
     const { className = '' } = pageData;
-    console.log(rest);
     const categories = Object.keys(metaData.siblingPages || {});
     const compMap = getMap();
     return (
