@@ -15,7 +15,6 @@
 
   &__links-container {
     margin-top: 16px;
-    
   }
   &__link {
     margin-bottom: 16px;
@@ -32,9 +31,6 @@
     max-width: 300px;
     padding: 20px;
     @media (min-width: $screen-sm) {
-      position: absolute;
-      height: 40%;
-      width: 40%;
     }
     img {
       width: 100%;
@@ -48,16 +44,27 @@
       padding: 98px 0;
     }
     .sq-hero-content__wrapper {
-      margin: 0 15px;
+      justify-content: center;
+      display: flex;
+      padding: 20px;
+      flex-wrap: wrap;
       @media (min-width: $screen-sm) {
-        max-width: 50%;
-        margin: 0 auto;
+        flex-wrap: nowrap;
       }
+    }
+    .sq-hero-content__content-col {
+      flex-basis: 100%;
+      @media (min-width: $screen-sm) {
+        flex-basis: 50%;
+      }
+    }
+    .sq-hero-content__content-image {
+      flex-grow: 1;
     }
 
     &.sq-hero-content--animate-default {
       &-reset {
-        .sq-hero-content__eyebrow, 
+        .sq-hero-content__eyebrow,
         .sq-hero-content__header,
         .sq-hero-content__sub-header,
         .sq-hero-content__links-container,
@@ -66,26 +73,26 @@
         }
       }
       .sq-hero-content__eyebrow {
-        animation: anim-swipe-in-up .4s ease;
+        animation: anim-swipe-in-up 0.4s ease;
       }
       .sq-hero-content__header {
-        animation: anim-hide .4s ease, anim-swipe-in-up .4s .4s ease;
+        animation: anim-hide 0.4s ease, anim-swipe-in-up 0.4s 0.4s ease;
       }
       .sq-hero-content__sub-header {
-        animation: anim-hide .8s ease, anim-swipe-in-up .4s .8s ease;
+        animation: anim-hide 0.8s ease, anim-swipe-in-up 0.4s 0.8s ease;
       }
       .sq-hero-content__links-container {
         opacity: 1;
-        animation: anim-hide 1.2s ease, anim-swipe-in-up .4s 1.2s ease;
+        animation: anim-hide 1.2s ease, anim-swipe-in-up 0.4s 1.2s ease;
       }
       .sq-hero-content__image {
         opacity: 1;
-        animation: anim-hide 1.2s ease, anim-swipe-in-left .4s 1.2s ease;
+        animation: anim-hide 1.2s ease, anim-swipe-in-left 0.4s 1.2s ease;
       }
     }
     &.sq-hero-content--animate-type2 {
       &-reset {
-        .sq-hero-content__eyebrow, 
+        .sq-hero-content__eyebrow,
         .sq-hero-content__header,
         .sq-hero-content__sub-header,
         .sq-hero-content__links-container,
@@ -94,21 +101,21 @@
         }
       }
       .sq-hero-content__eyebrow {
-        animation: anim-swipe-in-down .4s ease;
+        animation: anim-swipe-in-down 0.4s ease;
       }
       .sq-hero-content__header {
-        animation: anim-hide .4s ease, anim-swipe-in-left .4s .4s ease;
+        animation: anim-hide 0.4s ease, anim-swipe-in-left 0.4s 0.4s ease;
       }
       .sq-hero-content__sub-header {
-        animation: anim-hide .8s ease, anim-swipe-in-right .4s .8s ease;
+        animation: anim-hide 0.8s ease, anim-swipe-in-right 0.4s 0.8s ease;
       }
       .sq-hero-content__links-container {
         opacity: 1;
-        animation: anim-hide 1.2s ease, anim-swipe-in-left .4s 1.2s ease;
+        animation: anim-hide 1.2s ease, anim-swipe-in-left 0.4s 1.2s ease;
       }
       .sq-hero-content__image {
         opacity: 1;
-        animation: anim-hide 1.2s ease, anim-swipe-in-left .4s 1.2s ease;
+        animation: anim-hide 1.2s ease, anim-swipe-in-left 0.4s 1.2s ease;
       }
     }
   }
@@ -117,10 +124,7 @@
     max-width: 100%;
     .sq-hero-content__wrapper {
       @media (min-width: $screen-sm) {
-        max-width: 50%;
       }
-      margin-left: auto;
-      margin-right: auto;
     }
     .sq-hero-content__eyebrow,
     .sq-hero-content__header,
@@ -131,44 +135,29 @@
   &--left-aligned {
     text-align: left;
     .sq-hero-content__wrapper {
-      margin: 0 15px;
-      @media (min-width: $screen-sm) {
-        max-width: 50%;
-        margin: 0 50px;
-      }
     }
-    .sq-hero-content__image {
-      right: 10%;
-      top: 10%;
-      bottom: 10%;
+    @media (min-width: $screen-sm) {
+      
     }
   }
   &--left-aligned-full {
     text-align: left;
     .sq-hero-content__wrapper {
-      margin: 0 15px;
-      @media (min-width: $screen-sm) {
-        max-width: 100%;
-        margin: 0 50px;
-      }
     }
     .sq-hero-content__image {
-      right: 10%;
-      top: 10%;
     }
   }
   &--right-aligned {
     text-align: right;
     .sq-hero-content__wrapper {
-      margin: 0 15px;
-      @media (min-width: $screen-sm) {
-        max-width: 100%;
-        margin: 0 50px;
-      }
     }
-    .sq-hero-content__image {
-      left: 50px;
-      top: 50px;
+    @media (min-width: $screen-sm) {
+      .sq-hero-content__content-image {
+        order: 1;
+      }
+      .sq-hero-content__content-col {
+        order: 2;
+      }
     }
   }
   &--light {

@@ -11,6 +11,7 @@ import CompRenderer from './ui/CompRenderer';
 import Separator from './ui/Separator';
 import LinkButtonList from './ui/LinkButtonList';
 import ImageInfoSlider from './ui/ImageInfoSlider';
+import TextColumnWithLinks from './ui/TextColumnWithLinks';
 
 let comps = {
   CallToAction,
@@ -22,6 +23,7 @@ let comps = {
   CodeHighlight,
   ImageInfoSlider,
   LinkButton,
+  TextColumnWithLinks,
   CompRenderer,
   Repeater,
   Separator,
