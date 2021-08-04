@@ -4,6 +4,7 @@ import LinkButton from './ui/LinkButton';
 import HeroContent from './ui/HeroContent';
 import FeaturedContent from './ui/FeaturedContent';
 import Pricing from './ui/Pricing';
+import Icon from './Icon';
 import CodeHighlight from './ui/CodeHighlight';
 import LinkBlock from './ui/LinkBlock';
 import Repeater from './ui/Repeater';
@@ -14,6 +15,7 @@ import ImageInfoSlider from './ui/ImageInfoSlider';
 import TextColumnWithLinks from './ui/TextColumnWithLinks';
 
 let comps = {
+  Icon,
   CallToAction,
   Header,
   HeroContent,

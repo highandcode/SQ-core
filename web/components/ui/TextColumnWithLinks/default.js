@@ -11,7 +11,7 @@ const ImageSliderDefault = ({ className = '', items }) => {
             <div key={idx} className="sq-text-column-links-default__item">
               <div className="sq-text-column-links-default__cnt">
                 <div className="sq-text-column-links-default__icon">
-                  <Icon name={item.iconName} size={item.iconSize} />
+                  <Icon name={item.iconName} size={item.iconSize} variant={item.iconColor} />
                 </div>
                 <h2 className="sq-text-column-links-default__title">
                   {item.header}

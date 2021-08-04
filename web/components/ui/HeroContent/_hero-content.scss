@@ -50,6 +50,7 @@
       flex-wrap: wrap;
       @media (min-width: $screen-sm) {
         flex-wrap: nowrap;
+        align-items: center;
       }
     }
     .sq-hero-content__content-col {

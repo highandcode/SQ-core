@@ -104,7 +104,7 @@ class Footer extends Component {
           </div>
           <div className="container-fluid sq-footer__content">
             <div className="row">
-              <div className="col-xs-12 col-sm-9 sq-footer__content-section">
+              <div className="col-xs-12 col-md-9 sq-footer__content-section">
                 <div className="sq-footer__links">
                   <nav className="sq-footer__nav">
                     {items &&
@@ -155,7 +155,7 @@ class Footer extends Component {
                   </nav>
                 </div>
               </div>
-              <div className="col-xs-12 col-sm-3 sq-footer__content-section">
+              <div className="col-xs-12 col-md-3 sq-footer__content-section">
                 {contactus && (
                   <div className="sq-footer__contactus">
                     <ul className="list-none">

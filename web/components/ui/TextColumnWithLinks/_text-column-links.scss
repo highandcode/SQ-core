@@ -20,6 +20,7 @@
       &__item {
         padding: 40px 60px;
         flex-basis: 33%;
+        flex-grow: 1;
 
         border-right: none;
         border-bottom: solid 1px $sq-color-gray-lighter;
