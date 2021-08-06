@@ -16,6 +16,7 @@ const TemplateDefault = ({
   animation = 'default',
   visibilityDifference = 20,
   pageState = {},
+  classes = {},
   onAnalytics
 }) => {
   const HTag = headerTag;
@@ -40,27 +41,29 @@ const TemplateDefault = ({
         animated ? ` sq-hero-content--animate-${animation}` : ''
       }`}
     >
-      <div className="sq-hero-content__wrapper" ref={eyebrowRef}>
-        <div className="sq-hero-content__content-col">
-          {eyebrow && <div className={`sq-hero-content__eyebrow`}>{ReactHtmlParser(eyebrow)}</div>}
-          {header && <HTag className={`sq-hero-content__header`}>{ReactHtmlParser(header)}</HTag>}
-          {subHeader && <BTag className={`sq-hero-content__sub-header`}>{ReactHtmlParser(subHeader)}</BTag>}
-          {links && (
-            <div className="sq-hero-content__links-container">
-              {links.map((link, idx) => {
-                const CompRender = componentMap.LinkButton;
-                return <CompRender className={`sq-hero-content__link`} onAnalytics={onAnalytics} key={idx} {...link} />;
-              })}
+      <div className={`sq-hero-content__root ${classes.root}`}>
+        <div className="sq-hero-content__wrapper" ref={eyebrowRef}>
+          <div className="sq-hero-content__content-col">
+            {eyebrow && <div className={`sq-hero-content__eyebrow`}>{ReactHtmlParser(eyebrow)}</div>}
+            {header && <HTag className={`sq-hero-content__header`}>{ReactHtmlParser(header)}</HTag>}
+            {subHeader && <BTag className={`sq-hero-content__sub-header`}>{ReactHtmlParser(subHeader)}</BTag>}
+            {links && (
+              <div className="sq-hero-content__links-container">
+                {links.map((link, idx) => {
+                  const CompRender = componentMap.LinkButton;
+                  return <CompRender className={`sq-hero-content__link`} onAnalytics={onAnalytics} key={idx} {...link} />;
+                })}
+              </div>
+            )}
+          </div>
+          {imageUrl && (
+            <div className="sq-hero-content__content-image">
+              <div className="sq-hero-content__image">
+                <img src={resolveImageUrl(imageUrl)} />
+              </div>
             </div>
           )}
         </div>
-        {imageUrl && (
-          <div className="sq-hero-content__content-image">
-            <div className="sq-hero-content__image">
-              <img src={resolveImageUrl(imageUrl)} />
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

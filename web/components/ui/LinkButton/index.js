@@ -17,7 +17,7 @@ const LinkButton = ({
   onClick,
   iconSize,
   iconName,
-  urlPrams,
+  urlParams,
   buttonText,
   size = 'normal',
   type = 'Link',
@@ -38,7 +38,7 @@ const LinkButton = ({
           {...rest}
           onClick={(e) => {
             onClick && onClick(e);
-            to && redirectTo(to, urlPrams, { ...rest });
+            to && redirectTo(to, urlParams, { ...rest });
           }}
         ></LinkToRender>
       )}

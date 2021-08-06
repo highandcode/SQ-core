@@ -6,6 +6,11 @@
     max-width: $screen-lg;
     margin: auto;
   }
+  &--full-width {
+    .sq-content-page__body {
+      max-width: 100%;
+    }
+  }
   &--header-footer-body {
     display: flex;
     flex-direction: column;

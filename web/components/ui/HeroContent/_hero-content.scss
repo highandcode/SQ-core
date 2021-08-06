@@ -26,11 +26,19 @@
     display: block;
     text-align: center;
     margin: auto;
-    height: 60%;
-    width: 60%;
-    max-width: 300px;
-    padding: 20px;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 40px;
+    margin-top: 24px;
+    @media (min-width: $screen-xs) {
+      width: 90%;
+    }
     @media (min-width: $screen-sm) {
+      width: 70%;
+    }
+    @media (min-width: $screen-md) {
+      width: 100%;
+      padding: 0 100px;
     }
     img {
       width: 100%;
@@ -38,10 +46,10 @@
   }
 
   &--default {
-    padding: 58px 0;
+    padding: 40px 0;
     max-width: 100%;
     @media (min-width: $screen-sm) {
-      padding: 98px 0;
+      padding: 60px 0;
     }
     .sq-hero-content__wrapper {
       justify-content: center;
@@ -61,6 +69,7 @@
     }
     .sq-hero-content__content-image {
       flex-grow: 1;
+      flex-basis: 50%;
     }
 
     &.sq-hero-content--animate-default {
@@ -123,8 +132,12 @@
   &--with-background {
     padding: 100px 0;
     max-width: 100%;
+    background-size: cover;
     .sq-hero-content__wrapper {
-      @media (min-width: $screen-sm) {
+      padding: 20px 40px;
+      @media (min-width: $screen-md) {
+        width: 50%;
+        margin: 0 auto;
       }
     }
     .sq-hero-content__eyebrow,
@@ -132,14 +145,33 @@
     .sq-hero-content__sub-header {
       color: $sq-color-muted-lightest;
     }
+    
   }
   &--left-aligned {
-    text-align: left;
+    text-align: center;
     .sq-hero-content__wrapper {
+      padding: 20px 40px;
     }
     @media (min-width: $screen-sm) {
-      
+      text-align: right;
+      .sq-hero-content__content-image {
+        order: 2;
+      }
+      .sq-hero-content__content-col {
+        order: 1;
+        padding: 0 0 0 60px;
+      }
     }
+    .sq-hero-content--with-background {
+      @media (min-width: $screen-sm) {
+        text-align: left;
+      }
+      .sq-hero-content__wrapper {
+        margin: 0 auto 0 0;
+        background-color: rgba(0,0,0,.5);
+      }
+    }
+    
   }
   &--left-aligned-full {
     text-align: left;
@@ -149,15 +181,27 @@
     }
   }
   &--right-aligned {
-    text-align: right;
+    text-align: center;
     .sq-hero-content__wrapper {
+      padding: 20px 40px;
     }
     @media (min-width: $screen-sm) {
-      .sq-hero-content__content-image {
+    text-align: left;
+    .sq-hero-content__content-image {
         order: 1;
       }
       .sq-hero-content__content-col {
         order: 2;
+        padding: 0 60px 0 0;
+      }
+    }
+    .sq-hero-content--with-background {
+      @media (min-width: $screen-sm) {
+        text-align: right;
+      }
+      .sq-hero-content__wrapper {
+        margin: 0 0 0 auto;
+        background-color: rgba(0,0,0,.5);
       }
     }
   }

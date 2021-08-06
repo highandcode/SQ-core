@@ -14,17 +14,45 @@ describe('Email:Helpers', () => {
     });
 
     it('should inject nested keys as functions given in data with ##data.key##', () => {
-      const output = helpers.processBody('Hello there I am ##data.name##', { name: (data) => { if (data.key === 'Locket') { return 'Rocket of ##data.key##'; } }, key: 'Locket' });
+      const output = helpers.processBody('Hello there I am ##data.name##', {
+        name: (data) => {
+          if (data.key === 'Locket') {
+            return 'Rocket of ##data.key##';
+          }
+        },
+        key: 'Locket'
+      });
       expect(output).to.equal('Hello there I am Rocket of Locket');
     });
     it('should handle null or blank value', () => {
-      const output = helpers.processBody('Hello there I am ##data.name##', { name: (data) => { if (data.key === 'Locket') { return 'Rocket of ##data.key##'; } }, key: 'Locket2' });
+      const output = helpers.processBody('Hello there I am ##data.name##', {
+        name: (data) => {
+          if (data.key === 'Locket') {
+            return 'Rocket of ##data.key##';
+          }
+        },
+        key: 'Locket2'
+      });
       expect(output).to.equal('Hello there I am ');
     });
     it('should handle 0 value', () => {
-      const output = helpers.processBody('Hello there I am ##data.name##', { name: (data) => { if (data.key === 'Locket') { return 0; } }, key: 'Locket' });
+      const output = helpers.processBody('Hello there I am ##data.name##', {
+        name: (data) => {
+          if (data.key === 'Locket') {
+            return 0;
+          }
+        },
+        key: 'Locket'
+      });
       expect(output).to.equal('Hello there I am 0');
     });
-
+    it('should handle nested data items', () => {
+      const output = helpers.processBody('Hello there I am ##data.nested.name##', { nested: { name: 'Gold' }, key: 'Locket' });
+      expect(output).to.equal('Hello there I am Gold');
+    });
+    it('should handle nested data items', () => {
+      const output = helpers.processBody('Hello there I am ##data.nested.data.name##', { nested: { data: { name: 'Gold' } }, key: 'Locket' });
+      expect(output).to.equal('Hello there I am Gold');
+    });
   });
 });

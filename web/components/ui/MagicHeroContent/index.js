@@ -1,17 +1,15 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import Default from './default';
-import './_text-column-links.scss';
 
 const templates = {
   default: Default
 };
 
-const ImageInfoSlider = ({ items, template, style = '3-cols', className = '', ...rest }) => {
+const MagicHeroContent = ({ items, template, className = '', ...rest }) => {
   const TemplateToRender = templates[template] || templates.default;
-  const containerEl = useRef(null);
   return (
-    <div className={`sq-text-column-links ${className} ${style ? `sq-text-column-links--${style}` : ''}`} ref={containerEl}>
+    <div className={`sq-magic-hero-content ${className}`}>
       <TemplateToRender
         {...{
           items
@@ -22,9 +20,9 @@ const ImageInfoSlider = ({ items, template, style = '3-cols', className = '', ..
   );
 };
 
-ImageInfoSlider.propTypes = {
+MagicHeroContent.propTypes = {
   className: PropTypes.string,
   items: PropTypes.array
 };
 
-export default ImageInfoSlider;
+export default MagicHeroContent;

@@ -13,6 +13,7 @@ import Separator from './ui/Separator';
 import LinkButtonList from './ui/LinkButtonList';
 import ImageInfoSlider from './ui/ImageInfoSlider';
 import TextColumnWithLinks from './ui/TextColumnWithLinks';
+import MagicHeroContent from './ui/MagicHeroContent';
 
 let comps = {
   Icon,
@@ -29,7 +30,8 @@ let comps = {
   CompRenderer,
   Repeater,
   Separator,
-  LinkButtonList
+  LinkButtonList,
+  MagicHeroContent
 };
 
 const getMap = () => {
