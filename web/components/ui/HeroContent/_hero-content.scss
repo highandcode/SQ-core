@@ -2,8 +2,6 @@
   text-align: center;
   position: relative;
 
-  &--animate {
-  }
 
   &__eyebrow {
     padding-bottom: 8px;
@@ -63,71 +61,24 @@
     }
     .sq-hero-content__content-col {
       flex-basis: 100%;
-      @media (min-width: $screen-sm) {
+      @media (min-width: $screen-md) {
+        flex-basis: 70%;
+      }
+      @media (min-width: $screen-lg) {
         flex-basis: 50%;
       }
     }
     .sq-hero-content__content-image {
       flex-grow: 1;
-      flex-basis: 50%;
+      flex-basis: 100%;
+      @media (min-width: $screen-md) {
+        flex-basis: 70%;
+      }
+      @media (min-width: $screen-lg) {
+        flex-basis: 50%;
+      }
     }
 
-    &.sq-hero-content--animate-default {
-      &-reset {
-        .sq-hero-content__eyebrow,
-        .sq-hero-content__header,
-        .sq-hero-content__sub-header,
-        .sq-hero-content__links-container,
-        .sq-hero-content__image {
-          opacity: 0;
-        }
-      }
-      .sq-hero-content__eyebrow {
-        animation: anim-swipe-in-up 0.4s ease;
-      }
-      .sq-hero-content__header {
-        animation: anim-hide 0.4s ease, anim-swipe-in-up 0.4s 0.4s ease;
-      }
-      .sq-hero-content__sub-header {
-        animation: anim-hide 0.8s ease, anim-swipe-in-up 0.4s 0.8s ease;
-      }
-      .sq-hero-content__links-container {
-        opacity: 1;
-        animation: anim-hide 1.2s ease, anim-swipe-in-up 0.4s 1.2s ease;
-      }
-      .sq-hero-content__image {
-        opacity: 1;
-        animation: anim-hide 1.2s ease, anim-swipe-in-left 0.4s 1.2s ease;
-      }
-    }
-    &.sq-hero-content--animate-type2 {
-      &-reset {
-        .sq-hero-content__eyebrow,
-        .sq-hero-content__header,
-        .sq-hero-content__sub-header,
-        .sq-hero-content__links-container,
-        .sq-hero-content__image {
-          opacity: 0;
-        }
-      }
-      .sq-hero-content__eyebrow {
-        animation: anim-swipe-in-down 0.4s ease;
-      }
-      .sq-hero-content__header {
-        animation: anim-hide 0.4s ease, anim-swipe-in-left 0.4s 0.4s ease;
-      }
-      .sq-hero-content__sub-header {
-        animation: anim-hide 0.8s ease, anim-swipe-in-right 0.4s 0.8s ease;
-      }
-      .sq-hero-content__links-container {
-        opacity: 1;
-        animation: anim-hide 1.2s ease, anim-swipe-in-left 0.4s 1.2s ease;
-      }
-      .sq-hero-content__image {
-        opacity: 1;
-        animation: anim-hide 1.2s ease, anim-swipe-in-left 0.4s 1.2s ease;
-      }
-    }
   }
   &--with-background {
     padding: 100px 0;

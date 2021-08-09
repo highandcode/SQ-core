@@ -11,9 +11,8 @@ const templates = {
 
 const HeroContent = ({ eyebrow, template = 'default', header, headerTag = 'h1', bodyTag = 'div', subHeader, className = '', ...rest }) => {
   const TemplateToRender = templates[template] || templates.default;
-  const containerEl = useRef(null);
   return (
-    <div className={`sq-hero-content ${className}`} ref={containerEl}>
+    <div className={`sq-hero-content ${className}`}>
       <TemplateToRender
         {...{
           eyebrow,

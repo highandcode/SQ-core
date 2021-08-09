@@ -1,16 +1,22 @@
-import React, { useRef } from 'react';
+import React, { Fragment, useRef } from 'react';
 import PropTypes from 'prop-types';
-import Default from './default';
+import Pencil from './pencil-effect';
+import Basic from './basic-effect';
+
+import './_magic-hero-content.scss';
 
 const templates = {
-  default: Default
+  basic: Basic,
+  pencil: Pencil
 };
 
-const MagicHeroContent = ({ items, template, className = '', ...rest }) => {
-  const TemplateToRender = templates[template] || templates.default;
+const MagicHeroContent = ({ name, items, template, className = '', ...rest }) => {
+  const TemplateToRender = templates[template] || templates.pencil;
   return (
     <div className={`sq-magic-hero-content ${className}`}>
       <TemplateToRender
+        name={name}
+        className={className}
         {...{
           items
         }}

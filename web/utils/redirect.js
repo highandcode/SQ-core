@@ -40,6 +40,7 @@ export const redirectTo = (screen, params = {}, { target = '', ...options } = {}
       }
     });
     if (url) {
+      animateScrollTo(0);
       if (target === '_blank') {
         window.open(url + query);
       } else {
@@ -47,15 +48,14 @@ export const redirectTo = (screen, params = {}, { target = '', ...options } = {}
           history.push(url + query);
         });
       }
-      animateScrollTo(0);
     } else if (matchedRegex) {
       const processEdUrl = screen.replace(new RegExp(matchedRegex, 'g'), urlMapping[matchedRegex]);
       if (target === '_blank') {
         window.open(processEdUrl + query);
       } else {
         setTimeout(() => {
-          history.push(processEdUrl + query);
           animateScrollTo(0);
+          history.push(processEdUrl + query);
         });
       }
     } else {

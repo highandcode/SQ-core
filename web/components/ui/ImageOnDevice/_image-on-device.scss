@@ -1,0 +1,50 @@
+.sq-image-on-device {
+  position: relative;
+  &--iphone {
+    width: 100%;
+    .sq-image-on-device {
+      &__overlay {
+        position: relative;
+        width: 100%;
+        max-width: 418px;
+        img {
+          width: 100%;
+        }
+      }
+      &__screen {
+        width: 90%;
+        overflow: hidden;
+        top: 6.5%;
+        left: 5.00%;
+        position: absolute;
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  &--ipad {
+    width: 100%;
+    .sq-image-on-device {
+      &__overlay {
+        position: relative;
+        width: 100%;
+        max-width: 1236px;
+        img {
+          width: 100%;
+        }
+      }
+      &__screen {
+        width: 85%;
+        overflow: hidden;
+        top: 5%;
+        left: 6.10%;
+        position: absolute;
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
