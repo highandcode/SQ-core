@@ -1,5 +1,9 @@
 .sq-image-on-device {
   position: relative;
+  overflow: hidden;
+  &__screen {
+    z-index: -1;
+  }
   &--iphone {
     width: 100%;
     .sq-image-on-device {

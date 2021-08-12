@@ -33,6 +33,7 @@
     }
     @media (min-width: $screen-sm) {
       width: 70%;
+      padding: 0;
     }
     @media (min-width: $screen-md) {
       width: 100%;
@@ -156,12 +157,21 @@
       }
     }
   }
+  &--center-aligned {
+    .sq-hero-content__wrapper {
+      flex-direction: column;
+    }
+  }
   &--light {
     background: $sq-color-muted-lightest;
     color: $sq-color-primary-darker;
   }
   &--dark {
     background: $sq-color-primary-darker;
+    color: $sq-color-muted-lightest;
+  }
+  &--bg-black {
+    background: $gray-darker;
     color: $sq-color-muted-lightest;
   }
 }

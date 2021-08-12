@@ -9,20 +9,11 @@ const templates = {
   'with-background': WithBackground
 };
 
-const HeroContent = ({ eyebrow, template = 'default', header, headerTag = 'h1', bodyTag = 'div', subHeader, className = '', ...rest }) => {
+const HeroContent = ({ template = 'default', className = '', ...rest }) => {
   const TemplateToRender = templates[template] || templates.default;
   return (
     <div className={`sq-hero-content ${className}`}>
-      <TemplateToRender
-        {...{
-          eyebrow,
-          header,
-          subHeader,
-          headerTag,
-          bodyTag
-        }}
-        {...rest}
-      />
+      <TemplateToRender {...rest} />
     </div>
   );
 };

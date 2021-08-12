@@ -119,9 +119,8 @@ const GlobalNavigation = ({ items, className, logo = {}, rightItems, onAnalytics
               rightItems.map((ritem, idx) => {
                 let Comp = linksComps.LinkButton;
                 return (
-                  <li>
+                  <li key={idx}>
                     <Comp
-                      key={idx}
                       {...ritem}
                       onAnalytics={onAnalytics}
                       onClick={() => {

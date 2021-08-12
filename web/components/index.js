@@ -15,6 +15,7 @@ import ImageInfoSlider from './ui/ImageInfoSlider';
 import TextColumnWithLinks from './ui/TextColumnWithLinks';
 import MagicHeroContent from './ui/MagicHeroContent';
 import ImageOnDevice from './ui/ImageOnDevice';
+import ImageWithSlide from './ui/ImageWithSlide';
 
 let comps = {
   Icon,
@@ -33,7 +34,8 @@ let comps = {
   Separator,
   LinkButtonList,
   MagicHeroContent,
-  ImageOnDevice
+  ImageOnDevice,
+  ImageWithSlide
 };
 
 const getMap = () => {
