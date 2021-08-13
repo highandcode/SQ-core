@@ -30,5 +30,12 @@ a {
   &--small {
     @include b5-style();
   }
+
+  &--secondary {
+    color: $sq-color-primary;
+    &:hover {
+      color: $sq-color-primary-dark;
+    }
+  }
   
 }

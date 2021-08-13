@@ -14,11 +14,11 @@ const Link = ({
   img,
   size = 'normal',
   iconDirection = 'left',
+  color = 'default',
   iconName,
   iconColor,
   iconSvg,
   buttonText,
-  color = 'none',
   disabled,
   ...rest
 }) => {
@@ -41,16 +41,16 @@ const Link = ({
           });
       }}
       target={target}
-      className={`sq-link sq-link--${size} ${className}${disabled ? ' sq-link--disabled' : ''}`}
+      className={`sq-link sq-link--${color} sq-link--${size} ${className}${disabled ? ' sq-link--disabled' : ''}`}
     >
       <div className="sq-link__container">
         {iconDirection === 'left' && iconName && (
-          <span className="sq-link__icon">{<Icon name={iconName} svg={iconSvg} variant={iconColor} size={size} />}</span>
+          <span className="sq-link__icon">{<Icon name={iconName} svg={iconSvg} variant={iconColor || color} size={size} />}</span>
         )}
         {(children || buttonText) && <span className="sq-link__text">{children || buttonText}</span>}
         {img && <img src={resolveImageUrl(img)} />}
         {iconDirection === 'right' && iconName && (
-          <span className="sq-link__icon">{<Icon name={iconName} svg={iconSvg} variant={iconColor} size={size} />}</span>
+          <span className="sq-link__icon">{<Icon name={iconName} svg={iconSvg} variant={iconColor || color} size={size} />}</span>
         )}
       </div>
     </a>
