@@ -29,3 +29,22 @@ p {
   @include b5-style();
   margin: 0 0 40px 0;
 }
+
+.jumbo-header {
+  @include jumbo-style();
+  @media screen and (min-width:$screen-md) {
+    @include large-style();
+  }
+}
+.large-header {
+  @include large-style();
+  @media screen and (min-width:$screen-md) {
+    @include big-style();
+  }
+}
+.big-header {
+  @include big-style();
+  @media screen and (min-width:$screen-md) {
+    @include t1-style();
+  }
+}

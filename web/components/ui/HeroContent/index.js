@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import './_hero-content.scss';
 import Default from './templates/default';
 import WithBackground from './templates/with-background';
+import LargeBackground from './templates/large-background';
 
 const templates = {
   default: Default,
-  'with-background': WithBackground
+  'with-background': WithBackground,
+  'large-background': LargeBackground
 };
 
 const HeroContent = ({ template = 'default', className = '', ...rest }) => {

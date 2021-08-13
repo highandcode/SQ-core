@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Icon from '../../Icon';
 import { redirectTo } from '../../../utils/redirect';
 import './link.scss';
+import { resolveImageUrl } from '../../../cordova';
 
 const Link = ({
   to = '',
@@ -10,6 +11,7 @@ const Link = ({
   children,
   className = '',
   onClick,
+  img,
   size = 'normal',
   iconDirection = 'left',
   iconName,
@@ -45,7 +47,8 @@ const Link = ({
         {iconDirection === 'left' && iconName && (
           <span className="sq-link__icon">{<Icon name={iconName} svg={iconSvg} variant={iconColor} size={size} />}</span>
         )}
-        <span className="sq-link__text">{children || buttonText}</span>
+        {(children || buttonText) && <span className="sq-link__text">{children || buttonText}</span>}
+        {img && <img src={resolveImageUrl(img)} />}
         {iconDirection === 'right' && iconName && (
           <span className="sq-link__icon">{<Icon name={iconName} svg={iconSvg} variant={iconColor} size={size} />}</span>
         )}

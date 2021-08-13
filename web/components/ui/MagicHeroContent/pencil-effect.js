@@ -37,10 +37,11 @@ class MagicHeroContentDefault extends Component {
     this.allTweens = [];
     tweens.forEach((tween) => {
       const { target, start, ...restTween } = tween;
-      if (restTween.from) {
+      if (restTween.from && restTween.to) {
+        this.allTweens.push((timeline || gsap).fromTo(this.getTarget(target), restTween.from, restTween.to, start));
+      } else if (restTween.from) {
         this.allTweens.push((timeline || gsap).from(this.getTarget(target), restTween.from, start));
-      }
-      if (restTween.to) {
+      } else if (restTween.to) {
         this.allTweens.push((timeline || to).to(this.getTarget(target), restTween.to, start));
       }
     });
@@ -55,24 +56,32 @@ class MagicHeroContentDefault extends Component {
   }
 
   componentDidMount() {
+    if (this.tlObj) {
+      this.killAll();
+    }
     const { tweens, timeline } = this.getTimeline();
+    const { tweens: tlTweens = [], ...restTimeline } = timeline || {};
     if (timeline) {
-      const { tweens: tlTweens = [], ...restTimeline } = timeline;
       this.tlObj = gsap.timeline(restTimeline);
       this.trigger = restTimeline.trigger;
       tlTweens && this.applyTweens(tlTweens, this.tlObj);
     }
     tweens && this.applyTweens(tweens);
     setTimeout(() => {
-      ScrollTrigger.refresh();
+      restTimeline?.scrollTrigger && ScrollTrigger.refresh();
     }, 100);
   }
-  async componentWillUnmount() {
-    this.allTweens.forEach((tween) => {
+  componentWillUnmount() {
+    this.killAll();
+  }
+
+  killAll() {
+    this.allTweens?.forEach((tween) => {
       tween && tween.kill(true);
     });
-    (await this.tlObj.scrollTrigger) && this.tlObj.scrollTrigger.kill(true);
-    this.tlObj.pause(0).kill(true);
+    this.tlObj?.scrollTrigger && this.tlObj.scrollTrigger.kill(true);
+    this.tlObj?.pause(0).kill(true);
+    this.tlObj = null;
   }
 
   render() {

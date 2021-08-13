@@ -91,7 +91,10 @@
   padding: 20px 0 0 0;
 }
 
-
+.container-max {
+max-width: 1280px;
+margin: auto;
+}
 
 .panel-bg-primary {
   background: $sq-color-primary;

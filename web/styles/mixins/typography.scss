@@ -6,7 +6,7 @@
 @mixin style2-header() {
   font-size: $t2-font-size;
 }
-@mixin style2-header() {
+@mixin style3-header() {
   font-size: $t3-font-size;
 }
 
@@ -24,6 +24,20 @@
 @mixin text-font() {
   font-family: $text-font-family;
   font-weight: normal;
+}
+
+@mixin jumbo-style {
+  @include header-font();
+  font-size: $jumbo-font-size;
+}
+
+@mixin large-style {
+  @include header-font();
+  font-size: $large-font-size;
+}
+@mixin big-style {
+  @include header-font();
+  font-size: $big-font-size;
 }
 
 @mixin t1-style {

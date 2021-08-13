@@ -13,6 +13,7 @@ class Content extends Component {
   }
 
   render() {
+    const { pathname } = this.props.location;
     const { pageData = {}, ...rest } = this.props;
     const { className = '' } = pageData;
     const compMap = getMap();
@@ -21,7 +22,7 @@ class Content extends Component {
         {pageData.items &&
           pageData.items.map((block, idx) => {
             const Comp = compMap[block.component];
-            return Comp ? <Comp key={idx} {...rest} {...block} /> : undefined;
+            return Comp ? <Comp key={pathname + idx} {...rest} {...block} /> : undefined;
           })}
       </div>
     );

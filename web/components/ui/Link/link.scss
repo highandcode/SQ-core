@@ -24,6 +24,9 @@ a {
       cursor: default;
     }
   }
+  img {
+    width: 100%;
+  }
   &--small {
     @include b5-style();
   }

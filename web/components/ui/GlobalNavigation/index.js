@@ -39,7 +39,7 @@ const renderSubNav = (item, isHover, callback) => {
   );
 };
 
-const GlobalNavigation = ({ items, className, logo = {}, rightItems, onAnalytics }) => {
+const GlobalNavigation = ({ items, className, logo = {}, rightItems, mobileItems, onAnalytics }) => {
   const [open, setOpen] = useState(false);
   const [currentItemHover, setCurrentHover] = useState(null);
   const toggleMenu = () => {
@@ -61,6 +61,23 @@ const GlobalNavigation = ({ items, className, logo = {}, rightItems, onAnalytics
           {logo.img && <img src={`${resolveImageUrl(logo.img)}`} alt={logo.imgAlt} />}
           <div className="sq-global-navigation__brand-text">{logo.text}</div>
         </a>
+        <ul className="sq-global-navigation__nav sq-global-navigation__nav--left">
+          {mobileItems &&
+            mobileItems.map((ritem, idx) => {
+              let Comp = linksComps.LinkButton;
+              return idx === 0 ? (
+                <li key={idx}>
+                  <Comp
+                    {...ritem}
+                    onAnalytics={onAnalytics}
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  />
+                </li>
+              ) : null;
+            })}
+        </ul>
         <button
           className="sq-global-navigation__toggler"
           type="button"
