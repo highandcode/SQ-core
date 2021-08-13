@@ -4,7 +4,10 @@ $sq-global-navigation-sub-navbg: $white;
   width: 100%;
 
   &__wrapper {
-    padding: 20px;
+    padding: 8px 15px;
+    @media (min-width:$screen-sm) {
+      padding: 20px;
+    }
     display: flex;
     flex-wrap: wrap;
     width: 100%;
@@ -14,6 +17,15 @@ $sq-global-navigation-sub-navbg: $white;
     top: 0;
     left: 0;
     z-index: $z-index-level-2ndtopest;
+  }
+  &--sticky {
+    background: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-bottom: solid 1px $sq-color-gray-lighter;
+    animation: moveDown 0.5s ease-in-out;
+    z-index: 1;
   }
   &--open {
     background-color: $sq-global-navigation-background-color;
@@ -241,5 +253,16 @@ $sq-global-navigation-sub-navbg: $white;
         }
       }
     }
+  }
+}
+
+
+
+@keyframes moveDown {
+  from {
+    transform: translateY(-5rem);
+  }
+  to {
+    transform: translateY(0rem);
   }
 }

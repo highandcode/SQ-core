@@ -1,5 +1,4 @@
 .sq-magic-hero-content {
-
   .reveal {
     span {
       position: relative;
@@ -22,6 +21,9 @@
     height: 100vh;
     width: 100%;
     overflow: hidden;
+    &--sticky {
+      padding-top: 100px;
+    }
   }
   .pin-container .panel {
     height: 100vh;
@@ -30,11 +32,17 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    text-align: center;
-    
+  }
+
+  .panel {
+    &.primary {
+      background-color: $sq-color-primary-dark;
+    }
+    &.secondary {
+      background-color: $sq-color-secondary-dark;
+    }
   }
 
   &-pencil {
-   
   }
 }

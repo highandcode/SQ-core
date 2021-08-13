@@ -17,15 +17,20 @@ class Form extends React.Component {
     super();
     this.state = {
       data: {},
-      validated: false
+      validated: false,
+      lastAction: null
     };
     this.form_onKeyPress = this.form_onKeyPress.bind(this);
   }
 
   form_onKeyPress(evt) {
     if (evt.key === 'Enter') {
+      evt.stopPropagation();
       const { defaultAction = this.props.actions && this.props.actions[0] } = this.props;
-      setTimeout(() => this.handleAction(defaultAction || {}));
+      setTimeout(() => defaultAction && this.handleAction(defaultAction));
+      this.setState({
+        lastAction: defaultAction
+      });
     }
   }
 
@@ -34,7 +39,7 @@ class Form extends React.Component {
       this.setState({
         data: {
           ...this.state.data,
-          ...this.props.value,
+          ...this.props.value
         }
       });
     }
@@ -162,7 +167,21 @@ class Form extends React.Component {
     const Comp = supportedComponents[cmpType] || supportedComponents.Button;
     return (
       <div className={`sq-form-cmp__action ${actionClassName}`} key={`sq-fa-${index}`}>
-        <Comp key={index} {...options} onClick={() => this.handleAction(action)} onAnalytics={onAnalytics} />
+        <Comp
+          key={index}
+          {...options}
+          onClick={(evt) => {
+            if (this.state.lastAction === action) {
+              console.log('set action null');
+              this.setState({
+                lastAction: null
+              });
+            } else {
+              this.handleAction(action);
+            }
+          }}
+          onAnalytics={onAnalytics}
+        />
       </div>
     );
   }

@@ -13,8 +13,8 @@ class Content extends Component {
   }
 
   render() {
-    const { pathname } = this.props.location;
-    const { pageData = {}, ...rest } = this.props;
+    const { pageData = {}, location, ...rest } = this.props;
+    const { pathname } = location;
     const { className = '' } = pageData;
     const compMap = getMap();
     return (

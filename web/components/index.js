@@ -16,6 +16,7 @@ import TextColumnWithLinks from './ui/TextColumnWithLinks';
 import MagicHeroContent from './ui/MagicHeroContent';
 import ImageOnDevice from './ui/ImageOnDevice';
 import ImageWithSlide from './ui/ImageWithSlide';
+import ImageWithSlideList from './ui/ImageWithSlideList';
 
 let comps = {
   Icon,
@@ -35,7 +36,8 @@ let comps = {
   LinkButtonList,
   MagicHeroContent,
   ImageOnDevice,
-  ImageWithSlide
+  ImageWithSlide,
+  ImageWithSlideList
 };
 
 const getMap = () => {

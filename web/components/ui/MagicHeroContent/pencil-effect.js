@@ -6,13 +6,15 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import HeroContent from '../HeroContent';
 import ImageOnDevice from '../ImageOnDevice';
 import ImageWithSlide from '../ImageWithSlide';
+import ImageWithSlideList from '../ImageWithSlideList';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const compMap = {
   HeroContent,
   ImageOnDevice,
-  ImageWithSlide
+  ImageWithSlide,
+  ImageWithSlideList
 };
 
 const presetAnimation = {
@@ -56,9 +58,6 @@ class MagicHeroContentDefault extends Component {
   }
 
   componentDidMount() {
-    if (this.tlObj) {
-      this.killAll();
-    }
     const { tweens, timeline } = this.getTimeline();
     const { tweens: tlTweens = [], ...restTimeline } = timeline || {};
     if (timeline) {
