@@ -5,8 +5,8 @@ class IosBuildProcess extends BaseBuild {
   constructor({ appConfig, ...config } = {}) {
     super(appConfig, {
       ...config,
-      rootClass: 'app-ios',
-      target: 'ios'
+      rootClass: 'app-android',
+      target: 'android'
     });
   }
 
