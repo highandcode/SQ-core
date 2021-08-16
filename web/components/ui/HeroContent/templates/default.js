@@ -11,7 +11,7 @@ const compMap = {
 };
 
 const TemplateDefault = ({
-  name,
+  name = '',
   image = {},
   eyebrow,
   header,

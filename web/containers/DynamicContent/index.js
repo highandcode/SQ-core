@@ -135,7 +135,7 @@ class DynamicContent extends Component {
   render() {
     const { containerTemplate: overrideContainerTemplate, ...allProps } = this.props;
     const { pageData = {}, metaData } = this.state.pageData;
-    const { container, containerTemplate, contentBodyClass = '', rootClassName, transition = {} } = pageData;
+    const { container, containerTemplate, contentBodyClass = '', rootClassName = '', transition = {} } = pageData;
     const ContentContainer = containers[overrideContainerTemplate || containerTemplate] || containers.Default;
     const ContentTemplContainer = containers[container] || Content;
     const { out: tranOut = 'out-up', in: tranIn = 'out-in', loading = 'loading' } = transition;

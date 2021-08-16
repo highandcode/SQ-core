@@ -43,7 +43,7 @@ const renderSubNav = (item, isHover, callback) => {
   );
 };
 
-const GlobalNavigation = ({ items, className, logo = {}, rightItems, mobileItems, onAnalytics, stickyNav = true }) => {
+const GlobalNavigation = ({ items, className = '', logo = {}, rightItems, mobileItems, onAnalytics, stickyNav = true }) => {
   const [open, setOpen] = useState(false);
   const [height, setHeight] = useState(0);
   const fillerEl = useRef(false);

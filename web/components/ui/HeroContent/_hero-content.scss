@@ -120,7 +120,7 @@
       text-align: center;
     }
     .sq-hero-content__root {
-      background-size: contain;
+      background-size: cover;
       background-repeat: no-repeat;
     }
 
@@ -137,7 +137,6 @@
       .sq-hero-content__root {
         display: flex;
         flex-direction: row;
-        background-size: cover;
         background-repeat: no-repeat;
         height: 100%;
       }
