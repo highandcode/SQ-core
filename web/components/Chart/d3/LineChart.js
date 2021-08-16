@@ -185,7 +185,7 @@ class LineChart extends BaseChart {
     });
     this.legend = g.append('g').attr('class', 'sq-chart-legend');
     // axis generators
-    vis.xAxisCall = d3.axisBottom().ticks(5);
+    vis.xAxisCall = d3.axisBottom();
     vis.yAxisCall = d3.axisLeft().ticks(6);
 
     // axis groups

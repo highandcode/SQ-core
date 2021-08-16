@@ -21,10 +21,6 @@
     height: 100vh;
     width: 100%;
     overflow: hidden;
-    &--sticky {
-      padding-top: 50px;
-      
-    }
   }
   .pin-container .panel {
     height: 100vh;
@@ -33,6 +29,7 @@
     align-items: center;
     justify-content: center;
     position: absolute;
+  
   }
 
   .panel {
