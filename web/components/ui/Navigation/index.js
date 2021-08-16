@@ -47,6 +47,7 @@ class SQNavigation extends React.Component {
         />
         <Drawer
           logoUrl=""
+          logoIcon={this.props.logoIcon}
           open={this.state.open}
           onClose={this.handleClose}
           onMenuItemClick={this.onMenuItemClick}

@@ -48,7 +48,7 @@ class TemporaryDrawer extends React.Component {
   }
 
   render() {
-    const { classes, options = [], appVersion } = this.props;
+    const { classes, options = [], appVersion, logoIcon = {} } = this.props;
 
     return (
       <div className="sq-global-navigation-drawer">
@@ -65,7 +65,7 @@ class TemporaryDrawer extends React.Component {
                 }
               >
                 <ListItemIcon>
-                  <Icon name="logo-full" size="wide" />
+                  <Icon name="logo-full" size="wide" {...logoIcon} />
                 </ListItemIcon>
               </ListItem>
               <Divider />
