@@ -98,7 +98,7 @@ class Footer extends Component {
         <div className="sq-footer__wrapper">
           <div className="sq-footer__logo text-muted">
             {logo.svg && logo.svg}
-            {!logo.svg && logo.name && <Icon name={logo.name} variant={logo.variant} size="large" />}
+            {!logo.svg && logo.name && <Icon {...logo} variant="default" />}
             {logo.img && <img src={`${resolveImageUrl(logo.img)}`} alt={logo.imgAlt} />}
             {logo.text}
           </div>
