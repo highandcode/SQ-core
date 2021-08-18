@@ -1,6 +1,7 @@
 const PageBuilder = require('./builder/page-builder');
 var express = require('express');
 var fse = require('fse');
+var path = require('path');
 const yaml = require('js-yaml');
 const _ = require('lodash');
 const Response = require('../../server/src/Response');
@@ -45,7 +46,37 @@ class ContentServer {
     );
     this.app = app;
     this.contentFolder = this.config.serverPath.substr(0, this.config.serverPath.lastIndexOf('/'));
-    this.clientLibs = __dirname.replace('server', '') + 'client';
+    this.clientLibs = cmsRootServer + 'client';
+    this.searchSiteMaps();
+  }
+
+  searchSiteMaps() {
+    console.log('searching site maps in:' + this.config.contentPath);
+    const siteMaps = {};
+    fse.readdir(this.config.contentPath, (err, list) => {
+      if (err) throw err;
+      for (var i = 0; i < list.length; i++) {
+        // console.log(`${this.config.contentPath}/${list[i]}/sitemap.yaml`);
+        if (fse.existsSync(`${this.config.contentPath}/${list[i]}/sitemap.yaml`)) {
+          let contents;
+          try {
+            let fileContents = fse.readFileSync(`${this.config.contentPath}/${list[i]}/sitemap.yaml`, 'utf8');
+            contents = yaml.loadAll(fileContents);
+          } catch (ex) {
+            contents = '';
+          }
+          if (contents) {
+            siteMaps[list[i]] = contents[0];
+          }
+        }
+        // if (path.extname(list[i]) === fileType) {
+        //   console.log(list[i]); //print the file
+        //   files.push(list[i]); //store the file name into the array files
+        // }
+      }
+      this.allSiteMaps = siteMaps;
+      // console.log(this.allSiteMaps);
+    });
   }
 
   init() {
@@ -142,7 +173,7 @@ class ContentServer {
     res.status(200).send(
       new Response({
         pageData: data.pageData,
-        siteMap: data.site.siteConfig,
+        siteMap: data.siteConfig,
         metaData: data.merged
       }).success()
     );
@@ -169,13 +200,14 @@ class ContentServer {
     });
   }
 
-  getErrorPage() {
+  getErrorPage(siteConfig) {
+    siteConfig = siteConfig || config.siteConfig;
     const config = this.config;
     let filePath = '';
     let contents;
 
-    if (config.siteConfig.siteMap.errorRedirects[500]) {
-      filePath = this.getFilePath(config.siteConfig.siteMap.errorRedirects[500]);
+    if (siteMap.errorRedirects[500]) {
+      filePath = this.getFilePath(siteMap.errorRedirects[500]);
     } else {
       filePath = this.getFilePath('/content/pages/error.yaml');
     }
@@ -191,23 +223,33 @@ class ContentServer {
     return contents[0];
   }
 
-  get404Page() {
+  get404Page(siteConfig) {
+    siteConfig = siteConfig || config.siteConfig;
     const config = this.config;
     let filePath = '';
-    if (config.siteConfig.siteMap.errorRedirects[404]) {
-      filePath = this.getFilePath(config.siteConfig.siteMap.errorRedirects[404]);
+    if (siteConfig.siteMap.errorRedirects[404]) {
+      filePath = this.getFilePath(siteConfig.siteMap.errorRedirects[404]);
     } else {
       filePath = this.getFilePath('/content/pages/404.yaml');
     }
     return filePath;
   }
 
+  getAppNameFromUrl(url) {
+    return url.substr(0, url.indexOf('/'));
+  }
+
   getPageData(path) {
     const config = this.config;
     let status = 200;
     const srcFile = path;
+    console.log(srcFile);
+    const appPath = this.getAppNameFromUrl(srcFile);
+    console.log(appPath);
+    const currentSiteConfig = this.allSiteMaps[appPath] || config.siteConfig;
+
     const fullPath = `${this.contentFolder}/${srcFile}`;
-    console.log('--fullpath' + fullPath)
+    console.log('--fullpath' + fullPath);
     let siblingData = {};
     let filePath = `${config.contentPath}/${srcFile}.yaml`;
     let isFile = true;
@@ -217,26 +259,26 @@ class ContentServer {
       isFile = false;
     }
 
-
     if (!fse.existsSync(filePath)) {
-      filePath = this.get404Page();
+      filePath = this.get404Page(currentSiteConfig);
       status = 404;
     } else {
       siblingData = this.getAllSiblings(`${config.contentPath}/${srcFile}`, isFile, fullPath);
     }
-    console.log(filePath);
 
+   
     let fileContents = fse.readFileSync(`${filePath}`, 'utf8');
-    let currentNode = this.getPageNode(config.siteMap, filePath);
+    let currentNode = this.getPageNode(currentSiteConfig.siteMap, filePath);
     if (!currentNode) {
-      currentNode = config.siteConfig.siteMap;
+      currentNode = currentSiteConfig.siteMap;
     }
     let contents;
     try {
       contents = yaml.loadAll(fileContents);
     } catch (ex) {
-      contents = [this.getErrorPage()];
+      contents = [this.getErrorPage(currentSiteConfig)];
     }
+    console.log('app path found');
 
     const merged = {
       navigation: currentNode.children,
@@ -253,6 +295,7 @@ class ContentServer {
       status,
       path: fullPath,
       site: config,
+      siteConfig: currentSiteConfig,
       pageData: contents,
       currentNode,
       merged
@@ -261,7 +304,7 @@ class ContentServer {
   }
 
   serveContent(req, res) {
-    console.log('request->' + req.params['0'])
+    console.log('request->' + req.params['0']);
     this.getPageContent(req.params['0'])
       .then((response) => {
         res.status(response.status).send(response.data);
