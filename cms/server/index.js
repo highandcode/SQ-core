@@ -11,6 +11,7 @@ class ContentServer {
 
     for (let i = 0; i < pathToSeach.length; i++) {
       let currentPath = pathToSeach[i];
+      // console.log('>>>' + currentPath + ':' + path);
       if (fse.existsSync(`${currentPath}${path}.yaml`)) {
         return `${currentPath}${path}.yaml`;
       } else if (fse.existsSync(`${currentPath}${path}/index.yaml`)) {
@@ -18,18 +19,21 @@ class ContentServer {
       } else if (fse.existsSync(`${currentPath}${path}`)) {
         return `${currentPath}${path}`;
       }
-      return path;
     }
+    return path;
   }
 
   constructor(options = {}, app) {
+    const lastIndex = __dirname.lastIndexOf('server');
+    const cmsRootServer = __dirname.substr(0, lastIndex);
+    console.log(cmsRootServer);
     this.config = Object.assign(
       {
-        rootPath: __dirname.replace('server', ''),
-        rootClientPath: __dirname.replace('server', '') + 'client',
+        rootPath: cmsRootServer,
+        rootClientPath: cmsRootServer + 'client',
         rootApp: '',
         mode: 'development',
-        srcPath: __dirname.replace('server', ''),
+        srcPath: cmsRootServer,
         serverPath: '/content/*',
         clientServerPath: '/client/*',
         damAssets: '',
@@ -203,6 +207,7 @@ class ContentServer {
     let status = 200;
     const srcFile = path;
     const fullPath = `${this.contentFolder}/${srcFile}`;
+    console.log('--fullpath' + fullPath)
     let siblingData = {};
     let filePath = `${config.contentPath}/${srcFile}.yaml`;
     let isFile = true;
@@ -212,12 +217,14 @@ class ContentServer {
       isFile = false;
     }
 
+
     if (!fse.existsSync(filePath)) {
       filePath = this.get404Page();
       status = 404;
     } else {
       siblingData = this.getAllSiblings(`${config.contentPath}/${srcFile}`, isFile, fullPath);
     }
+    console.log(filePath);
 
     let fileContents = fse.readFileSync(`${filePath}`, 'utf8');
     let currentNode = this.getPageNode(config.siteMap, filePath);
@@ -254,6 +261,7 @@ class ContentServer {
   }
 
   serveContent(req, res) {
+    console.log('request->' + req.params['0'])
     this.getPageContent(req.params['0'])
       .then((response) => {
         res.status(response.status).send(response.data);
