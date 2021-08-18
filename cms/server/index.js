@@ -51,6 +51,9 @@ class ContentServer {
     if (this.config.damAssets) {
       this.app.use('/dam', express.static(this.config.damAssets));
     }
+    if (this.config.clientLibs) {
+      this.app.use('/clientlibs', express.static(this.config.clientLibs));
+    }
   }
 
   mapVanity(config, options = {}) {
