@@ -18,6 +18,9 @@ $sq-global-navigation-sub-navbg: $white;
     left: 0;
     z-index: $z-index-level-2ndtopest;
   }
+  &--bordered {
+    border-bottom: solid 1px $sq-color-gray-lighter;
+  }
   &--sticky {
     background: #ffffff;
     position: fixed;

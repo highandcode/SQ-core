@@ -108,7 +108,7 @@ class ContentServer {
     if (node && node.children) {
       for (let i = 0; i < node.children.length; i++) {
         let childNode = node.children[i];
-        if (childNode.children && childNode.children.length > 0) {
+        if (!childNode.always && childNode.children && childNode.children.length > 0) {
           foundNode = this.getPageNode(childNode, path);
           if (foundNode) {
             if (!foundNode.children) {
@@ -118,12 +118,12 @@ class ContentServer {
           }
         }
         // console.log(childNode.href + "==" + path);
-        if (childNode.href === path) {
+        if (!childNode.always && childNode.href === path) {
           // console.log("matched =");
           // console.log(childNode);
           foundNode = childNode;
           break;
-        } else if (childNode.href.indexOf(path) > -1 || path.indexOf(childNode.href) > -1) {
+        } else if (!childNode.always && childNode.href.indexOf(path) > -1 || path.indexOf(childNode.href) > -1) {
           // console.log("matched index");
           foundNode = node;
         }
@@ -266,7 +266,6 @@ class ContentServer {
       siblingData = this.getAllSiblings(`${config.contentPath}/${srcFile}`, isFile, fullPath);
     }
 
-   
     let fileContents = fse.readFileSync(`${filePath}`, 'utf8');
     let currentNode = this.getPageNode(currentSiteConfig.siteMap, filePath);
     if (!currentNode) {
@@ -281,7 +280,10 @@ class ContentServer {
     console.log('app path found');
 
     const merged = {
-      navigation: currentNode.children,
+      navigation:
+        currentNode !== currentSiteConfig.siteMap
+          ? currentNode.children.concat(currentSiteConfig.siteMap.children.filter((x) => x.always === true))
+          : currentNode.children,
       pageConfig: {},
       envConfig: config.envConfig,
       parentPath: siblingData.parentPath || fullPath,
