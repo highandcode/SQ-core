@@ -93,8 +93,14 @@ class ContentServer {
 
   mapVanity(config, options = {}) {
     Object.keys(config).forEach((key) => {
-      if (!config[key].match(this.config.serverPath)) {
-        this.app.use(`${config[key]}`, (req, res) => {
+      var newKey;
+      if (typeof config[key] === 'object') {
+        newKey = config[key].target;
+      } else {
+        newKey = config[key]
+      }
+      if (!newKey.match(this.config.serverPath)) {
+        this.app.use(`${newKey}`, (req, res) => {
           this.getPageContent(options.defaultPage).then((response) => {
             res.status(response.status).send(response.data);
           });

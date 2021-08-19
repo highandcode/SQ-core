@@ -35,8 +35,12 @@ export const redirectTo = (screen, params = {}, { target = '', ...options } = {}
     const query = new QueryString(params).toString();
     let matchedRegex;
     Object.keys(urlMapping).forEach((key) => {
-      if (screen.match(new RegExp(key, 'g'))) {
-        matchedRegex = key;
+      if (typeof urlMapping[key] === 'object') {
+        if (urlMapping[key].type === 'regex') {
+          if (screen.match(new RegExp(key, 'g'))) {
+            matchedRegex = key;
+          }
+        }
       }
     });
     if (url) {
@@ -49,7 +53,7 @@ export const redirectTo = (screen, params = {}, { target = '', ...options } = {}
         });
       }
     } else if (matchedRegex) {
-      const processEdUrl = screen.replace(new RegExp(matchedRegex, 'g'), urlMapping[matchedRegex]);
+      const processEdUrl = screen.replace(new RegExp(matchedRegex, 'g'), urlMapping[matchedRegex].target);
       if (target === '_blank') {
         window.open(processEdUrl + query);
       } else {
