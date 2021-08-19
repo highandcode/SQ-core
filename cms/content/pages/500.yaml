@@ -11,5 +11,5 @@ blocks:
     class: sq-text-center
     buttons:
       - text: Back to home
-        href: /content/in/home
+        href: /
         class: uk-button uk-button-primary

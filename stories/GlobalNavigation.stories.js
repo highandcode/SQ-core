@@ -21,38 +21,38 @@ GlobalNavigationWithHeader.args = {
   items: [
     {
       title: 'Home',
-      href: '/content/in/home',
+      href: '/content/home',
       children: []
     },
     {
       title: 'Games',
-      href: '/content/in/games',
+      href: '/content/games',
       children: [
         {
           title: '3Patti Play',
-          href: '/content/in/games/3pattiplay'
+          href: '/content/games/3pattiplay'
         },
         {
           title: 'Mind reader',
-          href: '/content/in/games/mind-reader'
+          href: '/content/games/mind-reader'
         },
         {
           title: 'Uno',
-          href: '/content/in/games/uno'
+          href: '/content/games/uno'
         },
         {
           title: 'Contact us',
-          href: '/content/in/contact'
+          href: '/content/contact'
         }
       ]
     },
     {
       title: 'About us',
-      href: '/content/in/about'
+      href: '/content/about'
     },
     {
       title: 'Contact us',
-      href: '/content/in/contact'
+      href: '/content/contact'
     }
   ]
 };
@@ -69,38 +69,38 @@ GlobalNavigationDark.args = {
   items: [
     {
       title: 'Home',
-      href: '/content/in/home',
+      href: '/content/home',
       children: []
     },
     {
       title: 'Games',
-      href: '/content/in/games',
+      href: '/content/games',
       children: [
         {
           title: '3Patti Play',
-          href: '/content/in/games/3pattiplay'
+          href: '/content/games/3pattiplay'
         },
         {
           title: 'Mind reader',
-          href: '/content/in/games/mind-reader'
+          href: '/content/games/mind-reader'
         },
         {
           title: 'Uno',
-          href: '/content/in/games/uno'
+          href: '/content/games/uno'
         },
         {
           title: 'Contact us',
-          href: '/content/in/contact'
+          href: '/content/contact'
         }
       ]
     },
     {
       title: 'About us',
-      href: '/content/in/about'
+      href: '/content/about'
     },
     {
       title: 'Contact us',
-      href: '/content/in/contact'
+      href: '/content/contact'
     }
   ]
 };
