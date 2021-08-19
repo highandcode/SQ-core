@@ -73,7 +73,7 @@ class PageBuilder {
             currentPath: this.path,
             currentNode,
             _,
-            mode: this.mode
+            mode: this.siteConfig.mode || this.mode
           },
           { pageData: this.data }
         )
@@ -99,7 +99,7 @@ class PageBuilder {
                 analytics: this.siteConfig.analytics,
                 siteMap: this.siteConfig.siteMap,
                 currentNode,
-                mode: this.mode,
+                mode: this.siteConfig.mode || this.mode,
                 _
               },
               { body: pageContents }

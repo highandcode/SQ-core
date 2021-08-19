@@ -97,7 +97,7 @@ class ContentServer {
       if (typeof config[key] === 'object') {
         newKey = config[key].target;
       } else {
-        newKey = config[key]
+        newKey = config[key];
       }
       if (!newKey.match(this.config.serverPath)) {
         this.app.use(`${newKey}`, (req, res) => {
@@ -129,7 +129,7 @@ class ContentServer {
           // console.log(childNode);
           foundNode = childNode;
           break;
-        } else if (!childNode.always && childNode.href.indexOf(path) > -1 || path.indexOf(childNode.href) > -1) {
+        } else if ((!childNode.always && childNode.href.indexOf(path) > -1) || path.indexOf(childNode.href) > -1) {
           // console.log("matched index");
           foundNode = node;
         }
@@ -286,10 +286,8 @@ class ContentServer {
     console.log('app path found');
 
     const merged = {
-      navigation:
-        currentNode !== currentSiteConfig.siteMap
-          ? currentNode.children.concat(currentSiteConfig.siteMap.children.filter((x) => x.always === true))
-          : currentNode.children,
+      navigation: currentSiteConfig.siteMap.children,
+      secondaryNavigation: currentNode !== currentSiteConfig.siteMap ? currentNode.children : [],
       pageConfig: {},
       envConfig: config.envConfig,
       parentPath: siblingData.parentPath || fullPath,
