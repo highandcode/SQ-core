@@ -10,7 +10,6 @@ import { getValue } from '../../utils/properties';
 
 import './more-actions.scss';
 
-const ITEM_HEIGHT = 25;
 const MoreActions = ({ actions = [], className = '', onClick, onAction, row, column, beforeRender }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const handleOnClick = (event, action) => {
@@ -75,7 +74,6 @@ const MoreActions = ({ actions = [], className = '', onClick, onAction, row, col
         onClose={handleClose}
         PaperProps={{
           style: {
-            maxHeight: ITEM_HEIGHT * 4.5,
             width: '20ch'
           }
         }}
