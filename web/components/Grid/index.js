@@ -35,7 +35,7 @@ class Grid extends React.Component {
 
   render() {
     const { columns = [], data = [], className = '', showAdd = false, showHeader = true, strips = false, rowConfig = {}, onRowClick } = this.props;
-    const actionsClassName = typeof(onRowClick) === 'function' ? 'sq-grid-cmp--has-action' : '';
+    const actionsClassName = typeof onRowClick === 'function' ? 'sq-grid-cmp--has-action' : '';
     return (
       <div className={`sq-grid-cmp ${className} ${actionsClassName} sq-grid-cmp${strips ? '--striped' : '--bordered'}`}>
         {this.hasData() && showHeader && <div className="sq-grid-cmp__header">{this.renderHeader(columns)}</div>}
@@ -95,8 +95,10 @@ class Grid extends React.Component {
   }
 
   handleRowClick(columns, row) {
-    const { onRowClick } = this.props;
+    const { onRowClick, analytics = {}, onAnalytics } = this.props;
+    const { rowClick } = analytics;
     onRowClick && onRowClick(row, columns);
+    rowClick && onAnalytics && onAnalytics(rowClick);
   }
 
   handleFieldBlur(column, value, row) {
