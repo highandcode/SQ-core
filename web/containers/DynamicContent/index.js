@@ -92,7 +92,7 @@ class DynamicContent extends Component {
       this.setState({
         isLoading: true
       });
-    }, 700);
+    }, 300);
     const pageData = await this.props.contentStore.getPage(this.state.url);
     window.clearTimeout(interval);
     const { analytics = {} } = pageData;
@@ -102,9 +102,8 @@ class DynamicContent extends Component {
     });
     onAnalytics &&
       onAnalytics({
-        type: 'pageview',
-        pathname: this.state.url,
-        page_title: pageData.title,
+        type: 'page_view',
+        page_title: pageData.pageData.title,
         ...analytics.load
       });
     this.setState({

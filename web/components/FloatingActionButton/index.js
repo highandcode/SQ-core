@@ -15,10 +15,14 @@ const SQFloatingActionButton = ({
   color = 'primary',
   position = 'bottom-right',
   onClick,
+  analytics = {},
+  onAnalytics,
   size
 }) => {
   const handleClick = (e) => {
+    const { click } = analytics;
     onClick && onClick(e);
+    click && onAnalytics(click);
   };
 
   return (
@@ -31,6 +35,7 @@ const SQFloatingActionButton = ({
 SQFloatingActionButton.propTypes = {
   buttonText: PropTypes.string,
   className: PropTypes.string,
+  onAnalytics: PropTypes.func,
   onClick: PropTypes.func
 };
 
