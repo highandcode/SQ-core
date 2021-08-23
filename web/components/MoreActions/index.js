@@ -79,7 +79,7 @@ const MoreActions = ({ actions = [], className = '', onClick, onAction, row, col
         }}
       >
         {finalActions.map((action) => {
-          const disabled = getValue(this, action.disabled, row);
+          const disabled = getValue(this, action.disabled, row) || undefined;
           return (
             <MenuItem key={action.action} disabled={disabled} onClick={(event) => handleOnClick(event, action)}>
               {action.buttonText}

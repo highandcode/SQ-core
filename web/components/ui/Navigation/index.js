@@ -29,11 +29,14 @@ class SQNavigation extends React.Component {
   }
 
   onMenuItemClick(item) {
-    const { onMenuItemClick } = this.props;
+    const { onMenuItemClick, onAnalytics } = this.props;
+    const { analytics = {} } = this.props;
+    const { click } = analytics;
     onMenuItemClick && onMenuItemClick(item);
     if (item.to) {
       redirectTo(item.to);
     }
+    click && onAnalytics && onAnalytics(click);
   }
 
   render() {
