@@ -102,7 +102,7 @@ class DynamicContent extends Component {
     });
     onAnalytics &&
       onAnalytics({
-        type: 'page_view',
+        type: 'pageview',
         page_title: pageData.pageData.title,
         ...analytics.load
       });
