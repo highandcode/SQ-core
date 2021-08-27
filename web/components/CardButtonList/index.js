@@ -3,15 +3,18 @@ import PropTypes from 'prop-types';
 import CardButton from '../CardButton';
 import './card-button-list.scss';
 
-const CardButtonList = ({ className = '', options = [], value, valueField = 'value', onChange, errorMessage }) => {
+const CardButtonList = ({ className = '', options = [], value, valueField = 'value', onChange, errorMessage, onAnalytics }) => {
   const [currentValue, setCurrentValue] = useState(value);
 
-  const handleChange = (data) => {
+  const handleChange = (data, option) => {
+    const { analytics = {} } = option;
+    const { click } = analytics;
     setCurrentValue(data.value);
     onChange &&
       onChange({
         value: data.value || ''
       });
+    onAnalytics && click && onAnalytics(click);
   };
 
   return (
@@ -24,7 +27,7 @@ const CardButtonList = ({ className = '', options = [], value, valueField = 'val
               {...option}
               value={currentValue}
               selectedValue={option[valueField]}
-              onChange={(data) => handleChange(data)}
+              onChange={(data) => handleChange(data, option)}
             ></CardButton>
           );
         })}
