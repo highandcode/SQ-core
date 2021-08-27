@@ -4,7 +4,19 @@ import LinkButton from '../LinkButton';
 import { DateTime } from '../../../utils/datetime';
 import './date-navigator.scss';
 
-const DateNavigator = ({ minDate, maxDate, className = '', value = '', onChange, errorMessage, type = 'month', span = 1 }) => {
+const DateNavigator = ({
+  minDate,
+  maxDate,
+  className = '',
+  value = '',
+  onChange,
+  errorMessage,
+  type = 'month',
+  span = 1,
+  onAnalytics,
+  analytics = {}
+}) => {
+  const { next, prev } = analytics;
   const handleNext = () => {
     const newvalue = new DateTime(value).startOf('month').addMonths(span).toISO();
     const from = new DateTime(value).startOf('month').addMonths(span).toISO();
@@ -52,11 +64,11 @@ const DateNavigator = ({ minDate, maxDate, className = '', value = '', onChange,
     <div className={`sq-date-navigator ${className}`}>
       <div className="sq-date-navigator__container">
         <div className="sq-date-navigator__nav-left">
-          <LinkButton disabled={minDateDisabled} iconName="arrow-left" size="large" onClick={handlPrev} />
+          <LinkButton analytics={prev} onAnalytics={onAnalytics} disabled={minDateDisabled} iconName="arrow-left" size="large" onClick={handlPrev} />
         </div>
         <div className="sq-date-navigator__content">{labelDisplay}</div>
         <div className="sq-date-navigator__nav-right">
-          <LinkButton disabled={maxDateDisabled} iconName="arrow-right" size="large" onClick={handleNext} />
+          <LinkButton analytics={next} onAnalytics={onAnalytics} disabled={maxDateDisabled} iconName="arrow-right" size="large" onClick={handleNext} />
         </div>
       </div>
       {errorMessage && <div className="sq-error sq-date-navigator--error">{errorMessage}</div>}
