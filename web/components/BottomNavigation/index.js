@@ -29,12 +29,15 @@ class LabelBottomNavigation extends React.Component {
     }
   }
   handleChange(evt, newValue) {
-    const { onChange, links = [] } = this.props;
+    const { onChange, links = [], onAnalytics } = this.props;
     const item = _.filter(links, { value: newValue });
+    const { analytics = {} } = item.length ? item[0]: {};
+    const { click } = analytics;
     this.setState({
       value: newValue
     });
     onChange && onChange(newValue, item[0]);
+    onAnalytics && click && onAnalytics(click);
   }
 
   render() {
@@ -60,6 +63,7 @@ class LabelBottomNavigation extends React.Component {
 LabelBottomNavigation.propTypes = {
   links: PropTypes.array,
   onChange: PropTypes.func,
+  onAnalytics: PropTypes.func,
   value: PropTypes.string
 };
 
