@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import Switch from '@material-ui/core/Switch';
 import './_switch.scss';
 
-const SQSwitch = ({ label, className = '', defaultValue, value, color = 'primary', onChange }) => {
+const SQSwitch = ({ label, className = '', defaultValue, value, color = 'primary', onChange, onAnalytics, analytics = {} }) => {
   let checked = defaultValue ? defaultValue === value : value === true;
+  const { change: changeAnalytics } = analytics;
   const handleChange = (evt) => {
     let valueToPass;
     if (evt.target.checked) {
@@ -16,6 +17,7 @@ const SQSwitch = ({ label, className = '', defaultValue, value, color = 'primary
       onChange({
         value: valueToPass
       });
+    onAnalytics && changeAnalytics && onAnalytics(changeAnalytics);
   };
   return (
     <div className={`sq-swich ${className}`}>

@@ -131,6 +131,7 @@ class Grid extends React.Component {
         className={finalClassName}
         data={data}
         errors={data.validators && data.validators.errors}
+        onAnalytics={this.props.onAnalytics}
         onRowClick={this.handleRowClick}
         onRowChange={this.handleRowChange}
         onFieldAction={this.handleFieldAction}

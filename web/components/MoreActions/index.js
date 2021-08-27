@@ -10,9 +10,11 @@ import { getValue } from '../../utils/properties';
 
 import './more-actions.scss';
 
-const MoreActions = ({ actions = [], className = '', onClick, onAction, row, column, beforeRender }) => {
+const MoreActions = ({ actions = [], className = '', onClick, onAction, row, column, beforeRender, onAnalytics }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const handleOnClick = (event, action) => {
+    const { analytics = {} } = action;
+    const { click } = analytics;
     if (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -24,12 +26,17 @@ const MoreActions = ({ actions = [], className = '', onClick, onAction, row, col
     }
     onClick && onClick(action);
     onAction && onAction(action);
+    onAnalytics && click && onAnalytics(click);
     setAnchorEl(null);
   };
   const handleAction = (dialgAction, action) => {
+    const { analytics = {} } = action;
+    const { click, dialog } = analytics;
+    onAnalytics && dialog && onAnalytics(dialog);
     if (dialgAction.action === 'ok') {
       onClick && onClick(action);
       onAction && onAction(action);
+      onAnalytics && click && onAnalytics(click);
     }
     setTimeout(() => {
       setShowConfirm(false);

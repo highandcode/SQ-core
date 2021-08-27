@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import GridCell from './GridCell';
 
-const Row = ({ columns = [], data = {}, onRowClick, onRowChange, onFieldBlur, onFieldClick, onFieldAction, onColumnChange, className, errors = {} }) => {
+const Row = ({ columns = [], data = {}, onRowClick, onRowChange, onFieldBlur, onFieldClick, onFieldAction, onColumnChange, onAnalytics, className, errors = {} }) => {
   const _onChange = (column, value) => {
     onColumnChange && onColumnChange(column, value, data);
     onRowChange &&
@@ -52,6 +52,7 @@ const Row = ({ columns = [], data = {}, onRowClick, onRowChange, onFieldBlur, on
             onAction={(column, action) => {
               _onAction(column, action);
             }}
+            onAnalytics={onAnalytics}
             onBlur={_onBlur}
             value={data[column.name]}
           />

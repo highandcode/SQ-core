@@ -37,7 +37,7 @@ const CompMap = {
   ...getMap()
 };
 
-const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onBlur, errors, onKeyPress, formatter = {} }) => {
+const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnalytics, onBlur, errors, onKeyPress, formatter = {} }) => {
   const _onChange = (newValue) => {
     onChange && onChange(column, newValue);
   };
@@ -73,6 +73,7 @@ const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onBlur
         column={column}
         onClick={_onClick}
         onChange={_onChange}
+        onAnalytics={onAnalytics}
         onAction={_onAction}
         onKeyPress={_onKeyPress}
         onBlur={_Blur}
@@ -89,6 +90,7 @@ GridCell.propTypes = {
   formatter: PropTypes.object,
   onAction: PropTypes.func,
   onChange: PropTypes.func,
+  onAnalytics: PropTypes.func,
   onKeyPress: PropTypes.func,
   onBlur: PropTypes.func,
   onClick: PropTypes.func,
