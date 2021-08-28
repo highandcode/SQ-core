@@ -81,7 +81,6 @@ class DynamicContent extends Component {
 
   async fetchPage(firstTime) {
     const { location = {}, onAnalytics, transitionSpeed = 300 } = this.props;
-    console.log('@fetch page', firstTime, this.props);
     if (!firstTime) {
       this.setState({
         isOut: true
