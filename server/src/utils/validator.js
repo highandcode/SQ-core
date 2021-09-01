@@ -10,8 +10,16 @@ const _validators = {
   },
   email: (value) => {
     return _validators.regex(value, {
-      regex: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      regex:
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     });
+  },
+  equals: (value, { subType = '=', matchValue }) => {
+    if (subType === '=') {
+      return value === matchValue;
+    } else if (subType === '!=') {
+      return value !== matchValue;
+    }
   },
   digits: (value, { length }) => {
     if (length) {
@@ -157,7 +165,7 @@ class Validator {
     this.options = Object.assign(
       {
         emptyObject: true,
-        keys:{}
+        keys: {}
       },
       options
     );
@@ -187,6 +195,7 @@ class Validator {
     if (this.validators[field] && this.validators[field].validators) {
       Array.isArray(this.validators[field].validators) &&
         this.validators[field].validators.forEach(({ type, message, ...rest }) => {
+          console.log('@@exec', type, _validators[type]);
           if (_validators[type] && (!this.validators[field].optional || this.values[field])) {
             if (isValid && !_validators[type](this.values[field], rest, this.values)) {
               isValid = false;

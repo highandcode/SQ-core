@@ -130,8 +130,10 @@ class DynamicContent extends Component {
     }
   }
 
+
   render() {
     const { containerTemplate: overrideContainerTemplate, ...allProps } = this.props;
+    const { dataPacket } = allProps;
     const { pageData = {}, metaData } = this.state.pageData;
     const { container, containerTemplate, contentBodyClass = '', rootClassName = '', transition = {} } = pageData;
     const ContentContainer = containers[overrideContainerTemplate || containerTemplate] || containers.Default;
@@ -139,11 +141,27 @@ class DynamicContent extends Component {
     const { out: tranOut = 'out-up', in: tranIn = 'out-in', loading = 'loading' } = transition;
     const classState = this.state.isOut ? `transition transition-page--${tranOut}` : this.state.isIn ? `transition transition-page--${tranIn}` : '';
     const loadingState = this.state.isLoading ? `transition transition-page--${loading}` : '';
+    const userData = { ...this.props.contentStore.userData, ...dataPacket, contentPage: true };
+    
     return (
       <div className={`dynamic-content row ${rootClassName} ${loadingState}`}>
-        <ContentContainer {...allProps} pageData={pageData} metaData={metaData} data={this.state.pageData} pageState={this.state.page}>
+        <ContentContainer
+          {...allProps}
+          pageData={pageData}
+          metaData={metaData}
+          data={this.state.pageData}
+          pageState={this.state.page}
+          userData={userData}
+        >
           <div className={`${contentBodyClass} dynamic-content__body ${classState}`}>
-            <ContentTemplContainer {...allProps} pageData={pageData} metaData={metaData} data={this.state.pageData} pageState={this.state.page} />
+            <ContentTemplContainer
+              {...allProps}
+              pageData={pageData}
+              metaData={metaData}
+              data={this.state.pageData}
+              userData={userData}
+              pageState={this.state.page}
+            />
             <Progress />
           </div>
         </ContentContainer>
