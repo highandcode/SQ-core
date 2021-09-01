@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { redirectTo } from 'sq-core/web/utils/redirect';
+import common from 'sq-core/web/utils/common';
 import AppBar from './AppBar';
 import Drawer from './Drawer';
 import './navigation.scss';
@@ -40,9 +41,11 @@ class SQNavigation extends React.Component {
   }
 
   render() {
+    const { className = '', classes = {} } = this.props;
     return (
-      <nav className="sq-navigation">
+      <nav className={`sq-navigation ${className}`}>
         <AppBar
+          className={common.toStringBlank(classes.appBar)}
           color={this.props.appBarColor}
           onMenuClick={this.onMenuClick}
           rightMenu={this.props.isLoggedIn ? this.props.appRightMenu : this.props.rightMenu}
@@ -50,6 +53,7 @@ class SQNavigation extends React.Component {
         />
         <Drawer
           logoUrl=""
+          className={common.toStringBlank(classes.drawer)}
           logoIcon={this.props.logoIcon}
           open={this.state.open}
           onClose={this.handleClose}
@@ -64,6 +68,7 @@ class SQNavigation extends React.Component {
 
 SQNavigation.propTypes = {
   isLoggedIn: PropTypes.bool,
+  className: PropTypes.string,
   onLogout: PropTypes.func,
   appVersion: PropTypes.string,
   appBarColor: PropTypes.string

@@ -44,6 +44,7 @@ class AreaChart extends BaseChart {
     const vis = this;
     const element = this.element;
     var { xValue, margin, series = [], colorSet, yAxis = {}, tooltip = {}, legendLabelWidth = 100 } = this.config;
+    const { labelWidth = 80 } = yAxis;
     const { format: yAxisFormatter, minValue: yAxisMinValue } = yAxis;
     const { formatter: tooltipFormatter = (v) => v } = tooltip;
     var { width, height, innerWidth, innerHeight } = this.getWidth();
@@ -66,6 +67,7 @@ class AreaChart extends BaseChart {
 
     vis.xAxis.attr('transform', `translate(0, ${innerHeight})`);
     // update axes
+    vis.xAxisCall.ticks(innerWidth / labelWidth);
     vis.xAxisCall.scale(vis.x);
     vis.xAxis.transition(vis.t).call(vis.xAxisCall);
     vis.yAxisCall.scale(vis.y);
@@ -151,8 +153,20 @@ class AreaChart extends BaseChart {
     /******************************** End Legend Code ********************************/
     const pos_height = vis.y(0);
     const neg_height = vis.y(minValue);
-    vis.defs.select(`#clip_pos`).select('rect').attr('x', 0).attr('y', 0).attr('width', innerWidth).attr('height', pos_height > 0 ? pos_height : 0);
-    vis.defs.select(`#clip_neg`).select('rect').attr('x', 0).attr('y', vis.y(maxValue > 0 ? 0 : maxValue)).attr('width', innerWidth).attr('height', neg_height > 0 ? neg_height : 0);
+    vis.defs
+      .select(`#clip_pos`)
+      .select('rect')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('width', innerWidth)
+      .attr('height', pos_height > 0 ? pos_height : 0);
+    vis.defs
+      .select(`#clip_neg`)
+      .select('rect')
+      .attr('x', 0)
+      .attr('y', vis.y(maxValue > 0 ? 0 : maxValue))
+      .attr('width', innerWidth)
+      .attr('height', neg_height > 0 ? neg_height : 0);
     // Path generator
 
     // Update our line path
@@ -171,8 +185,18 @@ class AreaChart extends BaseChart {
 
       vis.g.select(`.area.p-${ser.name}`).attr('stroke', 'none').transition(vis.t).attr('d', vis.area(vis.data)).style('clip-path', 'url(#clip_pos)');
       vis.g.select(`.area.n-${ser.name}`).attr('stroke', 'none').transition(vis.t).attr('d', vis.area(vis.data)).style('clip-path', 'url(#clip_neg)');
-      vis.g.select(`.line.${ser.name}`).attr('stroke', ser.color).transition(vis.t).attr('d', vis.line(vis.data)).style('clip-path', 'url(#clip_pos)');
-      vis.g.select(`.line-n.${ser.name}`).attr('stroke', ser.negativeColor).transition(vis.t).attr('d', vis.line(vis.data)).style('clip-path', 'url(#clip_neg)');
+      vis.g
+        .select(`.line.${ser.name}`)
+        .attr('stroke', ser.color)
+        .transition(vis.t)
+        .attr('d', vis.line(vis.data))
+        .style('clip-path', 'url(#clip_pos)');
+      vis.g
+        .select(`.line-n.${ser.name}`)
+        .attr('stroke', ser.negativeColor)
+        .transition(vis.t)
+        .attr('d', vis.line(vis.data))
+        .style('clip-path', 'url(#clip_neg)');
     });
   }
 
@@ -211,14 +235,8 @@ class AreaChart extends BaseChart {
         .attr('stroke-width', strokeWidth);
       vis.g.append('path').attr('class', `line ${ser.name}`).attr('fill', 'none').attr('stroke', 'grey').attr('stroke-width', strokeWidth);
       vis.g.append('path').attr('class', `line-n ${ser.name}`).attr('fill', 'none').attr('stroke', 'grey').attr('stroke-width', strokeWidth);
-      vis.lg = vis.defs
-        .append('linearGradient')
-        .attr('id', `grad${ser.name}`)
-        .attr('x1', '0%')
-        .attr('x2', '0%')
-        .attr('y1', '0%')
-        .attr('y2', '100%');
-      vis.lg.append('stop').attr('offset', '0%').style('stop-color',  ser.color).style('stop-opacity', 0.4);
+      vis.lg = vis.defs.append('linearGradient').attr('id', `grad${ser.name}`).attr('x1', '0%').attr('x2', '0%').attr('y1', '0%').attr('y2', '100%');
+      vis.lg.append('stop').attr('offset', '0%').style('stop-color', ser.color).style('stop-opacity', 0.4);
       vis.lg.append('stop').attr('offset', '100%').style('stop-color', 'white').style('stop-opacity', 0.4);
 
       vis.lgN = vis.defs

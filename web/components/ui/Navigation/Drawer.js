@@ -48,15 +48,15 @@ class TemporaryDrawer extends React.Component {
   }
 
   render() {
-    const { classes, options = [], appVersion, logoIcon = {} } = this.props;
+    const { classes, className = '', options = [], appVersion, logoIcon = {} } = this.props;
 
     return (
       <div className="sq-global-navigation-drawer">
-        <Drawer className={classes.root} anchor="right" open={this.props.open} onClose={this.handleOnClose}>
+        <Drawer className={`${classes.root} ${className}`} anchor="right" open={this.props.open} onClose={this.handleOnClose}>
           <div className={classes.fullList} role="presentation" onKeyDown={this.handleOnClose}>
             <List className={classes.fullList}>
               <ListItem
-                className={classes.logoItem}
+                className={`${classes.logoItem} sq-global-navigation-drawer__logo-item `}
                 onClick={() =>
                   this.props.logoUrl &&
                   this.handleOnMenuItemClick({
