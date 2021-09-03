@@ -44,10 +44,10 @@ export const redirectTo = (screen, params = {}, { target = '', ...options } = {}
       }
     });
     if (url) {
-      animateScrollTo(0);
       if (target === '_blank') {
         window.open(url + query);
       } else {
+        animateScrollTo(0);
         setTimeout(() => {
           history.push(url + query);
         });

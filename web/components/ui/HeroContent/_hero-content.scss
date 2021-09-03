@@ -247,6 +247,9 @@
       width: 100%;
     }
   }
+  &--top-padder {
+      padding: 120px 0 40px 0;
+  }
   &--landscape {
     .sq-hero-content__image {
       max-height: 300px;

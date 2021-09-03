@@ -195,7 +195,6 @@ class Validator {
     if (this.validators[field] && this.validators[field].validators) {
       Array.isArray(this.validators[field].validators) &&
         this.validators[field].validators.forEach(({ type, message, ...rest }) => {
-          console.log('@@exec', type, _validators[type]);
           if (_validators[type] && (!this.validators[field].optional || this.values[field])) {
             if (isValid && !_validators[type](this.values[field], rest, this.values)) {
               isValid = false;

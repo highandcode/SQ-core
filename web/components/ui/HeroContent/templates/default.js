@@ -28,7 +28,7 @@ const TemplateDefault = ({
   const BTag = bodyTag;
   const componentMap = getMap();
 
-  let { cmpType: imageCmpType, imageUrl: imageNewUrl, ...restImage } = image;
+  let { cmpType: imageCmpType, imageUrl: imageNewUrl, images, ...restImage } = image;
   let RenderImage;
   if (imageCmpType && compMap[imageCmpType]) {
     RenderImage = compMap[imageCmpType];
@@ -75,10 +75,10 @@ const TemplateDefault = ({
               </div>
             )}
           </div>
-          {imageUrl && (
+          {(imageUrl || images) && (
             <div className={`sq-hero-content__content-image ${common.toStringBlank(classes.image)}`}>
               <div className="sq-hero-content__image">
-                {RenderImage && <RenderImage src={imageUrl} {...restImage} />}
+                {RenderImage && <RenderImage src={imageUrl} images={images} {...restImage} />}
                 {!RenderImage && <img src={resolveImageUrl(imageUrl)} />}
               </div>
             </div>
