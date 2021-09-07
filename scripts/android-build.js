@@ -1,7 +1,7 @@
 let FS = require('fs');
 const BaseBuild = require('./base-build');
 
-class IosBuildProcess extends BaseBuild {
+class AndroidBuildProcess extends BaseBuild {
   constructor({ appConfig, ...config } = {}) {
     super(appConfig, {
       ...config,
@@ -32,4 +32,4 @@ class IosBuildProcess extends BaseBuild {
   }
 }
 
-module.exports = IosBuildProcess;
+module.exports = AndroidBuildProcess;
