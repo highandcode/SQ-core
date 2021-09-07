@@ -1,10 +1,10 @@
 const datetime = require('./datetime');
 const common = require('./common');
+const { getSign } = require('./currency');
 
 let _defaultsValues = {
   currency: {
     decimals: 2,
-    sign: '$',
     name: 'USD'
   }
 };
@@ -97,7 +97,8 @@ const formatters = {
     return datetime.new(value).toString(format);
   },
   currency: (value, { input = false, ...options } = {}) => {
-    const { sign = _defaultsValues.currency.sign, currency = _defaultsValues.currency.name, decimals = _defaultsValues.currency.decimals } = options;
+    const { currency = _defaultsValues.currency.name, decimals = _defaultsValues.currency.decimals } = options;
+    const sign = getSign(currency);
     const replacer = currencyThousands[currency] || currencyThousands.GENERAL;
     if (!common.isNullOrUndefinedBlank(value) && !isNaN(value)) {
       let hasDotAtEnd = value.toString().substr(value.length - 1, 1) === '.' ? true : false;
@@ -119,7 +120,8 @@ const formatters = {
     return input ? sign + value : '';
   },
   currencyAbr: (value, options = {}) => {
-    const { setName = 'default', sign = _defaultsValues.currency.sign, currency = _defaultsValues.currency.name, ignore = [] } = options;
+    const { setName = 'default', currency = _defaultsValues.currency.name, ignore = [] } = options;
+    const sign = getSign(currency);
     let { decimals = _defaultsValues.currency.decimals } = options;
     const replacer = currencyThousands[currency] || currencyThousands.GENERAL;
     const abConfig = currencyAbrConfig[currency] || currencyAbrConfig.GENERAL;
