@@ -23,8 +23,16 @@ function getPathName() {
   }
 }
 
+function isiOS() {
+  return !!window.cordova && window.cordova.platformId === 'ios';
+}
+
+function isAndroid() {
+  return !!window.cordova && window.cordova.platformId === 'android';
+}
+
 function isApp() {
   return !!window.cordova;
 }
 
-export { cordova, resolveFile, resolveImageUrl, getPathName, isApp };
+export { cordova, resolveFile, resolveImageUrl, getPathName, isAndroid, isiOS, isApp };
