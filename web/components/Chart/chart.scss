@@ -5,6 +5,9 @@
     border:solid 1px $sq-color-gray-lighter;
     border-radius: 4px;
     padding: 10px;
+    .tooltip-header {
+      @include t4-style();
+    }
     .tooltip-dot {
       display: inline-block;
       height: 10px;

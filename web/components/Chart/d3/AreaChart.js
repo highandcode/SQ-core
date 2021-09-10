@@ -110,8 +110,8 @@ class AreaChart extends BaseChart {
       tooltip.html(tooltipFormatter(d, series));
       console.log(vis.tooltipEl)
       tooltip.style('left', `${vis.x(d[xValue])}px`);
-      tooltip.style('top', `0px`);
       tooltip.style('opacity', `1`);
+      tooltip.style('top', `0px`);
       series.forEach((ser) => {
         vis.focus[ser.name]
           .select('circle')
