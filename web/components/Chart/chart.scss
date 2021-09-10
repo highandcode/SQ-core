@@ -1,4 +1,24 @@
 .sq-chart {
+  &-d-tooltip {
+    position: absolute;
+    background: white;
+    border:solid 1px $sq-color-gray-lighter;
+    border-radius: 4px;
+    padding: 10px;
+    .tooltip-dot {
+      display: inline-block;
+      height: 10px;
+      width: 10px;
+      background: currentColor;
+      border-radius: 50%;
+    }
+    .tooltip-data {
+      display: flex;
+    }
+    .tooltip-label {
+      margin-right: 5px;
+    }
+  }
   display: block;
   position: relative;
 
@@ -8,11 +28,15 @@
     stroke-width: 2px;
   }
 
-  
+  .x-tooltip {
+    width: 100px;
+    height: 80px;
+    text-anchor: middle;
+  }
   .hover-line {
     stroke: #777;
     stroke-width: 1px;
-    stroke-dasharray: 3,3;
+    stroke-dasharray: 3, 3;
   }
   &-overlay {
     fill: transparent;

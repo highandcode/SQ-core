@@ -30,6 +30,8 @@ class AreaChart extends BaseChart {
   hideAllFocus() {
     const { series } = this.config;
     this.focus.main.style('display', 'none');
+    const tooltip = d3.select(this.element).select('.sq-chart-d-tooltip');
+    tooltip.style('opacity', '0');
     series.forEach((ser) => {});
   }
 
@@ -81,10 +83,12 @@ class AreaChart extends BaseChart {
     vis.focus = {};
     vis.focus.main = vis.g.append('g').attr('class', `focus`).style('display', 'none');
     vis.focus.main.append('line').attr('class', 'x-hover-line hover-line').attr('y1', 0).attr('y2', innerHeight);
+    // vis.focus.main.append('rect').attr('class', 'x-tooltip').attr('y1', 0).attr('y2', innerHeight)
+    // vis.focus.main.select('rect').attr('fill', '#fff').append('text').texchart('Test');
     series.forEach((ser) => {
       vis.focus[ser.name] = vis.focus.main.append('g').attr('class', `circle-data ${ser.name}`);
       vis.focus[ser.name].append('circle').attr('r', 5.5).attr('class', `sq-line-chart-circle`).style('stroke', ser.color);
-      vis.focus[ser.name].append('text').attr('x', 15).attr('dy', '.31em').attr('class', `sq-line-chart-t-text`);
+      // vis.focus[ser.name].append('text').attr('x', 15).attr('dy', '.31em').attr('class', `sq-line-chart-t-text`);
     });
 
     vis.overlay
@@ -102,14 +106,19 @@ class AreaChart extends BaseChart {
       const d = x0 - d0[xValue] > d1[xValue] - x0 ? d1 : d0;
       vis.focus.main.attr('transform', `translate(${vis.x(d[xValue])},0 )`);
       vis.focus.main.select('.x-hover-line').attr('y2', innerHeight);
-
+      const tooltip = d3.select(vis.element).select('.sq-chart-d-tooltip');
+      tooltip.html(tooltipFormatter(d, series));
+      console.log(vis.tooltipEl)
+      tooltip.style('left', `${vis.x(d[xValue])}px`);
+      tooltip.style('top', `0px`);
+      tooltip.style('opacity', `1`);
       series.forEach((ser) => {
         vis.focus[ser.name]
           .select('circle')
           .attr('cy', vis.y(d[ser.yValue]))
           .style('stroke', d[ser.yValue] < 0 ? ser.negativeColor : ser.color);
-        vis.focus[ser.name].select('text').attr('y', vis.y(d[ser.yValue]));
-        vis.focus[ser.name].select('text').text(tooltipFormatter(d[ser.yValue]));
+        // vis.focus[ser.name].select('text').attr('y', vis.y(d[ser.yValue]));
+        // vis.focus[ser.name].select('text').text(tooltipFormatter(d[ser.yValue]));
       });
     }
 
@@ -210,7 +219,7 @@ class AreaChart extends BaseChart {
     const g = svg.append('g');
 
     this.svg = svg;
-
+    this.tooltipEl = d3.select(element).append('div').attr('class', 'sq-chart-d-tooltip');
     this.legend = g.append('g').attr('class', 'sq-chart-legend');
     vis.g = g;
     vis.parseTime = d3.timeParse('%d/%m/%Y');
