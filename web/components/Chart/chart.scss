@@ -18,6 +18,10 @@
     .tooltip-label {
       margin-right: 5px;
     }
+    .tooltip-value {
+      text-align: right;
+      flex-grow: 1;
+    }
   }
   display: block;
   position: relative;
