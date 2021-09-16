@@ -77,9 +77,9 @@ class Form extends React.Component {
   }
 
   render() {
-    const { fields = [], value = {}, actions = [], errors = {}, actionConfig = {} } = this.props;
+    const { className = '', fields = [], value = {}, actions = [], errors = {}, actionConfig = {} } = this.props;
     return (
-      <div className="sq-form-cmp" onKeyPress={this.form_onKeyPress}>
+      <div className={`sq-form-cmp ${className}`} onKeyPress={this.form_onKeyPress}>
         <div className="sq-form-cmp_fields">
           {fields.map((field, index) => {
             return this.renderComp(field, value[field.name], errors[field.name], value, index);
@@ -161,7 +161,7 @@ class Form extends React.Component {
 
   renderAction(action, index, config) {
     const { onAnalytics } = this.props;
-    const { cmpType, actionType, actionClassName, ...options } = action;
+    const { cmpType, actionType, className: actionClassName = '', ...options } = action;
     const supportedComponents = getMap();
 
     const Comp = supportedComponents[cmpType] || supportedComponents.Button;
