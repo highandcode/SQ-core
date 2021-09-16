@@ -88,6 +88,8 @@ import {
   Close,
   Search,
   ArrowDropUp,
+  ArrowRight,
+  ArrowLeft,
   ArrowDropDown,
   Cancel
 } from '@material-ui/icons';
@@ -147,7 +149,9 @@ const types = {
     linkedin: LinkedIn,
     bike: TwoWheeler,
     arrowdropup: ArrowDropUp,
-    arrowdropdown: ArrowDropDown
+    arrowdropdown: ArrowDropDown,
+    arrowleft: ArrowLeft,
+    arrowright: ArrowRight
   },
   basic: {
     code: Code,

@@ -47,7 +47,7 @@ class MenuAppBar extends React.Component {
   }
 
   render() {
-    const { classes, showLogo = true, rightMenu = [] } = this.props;
+    const { classes, showLogo = true, enableDrawer, rightMenu = [] } = this.props;
     return (
       <div className={`sq-navigation__app-bar ${classes.root}`}>
         <AppBar position="static" color={this.props.color} classes={{ root: classes.colorGray }}>
@@ -77,9 +77,9 @@ class MenuAppBar extends React.Component {
                   );
                 })}
             </div>
-            <IconButton onClick={this.handleMenuClick} edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
+            {enableDrawer && <IconButton onClick={this.handleMenuClick} edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
               <Icon name="menu" variant="normal" />
-            </IconButton>
+            </IconButton>}
           </Toolbar>
         </AppBar>
       </div>

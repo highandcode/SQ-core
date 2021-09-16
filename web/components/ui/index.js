@@ -27,6 +27,7 @@ import TextFields from './TextFields';
 import ProgressIndicator from './ProgressIndicator';
 import ImageInfoSlider from './ImageInfoSlider';
 import Separator from './Separator';
+import DataList from '../DataList';
 
 let comps = {
   Header,
@@ -49,6 +50,7 @@ let comps = {
   LinkButton,
   Input,
   Select,
+  DataList,
   SelectPopup,
   LinkBlock,
   DatePicker,

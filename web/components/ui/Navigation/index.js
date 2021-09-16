@@ -41,26 +41,29 @@ class SQNavigation extends React.Component {
   }
 
   render() {
-    const { className = '', classes = {} } = this.props;
+    const { className = '', classes = {}, enableDrawer = true } = this.props;
     return (
       <nav className={`sq-navigation ${className}`}>
         <AppBar
           className={common.toStringBlank(classes.appBar)}
           color={this.props.appBarColor}
           onMenuClick={this.onMenuClick}
+          enableDrawer={enableDrawer}
           rightMenu={this.props.isLoggedIn ? this.props.appRightMenu : this.props.rightMenu}
           onRightMenuClick={this.onMenuItemClick}
         />
-        <Drawer
-          logoUrl=""
-          className={common.toStringBlank(classes.drawer)}
-          logoIcon={this.props.logoIcon}
-          open={this.state.open}
-          onClose={this.handleClose}
-          onMenuItemClick={this.onMenuItemClick}
-          appVersion={this.props.appVersion}
-          options={this.props.options}
-        />
+        {enableDrawer && (
+          <Drawer
+            logoUrl=""
+            className={common.toStringBlank(classes.drawer)}
+            logoIcon={this.props.logoIcon}
+            open={this.state.open}
+            onClose={this.handleClose}
+            onMenuItemClick={this.onMenuItemClick}
+            appVersion={this.props.appVersion}
+            options={this.props.options}
+          />
+        )}
       </nav>
     );
   }
