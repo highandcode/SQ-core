@@ -1,4 +1,4 @@
-class DocumentCollection {
+class MongoDocumentCollection {
   constructor({ model }) {
     this.model = model;
   }
@@ -102,4 +102,4 @@ class DocumentCollection {
   }
 }
 
-module.exports = DocumentCollection;
+module.exports = MongoDocumentCollection;
