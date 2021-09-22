@@ -1,11 +1,11 @@
-var moment = require('moment');
+var moment = require('moment-timezone');
 
 class MomentDateTime {
-  constructor(inputDate) {
+  constructor(inputDate, format) {
     if (inputDate && inputDate._date) {
       this._date = moment(inputDate._date._d);
     } else {
-      this._date = (inputDate && moment(inputDate)) || moment();
+      this._date = (inputDate && moment(inputDate, format)) || moment();
     }
     this.namedFormats = {
       shortMonth: 'MMM',
@@ -113,5 +113,10 @@ module.exports = {
   },
   now: function () {
     return new MomentDateTime();
+  },
+  setDefaultTimeZone: function (tz) {
+    moment.tz.setDefault(tz);
   }
 };
+console.log(new MomentDateTime().toString());
+console.log(moment.tz('').zoneAbbr()); 

@@ -74,6 +74,7 @@
     "mobx": "^5.15.4",
     "mobx-react": "^5.4.3",
     "moment": "^2.27.0",
+    "moment-timezone": "^0.5.33",
     "mongoose": "^5.9.25",
     "morgan": "^1.10.0",
     "node-sass": "^4.14.1",

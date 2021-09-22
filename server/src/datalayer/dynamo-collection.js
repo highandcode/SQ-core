@@ -1,4 +1,3 @@
-
 class DynamoDocumentCollection {
   constructor({ tableName, database, db }) {
     this.database = database;
