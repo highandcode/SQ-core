@@ -3,6 +3,7 @@ class DynamoDocumentCollection {
     this.database = database;
     this.db = db;
     this.tableName = tableName;
+    this.filterPrefix = 'fl_';
   }
 
   insert(data) {
@@ -19,6 +20,16 @@ class DynamoDocumentCollection {
     const params = {
       TableName: this.tableName
     };
+    if (criteria && Object.keys(criteria).length > 0) {
+      params.FilterExpression = '';
+      params.ExpressionAttributeNames = {};
+      params.ExpressionAttributeValues = {};
+      Object.keys(criteria).forEach((filterKey, idx) => {
+        params.FilterExpression += `${params.FilterExpression ? ' and ' : ''}#${this.filterPrefix}${idx} = :${this.filterPrefix}${idx}`;
+        params.ExpressionAttributeNames[`#${this.filterPrefix}${idx}`] = filterKey;
+        params.ExpressionAttributeValues[`:${this.filterPrefix}${idx}`] = criteria[filterKey];
+      });
+    }
     return this.db.scan(params).promise().then(this.mapData);
   }
 

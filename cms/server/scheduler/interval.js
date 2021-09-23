@@ -24,7 +24,9 @@ class IntervalScheduler extends BaseScheduler {
   }
 
   init() {
-    this.execute();
+    if (this.options.runAtStart === true) {
+      this.execute();
+    }
     this.intervalId = setInterval(() => {
       this.execute();
     }, this.getTimeunit(this.options.frequency));
