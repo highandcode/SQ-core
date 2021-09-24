@@ -12,15 +12,19 @@ const DateNavigator = ({
   onChange,
   errorMessage,
   type = 'month',
+  format = 'MM-DD-YYYY',
   span = 1,
   onAnalytics,
   analytics = {}
 }) => {
   const { next, prev } = analytics;
+  const formatDate = (date) => {
+    return date.toString(format);
+  };
   const handleNext = () => {
-    const newvalue = new DateTime(value).startOf('month').addMonths(span).toISO();
-    const from = new DateTime(value).startOf('month').addMonths(span).toISO();
-    const to = new DateTime(from).addMonths(span).addDays(-1).endOf('month').toISO();
+    const newvalue = formatDate(new DateTime(value).startOf('month').addMonths(span));
+    const from = formatDate(new DateTime(value).startOf('month').addMonths(span));
+    const to = formatDate(new DateTime(from).addMonths(span).addDays(-1).endOf('month'));
     onChange &&
       onChange({
         value: newvalue,
@@ -29,19 +33,14 @@ const DateNavigator = ({
       });
   };
   const handlPrev = () => {
-    const newvalue = new DateTime(value)
-      .startOf('month')
-      .addMonths(span * -1)
-      .toISO();
-    const from = new DateTime(value)
-      .startOf('month')
-      .addMonths(span * -1)
-      .toISO();
-    const to = new DateTime(from)
-      .addMonths(span * -1)
-      .endOf('month')
-      .addDays(-1)
-      .toISO();
+    const newvalue = formatDate(new DateTime(value).startOf('month').addMonths(span * -1));
+    const from = formatDate(new DateTime(value).startOf('month').addMonths(span * -1));
+    const to = formatDate(
+      new DateTime(from)
+        .addMonths(span * -1)
+        .endOf('month')
+        .addDays(-1)
+    );
     onChange &&
       onChange({
         value: newvalue,
@@ -68,7 +67,14 @@ const DateNavigator = ({
         </div>
         <div className="sq-date-navigator__content">{labelDisplay}</div>
         <div className="sq-date-navigator__nav-right">
-          <LinkButton analytics={next} onAnalytics={onAnalytics} disabled={maxDateDisabled} iconName="arrow-right" size="large" onClick={handleNext} />
+          <LinkButton
+            analytics={next}
+            onAnalytics={onAnalytics}
+            disabled={maxDateDisabled}
+            iconName="arrow-right"
+            size="large"
+            onClick={handleNext}
+          />
         </div>
       </div>
       {errorMessage && <div className="sq-error sq-date-navigator--error">{errorMessage}</div>}
