@@ -8,6 +8,7 @@ class MomentDateTime {
       this._date = (inputDate && moment(inputDate, format)) || moment();
     }
     this.namedFormats = {
+      default: 'MM-DD-YYYY',
       shortMonth: 'MMM',
       month: 'MMM YYYY',
       short: 'Do MMM, YYYY',
@@ -98,6 +99,10 @@ class MomentDateTime {
     return this._date.format().substr(this._date.format().indexOf('+'));
   }
 
+  toStringDefault() {
+    return this.toString('default');
+  }
+
   toString(format) {
     return this._date.format(this.namedFormats[format] || format);
   }
@@ -119,4 +124,4 @@ module.exports = {
   }
 };
 console.log(new MomentDateTime().toString());
-console.log(moment.tz('').zoneAbbr()); 
+console.log(moment.tz('').zoneAbbr());
