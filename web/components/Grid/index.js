@@ -52,13 +52,19 @@ class Grid extends React.Component {
   }
 
   renderData(columns, data, rowConfig) {
-    if (!this.hasData()) {
+    if (this.isLoading()) {
+      return this.renderLoadingView();
+    } else if (!this.hasData()) {
       return this.renderNoDataView();
     } else {
       return data.map((rowData, index) => {
         return this.renderRow(columns, rowData, rowConfig, index);
       });
     }
+  }
+
+  isLoading() {
+    return this.props.data === undefined || this.props.isLoading === true;
   }
 
   hasData() {
@@ -68,6 +74,10 @@ class Grid extends React.Component {
     return this.props.showAdd;
   }
 
+  renderLoadingView() {
+    const { loader } = this.props;
+    return <div className="sq-grid-cmp__body sq-grid-cmp__loading-data">{loader}</div>;
+  }
   renderNoDataView() {
     const { noDataMessage = 'No Data Found' } = this.props;
     return <div className="sq-grid-cmp__body sq-grid-cmp__no-data">{noDataMessage}</div>;
