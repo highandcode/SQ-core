@@ -108,7 +108,6 @@ class AreaChart extends BaseChart {
       vis.focus.main.select('.x-hover-line').attr('y2', innerHeight);
       const tooltip = d3.select(vis.element).select('.sq-chart-d-tooltip');
       tooltip.html(tooltipFormatter(d, series));
-      console.log(vis.tooltipEl)
       tooltip.style('left', `${vis.x(d[xValue])}px`);
       tooltip.style('opacity', `1`);
       tooltip.style('top', `0px`);

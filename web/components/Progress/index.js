@@ -15,19 +15,18 @@ const _types = {
   ripple: Ripple
 };
 
-const Progress = ({ type = 'default', style = 'full-screen', text = '', color = 'primary', overlay = true, value, className = '' }) => {
+const Progress = ({ type = 'default', style = 'full-screen', text = '', color = 'primary', overlay = true, className = '', overlayStyle = 'default' }) => {
   const CompToRender = _types[type];
   return (
     <div className={`tp-progress ${className} tp-progress--${style}`}>
       <CompToRender className="tp-progress__spinner" color={color} />
-      {overlay && <div className="tp-progress__overlay"></div>}
+      {overlay && <div className={`tp-progress__overlay ${overlayStyle}`}></div>}
       {text && <div className="tp-progress__text">{text}</div>}
     </div>
   );
 };
 
 Progress.propTypes = {
-  value: PropTypes.number,
   type: PropTypes.string,
   className: PropTypes.string,
   text: PropTypes.string

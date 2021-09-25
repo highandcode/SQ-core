@@ -167,7 +167,7 @@ const formatters = {
     if (decimals !== undefined) {
       val = Math.abs(value * 1).toFixed(decimals);
     }
-    return Math.abs(value * 1).toString() + sign;
+    return val + sign;
   },
   keyValue: (value, { options = {}, defaultValue = '' } = {}) => {
     var finalOptions;

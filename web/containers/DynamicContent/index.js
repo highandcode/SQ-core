@@ -162,9 +162,9 @@ class DynamicContent extends Component {
               userData={userData}
               pageState={this.state.page}
             />
-            <Progress />
           </div>
         </ContentContainer>
+        {this.state.isLoading && <Progress style={'fixed'} overlayStyle='full' />}
       </div>
     );
   }

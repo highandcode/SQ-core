@@ -176,13 +176,15 @@ class ContentServer {
 
   serveJson(req, res) {
     const data = this.getPageData(req.params['0']);
-    res.status(200).send(
-      new Response({
-        pageData: data.pageData,
-        siteMap: data.siteConfig,
-        metaData: data.merged
-      }).success()
-    );
+    // setTimeout(() => {
+      res.status(200).send(
+        new Response({
+          pageData: data.pageData,
+          siteMap: data.siteConfig,
+          metaData: data.merged
+        }).success()
+      );
+    // }, 5000);
   }
 
   getPageContent(path) {
@@ -313,7 +315,9 @@ class ContentServer {
     console.log('request->' + req.params['0']);
     this.getPageContent(req.params['0'])
       .then((response) => {
+        // setTimeout(() => {
         res.status(response.status).send(response.data);
+        // }, 3000);
       })
       .catch((response) => {
         res.status(response.status).send(response.data);

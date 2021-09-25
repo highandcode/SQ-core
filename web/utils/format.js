@@ -27,6 +27,9 @@ const formatters = {
   dateFull: (value, options = {}) => {
     return new DateTime(value).toString("MMM, DD YYYY")
   },
+  monthYear: (value, options = {}) => {
+    return new DateTime(value).toString("MMM YYYY")
+  },
   dateFullTime: (value, options = {}) => {
     return new DateTime(value).toString("MMM, DD YYYY hh:mm A")
   }

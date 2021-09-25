@@ -31,8 +31,14 @@
     height: 100vh;
     left: 0;
     top: 0;
-    background: #fff;
-    opacity: .5;
+    &.default {
+      background: #fff;
+      opacity: 0.5;
+    }
+    &.full {
+      background: #fff;
+      opacity: 1;
+    }
     z-index: $z-index-level-2ndtopest;
   }
 
@@ -57,7 +63,7 @@
     margin: auto;
     z-index: $z-index-level-topest;
     text-align: center;
-    height:40px;
+    height: 40px;
     padding-top: 80px;
     @include t3-style();
     @media screen and (min-width: $screen-md) {
@@ -88,7 +94,7 @@
 }
 
 .tp-folding-cube .tp-cube:before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -179,7 +185,7 @@
   animation: lds-spinner 1.2s linear infinite;
 }
 .lds-spinner div:after {
-  content: " ";
+  content: ' ';
   display: block;
   position: absolute;
   top: 3px;
@@ -245,7 +251,6 @@
     opacity: 0;
   }
 }
-
 
 .lds-ripple {
   display: inline-block;
