@@ -25,7 +25,7 @@ function Ticker({ value, className = '', formatter = {}, theme = '', style = 'de
     <div className={`sq-small-ticker ${className} ${classColor}`}>
       <div className="sq-small-ticker__container">
         {iconName && <Icon variant="normal" className="sq-small-ticker__icon" name={iconName} />}
-        <span class="sq-small-ticker__text">{finalValue}</span>
+        <span className="sq-small-ticker__text">{finalValue}</span>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
   &-d-tooltip {
     position: absolute;
     background: white;
-    border:solid 1px $sq-color-gray-lighter;
+    border: solid 1px $sq-color-gray-lighter;
     border-radius: 4px;
     padding: 10px;
     .tooltip-header {
@@ -51,6 +51,16 @@
     fill: transparent;
   }
   &-tooltip {
+    .tooltip-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .tooltip-header {
+      @include t4-style();
+    }
     &:before {
       background-color: #fff;
       border-left-color: transparent;
