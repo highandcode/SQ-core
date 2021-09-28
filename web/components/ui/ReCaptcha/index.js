@@ -12,7 +12,6 @@ class ReCaptcha extends React.Component {
   }
 
   handleOnChange(value) {
-    console.log(value);
     this.setState({
       value: value
     });
