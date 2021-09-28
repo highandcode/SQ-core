@@ -50,8 +50,6 @@ describe("utils::logger", function () {
       logger.log('API:Test22');
       expect(console.log).to.have.been.called.exactly(4);
     });
-    
   });
-
 
 });

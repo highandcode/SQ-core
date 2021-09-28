@@ -123,5 +123,5 @@ module.exports = {
     moment.tz.setDefault(tz);
   }
 };
-console.log(new MomentDateTime().toString());
-console.log(moment.tz('').zoneAbbr());
+// console.log(new MomentDateTime().toString());
+// console.log(moment.tz('').zoneAbbr());

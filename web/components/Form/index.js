@@ -173,7 +173,6 @@ class Form extends React.Component {
           {...options}
           onClick={(evt) => {
             if (this.state.lastAction === action) {
-              console.log('set action null');
               this.setState({
                 lastAction: null
               });

@@ -30,10 +30,8 @@ class Content extends Component {
               validator = new Validator({
                 ...block.match
               });
-              console.log('@@@', block);
               validator.setValues(userData);
               isValid = validator.validateAll();
-              console.log('@@@', block, isValid, validator)
             }
             const Comp = compMap[block.component];
             return Comp && isValid ? <Comp key={pathname + idx} {...rest} {...block} /> : undefined;
