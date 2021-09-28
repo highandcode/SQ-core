@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { TextareaAutosize } from '@material-ui/core';
-import { formatters } from '../../../utils/format';
 
 import './textarea-field.scss';
 

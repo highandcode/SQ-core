@@ -11,6 +11,7 @@ import Select from './SelectField';
 import Label from './Label';
 import Switch from './Switch';
 import TagLabel from './TagLabel';
+import ReCaptcha from './ReCaptcha';
 import Textarea from './Textarea';
 import DatePicker from './DatePicker';
 import DateSelector from './DateSelector';
@@ -60,6 +61,7 @@ let comps = {
   RichText,
   ProgressIndicator,
   Separator,
+  ReCaptcha,
   ImageInfoSlider
 };
 
