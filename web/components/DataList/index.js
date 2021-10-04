@@ -14,15 +14,15 @@ const DataList = ({ className = '', items = [] }) => {
         {items.map((item, idx) => {
           const { icon = {} } = item;
           return (
-            <>
-              <ListItem key={`li-${idx}`}>
+            <React.Fragment key={`li-${idx}`}>
+              <ListItem>
                 <ListItemIcon>
                   <Icon name={item.iconName} {...icon} />
                 </ListItemIcon>
                 <ListItemText primary={item.title} secondary={item.subTitle ? item.subTitle : null} />
               </ListItem>
               {item.items && item.items.length > 0 && <DataList className={`sq-data-list__child`} items={item.items} />}
-            </>
+            </React.Fragment>
           );
         })}
       </List>

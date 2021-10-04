@@ -54,7 +54,7 @@ const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics,
         const ActionToRender = compMap[cmpType] || compMap.LinkButton;
         const result = beforeRender && beforeRender(action, column, row);
         if (result === false) {
-          return <></>;
+          return <React.Fragment key={idx}></React.Fragment>;
         }
         const overridingProps = {
           ...rest,
