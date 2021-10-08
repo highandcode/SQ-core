@@ -110,8 +110,8 @@ class MomentDateTime {
 
 module.exports = {
   DateTime: MomentDateTime,
-  new: function (date) {
-    return new MomentDateTime(date);
+  new: function (date, format) {
+    return new MomentDateTime(date, format);
   },
   today: function () {
     return new MomentDateTime().today();
