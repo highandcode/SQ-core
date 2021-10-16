@@ -1,6 +1,11 @@
 const utils = require('../utils');
+const { importFile } = require('./import-html');
 
-const dataItems = {};
+let dataItems = {
+  HEADER: importFile('./parts/header.html'),
+  FOOTER: importFile('./parts/footer.html'),
+  STYLES: importFile('./parts/styles.html')
+};
 
 function getDataFromKey(data, key) {
   if (!utils.common.isNullOrUndefined(data[key])) {
@@ -12,6 +17,10 @@ function getDataFromKey(data, key) {
     value = !utils.common.isNullOrUndefined(value) ? value[nestedKey] : '';
   });
   return value;
+}
+
+function setDataItems(newData) {
+  dataItems = { ...dataItems, ...newData };
 }
 
 function processBody(html, data) {
@@ -32,5 +41,6 @@ function processBody(html, data) {
 }
 
 module.exports = {
-  processBody
+  processBody,
+  setDataItems
 };

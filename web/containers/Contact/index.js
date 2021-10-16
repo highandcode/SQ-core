@@ -59,13 +59,11 @@ class Contact extends Component {
         } else if (response.status === CONSTANTS.STATUS.ERROR) {
           if (response.error.errors) {
             this.setState({
-              errors: response.error.errors,
-              resendEmailVerify: response.error.key === 'EMAIL_NOT_VERIFIED'
+              errors: response.error.errors
             });
           } else {
             this.setState({
-              globalError: response.error.message,
-              resendEmailVerify: response.error.key === 'EMAIL_NOT_VERIFIED'
+              globalError: response.error.message
             });
           }
           return;
