@@ -251,13 +251,11 @@ class ContentServer {
     const config = this.config;
     let status = 200;
     const srcFile = path;
-    console.log(srcFile);
     const appPath = this.getAppNameFromUrl(srcFile);
-    console.log(appPath);
     const currentSiteConfig = this.allSiteMaps[appPath] || config.siteConfig;
 
     const fullPath = `${this.contentFolder}/${srcFile}`;
-    console.log('--fullpath' + fullPath);
+    console.log('--serving=' + fullPath);
     let siblingData = {};
     let filePath = `${config.contentPath}/${srcFile}.yaml`;
     let isFile = true;

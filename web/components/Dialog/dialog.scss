@@ -40,3 +40,7 @@
 .MuiDialog-paperWidthSm {
   max-width: 850px!important;
 }
+
+.MuiDialog-root {
+  z-index: $z-index-level-topest!important;
+}
