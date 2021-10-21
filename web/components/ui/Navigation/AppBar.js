@@ -47,12 +47,12 @@ class MenuAppBar extends React.Component {
   }
 
   render() {
-    const { classes, showLogo = true, enableDrawer, rightMenu = [] } = this.props;
+    const { classes, showLogo = true, enableDrawer, rightMenu = [], logo = {} } = this.props;
     return (
       <div className={`sq-navigation__app-bar ${classes.root}`}>
         <AppBar position="static" color={this.props.color} classes={{ root: classes.colorGray }}>
           <Toolbar>
-            {showLogo && <Icon name="logo-full" variant="normal" size="wide" />}
+            {showLogo && <Icon name="logo-full" variant="normal" size="wide" {...logo} />}
             <div className="sq-d-flex__grow-yes"></div>
             <div className="sq-navigation__right-menu">
               {rightMenu.length > 0 &&
