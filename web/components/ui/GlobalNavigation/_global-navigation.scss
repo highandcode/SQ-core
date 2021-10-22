@@ -31,7 +31,6 @@ $sq-global-navigation-sub-navbg: $white;
     z-index: $z-index-level-2ndtopest;
   }
   &--open {
-    background-color: $sq-global-navigation-background-color;
   }
 
   &__list-icon {
@@ -90,6 +89,9 @@ $sq-global-navigation-sub-navbg: $white;
       height: auto;
       max-height: 800px;
     }
+  }
+  &__item-wrapper {
+    display: inline-block;
   }
   &__item {
     &-text {
