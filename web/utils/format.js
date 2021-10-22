@@ -25,13 +25,16 @@ const formatters = {
     return oldFromatters.currency(value, { sign: '', currency, ...rest });
   },
   dateFull: (value, options = {}) => {
-    return new DateTime(value).toString("MMM, DD YYYY")
+    return new DateTime(value).toString('MMM, DD YYYY');
+  },
+  shortDate: (value, { format = 'MM/DD/YY (ddd)' } = {}) => {
+    return new DateTime(value).toString(format);
   },
   monthYear: (value, options = {}) => {
-    return new DateTime(value).toString("MMM YYYY")
+    return new DateTime(value).toString('MMM YYYY');
   },
   dateFullTime: (value, options = {}) => {
-    return new DateTime(value).toString("MMM, DD YYYY hh:mm A")
+    return new DateTime(value).toString('MMM, DD YYYY hh:mm A');
   }
 };
 
