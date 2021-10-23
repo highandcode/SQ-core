@@ -6,6 +6,7 @@ const Repeater = ({
   className = '',
   data = [],
   dataGroup = {},
+  options = {},
   onAction,
   template = () => {
     return <div>{`Template not defined`}</div>;
@@ -45,6 +46,7 @@ const Repeater = ({
                     items
                   }}
                   onAction={onAction}
+                  options={options}
                   active={isActive}
                 />
               </div>
@@ -53,7 +55,7 @@ const Repeater = ({
                   items.map((dataItem, index) => {
                     return (
                       <div className="sq-repeater__item" key={index}>
-                        <Template data={dataItem} />
+                        <Template data={dataItem} options={options} />
                       </div>
                     );
                   })}
@@ -65,7 +67,7 @@ const Repeater = ({
         data.map((dataItem, index) => {
           return (
             <div className="sq-repeater__item" key={index}>
-              <Template data={dataItem} onAction={onAction} />
+              <Template data={dataItem} options={options} onAction={onAction} />
             </div>
           );
         })}
@@ -77,6 +79,7 @@ Repeater.propTypes = {
   template: PropTypes.func,
   groupTemplate: PropTypes.func,
   onAction: PropTypes.func,
+  options: PropTypes.object,
   className: PropTypes.string,
   data: PropTypes.array
 };
