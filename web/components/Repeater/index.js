@@ -45,6 +45,7 @@ const Repeater = ({
                     group: groupKey,
                     items
                   }}
+                  index={index}
                   onAction={onAction}
                   options={options}
                   active={isActive}
@@ -55,7 +56,7 @@ const Repeater = ({
                   items.map((dataItem, index) => {
                     return (
                       <div className="sq-repeater__item" key={index}>
-                        <Template data={dataItem} options={options} />
+                        <Template index={index} data={dataItem} options={options} />
                       </div>
                     );
                   })}
@@ -67,7 +68,7 @@ const Repeater = ({
         data.map((dataItem, index) => {
           return (
             <div className="sq-repeater__item" key={index}>
-              <Template data={dataItem} options={options} onAction={onAction} />
+              <Template data={dataItem} index={index} options={options} onAction={onAction} />
             </div>
           );
         })}
