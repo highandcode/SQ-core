@@ -86,6 +86,5 @@ export default withStyles({
     fontSize: 14
   },
   label: {
-    textTransform: 'capitalize'
   }
 })(CustomButton);
