@@ -35,10 +35,11 @@ const formatters = {
   },
   dateFullTime: (value, options = {}) => {
     return new DateTime(value).toString('MMM, DD YYYY hh:mm A');
-  },
-  dateMonthDay: (value, options = {}) => {
-    return new DateTime(value).toString('DD/MM (ddd)');
   }
 };
 
-export { formatters, setDefaults };
+const addFormatter = (name, formatter) => {
+  formatters[name] = formatter;
+};
+
+export { formatters, setDefaults, addFormatter };
