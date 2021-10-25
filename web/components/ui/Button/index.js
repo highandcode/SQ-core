@@ -86,5 +86,6 @@ export default withStyles({
     fontSize: 14
   },
   label: {
+    textTransform: 'none'
   }
 })(CustomButton);
