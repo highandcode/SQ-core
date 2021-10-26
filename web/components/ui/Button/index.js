@@ -12,6 +12,7 @@ const CustomButton = ({
   actionValue,
   buttonText,
   iconName = '',
+  iconSize,
   iconColor = '',
   iconDirection = 'left',
   size = 'normal',
@@ -24,7 +25,7 @@ const CustomButton = ({
   const { disabled } = rest;
   const { click } = analytics;
   return (
-    <div className={`sq-button ${className} ${size}`}>
+    <div className={`sq-button ${className} ${size} ${!buttonText && iconName ? 'sq-button--icon-only' : ''}`}>
       <Button
         classes={{
           root: classes[size],
@@ -38,9 +39,9 @@ const CustomButton = ({
         color="primary"
         {...rest}
       >
-        {iconName && iconDirection === 'left' && <Icon name={iconName} size={size} variant={iconColor || 'normal'} />}
+        {iconName && iconDirection === 'left' && <Icon name={iconName} size={iconSize || size} variant={iconColor || 'normal'} />}
         {buttonText}
-        {iconName && iconDirection === 'right' && <Icon name={iconName} size={size} variant={iconColor || 'normal'} />}
+        {iconName && iconDirection === 'right' && <Icon name={iconName} size={iconSize || size} variant={iconColor || 'normal'} />}
         {children}
       </Button>
     </div>
@@ -77,6 +78,13 @@ export default withStyles({
     margin: '0 5px 0 0',
     // borderRadius: '10px',
     padding: '4px 8px',
+    fontSize: 12
+  },
+  auto: {
+    margin: '0 5px 0 0',
+    // borderRadius: '10px',
+    // padding: '4px 8px',
+    minWidth: 'auto',
     fontSize: 12
   },
   medium: {

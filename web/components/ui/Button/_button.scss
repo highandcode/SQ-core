@@ -28,4 +28,9 @@
   .sq-icon {
     margin-right: 8px;
   }
+  &--icon-only {
+    .sq-icon {
+      margin-right: 0;
+    }
+  }
 }
