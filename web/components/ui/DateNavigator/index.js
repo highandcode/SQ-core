@@ -12,7 +12,7 @@ const DateNavigator = ({
   onChange,
   errorMessage,
   type = 'month',
-  format = 'MM-DD-YYYY',
+  format = 'YYYY-MM-DD',
   span = 1,
   onAnalytics,
   analytics = {}
