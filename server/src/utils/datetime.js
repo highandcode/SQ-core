@@ -1,14 +1,14 @@
 var moment = require('moment-timezone');
-
 class MomentDateTime {
   constructor(inputDate, format) {
+    this.moment = moment;
     if (inputDate && inputDate._date) {
       this._date = moment(inputDate._date._d);
     } else {
       this._date = (inputDate && moment(inputDate, format)) || moment();
     }
     this.namedFormats = {
-      default: 'MM-DD-YYYY',
+      default: 'YYYY-MM-DD',
       shortMonth: 'MMM',
       month: 'MMM YYYY',
       short: 'Do MMM, YYYY',
