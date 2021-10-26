@@ -43,7 +43,7 @@ const renderSubNav = (item, isHover, callback) => {
   );
 };
 
-const GlobalNavigation = ({ items, className = '', logo = {}, rightItems, mobileItems, onAnalytics, stickyNav = true }) => {
+const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, rightItems, mobileItems, onAnalytics, stickyNav = true }) => {
   const [open, setOpen] = useState(false);
   const [height, setHeight] = useState(0);
   const fillerEl = useRef(false);
@@ -66,7 +66,7 @@ const GlobalNavigation = ({ items, className = '', logo = {}, rightItems, mobile
         className={`sq-global-navigation ${className} ${finalSticky ? 'sq-global-navigation--sticky' : ''} ${open ? 'sq-global-navigation--open' : ''}`}
         ref={element}
       >
-        <div className="sq-global-navigation__wrapper">
+        <div className={`sq-global-navigation__wrapper ${classes.wrapper || ''}`}>
           <a
             className={`sq-global-navigation__brand ${logo.className}`}
             onClick={(e) => {
