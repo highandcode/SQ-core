@@ -60,36 +60,26 @@ CustomButton.propTypes = {
 
 export default withStyles({
   normal: {
-    margin: '0 5px 0 0',
     padding: '15px 50px',
-    // borderRadius: '12px',
     minWidth: 200,
     fontSize: 14
   },
   large: {
-    margin: '0 5px 0 0',
     width: '100%',
     fontSize: 20,
     padding: '15px 50px',
-    // borderRadius: '12px',
     minWidth: 200
   },
   small: {
-    margin: '0 5px 0 0',
-    // borderRadius: '10px',
     padding: '4px 8px',
     fontSize: 12
   },
   auto: {
-    margin: '0 5px 0 0',
-    // borderRadius: '10px',
     // padding: '4px 8px',
     minWidth: 'auto',
     fontSize: 12
   },
   medium: {
-    margin: '0 5px 0 0',
-    // borderRadius: '10px',
     padding: '4px 18px',
     fontSize: 14
   },

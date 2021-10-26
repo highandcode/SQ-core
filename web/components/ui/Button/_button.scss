@@ -28,6 +28,14 @@
   .sq-icon {
     margin-right: 8px;
   }
+  &--inline {
+    width: auto;
+    margin-right: 5px;
+  }
+  margin-right: 5px;
+  &:last-child {
+    margin-right: 0;
+  }
   &--icon-only {
     .sq-icon {
       margin-right: 0;
