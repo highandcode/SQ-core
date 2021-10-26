@@ -11,6 +11,10 @@
     @media (min-width: $screen-sm) {
       display: inline-block;
       margin-bottom: 0;
+      margin-right: 8px;
+      &:last-child {
+        margin-right: 0;
+      }
     }
     &.block {
       display: block;
