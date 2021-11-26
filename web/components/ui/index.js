@@ -28,6 +28,7 @@ import TextFields from './TextFields';
 import ProgressIndicator from './ProgressIndicator';
 import ImageInfoSlider from './ImageInfoSlider';
 import Separator from './Separator';
+import Autocomplete from './Autocomplete';
 import DataList from '../DataList';
 
 let comps = {
@@ -51,6 +52,7 @@ let comps = {
   LinkButton,
   Input,
   Select,
+  Autocomplete,
   DataList,
   SelectPopup,
   LinkBlock,

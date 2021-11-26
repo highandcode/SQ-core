@@ -25,7 +25,7 @@ export class GlobalOptions {
 
   toArray() {
     return Object.keys(this.opts).map((key) => {
-      let { text, ...rest } = this.opts[key];
+      let { text, ...rest } = typeof(this.opts[key]) === 'string' ? {text: this.opts[key]} : this.opts[key];
       return {
         value: key,
         text: translate(text || this.opts[key]),
