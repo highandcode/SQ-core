@@ -23,15 +23,27 @@ export class GlobalOptions {
     }
   }
 
-  toArray() {
-    return Object.keys(this.opts).map((key) => {
-      let { text, ...rest } = typeof(this.opts[key]) === 'string' ? {text: this.opts[key]} : this.opts[key];
+  toArray({ sortBy, sortOrder = 'asc' } = {}) {
+    let result = Object.keys(this.opts).map((key) => {
+      let { text, ...rest } = typeof (this.opts[key]) === 'string' ? { text: this.opts[key] } : this.opts[key];
       return {
         value: key,
         text: translate(text || this.opts[key]),
         ...rest
       };
     });
+    if (sortBy) {
+      result = result.sort((a, b) => {
+        if (a[sortBy] > b[sortBy]) {
+          return sortOrder === 'asc' ? 1 : -1;
+        } else if (a[sortBy] < b[sortBy]) {
+          return sortOrder === 'asc' ? -1 : 1;
+        } else {
+          return 0;
+        }
+      });
+    }
+    return result;
   }
 }
 

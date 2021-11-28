@@ -12,8 +12,6 @@ const SQAutocomplete = ({
   className = '',
   value = '',
   label = '',
-  defaultText = '',
-  defaultValue = '',
   onChange,
   onAnalytics,
   inputVariant = 'outlined',
@@ -58,9 +56,7 @@ const SQAutocomplete = ({
 
 SQAutocomplete.propTypes = {
   name: PropTypes.string,
-  defaultText: PropTypes.string,
   errorMessage: PropTypes.string,
-  defaultValue: PropTypes.string,
   label: PropTypes.string,
   row: PropTypes.object,
   className: PropTypes.string,
