@@ -26,7 +26,7 @@ const renderSubNav = (item, isHover, callback) => {
                   onClick={(e) => {
                     if (e.defaultPrevented) return; // Exits here if event has been handled
                     e.preventDefault();
-                    redirectTo(child.href, { ...child.params });
+                    redirectTo(child.href, { ...child.params }, { ...child.options });
                     callback && callback();
                   }}
                   href={child.href}
@@ -72,7 +72,7 @@ const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, righ
             onClick={(e) => {
               if (e.defaultPrevented) return; // Exits here if event has been handled
               e.preventDefault();
-              redirectTo(logo.href, { ...logo.params });
+              redirectTo(logo.href, { ...logo.params }, { ...logo.options });
               setOpen(false);
             }}
           >
@@ -132,7 +132,7 @@ const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, righ
                           onClick={(e) => {
                             if (e.defaultPrevented) return; // Exits here if event has been handled
                             e.preventDefault();
-                            redirectTo(linkItem.href);
+                            redirectTo(linkItem.href, linkItem.params, linkItem.options);
                             setOpen(false);
                           }}
                           className="sq-global-navigation__link"
