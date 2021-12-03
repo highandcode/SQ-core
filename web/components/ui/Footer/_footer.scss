@@ -58,7 +58,6 @@
     &-link {
       margin-bottom: 20px;
       display: inline-block;
-      text-transform: uppercase;
       @include b5-style();
     }
   }
@@ -73,6 +72,14 @@
   &__newsletter {}
   &__contactus {
     margin-bottom: 20px;
+  }
+  &__social-links {
+    a {
+      color: $sq-color-primary;
+      &:hover {
+        color: $sq-color-primary-darker;
+      }
+    }
   }
   &--light {
     color: $sq-color-primary-darker;
