@@ -73,11 +73,27 @@
   &__contactus {
     margin-bottom: 20px;
   }
-  &__social-links {
-    a {
-      color: $sq-color-primary;
-      &:hover {
-        color: $sq-color-primary-darker;
+  &--primary {
+    .sq-footer {
+      &__social-links {
+        a {
+          color: $sq-color-primary;
+          &:hover {
+            color: $sq-color-primary-darker;
+          }
+        }
+      }
+    }
+  }
+  &--secondary {
+    .sq-footer {
+      &__social-links {
+        a {
+          color: $sq-color-secondary;
+          &:hover {
+            color: $sq-color-secondary-darker;
+          }
+        }
       }
     }
   }
