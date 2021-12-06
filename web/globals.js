@@ -2,7 +2,8 @@ import { translate } from '../web/utils/translate';
 export const CONSTANTS = {
   STATUS: {
     SUCCESS: 'success',
-    ERROR: 'error'
+    ERROR: 'error',
+    OK: 'ok'
   }
 };
 
@@ -25,7 +26,7 @@ export class GlobalOptions {
 
   toArray({ sortBy, sortOrder = 'asc' } = {}) {
     let result = Object.keys(this.opts).map((key) => {
-      let { text, ...rest } = typeof (this.opts[key]) === 'string' ? { text: this.opts[key] } : this.opts[key];
+      let { text, ...rest } = typeof this.opts[key] === 'string' ? { text: this.opts[key] } : this.opts[key];
       return {
         value: key,
         text: translate(text || this.opts[key]),
