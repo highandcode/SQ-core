@@ -68,7 +68,7 @@ class MagicHeroContentDefault extends Component {
     tweens && this.applyTweens(tweens);
     setTimeout(() => {
       restTimeline?.scrollTrigger && ScrollTrigger.refresh();
-    }, 100);
+    }, 500);
   }
   componentWillUnmount() {
     this.killAll();

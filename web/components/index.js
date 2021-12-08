@@ -5,6 +5,7 @@ import HeroContent from './ui/HeroContent';
 import FeaturedContent from './ui/FeaturedContent';
 import Pricing from './ui/Pricing';
 import Icon from './Icon';
+import List from './ui/List';
 import CodeHighlight from './ui/CodeHighlight';
 import LinkBlock from './ui/LinkBlock';
 import Repeater from './ui/Repeater';
@@ -26,6 +27,7 @@ let comps = {
   FeaturedContent,
   Pricing,
   LinkBlock,
+  List,
   CodeHighlight,
   ImageInfoSlider,
   LinkButton,

@@ -34,7 +34,7 @@ class ContentWithSearch extends Component {
 
   render() {
     const { metaData = {}, pageData = {}, ...rest } = this.props;
-    const { className = '', pageLayout = {} } = pageData;
+    const { className = '', pageLayout = {}, leftNavigation } = pageData;
     const { grouped = {}, sortedGroups = [] } = this.state;
     return (
       <div className={`sq-search-content sq-content-page sq-content-page__body ${className}`}>
@@ -47,11 +47,14 @@ class ContentWithSearch extends Component {
             </div>
           );
         })}
-
+        
         <div className="sq-search-content__root">
           <div className="container sq-search-content__container">
             <div className="row">
               <div className="col-xs-12 col-md-4 sq-search-content__left-nav">
+                <h3 className="sq-search-content__left-nav-header">
+                  {leftNavigation?.title}
+                </h3>
                 {sortedGroups.map((i, idx) => {
                   return (
                     <div className="sq-search-content__nav-block" onClick={() => this.handleLeftClick(i, idx)}>

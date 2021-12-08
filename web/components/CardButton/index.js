@@ -4,6 +4,7 @@ import Icon from '../Icon';
 import './card-button.scss';
 
 const CardButton = ({
+  eyebrow = '',
   className = '',
   header = '',
   value,
@@ -41,6 +42,7 @@ const CardButton = ({
     >
       <div className="sq-card-button__container">
         <Icon name={checked ? 'radiochecked' : 'radiouncheck'} />
+        <div className="sq-card-button__eyebrow">{eyebrow}</div>
         <div className="sq-card-button__header">{header}</div>
         <div className="sq-card-button__sub-header">{subHeader}</div>
       </div>

@@ -2,13 +2,22 @@
   display: inline-block;
   margin: 5px;
   cursor: pointer;
+  &__eyebrow {
+    padding-top: 24px;
+  }
   &__header {
-    padding-top: 30px;
-    @include t1-style();
+    padding-top: 8px;
+    @include t3-style();
+    @media (min-width: $screen-md) {
+      @include t1-style();
+    }
     text-align: center;
   }
   &__sub-header {
-    @include b4-style();
+    @include b6-style();
+    @media (min-width: $screen-md) {
+      @include b4-style();
+    }
     text-align: center;
     padding-top: 10px;
   }
@@ -26,7 +35,7 @@
     .sq-card-button__container {
       border-color: $sq-color-primary;
       background-color: $sq-color-primary;
-      color:white;
+      color: white;
     }
   }
 }
