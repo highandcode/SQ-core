@@ -259,8 +259,12 @@
     background: $sq-color-primary-darker;
     color: $sq-color-muted-lightest;
   }
+  &--dark-secondary {
+    background: $sq-color-secondary-darkest;
+    color: $sq-color-muted-lightest;
+  }
   &--bg-black {
-    background: $gray-darker;
+    background: $gray-base;
     color: $sq-color-muted-lightest;
   }
   &--bg-gray {
