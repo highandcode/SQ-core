@@ -112,7 +112,7 @@ class Contact extends Component {
   actions = [
     {
       cmpType: 'Button',
-      color: 'flat-primary',
+      color: 'primary',
       actionType: 'contact',
       buttonText: 'Contact'
     }
