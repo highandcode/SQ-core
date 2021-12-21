@@ -25,10 +25,18 @@ class ContentWithSearch extends Component {
     });
   }
 
+  getPageData() {
+    const { pageData = {} } = this.props;
+    return pageData;
+  }
+
   handleLeftClick(i, idx) {
+    const { scrollContainer } = this.getPageData();
     const offset = document.getElementById(`${i}${idx}`) && document.getElementById(`${i}${idx}`).offsetTop;
-    if (document.querySelector('#app-body') && offset) {
-      animateScrollTo(offset, { elementToScroll: document.querySelector('#app-body') });
+    if (document.querySelector(scrollContainer) && offset !== undefined) {
+      animateScrollTo(offset, { elementToScroll: document.querySelector(scrollContainer) });
+    } else if (offset !== undefined) {
+      animateScrollTo(offset);
     }
   }
 
@@ -47,14 +55,12 @@ class ContentWithSearch extends Component {
             </div>
           );
         })}
-        
+
         <div className="sq-search-content__root">
           <div className="container sq-search-content__container">
             <div className="row">
               <div className="col-xs-12 col-md-4 sq-search-content__left-nav">
-                <h3 className="sq-search-content__left-nav-header">
-                  {leftNavigation?.title}
-                </h3>
+                <h3 className="sq-search-content__left-nav-header">{leftNavigation?.title}</h3>
                 {sortedGroups.map((i, idx) => {
                   return (
                     <div className="sq-search-content__nav-block" onClick={() => this.handleLeftClick(i, idx)}>
