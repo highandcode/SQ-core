@@ -30,7 +30,7 @@ class Contact extends Component {
       },
       phone: {
         optional: true,
-        validators: [{ type: 'phone' }]
+        validators: [{ type: 'internationalphone' }]
       },
       subject: {
         validators: [{ type: 'required' }]
