@@ -25,21 +25,19 @@ describe('utils::Format', function () {
       expect(
         formatters.currency('200000', {
           decimals: 2,
-          sign: 'Rs.',
-          currency: 'INR'
+          currency: 'USD'
         })
-      ).be.equal('Rs.2,00,000.00');
+      ).be.equal('$200,000.00');
     });
     it('should return blank in case of undefined value', () => {
       expect(
         formatters.currency(undefined, {
           decimals: 2,
-          sign: 'Rs.',
-          currency: 'INR'
+          currency: 'USD'
         })
       ).be.equal('');
     });
-    it('should return -Rs. in case of - only ', () => {
+    it('should return -$ in case of - only ', () => {
       expect(
         formatters.currency('-', {
           decimals: 2,
@@ -88,10 +86,9 @@ describe('utils::Format', function () {
       expect(
         formatters.currencyAbr('100000000', {
           decimals: 2,
-          sign: 'Rs.',
-          currency: 'INR'
+          currency: 'USD'
         })
-      ).be.equal('Rs.10 cr');
+      ).be.equal('$100 mn');
     });
     it('should return blank in case of undefined value', () => {
       expect(formatters.currencyAbr()).be.equal('');
@@ -100,11 +97,10 @@ describe('utils::Format', function () {
       expect(
         formatters.currencyAbr(312000, {
           decimals: 2,
-          sign: 'Rs.',
           setName: 'crabove',
           currency: 'INR'
         })
-      ).be.equal('Rs.3,12,000.00');
+      ).be.equal('₹3,12,000.00');
     });
     it('should return $3.12 mn', () => {
       expect(

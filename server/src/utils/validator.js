@@ -252,7 +252,15 @@ Validator.parseMessage = function (message) {
   return message;
 };
 
+const addValidator = (name, fn) => {
+  if (name && typeof fn === 'function') {
+    _validators[name] = fn;
+  }
+};
+
 module.exports = {
   Validator,
-  validators: _validators
+  validators: _validators,
+  addValidator,
+  getValidators: () => _validators
 };
