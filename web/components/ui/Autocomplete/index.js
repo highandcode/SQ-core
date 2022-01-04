@@ -61,7 +61,7 @@ SQAutocomplete.propTypes = {
   row: PropTypes.object,
   className: PropTypes.string,
   options: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   textField: PropTypes.string,
   valueField: PropTypes.string,
   onChange: PropTypes.func

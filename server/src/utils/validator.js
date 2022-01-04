@@ -10,8 +10,7 @@ const _validators = {
   },
   email: (value) => {
     return _validators.regex(value, {
-      regex:
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      regex: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     });
   },
   equals: (value, { subType = '=', matchValue }) => {
@@ -130,6 +129,12 @@ const _validators = {
         return item.length > 0;
     }
     return false;
+  },
+  array: (value, config = {}) => {
+    if (config.valueType === 'string') {
+      return Array.isArray(value) && value.map((i) => typeof i).filter((s) => s !== 'string').length === 0;
+    }
+    return Array.isArray(value);
   }
 };
 
@@ -140,6 +145,7 @@ const _messages = {
   emailphone: () => `Enter a valid email or phone`,
   emailinternationalphone: () => `Enter a valid email or phone with international code e.g +91`,
   email: () => `Enter a valid email`,
+  array: () => `Array does not match schema`,
   length: ({ exact, min, max }) => {
     if (exact) {
       return `Length should be ${exact} chars`;
