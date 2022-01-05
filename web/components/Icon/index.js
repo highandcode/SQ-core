@@ -91,7 +91,9 @@ import {
   ArrowRight,
   ArrowLeft,
   ArrowDropDown,
-  Cancel
+  Cancel,
+  FolderShared,
+  Share
 } from '@material-ui/icons';
 
 import { ReactComponent as NotificationIcon } from '../../assets/svg/notification.svg';
@@ -132,6 +134,7 @@ const types = {
     logout: LogoutIcon,
     error: ErrorIcon,
     more: MoreVertIcon,
+    share: Share,
     erroroutline: ErrorOutline,
     calendar: Calendar,
     'arrow-up': KeyboardArrowUp,
@@ -156,6 +159,7 @@ const types = {
   basic: {
     code: Code,
     star: Star,
+    shared: FolderShared,
     location: Room,
     eventnote: EventNote,
     gamesport: VideogameAsset,
