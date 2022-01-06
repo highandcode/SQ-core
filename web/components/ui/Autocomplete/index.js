@@ -23,6 +23,7 @@ const SQAutocomplete = ({
   errorMessage,
   ...rest
 }) => {
+  
   const handleChange = (e, value) => {
     onChange &&
       onChange({
@@ -39,9 +40,9 @@ const SQAutocomplete = ({
         multiple={multiple}
         options={finalOptions}
         inputValue={inputValue}
-        getOptionLabel={(option) => option[textField]}
+        getOptionLabel={(option) => option[textField] || ''}
         onChange={handleChange}
-        value={value}
+        value={value || (multiple ? [] : '')}
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
         }}
