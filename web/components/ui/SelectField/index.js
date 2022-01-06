@@ -50,7 +50,7 @@ const SelectField = ({
         {label && <InputLabel htmlFor={name}>{label}</InputLabel>}
         <Select id={name} className="sq-select-field__input" value={isValid ? value : ''} onChange={handleChange} input={<InputToRender label={label} />} {...rest}>
           {defaultText && <MenuItem value={defaultValue}>{translate(defaultText)}</MenuItem>}
-          {finalOptions.map((option, key) => {
+          {finalOptions && finalOptions.map((option, key) => {
             return (
               <MenuItem key={key} value={option[valueField]}>
                 {translate(option[textField])}

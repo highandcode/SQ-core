@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Chip from '@material-ui/core/Chip';
 import InputField from '../InputField';
 import './auto-complete.scss';
 import { getValue } from '../../../utils/properties';
@@ -9,6 +10,7 @@ const SQAutocomplete = ({
   row,
   name,
   options = [],
+  fixedOptions = [],
   className = '',
   value = '',
   label = '',
@@ -23,15 +25,19 @@ const SQAutocomplete = ({
   errorMessage,
   ...rest
 }) => {
-  
   const handleChange = (e, value) => {
     onChange &&
       onChange({
-        value: value,
+        value: multiple ? [...fixedOptions, ...value.filter((option) => fixedOptions.indexOf(option) === -1)] : value && value[valueField],
         options
       });
   };
   const finalOptions = getValue(this, options, row) || [];
+  const finalFixedOptions = getValue(this, fixedOptions, row) || [];
+  let optionFound;
+  if (!multiple) {
+    optionFound = finalOptions && finalOptions.filter((i) => i[valueField] === value)[0];
+  }
   const [inputValue, setInputValue] = useState('');
   return (
     <div className={`sq-autocomplete ${className}`}>
@@ -42,7 +48,12 @@ const SQAutocomplete = ({
         inputValue={inputValue}
         getOptionLabel={(option) => option[textField] || ''}
         onChange={handleChange}
-        value={value || (multiple ? [] : '')}
+        renderTags={(tagValue, getTagProps) =>
+          tagValue.map((option, index) => (
+            <Chip label={option[textField]} {...getTagProps({ index })} disabled={finalFixedOptions.indexOf(option) !== -1} />
+          ))
+        }
+        value={optionFound || value || (multiple ? [] : '')}
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
         }}
