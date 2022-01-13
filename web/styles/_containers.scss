@@ -92,16 +92,16 @@
 }
 
 .container-max {
-max-width: 1280px;
-margin: auto;
+  max-width: 1280px;
+  margin: auto;
 }
 
 .panel-bg-primary {
   background: $sq-color-primary;
-  color:white;
+  color: white;
 }
 .panel-bg-secondary {
-  color:white;
+  color: white;
   background: $sq-color-secondary;
 }
 .panel-bg-gray {
@@ -109,17 +109,17 @@ margin: auto;
 }
 .panel-bg-success {
   background: $sq-color-success-darker;
-  color:white;
+  color: white;
 }
 .panel-bg-info {
-  color:white;
+  color: white;
   background: $sq-color-info;
 }
 .panel-bg-warning {
   background: $sq-color-warning;
-  color:white;
+  color: white;
 }
 .panel-bg-error {
-  color:white;
+  color: white;
   background: $sq-color-error;
 }

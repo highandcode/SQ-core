@@ -4,6 +4,7 @@ import _ from 'lodash';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Icon from '../Icon';
+import { getValue } from '../../utils/properties';
 
 import './tabs.scss';
 
@@ -17,6 +18,7 @@ class SQTabs extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props.value);
     this.setState({
       value: this.props.value
     });
@@ -30,8 +32,9 @@ class SQTabs extends React.Component {
     }
   }
   handleChange(evt, newValue) {
-    const { onChange, valueField = 'value', options = [] } = this.props;
-    const item = _.filter(options, { [valueField]: newValue });
+    const { onChange, valueField = 'value', options = [], row } = this.props;
+    const finalOptions = getValue(this, options, row);
+    const item = _.filter(finalOptions, { [valueField]: newValue });
     onChange &&
       onChange({
         value: newValue,
@@ -44,16 +47,17 @@ class SQTabs extends React.Component {
   }
 
   render() {
-    const { options = [], className = '', textField = 'text', valueField = 'value', iconOnly = false } = this.props;
+    const { options = [], className = '', textField = 'text', valueField = 'value', iconOnly = false, row } = this.props;
+    const finalOptions = getValue(this, options, row);
     return (
       <div className={`sq-tabs ${className}`}>
         <Tabs
           indicatorColor="primary"
-          value={this.state.value || (options[0] && options[0].value)}
+          value={this.state.value || (finalOptions[0] && finalOptions[0].value)}
           onChange={this.handleChange}
           className={'sq-tabs__root'}
         >
-          {options.map((tab, idx) => {
+          {finalOptions.map((tab, idx) => {
             const { [textField]: text, [valueField]: value, className, iconName, icon: iconConfig = {}, ...rest } = tab;
             const { ...icon } = iconConfig;
             const IconToRender = iconName && <Icon name={iconName} variant="normal" {...icon} />;
@@ -67,7 +71,7 @@ class SQTabs extends React.Component {
 
 SQTabs.propTypes = {
   className: PropTypes.string,
-  options: PropTypes.array,
+  options: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
   onChange: PropTypes.func,
   value: PropTypes.string
 };

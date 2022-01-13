@@ -28,7 +28,9 @@ const SQAutocomplete = ({
   const handleChange = (e, value) => {
     onChange &&
       onChange({
-        value: multiple ? [...fixedOptions, ...value.filter((option) => fixedOptions.indexOf(option) === -1)] : value && value[valueField],
+        value: multiple
+          ? [...fixedOptions.map((i) => i[valueField]), ...value.filter((option) => fixedOptions.indexOf(option) === -1).map((i) => i[valueField])]
+          : value && value[valueField],
         options
       });
   };
@@ -37,6 +39,8 @@ const SQAutocomplete = ({
   let optionFound;
   if (!multiple) {
     optionFound = finalOptions && finalOptions.filter((i) => i[valueField] === value)[0];
+  } else {
+    optionFound = finalOptions && finalOptions.filter((i) => value.indexOf(i[valueField]) > -1);
   }
   const [inputValue, setInputValue] = useState('');
   return (

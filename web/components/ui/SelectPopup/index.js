@@ -97,7 +97,7 @@ class SelectPopup extends React.Component {
     const finalOptions = getValue(this, options, row);
     const foundOptions = _.filter(finalOptions, { [valueField]: value });
     const finalOption = this.state.currentItem ? this.state.currentItem : foundOptions.length > 0 ? foundOptions[0] : null;
-    const finalText = (finalOption && (textFormatter ? textFormatter(finalOption) : finalOption[textField])) || defaultText;
+    const finalText = (finalOption && (textFormatter ? textFormatter(finalOption) : finalOption[textField])) || label;
     return (
       <div className={`sq-select-popup ${className} ${error ? 'sq-select-popup--error' : ''}`}>
         {finalOption && <div className="sq-select-popup__eyebrow">{label}</div>}
