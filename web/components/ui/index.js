@@ -30,6 +30,7 @@ import ImageInfoSlider from './ImageInfoSlider';
 import Separator from './Separator';
 import Autocomplete from './Autocomplete';
 import DataList from '../DataList';
+import IconCalendar from '../IconCalendar';
 
 let comps = {
   Header,
@@ -64,7 +65,8 @@ let comps = {
   ProgressIndicator,
   Separator,
   ReCaptcha,
-  ImageInfoSlider
+  ImageInfoSlider,
+  IconCalendar
 };
 
 const getMap = () => {
