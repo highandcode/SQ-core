@@ -49,7 +49,7 @@ const SQAutocomplete = ({
       <Autocomplete
         {...rest}
         multiple={multiple}
-        options={optionFound}
+        options={finalOptions}
         inputValue={inputValue}
         getOptionLabel={(option) => option[textField] || ''}
         onChange={handleChange}
