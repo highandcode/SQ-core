@@ -14,6 +14,7 @@ const Row = ({
   onChildRowRender,
   onAnalytics,
   className,
+  wrapperClassName,
   errors = {}
 }) => {
   const _onChange = (column, value) => {
@@ -43,8 +44,8 @@ const Row = ({
   const childRow = onChildRowRender && onChildRowRender(columns, data);
   return (
     <>
-      <div className={`sq-grid-cmp__row-wraper`}>
-        <div className={`sq-grid-cmp__row sq-grid-cmp__data-row ${className}`} onClick={_onRowClick}>
+      <div className={`sq-grid-cmp__row-wraper  ${wrapperClassName}`}>
+        <div className={`sq-grid-cmp__row sq-grid-cmp__data-row  ${className}`} onClick={_onRowClick}>
           {columns.map((column, index) => {
             let isRender = true;
             if (typeof column.beforeRender === 'function') {
@@ -89,6 +90,7 @@ const Row = ({
 Row.propTypes = {
   columns: PropTypes.array,
   className: PropTypes.string,
+  wrapperClassName: PropTypes.string,
   data: PropTypes.object,
   errors: PropTypes.object,
   onRowChange: PropTypes.func,

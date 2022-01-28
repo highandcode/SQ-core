@@ -5,6 +5,7 @@ import GridHeaderRow from './components/GridHeaderRow';
 import Button from '../ui/Button';
 import './grid.scss';
 import { translate } from '../../utils/translate';
+import { getValue } from '../../utils/properties';
 
 const RowTypes = {
   GridRow
@@ -131,20 +132,18 @@ class Grid extends React.Component {
     onAction && onAction(value, column, row);
   }
   renderRow(columns, data, rowConfig = {}, index) {
-    const { rowType, className = '' } = rowConfig;
+    const { rowType, className = '', wrapperClassName = '' } = rowConfig;
     const RowComp = RowTypes[rowType] || RowTypes.GridRow;
-    let finalClassName;
-    if (typeof className === 'function') {
-      finalClassName = className(data, columns);
-    } else {
-      finalClassName = className;
-    }
+    const finalClassName = getValue(this, className, data, columns);
+    const finalWrapperClassName = getValue(this, wrapperClassName, data, columns);
+
 
     return (
       <RowComp
         key={`${index}${this.state.updatedIndex}`}
         columns={columns}
         className={finalClassName}
+        wrapperClassName={finalWrapperClassName}
         data={data}
         errors={data.validators && data.validators.errors}
         onAnalytics={this.props.onAnalytics}
