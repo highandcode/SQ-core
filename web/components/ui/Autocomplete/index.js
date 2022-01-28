@@ -42,13 +42,14 @@ const SQAutocomplete = ({
   } else {
     optionFound = finalOptions && finalOptions.filter((i) => value.indexOf(i[valueField]) > -1);
   }
+  
   const [inputValue, setInputValue] = useState('');
   return (
     <div className={`sq-autocomplete ${className}`}>
       <Autocomplete
         {...rest}
         multiple={multiple}
-        options={finalOptions}
+        options={optionFound}
         inputValue={inputValue}
         getOptionLabel={(option) => option[textField] || ''}
         onChange={handleChange}

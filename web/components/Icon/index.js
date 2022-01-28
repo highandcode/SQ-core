@@ -93,7 +93,8 @@ import {
   ArrowDropDown,
   Cancel,
   FolderShared,
-  Share
+  Share,
+  GroupWork
 } from '@material-ui/icons';
 
 import { ReactComponent as NotificationIcon } from '../../assets/svg/notification.svg';
@@ -127,6 +128,7 @@ const types = {
     close: Close,
     verifieduser: VerifiedUser,
     checkcircle: CheckCircle,
+    groupwork: GroupWork,
     clear: Clear,
     person: Person,
     warning: WarningIcon,

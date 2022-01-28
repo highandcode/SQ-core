@@ -26,6 +26,7 @@ class Grid extends React.Component {
     this.handleRowChange = this.handleRowChange.bind(this);
     this.handleRowClick = this.handleRowClick.bind(this);
     this.handleFieldAction = this.handleFieldAction.bind(this);
+    this.handleChildRowRender = this.handleChildRowRender.bind(this);
   }
 
   addNewRow(evt) {
@@ -92,6 +93,11 @@ class Grid extends React.Component {
     onChange && onChange(value, column, row);
   }
 
+  handleChildRowRender(column, data) {
+    const { onChildRowRender } = this.props;
+    return onChildRowRender && onChildRowRender(column, data);
+  }
+
   handleColumnChange(column, value, row) {
     const { onFieldChange, onColumnValidate } = this.props;
     const result = onColumnValidate && onColumnValidate(column, value, row);
@@ -144,6 +150,7 @@ class Grid extends React.Component {
         onAnalytics={this.props.onAnalytics}
         onRowClick={this.handleRowClick}
         onRowChange={this.handleRowChange}
+        onChildRowRender={this.handleChildRowRender}
         onFieldAction={this.handleFieldAction}
         onFieldBlur={this.handleFieldBlur}
         onFieldClick={this.handleFieldClick}
@@ -162,6 +169,7 @@ Grid.propTypes = {
   rowConfig: PropTypes.object,
   columns: PropTypes.array,
   onFieldBlur: PropTypes.func,
+  onChildRowRender: PropTypes.func,
   onChange: PropTypes.func,
   onFieldChange: PropTypes.func,
   onAction: PropTypes.func,

@@ -18,7 +18,6 @@ class SQTabs extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.value);
     this.setState({
       value: this.props.value
     });
