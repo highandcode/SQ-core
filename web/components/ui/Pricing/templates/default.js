@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
-import Icon from 'sq-core/web/components/Icon';
+import Icon from '../../../Icon';
 import { getMap } from '../../index';
 
 const renderPricingPlan = (data, onAnalytics) => {

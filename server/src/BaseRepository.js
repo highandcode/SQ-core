@@ -1,8 +1,8 @@
+const _ = require('lodash');
 var BaseEntity = require('./BaseEntity');
 var BaseEntityCollection = require('./BaseEntityCollection');
 const errors = require('./Error');
 const datetime = require('./utils/datetime');
-const _ = require('lodash');
 
 class BaseRepository {
   constructor({ entityType = BaseEntity, collectionEntity = BaseEntityCollection, db, collection }) {

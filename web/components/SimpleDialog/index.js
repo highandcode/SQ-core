@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import { makeStyles } from '@material-ui/core/styles';
-import Progress from 'sq-core/web/components/Progress';
+import Progress from '../Progress';
 import Icon from '../Icon';
 import './dialog.scss';
 

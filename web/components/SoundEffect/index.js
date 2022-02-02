@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { resolveFile } from 'sq-core/web/cordova';
+import { resolveFile } from '../../cordova';
 import ChipsSOund from './effects/chips-sound.mp3';
 import WinnerSound from './effects/winner-sound.m4a';
 import TickTock from './effects/tick-tok-sound2.m4a';

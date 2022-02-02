@@ -6,8 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Icon from 'sq-core/web/components/Icon';
 import Badge from '@material-ui/core/Badge';
+import Icon from '../../Icon';
 
 const styles = {
   root: {

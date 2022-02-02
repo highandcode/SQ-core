@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import { timer } from 'sq-core/web/utils/timer';
-import Progress from 'sq-core/web/components/Progress';
+import { timer } from '../../utils/timer';
+import Progress from '../../components/Progress';
 import Content from '../Content';
 import Default from './Default';
 import LayoutContent from '../LayoutContent';

@@ -1,4 +1,4 @@
-import QueryString from '../../server/src/utils/query-string';
+const QueryString = require('../../server/src/utils/query-string');
 const location = window.location;
 
 const query = {

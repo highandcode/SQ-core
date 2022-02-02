@@ -1,19 +1,17 @@
-import minify from "rollup-plugin-babel-minify";
-import path from "path";
-import babel from "rollup-plugin-babel";
-import commonjs from 'rollup-plugin-commonjs'
-import nodeResolve from 'rollup-plugin-node-resolve'
+import minify from 'rollup-plugin-babel-minify';
+import path from 'path';
+import babel from 'rollup-plugin-babel';
+import commonjs from 'rollup-plugin-commonjs';
+import nodeResolve from 'rollup-plugin-node-resolve';
 // import pkg from "./package.json";
-import scss from "rollup-plugin-scss";
-import { writeFileSync, mkdirSync } from "fs";
+import scss from 'rollup-plugin-scss';
+import { writeFileSync, mkdirSync } from 'fs';
 
-const PRODUCTION = process.env.PROD === "true";
+const PRODUCTION = process.env.PROD === 'true';
 const year = new Date().getFullYear();
 
-let exportConfig = [
-
-];
-const pkg= {};
+let exportConfig = [];
+const pkg = {};
 
 function buildCMSApp(appName, options = {}) {
   const strBanner = `/*!
@@ -30,7 +28,7 @@ function buildCMSApp(appName, options = {}) {
   const globals = {};
   const plugins = [
     babel({
-      exclude: "node_modules/**", // only transpile our source code
+      exclude: 'node_modules/**' // only transpile our source code
     }),
     nodeResolve(),
     commonjs(),
@@ -40,16 +38,13 @@ function buildCMSApp(appName, options = {}) {
       // Filename to write all styles to
       output: `${appBasePath}/css/${appName}.css`,
       output: (styles, styleNodes) => {
-        console.log("writing styles...");
+        console.log('writing styles...');
         mkdirSync(`${outputAppPath}/css`, { recursive: true });
-        writeFileSync(
-          `${outputAppPath}/css/${appName}.css`,
-          [strBanner, styles].join("")
-        );
-        console.log("done writing styles...");
+        writeFileSync(`${outputAppPath}/css/${appName}.css`, [strBanner, styles].join(''));
+        console.log('done writing styles...');
       },
-      failOnError: true,
-    }),
+      failOnError: true
+    })
   ];
 
   // If production add minfify plugin
@@ -57,22 +52,19 @@ function buildCMSApp(appName, options = {}) {
     plugins.push(minify());
   }
 
-  const filePostFix = PRODUCTION ? ".min.js" : ".js";
+  const filePostFix = PRODUCTION ? '.min.js' : '.js';
 
   return {
     input: path.resolve(__dirname, options.entry || `${appBasePath}/src/index.js`),
     output: {
-      file: path.resolve(
-        __dirname,
-        `${outputAppPath}/js/${appName}${filePostFix}`
-      ),
-      format: "umd",
+      file: path.resolve(__dirname, `${outputAppPath}/js/${appName}${filePostFix}`),
+      format: 'umd',
       name: options.name || appName,
       globals,
-      banner: strBanner,
+      banner: strBanner
     },
     external,
-    plugins,
+    plugins
   };
 }
 

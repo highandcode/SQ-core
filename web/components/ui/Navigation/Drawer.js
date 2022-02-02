@@ -12,8 +12,8 @@ import Collapse from '@material-ui/core/Collapse';
 import IconExpandLess from '@material-ui/icons/ExpandLess';
 import IconExpandMore from '@material-ui/icons/ExpandMore';
 
-import Icon from 'sq-core/web/components/Icon';
-import { translate } from 'sq-core/web/utils/translate';
+import Icon from '../../Icon';
+import { translate } from '../../../utils/translate';
 
 const styles = {
   title: {

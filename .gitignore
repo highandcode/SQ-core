@@ -8,6 +8,7 @@ cordova/www/*
 cordova/platforms/ios/www
 cordova/platforms/android/platform__www
 /.pnp
+/dist
 .pnp.js
 /.nyc_output
 # testing
