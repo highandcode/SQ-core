@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from 'sq-core/web/components/Icon';
-import Link from 'sq-core/web/components/ui/Link';
-import { resolveImageUrl } from 'sq-core/web/cordova';
+
+import Icon from '../../../Icon';
+import Link from '../../Link';
+import { resolveImageUrl } from '../../../../cordova';
 import { redirectTo } from '../../../../utils/redirect';
 
 const TemplateDefault = ({ items, itemClassName, onAnalytics }) => {

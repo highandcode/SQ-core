@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { redirectTo } from 'sq-core/web/utils/redirect';
-import common from 'sq-core/web/utils/common';
+import { redirectTo } from '../../../utils/redirect';
+import common from '../../../utils/common';
 import AppBar from './AppBar';
 import Drawer from './Drawer';
 import './navigation.scss';

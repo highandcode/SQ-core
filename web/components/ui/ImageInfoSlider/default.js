@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Carousel from 'react-material-ui-carousel';
 import { Paper } from '@material-ui/core';
-import { resolveImageUrl } from 'sq-core/web/cordova';
+import { resolveImageUrl } from '../../../cordova';
 import Icon from '../../Icon';
 
 const ImageSliderDefault = ({ className = '', items, interval = 5000, animation = 'slide', classes = {} }) => {

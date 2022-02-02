@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from 'sq-core/web/components/Icon';
-import Link from 'sq-core/web/components/ui/Link';
+import Icon from '../../../Icon';
+import Link from '../../Link';
 
 const TemplateDefault = ({ items, itemClassName }) => {
   return (
