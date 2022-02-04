@@ -5,13 +5,13 @@ import moment from 'moment';
 import { getValue } from '../../utils/properties';
 import './icon-calendar.scss';
 
-const IconCalendar = ({ className = '', img, textIcon, name, value, yearFormat = 'YY', variant = 'default', size = 'normal', iconClass = '', row, svg, onClick }) => {
+const IconCalendar = ({ className = '', img, textIcon, name, value, yearFormat = 'YY', color = 'default', size = 'normal', iconClass = '', row, svg, onClick }) => {
   const day = moment(value).format('DD');
   const month = moment(value).format('MMM');
   const year = moment(value).format(yearFormat);
   return (
     <div
-      className={`sq-icon-calendar sq-icon-calendar--${typeof variant === 'function' ? variant(row) : variant} sq-icon-calendar--${size} ${className}`}
+      className={`sq-icon-calendar sq-icon-calendar--${typeof color === 'function' ? color(row) : color} sq-icon-calendar--${size} ${className}`}
       onClick={onClick}
     >
       <div className="sq-icon-calendar__day">

@@ -48,4 +48,12 @@
     }
     border: solid 1px $sq-color-success;
   }
+  &--large {
+    .sq-icon-calendar__day {
+      @include t4-style();
+    }
+    .sq-icon-calendar__month {
+      @include t5-style();
+    }
+  }
 }
