@@ -183,7 +183,7 @@ class ColumnChart extends BaseChart {
       .attr('height', (d) => y(0) - y(d.y));
   }
   mousemoveTooltip(e) {
-    const x0 = this.x.invert(d3.mouse(e)[0]);
+    // const x0 = this.x.invert(d3.mouse(e)[0]);
   }
 
   draw() {

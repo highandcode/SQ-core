@@ -88,8 +88,8 @@ class LineChart extends BaseChart {
       .on('mouseout', () => this.hideAllFocus())
       .on('mousemove', mousemove);
 
-    function mousemove() {
-      const x0 = vis.x.invert(d3.mouse(this)[0]);
+    function mousemove(e) {
+      const x0 = vis.x.invert(d3.pointer(e)[0]);
       const i = vis.bisectDate(vis.data, x0, 1);
       const d0 = vis.data[i > 0 ? i - 1 : 0];
       const d1 = vis.data[i >= vis.data.length ? vis.data.length - 1 : i];

@@ -98,8 +98,8 @@ class AreaChart extends BaseChart {
       .on('mouseout', () => this.hideAllFocus())
       .on('mousemove', mousemove);
 
-    function mousemove() {
-      const x0 = vis.x.invert(d3.mouse(this)[0]);
+    function mousemove(e) {
+      const x0 = vis.x.invert(d3.pointer(e)[0]);
       const i = vis.bisectDate(vis.data, x0, 1);
       const d0 = vis.data[i > 0 ? i - 1 : 0];
       const d1 = vis.data[i >= vis.data.length ? vis.data.length - 1 : i];
@@ -107,7 +107,7 @@ class AreaChart extends BaseChart {
       vis.focus.main.attr('transform', `translate(${vis.x(d[xValue])},0 )`);
       vis.focus.main.select('.x-hover-line').attr('y2', innerHeight);
       const tooltip = d3.select(vis.element).select('.sq-chart-d-tooltip');
-      tooltip.html(tooltipFormatter(d, series));
+      tooltip.html(tooltipFormatter(e, d, series));
       tooltip.style('left', `${vis.x(d[xValue])}px`);
       tooltip.style('opacity', `1`);
       tooltip.style('top', `0px`);
