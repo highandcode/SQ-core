@@ -26,6 +26,9 @@
   }
   &--secondary {
     border: solid 1px $sq-color-secondary;
+    .sq-icon-calendar__day {
+      color: $sq-color-secondary;
+    }
     .sq-icon-calendar__month {
       background: $sq-color-secondary;
       color: $white;
@@ -34,6 +37,9 @@
   }
   &--info {
     border: solid 1px $sq-color-info;
+    .sq-icon-calendar__day {
+      color: $sq-color-info;
+    }
     .sq-icon-calendar__month {
       background: $sq-color-info;
       color: $white;
@@ -42,6 +48,9 @@
   }
   &--success {
     border: solid 1px $sq-color-success;
+    .sq-icon-calendar__day {
+      color: $sq-color-success;
+    }
     .sq-icon-calendar__month {
       background: $sq-color-success;
       color: $white;
