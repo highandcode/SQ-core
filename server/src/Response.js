@@ -1,4 +1,4 @@
-function Response(data, status) {
+function Response(data = {}, status) {
   this.status = status || Response.TYPES.SUCCESS;
   this.data = data;
   this.code = data.code || (this.status === Response.TYPES.ERROR ? 500 : 200);
