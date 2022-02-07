@@ -117,7 +117,7 @@ class BaseRepository {
         if (res.length === 0) {
           reject(errors.invalidopr());
         } else {
-          resolve();
+          resolve(res);
         }
       });
     });
