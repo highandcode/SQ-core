@@ -88,14 +88,8 @@ class ColumnChart extends BaseChart {
     this.yAxisGroup.call(yAxisCall);
     let slice = this.columnArea.selectAll('.group').data(data, (d) => d[xValue]);
     slice.exit().remove();
-    // slice.attr('transform', function (d) {
-    //   return 'translate(' + x(d[xValue]) + ',0)';
-    // });
     slice = slice.enter().append('g').merge(slice).attr('class', 'group').on('mouseover', this.tooltip.show).on('mouseout', this.tooltip.hide);
-    // .attr('width', (d) => x.bandwidth(d[xValue]))
-    // .attr('transform', function (d) {
-    //   return 'translate(' + x.bandwidth(d[xValue]) + ',0)';
-    // });
+
 
     const rects = slice.selectAll('rect').data((d) => {
       return columnSeries.map((ser, idx) => {
@@ -124,14 +118,8 @@ class ColumnChart extends BaseChart {
         });
       g.selectAll(`.${item.name}`).transition(d3.transition().duration(750)).attr('d', line(data));
     });
-    // const rects = g.selectAll('rect').data(data);
+
     rects.exit().remove();
-    // rects
-    //   .transition(d3.transition().duration(750))
-    //   .attr('y', (d) => y(d.y))
-    //   .attr('x', getX)
-    //   .attr('width', getWidth)
-    //   .attr('height', (d) => innerHeight - y(d.y));
     const legRects = this.legend.selectAll('rect').data(series);
     const totalSeries = series.length;
 
@@ -183,7 +171,7 @@ class ColumnChart extends BaseChart {
       .attr('height', (d) => y(0) - y(d.y));
   }
   mousemoveTooltip(e) {
-    // const x0 = this.x.invert(d3.mouse(e)[0]);
+
   }
 
   draw() {
@@ -206,39 +194,10 @@ class ColumnChart extends BaseChart {
     });
 
     this.legend = g.append('g').attr('class', 'sq-chart-legend');
-    // .attr('x', 0)
-    // .attr('y', innerHeight - 50)
-    // .attr('height', 25)
-    // .attr('width', width)
-    // .attr('transform', 'translate(0,innerHeight - 50)');
-
-    // this.focus = g.append('g').attr('class', 'focus').style('display', 'none');
-    // this.focus.append('line').attr('class', 'y-hover-line hover-line').attr('y1', 0).attr('y2', innerHeight);
-    // this.focus.append('line').attr('class', 'y-hover-line hover-line').attr('x1', 0).attr('x2', innerWidth);
-    // this.focus.append('circle').attr('r', 7.5);
-    // this.focus.append('text').attr('x', 15).attr('dy', '.31em');
-    // g.append('rect')
-    //   .attr('class', 'sq-chart-overlay')
-    //   .attr('width', innerWidth)
-    //   .attr('height', innerHeight)
-    //   .on('mouseover', () => {
-    //     this.focus.style('display', null);
-    //   })
-    //   .on('mouseout', () => {
-    //     this.focus.style('display', 'none');
-    //   })
-    //   .on('mousemove', function () {
-    //     that.mousemoveTooltip.call(that, this);
-    //   });
-
+   
     this.tooltip = d3.tip().attr('class', 'sq-chart-tooltip');
     g.call(this.tooltip);
-    //   this.tooltip = d3.create('div').attr('class', 'xp-tooltip').html(`
-    //   <div class="xp-tooltip__data">
-    //     Hello
-    //   </div>
-    // `);
-    //   element.appendChild(this.tooltip.node());
+ 
     if (!this.data) {
       return;
     }

@@ -103,7 +103,7 @@ class PieChart extends BaseChart {
     this.update();
   }
 
-  onMouseEnter(d) {
+  onMouseEnter(e, d) {
     const { tooltip: tooltipConfig = {}, xValue, yValue, margin } = this.config;
     const { formatter } = tooltipConfig;
     var { innerWidth, innerHeight } = this.getWidth();
@@ -112,7 +112,7 @@ class PieChart extends BaseChart {
     const y = this.arc.centroid(d)[1] + innerHeight / 2;
     tooltip.style('opacity', 1);
     tooltip.style('transform', `translate(calc( -50% + ${x + margin.left}px), calc(-100% + ${y + margin.top}px))`);
-    const data = (formatter && formatter(d)) || d.data[xValue];
+    const data = (formatter && formatter(e, d)) || d.data[xValue];
     tooltip.select('.sq-chart-tooltip__data').html(data);
     this.textPie.text(d3.format('.0%')(d.data[yValue] / this.totalSum)).style('opacity', 1);
   }
