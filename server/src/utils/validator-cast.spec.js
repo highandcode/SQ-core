@@ -2,7 +2,7 @@ const { chai } = require('../../../tests/setup');
 const { ValidatorCast } = require('./validator-cast');
 const { expect } = chai;
 
-describe.only('ValidatorCast', () => {
+describe('ValidatorCast', () => {
   it('should be defined', () => {
     expect(ValidatorCast).not.to.be.undefined;
   });
