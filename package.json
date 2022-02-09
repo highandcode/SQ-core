@@ -103,7 +103,7 @@
     "react-google-recaptcha": "^2.1.0",
     "react-html-parser": "^2.0.2",
     "react-infinite-calendar": "^2.3.1",
-    "react-material-ui-carousel": "^3.1.1",
+    "react-material-ui-carousel": "2.2.1",
     "react-router-dom": "^4.3.1",
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",

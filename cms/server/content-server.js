@@ -27,7 +27,7 @@ class ContentServer {
   constructor(options = {}, app) {
     const lastIndex = __dirname.lastIndexOf('server');
     const cmsRootServer = __dirname.substr(0, lastIndex);
-    console.log(cmsRootServer);
+    console.log(`root:${cmsRootServer}`);
     this.config = Object.assign(
       {
         rootPath: cmsRootServer,
