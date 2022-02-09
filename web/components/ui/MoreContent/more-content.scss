@@ -1,0 +1,9 @@
+.sq-more-content {
+  &__popover {
+    .MuiPopover-paper {
+      padding: 20px;
+      background: $sq-color-gray-lightest;
+      max-width: 400px;
+    }
+  }
+}

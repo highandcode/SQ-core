@@ -47,7 +47,7 @@ const TemplateDefault = ({
             {links && (
               <div className={`sq-hero-content__links-container ${common.toStringBlank(classes.links)}`}>
                 {links.map((link, idx) => {
-                  const CompRender = componentMap.LinkButton;
+                  const CompRender = componentMap[link.cmpType] || componentMap.LinkButton;
                   return (
                     <CompRender
                       className={`sq-hero-content__link ${common.toStringBlank(classes.link)}`}
@@ -62,7 +62,7 @@ const TemplateDefault = ({
             {links2 && (
               <div className={`sq-hero-content__links2-container ${common.toStringBlank(classes.links2)}`}>
                 {links2.map((link, idx) => {
-                  const CompRender = componentMap.LinkButton;
+                  const CompRender = componentMap[link.cmpType] || componentMap.LinkButton;
                   return (
                     <CompRender
                       className={`sq-hero-content__link ${common.toStringBlank(classes.link)}`}

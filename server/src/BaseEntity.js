@@ -2,7 +2,7 @@ class BaseEntity {
   constructor(raw = {}) {
     const { _id, uid, _doc, ...restRaw } = raw;
     this.excludeKeys = ['_doc', 'excludeKeys'];
-    this.uid = uid || _id;
+    this.uid = (uid || _id)?.toString();
     this._doc = raw;
     this.set(restRaw);
   }

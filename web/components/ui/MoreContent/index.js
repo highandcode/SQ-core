@@ -1,0 +1,52 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import ReactHtmlParser from 'react-html-parser';
+import Popover from '@material-ui/core/Popover';
+import Link from '../Link';
+
+import './more-content.scss';
+
+const MoreContent = ({ linkProps, popoverProps, content, ...rest }) => {
+  const { analytics = {}, onAnalytics } = rest;
+  const { click } = analytics;
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    onAnalytics && click && onAnalytics(click);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+  return (
+    <div className="sq-more-content">
+      <Link {...linkProps} className={`sq-more-content__link`} onAnalytics={onAnalytics} onClick={handleClick} />
+      <Popover
+        open={open}
+        className={`sq-more-content__popover`}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center'
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+        {...popoverProps}
+      >
+        {ReactHtmlParser(content)}
+      </Popover>
+    </div>
+  );
+};
+MoreContent.propTypes = {
+  linkProps: PropTypes.object,
+  className: PropTypes.string,
+  content: PropTypes.string,
+  onClick: PropTypes.func
+};
+
+export default MoreContent;
