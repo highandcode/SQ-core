@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
 import Popover from '@material-ui/core/Popover';
+import Box from '@material-ui/core/Box';
 import Link from '../Link';
 
 import './more-content.scss';
 
-const MoreContent = ({ linkProps, popoverProps, content, ...rest }) => {
+const MoreContent = ({ linkProps, popoverProps, title, content, ...rest }) => {
   const { analytics = {}, onAnalytics } = rest;
   const { click } = analytics;
 
@@ -37,7 +38,10 @@ const MoreContent = ({ linkProps, popoverProps, content, ...rest }) => {
         }}
         {...popoverProps}
       >
-        {ReactHtmlParser(content)}
+        <Box p={2}>
+          {title && <div>{ReactHtmlParser(title)}</div>}
+          {ReactHtmlParser(content)}
+          </Box>
       </Popover>
     </div>
   );
