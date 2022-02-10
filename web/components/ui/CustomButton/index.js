@@ -49,7 +49,7 @@ const CustomButton = ({
       }}
     >
       <div className="sq-custom-button__container">
-        <TemplateToRender iconName={iconName} size={size} buttonText={buttonText} variant={rest.variant} />
+        <TemplateToRender iconName={iconName} size={size} buttonText={buttonText} variant={rest.variant} >{children}</TemplateToRender>
       </div>
     </div>
   );

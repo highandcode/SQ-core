@@ -54,6 +54,12 @@ const currencyAbrConfig = {
         divisor: 1e7,
         text: 'cr'
       }
+    ],
+    high: [
+      {
+        divisor: 1e7,
+        text: 'cr'
+      }
     ]
   },
   GENERAL: {
@@ -87,6 +93,16 @@ const currencyAbrConfig = {
       {
         divisor: 1e3,
         text: 'k'
+      }
+    ],
+    high: [
+      {
+        divisor: 1e12,
+        text: 'tr'
+      },
+      {
+        divisor: 1e9,
+        text: 'bn'
       }
     ]
   }
