@@ -85,7 +85,7 @@
       }
       
     }
-    .sq-link {
+    .sq-footer__nav-item-link, .sq-link {
       color: $sq-color-primary;
       &:hover {
         color: $sq-color-primary-darker;
@@ -94,7 +94,7 @@
     
   }
   &--secondary {
-    .sq-link {
+    .sq-footer__nav-item-link, .sq-link {
       color: $sq-color-secondary;
         &:hover {
           color: $sq-color-secondary-darker;
