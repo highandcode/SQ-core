@@ -83,9 +83,23 @@
           }
         }
       }
+      
     }
+    .sq-link {
+      color: $sq-color-primary;
+      &:hover {
+        color: $sq-color-primary-darker;
+      }
+    }
+    
   }
   &--secondary {
+    .sq-link {
+      color: $sq-color-secondary;
+        &:hover {
+          color: $sq-color-secondary-darker;
+        }
+    }
     .sq-footer {
       &__social-links {
         a {
@@ -95,6 +109,7 @@
           }
         }
       }
+      
     }
   }
   &--light {

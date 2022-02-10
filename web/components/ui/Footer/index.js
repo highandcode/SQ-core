@@ -159,8 +159,8 @@ class Footer extends Component {
                 {contactus && (
                   <div className="sq-footer__contactus">
                     <ul className="list-none">
-                      <li>
-                        <h4>{contactus.header}</h4>
+                      <li className="sq-footer__nav-item-link">
+                        <span>{contactus.header}</span>
                       </li>
                       {contactus.info &&
                         contactus.info.map((item, idx) => (
