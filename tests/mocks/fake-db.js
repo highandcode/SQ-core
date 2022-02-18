@@ -4,6 +4,7 @@ const fakeCollections = (objRef = {}, coll) => {
     find: () => Promise.resolve(data[coll]),
     findOne: () => Promise.resolve(data[coll]),
     deleteOne: () => Promise.resolve(data[coll]),
+    updateAll: () => Promise.resolve(data[coll]),
     deleteMany: () => Promise.resolve(data[coll]),
     update: () => Promise.resolve(data[coll]),
     insert: () => Promise.resolve(data[coll]),

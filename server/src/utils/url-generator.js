@@ -29,7 +29,7 @@ class UrlGenerator {
       return url;
     }
   }
-
+  
 
   create(url, params) {
     return this.ensureSlashEnd(this.config.server.host) + this.ensureNoSlashStart(url) + new QueryString(params).toString();

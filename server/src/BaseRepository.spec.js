@@ -4,9 +4,7 @@ const BaseRepository = require('./BaseRepository');
 const utils = require('./utils');
 const { expect } = chai;
 
-
-describe("BaseRepository", () => {
-
+describe('BaseRepository', () => {
   describe('+ve Scenario', () => {
     var _db;
     beforeEach(() => {
@@ -14,6 +12,8 @@ describe("BaseRepository", () => {
       chai.spy.on(utils.datetime, 'now', () => utils.datetime.new('2020-01-12T10:00:00.000Z'));
       chai.spy.on(_db.collections.test, 'find', () => Promise.resolve([{ fakeId: 1 }]));
       chai.spy.on(_db.collections.test, 'findOne', () => Promise.resolve({ fakeId: 1 }));
+      chai.spy.on(_db.collections.test, 'deleteMany', () => Promise.resolve({ fakeId: 1 }));
+      chai.spy.on(_db.collections.test, 'updateAll', () => Promise.resolve({ fakeId: 1 }));
       chai.spy.on(_db.collections.test, 'deleteOne', () => Promise.resolve({ fakeId: 1 }));
       chai.spy.on(_db.collections.test, 'aggregate', () => Promise.resolve([{ total: 1 }]));
       chai.spy.on(_db.collections.test, 'update', () => Promise.resolve({ fakeId: 1 }));
@@ -22,6 +22,8 @@ describe("BaseRepository", () => {
     afterEach(() => {
       chai.spy.restore(utils.datetime, 'now');
       chai.spy.restore(_db.collections.test, 'find');
+      chai.spy.restore(_db.collections.test, 'updateAll');
+      chai.spy.restore(_db.collections.test, 'deleteMany');
       chai.spy.restore(_db.collections.test, 'findOne');
       chai.spy.restore(_db.collections.test, 'deleteOne');
       chai.spy.restore(_db.collections.test, 'aggregate');
@@ -30,7 +32,7 @@ describe("BaseRepository", () => {
     });
 
     describe('Basic', () => {
-      it("should be defined", async () => {
+      it('should be defined', async () => {
         const repo = new BaseRepository({
           db: fakeDb(['test'])
         });
@@ -39,7 +41,7 @@ describe("BaseRepository", () => {
     });
 
     describe('find()', () => {
-      it("should call collection.find()", async () => {
+      it('should call collection.find()', async () => {
         const repo = new BaseRepository({
           db: _db,
           collection: 'test'
@@ -48,8 +50,56 @@ describe("BaseRepository", () => {
         expect(_db.collections.test.find).to.have.been.called.with({});
       });
     });
+    describe('deleteMany()', () => {
+      it('should call collection.deleteMany()', async () => {
+        const repo = new BaseRepository({
+          db: _db,
+          collection: 'test'
+        });
+        await repo.deleteMany({});
+        expect(_db.collections.test.deleteMany).to.have.been.called.with({});
+      });
+    });
+    describe('updateBulk()', () => {
+      it('should call collection.updateBulk()', async () => {
+        const repo = new BaseRepository({
+          db: _db,
+          collection: 'test'
+        });
+        await repo.updateBulk({});
+        expect(_db.collections.test.updateAll).to.have.been.called.with({});
+      });
+    });
+    describe('createObject()', () => {
+      const FakeEntity = function () {
+        this.test = '2';
+      };
+      it('should call entity constructor', async () => {
+        const repo = new BaseRepository({
+          db: _db,
+          collection: 'test',
+          entityType: FakeEntity
+        });
+        const result = repo.createObject({});
+        expect(result.test).to.equals('2');
+      });
+    });
+    describe('createCollection()', () => {
+      const FakeEntity = function () {
+        this.test = '2';
+      };
+      it('should call entity constructor', async () => {
+        const repo = new BaseRepository({
+          db: _db,
+          collection: 'test',
+          entityType: FakeEntity
+        });
+        const result = repo.createCollection([{}]);
+        expect(result.toArray().length).to.equals(1);
+      });
+    });
     describe('findOne()', () => {
-      it("should call collection.findOne()", async () => {
+      it('should call collection.findOne()', async () => {
         const repo = new BaseRepository({
           db: _db,
           collection: 'test'
@@ -59,7 +109,7 @@ describe("BaseRepository", () => {
       });
     });
     describe('update()', () => {
-      it("should call collection.update()", async () => {
+      it('should call collection.update()', async () => {
         const repo = new BaseRepository({
           db: _db,
           collection: 'test'
@@ -70,7 +120,7 @@ describe("BaseRepository", () => {
     });
 
     describe('deleteById()', () => {
-      it("should call collection.deleteById()", async () => {
+      it('should call collection.deleteById()', async () => {
         const repo = new BaseRepository({
           db: _db,
           collection: 'test'
@@ -80,7 +130,7 @@ describe("BaseRepository", () => {
       });
     });
     describe('insert()', () => {
-      it("should call collection.insert()", async () => {
+      it('should call collection.insert()', async () => {
         const repo = new BaseRepository({
           db: _db,
           collection: 'test'
@@ -90,7 +140,7 @@ describe("BaseRepository", () => {
       });
     });
     describe('aggregate()', () => {
-      it("should call collection.aggregate() with $match", async () => {
+      it('should call collection.aggregate() with $match', async () => {
         const repo = new BaseRepository({
           db: _db,
           collection: 'test'
@@ -100,7 +150,7 @@ describe("BaseRepository", () => {
         });
         expect(_db.collections.test.aggregate).to.have.been.called.with([{ $match: { a: 1 } }]);
       });
-      it("should call collection.aggregate() with $sort", async () => {
+      it('should call collection.aggregate() with $sort', async () => {
         const repo = new BaseRepository({
           db: _db,
           collection: 'test'
@@ -110,17 +160,19 @@ describe("BaseRepository", () => {
         });
         expect(_db.collections.test.aggregate).to.have.been.called.with([{ $sort: { a: 1 } }]);
       });
-      it("should call collection.aggregate() with $sort", async () => {
+      it('should call collection.aggregate() with $sort', async () => {
         const repo = new BaseRepository({
           db: _db,
           collection: 'test'
         });
-        await repo.aggregateMongo([{
-          $sort: { a: 1 }
-        }]);
+        await repo.aggregateMongo([
+          {
+            $sort: { a: 1 }
+          }
+        ]);
         expect(_db.collections.test.aggregate).to.have.been.called.with([{ $sort: { a: 1 } }]);
       });
-      it("should call collection.aggregate() with $group", async () => {
+      it('should call collection.aggregate() with $group', async () => {
         const repo = new BaseRepository({
           db: _db,
           collection: 'test'
@@ -132,6 +184,7 @@ describe("BaseRepository", () => {
       });
     });
   });
+
   describe('-ve Scenario', () => {
     var _db;
     beforeEach(() => {
@@ -158,7 +211,7 @@ describe("BaseRepository", () => {
         return repo.update({}).catch((ex) => {
           expect(ex.key).to.equal('DB_FAILED');
         });
-      })
+      });
     });
     describe('insert() throws error', () => {
       it('should return db failed error', () => {
@@ -169,7 +222,7 @@ describe("BaseRepository", () => {
         return repo.insert({}).catch((ex) => {
           expect(ex.key).to.equal('DB_FAILED');
         });
-      })
+      });
     });
     describe('aggregate() throws error', () => {
       it('should return db failed error', () => {
@@ -180,7 +233,7 @@ describe("BaseRepository", () => {
         return repo.aggregate({}).catch((ex) => {
           expect(ex.key).to.equal('DB_FAILED');
         });
-      })
+      });
     });
     describe('aggregateMongo() throws error', () => {
       it('should return db failed error', () => {
@@ -191,7 +244,7 @@ describe("BaseRepository", () => {
         return repo.aggregateMongo({}).catch((ex) => {
           expect(ex.key).to.equal('DB_FAILED');
         });
-      })
+      });
     });
   });
 });
