@@ -1,9 +1,10 @@
-const PageBuilder = require('./builder/page-builder');
 var express = require('express');
 var fse = require('fse');
 var path = require('path');
 const yaml = require('js-yaml');
 const _ = require('lodash');
+const utils = require('../../server/src/utils');
+const PageBuilder = require('./builder/page-builder');
 const Response = require('../../server/src/Response');
 
 class ContentServer {
@@ -177,13 +178,13 @@ class ContentServer {
   serveJson(req, res) {
     const data = this.getPageData(req.params['0']);
     // setTimeout(() => {
-      res.status(200).send(
-        new Response({
-          pageData: data.pageData,
-          siteMap: data.siteConfig,
-          metaData: data.merged
-        }).success()
-      );
+    res.status(200).send(
+      new Response({
+        pageData: data.pageData,
+        siteMap: data.siteConfig,
+        metaData: data.merged
+      }).success()
+    );
     // }, 5000);
   }
 
@@ -242,6 +243,17 @@ class ContentServer {
     }
     return filePath;
   }
+  getLaunchWaitPage(siteConfig) {
+    siteConfig = siteConfig || config.siteConfig;
+    const config = this.config;
+    let filePath = '';
+    if (siteConfig.siteMap.errorRedirects.launchSoon) {
+      filePath = this.getFilePath(siteConfig.siteMap.errorRedirects.launchSoon);
+    } else {
+      filePath = this.getFilePath('/content/pages/comingsoon.yaml');
+    }
+    return filePath;
+  }
 
   getAppNameFromUrl(url) {
     return url.substr(0, url.indexOf('/'));
@@ -259,16 +271,36 @@ class ContentServer {
     let siblingData = {};
     let filePath = `${config.contentPath}/${srcFile}.yaml`;
     let isFile = true;
+    let isLaunchMatch = false;
+    let launchMatchKey = '';
+    let launchTime = '';
+    if (currentSiteConfig.launchConfig) {
+      Object.keys(currentSiteConfig.launchConfig).forEach((lKey) => {
+        if (lKey === fullPath || fullPath.match(lKey)) {
+          isLaunchMatch = true;
+          launchMatchKey = lKey;
+        }
+      });
+    }
 
     if (!fse.existsSync(filePath)) {
       filePath = `${config.contentPath}/${srcFile}/index.yaml`;
       isFile = false;
     }
+    if (isLaunchMatch) {
+      var timeToLaunch = currentSiteConfig.launchConfig[launchMatchKey];
+      launchTime = utils.datetime.new(timeToLaunch).toStringDefault();
+      const diffInSeconds = utils.datetime.new(timeToLaunch).diffInSeconds(utils.datetime.new());
+      if (diffInSeconds > 0) {
+        filePath = this.getLaunchWaitPage(currentSiteConfig);
+        isFile = true;
+      }
+    }
 
     if (!fse.existsSync(filePath)) {
       filePath = this.get404Page(currentSiteConfig);
       status = 404;
-    } else {
+    } else if (!isLaunchMatch) {
       siblingData = this.getAllSiblings(`${config.contentPath}/${srcFile}`, isFile, fullPath);
     }
 
@@ -291,7 +323,8 @@ class ContentServer {
       pageConfig: {},
       envConfig: config.envConfig,
       parentPath: siblingData.parentPath || fullPath,
-      siblingPages: siblingData.pages
+      siblingPages: siblingData.pages,
+      launchTime
     };
     if (contents.length === 1) {
       contents = contents[0];
@@ -302,11 +335,34 @@ class ContentServer {
       path: fullPath,
       site: config,
       siteConfig: currentSiteConfig,
-      pageData: contents,
       currentNode,
       merged
     };
+    data.pageData = this.processContent(contents, data);
+
     return data;
+  }
+
+  processContent(contents, data) {
+    if (contents.inject) {
+      if (contents.inject) {
+        Object.keys(contents.inject).forEach((key) => {
+          contents[key] = utils.object.getDataFromKey(data, contents.inject[key]);
+        });
+      }
+      delete contents.inject;
+    }
+    if (contents && contents.items) {
+      contents.items.forEach((item) => {
+        if (item.inject) {
+          Object.keys(item.inject).forEach((key) => {
+            item[key] = utils.object.getDataFromKey(data, item.inject[key]);
+          });
+        }
+        delete item.inject;
+      });
+    }
+    return contents;
   }
 
   serveContent(req, res) {

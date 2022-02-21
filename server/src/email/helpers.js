@@ -7,18 +7,6 @@ let dataItems = {
   STYLES: importFile('./parts/styles.html')
 };
 
-function getDataFromKey(data, key) {
-  if (!utils.common.isNullOrUndefined(data[key])) {
-    return data[key];
-  }
-  const allItems = key.split('.');
-  let value = data;
-  allItems.forEach((nestedKey) => {
-    value = !utils.common.isNullOrUndefined(value) ? value[nestedKey] : '';
-  });
-  return value;
-}
-
 function setDataItems(newData) {
   dataItems = { ...dataItems, ...newData };
 }
@@ -33,7 +21,7 @@ function processBody(html, data) {
     arrayKeys &&
       arrayKeys.forEach((key) => {
         const exactKey = key.replace(/##/g, '').replace('data.', '');
-        const textOutput = typeof dataToProcess[exactKey] === 'function' ? dataToProcess[exactKey](data) : getDataFromKey(dataToProcess, exactKey);
+        const textOutput = typeof dataToProcess[exactKey] === 'function' ? dataToProcess[exactKey](data) : utils.object.getDataFromKey(dataToProcess, exactKey);
         html = html.replace(new RegExp(key, 'g'), processBody(textOutput, data));
       });
   }

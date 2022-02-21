@@ -18,6 +18,7 @@ import MagicHeroContent from './ui/MagicHeroContent';
 import ImageOnDevice from './ui/ImageOnDevice';
 import ImageWithSlide from './ui/ImageWithSlide';
 import ImageWithSlideList from './ui/ImageWithSlideList';
+import LaunchTimer from './LaunchTimer';
 
 let comps = {
   Icon,
@@ -39,7 +40,8 @@ let comps = {
   MagicHeroContent,
   ImageOnDevice,
   ImageWithSlide,
-  ImageWithSlideList
+  ImageWithSlideList,
+  LaunchTimer
 };
 
 const getMap = () => {

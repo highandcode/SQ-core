@@ -9,6 +9,16 @@ function getRandomS6() {
 function getRandomS8() {
   return [getRandomS4(), getRandomS4()].join('-');
 }
+const preFix = (num, prefix = '0', lengthToReturn = 2) => {
+  const length = num.toString().length;
+  let startLen = length;
+  while (startLen < lengthToReturn) {
+    num = prefix + num;
+    startLen++;
+  }
+  return num;
+};
+
 module.exports = {
   getRandomNumber(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -27,5 +37,6 @@ module.exports = {
   },
   getRandomS4,
   getRandomS6,
-  getRandomS8
+  getRandomS8,
+  preFix
 };

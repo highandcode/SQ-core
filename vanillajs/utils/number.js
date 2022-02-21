@@ -8,5 +8,5 @@ export const toString = (num, fixedTo = 2) => {
 
 export default {
   toNum,
-  toString,
+  toString
 };
