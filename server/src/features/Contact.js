@@ -4,15 +4,16 @@ var express = require('express');
 var router = express.Router();
 
 class Contact {
-  constructor({ ...config } = {}) {
+  constructor({ router: m_router, ...config } = {}) {
     this.config = config;
+    this.router = m_router || router;
     this.mailRepo = new MailRepository(config);
   }
 
   get() {
     var that = this;
     return function (bridge) {
-      router.post('/message', function (req, res) {
+      that.router.post('/message', function (req, res) {
         that.mailRepo.sendEmail('contactus', that.config.email.messageBox, req.body);
         res.json(new Response({}).json());
       });

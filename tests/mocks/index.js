@@ -99,6 +99,13 @@ NewMockModel.prototype = {
       callback(null, this.data);
     }
   },
+  deleteMany: function (cr, callback) {
+    if (this.errorMode) {
+      callback({ message: 'error occured' });
+    } else {
+      callback(null, this.data);
+    }
+  },
   delete: function () {
     return Promise.resolve(this.data);
   },

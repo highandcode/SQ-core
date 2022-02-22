@@ -10,8 +10,27 @@ const _validators = {
   },
   email: (value) => {
     return _validators.regex(value, {
-      regex: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      regex:
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     });
+  },
+  and: (value, { validations = [], ...options }) => {
+    let returnToVal = true;
+    validations.forEach((item) => {
+      if (_validators[item.type] && _validators[item.type](value, { ...options, ...item }) === false) {
+        returnToVal = false;
+      }
+    });
+    return returnToVal;
+  },
+  or: (value, { validations = [], ...options }) => {
+    let returnToVal = false;
+    validations.forEach((item) => {
+      if (_validators[item.type] && !returnToVal && _validators[item.type](value, { ...options, ...item }) === true) {
+        returnToVal = true;
+      }
+    });
+    return returnToVal;
   },
   equals: (value, { subType = '=', matchValue }) => {
     if (subType === '=') {
@@ -111,12 +130,12 @@ const _validators = {
     });
   },
   options: (value, config = {}, values) => {
-    const { type = 'array', options = [], fieldName = 'value', optional = false } = config;
+    const { subType = 'array', options = [], fieldName = 'value', optional = false } = config;
     const finalOptions = commons.getValue(this, options, config, values);
     if (optional && !value) {
       return true;
     }
-    switch (type) {
+    switch (subType) {
       case 'array':
         const item = _.filter(finalOptions, (item) => {
           if (typeof item === 'object' && item[fieldName] === value) {

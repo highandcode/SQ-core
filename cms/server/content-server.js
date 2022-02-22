@@ -1,5 +1,5 @@
 var express = require('express');
-var fse = require('fse');
+var our_fse = require('fse');
 var path = require('path');
 const yaml = require('js-yaml');
 const _ = require('lodash');
@@ -25,9 +25,9 @@ class ContentServer {
     return path;
   }
 
-  constructor(options = {}, app) {
-    const lastIndex = __dirname.lastIndexOf('server');
-    const cmsRootServer = __dirname.substr(0, lastIndex);
+  constructor({ fse, dirname = __dirname, ...options } = {}, app) {
+    const lastIndex = dirname.lastIndexOf('server');
+    const cmsRootServer = dirname.substr(0, lastIndex);
     console.log(`root:${cmsRootServer}`);
     this.config = Object.assign(
       {
@@ -46,6 +46,7 @@ class ContentServer {
       options
     );
     this.app = app;
+    this.fse = fse || our_fse;
     this.contentFolder = this.config.serverPath.substr(0, this.config.serverPath.lastIndexOf('/'));
     this.clientLibs = cmsRootServer + 'client';
     this.searchSiteMaps();
@@ -54,7 +55,7 @@ class ContentServer {
   searchSiteMaps() {
     console.log('searching site maps in:' + this.config.contentPath);
     const siteMaps = {};
-    fse.readdir(this.config.contentPath, (err, list) => {
+    this.fse.readdir(this.config.contentPath, (err, list) => {
       if (err) throw err;
       for (var i = 0; i < list.length; i++) {
         // console.log(`${this.config.contentPath}/${list[i]}/sitemap.yaml`);

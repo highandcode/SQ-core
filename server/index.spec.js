@@ -1,4 +1,4 @@
-const { chai } = require('../../../tests/setup');
+const { chai } = require('../tests/setup');
 var expect = chai.expect;
 var server = require('./index');
 

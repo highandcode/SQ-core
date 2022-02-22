@@ -128,4 +128,65 @@ describe('Core:DataLayer:Collection', () => {
       });
     });
   });
+  describe('deleteMany(data)', () => {
+    it('should throw error', function (done) {
+      const model = mocks.createMockModel({}, []);
+      const coll = new Collection({ model });
+      model.setError(true);
+      coll.deleteMany({ rec: 1 }).catch((err) => {
+        expect(err.message).to.equal('error occured');
+
+        done();
+      });
+    });
+    it('should not throw error', function (done) {
+      const model = mocks.createMockModel({}, []);
+      const coll = new Collection({ model });
+
+      coll.deleteMany({ rec: 1 }).then((data) => {
+        expect(data).to.eql({});
+        done();
+      });
+    });
+  });
+  describe('updateAll(data)', () => {
+    let model;
+    let mockRecords;
+    beforeEach(async () => {
+      model = mocks.createMockModel({}, []);
+      const coll = new Collection({ model });
+      mockRecords = [mocks.createMockModel({ id: '1', test: 'true' }), mocks.createMockModel({ id: '2', test: '2 true' })];
+      chai.spy.on(mockRecords[0], 'save');
+      chai.spy.on(mockRecords[1], 'save');
+      chai.spy.on(model, 'find', () => Promise.resolve(mockRecords));
+      await coll.updateAll({ rec: 1 }, { update: 1 });
+    });
+
+    it('should call save once', function () {
+      expect(mockRecords[0].save).to.called.once;
+    });
+  });
+  describe('updateAll(data) with error', () => {
+    let model;
+    let mockRecords;
+    let result;
+    beforeEach(async () => {
+      model = mocks.createMockModel({}, []);
+      const coll = new Collection({ model });
+      mockRecords = [mocks.createMockModel({ id: '1', test: 'true' })];
+      chai.spy.on(mockRecords[0], 'save');
+      mockRecords[0].setError(true);
+      chai.spy.on(model, 'find', () => Promise.resolve(mockRecords));
+      await coll.updateAll({ rec: 1 }, { update: 1 }).catch((ex) => {
+        result = ex;
+      });
+    });
+
+    it('should  call .save once', function () {
+      expect(mockRecords[0].save).to.called.once;
+    });
+    it('should throw error', function () {
+      expect(result).to.eqls({ message: 'error occured' });
+    });
+  });
 });

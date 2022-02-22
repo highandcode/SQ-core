@@ -1,11 +1,11 @@
 const Interval = require('./interval');
 
 class JobScheduler {
-  constructor({ jobs, ...options } = {}) {
+  constructor({ jobs, interval, ...options } = {}) {
     this.options = options;
     this.jobs = jobs;
     this.jobTypes = {
-      interval: Interval
+      interval: interval || Interval
     };
   }
 

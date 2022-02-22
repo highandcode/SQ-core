@@ -1,5 +1,5 @@
 const { chai } = require('../../../tests/setup');
-const { Validator } = require('./validator');
+const { Validator, addValidator } = require('./validator');
 const { expect } = chai;
 
 describe('Validator', () => {
@@ -20,6 +20,20 @@ describe('Validator', () => {
     });
     it('validateAll() should return true', () => {
       expect(validator.validateAll()).to.equal(true);
+    });
+  });
+  describe('Validator:Custom validators', () => {
+    let validator;
+    beforeEach(() => {
+      addValidator('test', () => false);
+      validator = new Validator({
+        test: {
+          validator: { type: 'test' }
+        }
+      });
+    });
+    it('validate(name) should return true', () => {
+      expect(validator.validate('test')).to.equal(false);
     });
   });
 
@@ -60,6 +74,12 @@ describe('Validator', () => {
         required: {
           validator: { type: 'required' }
         },
+        requiredWithFn: {
+          validator: { type: 'required', required: (fields) => true }
+        },
+        requiredWithFnNR: {
+          validator: { type: 'required', required: (fields) => false }
+        },
         password: {
           validator: { type: 'password' }
         },
@@ -71,9 +91,13 @@ describe('Validator', () => {
         },
         number: {
           validators: [{ type: 'required' }, { type: 'number', min: 1 }]
+        },
+        numberOptional: {
+          validators: [{ type: 'number', min: 1, optional: true }]
         }
       });
       validator.setValues({
+        requiredWithFn: '',
         required: '',
         password: 'Abc',
         email: 'testg.com',
@@ -85,6 +109,14 @@ describe('Validator', () => {
     it('type:"required" should have "This field is required"', function () {
       validator.validate('required');
       expect(validator.errors.required.errorMessage).to.equal('This field is required');
+    });
+    it('type:"requiredWithFn" should have "This field is required"', function () {
+      validator.validate('requiredWithFn');
+      expect(validator.errors.requiredWithFn.errorMessage).to.equal('This field is required');
+    });
+    it('type:"requiredWithFnNR" should have no message', function () {
+      validator.validate('requiredWithFnNR');
+      expect(validator.errors.required).to.undefined;
     });
     it('type:"password" should have "Password should be 6 characters long"', function () {
       validator.validate('password');
@@ -101,6 +133,10 @@ describe('Validator', () => {
     it('type:"number" should have "Enter a valid phone number"', function () {
       validator.validate('number');
       expect(validator.errors.number.errorMessage).to.equal('This field is required');
+    });
+    it('type:"numberOptional" should have no message', function () {
+      validator.validate('numberOptional');
+      expect(validator.errors.numberOptional).to.eqls({});
     });
   });
   describe('Custom "errorMessage"', () => {
@@ -520,6 +556,117 @@ describe('Validator', () => {
       expect(validator.validate('phone')).to.equal(false);
     });
   });
+  describe("type:'emailinternationalphone'", () => {
+    let validator;
+    beforeEach(() => {
+      validator = new Validator({
+        phone: {
+          validator: { type: 'emailinternationalphone' }
+        }
+      });
+    });
+    it("validate(phone) should return true in case of 'navneetabh@gmail.com' (email)", () => {
+      validator.setValue('phone', 'navneetabh@gmail.com');
+      expect(validator.validate('phone')).to.equal(true);
+    });
+    it("validate(phone) should return true in case of '+919910099101' (phone)", () => {
+      validator.setValue('phone', '+919910099101');
+      expect(validator.validate('phone')).to.equal(true);
+    });
+    it("validate(phone) should return false in case of '991009101' (invalid phone)", () => {
+      validator.setValue('phone', '991009101');
+      expect(validator.validate('phone')).to.equal(false);
+    });
+    it("validate(phone) should return false in case of 'navneetabh@' (invalid email)", () => {
+      validator.setValue('phone', 'navneetabh@');
+      expect(validator.validate('phone')).to.equal(false);
+    });
+  });
+  describe("type:'emailinternationalphone'", () => {
+    let validator;
+    beforeEach(() => {
+      validator = new Validator({
+        phone: {
+          validator: { type: 'emailinternationalphone' }
+        }
+      });
+    });
+    it("validate(phone) should return true in case of 'navneetabh@gmail.com' (email)", () => {
+      validator.setValue('phone', 'navneetabh@gmail.com');
+      expect(validator.validate('phone')).to.equal(true);
+    });
+    it("validate(phone) should return true in case of '+919910099101' (phone)", () => {
+      validator.setValue('phone', '+919910099101');
+      expect(validator.validate('phone')).to.equal(true);
+    });
+    it("validate(phone) should return false in case of '991009101' (invalid phone)", () => {
+      validator.setValue('phone', '991009101');
+      expect(validator.validate('phone')).to.equal(false);
+    });
+    it("validate(phone) should return false in case of 'navneetabh@' (invalid email)", () => {
+      validator.setValue('phone', 'navneetabh@');
+      expect(validator.validate('phone')).to.equal(false);
+    });
+  });
+
+  describe("type:'or'", () => {
+    let validator;
+    beforeEach(() => {
+      validator = new Validator({
+        multivalue: {
+          validator: { type: 'or', validations: [{ type: 'email' }, { type: 'phone' }] }
+        }
+      });
+    });
+    it('validate(multivalue) should return true in case of email', () => {
+      validator.setValue('multivalue', 'navnet@s.com');
+      expect(validator.validate('multivalue')).to.equal(true);
+    });
+    it('validate(multivalue) should return true in case of phone', () => {
+      validator.setValue('multivalue', '9910702765');
+      expect(validator.validate('multivalue')).to.equal(true);
+    });
+    it('validate(multivalue) should return false in case of phone', () => {
+      validator.setValue('multivalue', 'sdg');
+      expect(validator.validate('multivalue')).to.equal(false);
+    });
+  });
+  describe("type:'and'", () => {
+    let validator;
+    beforeEach(() => {
+      validator = new Validator({
+        multivalue: {
+          validator: { type: 'and', validations: [{ type: 'email' }, { type: 'length', exact: 8 }] }
+        }
+      });
+    });
+    it('validate(multivalue) should return true in case of email', () => {
+      validator.setValue('multivalue', 'et@s.com');
+      expect(validator.validate('multivalue')).to.equal(true);
+    });
+    it('validate(multivalue) should return false in case of email exceeding 8 chars', () => {
+      validator.setValue('multivalue', 'et2@s.com');
+      expect(validator.validate('multivalue')).to.equal(false);
+    });
+  });
+  describe("type:'equal' subType as '='", () => {
+    let validator;
+    beforeEach(() => {
+      validator = new Validator({
+        text: {
+          validator: { type: 'equals', matchValue: 'test' }
+        }
+      });
+    });
+    it("validate(text) should return true in case of 'test' (text)", () => {
+      validator.setValue('text', 'test');
+      expect(validator.validate('text')).to.equal(true);
+    });
+    it("validate(text) should return false in case of 'a' (text)", () => {
+      validator.setValue('text', 'a');
+      expect(validator.validate('text')).to.equal(false);
+    });
+  });
   describe("type:'date'", () => {
     let validator;
     beforeEach(() => {
@@ -529,14 +676,263 @@ describe('Validator', () => {
         }
       });
     });
-    it("validate(date) should return true in case of '2019-11-11' (date)", () => {
-      validator.setValue('date', '2019-11-11');
+    it('validate(date) should return true if valid date', () => {
+      validator.setValue('date', '02-02-2022');
       expect(validator.validate('date')).to.equal(true);
     });
-
-    it("validate(date) should return false in case of 'sfsf' (date)", () => {
-      validator.setValue('date', 'sfsf');
+    it("validate(date) should return false in case of 'a' ", () => {
+      validator.setValue('date', 'a');
       expect(validator.validate('date')).to.equal(false);
+    });
+  });
+
+  describe("type:'options' with object array", () => {
+    it('should return true if have matching value', () => {
+      const validator = new Validator({
+        timezone: {
+          validator: { type: 'options', options: [{ value: 'IST', text: 'Indian standard' }] }
+        }
+      });
+      validator.setValue('timezone', 'IST');
+      expect(validator.validate('timezone')).to.equal(true);
+    });
+    it('should return false if have if not matching value', () => {
+      const validator = new Validator({
+        timezone: {
+          validator: { type: 'options', options: [{ value: 'IST', text: 'Indian standard' }] }
+        }
+      });
+      validator.setValue('timezone', 'IST2');
+      expect(validator.validate('timezone')).to.equal(false);
+    });
+  });
+
+  describe("type:'options' with string array", () => {
+    it('should return true if have matching value', () => {
+      const validator = new Validator({
+        checkVal: {
+          validator: { type: 'options', options: ['Rice', 'Core'] }
+        }
+      });
+      validator.setValue('checkVal', 'Rice');
+      expect(validator.validate('checkVal')).to.equal(true);
+    });
+    it('should return false if have if not matching value', () => {
+      const validator = new Validator({
+        checkVal: {
+          validator: { type: 'options', options: ['Rice', 'Core'] }
+        }
+      });
+      validator.setValue('checkVal', 'Core2');
+      expect(validator.validate('checkVal')).to.equal(false);
+    });
+  });
+  describe("type:'options' with optional = true", () => {
+    it('should return true if have matching value', () => {
+      const validator = new Validator({
+        checkVal: {
+          validator: { type: 'options', options: ['Rice', 'Core'], optional: true }
+        }
+      });
+      validator.setValue('checkVal', '');
+      expect(validator.validate('checkVal')).to.equal(true);
+    });
+  });
+  describe("type:'options' with no options", () => {
+    it('should return false if have no options', () => {
+      const validator = new Validator({
+        checkVal: {
+          validator: { type: 'options', optional: true }
+        }
+      });
+      validator.setValue('checkVal', 'Ground');
+      expect(validator.validate('checkVal')).to.equal(false);
+    });
+  });
+  describe("type:'options' with unknown type", () => {
+    it('should return false if have no options', () => {
+      const validator = new Validator({
+        checkVal: {
+          validator: { type: 'options', optional: true, subType: 'object' }
+        }
+      });
+      validator.setValue('checkVal', 'Ground');
+      expect(validator.validate('checkVal')).to.equal(false);
+    });
+  });
+
+  describe("type:'options' with object array", () => {
+    it('should return true if have matching value', () => {
+      const validator = new Validator({
+        timezone: {
+          validator: { type: 'options', options: [{ value: 'IST', text: 'Indian standard' }] }
+        }
+      });
+      validator.setValue('timezone', 'IST');
+      expect(validator.validate('timezone')).to.equal(true);
+    });
+    it('should return false if have if not matching value', () => {
+      const validator = new Validator({
+        timezone: {
+          validator: { type: 'options', options: [{ value: 'IST', text: 'Indian standard' }] }
+        }
+      });
+      validator.setValue('timezone', 'IST2');
+      expect(validator.validate('timezone')).to.equal(false);
+    });
+  });
+
+  describe("type:'array'", () => {
+    it('should return true if passed value is an array', () => {
+      const validator = new Validator({
+        timezone: {
+          validator: { type: 'array' }
+        }
+      });
+      validator.setValue('timezone', ['one']);
+      expect(validator.validate('timezone')).to.equal(true);
+    });
+    it('should return true if passed value is an array of strings', () => {
+      const validator = new Validator({
+        timezone: {
+          validator: { type: 'array', valueType: 'string' }
+        }
+      });
+      validator.setValue('timezone', ['one']);
+      expect(validator.validate('timezone')).to.equal(true);
+    });
+    it('should return false if passed value is an array of object', () => {
+      const validator = new Validator({
+        timezone: {
+          validator: { type: 'array', valueType: 'string' }
+        }
+      });
+      validator.setValue('timezone', [{ key: 'one' }]);
+      expect(validator.validate('timezone')).to.equal(false);
+    });
+  });
+
+  describe("type:'equal' subType as '!='", () => {
+    let validator;
+    beforeEach(() => {
+      validator = new Validator({
+        text: {
+          validator: { type: 'equals', matchValue: 'test', subType: '!=' }
+        }
+      });
+    });
+    it("validate(text) should return false in case of 'test' (text)", () => {
+      validator.setValue('text', 'test');
+      expect(validator.validate('text')).to.equal(false);
+    });
+    it("validate(text) should return true in case of 'a' (text)", () => {
+      validator.setValue('text', 'a');
+      expect(validator.validate('text')).to.equal(true);
+    });
+  });
+  describe("type:'digits' without length", () => {
+    let validator;
+    beforeEach(() => {
+      validator = new Validator({
+        digits: {
+          validator: { type: 'digits' }
+        }
+      });
+    });
+    it("validate(digits) should return false in case of '12030d' (digits)", () => {
+      validator.setValue('digits', '12030d');
+      expect(validator.validate('digits')).to.equal(false);
+    });
+    it("validate(digits) should return true in case of '4577' (digits)", () => {
+      validator.setValue('digits', '4577');
+      expect(validator.validate('digits')).to.equal(true);
+    });
+  });
+  describe("type:'digits' with length", () => {
+    let validator;
+    beforeEach(() => {
+      validator = new Validator({
+        digits: {
+          validator: { type: 'digits', length: 2 }
+        }
+      });
+    });
+    it("validate(digits) should return false in case of '1234' (digits)", () => {
+      validator.setValue('digits', '1234');
+      expect(validator.validate('digits')).to.equal(false);
+    });
+    it("validate(digits) should return true in case of '12' (digits)", () => {
+      validator.setValue('digits', '12');
+      expect(validator.validate('digits')).to.equal(true);
+    });
+  });
+
+  describe("type:'custom'", () => {
+    it('should pass if custom validator not passed', () => {
+      const validator = new Validator({
+        digits: {
+          validator: { type: 'custom' }
+        }
+      });
+      validator.setValue('digits', '1234');
+      expect(validator.validate('digits')).to.equal(true);
+    });
+    it('should pass if custom validator returns true', () => {
+      const validator = new Validator({
+        digits: {
+          validator: { type: 'custom', validator: () => true }
+        }
+      });
+      validator.setValue('digits', '1234');
+      expect(validator.validate('digits')).to.equal(true);
+    });
+    it('should fail if custom validator returns false', () => {
+      const validator = new Validator({
+        digits: {
+          validator: { type: 'custom', validator: () => false }
+        }
+      });
+      validator.setValue('digits', '1234');
+      expect(validator.validate('digits')).to.equal(false);
+    });
+  });
+
+  describe("type:'decimals' with length", () => {
+    it('should fail if length is 5 with length=4', () => {
+      const validator = new Validator({
+        digits: {
+          validator: { type: 'decimals', length: 4 }
+        }
+      });
+      validator.setValue('digits', '12.22');
+      expect(validator.validate('digits')).to.equal(false);
+    });
+    it('should pass if decimlas is under 4', () => {
+      const validator = new Validator({
+        digits: {
+          validator: { type: 'decimals', negative: true }
+        }
+      });
+      validator.setValue('digits', '-12.3');
+      expect(validator.validate('digits')).to.equal(true);
+    });
+    it('should fail if decimals are not allowed decimals=0', () => {
+      const validator = new Validator({
+        digits: {
+          validator: { type: 'decimals', decimals: 0 }
+        }
+      });
+      validator.setValue('digits', '12.3');
+      expect(validator.validate('digits')).to.equal(false);
+    });
+    it('should fail if decimals are not allowed decimals=0', () => {
+      const validator = new Validator({
+        digits: {
+          validator: { type: 'decimals', negative: true, decimals: 0 }
+        }
+      });
+      validator.setValue('digits', '-12.3');
+      expect(validator.validate('digits')).to.equal(false);
     });
   });
 
@@ -610,6 +1006,7 @@ describe('Validator', () => {
       expect(validator.errors.test2).to.be.undefined;
     });
   });
+
   describe('multiple validations with {impactOn: [] } option ', () => {
     let validator;
     beforeEach(() => {
