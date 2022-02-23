@@ -43,14 +43,14 @@ const renderSubNav = (item, isHover, callback) => {
   );
 };
 
-const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, rightItems, mobileItems, onAnalytics, stickyNav = true }) => {
+const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, rightItems, mobileItems, onAnalytics, navPosition = 'sticky' }) => {
   const [open, setOpen] = useState(false);
   const [height, setHeight] = useState(0);
   const fillerEl = useRef(false);
   const [currentItemHover, setCurrentHover] = useState(null);
-  const { isSticky, element } = stickyNav ? useSticky() : {};
+  const { isSticky, element } = navPosition === 'sticky' ? useSticky() : {};
   useEffect(() => {
-    if (stickyNav) {
+    if (navPosition === 'sticky') {
       setHeight(element.current.getBoundingClientRect().height);
     }
   });
@@ -58,12 +58,15 @@ const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, righ
     setOpen(!open);
   };
   const linksComps = { Button, LinkButton };
-  const finalSticky = stickyNav && isSticky;
+  const finalSticky = navPosition === 'sticky' && isSticky;
+  const finalFixed = navPosition === 'fixed';
   return (
     <Fragment>
       {finalSticky && <div className="sq-global-navigation-filler" style={{ height: height }} ref={fillerEl}></div>}
       <nav
-        className={`sq-global-navigation ${className} ${finalSticky ? 'sq-global-navigation--sticky' : ''} ${open ? 'sq-global-navigation--open' : ''}`}
+        className={`sq-global-navigation ${className} ${finalFixed ? 'sq-global-navigation--fixed' : ''} ${finalSticky ? 'sq-global-navigation--sticky' : ''} ${
+          open ? 'sq-global-navigation--open' : ''
+        }`}
         ref={element}
       >
         <div className={`sq-global-navigation__wrapper ${classes.wrapper || ''}`}>

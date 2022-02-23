@@ -21,22 +21,17 @@ $link-hover-decoration: none;
 //
 //## Gray and brand colors for use across Bootstrap.
 
-$gray-base: #000 !default;
-$gray-darker: lighten($gray-base, 13.5%) !default; // #222
-$gray-dark: lighten($gray-base, 20%) !default; // #333
-$gray: lighten($gray-base, 33.5%) !default; // #555
-$gray-light: lighten($gray-base, 46.7%) !default; // #777
-$gray-lighter: lighten($gray-base, 93.5%) !default; // #eee
+$gray-base: #000 ;
+$gray-darker: lighten($gray-base, 13.5%) ; // #222
+$gray-dark: lighten($gray-base, 20%) ; // #333
+$gray: lighten($gray-base, 33.5%) ; // #555
+$gray-light: lighten($gray-base, 46.7%) ; // #777
+$gray-lighter: lighten($gray-base, 93.5%) ; // #eee
 
-$brand-primary: #374658 !default; // #337ab7
-$brand-success: #5cb85c !default;
-$brand-info: #5bc0de !default;
-$brand-warning: #f0ad4e !default;
-$brand-danger: #d9534f !default;
 
 
 // Colors
-$sq-color-primary: #374658;
+$sq-color-primary: #143155;
 $sq-color-primary-lightest: lighten($sq-color-primary, 45%);
 $sq-color-primary-lighter: lighten($sq-color-primary, 35%);
 $sq-color-primary-light: lighten($sq-color-primary, 25%);
@@ -84,14 +79,21 @@ $sq-color-success: #4caf50;
 $sq-color-success-darker: #3a6252;
 $sq-color-success-lighter: #3bffba;
 
+
+$brand-primary: $sq-color-primary ; // #337ab7
+$brand-success:$sq-color-success ;
+$brand-info: $sq-color-info ;
+$brand-warning: $sq-color-warning ;
+$brand-danger: $sq-color-error ;
+
 //== Scaffolding
 //
 //## Settings for some of the most global styles.
 
 //** Background color for `<body>`.
-$body-bg: #fff !default;
+$body-bg: #fff ;
 //** Global text color on `<body>`.
-$text-color: $gray-base !default;
+$text-color: $gray-base;
 
 //== Typography
 

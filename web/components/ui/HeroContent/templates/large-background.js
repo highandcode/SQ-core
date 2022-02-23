@@ -27,29 +27,31 @@ const TemplateWithBackground = ({
         className={`sq-hero-content__root ${common.toStringBlank(classes.root)}`}
         style={{ backgroundImage: `url(${resolveImageUrl(background)})` }}
       >
-        <div className="sq-hero-content__wrapper">
-          <div className="sq-hero-content__body">
-            {eyebrow && <div className={`sq-hero-content__eyebrow ${common.toStringBlank(classes.eyebrow)}`}>{ReactHtmlParser(eyebrow)}</div>}
-            {header && <HTag className={`sq-hero-content__header ${common.toStringBlank(classes.header)}`}>{ReactHtmlParser(header)}</HTag>}
-            {subHeader && (
-              <BTag className={`sq-hero-content__sub-header ${common.toStringBlank(classes.subHeader)}`}>{ReactHtmlParser(subHeader)}</BTag>
-            )}
-            {links && (
-              <div className={`sq-hero-content__links-container ${common.toStringBlank(classes.links)}`}>
-                {links.map((link, idx) => {
-                  const CompRender = componentMap.LinkButton;
-                  return <CompRender onAnalytics={onAnalytics} key={idx} {...link} />;
-                })}
-              </div>
-            )}
-            {links2 && (
-              <div className={`sq-hero-content__links2-container ${common.toStringBlank(classes.links2)}`}>
-                {links2.map((link, idx) => {
-                  const CompRender = componentMap.LinkButton;
-                  return <CompRender onAnalytics={onAnalytics} key={idx} {...link} />;
-                })}
-              </div>
-            )}
+        <div className={`sq-hero-content__wrapper ${common.toStringBlank(classes.wrapper)}`}>
+          <div className={`sq-hero-content__inner-wrapper ${common.toStringBlank(classes.innerWrapper)}`}>
+            <div className={`sq-hero-content__body ${common.toStringBlank(classes.body)}`}>
+              {eyebrow && <div className={`sq-hero-content__eyebrow ${common.toStringBlank(classes.eyebrow)}`}>{ReactHtmlParser(eyebrow)}</div>}
+              {header && <HTag className={`sq-hero-content__header ${common.toStringBlank(classes.header)}`}>{ReactHtmlParser(header)}</HTag>}
+              {subHeader && (
+                <BTag className={`sq-hero-content__sub-header ${common.toStringBlank(classes.subHeader)}`}>{ReactHtmlParser(subHeader)}</BTag>
+              )}
+              {links && (
+                <div className={`sq-hero-content__links-container ${common.toStringBlank(classes.links)}`}>
+                  {links.map((link, idx) => {
+                    const CompRender = componentMap.LinkButton;
+                    return <CompRender onAnalytics={onAnalytics} key={idx} {...link} />;
+                  })}
+                </div>
+              )}
+              {links2 && (
+                <div className={`sq-hero-content__links2-container ${common.toStringBlank(classes.links2)}`}>
+                  {links2.map((link, idx) => {
+                    const CompRender = componentMap.LinkButton;
+                    return <CompRender onAnalytics={onAnalytics} key={idx} {...link} />;
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

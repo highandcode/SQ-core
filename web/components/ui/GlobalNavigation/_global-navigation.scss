@@ -18,6 +18,10 @@ $sq-global-navigation-sub-navbg: $white;
     left: 0;
     z-index: $z-index-level-4;
   }
+  &--blured {
+    backdrop-filter: blur(8px);
+    background-color: rgba(255,255,255,0.5);
+  }
   &--bordered {
     border-bottom: solid 1px $sq-color-gray-lighter;
   }

@@ -59,7 +59,10 @@
       order: 2;
     }
   }
-
+  &--without-image {
+    padding: 40px 0;
+    max-width: 100%;
+  }
   &--default {
     padding: 40px 0;
     max-width: 100%;
