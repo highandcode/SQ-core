@@ -19,6 +19,7 @@ import ImageOnDevice from './ui/ImageOnDevice';
 import ImageWithSlide from './ui/ImageWithSlide';
 import ImageWithSlideList from './ui/ImageWithSlideList';
 import LaunchTimer from './LaunchTimer';
+import Carousel from './Carousel';
 
 let comps = {
   Icon,
@@ -41,7 +42,8 @@ let comps = {
   ImageOnDevice,
   ImageWithSlide,
   ImageWithSlideList,
-  LaunchTimer
+  LaunchTimer,
+  Carousel
 };
 
 const getMap = () => {
