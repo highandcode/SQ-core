@@ -14,36 +14,6 @@ class PageBuilder {
     this.currentNode = currentNode;
   }
 
-  getPageNode(node, path) {
-    let foundNode;
-    if (node && node.children) {
-      for (let i = 0; i < node.children.length; i++) {
-        let childNode = node.children[i];
-        if (childNode.children && childNode.children.length > 0) {
-          foundNode = this.getPageNode(childNode, path);
-          if (foundNode) {
-            if (!foundNode.children) {
-              foundNode = childNode;
-            }
-            break;
-          }
-        }
-        // console.log(childNode.href + "==" + path);
-        if (childNode.href === path) {
-          // console.log("matched =");
-          // console.log(childNode);
-          foundNode = childNode;
-          break;
-        } else if (childNode.href.indexOf(path) > -1 || path.indexOf(childNode.href) > -1) {
-          // console.log("matched index");
-          foundNode = node;
-        }
-      }
-    }
-    // console.log("returning node" + foundNode);
-    return foundNode;
-  }
-
   build() {
     console.log('building page ->' + this.data.title);
     console.log('building page:destPath->' + this.data.destPath);
