@@ -1,9 +1,4 @@
-/*!
-  * sq-core:cms:core v1.0.0
-  * undefined
-  * Licence undefined
-  * Copyright 2021-2022 Swish Qube
-  */.sq-call-to-action {
+.sq-call-to-action {
   background: red; }
 
 code, code.hljs {
@@ -43,3 +38,4 @@ code, code.hljs {
     margin-top: 20px; }
   to {
     margin-top: 0; } }
+

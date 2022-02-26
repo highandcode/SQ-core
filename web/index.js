@@ -11,10 +11,7 @@ import * as utils from './utils';
 import contentStore from './store/contentStore';
 
 /* domain module */
-import * as collection from './domain/collections';
-import * as entity from './domain/entity';
-import * as helpers from './domain/helpers';
-import * as repository from './domain/repository';
+import domain from './domain';
 
 /* containers module */
 import * as containers from './containers';
@@ -25,7 +22,6 @@ import * as ui from './components/ui';
 
 const stores = { contentStore };
 
-const domain = { collection, entity, helpers, repository };
 
 /* export module */
 export { containers, components, ui, componentsRoot, uiRoot, stores, domain, globals, cordova, utils };

@@ -1,9 +1,4 @@
-/*!
-  * sq-core:cms:basic v1.0.0
-  * undefined
-  * Licence undefined
-  * Copyright 2021-2022 Swish Qube
-  */@font-face {
+@font-face {
   font-family: 'RobotoRegular';
   src: url("/client/assets/fonts/RobotoCondensed-Regular.ttf"); }
 
@@ -30,3 +25,4 @@ body {
 
 header .navbar-nav .active a.nav-link {
   color: #329ef7; }
+

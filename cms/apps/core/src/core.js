@@ -5,4 +5,4 @@ class SQCore {
   }
 }
 
-export default SQCore;
+export default new SQCore();

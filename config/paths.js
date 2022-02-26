@@ -71,6 +71,8 @@ module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   dist: resolveApp('dist'),
+  cmsLibs: resolveApp('cms/client/libs'),
+  cmsApps: resolveApp('cms/apps'),
   appBuild: resolveApp('build'),
   appIndexJs: resolveModule(resolveApp, 'web/index'),
   styles: resolveApp('web/styles'),
