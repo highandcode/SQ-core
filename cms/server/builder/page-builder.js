@@ -70,7 +70,8 @@ class PageBuilder {
                 siteMap: this.siteConfig.siteMap,
                 currentNode,
                 mode: this.siteConfig.mode || this.mode,
-                _
+                _,
+                pageData: this.data
               },
               { body: pageContents }
             )
