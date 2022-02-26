@@ -2,7 +2,7 @@
   * sq-core:cms:core v1.0.0
   * undefined
   * Licence undefined
-  * Copyright 2019-2020 Swish Qube
+  * Copyright 2021-2022 Swish Qube
   */.sq-call-to-action {
   background: red; }
 
@@ -31,3 +31,15 @@ code, code.hljs {
     padding: 20px 40px;
     background: #fff;
     box-shadow: 3px 3px 10px 2px #ccc; }
+
+@keyframes slidein {
+  from {
+    margin-top: 20px; }
+  to {
+    margin-top: 0; } }
+
+@keyframes slideout {
+  from {
+    margin-top: 20px; }
+  to {
+    margin-top: 0; } }

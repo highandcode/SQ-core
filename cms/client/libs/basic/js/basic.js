@@ -2,7 +2,7 @@
   * sq-core:cms:basic v1.0.0
   * undefined
   * Licence undefined
-  * Copyright 2019-2020 Swish Qube
+  * Copyright 2021-2022 Swish Qube
   */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('SQ')) :

@@ -12,9 +12,8 @@
     "server:test": "mocha --file ./tests/setup.js  --exit --recursive --config ./mocha-server.config.js",
     "server:test:coverage": "nyc --reporter=html --reporter=lcov --reporter=text mocha --file ./tests/setup.js  --exit --recursive --config ./mocha-server.config.js",
     "server:test:watch": "mocha  -w --recursive --config ./mocha-server.config.js",
-    
-    
     "test": "npm run server:test && npm run client:test",
+    "build": "rollup -c rollup.cms.config.js --environment INCLUDE_DEPS,BUILD:production",
     "test:coverage": "npm run server:test:coverage && npm run client:test:coverage",
     "start": "start-storybook -p 6006",
     "dist": "rm -rf dist && webpack && node scripts/dist.js",

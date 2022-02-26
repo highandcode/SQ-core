@@ -2,7 +2,7 @@
   * sq-core:cms:core v1.0.0
   * undefined
   * Licence undefined
-  * Copyright 2019-2020 Swish Qube
+  * Copyright 2021-2022 Swish Qube
   */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -10,9 +10,26 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.SQ = factory());
 }(this, (function () { 'use strict';
 
-  class SQCore {
-    constructor() {}
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
 
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
   }
 
   function _defineProperty(obj, key, value) {
@@ -64,66 +81,453 @@
     return target;
   }
 
-  class QueryString {
-    constructor(params) {
+  var SQCore = function SQCore() {
+    _classCallCheck(this, SQCore);
+  };
+
+  var QueryString = /*#__PURE__*/function () {
+    function QueryString(params) {
+      _classCallCheck(this, QueryString);
+
       this.input = params;
       this.isString = !!params && typeof params === 'string';
       this.isObject = !!params && typeof params === 'object';
     }
 
-    toString() {
-      var str = '';
+    _createClass(QueryString, [{
+      key: "toString",
+      value: function toString() {
+        var _this = this;
 
-      if (this.isObject) {
-        Object.keys(this.input).forEach(key => {
-          if (this.input[key]) {
-            str += (str ? '&' : '') + key + '=' + this.input[key];
-          }
-        });
+        var str = '';
+
+        if (this.isObject) {
+          Object.keys(this.input).forEach(function (key) {
+            if (_this.input[key]) {
+              str += (str ? '&' : '') + key + '=' + encodeURIComponent(_this.input[key]);
+            }
+          });
+        }
+
+        return str ? '?' + str : str;
       }
+    }, {
+      key: "toObject",
+      value: function toObject() {
+        var obj = {};
 
-      return str ? '?' + str : str;
-    }
+        if (this.isString) {
+          var runInput = this.input.substr(this.input.indexOf('?') + 1);
+          runInput.split('&').forEach(function (keyValue) {
+            var split = keyValue.split('=');
+            obj[split[0]] = decodeURIComponent(split[1]);
+          });
+        }
 
-    toObject() {
-      var obj = {};
-
-      if (this.isString) {
-        const runInput = this.input.substr(this.input.indexOf('?') + 1);
-        runInput.split('&').forEach(keyValue => {
-          const split = keyValue.split('=');
-          obj[split[0]] = split[1];
-        });
+        return obj;
       }
+    }]);
 
-      return obj;
+    return QueryString;
+  }();
+
+  var location = window.location;
+  var query = {
+    get: function get(search) {
+      return new QueryString(search || location.search).toObject();
     }
+  };
 
+  var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+  function unwrapExports (x) {
+  	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
   }
 
-  var queryString = QueryString;
+  function createCommonjsModule(fn, module) {
+  	return module = { exports: {} }, fn(module, module.exports), module.exports;
+  }
 
-  const location = window.location;
-  const query = {
-    get: () => {
-      return new queryString(location.search).toObject();
-    }
+  var animatedScrollTo = createCommonjsModule(function (module, exports) {
+  var __assign = (commonjsGlobal && commonjsGlobal.__assign) || function () {
+      __assign = Object.assign || function(t) {
+          for (var s, i = 1, n = arguments.length; i < n; i++) {
+              s = arguments[i];
+              for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                  t[p] = s[p];
+          }
+          return t;
+      };
+      return __assign.apply(this, arguments);
   };
-
-  let history;
-  let urlMapping = {};
-  const redirectTo = screen => {
-    console.log(screen, urlMapping);
-    const url = urlMapping[screen];
-
-    if (url) {
-      setTimeout(() => {
-        history.push(url);
+  var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
+      function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+      return new (P || (P = Promise))(function (resolve, reject) {
+          function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+          function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+          function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+          step((generator = generator.apply(thisArg, _arguments || [])).next());
       });
-    }
   };
+  var __generator = (commonjsGlobal && commonjsGlobal.__generator) || function (thisArg, body) {
+      var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+      return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+      function verb(n) { return function (v) { return step([n, v]); }; }
+      function step(op) {
+          if (f) throw new TypeError("Generator is already executing.");
+          while (_) try {
+              if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+              if (y = 0, t) op = [op[0] & 2, t.value];
+              switch (op[0]) {
+                  case 0: case 1: t = op; break;
+                  case 4: _.label++; return { value: op[1], done: false };
+                  case 5: _.label++; y = op[1]; op = [0]; continue;
+                  case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                  default:
+                      if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                      if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                      if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                      if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                      if (t[2]) _.ops.pop();
+                      _.trys.pop(); continue;
+              }
+              op = body.call(thisArg, _);
+          } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+          if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+      }
+  };
+  Object.defineProperty(exports, "__esModule", { value: true });
+  // --------- HELPERS
+  function getElementOffset(el) {
+      var top = 0;
+      var left = 0;
+      var element = el;
+      // Loop through the DOM tree
+      // and add it's parent's offset to get page offset
+      do {
+          top += element.offsetTop || 0;
+          left += element.offsetLeft || 0;
+          element = element.offsetParent;
+      } while (element);
+      return {
+          top: top,
+          left: left,
+      };
+  }
+  // --------- SCROLL INTERFACES
+  // ScrollDomElement and ScrollWindow have identical interfaces
+  var ScrollDomElement = /** @class */ (function () {
+      function ScrollDomElement(element) {
+          this.element = element;
+      }
+      ScrollDomElement.prototype.getHorizontalScroll = function () {
+          return this.element.scrollLeft;
+      };
+      ScrollDomElement.prototype.getVerticalScroll = function () {
+          return this.element.scrollTop;
+      };
+      ScrollDomElement.prototype.getMaxHorizontalScroll = function () {
+          return this.element.scrollWidth - this.element.clientWidth;
+      };
+      ScrollDomElement.prototype.getMaxVerticalScroll = function () {
+          return this.element.scrollHeight - this.element.clientHeight;
+      };
+      ScrollDomElement.prototype.getHorizontalElementScrollOffset = function (elementToScrollTo, elementToScroll) {
+          return getElementOffset(elementToScrollTo).left - getElementOffset(elementToScroll).left;
+      };
+      ScrollDomElement.prototype.getVerticalElementScrollOffset = function (elementToScrollTo, elementToScroll) {
+          return getElementOffset(elementToScrollTo).top - getElementOffset(elementToScroll).top;
+      };
+      ScrollDomElement.prototype.scrollTo = function (x, y) {
+          this.element.scrollLeft = x;
+          this.element.scrollTop = y;
+      };
+      return ScrollDomElement;
+  }());
+  var ScrollWindow = /** @class */ (function () {
+      function ScrollWindow() {
+      }
+      ScrollWindow.prototype.getHorizontalScroll = function () {
+          return window.scrollX || document.documentElement.scrollLeft;
+      };
+      ScrollWindow.prototype.getVerticalScroll = function () {
+          return window.scrollY || document.documentElement.scrollTop;
+      };
+      ScrollWindow.prototype.getMaxHorizontalScroll = function () {
+          return Math.max(document.body.scrollWidth, document.documentElement.scrollWidth, document.body.offsetWidth, document.documentElement.offsetWidth, document.body.clientWidth, document.documentElement.clientWidth) - window.innerWidth;
+      };
+      ScrollWindow.prototype.getMaxVerticalScroll = function () {
+          return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.offsetHeight, document.documentElement.offsetHeight, document.body.clientHeight, document.documentElement.clientHeight) - window.innerHeight;
+      };
+      ScrollWindow.prototype.getHorizontalElementScrollOffset = function (elementToScrollTo) {
+          var scrollLeft = window.scrollX || document.documentElement.scrollLeft;
+          return scrollLeft + elementToScrollTo.getBoundingClientRect().left;
+      };
+      ScrollWindow.prototype.getVerticalElementScrollOffset = function (elementToScrollTo) {
+          var scrollTop = window.scrollY || document.documentElement.scrollTop;
+          return scrollTop + elementToScrollTo.getBoundingClientRect().top;
+      };
+      ScrollWindow.prototype.scrollTo = function (x, y) {
+          window.scrollTo(x, y);
+      };
+      return ScrollWindow;
+  }());
+  // --------- KEEPING TRACK OF ACTIVE ANIMATIONS
+  var activeAnimations = {
+      elements: [],
+      cancelMethods: [],
+      add: function (element, cancelAnimation) {
+          activeAnimations.elements.push(element);
+          activeAnimations.cancelMethods.push(cancelAnimation);
+      },
+      remove: function (element, shouldStop) {
+          if (shouldStop === void 0) { shouldStop = true; }
+          var index = activeAnimations.elements.indexOf(element);
+          if (index > -1) {
+              // Stop animation
+              if (shouldStop) {
+                  activeAnimations.cancelMethods[index]();
+              }
+              // Remove it
+              activeAnimations.elements.splice(index, 1);
+              activeAnimations.cancelMethods.splice(index, 1);
+          }
+      }
+  };
+  // --------- CHECK IF CODE IS RUNNING IN A BROWSER
+  var WINDOW_EXISTS = typeof window !== 'undefined';
+  // --------- ANIMATE SCROLL TO
+  var defaultOptions = {
+      cancelOnUserAction: true,
+      easing: function (t) { return (--t) * t * t + 1; },
+      elementToScroll: WINDOW_EXISTS ? window : null,
+      horizontalOffset: 0,
+      maxDuration: 3000,
+      minDuration: 250,
+      speed: 500,
+      verticalOffset: 0,
+  };
+  function animateScrollTo(numberOrCoordsOrElement, userOptions) {
+      if (userOptions === void 0) { userOptions = {}; }
+      return __awaiter(this, void 0, void 0, function () {
+          var x, y, scrollToElement, options, isWindow, isElement, scrollBehaviorElement, scrollBehavior, elementToScroll, maxHorizontalScroll, initialHorizontalScroll, horizontalDistanceToScroll, maxVerticalScroll, initialVerticalScroll, verticalDistanceToScroll, horizontalDuration, verticalDuration, duration;
+          return __generator(this, function (_a) {
+              // Check for server rendering
+              if (!WINDOW_EXISTS) {
+                  // @ts-ignore
+                  // If it still gets called on server, return Promise for API consistency
+                  return [2 /*return*/, new Promise(function (resolve) {
+                          resolve(false); // Returning false on server
+                      })];
+              }
+              else if (!window.Promise) {
+                  throw ('Browser doesn\'t support Promises, and animated-scroll-to depends on it, please provide a polyfill.');
+              }
+              options = __assign(__assign({}, defaultOptions), userOptions);
+              isWindow = options.elementToScroll === window;
+              isElement = !!options.elementToScroll.nodeName;
+              if (!isWindow && !isElement) {
+                  throw ('Element to scroll needs to be either window or DOM element.');
+              }
+              scrollBehaviorElement = isWindow ? document.documentElement : options.elementToScroll;
+              scrollBehavior = getComputedStyle(scrollBehaviorElement).getPropertyValue('scroll-behavior');
+              if (scrollBehavior === 'smooth') {
+                  console.warn(scrollBehaviorElement.tagName + " has \"scroll-behavior: smooth\" which can mess up with animated-scroll-to's animations");
+              }
+              elementToScroll = isWindow ?
+                  new ScrollWindow() :
+                  new ScrollDomElement(options.elementToScroll);
+              if (numberOrCoordsOrElement instanceof Element) {
+                  scrollToElement = numberOrCoordsOrElement;
+                  // If "elementToScroll" is not a parent of "scrollToElement"
+                  if (isElement &&
+                      (!options.elementToScroll.contains(scrollToElement) ||
+                          options.elementToScroll.isSameNode(scrollToElement))) {
+                      throw ('options.elementToScroll has to be a parent of scrollToElement');
+                  }
+                  x = elementToScroll.getHorizontalElementScrollOffset(scrollToElement, options.elementToScroll);
+                  y = elementToScroll.getVerticalElementScrollOffset(scrollToElement, options.elementToScroll);
+              }
+              else if (typeof numberOrCoordsOrElement === 'number') {
+                  x = elementToScroll.getHorizontalScroll();
+                  y = numberOrCoordsOrElement;
+              }
+              else if (Array.isArray(numberOrCoordsOrElement) && numberOrCoordsOrElement.length === 2) {
+                  x = numberOrCoordsOrElement[0] === null ? elementToScroll.getHorizontalScroll() : numberOrCoordsOrElement[0];
+                  y = numberOrCoordsOrElement[1] === null ? elementToScroll.getVerticalScroll() : numberOrCoordsOrElement[1];
+              }
+              else {
+                  // ERROR
+                  throw ('Wrong function signature. Check documentation.\n' +
+                      'Available method signatures are:\n' +
+                      '  animateScrollTo(y:number, options)\n' +
+                      '  animateScrollTo([x:number | null, y:number | null], options)\n' +
+                      '  animateScrollTo(scrollToElement:Element, options)');
+              }
+              // Add offsets
+              x += options.horizontalOffset;
+              y += options.verticalOffset;
+              maxHorizontalScroll = elementToScroll.getMaxHorizontalScroll();
+              initialHorizontalScroll = elementToScroll.getHorizontalScroll();
+              // If user specified scroll position is greater than maximum available scroll
+              if (x > maxHorizontalScroll) {
+                  x = maxHorizontalScroll;
+              }
+              horizontalDistanceToScroll = x - initialHorizontalScroll;
+              maxVerticalScroll = elementToScroll.getMaxVerticalScroll();
+              initialVerticalScroll = elementToScroll.getVerticalScroll();
+              // If user specified scroll position is greater than maximum available scroll
+              if (y > maxVerticalScroll) {
+                  y = maxVerticalScroll;
+              }
+              verticalDistanceToScroll = y - initialVerticalScroll;
+              horizontalDuration = Math.abs(Math.round((horizontalDistanceToScroll / 1000) * options.speed));
+              verticalDuration = Math.abs(Math.round((verticalDistanceToScroll / 1000) * options.speed));
+              duration = horizontalDuration > verticalDuration ? horizontalDuration : verticalDuration;
+              // Set minimum and maximum duration
+              if (duration < options.minDuration) {
+                  duration = options.minDuration;
+              }
+              else if (duration > options.maxDuration) {
+                  duration = options.maxDuration;
+              }
+              // @ts-ignore
+              return [2 /*return*/, new Promise(function (resolve, reject) {
+                      // Scroll is already in place, nothing to do
+                      if (horizontalDistanceToScroll === 0 && verticalDistanceToScroll === 0) {
+                          // Resolve promise with a boolean hasScrolledToPosition set to true
+                          resolve(true);
+                      }
+                      // Cancel existing animation if it is already running on the same element
+                      activeAnimations.remove(options.elementToScroll, true);
+                      // To cancel animation we have to store request animation frame ID 
+                      var requestID;
+                      // Cancel animation handler
+                      var cancelAnimation = function () {
+                          removeListeners();
+                          cancelAnimationFrame(requestID);
+                          // Resolve promise with a boolean hasScrolledToPosition set to false
+                          resolve(false);
+                      };
+                      // Registering animation so it can be canceled if function
+                      // gets called again on the same element
+                      activeAnimations.add(options.elementToScroll, cancelAnimation);
+                      // Prevent user actions handler
+                      var preventDefaultHandler = function (e) { return e.preventDefault(); };
+                      var handler = options.cancelOnUserAction ?
+                          cancelAnimation :
+                          preventDefaultHandler;
+                      // If animation is not cancelable by the user, we can't use passive events
+                      var eventOptions = options.cancelOnUserAction ?
+                          { passive: true } :
+                          { passive: false };
+                      var events = [
+                          'wheel',
+                          'touchstart',
+                          'keydown',
+                          'mousedown',
+                      ];
+                      // Function to remove listeners after animation is finished
+                      var removeListeners = function () {
+                          events.forEach(function (eventName) {
+                              options.elementToScroll.removeEventListener(eventName, handler, eventOptions);
+                          });
+                      };
+                      // Add listeners
+                      events.forEach(function (eventName) {
+                          options.elementToScroll.addEventListener(eventName, handler, eventOptions);
+                      });
+                      // Animation
+                      var startingTime = Date.now();
+                      var step = function () {
+                          var timeDiff = Date.now() - startingTime;
+                          var t = timeDiff / duration;
+                          var horizontalScrollPosition = Math.round(initialHorizontalScroll + (horizontalDistanceToScroll * options.easing(t)));
+                          var verticalScrollPosition = Math.round(initialVerticalScroll + (verticalDistanceToScroll * options.easing(t)));
+                          if (timeDiff < duration && (horizontalScrollPosition !== x || verticalScrollPosition !== y)) {
+                              // If scroll didn't reach desired position or time is not elapsed
+                              // Scroll to a new position
+                              elementToScroll.scrollTo(horizontalScrollPosition, verticalScrollPosition);
+                              // And request a new step
+                              requestID = requestAnimationFrame(step);
+                          }
+                          else {
+                              // If the time elapsed or we reached the desired offset
+                              // Set scroll to the desired offset (when rounding made it to be off a pixel or two)
+                              // Clear animation frame to be sure
+                              elementToScroll.scrollTo(x, y);
+                              cancelAnimationFrame(requestID);
+                              // Remove listeners
+                              removeListeners();
+                              // Remove animation from the active animations coordinator
+                              activeAnimations.remove(options.elementToScroll, false);
+                              // Resolve promise with a boolean hasScrolledToPosition set to true
+                              resolve(true);
+                          }
+                      };
+                      // Start animating scroll
+                      requestID = requestAnimationFrame(step);
+                  })];
+          });
+      });
+  }
+  exports.default = animateScrollTo;
+  });
 
-  let languages = {
+  unwrapExports(animatedScrollTo);
+
+  var EventManager = /*#__PURE__*/function () {
+    function EventManager() {
+      _classCallCheck(this, EventManager);
+
+      this.events = {};
+    }
+
+    _createClass(EventManager, [{
+      key: "subscribe",
+      value: function subscribe(evtName, fn) {
+        if (!this.events[evtName]) {
+          this.events[evtName] = [];
+        }
+
+        this.events[evtName].push(fn);
+      }
+    }, {
+      key: "unsubscribe",
+      value: function unsubscribe(evtName, fn) {
+        if (this.events[evtName] && fn) {
+          var idx = this.events[evtName].indexOf(fn);
+
+          if (idx > -1) {
+            this.events[evtName].splice(idx, 1);
+          }
+        } else if (this.events[evtName]) {
+          delete this.events[evtName];
+        }
+      }
+    }, {
+      key: "emit",
+      value: function emit(evtName) {
+        var _this = this;
+
+        for (var _len = arguments.length, params = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          params[_key - 1] = arguments[_key];
+        }
+
+        if (this.events[evtName]) {
+          this.events[evtName].forEach(function (fn) {
+            fn.apply(_this, params);
+          });
+        }
+      }
+    }]);
+
+    return EventManager;
+  }();
+
+  var events = new EventManager();
+
+  var languages = {
     en: {
       messages: {}
     }
@@ -131,10 +535,10 @@
   //   return languages;
   // }
 
-  const localStorage = window.localStorage;
-  let currentLanguage = localStorage.getItem('lang') || 'en';
+  var localStorage = window.localStorage;
+  var currentLanguage = localStorage.getItem('lang') || 'en';
 
-  const translate = message => {
+  var translate = function translate(message) {
     // if ((languages[currentLanguage] &&
     //   !languages[currentLanguage].messages[message])) {
     //   languages[currentLanguage].messages[message] = message;
@@ -142,96 +546,95 @@
     return languages[currentLanguage] && languages[currentLanguage].messages[message] || languages.en.messages[message] || message;
   };
 
-  const MESSAGES = {
-    'INVALID_CREDENTIALS': 'Username or Password doesn\'t match.',
-    'UNEXPECTED_ERROR': 'Oops something went wrong.',
-    'EMAIL_NOT_VERIFIED': 'Opps looks like your email is not verified. Please check your inbox and verify your email.'
+  var MESSAGES = {
+    INVALID_CREDENTIALS: "Username or Password doesn't match.",
+    DATA_INEGRITY: 'Unable to delete record, depent data found.',
+    INVALID_LICENCE: 'Missing valid licence key',
+    UNEXPECTED_ERROR: 'Oops something went wrong.',
+    EMAIL_NOT_VERIFIED: 'Opps looks like your email is not verified. Please check your inbox and verify your email.'
   };
-  const messages = {
-    get: key => {
+
+  var messages = {
+    get: function get(key) {
       return translate(MESSAGES[key]);
     }
   };
 
-  class EventManager {
-    constructor() {
-      this.events = {};
+  var CONSTANTS = {
+    STATUS: {
+      SUCCESS: 'success',
+      ERROR: 'error',
+      OK: 'ok'
     }
-
-    subscribe(evtName, fn) {
-      if (!this.events[evtName]) {
-        this.events[evtName] = [];
-      }
-
-      this.events[evtName].push(fn);
-    }
-
-    unsubscribe(evtName, fn) {
-      if (this.events[evtName] && fn) {
-        const idx = this.events[evtName].indexOf(fn);
-
-        if (idx > -1) {
-          this.events[evtName].splice(idx, 1);
-        }
-      } else if (this.events[evtName]) {
-        delete this.events[evtName];
-      }
-    }
-
-    emmit(evtName, ...params) {
-      if (this.events[evtName]) {
-        this.events[evtName].forEach(fn => {
-          fn.apply(this, params);
-        });
-      }
-    }
-
-  }
+  };
 
   var defaultHeaders = {
-    "Content-Type": "application/json"
+    'Content-Type': 'application/json'
   };
-  class ApiBridge {
-    constructor() {
+  var ApiBridge = /*#__PURE__*/function () {
+    function ApiBridge() {
+      _classCallCheck(this, ApiBridge);
+
       this.events = new EventManager();
     }
 
-    getPrefix() {
-      return window.API_SERVER || '';
-    }
+    _createClass(ApiBridge, [{
+      key: "getCustomHeaders",
+      value: function getCustomHeaders() {
+        var url = window.location != window.parent.location ? document.referrer : document.location.href;
+        var accesstore = document.location.ancestorOrigins && document.location.ancestorOrigins[0];
+        return {
+          'x-referer': accesstore || url
+        };
+      }
+    }, {
+      key: "getPrefix",
+      value: function getPrefix() {
+        return window.API_SERVER || '';
+      }
+    }, {
+      key: "get",
+      value: function get(url, params) {
+        var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        return fetch(this.getPrefix() + url + new QueryString(params).toString(), {
+          method: 'GET',
+          headers: _objectSpread2(_objectSpread2(_objectSpread2({}, defaultHeaders), this.getCustomHeaders()), headers)
+        }).then(checkStatus.bind(this)).then(parseJSON).then(messageParser).then(responseReader.bind(this));
+      }
+    }, {
+      key: "post",
+      value: function post(url, body) {
+        var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        return fetch(this.getPrefix() + url, {
+          method: 'POST',
+          headers: _objectSpread2(_objectSpread2(_objectSpread2({}, defaultHeaders), this.getCustomHeaders()), headers),
+          body: JSON.stringify(body)
+        }).then(checkStatus.bind(this)).then(parseJSON).then(messageParser).then(responseReader.bind(this));
+      }
+    }, {
+      key: "update",
+      value: function update(url, body) {
+        var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        return fetch(this.getPrefix() + url, {
+          method: 'PUT',
+          headers: _objectSpread2(_objectSpread2(_objectSpread2({}, defaultHeaders), this.getCustomHeaders()), headers),
+          body: JSON.stringify(body)
+        }).then(checkStatus.bind(this)).then(parseJSON).then(messageParser).then(responseReader.bind(this));
+      }
+    }, {
+      key: "delete",
+      value: function _delete(url, body) {
+        var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        return fetch(this.getPrefix() + url, {
+          method: 'DELETE',
+          headers: _objectSpread2(_objectSpread2(_objectSpread2({}, defaultHeaders), this.getCustomHeaders()), headers),
+          body: JSON.stringify(body)
+        }).then(checkStatus.bind(this)).then(parseJSON).then(messageParser).then(responseReader.bind(this));
+      }
+    }]);
 
-    get(url, params, headers = {}) {
-      return fetch(this.getPrefix() + url + new queryString(params).toString(), {
-        method: 'GET',
-        headers: _objectSpread2(_objectSpread2({}, defaultHeaders), headers)
-      }).then(checkStatus).then(parseJSON).then(messageParser).then(responseReader.bind(this));
-    }
-
-    post(url, body, headers = {}) {
-      return fetch(this.getPrefix() + url, {
-        method: 'POST',
-        headers: _objectSpread2(_objectSpread2({}, defaultHeaders), headers),
-        body: JSON.stringify(body)
-      }).then(checkStatus).then(parseJSON).then(messageParser).then(responseReader.bind(this));
-    }
-
-    update(url, body, headers = {}) {
-      return fetch(this.getPrefix() + url, {
-        method: 'PUT',
-        headers: _objectSpread2(_objectSpread2({}, defaultHeaders), headers),
-        body: JSON.stringify(body)
-      }).then(checkStatus).then(parseJSON).then(messageParser).then(responseReader.bind(this));
-    }
-
-    delete(url, body, headers = {}) {
-      return fetch(this.getPrefix() + url, {
-        method: 'DELETE',
-        headers: _objectSpread2(_objectSpread2({}, defaultHeaders), headers),
-        body: JSON.stringify(body)
-      }).then(checkStatus).then(parseJSON).then(messageParser).then(responseReader.bind(this));
-    }
-
-  }
+    return ApiBridge;
+  }();
 
   function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
@@ -239,19 +642,15 @@
     } else if (response.status === 401) {
       return response;
     } else if (response.status === 403) {
-      redirectTo('login');
-      return {
-        code: response.status,
-        error: true,
-        response,
-        errorText: response.statusText
-      };
+      this.events.emit('onUnauthroized', response);
+      return response;
     } else if (response.status === 400) {
       return response;
     } else if (response.status === 500) {
       return {
         code: response.status,
-        status: API_STATUS.UNNKOWN,
+        error: true,
+        status: CONSTANTS.STATUS.UNNKOWN,
         error: {
           message: 'Unexpected error',
           key: 'UNEXPECTED_ERROR'
@@ -262,7 +661,7 @@
         resolve({
           error: true,
           code: response.status,
-          status: API_STATUS.UNNKOWN,
+          status: CONSTANTS.STATUS.UNNKOWN,
           error: {
             message: response.statusText,
             key: 'UNEXPECTED_ERROR'
@@ -282,11 +681,23 @@
 
   function responseReader(response) {
     switch (response.status) {
-      case API_STATUS.SUCCESS:
-      case API_STATUS.ERROR:
+      case CONSTANTS.STATUS.SUCCESS:
         return response;
 
-      case API_STATUS.UNNKOWN:
+      case CONSTANTS.STATUS.ERROR:
+        switch (response.error.handler) {
+          case 'POPUP':
+            this.events.emit('onErrorPopup', response);
+            break;
+
+          case 'CUSTOM':
+            this.events.emit('onCustomError', response);
+            break;
+        }
+
+        return response;
+
+      case CONSTANTS.STATUS.UNNKOWN:
         this.events.emit('onUnRecognizedError', response);
 
       default:
@@ -301,9 +712,10 @@
       }
 
       if (response.error.errors) {
-        Object.keys(response.error.errors).forEach(errorField => {
+        Object.keys(response.error.errors).forEach(function (errorField) {
           if (response.error.errors[errorField].key && messages.get(response.error.errors[errorField].key)) {
             response.error.errors[errorField].message = messages.get(response.error.errors[errorField].key);
+            response.error.errors[errorField].errorMessage = messages.get(response.error.errors[errorField].key);
           }
         });
       }
@@ -313,17 +725,12 @@
   }
 
   var apiBridge = new ApiBridge();
-  const API_STATUS = {
-    SUCCESS: 'success',
-    ERROR: 'error',
-    UNNKOWN: 'unknown'
-  };
 
   SQCore.api = apiBridge;
 
   SQCore.url = {
     query,
-    QueryString: queryString
+    QueryString
   };
 
   return SQCore;

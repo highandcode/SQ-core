@@ -3,7 +3,7 @@ import path from 'path';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
-// import pkg from "./package.json";
+import pkg from './package.json';
 import scss from 'rollup-plugin-scss';
 import { writeFileSync, mkdirSync } from 'fs';
 
@@ -11,7 +11,6 @@ const PRODUCTION = process.env.PROD === 'true';
 const year = new Date().getFullYear();
 
 let exportConfig = [];
-const pkg = {};
 
 function buildCMSApp(appName, options = {}) {
   const strBanner = `/*!
@@ -31,7 +30,9 @@ function buildCMSApp(appName, options = {}) {
       exclude: 'node_modules/**' // only transpile our source code
     }),
     nodeResolve(),
-    commonjs(),
+    commonjs({
+      transformMixedEsModules: true
+    }),
     scss({
       output: true,
 
