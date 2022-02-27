@@ -50,7 +50,7 @@ function copyFolderRecursiveSync(
 }
 
 function copyContent() {
-  fs.copyFileSync(paths.appPath + '/package.json', paths.dist + `/${packageJson.name}/package.json`);
+  fs.copyFileSync(paths.appPath + '/package.json', paths.dist + `/package.json`);
 }
 
 function zipBuild(filename) {

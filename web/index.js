@@ -4,7 +4,7 @@ import * as globals from './globals';
 /* cordova module */
 import * as cordova from './cordova';
 
-/* utilsvmodule */
+/* utils module */
 import * as utils from './utils';
 
 /* stores module */

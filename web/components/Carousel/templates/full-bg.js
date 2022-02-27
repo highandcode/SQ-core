@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Paper } from '@material-ui/core';
-import MagicHeroContent from 'sq-core/web/components/ui/MagicHeroContent';
-import { resolveImageUrl } from 'sq-core/web/cordova';
+import { MagicHeroContent } from '../../index';
 
 function FullBg({ data }) {
   return (
