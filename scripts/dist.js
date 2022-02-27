@@ -18,11 +18,7 @@ function copyFileSync(source, target) {
   fs.writeFileSync(targetFile, fs.readFileSync(source));
 }
 
-function copyFolderRecursiveSync(
-  source,
-  target,
-  ignore = ['node_modules', 'coverage', '.storybook', '.nyc_output', 'package-lock.json']
-) {
+function copyFolderRecursiveSync(source, target, ignore = ['node_modules', 'coverage', '.storybook', '.nyc_output', 'package-lock.json']) {
   var files = [];
   if (ignore.indexOf(path.basename(source)) > -1) {
     return;
@@ -55,9 +51,14 @@ function copyContent() {
   if (!fs.existsSync(target)) {
     fs.mkdirSync(target);
   }
+  target = `${paths.dist}/web`;
+  if (!fs.existsSync(target)) {
+    fs.mkdirSync(target);
+  }
   copyFolderRecursiveSync(`${paths.appPath}/cms/apps`, `${paths.dist}/cms`);
   copyFolderRecursiveSync(`${paths.appPath}/cms/client`, `${paths.dist}/cms`);
   copyFolderRecursiveSync(`${paths.appPath}/cms/content`, `${paths.dist}/cms`);
+  copyFolderRecursiveSync(`${paths.appPath}/web/styles`, `${paths.dist}/web`);
 }
 
 function zipBuild(filename) {

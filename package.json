@@ -17,7 +17,7 @@
     "build:apps": "webpack --config webpack.build.core.config.js && webpack --config webpack.build.apps.config.js",
     "test:coverage": "npm run server:test:coverage && npm run client:test:coverage",
     "start": "start-storybook -p 6006",
-    "dist": "rm -rf dist && webpack && webpack --config webpack.web.config.js && node scripts/dist.js",
+    "dist": "rm -rf dist && webpack && webpack --config webpack.web.config.js && node scripts/dist.js && cd dist && npm pack",
     "build-storybook": "build-storybook"
   },
   "nyc": {
