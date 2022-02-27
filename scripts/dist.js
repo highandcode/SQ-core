@@ -51,6 +51,13 @@ function copyFolderRecursiveSync(
 
 function copyContent() {
   fs.copyFileSync(paths.appPath + '/package.json', paths.dist + `/package.json`);
+  var target = `${paths.dist}/cms`;
+  if (!fs.existsSync(target)) {
+    fs.mkdirSync(target);
+  }
+  copyFolderRecursiveSync(`${paths.appPath}/cms/apps`, `${paths.dist}/cms`);
+  copyFolderRecursiveSync(`${paths.appPath}/cms/client`, `${paths.dist}/cms`);
+  copyFolderRecursiveSync(`${paths.appPath}/cms/content`, `${paths.dist}/cms`);
 }
 
 function zipBuild(filename) {

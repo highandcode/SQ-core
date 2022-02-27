@@ -7,7 +7,8 @@ module.exports = {
     server: `./server/index.js`,
     vanillajs: `./vanillajs/index.js`,
     cms: `./cms/index.js`,
-    scripts: `./scripts/index.js`
+    scripts: `./scripts/index.js`,
+    build: `./scripts/build.js`
   },
   target: 'node',
   mode: 'production',
