@@ -8,6 +8,7 @@ module.exports = {
     Collection: require('./src/datalayer/collection'),
     DynamoCollection: require('./src/datalayer/dynamo-collection')
   },
+  email: require('./src/email'),
   utils: require('./src/utils'),
   Error: require('./src/Error'),
   Response: require('./src/Response'),

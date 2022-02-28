@@ -1,10 +1,10 @@
 const utils = require('../utils');
-const { importFile } = require('./import-html');
+// const { importFile } = require('./import-html');
 
 let dataItems = {
-  HEADER: importFile('./parts/header.html'),
-  FOOTER: importFile('./parts/footer.html'),
-  STYLES: importFile('./parts/styles.html')
+  HEADER: require('./parts/header.html'),
+  FOOTER: require('./parts/footer.html'),
+  STYLES: require('./parts/styles.html')
 };
 
 function setDataItems(newData) {

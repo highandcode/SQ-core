@@ -1,24 +1,23 @@
 var paths = require('./config/paths');
-const packageJson = require('./package.json');
+// const packageJson = require('./package.json');
 const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: {
-    server: `./server/index.js`,
-    vanillajs: `./vanillajs/index.js`,
-    cms: `./cms/index.js`,
-    scripts: `./scripts/index.js`,
-    build: `./scripts/build.js`
+    server: ['@babel/polyfill', `./server/index.js`],
+    vanillajs: ['@babel/polyfill', `./vanillajs/index.js`],
+    cms: ['@babel/polyfill', `./cms/index.js`],
+    scripts: ['@babel/polyfill', `./scripts/index.js`],
+    build: ['@babel/polyfill', `./scripts/build.js`]
   },
   target: 'node',
   mode: 'production',
   output: {
     path: `${paths.dist}`,
-    filename: `[name].js`
+    filename: `[name].js`,
+    libraryTarget: 'umd'
   },
-  externals: [nodeExternals({
-    allowlist: [/^babel/,/^core-js/,/^regenerator-runtime/]
-  })],
+  externals: [nodeExternals({})],
   module: {
     rules: [
       {
@@ -30,10 +29,12 @@ module.exports = {
             presets: ['@babel/preset-env']
           }
         }
+      },
+      {
+        test: /\.(txt|html)$/i,
+        use: 'raw-loader'
       }
     ]
   },
-  plugins: [
-    
-  ]
+  plugins: []
 };

@@ -1,3 +1,6 @@
+const { importFile } = require('./import-html');
+const helpers = require('./helpers');
+
 let allTemplates = {
   contactus: require('./contactus')
 };
@@ -10,5 +13,7 @@ module.exports = {
       ...allTemplates,
       ...newTemplates
     };
-  }
+  },
+  helpers,
+  importFile
 };

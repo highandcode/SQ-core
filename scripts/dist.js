@@ -56,9 +56,16 @@ function copyContent() {
     fs.mkdirSync(target);
   }
   copyFolderRecursiveSync(`${paths.appPath}/cms/apps`, `${paths.dist}/cms`);
+  copyFolderRecursiveSync(`${paths.appPath}/tests`, `${paths.dist}`);
   copyFolderRecursiveSync(`${paths.appPath}/cms/client`, `${paths.dist}/cms`);
   copyFolderRecursiveSync(`${paths.appPath}/cms/content`, `${paths.dist}/cms`);
   copyFolderRecursiveSync(`${paths.appPath}/web/styles`, `${paths.dist}/web`);
+}
+function cpNodeModules() {
+  fs.copyFileSync(`${paths.dist}/server.js`, path.resolve(`${paths.appPath}`, `../node_modules/sq-core/server.js`));
+  fs.copyFileSync(`${paths.dist}/cms.js`, path.resolve(`${paths.appPath}`, `../node_modules/sq-core/cms.js`));
+  copyFolderRecursiveSync(`${paths.dist}/tests`, `${paths.appPath}/../node_modules/sq-core`);
+  // copyFolderRecursiveSync(`${paths.dist}`, `${paths.appPath}/../node_modules/sq-core`);
 }
 
 function zipBuild(filename) {
@@ -83,4 +90,5 @@ function zipBuild(filename) {
 }
 
 copyContent();
+cpNodeModules();
 // zipBuild(`./dist/${packageJson.name}-${packageJson.version}.zip`);

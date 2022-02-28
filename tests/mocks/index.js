@@ -1,4 +1,4 @@
-const utils = require('../../server/src/utils');
+const { utils } = require('../../server');
 
 function MockMongoAPI(data) {
   this.data = data;
@@ -51,7 +51,7 @@ MockRepository.prototype = {
   deleteById: function () {
     return Promise.resolve(this.data);
   },
-  
+
   create: function () {
     return Promise.resolve(this.data);
   },
