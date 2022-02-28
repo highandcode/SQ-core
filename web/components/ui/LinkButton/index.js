@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { redirectTo } from '../../../utils/redirect';
-import { getMap } from '../index';
+import Link from '../Link';
+import Button from '../Button';
 
-// const linkButtonMap = {
-//   Link,
-//   Button
-// };
+const linkButtonMap = {
+  Link,
+  Button
+};
 
 const LinkButton = ({
   to = '',
@@ -23,7 +24,6 @@ const LinkButton = ({
   type = 'Link',
   ...rest
 }) => {
-  const linkButtonMap = getMap();
   const LinkToRender = linkButtonMap[type] || linkButtonMap.Link;
   return (
     <>

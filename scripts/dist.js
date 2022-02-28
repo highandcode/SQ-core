@@ -64,6 +64,9 @@ function copyContent() {
 function cpNodeModules() {
   copyFolderRecursiveSync(`${paths.dist}`, `${paths.appPath}/../node_modules/sq-core`, undefined, true);
 }
+function cpSource() {
+  copyFolderRecursiveSync(`${paths.appPath}`, `${paths.appPath}/../node_modules/sq-core`, undefined, true);
+}
 
 function zipBuild(filename) {
   var output = file_system.createWriteStream(filename);
@@ -88,4 +91,5 @@ function zipBuild(filename) {
 
 copyContent();
 // cpNodeModules();
+// cpSource()
 // zipBuild(`./dist/${packageJson.name}-${packageJson.version}.zip`);

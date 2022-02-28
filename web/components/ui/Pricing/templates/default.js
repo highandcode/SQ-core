@@ -41,7 +41,7 @@ const renderPricingPlan = (data, onAnalytics) => {
 const TemplateDefault = ({ eyebrow, icon, header, headerTag = 'h1', bodyTag = 'p', subHeader, items, onAnalytics }) => {
   const HTag = headerTag;
   const BTag = bodyTag;
-  const componentMap = getMap();
+
   return (
     <div className="sq-pricing--default">
       <div className="sq-pricing__wrapper">

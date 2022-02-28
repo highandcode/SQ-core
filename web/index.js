@@ -15,13 +15,12 @@ import domain from './domain';
 
 /* containers module */
 import * as containers from './containers';
-import * as componentsRoot from './components/components';
+import * as root from './components/root';
 import * as components from './components';
-import * as uiRoot from './components/ui/ui';
 import * as ui from './components/ui';
 
 const stores = { contentStore };
 
 
 /* export module */
-export { containers, components, ui, componentsRoot, uiRoot, stores, domain, globals, cordova, utils };
+export { containers, components, ui, root, stores, domain, globals, cordova, utils };

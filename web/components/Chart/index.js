@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import './chart.scss';
-import { setColors } from './amchart/Base';
 import ChartFactory from './ChartFactory';
 
 const ChartTypesMap = new ChartFactory().get();
@@ -73,5 +72,4 @@ CustomChart.propTypes = {
   chartConfig: PropTypes.object,
   data: PropTypes.array
 };
-export { setColors };
 export default CustomChart;

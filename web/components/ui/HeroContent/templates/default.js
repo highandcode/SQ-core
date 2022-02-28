@@ -10,7 +10,7 @@ const compMap = {
   ImageOnDevice
 };
 
-const TemplateDefault = ({
+const HeroTemplateDefault = ({
   name = '',
   image = {},
   eyebrow,
@@ -27,7 +27,7 @@ const TemplateDefault = ({
   const HTag = headerTag;
   const BTag = bodyTag;
   const componentMap = getMap();
-
+  console.log('@@@@@@', componentMap.LinkButton);
   let { cmpType: imageCmpType, imageUrl: imageNewUrl, images, ...restImage } = image;
   let RenderImage;
   if (imageCmpType && compMap[imageCmpType]) {
@@ -89,10 +89,10 @@ const TemplateDefault = ({
   );
 };
 
-TemplateDefault.propTypes = {
+HeroTemplateDefault.propTypes = {
   className: PropTypes.string,
   header: PropTypes.string,
   subHeader: PropTypes.string
 };
 
-export default TemplateDefault;
+export default HeroTemplateDefault;

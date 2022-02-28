@@ -1,6 +1,7 @@
 const UrlGenerator = require('./url-generator');
 const ApiManager = require('./api-manager');
 const { ValidatorCast } = require('./validator-cast');
+const { ParamsValidator } = require('./params-validator');
 
 module.exports = {
   guid: require('./guid.js'),
@@ -15,5 +16,6 @@ module.exports = {
   validatorCaster: new ValidatorCast(),
   UrlGenerator,
   ApiManager,
+  ParamsValidator,
   url: new UrlGenerator()
 };

@@ -142,7 +142,6 @@ class DynamicContent extends Component {
     const classState = this.state.isOut ? `transition transition-page--${tranOut}` : this.state.isIn ? `transition transition-page--${tranIn}` : '';
     const loadingState = this.state.isLoading ? `transition transition-page--${loading}` : '';
     const userData = { ...this.props.contentStore.userData, ...dataPacket, contentPage: true };
-    
     return (
       <div className={`dynamic-content row ${rootClassName} ${loadingState}`}>
         <ContentContainer
