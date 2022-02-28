@@ -8,8 +8,9 @@ const Response = require('../../server/src/Response');
 
 class ContentServer {
   constructor({ fse, dirname = __dirname, ...options } = {}, app) {
+    dirname = dirname == '/' ? `${process.cwd()}/node_modules/sq-core/cms/` : dirname;
     const lastIndex = dirname.lastIndexOf('server');
-    const cmsRootServer = dirname.substr(0, lastIndex);
+    const cmsRootServer = lastIndex > -1 ? dirname.substr(0, lastIndex) : dirname;
     console.log(`root:${cmsRootServer}`);
     this.config = Object.assign(
       {

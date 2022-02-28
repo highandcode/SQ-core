@@ -18,13 +18,13 @@ function copyFileSync(source, target) {
   fs.writeFileSync(targetFile, fs.readFileSync(source));
 }
 
-function copyFolderRecursiveSync(source, target, ignore = ['node_modules', 'coverage', '.storybook', '.nyc_output', 'package-lock.json']) {
+function copyFolderRecursiveSync(source, target, ignore = ['node_modules', 'coverage', '.storybook', '.nyc_output', 'package-lock.json'], root = false) {
   var files = [];
   if (ignore.indexOf(path.basename(source)) > -1) {
     return;
   }
   // Check if folder needs to be created or integrated
-  var targetFolder = path.join(target, path.basename(source));
+  var targetFolder = root ? target : path.join(target, path.basename(source));
   if (!fs.existsSync(targetFolder)) {
     fs.mkdirSync(targetFolder);
   }
@@ -62,9 +62,9 @@ function copyContent() {
   copyFolderRecursiveSync(`${paths.appPath}/web/styles`, `${paths.dist}/web`);
 }
 function cpNodeModules() {
-  fs.copyFileSync(`${paths.dist}/server.js`, path.resolve(`${paths.appPath}`, `../node_modules/sq-core/server.js`));
-  fs.copyFileSync(`${paths.dist}/cms.js`, path.resolve(`${paths.appPath}`, `../node_modules/sq-core/cms.js`));
-  copyFolderRecursiveSync(`${paths.dist}/tests`, `${paths.appPath}/../node_modules/sq-core`);
+  // fs.copyFileSync(`${paths.dist}/server.js`, path.resolve(`${paths.appPath}`, `../node_modules/sq-core/server.js`));
+  // fs.copyFileSync(`${paths.dist}/cms.js`, path.resolve(`${paths.appPath}`, `../node_modules/sq-core/cms.js`));
+  copyFolderRecursiveSync(`${paths.dist}`, `${paths.appPath}/../node_modules/sq-core`, undefined, true);
   // copyFolderRecursiveSync(`${paths.dist}`, `${paths.appPath}/../node_modules/sq-core`);
 }
 
