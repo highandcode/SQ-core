@@ -17,21 +17,26 @@ class LayoutContent extends Component {
 
   render() {
     const { metaData = {}, pageData = {}, ...rest } = this.props;
-    const { className = '', pageLayout = {} } = pageData;
+    const { className = '', rows = [] } = pageData;
     return (
       <div className={`sq-layout-content sq-content-page__body ${className}`}>
         <div className="container-fluid">
-          <div className="row">
-            {Object.keys(pageLayout).map((layoutKey) => {
-              const layoutObj = pageLayout[layoutKey];
-              const { className = '', ...restLayout } = layoutObj;
-              return (
-                <div className={`sq-layout-content__block ${className}`}>
-                  <Content flat={true} {...rest} pageData={{ ...restLayout }} />
-                </div>
-              );
-            })}
-          </div>
+          {rows.map((rowObj) => {
+            const { pageLayout = {}, className = 'row' } = rowObj;
+            return (
+              <div className={`${className}`}>
+                {Object.keys(pageLayout).map((layoutKey) => {
+                  const layoutObj = pageLayout[layoutKey];
+                  const { className = '', ...restLayout } = layoutObj;
+                  return (
+                    <div className={`sq-layout-content__block ${layoutKey} ${className}`}>
+                      <Content flat={true} {...rest} pageData={{ ...restLayout }} />
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
         </div>
       </div>
     );

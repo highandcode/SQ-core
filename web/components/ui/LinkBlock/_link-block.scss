@@ -4,7 +4,10 @@
   display: block;
   margin-bottom: 15px;
   text-align: center;
-
+  .sq-link__container {
+    display: flex;
+    flex-direction: column;
+  }
   @media (min-width: $screen-sm) {
     display: inline-block;
     min-width: 160px;

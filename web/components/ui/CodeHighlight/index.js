@@ -1,32 +1,20 @@
-import React, { Component } from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-class CodeHighlight extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-  componentDidMount() {
-    if (this.codeEl && hljs) {
-      hljs.highlightBlock(this.codeEl);
-    }
-  }
-  render() {
-    const { code, className, language = '' } = this.props;
-    return (
-      <div className={`sq-codehighlight ${className}`}>
-        <pre
-          className={`${language}`}
-          ref={(el) => {
-            this.codeEl = el;
-          }}
-        >
-          {code}
-        </pre>
-      </div>
-    );
-  }
-}
+const CodeHighlight = ({ code, className, language = '' }) => {
+  const codeBlock = useRef(null);
+
+  useEffect(() => {
+    hljs.highlightBlock(codeBlock.current);
+  });
+  return (
+    <div className={`sq-codehighlight ${className}`}>
+      <pre className={`${language}`} ref={codeBlock}>
+        {code}
+      </pre>
+    </div>
+  );
+};
 
 CodeHighlight.propTypes = {
   className: PropTypes.string,

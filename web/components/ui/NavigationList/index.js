@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import LinkButton from '../LinkButton';
-import {getPathName} from '../../../cordova';
+import { getPathName } from '../../../cordova';
 import './_navigation-list.scss';
+
+const extractCatName = (name) => {
+  if (name.indexOf('::') > -1) {
+    return name.substr(name.indexOf('::') + 2);
+  }
+  return name;
+};
 
 const NavigationList = ({ links = {}, className, headerTag = 'h4' }) => {
   const categories = Object.keys(links).sort((a, b) => (a > b ? 1 : -1));
@@ -12,6 +19,7 @@ const NavigationList = ({ links = {}, className, headerTag = 'h4' }) => {
   }
   const currentPath = getPathName();
   const HeaderTag = headerTag;
+
   return (
     <div className={`sq-navigation-list ${className}`}>
       {categories &&
@@ -19,7 +27,7 @@ const NavigationList = ({ links = {}, className, headerTag = 'h4' }) => {
           const category = links[cat];
           return (
             <div key={idx} className="sq-navigation-list__item">
-              {!cat.startsWith('_') && <HeaderTag className="sq-navigation-list__header ">{cat} </HeaderTag>}
+              {!cat.startsWith('_') && <HeaderTag className="sq-navigation-list__header ">{extractCatName(cat)} </HeaderTag>}
               {category.map((data, cIdx) => {
                 return (
                   <div key={cIdx} className={`sq-navigation-list__link ${data.path === currentPath ? 'sq-navigation-list__link--active' : ''}`}>
