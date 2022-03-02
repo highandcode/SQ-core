@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Icon from '../../Icon';
 import './_tag-label.scss';
 
-const SQSwitch = ({ label, className = '', value, iconName, variant = 'filled', color = 'primary' }) => {
+const TagLabel = ({ className = '', value, iconName, variant = 'filled', color = 'primary' }) => {
   return (
     <div className={`sq-tag-label ${className} sq-tag-label--${variant} ${color}`}>
       <div className="sq-tag-label__container">
@@ -13,7 +13,7 @@ const SQSwitch = ({ label, className = '', value, iconName, variant = 'filled', 
     </div>
   );
 };
-SQSwitch.propTypes = {
+TagLabel.propTypes = {
   defaultValue: PropTypes.string,
   value: PropTypes.any,
   row: PropTypes.object,
@@ -21,4 +21,4 @@ SQSwitch.propTypes = {
   parentTag: PropTypes.string
 };
 
-export default SQSwitch;
+export default TagLabel;

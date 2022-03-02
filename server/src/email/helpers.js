@@ -1,5 +1,4 @@
 const utils = require('../utils');
-// const { importFile } = require('./import-html');
 
 let dataItems = {
   HEADER: require('./parts/header.html'),
