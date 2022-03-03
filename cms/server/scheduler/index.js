@@ -22,7 +22,7 @@ class JobScheduler {
         name: job,
         ...config
       }).init();
-      console.log(`job-> ${job}`);
+      console.log(`job-> ${job} type:${config.type}|${config.frequency}`);
     });
   }
 }
