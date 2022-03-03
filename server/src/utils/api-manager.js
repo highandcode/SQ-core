@@ -30,6 +30,7 @@ class ApiManager {
 
   handleError(res) {
     return {
+      api_error: true,
       ax_error: res,
       error: true,
       data: res.response.data,
