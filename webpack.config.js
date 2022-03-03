@@ -7,8 +7,8 @@ module.exports = {
     server: ['@babel/polyfill', `./server/index.js`],
     vanillajs: ['@babel/polyfill', `./vanillajs/index.js`],
     cms: ['@babel/polyfill', `./cms/index.js`],
-    scripts: ['@babel/polyfill', `./scripts/index.js`],
-    build: ['@babel/polyfill', `./scripts/build.js`]
+    'scripts/index': ['@babel/polyfill', `./scripts/index.js`],
+    'scripts/build': ['@babel/polyfill', `./scripts/build.js`]
   },
   target: 'node',
   mode: 'production',
