@@ -1,12 +1,10 @@
 const QueryString = require('./query-string');
 
 class UrlGenerator {
-  constructor(config = {
-    
-  }) {
+  constructor(config = {}) {
     this.config = config;
   }
-  
+
   setConfig(config = {}) {
     this.config = {
       ...this.config,
@@ -18,7 +16,7 @@ class UrlGenerator {
     if (url.substr(url.length - 1) === '/') {
       return url;
     } else {
-      return url + '/';
+      return url ? url + '/' : url;
     }
   }
 
@@ -29,7 +27,6 @@ class UrlGenerator {
       return url;
     }
   }
-  
 
   create(url, params) {
     return this.ensureSlashEnd(this.config.server.host) + this.ensureNoSlashStart(url) + new QueryString(params).toString();

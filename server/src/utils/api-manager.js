@@ -33,8 +33,8 @@ class ApiManager {
       api_error: true,
       ax_error: res,
       error: true,
-      data: res.response.data,
-      code: res.response.status
+      data: res.response?.data,
+      code: res.response?.status
     };
   }
 
