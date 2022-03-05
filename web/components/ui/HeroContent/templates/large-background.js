@@ -10,6 +10,7 @@ const TemplateWithBackground = ({
   eyebrow,
   header,
   headerTag = 'h1',
+  className = '',
   bodyTag = 'p',
   subHeader,
   theme = 'default',
@@ -22,7 +23,7 @@ const TemplateWithBackground = ({
   const BTag = bodyTag;
   const componentMap = getMap();
   return (
-    <div className={`sq-hero-content--large-background sq-hero-content--large-background-theme-${theme}`}>
+    <div className={`sq-hero-content--large-background ${className} sq-hero-content--large-background-theme-${theme}`}>
       <div
         className={`sq-hero-content__root ${common.toStringBlank(classes.root)}`}
         style={{ backgroundImage: `url(${resolveImageUrl(background)})` }}

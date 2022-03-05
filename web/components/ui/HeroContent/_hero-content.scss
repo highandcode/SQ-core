@@ -176,6 +176,11 @@
       }
     }
   }
+  &--large-background-none {
+    .sq-hero-content__wrapper {
+      background: none;
+    }
+  }
   &--left-aligned {
     text-align: center;
     .sq-hero-content__wrapper {

@@ -12,11 +12,11 @@ const templates = {
   'with-background': WithBackground,
   'large-background': LargeBackground
 };
-const HeroContent = ({ template = 'default', className = '', ...rest }) => {
+const HeroContent = ({ template = 'default', templateClassName = '', className = '', ...rest }) => {
   const TemplateToRender = templates[template] || templates.default;
   return (
     <div className={`sq-hero-content ${className}`}>
-      <TemplateToRender {...rest} />
+      <TemplateToRender {...rest} className={templateClassName} />
     </div>
   );
 };
