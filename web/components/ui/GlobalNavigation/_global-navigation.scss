@@ -26,13 +26,18 @@ $sq-global-navigation-sub-navbg: $white;
     border-bottom: solid 1px $sq-color-gray-lighter;
   }
   &--sticky {
-    background: #ffffff;
     position: fixed;
     top: 0;
     left: 0;
     border-bottom: solid 1px $sq-color-gray-lighter;
     animation: moveDown 0.5s ease-in-out;
     z-index: $z-index-level-2ndtopest;
+    &--wite {
+      background: #ffffff;
+    }
+    .sq-global-navigation__wrapper {
+      padding: 4px 20px;
+    }
   }
   &--open {
   }
