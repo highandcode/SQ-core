@@ -45,7 +45,7 @@ class ContentWithSearch extends Component {
     const { className = '', pageLayout = {}, leftNavigation } = pageData;
     const { grouped = {}, sortedGroups = [] } = this.state;
     return (
-      <div className={`sq-search-content sq-content-page sq-content-page__body ${className}`}>
+      <div className={`sq-search-content sq-search-content__body ${className}`}>
         {Object.keys(pageLayout).map((layoutKey) => {
           const layoutObj = pageLayout[layoutKey];
           const { className = '', ...restLayout } = layoutObj;

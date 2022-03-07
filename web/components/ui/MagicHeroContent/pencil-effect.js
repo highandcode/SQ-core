@@ -36,6 +36,7 @@ class MagicHeroContentDefault extends Component {
   }
 
   applyTweens(tweens, timeline) {
+    console.log(timeline, gsap);
     this.allTweens = [];
     tweens.forEach((tween) => {
       const { target, start, ...restTween } = tween;

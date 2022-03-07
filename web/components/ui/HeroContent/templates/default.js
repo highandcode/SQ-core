@@ -27,7 +27,6 @@ const HeroTemplateDefault = ({
   const HTag = headerTag;
   const BTag = bodyTag;
   const componentMap = getMap();
-  console.log('@@@@@@', componentMap.LinkButton);
   let { cmpType: imageCmpType, imageUrl: imageNewUrl, images, ...restImage } = image;
   let RenderImage;
   if (imageCmpType && compMap[imageCmpType]) {

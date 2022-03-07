@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { timer } from '../../utils/timer';
 import Progress from '../../components/Progress';
-import Content from '../Content';
+import DefaultContent from '../Content';
 import Default from './Default';
 import LayoutContent from '../LayoutContent';
 import Documentation from '../Documentation';
@@ -137,7 +137,7 @@ class DynamicContent extends Component {
     const { pageData = {}, metaData } = this.state.pageData;
     const { container, containerTemplate, contentBodyClass = '', rootClassName = '', transition = {} } = pageData;
     const ContentContainer = containers[overrideContainerTemplate || containerTemplate] || containers.Default;
-    const ContentTemplContainer = containers[container] || Content;
+    const ContentTemplContainer = containers[container] || DefaultContent;
     const { out: tranOut = 'out-up', in: tranIn = 'out-in', loading = 'loading' } = transition;
     const classState = this.state.isOut ? `transition transition-page--${tranOut}` : this.state.isIn ? `transition transition-page--${tranIn}` : '';
     const loadingState = this.state.isLoading ? `transition transition-page--${loading}` : '';
