@@ -325,6 +325,7 @@ class ContentServer {
       navigation: currentSiteConfig.siteMap.children,
       secondaryNavigation: currentNode !== currentSiteConfig.siteMap ? currentNode.children : [],
       pageConfig: {},
+      ENV: process.env,
       envConfig: config.envConfig,
       parentPath: siblingData.parentPath || fullPath,
       siblingPages: siblingData.pages,
