@@ -175,7 +175,7 @@ class DynamicContent extends Component {
     this.props.contentStore.updateUserData(obj);
   }
   async onAction(value, action, block) {
-    const { userData } = this.props;
+    const { userData } = this.props.contentStore;
     switch (action.actionType) {
       case 'submit':
         let validators = {};
@@ -196,7 +196,7 @@ class DynamicContent extends Component {
           }
         });
         const validObj = new Validator(validators);
-        validObj.setValues(value);
+        validObj.setValues(userData[block.name]);
         const isValid = validObj.validateAll();
         this.props.contentStore.updateUserData({
           [block.name + '_errors']: {

@@ -11,7 +11,7 @@ class LayoutContent extends Component {
   }
 
   componentDidMount() {
-    const { metaData = {}, pageData = {}, ...rest } = this.props;
+    const { metaData = {}, pageData = {} } = this.props;
     eval(pageData.javascript);
   }
 
@@ -21,15 +21,15 @@ class LayoutContent extends Component {
     return (
       <div className={`sq-layout-content sq-content-page__body ${className}`}>
         <div className="container-fluid">
-          {rows.map((rowObj) => {
+          {rows.map((rowObj, idx) => {
             const { pageLayout = {}, className = 'row' } = rowObj;
             return (
-              <div className={`${className}`}>
+              <div key={idx} className={`${className}`}>
                 {Object.keys(pageLayout).map((layoutKey) => {
                   const layoutObj = pageLayout[layoutKey];
                   const { className = '', ...restLayout } = layoutObj;
                   return (
-                    <div className={`sq-layout-content__block ${layoutKey} ${className}`}>
+                    <div key={layoutKey} className={`sq-layout-content__block ${layoutKey} ${className}`}>
                       <Content flat={true} {...rest} pageData={{ ...restLayout }} />
                     </div>
                   );

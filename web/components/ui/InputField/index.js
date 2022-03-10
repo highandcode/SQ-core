@@ -53,7 +53,7 @@ class InputField extends React.Component {
     });
   }
 
-  applyMask(value) {
+  applyMask(value = '') {
     const { mask = {} } = this.props;
     const { type, ...rest } = mask;
     return masks[type]
@@ -64,7 +64,7 @@ class InputField extends React.Component {
       : value;
   }
 
-  removeMask(value) {
+  removeMask(value = '') {
     const { mask = {} } = this.props;
     const { type, ...rest } = mask;
     return masks[type]
@@ -136,6 +136,7 @@ class InputField extends React.Component {
     const { errorMessage, className = '', formatter, onAnalytics, onAction, mask = {}, sideAction, row, ...rest } = this.props;
     const finalAction = getValue(this, sideAction, row);
     let formattedValue = this.applyMask(this.state.value);
+    console.log('@@@@', this.state, formattedValue);
     return (
       <div className={`sq-input-field${focused ? ' sq-input-field--focused' : ''} ${className}`}>
         <div className="sq-input-field__container">

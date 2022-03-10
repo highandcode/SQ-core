@@ -39,7 +39,6 @@ class Form extends React.Component {
     if (this.props.value !== prevProps.value) {
       this.setState({
         data: {
-          ...this.state.data,
           ...this.props.value
         }
       });
