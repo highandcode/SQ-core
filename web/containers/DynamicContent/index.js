@@ -114,6 +114,7 @@ class DynamicContent extends Component {
     this.props.contentStore.mergeUserData(pageResponse.pageData.merge);
 
     await this.processHook(pageResponse.pageData.hook?.load);
+    this.props.contentStore.mergeUserData(pageResponse.pageData.merge);
     window.clearTimeout(interval);
     const { analytics = {} } = pageResponse;
     this.setState({

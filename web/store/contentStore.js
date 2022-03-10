@@ -19,10 +19,12 @@ class ContentStore {
     const newObj = {};
     Object.keys(params).forEach((key) => {
       let value;
-      if (typeof params[key] !== 'object') {
-        value = utils.object.getDataFromKey(this.userData, params[key], undefined);
-      } else if (!utils.common.isNullOrUndefined(params[key].value)) {
-        value = params[key].value;
+      if (typeof params[key] === 'object') {
+        value = this.processParams(params[key]);
+      } else if (params[key].toString().substr(0, 1) === '.') {
+        value = utils.object.getDataFromKey(this.userData, params[key].substr(1), undefined);
+      } else if (!utils.common.isNullOrUndefined(params[key])) {
+        value = params[key];
       }
       if (!utils.common.isNullOrUndefined(value)) {
         newObj[key] = value;
@@ -45,6 +47,7 @@ class ContentStore {
   }
 
   mergeUserData(data) {
+    console.log(this.processParams(data));
     this.updateUserData(this.processParams(data));
   }
 
