@@ -6,6 +6,9 @@
   width: 100%;
   height: 100%;
   z-index: $z-index-level-topest;
+  &--active {
+    display: block!important;
+  }
   &--fixed {
     position: fixed;
     .tp-progress__spinner {
@@ -14,6 +17,10 @@
     .tp-progress__text {
       position: fixed;
     }
+  }
+  &--inline-content {
+    position: relative;
+    min-height: 400px;
   }
   &--static {
     position: static;

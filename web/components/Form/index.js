@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './form.scss';
 
 import { getMap } from '../ui/index';
+import { Validator } from '../../utils/validator';
 let supportedComponents = getMap();
 
 export const registerComponents = (newComps) => {
@@ -95,7 +96,7 @@ class Form extends React.Component {
   }
 
   renderComp(field, value, error, data, index) {
-    const { onAnalytics } = this.props;
+    const { onAnalytics, userData = {} } = this.props;
     const { cmpType, containerClass = '', beforeRender, ...options } = field;
     const supportedComponents = getMap();
     const Comp = supportedComponents[cmpType] || supportedComponents.Input;
@@ -103,8 +104,14 @@ class Form extends React.Component {
       ...options
     };
     let isRender = true;
-    if (typeof beforeRender === 'function') {
-      const result = beforeRender(field, value, data);
+    if (field.match) {
+      const validator = new Validator(field.match);
+      validator.setValues({...userData, ...data});
+      isRender = validator.validateAll();
+    }
+
+    if (isRender && typeof beforeRender === 'function') {
+      const result = beforeRender(field, value, {...userData, ...data});
       if (result === false) {
         isRender = result;
       } else {
@@ -191,6 +198,7 @@ Form.propTypes = {
   defaultAction: PropTypes.object,
   value: PropTypes.object,
   errors: PropTypes.object,
+  userData: PropTypes.object,
   fields: PropTypes.array,
   actions: PropTypes.array,
   onChange: PropTypes.func,

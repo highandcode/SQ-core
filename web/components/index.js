@@ -7,6 +7,8 @@ import Pricing from './ui/Pricing';
 import Icon from './Icon';
 import List from './ui/List';
 import CodeHighlight from './ui/CodeHighlight';
+import Progress from './Progress';
+import Form from './Form';
 import LinkBlock from './ui/LinkBlock';
 import Repeater from './ui/Repeater';
 import CompRenderer from './ui/CompRenderer';
@@ -43,7 +45,9 @@ let comps = {
   ImageWithSlide,
   ImageWithSlideList,
   LaunchTimer,
-  Carousel
+  Carousel,
+  Progress,
+  Form
 };
 
 const getMap = () => {

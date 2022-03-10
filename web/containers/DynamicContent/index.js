@@ -10,6 +10,7 @@ import Documentation from '../Documentation';
 import ContentWithLeftNavigation from '../ContentWithLeftNavigation';
 import TocIndex from '../TocIndex';
 import ComponentDemo from '../ComponentDemo';
+import { redirectTo } from '../../utils/redirect';
 
 import './_dynamic-content.scss';
 
@@ -43,6 +44,8 @@ class DynamicContent extends Component {
       }
     };
     this.handlePageScroll = this.handlePageScroll.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onAction = this.onAction.bind(this);
   }
 
   handlePageScroll(e) {
@@ -79,6 +82,20 @@ class DynamicContent extends Component {
     window.addEventListener('resize', this.handlePageScroll);
   }
 
+  async processHook(hook) {
+    const arr = [];
+    if (hook) {
+      if (Array.isArray(hook)) {
+        hook.forEach((item) => {
+          arr.push(this.props.contentStore.postApi(item));
+        });
+      } else {
+        arr.push(this.props.contentStore.postApi(hook));
+      }
+    }
+    return Promise.all(arr);
+  }
+
   async fetchPage(firstTime) {
     const { location = {}, onAnalytics, transitionSpeed = 300 } = this.props;
     if (!firstTime) {
@@ -92,17 +109,20 @@ class DynamicContent extends Component {
         isLoading: true
       });
     }, 300);
-    const pageData = await this.props.contentStore.getPage(this.state.url);
+    const pageResponse = await this.props.contentStore.getPage(this.state.url);
+    this.props.contentStore.mergeUserData(pageResponse.pageData.merge);
+
+    await this.processHook(pageResponse.pageData.hook?.load);
     window.clearTimeout(interval);
-    const { analytics = {} } = pageData;
+    const { analytics = {} } = pageResponse;
     this.setState({
       isLoading: false,
-      pageData
+      pageData: pageResponse
     });
     onAnalytics &&
       onAnalytics({
         type: 'pageview',
-        page_title: pageData.pageData.title,
+        page_title: pageResponse.pageData.title,
         ...analytics.load
       });
     this.setState({
@@ -114,6 +134,7 @@ class DynamicContent extends Component {
       isOut: false,
       isIn: false
     });
+    await this.processHook(pageResponse.pageData.hook?.afterLoad);
   }
 
   async componentDidUpdate() {
@@ -130,7 +151,37 @@ class DynamicContent extends Component {
     }
   }
 
-
+  onChange(value, block) {
+    let obj = {};
+    if (block && block.name) {
+      obj[block.name] = value.value;
+    } else {
+      obj = value.value;
+    }
+    this.props.contentStore.updateUserData(obj);
+  }
+  async onAction(value, action, block) {
+    switch (action.actionType) {
+      case 'submit':
+        this.props.contentStore.updateUserData({
+          isSubmitting: true
+        });
+        const result = await this.props.contentStore.postApi(action);
+        this.props.contentStore.updateUserData({
+          isSubmitting: false
+        });
+        this.validateResults(result);
+        break;
+    }
+  }
+  validateResults(result) {
+    if (result.data?.redirect) {
+      redirectTo(result.data?.redirect);
+    }
+    if (result.error?.redirect) {
+      redirectTo(result.error?.redirect);
+    }
+  }
   render() {
     const { containerTemplate: overrideContainerTemplate, ...allProps } = this.props;
     const { dataPacket } = allProps;
@@ -160,10 +211,12 @@ class DynamicContent extends Component {
               data={this.state.pageData}
               userData={userData}
               pageState={this.state.page}
+              onChange={this.onChange}
+              onAction={this.onAction}
             />
           </div>
         </ContentContainer>
-        {this.state.isLoading && <Progress style={'fixed'} overlayStyle='full' />}
+        {this.state.isLoading && <Progress style={'fixed'} overlayStyle="full" />}
       </div>
     );
   }
