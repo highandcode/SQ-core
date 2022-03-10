@@ -11,6 +11,7 @@ import ContentWithLeftNavigation from '../ContentWithLeftNavigation';
 import TocIndex from '../TocIndex';
 import ComponentDemo from '../ComponentDemo';
 import { redirectTo } from '../../utils/redirect';
+import { Validator } from '../../utils/validator';
 
 import './_dynamic-content.scss';
 
@@ -151,26 +152,68 @@ class DynamicContent extends Component {
     }
   }
 
-  onChange(value, block) {
+  onChange(value, field, block) {
     let obj = {};
     if (block && block.name) {
       obj[block.name] = value.value;
     } else {
       obj = value.value;
     }
+    if (field.validators) {
+      const validations = new Validator({
+        [field.name]: {
+          validators: field.validators
+        }
+      });
+      validations.setValues(value.value);
+      validations.validate(field.name);
+      this.props.contentStore.updateUserData({
+        [block.name + '_errors']: { ...this.props.contentStore.userData[block.name + '_errors'], ...validations.errors }
+      });
+    }
+
     this.props.contentStore.updateUserData(obj);
   }
   async onAction(value, action, block) {
+    const { userData } = this.props;
     switch (action.actionType) {
       case 'submit':
-        this.props.contentStore.updateUserData({
-          isSubmitting: true
+        let validators = {};
+        block.fields?.forEach((item) => {
+          let hasMatch = true;
+          if (item.match) {
+            const valid = new Validator(item.match);
+            valid.setValues({
+              ...userData,
+              ...value
+            });
+            hasMatch = valid.validateAll();
+          }
+          if (hasMatch && item.validators) {
+            validators[item.name] = {
+              validators: item.validators
+            };
+          }
         });
-        const result = await this.props.contentStore.postApi(action);
+        const validObj = new Validator(validators);
+        validObj.setValues(value);
+        const isValid = validObj.validateAll();
         this.props.contentStore.updateUserData({
-          isSubmitting: false
+          [block.name + '_errors']: {
+            ...this.props.contentStore.userData[block.name + '_errors'],
+            ...validObj.errors
+          }
         });
-        this.validateResults(result);
+        if (isValid) {
+          this.props.contentStore.updateUserData({
+            isSubmitting: true
+          });
+          const result = await this.props.contentStore.postApi(action);
+          this.props.contentStore.updateUserData({
+            isSubmitting: false
+          });
+          this.validateResults(result);
+        }
         break;
     }
   }

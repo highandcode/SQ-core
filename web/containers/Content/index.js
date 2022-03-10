@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { getMap } from '../../components';
 import { Validator } from '../../utils/validator';
-import {object} from '../../utils';
+import { object } from '../../utils';
 import './_content.scss';
 
 @inject('commonStore', 'contentStore')
@@ -14,9 +14,9 @@ class Content extends Component {
     this.state = {};
     this.onChange = this.onChange.bind(this);
   }
-  onChange(value, block) {
+  onChange(value, field, block) {
     const { onChange } = this.props;
-    onChange && onChange(value, block);
+    onChange && onChange(value, field, block);
   }
 
   onAction(value, action, block) {
@@ -76,8 +76,9 @@ class Content extends Component {
                 {...rest}
                 {...block}
                 value={userData[block.name]}
-                onChange={(value) => {
-                  this.onChange(value, block);
+                errors={userData[block.name + '_errors']}
+                onChange={(value, field) => {
+                  this.onChange(value, field, block);
                 }}
                 onAction={(value, action) => {
                   this.onAction(value, action, block);
@@ -90,6 +91,7 @@ class Content extends Component {
                         [field.name]: value.value
                       }
                     },
+                    field,
                     block
                   );
                 }}
