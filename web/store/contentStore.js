@@ -47,7 +47,6 @@ class ContentStore {
   }
 
   mergeUserData(data) {
-    console.log(this.processParams(data));
     this.updateUserData(this.processParams(data));
   }
 
