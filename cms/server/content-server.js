@@ -325,11 +325,8 @@ class ContentServer {
       navigation: currentSiteConfig.siteMap.children,
       secondaryNavigation: currentNode !== currentSiteConfig.siteMap ? currentNode.children : [],
       pageConfig: {},
-      ENV: process.env,
-      envConfig: config.envConfig,
       parentPath: siblingData.parentPath || fullPath,
-      siblingPages: siblingData.pages,
-      launchTime
+      siblingPages: siblingData.pages
     };
     if (contents.length === 1) {
       contents = contents[0];
@@ -339,6 +336,11 @@ class ContentServer {
       status,
       path: fullPath,
       site: config,
+      extraParams: {
+        ENV: process.env,
+        envConfig: config.envConfig,
+        launchTime
+      },
       siteConfig: currentSiteConfig,
       currentNode,
       merged

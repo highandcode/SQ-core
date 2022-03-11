@@ -4,7 +4,7 @@ const ejsRenderFile = promisify(require('ejs').renderFile);
 const _ = require('lodash');
 
 class PageBuilder {
-  constructor({ path = '', site = {}, siteConfig, mode,  pageData = {}, merged = {}, currentNode }) {
+  constructor({ path = '', site = {}, siteConfig, mode, pageData = {}, merged = {}, extraParams, currentNode }) {
     this.path = path;
     this.site = site;
     this.siteConfig = siteConfig;
@@ -12,6 +12,7 @@ class PageBuilder {
     this.data = pageData;
     this.merged = merged;
     this.currentNode = currentNode;
+    this.extraParams = extraParams;
   }
 
   build() {
@@ -38,6 +39,7 @@ class PageBuilder {
           {},
           {
             ...this.merged,
+            ...this.extraParams,
             analytics: this.siteConfig.analytics,
             siteMap: this.siteConfig.siteMap,
             currentPath: this.path,
@@ -65,6 +67,7 @@ class PageBuilder {
               {},
               {
                 currentPath: this.path,
+                ...this.extraParams,
                 ...this.merged,
                 analytics: this.siteConfig.analytics,
                 siteMap: this.siteConfig.siteMap,
