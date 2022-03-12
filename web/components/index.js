@@ -6,6 +6,7 @@ import FeaturedContent from './ui/FeaturedContent';
 import Pricing from './ui/Pricing';
 import Icon from './Icon';
 import List from './ui/List';
+import Button from './ui/Button';
 import CodeHighlight from './ui/CodeHighlight';
 import Progress from './Progress';
 import Form from './Form';
@@ -24,6 +25,7 @@ import LaunchTimer from './LaunchTimer';
 import Carousel from './Carousel';
 
 let comps = {
+  Button,
   Icon,
   CallToAction,
   Header,

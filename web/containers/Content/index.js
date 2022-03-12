@@ -13,7 +13,9 @@ class Content extends Component {
     super();
     this.state = {};
     this.onChange = this.onChange.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
+
   onChange(value, field, block) {
     const { onChange } = this.props;
     onChange && onChange(value, field, block);
@@ -26,17 +28,17 @@ class Content extends Component {
 
   processBlock(block) {
     const { userData } = this.props;
-    Object.keys(block).forEach((blockey) => {
-      if (Array.isArray(block[blockey])) {
-        block[blockey].forEach((item) => {
+    Object.keys(block).forEach((keyForBlock) => {
+      if (Array.isArray(block[keyForBlock])) {
+        block[keyForBlock].forEach((item) => {
           if (item.inject) {
             Object.keys(item.inject).forEach((key) => {
               item[key] = object.getDataFromKey(userData, item.inject[key]);
             });
           }
         });
-      } else if (typeof block[blockey] === 'object') {
-        const item = block[blockey];
+      } else if (typeof block[keyForBlock] === 'object') {
+        const item = block[keyForBlock];
         if (item.inject) {
           Object.keys(item.inject).forEach((key) => {
             item[key] = object.getDataFromKey(userData, item.inject[key]);
@@ -44,7 +46,32 @@ class Content extends Component {
         }
       }
     });
+    console.log(block.inject);
+    if (block.inject) {
+      Object.keys(block.inject).forEach((key) => {
+        console.log('@@@@forloop', block, key)
+        block[key] = object.getDataFromKey(userData, block.inject[key]);
+      });
+    }
+    
     return block;
+  }
+  onClick(e, block) {
+    if (block.actionType) {
+      let allForms = [];
+      this.props.pageData.items.forEach((item) => {
+        if (item.fields) {
+          allForms = allForms.concat(item);
+        }
+      });
+      this.onAction(
+        {},
+        {
+          ...block
+        },
+        { ...block, forms: allForms }
+      );
+    }
   }
 
   render() {
@@ -70,6 +97,10 @@ class Content extends Component {
 
             const Comp = compMap[block.component];
             block = this.processBlock(block);
+            if (block.component === 'Button') {
+
+              console.log('@@@@block', block)
+            }
             return Comp && isValid ? (
               <Comp
                 key={pathname + idx}
@@ -77,6 +108,9 @@ class Content extends Component {
                 {...block}
                 value={userData[block.name]}
                 errors={userData[block.name + '_errors']}
+                onClick={(e) => {
+                  this.onClick(e, block);
+                }}
                 onChange={(value, field) => {
                   this.onChange(value, field, block);
                 }}

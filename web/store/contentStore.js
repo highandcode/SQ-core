@@ -47,7 +47,7 @@ class ContentStore {
   }
 
   mergeUserData(data) {
-    this.updateUserData(this.processParams(data));
+    this.updateUserData(this.processParams(data), true);
   }
 
   getSystem() {
@@ -63,10 +63,30 @@ class ContentStore {
     };
   }
 
-  updateUserData(data) {
+  extendData(org, update) {
+    let obj = {
+      ...org
+    };
+    Object.keys(update).forEach((a) => {
+      if (!Array.isArray(update[a]) && typeof update[a] === 'object') {
+        obj[a] = this.extendData(obj[a], update[a]);
+      } else {
+        obj[a] = update[a];
+      }
+    });
+    return obj;
+  }
+
+  updateUserData(data, append) {
+    let merged = {};
+    if (append) {
+      merged = this.extendData(this.userData, data);
+    } else {
+      merged = data;
+    }
     this.userData = {
       ...this.userData,
-      ...data,
+      ...merged,
       ...this.getSystem()
     };
   }

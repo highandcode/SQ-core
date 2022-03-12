@@ -153,6 +153,13 @@ class DynamicContent extends Component {
     }
   }
 
+  getUpdatedUserData() {
+    const { userData } = this.props.contentStore;
+    return {
+      ...userData
+    };
+  }
+
   onChange(value, field, block) {
     let obj = {};
     if (block && block.name) {
@@ -166,7 +173,7 @@ class DynamicContent extends Component {
           validators: field.validators
         }
       });
-      validations.setValues(value.value);
+      validations.setValues({ ...this.getUpdatedUserData(), ...value.value });
       validations.validate(field.name);
       this.props.contentStore.updateUserData({
         [block.name + '_errors']: { ...this.props.contentStore.userData[block.name + '_errors'], ...validations.errors }
@@ -174,37 +181,52 @@ class DynamicContent extends Component {
     }
 
     this.props.contentStore.updateUserData(obj);
+    this.props.contentStore.mergeUserData(this.state.pageData.pageData.merge);
   }
+  validateForms(forms) {
+    let isValid = true;
+    forms.forEach((form) => {
+      if (!this.validateForm(form)) {
+        isValid = false;
+      }
+    });
+    return isValid;
+  }
+  validateForm(block) {
+    let validators = {};
+    block.fields?.forEach((item) => {
+      console.log(item);
+      let hasMatch = true;
+      if (item.match) {
+        const valid = new Validator(item.match);
+        valid.setValues({
+          ...this.getUpdatedUserData(),
+          ...this.getUpdatedUserData()[block.name]
+        });
+        hasMatch = valid.validateAll();
+      }
+      if (hasMatch && item.validators) {
+        validators[item.name] = {
+          validators: item.validators
+        };
+      }
+    });
+    const validObj = new Validator(validators);
+    validObj.setValues(this.getUpdatedUserData()[block.name]);
+    const isValid = validObj.validateAll();
+    this.props.contentStore.updateUserData({
+      [block.name + '_errors']: {
+        ...this.props.contentStore.userData[block.name + '_errors'],
+        ...validObj.errors
+      }
+    });
+    return isValid;
+  }
+
   async onAction(value, action, block) {
-    const { userData } = this.props.contentStore;
     switch (action.actionType) {
       case 'submit':
-        let validators = {};
-        block.fields?.forEach((item) => {
-          let hasMatch = true;
-          if (item.match) {
-            const valid = new Validator(item.match);
-            valid.setValues({
-              ...userData,
-              ...value
-            });
-            hasMatch = valid.validateAll();
-          }
-          if (hasMatch && item.validators) {
-            validators[item.name] = {
-              validators: item.validators
-            };
-          }
-        });
-        const validObj = new Validator(validators);
-        validObj.setValues(userData[block.name]);
-        const isValid = validObj.validateAll();
-        this.props.contentStore.updateUserData({
-          [block.name + '_errors']: {
-            ...this.props.contentStore.userData[block.name + '_errors'],
-            ...validObj.errors
-          }
-        });
+        const isValid = block.forms ? this.validateForms(block.forms) : this.validateForm(block);
         if (isValid) {
           this.props.contentStore.updateUserData({
             isSubmitting: true
