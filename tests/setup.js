@@ -1,3 +1,7 @@
+var fs = require('fs');
+require.extensions['.html'] = function (module, filename) {
+  module.exports = fs.readFileSync(filename, 'utf8');
+};
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const moment = require('moment');

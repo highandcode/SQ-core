@@ -26,7 +26,8 @@ describe('utils:ApiManager', function () {
       });
 
       apiMgr = new ApiManager({
-        axios: axios.method
+        axios: axios.method,
+        domain: 'http://test.com'
       });
       apiMgr.get('/test');
     });
@@ -40,7 +41,7 @@ describe('utils:ApiManager', function () {
           'Content-Type': 'application/json'
         },
         method: 'get',
-        url: '/test'
+        url: 'http://test.com/test'
       });
     });
   });
@@ -59,7 +60,8 @@ describe('utils:ApiManager', function () {
       });
 
       apiMgr = new ApiManager({
-        axios: axios.method
+        axios: axios.method,
+        domain: 'http://test.com'
       });
       apiMgr.post('/test');
     });
@@ -73,7 +75,7 @@ describe('utils:ApiManager', function () {
           'Content-Type': 'application/json'
         },
         method: 'post',
-        url: '/test'
+        url: 'http://test.com/test'
       });
     });
   });
@@ -91,7 +93,8 @@ describe('utils:ApiManager', function () {
       });
 
       apiMgr = new ApiManager({
-        axios: axios.method
+        axios: axios.method,
+        domain: 'http://test.com'
       });
       apiMgr.put('/test');
     });
@@ -105,7 +108,7 @@ describe('utils:ApiManager', function () {
           'Content-Type': 'application/json'
         },
         method: 'put',
-        url: '/test'
+        url: 'http://test.com/test'
       });
     });
   });
@@ -123,7 +126,8 @@ describe('utils:ApiManager', function () {
       });
 
       apiMgr = new ApiManager({
-        axios: axios.method
+        axios: axios.method,
+        domain: 'http://test.com'
       });
       apiMgr.delete('/test');
     });
@@ -137,7 +141,7 @@ describe('utils:ApiManager', function () {
           'Content-Type': 'application/json'
         },
         method: 'delete',
-        url: '/test'
+        url: 'http://test.com/test'
       });
     });
   });
@@ -157,7 +161,8 @@ describe('utils:ApiManager', function () {
       });
 
       apiMgr = new ApiManager({
-        axios: axios.method
+        axios: axios.method,
+        domain: 'http://test.com'
       });
       response = await apiMgr.post('/test');
     });
@@ -171,7 +176,7 @@ describe('utils:ApiManager', function () {
           'Content-Type': 'application/json'
         },
         method: 'post',
-        url: '/test'
+        url: 'http://test.com/test'
       });
     });
     it('should have response.data', () => {
@@ -200,7 +205,8 @@ describe('utils:ApiManager', function () {
       });
 
       apiMgr = new ApiManager({
-        axios: axios.method
+        axios: axios.method,
+        domain: 'http://test.com'
       });
       await apiMgr.post('/test').catch((ex) => {
         response = ex;
@@ -216,7 +222,7 @@ describe('utils:ApiManager', function () {
           'Content-Type': 'application/json'
         },
         method: 'post',
-        url: '/test'
+        url: 'http://test.com/test'
       });
     });
     it('should have response.data', () => {

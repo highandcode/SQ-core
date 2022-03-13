@@ -324,8 +324,8 @@ describe('CMS::ContentServer', function () {
       it('should return merged', () => {
         expect(result.merged).not.to.undefined;
       });
-      it('should return merged.launchTime', () => {
-        expect(result.merged.launchTime).to.equal('');
+      it('should return extraParams.launchTime', () => {
+        expect(result.extraParams.launchTime).to.equal('');
       });
       it('should return merged.navigation', () => {
         expect(result.merged.navigation).to.eql([]);
@@ -405,7 +405,7 @@ describe('CMS::ContentServer', function () {
         expect(result.pageData.title).to.equal('Launched page');
       });
       it('should return launchTime', () => {
-        expect(!!result.merged.launchTime).to.equal(true);
+        expect(!!result.extraParams.launchTime).to.equal(true);
       });
     });
   });
