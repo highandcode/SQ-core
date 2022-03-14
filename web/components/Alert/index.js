@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MuiAlert from '@material-ui/lab/Alert';
+import AlertTitle from '@material-ui/lab/AlertTitle';
 // import Icon from '../Icon';
 import './alert.scss';
 
@@ -24,7 +25,7 @@ const errorMapping = {
   }
 };
 
-const Alert = ({ className = '', message = '', header = '', icon = '', type = 'info' }) => {
+const Alert = ({ className = '', message = '', header = '', type = 'info' }) => {
   const mapping = errorMapping[type] || errorMapping.info;
   return (
     <div className={`sq-alert ${className} sq-alert-${mapping.alertClass}`}>
