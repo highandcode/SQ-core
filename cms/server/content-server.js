@@ -357,7 +357,6 @@ class ContentServer {
           contents[key] = utils.object.getDataFromKey(data, contents.inject[key]);
         });
       }
-      delete contents.inject;
     }
     if (contents && contents.items) {
       contents.items.forEach((item) => {
@@ -366,7 +365,6 @@ class ContentServer {
             item[key] = utils.object.getDataFromKey(data, item.inject[key]);
           });
         }
-        delete item.inject;
       });
     }
     return contents;

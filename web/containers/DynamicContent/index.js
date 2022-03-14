@@ -233,6 +233,7 @@ class DynamicContent extends Component {
             isSubmitting: true
           });
           const result = await this.props.contentStore.postApi(action);
+          this.props.contentStore.mergeUserData(this.state.pageData.pageData.merge);
           this.props.contentStore.updateUserData({
             isSubmitting: false
           });
@@ -246,6 +247,7 @@ class DynamicContent extends Component {
             isSubmitting: true
           });
           const result = await this.props.contentStore.postApi(action);
+          this.props.contentStore.mergeUserData(this.state.pageData.pageData.merge);
           this.props.contentStore.updateUserData({
             isSubmitting: false
           });

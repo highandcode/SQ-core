@@ -13,6 +13,14 @@ const errorMapping = {
   error: {
     icon: 'error',
     alertClass: 'error'
+  },
+  success: {
+    icon: 'success',
+    alertClass: 'success'
+  },
+  warning: {
+    icon: 'warning',
+    alertClass: 'warning'
   }
 };
 

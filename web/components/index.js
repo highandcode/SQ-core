@@ -1,5 +1,6 @@
 import CallToAction from './CallToAction';
 import Header from './ui/Header';
+import Alert from './Alert';
 import LinkButton from './ui/LinkButton';
 import HeroContent from './ui/HeroContent';
 import FeaturedContent from './ui/FeaturedContent';
@@ -25,6 +26,7 @@ import LaunchTimer from './LaunchTimer';
 import Carousel from './Carousel';
 
 let comps = {
+  Alert,
   Button,
   Icon,
   CallToAction,

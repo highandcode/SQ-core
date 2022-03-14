@@ -11,7 +11,7 @@ module.exports = {
     const allItems = key.split('.');
     let value = data;
     allItems.forEach((nestedKey) => {
-      value = !common.isNullOrUndefined(value) ? value[nestedKey] : defaultValue;
+      value = !common.isNullOrUndefined(value[nestedKey]) ? value[nestedKey] : defaultValue;
     });
     return value;
   }

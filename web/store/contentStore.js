@@ -15,14 +15,14 @@ class ContentStore {
     return resp.data;
   }
 
-  processParams(params = {}) {
+  processParams(params = {}, defaultValue = null) {
     const newObj = {};
     Object.keys(params).forEach((key) => {
       let value;
       if (typeof params[key] === 'object') {
-        value = this.processParams(params[key]);
+        value = this.processParams(params[key], defaultValue);
       } else if (params[key].toString().substr(0, 1) === '.') {
-        value = utils.object.getDataFromKey(this.userData, params[key].substr(1), undefined);
+        value = utils.object.getDataFromKey(this.userData, params[key].substr(1), defaultValue);
       } else if (!utils.common.isNullOrUndefined(params[key])) {
         value = params[key];
       }
@@ -32,22 +32,27 @@ class ContentStore {
     });
     return newObj;
   }
-
+  resetError() {
+    this.updateUserData({
+      lastError: {}
+    });
+  }
   postApi(data) {
     return apiBridge[data.method.toLowerCase()](data.url, this.processParams(data.params), data.headers).then((response) => {
       if (response.status === 'success') {
-        this.updateUserData(response.data);
-      } else {
         this.updateUserData({
-          error: response.error
+          ...response.data,
+          lastError: {}
         });
+      } else {
+        this.updateErrorData(response.error);
       }
       return response;
     });
   }
 
   mergeUserData(data) {
-    this.updateUserData(this.processParams(data), true);
+    this.updateUserData(this.processParams(data, ''), true);
   }
 
   getSystem() {
@@ -75,6 +80,20 @@ class ContentStore {
       }
     });
     return obj;
+  }
+
+  updateErrorData(data) {
+    const errors = {
+      lastError: {}
+    };
+    Object.keys(data).forEach((errorKey) => {
+      if (data[errorKey]?.errors) {
+        errors[`${errorKey}_errors`] = data[errorKey]?.errors;
+      } else {
+        errors.lastError[errorKey] = data[errorKey];
+      }
+    });
+    this.updateUserData(errors);
   }
 
   updateUserData(data, append) {

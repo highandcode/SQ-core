@@ -19,7 +19,7 @@ class Content extends Component {
   onChange(value, field, block) {
     const { onChange } = this.props;
     onChange && onChange(value, field, block);
-    
+
   }
 
   onAction(value, action, block) {
