@@ -22,6 +22,7 @@ class Form extends React.Component {
       lastAction: null
     };
     this.form_onKeyPress = this.form_onKeyPress.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   form_onKeyPress(evt) {
@@ -45,6 +46,11 @@ class Form extends React.Component {
     }
   }
 
+  onClick(e, field, data) {
+    const { onClick } = this.props;
+    onClick && onClick(e, field, data);
+    
+  }
   onChange(field, selectedValue, data) {
     const { onChange, onFieldChange } = this.props;
     const updatedData = {
@@ -130,6 +136,7 @@ class Form extends React.Component {
               {...finalOptions}
               value={value}
               row={data}
+              onClick={(e) => this.onClick(e, field, data)}
               onChange={(fieldData) => this.onChange(field, fieldData, data)}
               onKeyPress={(fieldData) => this.handleOnKeyPress(field, fieldData, data)}
               onAnalytics={onAnalytics}
@@ -200,6 +207,7 @@ Form.propTypes = {
   userData: PropTypes.object,
   fields: PropTypes.array,
   actions: PropTypes.array,
+  onClick: PropTypes.func,
   onChange: PropTypes.func,
   onFieldChange: PropTypes.func,
   onFieldKeyPress: PropTypes.func,

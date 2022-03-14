@@ -19,6 +19,7 @@ class Content extends Component {
   onChange(value, field, block) {
     const { onChange } = this.props;
     onChange && onChange(value, field, block);
+    
   }
 
   onAction(value, action, block) {
@@ -46,18 +47,19 @@ class Content extends Component {
         }
       }
     });
-    console.log(block.inject);
     if (block.inject) {
       Object.keys(block.inject).forEach((key) => {
-        console.log('@@@@forloop', block, key)
         block[key] = object.getDataFromKey(userData, block.inject[key]);
       });
     }
-    
+
     return block;
   }
-  onClick(e, block) {
-    if (block.actionType) {
+
+  onClick(e, block, field) {
+    let target = field || block;
+    const actionType = target.actionType;
+    if (actionType) {
       let allForms = [];
       this.props.pageData.items.forEach((item) => {
         if (item.fields) {
@@ -67,7 +69,7 @@ class Content extends Component {
       this.onAction(
         {},
         {
-          ...block
+          ...target
         },
         { ...block, forms: allForms }
       );
@@ -97,10 +99,6 @@ class Content extends Component {
 
             const Comp = compMap[block.component];
             block = this.processBlock(block);
-            if (block.component === 'Button') {
-
-              console.log('@@@@block', block)
-            }
             return Comp && isValid ? (
               <Comp
                 key={pathname + idx}
@@ -108,8 +106,8 @@ class Content extends Component {
                 {...block}
                 value={userData[block.name]}
                 errors={userData[block.name + '_errors']}
-                onClick={(e) => {
-                  this.onClick(e, block);
+                onClick={(e, field) => {
+                  this.onClick(e, block, field);
                 }}
                 onChange={(value, field) => {
                   this.onChange(value, field, block);

@@ -224,9 +224,23 @@ class DynamicContent extends Component {
   }
 
   async onAction(value, action, block) {
+    let isValid;
     switch (action.actionType) {
+      case 'submit-form':
+        isValid = this.validateForm(block);
+        if (isValid) {
+          this.props.contentStore.updateUserData({
+            isSubmitting: true
+          });
+          const result = await this.props.contentStore.postApi(action);
+          this.props.contentStore.updateUserData({
+            isSubmitting: false
+          });
+          this.validateResults(result);
+        }
+        break;
       case 'submit':
-        const isValid = block.forms ? this.validateForms(block.forms) : this.validateForm(block);
+        isValid = this.validateForms(block.forms);
         if (isValid) {
           this.props.contentStore.updateUserData({
             isSubmitting: true
