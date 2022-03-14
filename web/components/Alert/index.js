@@ -1,9 +1,7 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import MuiAlert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
-// import Icon from '../Icon';
 import './alert.scss';
 
 const errorMapping = {
@@ -25,13 +23,14 @@ const errorMapping = {
   }
 };
 
-const Alert = ({ className = '', message = '', header = '', type = 'info' }) => {
+const Alert = ({ className = '', message = '', header = '', type = 'info', variant, color }) => {
   const mapping = errorMapping[type] || errorMapping.info;
   return (
     <div className={`sq-alert ${className} sq-alert-${mapping.alertClass}`}>
-      <MuiAlert severity={type} >
+      <MuiAlert severity={type} color={color} variant={variant}>
         {header && <AlertTitle>{header}</AlertTitle>}
-        {message}</MuiAlert>
+        {message}
+      </MuiAlert>
     </div>
   );
 };
