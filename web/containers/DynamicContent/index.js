@@ -111,6 +111,7 @@ class DynamicContent extends Component {
       });
     }, 300);
     const pageResponse = await this.props.contentStore.getPage(this.state.url);
+    this.props.contentStore.updateUserData(pageResponse.metaData.userData);
     this.props.contentStore.mergeUserData(pageResponse.pageData.merge);
 
     await this.processHook(pageResponse.pageData.hook?.load);

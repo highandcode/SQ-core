@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { getMap } from '../../components';
 import { Validator } from '../../utils/validator';
-import { object } from '../../utils';
+import { object, common } from '../../utils';
 import './_content.scss';
 
 @inject('commonStore', 'contentStore')
@@ -19,7 +19,6 @@ class Content extends Component {
   onChange(value, field, block) {
     const { onChange } = this.props;
     onChange && onChange(value, field, block);
-
   }
 
   onAction(value, action, block) {
@@ -38,7 +37,7 @@ class Content extends Component {
             });
           }
         });
-      } else if (typeof block[keyForBlock] === 'object') {
+      } else if (typeof block[keyForBlock] === 'object' && !common.isNullOrUndefined(block[keyForBlock])) {
         const item = block[keyForBlock];
         if (item.inject) {
           Object.keys(item.inject).forEach((key) => {
@@ -52,7 +51,6 @@ class Content extends Component {
         block[key] = object.getDataFromKey(userData, block.inject[key]);
       });
     }
-
     return block;
   }
 
@@ -103,9 +101,9 @@ class Content extends Component {
               <Comp
                 key={pathname + idx}
                 {...rest}
-                {...block}
                 value={userData[block.name]}
                 errors={userData[block.name + '_errors']}
+                {...block}
                 onClick={(e, field) => {
                   this.onClick(e, block, field);
                 }}

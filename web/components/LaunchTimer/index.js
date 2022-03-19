@@ -35,7 +35,6 @@ const LaunchTimer = ({ eyebrow, header = '', subHeader = '', value = '', classNa
       setInterValId(id);
     }
   });
-
   const days = utils.number.preFix(new utils.datetime.DateTime(value).diffInDays(new utils.datetime.DateTime(innerValue)));
   const hours = utils.number.preFix(new utils.datetime.DateTime(value).diffInHours(new utils.datetime.DateTime(innerValue)) - days * 24);
   const minutes = utils.number.preFix(

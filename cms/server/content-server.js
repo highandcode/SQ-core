@@ -258,6 +258,17 @@ class ContentServer {
     }
     return filePath;
   }
+  getLaunchEndPage(siteConfig) {
+    const config = this.config;
+    siteConfig = siteConfig || config.siteConfig;
+    let filePath = '';
+    if (siteConfig.siteMap.errorRedirects && siteConfig.siteMap.errorRedirects.launchEnded) {
+      filePath = this.getFilePath(siteConfig.siteMap.errorRedirects && siteConfig.siteMap.errorRedirects.launchEnded);
+    } else {
+      filePath = this.getFilePath('/content/pages/launchend.yaml');
+    }
+    return filePath;
+  }
 
   getAppNameFromUrl(url) {
     return url.substr(0, url.indexOf('/'));
@@ -278,6 +289,7 @@ class ContentServer {
     let isLaunchMatch = false;
     let launchMatchKey = '';
     let launchTime = '';
+    let launchEnded = '';
     if (currentSiteConfig.launchConfig) {
       Object.keys(currentSiteConfig.launchConfig).forEach((lKey) => {
         if (lKey === fullPath || fullPath.match(lKey)) {
@@ -292,11 +304,23 @@ class ContentServer {
       isFile = false;
     }
     if (isLaunchMatch) {
-      var timeToLaunch = currentSiteConfig.launchConfig[launchMatchKey];
-      launchTime = utils.datetime.new(timeToLaunch).toStringDefault();
+      var timeToLaunch;
+      var timeToEnd;
+      if (typeof currentSiteConfig.launchConfig[launchMatchKey] === 'object') {
+        timeToLaunch = currentSiteConfig.launchConfig[launchMatchKey].start;
+        timeToEnd = currentSiteConfig.launchConfig[launchMatchKey].end;
+      } else {
+        timeToLaunch = currentSiteConfig.launchConfig[launchMatchKey];
+      }
+      launchTime = timeToLaunch && utils.datetime.new(timeToLaunch).toStringDefault();
+      launchEnded = timeToEnd && utils.datetime.new(timeToEnd).toStringDefault();
       const diffInSeconds = utils.datetime.new(timeToLaunch).diffInSeconds(utils.datetime.new());
+      const diffInSecondsEnd = utils.datetime.new(timeToEnd).diffInSeconds(utils.datetime.new());
       if (diffInSeconds > 0) {
         filePath = this.getLaunchWaitPage(currentSiteConfig);
+        isFile = true;
+      } else if (diffInSecondsEnd < 0) {
+        filePath = this.getLaunchEndPage(currentSiteConfig);
         isFile = true;
       }
     }
@@ -325,6 +349,10 @@ class ContentServer {
       navigation: currentSiteConfig.siteMap.children,
       secondaryNavigation: currentNode !== currentSiteConfig.siteMap ? currentNode.children : [],
       pageConfig: {},
+      userData: {
+        launchTime,
+        launchEnded
+      },
       parentPath: siblingData.parentPath || fullPath,
       siblingPages: siblingData.pages
     };
