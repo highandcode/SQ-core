@@ -1,4 +1,4 @@
-import { formatters as oldFromatters, setDefaults } from '../../server/src/utils/format';
+import { setDefaults, getFormatters as _getFormatters, setFormatters as _setFormatters } from '../../server/src/utils/format';
 import { DateTime } from './datetime';
 import { getSign, get } from './currency';
 
@@ -9,7 +9,6 @@ setDefaults({
 });
 
 const formatters = {
-  ...oldFromatters,
   currency: (value, options = {}) => {
     const { currency = get(), ...rest } = options;
     const sign = getSign(currency);
@@ -37,9 +36,18 @@ const formatters = {
     return new DateTime(value).toString('MMM, DD YYYY hh:mm A');
   }
 };
-
+_setFormatters(formatters);
 const addFormatter = (name, formatter) => {
-  formatters[name] = formatter;
+  _setFormatters({
+    [name]: formatter
+  });
 };
 
-export { formatters, setDefaults, addFormatter };
+const getFormatters = () => {
+  return { ..._getFormatters(), ...formatters };
+};
+const setFormatters = (newFormatters) => {
+  return _setFormatters(newFormatters);
+};
+
+export { getFormatters, setFormatters, formatters, setDefaults, addFormatter };

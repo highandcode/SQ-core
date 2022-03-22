@@ -1,11 +1,11 @@
-import { formatters as oldFromatters } from '../../server/src/utils/format';
+import { getFormatters } from '../../server/src/utils/format';
 import { isNullOrUndefined } from '../../server/src/utils/common';
 import { getSign, get } from './currency';
 
 const masks = {
   currency: {
     mask: (value, options = {}) => {
-      return oldFromatters.currency(value, { sign: getSign(), currency: get(), input: true, decimals: 2, ...options });
+      return getFormatters().currency(value, { sign: getSign(), currency: get(), input: true, decimals: 2, ...options });
     },
     unmask: (value, options = {}) => {
       return value && value.toString().replace(/[^0-9.-]/g, '');

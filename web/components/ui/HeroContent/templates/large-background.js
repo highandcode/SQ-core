@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
-import common from '../../../../utils/common';
+import { common, object } from '../../../../utils';
 import { getMap } from '../../index';
 import { resolveImageUrl } from '../../../../cordova';
 
@@ -17,7 +17,8 @@ const TemplateWithBackground = ({
   links = [],
   links2 = [],
   onAnalytics,
-  classes = {}
+  classes = {},
+  userData
 }) => {
   const HTag = headerTag;
   const BTag = bodyTag;
@@ -31,10 +32,20 @@ const TemplateWithBackground = ({
         <div className={`sq-hero-content__wrapper ${common.toStringBlank(classes.wrapper)}`}>
           <div className={`sq-hero-content__inner-wrapper ${common.toStringBlank(classes.innerWrapper)}`}>
             <div className={`sq-hero-content__body ${common.toStringBlank(classes.body)}`}>
-              {eyebrow && <div className={`sq-hero-content__eyebrow ${common.toStringBlank(classes.eyebrow)}`}>{ReactHtmlParser(eyebrow)}</div>}
-              {header && <HTag className={`sq-hero-content__header ${common.toStringBlank(classes.header)}`}>{ReactHtmlParser(header)}</HTag>}
+              {eyebrow && (
+                <div className={`sq-hero-content__eyebrow ${common.toStringBlank(classes.eyebrow)}`}>
+                  {ReactHtmlParser(object.processMessage(eyebrow, userData))}
+                </div>
+              )}
+              {header && (
+                <HTag className={`sq-hero-content__header ${common.toStringBlank(classes.header)}`}>
+                  {ReactHtmlParser(object.processMessage(header, userData))}
+                </HTag>
+              )}
               {subHeader && (
-                <BTag className={`sq-hero-content__sub-header ${common.toStringBlank(classes.subHeader)}`}>{ReactHtmlParser(subHeader)}</BTag>
+                <BTag className={`sq-hero-content__sub-header ${common.toStringBlank(classes.subHeader)}`}>
+                  {ReactHtmlParser(object.processMessage(subHeader, userData))}
+                </BTag>
               )}
               {links && (
                 <div className={`sq-hero-content__links-container ${common.toStringBlank(classes.links)}`}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import { formatters } from '../../utils/format';
+import { getFormatters } from '../../utils/format';
 import './ticker.scss';
 
 const configVals = {
@@ -16,6 +16,7 @@ const configVals = {
 };
 
 function Ticker({ value, className = '', formatter = {}, theme = '', style = 'default', row }) {
+  const formatters = getFormatters();
   const { type, ...restFormatter } = formatter;
   const classCompt = configVals[style] || configVals.default;
   const iconName = value < 0 ? 'arrowdropdown' : value > 0 ? 'arrowdropup' : '';

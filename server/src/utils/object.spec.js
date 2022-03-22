@@ -47,4 +47,20 @@ describe('utils:number', function () {
       expect(object.getDataFromKey({ test: '12' }, 'test'), '').to.equal('12');
     });
   });
+
+  describe.only('#processMessage()', function () {
+    it('should convert ##field## to values', () => {
+      expect(object.processMessage('You are an absolute ##value##.', { value: 'test' })).to.equal('You are an absolute test.');
+    });
+    it('should convert ##nested.field## to values', () => {
+      expect(
+        object.processMessage('You are an absolute ##nest.value## ##other.test##.', { value: 'test', nest: { value: 'ok' }, other: { 'test': 'new' } })
+      ).to.equal('You are an absolute ok new.');
+    });
+    it('should call formatter ##currency|nested.field## to values', () => {
+      expect(
+        object.processMessage('You are an absolute ##currency|nest.value##.', { value: 'test', nest: { value: 2000 }, other: { 'test': 'new' } })
+      ).to.equal('You are an absolute $2,000.00.');
+    });
+  });
 });

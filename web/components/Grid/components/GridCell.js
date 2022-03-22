@@ -14,7 +14,7 @@ import Radio from '../../ui/Radio';
 import Datepicker from '../../ui/DatePicker';
 import Form from '../../Form';
 import Actions from '../../Actions';
-import { formatters } from '../../../utils/format';
+import { getFormatters } from '../../../utils/format';
 import { getValue } from '../../../utils/properties';
 import { getMap } from '../../ui';
 
@@ -61,6 +61,7 @@ const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnal
   if (render) {
     customValue = render(value, column, row);
   }
+  const formatters = getFormatters();
   const newValue = (type && formatters[type] && formatters[type](customValue, restFormatter)) || customValue;
 
   return (

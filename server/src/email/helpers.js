@@ -1,4 +1,4 @@
-const utils = require('../utils');
+const object = require('../utils/object');
 
 let dataItems = {
   HEADER: require('./parts/header.html'),
@@ -15,16 +15,7 @@ function processBody(html, data) {
     ...dataItems,
     ...data
   };
-  if (html && typeof html === 'string') {
-    const arrayKeys = html.match(/##.*##/g);
-    arrayKeys &&
-      arrayKeys.forEach((key) => {
-        const exactKey = key.replace(/##/g, '').replace('data.', '');
-        const textOutput = typeof dataToProcess[exactKey] === 'function' ? dataToProcess[exactKey](data) : utils.object.getDataFromKey(dataToProcess, exactKey);
-        html = html.replace(new RegExp(key, 'g'), processBody(textOutput, data));
-      });
-  }
-  return utils.common.isNullOrUndefined(html) ? '' : html;
+  return object.processMessage(html, dataToProcess, { removePrefix: 'data.' });
 }
 
 module.exports = {

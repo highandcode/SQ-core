@@ -108,7 +108,7 @@ const currencyAbrConfig = {
   }
 };
 
-const formatters = {
+let formatters = {
   date: (value, { format = 'MMM DD, YYYY' } = {}) => {
     return datetime.new(value).toString(format);
   },
@@ -218,6 +218,13 @@ function setDefaults(overrides) {
 
 module.exports = {
   formatters,
+  getFormatters: () => formatters,
+  setFormatters: (newFormatters) => {
+    formatters = {
+      ...formatters,
+      ...newFormatters
+    };
+  },
   setDefaults,
   config: {}
 };
