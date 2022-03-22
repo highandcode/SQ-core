@@ -312,8 +312,8 @@ class ContentServer {
       } else {
         timeToLaunch = currentSiteConfig.launchConfig[launchMatchKey];
       }
-      launchTime = timeToLaunch && utils.datetime.new(timeToLaunch).toStringDefault();
-      launchEnded = timeToEnd && utils.datetime.new(timeToEnd).toStringDefault();
+      launchTime = timeToLaunch && utils.datetime.new(timeToLaunch).toISO();
+      launchEnded = timeToEnd && utils.datetime.new(timeToEnd).toISO();
       const diffInSeconds = utils.datetime.new(timeToLaunch).diffInSeconds(utils.datetime.new());
       const diffInSecondsEnd = utils.datetime.new(timeToEnd).diffInSeconds(utils.datetime.new());
       if (diffInSeconds > 0) {

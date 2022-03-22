@@ -8,6 +8,8 @@ setDefaults({
   }
 });
 
+const oldFromatters = _getFormatters();
+
 const formatters = {
   currency: (value, options = {}) => {
     const { currency = get(), ...rest } = options;
