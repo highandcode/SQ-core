@@ -54,7 +54,7 @@ class Content extends Component {
     return block;
   }
 
-  onClick(e, block, field) {
+  checkForAction(e, block, field) {
     let target = field || block;
     const actionType = target.actionType;
     if (actionType) {
@@ -72,6 +72,10 @@ class Content extends Component {
         { ...block, forms: allForms }
       );
     }
+  }
+
+  onClick(e, block, field) {
+    this.checkForAction(e, block, field);
   }
 
   render() {
