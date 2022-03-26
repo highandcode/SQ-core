@@ -25,7 +25,7 @@ describe('domain:Queryable', () => {
           { uid: 'u3', text: 'DD' },
           { uid: 'u3', text: 'Acord' },
         ],
-        TestEntity
+        {entityType: TestEntity}
       );
     });
 
@@ -65,6 +65,25 @@ describe('domain:Queryable', () => {
         { uid: 'u3', text: 'Acord' },
       ]);
     });
+
+    it('should return sorted data by data type number', () => {
+      const newColl = new Queryable([
+        { uid: 1, text: 'Abc' },
+        { uid: 4, text: 'A1c' },
+        { uid: 11, text: 'A1c' },
+        { uid: 6, text: 'DD' },
+        { uid: 2, text: 'Acord' },
+      ], {entityType: TestEntity});
+      const result = newColl.sortBy('uid');
+      expect(result.data).toEqual([
+        { uid: 1, text: 'Abc' },
+        { uid: 2, text: 'Acord' },
+        { uid: 4, text: 'A1c' },
+        { uid: 6, text: 'DD' },
+        { uid: 11, text: 'A1c' },
+      ]);
+    });
+
   });
 
 });
