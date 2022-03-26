@@ -2,8 +2,8 @@
   <div class="container">
     <nav class="navbar navbar-expand-md no-gutters">
       <div class="col-3 text-left">
-        <a class="nav-link" href="/">
-          <img src="/client/assets/svg/logo.svg" height="50" alt="image"> Default
+        <a class="nav-link" href="<%= siteMap.logo.href%>">
+          Default
         </a>
       </div>
 
@@ -20,6 +20,8 @@
             }
           %>
           <% if (currentNode && currentNode.children && currentNode.children.length>0) {
+          finalNode = currentNode;
+        } else {
           finalNode = currentNode;
         } %>
           <% for(var i=0; i < finalNode.children.length; i++) { %>
@@ -43,11 +45,7 @@
       <div class="collapse navbar-collapse navbar-collapse-2">
         <ul class="navbar-nav ml-auto justify-content-end">
           <li class="nav-item">
-            <a class="btn btn-primary ml-md-3" href="/register">
-              <svg class="bi" width="32" height="16" fill="currentColor">
-                <use xlink:href="/client/libs/bootstrap-icons/bootstrap-icons.svg#download"/>
-              </svg>
-              Download</a>
+           
           </li>
         </ul>
 

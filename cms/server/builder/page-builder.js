@@ -29,7 +29,7 @@ class PageBuilder {
       } else if (fse.existsSync(`${this.site.srcPath}/${this.data.template}.ejs`)) {
         finalPath = `${this.site.srcPath}/${this.data.template}.ejs`;
       } else {
-        finalPath = `${this.site.srcPath}/page.ejs`;
+        finalPath = `${this.site.srcPath}/apps/core/templates/page.ejs`;
       }
       console.log('template:' + finalPath);
       // render page
@@ -57,7 +57,7 @@ class PageBuilder {
           } else if (fse.existsSync(`${this.site.srcPath}/${this.data.layout}.ejs`)) {
             finalPath = `${this.site.srcPath}/${this.data.layout}.ejs`;
           } else {
-            finalPath = `${this.site.srcPath}apps/core/layouts/default.ejs`;
+            finalPath = `${this.site.srcPath}/apps/core/layouts/default.ejs`;
           }
           console.log('layout:' + finalPath);
           // render layout
