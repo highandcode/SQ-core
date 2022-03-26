@@ -2,7 +2,7 @@ const { chai } = require('../../../tests/setup');
 var expect = chai.expect;
 const object = require('./object');
 
-describe('utils:number', function () {
+describe('utils:object', function () {
   describe('#object.clone(obj)', function () {
     describe('checking copy of object', function () {
       let obj1, cloneObj;
@@ -48,7 +48,7 @@ describe('utils:number', function () {
     });
   });
 
-  describe.only('#processMessage()', function () {
+  describe('#processMessage()', function () {
     it('should convert ##field## to values', () => {
       expect(object.processMessage('You are an absolute ##value##.', { value: 'test' })).to.equal('You are an absolute test.');
     });
