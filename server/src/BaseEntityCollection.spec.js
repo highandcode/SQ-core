@@ -41,8 +41,7 @@ describe('BaseEntityCollection', () => {
     });
   });
   describe('toObject()', () => {
-    let entityColl,
-    objectReturn;
+    let entityColl, objectReturn;
     beforeEach(() => {
       entityColl = new BaseEntityCollection(
         [
@@ -65,8 +64,7 @@ describe('BaseEntityCollection', () => {
     });
   });
   describe('toObject() with defaultValue', () => {
-    let entityColl,
-    objectReturn;
+    let entityColl, objectReturn;
     beforeEach(() => {
       entityColl = new BaseEntityCollection(
         [
@@ -81,6 +79,57 @@ describe('BaseEntityCollection', () => {
 
     it('should return NoValue in case there is no value', () => {
       expect(objectReturn.get('e5k333s')).to.equal('N/A');
+    });
+  });
+  describe('sortBy() with sort "asc & desc"', () => {
+    let entityColl;
+    beforeEach(() => {
+      entityColl = new BaseEntityCollection(
+        [
+          { uid: 'u1', text: 'Abc' },
+          { uid: 'u2', text: 'A1c' },
+          { uid: 'u3', text: 'DD' },
+          { uid: 'u3', text: 'Acord' },
+        ],
+        TestEntity
+      );
+    });
+
+    it('should return sorted data by 1 field "text"', () => {
+      const result = entityColl.sortBy('text');
+      expect(result.data).to.eqls([
+        { uid: 'u2', text: 'A1c' },
+        { uid: 'u1', text: 'Abc' },
+        { uid: 'u3', text: 'Acord' },
+        { uid: 'u3', text: 'DD' },
+      ]);
+    });
+    it('should return sorted data by 2 field "text"', () => {
+      const result = entityColl.sortOrder('uid').sortBy('text');
+      expect(result.data).to.eqls([
+        { uid: 'u1', text: 'Abc' },
+        { uid: 'u2', text: 'A1c' },
+        { uid: 'u3', text: 'Acord' },
+        { uid: 'u3', text: 'DD' },
+      ]);
+    });
+    it('should return sorted data by 2 field "text" desc', () => {
+      const result = entityColl.sortOrder('uid', 'desc').sortBy('text');
+      expect(result.data).to.eqls([
+        { uid: 'u3', text: 'Acord' },
+        { uid: 'u3', text: 'DD' },
+        { uid: 'u2', text: 'A1c' },
+        { uid: 'u1', text: 'Abc' },
+      ]);
+    });
+    it('should return sorted data by 2 field "text"', () => {
+      const result = entityColl.sortOrder('uid').sortBy('text', 'desc');
+      expect(result.data).to.eqls([
+        { uid: 'u1', text: 'Abc' },
+        { uid: 'u2', text: 'A1c' },
+        { uid: 'u3', text: 'DD' },
+        { uid: 'u3', text: 'Acord' },
+      ]);
     });
   });
 });

@@ -15,6 +15,10 @@ class Queryable {
   sortBy(field, asc) {
     return new Sortable(this.rData, { entityType: this.entityType }).sortBy(field, asc);
   }
+  
+  sortOrder(field, asc) {
+    return new Sortable(this.rData, { entityType: this.entityType }).sortOrder(field, asc);
+  }
 
   toArray() {
     return this.rData.map((item) => {
