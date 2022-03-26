@@ -75,7 +75,7 @@ describe('domain:Queryable', () => {
         { uid: 2, text: 'Acord' },
       ], {entityType: TestEntity});
       const result = newColl.sortBy('uid');
-      expect(result.data).toEqual([
+      expect(result.rData).toEqual([
         { uid: 1, text: 'Abc' },
         { uid: 2, text: 'Acord' },
         { uid: 4, text: 'A1c' },
