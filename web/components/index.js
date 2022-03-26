@@ -24,10 +24,12 @@ import ImageWithSlide from './ui/ImageWithSlide';
 import ImageWithSlideList from './ui/ImageWithSlideList';
 import LaunchTimer from './LaunchTimer';
 import Carousel from './Carousel';
+import PropsTable from './PropsTable';
 
 let comps = {
   Alert,
   Button,
+  PropsTable,
   Icon,
   CallToAction,
   Header,

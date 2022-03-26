@@ -72,9 +72,9 @@
     text-align: center;
     height: 40px;
     padding-top: 80px;
-    @include t3-style();
+    @include b4-style();
     @media screen and (min-width: $screen-md) {
-      @include t2-style();
+      @include b3-style();
     }
     color: #003e5a;
     vertical-align: middle;
