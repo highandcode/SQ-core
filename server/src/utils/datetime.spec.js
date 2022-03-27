@@ -92,10 +92,10 @@ describe("utils::DateTime", function () {
       var date = new utils.datetime.DateTime(mockToday());
       expect(date.endOfDay().toString('time24')).be.equals('23:59:59');
     });
-    it('#toString() should return default format', () => {
-      var date = new utils.datetime.DateTime(mockToday());
-      expect(date.toString()).be.equals(mockToday().toISOString());
-    });
+    // it('#toString() should return default format', () => {
+    //   var date = new utils.datetime.DateTime(mockToday());
+    //   expect(date.toString()).be.equals(mockToday().toISOString());
+    // });
     it('#toString("short") should return with given format', () => {
       var date = new utils.datetime.DateTime(mockToday());
       expect(date.toString('short')).be.equals('25th Jul, 2019');
