@@ -45,4 +45,4 @@ build_release:
         - dist/*.zip
       expire_in: 48 hrs
   only:
-    - release/*
+    - /^release/.*$/
