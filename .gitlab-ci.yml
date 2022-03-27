@@ -22,10 +22,12 @@ build_project:
     - npm install
     - npm run-script test
     - npm run-script dist
+    - cd dist
+    - npm pack
     - echo ======= build finished ========
   artifacts:
       paths:
-        - dist/*.zip
+        - dist/*.tgz
       expire_in: 24 hrs
   only:
     - master
@@ -42,7 +44,7 @@ build_release:
     - echo ======= release finished ========
   artifacts:
       paths:
-        - dist/*.zip
+        - dist/*.tgz
       expire_in: 48 hrs
   only:
     - /^release/.*$/
