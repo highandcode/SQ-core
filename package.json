@@ -1,10 +1,10 @@
 {
   "name": "sq-core",
   "version": "1.0.0",
-  "description": "Full stack core framework",
+  "description": "Full stack framework for cms and react app development",
   "main": "index.js",
   "startYear": "2021",
-  "author": "Swish Qube",
+  "author": "Nybble Core Pvt. Ltd.",
   "scripts": {
     "client:test": "node scripts/test.js --no-watch",
     "client:test:watch": "node scripts/test.js",
@@ -17,7 +17,7 @@
     "build:apps": "webpack --config webpack.build.core.config.js && webpack --config webpack.build.apps.config.js",
     "test:coverage": "npm run server:test:coverage && npm run client:test:coverage",
     "start": "start-storybook -p 6006",
-    "dist": "rm -rf dist && webpack && webpack --config webpack.web.config.js && node scripts/dist.js && cd dist && npm pack",
+    "dist": "rm -rf dist && webpack && webpack --config webpack.web.config.js && node scripts/dist.js && cd dist",
     "build-storybook": "build-storybook"
   },
   "nyc": {
