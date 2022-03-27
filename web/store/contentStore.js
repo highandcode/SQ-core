@@ -1,6 +1,6 @@
 import { observable } from 'mobx';
 import apiBridge from '../utils/api-bridge';
-import { utils } from 'sq-core/web';
+import * as utils from '../utils';
 class ContentStore {
   @observable userData = {};
 
