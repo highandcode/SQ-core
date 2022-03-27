@@ -5,10 +5,11 @@ const _ = require('lodash');
 const utils = require('../../server/src/utils');
 const PageBuilder = require('./builder/page-builder');
 const Response = require('../../server/src/Response');
+const pkgName = require('../../package.json');
 
 class ContentServer {
   constructor({ fse, dirname = __dirname, ...options } = {}, app) {
-    dirname = dirname == '/' ? `${process.cwd()}/node_modules/sq-core/cms/` : dirname;
+    dirname = dirname == '/' ? `${process.cwd()}/node_modules/${pkgName.name}/cms/` : dirname;
     const lastIndex = dirname.lastIndexOf('server');
     const cmsRootServer = lastIndex > -1 ? dirname.substr(0, lastIndex) : dirname;
     console.log(`root:${cmsRootServer}`);
