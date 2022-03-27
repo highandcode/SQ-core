@@ -37,6 +37,8 @@ build_release:
     - npm install
     - npm run-script test
     - npm run-script dist
+    - cd dist
+    - npm publish
     - echo ======= release finished ========
   artifacts:
       paths:

@@ -6,7 +6,7 @@ function mock1MonthBefore() {
   return new Date(2019, 5, 25);
 }
 function mockToday() {
-  return new Date(2019, 6, 25);
+  return new Date(2019, 6, 25, 0, 0, 0);
 }
 function mockTomorrow() {
   return new Date(2019, 6, 26);
@@ -94,7 +94,7 @@ describe("utils::DateTime", function () {
     });
     it('#toString() should return default format', () => {
       var date = new utils.datetime.DateTime(mockToday());
-      expect(date.toString()).be.equals('2019-07-25T00:00:00+05:30');
+      expect(date.toString()).be.equals(mockToday().toISOString());
     });
     it('#toString("short") should return with given format', () => {
       var date = new utils.datetime.DateTime(mockToday());
