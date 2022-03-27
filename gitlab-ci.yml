@@ -1,0 +1,46 @@
+image: node:14.9.0
+stages:
+  - build
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+before_script:
+  - echo ======= before script ========
+  - export NODESASSBINARY=${CI_PROJECT_DIR}/npm_bindings/node_sass/linux_64/linux-x64-83_binding.node
+  - export GENERATE_SOURCEMAP=false
+  - node -v
+  - npm -v
+  - npm config set sass_binary_path=$NODESASSBINARY
+  - unset CI
+  - echo ======= before script done ========
+cache:
+  paths:
+  - node_modules/
+build_project:
+  stage: build
+  script:
+    - echo ======= build started ========
+    - npm install
+    - npm run-script test
+    - npm run-script dist
+    - echo ======= build finished ========
+  artifacts:
+      paths:
+        - dist/*.zip
+      expire_in: 24 hrs
+  only:
+    - master
+    - merge_requests
+build_release:
+  stage: build
+  script:
+    - echo ======= release started ========
+    - npm install
+    - npm run-script test
+    - npm run-script dist
+    - echo ======= release finished ========
+  artifacts:
+      paths:
+        - dist/*.zip
+      expire_in: 48 hrs
+  only:
+    - release/*

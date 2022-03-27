@@ -1,9 +1,0 @@
-image: node:latest
-stages:
-  - test
-
-test_library:
-  stage: test
-  script:
-    - npm install
-    - npm run-script test
