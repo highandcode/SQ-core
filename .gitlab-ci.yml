@@ -5,6 +5,7 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
 before_script:
   - echo ======= before script ========
+  - export _TOKEN=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
   - export GENERATE_SOURCEMAP=false
   - node -v
   - npm -v
