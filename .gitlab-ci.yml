@@ -6,10 +6,12 @@ variables:
 before_script:
   - echo ======= before script start ========
   - export _TOKEN=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
+  - export NODESASSBINARY=${CI_PROJECT_DIR}/npm_bindings/node_sass/linux_64/linux-x64-83_binding.node
   - export GENERATE_SOURCEMAP=false
   - node -v
   - npm -v
   - unset CI
+  - npm config set sass_binary_path=$NODESASSBINARY
   - echo ======= before script done ========
 cache:
   paths:
