@@ -64,7 +64,7 @@ var cmsSever = new ContentServer(
   },
   app
 );
-
+// cms initialization
 cmsSever.init();
 cmsSever.mapVanity(webConfig.urlMapping, {
   defaultPage: '/in/reactapp'
