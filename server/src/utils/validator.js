@@ -9,10 +9,10 @@ const _validators = {
     return !commons.isNullOrUndefined(value) && !!String(value).trim();
   },
   email: (value) => {
-    return _validators.regex(value, {
+    return value ? _validators.regex(value, {
       regex:
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    });
+    }) : true;
   },
   and: (value, { validations = [], ...options }) => {
     let returnToVal = true;
@@ -93,8 +93,8 @@ const _validators = {
     }
     return false;
   },
-  phone: (value) => {
-    return !commons.isNullOrUndefined(value) && _validators.number(value) && _validators.length(value, { exact: 10 });
+  phone: (value, {optional = false}={}) => {
+    return value ? _validators.number(value) && _validators.length(value, { exact: 10 }) : optional ? true : false;
   },
   internationalphone: (value) => {
     return !commons.isNullOrUndefined(value) && _validators.regex(value, { regex: /^\+[1-9]{1}[0-9]{10,14}$/ });
@@ -122,7 +122,7 @@ const _validators = {
     return _validators.email(value) || _validators.internationalphone(value);
   },
   date: (value) => {
-    return new Date(value).toString() !== 'Invalid Date';
+    return value ? new Date(value).toString() !== 'Invalid Date' : true;
   },
   password: (value) => {
     return _validators.length(value, {

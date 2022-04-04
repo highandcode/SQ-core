@@ -8,7 +8,6 @@ import './_header.scss';
 const Header = ({ eyebrow, header, headerTag = 'h1', bodyTag = 'div', subHeader, className = '', imageUrl, userData }) => {
   const HTag = headerTag;
   const BTag = bodyTag;
-  console.log(userData);
   return (
     <div className={`sq-header ${className}`}>
       {eyebrow && <div className={`sq-header__eyebrow`}>{ReactHtmlParser(object.processMessage(eyebrow, userData))}</div>}

@@ -163,6 +163,7 @@ class DynamicContent extends Component {
 
   onChange(value, field, block) {
     let obj = {};
+    block = field.block ? field.block : block;
     if (block && block.name) {
       obj[block.name] = value.value;
     } else {

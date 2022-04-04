@@ -4,8 +4,14 @@ import PropTypes from 'prop-types';
 import { getMap } from '../../components';
 import { Validator } from '../../utils/validator';
 import { object, common } from '../../utils';
+import { addComp } from '../../components/ui';
+import Form from '../../components/Form';
+
 import './_content.scss';
 
+addComp({
+  Form,
+});
 @inject('commonStore', 'contentStore')
 @observer
 class Content extends Component {
@@ -37,7 +43,10 @@ class Content extends Component {
             });
           }
         });
-      } else if (typeof block[keyForBlock] === 'object' && !common.isNullOrUndefined(block[keyForBlock])) {
+      } else if (
+        typeof block[keyForBlock] === 'object' &&
+        !common.isNullOrUndefined(block[keyForBlock])
+      ) {
         const item = block[keyForBlock];
         if (item.inject) {
           Object.keys(item.inject).forEach((key) => {
@@ -60,14 +69,21 @@ class Content extends Component {
     if (actionType) {
       let allForms = [];
       this.props.pageData.items.forEach((item) => {
-        if (item.fields) {
+        if (item.items) {
+          item.items.forEach((item) => {
+            if (item.component === 'Form') {
+              allForms = allForms.concat(item);
+            }
+          });
+        }
+        if (item.component === 'Form') {
           allForms = allForms.concat(item);
         }
       });
       this.onAction(
         {},
         {
-          ...target
+          ...target,
         },
         { ...block, forms: allForms }
       );
@@ -93,7 +109,7 @@ class Content extends Component {
             let isValid = true;
             if (block.match) {
               validator = new Validator({
-                ...block.match
+                ...block.match,
               });
               validator.setValues(userData);
               isValid = validator.validateAll();
@@ -122,8 +138,8 @@ class Content extends Component {
                     {
                       value: {
                         ...data,
-                        [field.name]: value.value
-                      }
+                        [field.name]: value.value,
+                      },
                     },
                     field,
                     block
@@ -139,7 +155,7 @@ class Content extends Component {
 
 Content.propTypes = {
   commonStore: PropTypes.object,
-  contentStore: PropTypes.object
+  contentStore: PropTypes.object,
 };
 
 export default Content;

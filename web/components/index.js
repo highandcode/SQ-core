@@ -8,6 +8,8 @@ import Pricing from './ui/Pricing';
 import Icon from './Icon';
 import List from './ui/List';
 import Button from './ui/Button';
+import Grouper from './Grouper';
+import Wrapper from './Wrapper';
 import CodeHighlight from './ui/CodeHighlight';
 import Progress from './Progress';
 import Form from './Form';
@@ -19,6 +21,7 @@ import LinkButtonList from './ui/LinkButtonList';
 import ImageInfoSlider from './ui/ImageInfoSlider';
 import TextColumnWithLinks from './ui/TextColumnWithLinks';
 import MagicHeroContent from './ui/MagicHeroContent';
+import Image from './ui/Image';
 import ImageOnDevice from './ui/ImageOnDevice';
 import ImageWithSlide from './ui/ImageWithSlide';
 import ImageWithSlideList from './ui/ImageWithSlideList';
@@ -38,6 +41,9 @@ let comps = {
   Pricing,
   LinkBlock,
   List,
+  Image,
+  Grouper,
+  Wrapper,
   CodeHighlight,
   ImageInfoSlider,
   LinkButton,
