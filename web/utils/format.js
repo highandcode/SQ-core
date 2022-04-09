@@ -11,6 +11,7 @@ setDefaults({
 const oldFromatters = _getFormatters();
 
 const formatters = {
+  ...oldFromatters,
   currency: (value, options = {}) => {
     const { currency = get(), ...rest } = options;
     const sign = getSign(currency);
