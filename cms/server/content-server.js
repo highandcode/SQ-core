@@ -9,9 +9,13 @@ const pkgName = require('../../package.json');
 
 class ContentServer {
   constructor({ fse, dirname = __dirname, ...options } = {}, app) {
-    dirname = dirname == '/' ? `${process.cwd()}/node_modules/${pkgName.name}/cms/` : dirname;
+    dirname =
+      dirname == '/'
+        ? `${process.cwd()}/node_modules/${pkgName.name}/cms/`
+        : dirname;
     const lastIndex = dirname.lastIndexOf('server');
-    const cmsRootServer = lastIndex > -1 ? dirname.substr(0, lastIndex) : dirname;
+    const cmsRootServer =
+      lastIndex > -1 ? dirname.substr(0, lastIndex) : dirname;
     console.log(`root:${cmsRootServer}`);
     this.config = Object.assign(
       {
@@ -23,15 +27,19 @@ class ContentServer {
         serverPath: '/content/*',
         clientServerPath: '/client/*',
         damAssets: '',
+        userData: () => ({}),
         middleware: function (req, res, next) {
           next();
-        }
+        },
       },
       options
     );
     this.app = app;
     this.fse = fse || our_fse;
-    this.contentFolder = this.config.serverPath.substr(0, this.config.serverPath.lastIndexOf('/'));
+    this.contentFolder = this.config.serverPath.substr(
+      0,
+      this.config.serverPath.lastIndexOf('/')
+    );
     this.clientLibs = cmsRootServer + 'client';
     this.allSiteMaps = {};
     this.searchSiteMaps();
@@ -61,10 +69,17 @@ class ContentServer {
       if (err) throw err;
       for (var i = 0; i < list.length; i++) {
         // console.log(`${this.config.contentPath}/${list[i]}/sitemap.yaml`);
-        if (this.fse.existsSync(`${this.config.contentPath}/${list[i]}/sitemap.yaml`)) {
+        if (
+          this.fse.existsSync(
+            `${this.config.contentPath}/${list[i]}/sitemap.yaml`
+          )
+        ) {
           let contents;
           try {
-            let fileContents = this.fse.readFileSync(`${this.config.contentPath}/${list[i]}/sitemap.yaml`, 'utf8');
+            let fileContents = this.fse.readFileSync(
+              `${this.config.contentPath}/${list[i]}/sitemap.yaml`,
+              'utf8'
+            );
             contents = yaml.loadAll(fileContents);
           } catch (ex) {
             contents = '';
@@ -84,8 +99,16 @@ class ContentServer {
   }
 
   init() {
-    this.app.get(this.config.serverPath, this.config.middleware, this.serveContent.bind(this));
-    this.app.post(this.config.serverPath, this.config.middleware, this.serveJson.bind(this));
+    this.app.get(
+      this.config.serverPath,
+      this.config.middleware,
+      this.serveContent.bind(this)
+    );
+    this.app.post(
+      this.config.serverPath,
+      this.config.middleware,
+      this.serveJson.bind(this)
+    );
     this.app.use('/client', express.static(this.clientLibs));
     if (this.config.damAssets) {
       this.app.use('/dam', express.static(this.config.damAssets));
@@ -118,7 +141,11 @@ class ContentServer {
     if (node && node.children) {
       for (let i = 0; i < node.children.length; i++) {
         let childNode = node.children[i];
-        if (!childNode.always && childNode.children && childNode.children.length > 0) {
+        if (
+          !childNode.always &&
+          childNode.children &&
+          childNode.children.length > 0
+        ) {
           foundNode = this.getPageNode(childNode, path);
           if (foundNode) {
             if (!foundNode.children) {
@@ -133,7 +160,10 @@ class ContentServer {
           // console.log(childNode);
           foundNode = childNode;
           break;
-        } else if ((!childNode.always && childNode.href.indexOf(path) > -1) || path.indexOf(childNode.href) > -1) {
+        } else if (
+          (!childNode.always && childNode.href.indexOf(path) > -1) ||
+          path.indexOf(childNode.href) > -1
+        ) {
           // console.log("matched index");
           foundNode = node;
         }
@@ -154,10 +184,16 @@ class ContentServer {
     const pages = [];
     if (this.fse.lstatSync(folder).isDirectory()) {
       this.fse.readdirSync(folder).forEach((file) => {
-        if (!this.fse.lstatSync(`${folder}/${file}`).isDirectory() && file !== 'index.yaml') {
+        if (
+          !this.fse.lstatSync(`${folder}/${file}`).isDirectory() &&
+          file !== 'index.yaml'
+        ) {
           let contents;
           try {
-            let fileContents = this.fse.readFileSync(`${folder}/${file}`, 'utf8');
+            let fileContents = this.fse.readFileSync(
+              `${folder}/${file}`,
+              'utf8'
+            );
             contents = yaml.loadAll(fileContents);
           } catch (ex) {
             contents = [];
@@ -165,7 +201,7 @@ class ContentServer {
           if (contents.length > 0) {
             pages.push({
               path: url + '/' + file.replace('.yaml', ''),
-              ...contents[0]
+              ...contents[0],
             });
           }
         }
@@ -174,7 +210,7 @@ class ContentServer {
     // return pages;
     return {
       parentPath: url,
-      pages: _.groupBy(pages, 'category')
+      pages: _.groupBy(pages, 'category'),
     };
   }
 
@@ -185,7 +221,7 @@ class ContentServer {
       new Response({
         pageData: data.pageData,
         siteMap: data.siteConfig,
-        metaData: data.merged
+        metaData: data.merged,
       }).success()
     );
     // }, 5000);
@@ -199,14 +235,14 @@ class ContentServer {
         .then((page) => {
           resolve({
             status: data.status,
-            data: page.output
+            data: page.output,
           });
         })
         .catch((ex) => {
           reject({
             status: 500,
             data: 'Internal Error',
-            ex
+            ex,
           });
         });
     });
@@ -220,7 +256,9 @@ class ContentServer {
     let contents;
 
     if (siteMap.errorRedirects && siteMap.errorRedirects[500]) {
-      filePath = this.getFilePath(siteMap.errorRedirects && siteMap.errorRedirects[500]);
+      filePath = this.getFilePath(
+        siteMap.errorRedirects && siteMap.errorRedirects[500]
+      );
     } else {
       filePath = this.getFilePath('/content/pages/error.yaml');
     }
@@ -240,8 +278,14 @@ class ContentServer {
     const config = this.config;
     siteConfig = siteConfig || config.siteConfig;
     let filePath = '';
-    if (siteConfig.siteMap.errorRedirects && siteConfig.siteMap.errorRedirects[404]) {
-      filePath = this.getFilePath(siteConfig.siteMap.errorRedirects && siteConfig.siteMap.errorRedirects[404]);
+    if (
+      siteConfig.siteMap.errorRedirects &&
+      siteConfig.siteMap.errorRedirects[404]
+    ) {
+      filePath = this.getFilePath(
+        siteConfig.siteMap.errorRedirects &&
+          siteConfig.siteMap.errorRedirects[404]
+      );
     } else {
       filePath = this.getFilePath('/content/pages/404.yaml');
     }
@@ -252,8 +296,14 @@ class ContentServer {
     const config = this.config;
     siteConfig = siteConfig || config.siteConfig;
     let filePath = '';
-    if (siteConfig.siteMap.errorRedirects && siteConfig.siteMap.errorRedirects.launchSoon) {
-      filePath = this.getFilePath(siteConfig.siteMap.errorRedirects && siteConfig.siteMap.errorRedirects.launchSoon);
+    if (
+      siteConfig.siteMap.errorRedirects &&
+      siteConfig.siteMap.errorRedirects.launchSoon
+    ) {
+      filePath = this.getFilePath(
+        siteConfig.siteMap.errorRedirects &&
+          siteConfig.siteMap.errorRedirects.launchSoon
+      );
     } else {
       filePath = this.getFilePath('/content/pages/comingsoon.yaml');
     }
@@ -263,8 +313,14 @@ class ContentServer {
     const config = this.config;
     siteConfig = siteConfig || config.siteConfig;
     let filePath = '';
-    if (siteConfig.siteMap.errorRedirects && siteConfig.siteMap.errorRedirects.launchEnded) {
-      filePath = this.getFilePath(siteConfig.siteMap.errorRedirects && siteConfig.siteMap.errorRedirects.launchEnded);
+    if (
+      siteConfig.siteMap.errorRedirects &&
+      siteConfig.siteMap.errorRedirects.launchEnded
+    ) {
+      filePath = this.getFilePath(
+        siteConfig.siteMap.errorRedirects &&
+          siteConfig.siteMap.errorRedirects.launchEnded
+      );
     } else {
       filePath = this.getFilePath('/content/pages/launchend.yaml');
     }
@@ -315,8 +371,12 @@ class ContentServer {
       }
       launchTime = timeToLaunch && utils.datetime.new(timeToLaunch).toISO();
       launchEnded = timeToEnd && utils.datetime.new(timeToEnd).toISO();
-      const diffInSeconds = utils.datetime.new(timeToLaunch).diffInSeconds(utils.datetime.new());
-      const diffInSecondsEnd = utils.datetime.new(timeToEnd).diffInSeconds(utils.datetime.new());
+      const diffInSeconds = utils.datetime
+        .new(timeToLaunch)
+        .diffInSeconds(utils.datetime.new());
+      const diffInSecondsEnd = utils.datetime
+        .new(timeToEnd)
+        .diffInSeconds(utils.datetime.new());
       if (diffInSeconds > 0) {
         filePath = this.getLaunchWaitPage(currentSiteConfig);
         isFile = true;
@@ -330,7 +390,11 @@ class ContentServer {
       filePath = this.get404Page(currentSiteConfig);
       status = 404;
     } else if (!isLaunchMatch) {
-      siblingData = this.getAllSiblings(`${config.contentPath}/${srcFile}`, isFile, fullPath);
+      siblingData = this.getAllSiblings(
+        `${config.contentPath}/${srcFile}`,
+        isFile,
+        fullPath
+      );
     }
 
     let fileContents = this.fse.readFileSync(`${filePath}`, 'utf8');
@@ -348,14 +412,16 @@ class ContentServer {
 
     const merged = {
       navigation: currentSiteConfig.siteMap.children,
-      secondaryNavigation: currentNode !== currentSiteConfig.siteMap ? currentNode.children : [],
+      secondaryNavigation:
+        currentNode !== currentSiteConfig.siteMap ? currentNode.children : [],
       pageConfig: {},
       userData: {
         launchTime,
-        launchEnded
+        launchEnded,
+        ...this.config.userData()
       },
       parentPath: siblingData.parentPath || fullPath,
-      siblingPages: siblingData.pages
+      siblingPages: siblingData.pages,
     };
     if (contents.length === 1) {
       contents = contents[0];
@@ -368,11 +434,11 @@ class ContentServer {
       extraParams: {
         ENV: process.env,
         envConfig: config.envConfig,
-        launchTime
+        launchTime,
       },
       siteConfig: currentSiteConfig,
       currentNode,
-      merged
+      merged,
     };
     data.pageData = this.processContent(contents, data);
 
@@ -383,7 +449,10 @@ class ContentServer {
     if (contents.inject) {
       if (contents.inject) {
         Object.keys(contents.inject).forEach((key) => {
-          contents[key] = utils.object.getDataFromKey(data, contents.inject[key]);
+          contents[key] = utils.object.getDataFromKey(
+            data,
+            contents.inject[key]
+          );
         });
       }
     }

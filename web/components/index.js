@@ -28,6 +28,7 @@ import ImageWithSlideList from './ui/ImageWithSlideList';
 import LaunchTimer from './LaunchTimer';
 import Carousel from './Carousel';
 import PropsTable from './PropsTable';
+import ReCaptcha from './ui/ReCaptcha';
 
 let comps = {
   Alert,
@@ -49,6 +50,7 @@ let comps = {
   LinkButton,
   TextColumnWithLinks,
   CompRenderer,
+  ReCaptcha,
   Repeater,
   Separator,
   LinkButtonList,

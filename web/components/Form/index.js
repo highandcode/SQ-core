@@ -91,11 +91,11 @@ class Form extends React.Component {
             return this.renderComp(field, value[field.name], errors[field.name], value, index);
           })}
         </div>
-        <div className={`sq-form-cmp_actions ${actionConfig.className || ''}`}>
+        {actions.length > 0 && <div className={`sq-form-cmp_actions ${actionConfig.className || ''}`}>
           {actions.map((action, index) => {
             return this.renderAction(action, index, actionConfig);
           })}
-        </div>
+        </div>}
       </div>
     );
   }
