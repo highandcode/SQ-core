@@ -9,7 +9,7 @@ const _validators = {
     return !commons.isNullOrUndefined(value) && !!String(value).trim();
   },
   email: (value) => {
-    return value ? _validators.regex(value, {
+    return value && value.trim() ? _validators.regex(value.trim(), {
       regex:
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     }) : true;

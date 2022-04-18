@@ -234,21 +234,21 @@ describe('Validator', () => {
     });
     it("validate(email) should return false in case of '' (blank value)", () => {
       validator.setValue('test', '');
-      expect(validator.validate('test')).to.equal(false);
+      expect(validator.validate('test')).to.equal(true);
     });
 
     it("validate(email) should return false in case of ' ' (blank with space)", () => {
       validator.setValue('test', ' ');
-      expect(validator.validate('test')).to.equal(false);
+      expect(validator.validate('test')).to.equal(true);
     });
 
     it('validate(email) should return false in case of null', () => {
       validator.setValue('test', null);
-      expect(validator.validate('test')).to.equal(false);
+      expect(validator.validate('test')).to.equal(true);
     });
     it('validate(email) should return false in case of undefined', () => {
       validator.setValue('test', undefined);
-      expect(validator.validate('test')).to.equal(false);
+      expect(validator.validate('test')).to.equal(true);
     });
     it("validate(email) should return false with value ='navneet@'", () => {
       validator.setValue('test', 'navneet@');
