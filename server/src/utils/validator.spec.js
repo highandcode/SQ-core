@@ -1248,12 +1248,14 @@ describe('Validator', () => {
       validator.validateAll();
     });
     it('should return agent validation for phone if specified', () => {
-      expect(validator.errors.choice.errors['1'].model.errorMessage).to.equal('This field is required');
-    });
-    it('should return agent2 validation for phone if specified', () => {
-      expect(validator.errors.choice.errors['1'].preference.errorMessage).to.equal(
+      expect(validator.errors.choice.errors['1'].model.errorMessage).to.equal(
         'This field is required'
       );
+    });
+    it('should return agent2 validation for phone if specified', () => {
+      expect(
+        validator.errors.choice.errors['1'].preference.errorMessage
+      ).to.equal('This field is required');
     });
   });
   describe('ArraValidator as object for blank array', () => {
@@ -1287,6 +1289,39 @@ describe('Validator', () => {
     });
     it('should return agent validation for phone if specified', () => {
       expect(validator.errors.choice.errorMessage).to.equal('Required');
+    });
+  });
+  describe('ArraValidator as object for blank array', () => {
+    let validator;
+    beforeEach(() => {
+      validator = new Validator({
+        choice: {
+          validators: [
+            {
+              type: 'ArrayValidator',
+              message: 'Required',
+              validators: {
+                model2: {
+                  validators: [{ type: 'required' }],
+                },
+                preference: {
+                  validators: [{ type: 'required' }],
+                },
+              },
+            },
+          ],
+        },
+      });
+      validator.setValues({
+        choice: [{ model: 'test', preference: '1' }],
+      });
+      validator.validateAll();
+    });
+    it('should return choice error=true', () => {
+      expect(validator.errors.choice.error).to.equal(true);
+    });
+    it('should return agent validation for phone if specified', () => {
+      expect(validator.errors.choice.errors['0'].model2.errorMessage).to.equal('This field is required');
     });
   });
 });
