@@ -182,9 +182,12 @@ const _validators = {
       errors: valid.errors,
     };
   },
-  ArrayValidator: (value, { validators } = {}) => {
+  ArrayValidator: (value, { validators, optional = false } = {}) => {
     let isValid = true;
     let errors = {};
+    if (!optional && (!value || value.length === 0)) {
+      return false;
+    }
     value &&
       value.forEach((item, idx) => {
         const valid = new Validator({
