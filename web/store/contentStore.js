@@ -22,7 +22,11 @@ class ContentStore {
       if (typeof params[key] === 'object') {
         value = this.processParams(params[key], defaultValue);
       } else if (params[key].toString().substr(0, 1) === '.') {
-        value = utils.object.getDataFromKey(this.userData, params[key].substr(1), defaultValue);
+        value = utils.object.getDataFromKey(
+          this.userData,
+          params[key].substr(1),
+          defaultValue
+        );
       } else if (!utils.common.isNullOrUndefined(params[key])) {
         value = params[key];
       }
@@ -34,18 +38,31 @@ class ContentStore {
   }
   resetError() {
     this.updateUserData({
-      lastError: {}
+      lastError: {},
     });
   }
   postApi(data) {
-    return apiBridge[data.method.toLowerCase()](data.url, this.processParams(data.params), data.headers).then((response) => {
+    return apiBridge[data.method.toLowerCase()](
+      data.url,
+      this.processParams(data.params),
+      data.headers
+    ).then((response) => {
       if (response.status === 'success') {
         this.updateUserData({
           ...response.data,
-          lastError: {}
+          lastError: {},
         });
       } else {
         this.updateErrorData(response.error);
+      }
+      if (data.after) {
+        if (Array.isArray(data.after)) {
+          data.after.forEach((item) => {
+            this.postApi(item);
+          });
+        } else {
+          this.postApi(data.after);
+        }
       }
       return response;
     });
@@ -57,20 +74,20 @@ class ContentStore {
 
   getSystem() {
     return {
-      query: utils.queryString.query.get()
+      query: utils.queryString.query.get(),
     };
   }
 
   resetUserData(data = {}) {
     this.userData = {
       ...data,
-      ...this.getSystem()
+      ...this.getSystem(),
     };
   }
 
   extendData(org, update) {
     let obj = {
-      ...org
+      ...org,
     };
     Object.keys(update).forEach((a) => {
       if (!Array.isArray(update[a]) && typeof update[a] === 'object') {
@@ -84,7 +101,7 @@ class ContentStore {
 
   updateErrorData(data) {
     const errors = {
-      lastError: {}
+      lastError: {},
     };
     Object.keys(data).forEach((errorKey) => {
       if (data[errorKey]?.errors) {
@@ -106,7 +123,7 @@ class ContentStore {
     this.userData = {
       ...this.userData,
       ...merged,
-      ...this.getSystem()
+      ...this.getSystem(),
     };
   }
 }
