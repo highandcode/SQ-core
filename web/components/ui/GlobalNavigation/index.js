@@ -80,7 +80,7 @@ const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, righ
             }}
           >
             {logo.name && <Icon name={logo.name} svg={logo.svg} variant={logo.variant} size={`${logo.size || 'large'}`} />}
-            {logo.img && <img src={`${resolveImageUrl(logo.img)}`} alt={logo.imgAlt} />}
+            {logo.img && <img className={`${logo.size || ''}`} src={`${resolveImageUrl(logo.img)}`} alt={logo.imgAlt} />}
             <div className="sq-global-navigation__brand-text">{logo.text}</div>
           </a>
           <ul className="sq-global-navigation__nav sq-global-navigation__nav--left">
@@ -100,7 +100,7 @@ const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, righ
                 ) : null;
               })}
           </ul>
-          <button
+          {items && items.length > 0 && <button
             className="sq-global-navigation__toggler"
             type="button"
             data-toggle="collapse"
@@ -113,7 +113,7 @@ const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, righ
             <span className={`sq-global-navigation__icon ${logo.className}`}>
               <Icon name="list" variant={logo.variant} size="large" />
             </span>
-          </button>
+          </button>}
           <div className={`sq-global-navigation__container${open ? ' sq-global-navigation__container--open' : ''}`}>
             <ul className="sq-global-navigation__nav">
               {items &&
