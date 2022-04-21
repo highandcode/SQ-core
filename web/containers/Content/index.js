@@ -10,7 +10,7 @@ import Form from '../../components/Form';
 import './_content.scss';
 
 addComp({
-  Form,
+  Form
 });
 @inject('commonStore', 'contentStore')
 @observer

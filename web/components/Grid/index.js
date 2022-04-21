@@ -36,10 +36,10 @@ class Grid extends React.Component {
   }
 
   render() {
-    const { columns = [], data = [], className = '', showAdd = false, showHeader = true, strips = false, rowConfig = {}, onRowClick } = this.props;
+    const { columns = [], data = [], className = '', showAdd = false, showHeader = true, strips = false, rowConfig = {}, onRowClick, gridStyle = 'normal' } = this.props;
     const actionsClassName = typeof onRowClick === 'function' ? 'sq-grid-cmp--has-action' : '';
     return (
-      <div className={`sq-grid-cmp ${className} ${actionsClassName} sq-grid-cmp${strips ? '--striped' : '--bordered'}`}>
+      <div className={`sq-grid-cmp ${className} ${actionsClassName} sq-grid-cmp${strips ? '--striped' : '--bordered'} sq-grid-cmp--${gridStyle}`}>
         {this.hasData() && showHeader && <div className="sq-grid-cmp__header">{this.renderHeader(columns)}</div>}
         <div className="sq-grid-cmp__body">{this.renderData(columns, data, rowConfig)}</div>
         {this.hasActions() && (

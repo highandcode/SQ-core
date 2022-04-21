@@ -13,6 +13,7 @@ import Wrapper from './Wrapper';
 import CodeHighlight from './ui/CodeHighlight';
 import Progress from './Progress';
 import Form from './Form';
+import Grid from './Grid';
 import LinkBlock from './ui/LinkBlock';
 import Repeater from './ui/Repeater';
 import CompRenderer from './ui/CompRenderer';
@@ -61,7 +62,8 @@ let comps = {
   LaunchTimer,
   Carousel,
   Progress,
-  Form
+  Form,
+  Grid
 };
 
 const getMap = () => {
