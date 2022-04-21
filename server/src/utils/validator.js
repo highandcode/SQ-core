@@ -2,9 +2,12 @@ const commons = require('./common');
 const _ = require('lodash');
 
 const _validators = {
-  required: (value, { required }, fields) => {
+  required: (value, { required, defaultValue }, fields) => {
     if (required && required(fields) === false) {
       return true;
+    }
+    if (value && value === defaultValue) {
+      return false;
     }
     return !commons.isNullOrUndefined(value) && !!String(value).trim();
   },
@@ -331,7 +334,6 @@ class Validator {
               this.validators[field].optional
             );
             if (_validators[type] && (!isOptional || this.values[field])) {
-              console.log(type);
               const result = _validators[type](
                 this.values[field],
                 rest,
