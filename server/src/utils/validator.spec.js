@@ -45,15 +45,20 @@ describe('Validator', () => {
           test: {
             validator: { type: 'required' },
           },
+          testDefault: {
+            validator: { type: 'required', defaultValue: 'None' },
+          },
         },
         { emptyObject: false }
       );
       validator.setValues({
         test: '',
         test1: 'valid',
+        testDefault: 'None',
       });
       validator.validate('test');
       validator.validate('test1');
+      validator.validate('testDefault');
     });
 
     it('should have "error" property with invalid value', function () {
@@ -64,6 +69,12 @@ describe('Validator', () => {
     });
     it('should have "error" property with valid value', function () {
       expect(validator.errors.test1).to.be.undefined;
+    });
+    it('should have "error" property with valid value', function () {
+      expect(validator.errors.testDefault.error).to.equal(true);
+    });
+    it('should have "errorMessage" property with invalid value', function () {
+      expect(validator.errors.testDefault.errorMessage).not.to.be.undefined;
     });
   });
 
@@ -244,6 +255,51 @@ describe('Validator', () => {
       expect(validator.validate('test')).to.equal(true);
     });
   });
+
+  describe("type:'requiredArray'", () => {
+    let validator;
+    beforeEach(() => {
+      validator = new Validator({
+        test: {
+          validator: { type: 'requiredArray' },
+        },
+        yes: {
+          validator: { type: 'requiredArray', required: () => false },
+        },
+      });
+    });
+    it("validate(name) should return false in case of '' (blank value)", () => {
+      validator.setValue('test', '');
+      expect(validator.validate('test')).to.equal(false);
+    });
+
+    it('validate(name) should return false in case of []', () => {
+      validator.setValue('test', []);
+      expect(validator.validate('test')).to.equal(false);
+    });
+
+    it('validate(name) should return false in case of null', () => {
+      validator.setValue('test', null);
+      expect(validator.validate('test')).to.equal(false);
+    });
+    it('validate(name) should return false in case of undefined', () => {
+      validator.setValue('test', undefined);
+      expect(validator.validate('test')).to.equal(false);
+    });
+    it('validate(name) should return true with string', () => {
+      validator.setValue('test', ['est']);
+      expect(validator.validate('test')).to.equal(true);
+    });
+    it('validate(name) should return true with object', () => {
+      validator.setValue('test', [{ key: 1 }]);
+      expect(validator.validate('test')).to.equal(true);
+    });
+    it('validate(name) should return true if not required (e.g required() return false)', () => {
+      validator.setValue('yes', []);
+      expect(validator.validate('yes')).to.equal(true);
+    });
+  });
+
   describe("type:'email'", () => {
     let validator;
     beforeEach(() => {
@@ -1321,7 +1377,9 @@ describe('Validator', () => {
       expect(validator.errors.choice.error).to.equal(true);
     });
     it('should return agent validation for phone if specified', () => {
-      expect(validator.errors.choice.errors['0'].model2.errorMessage).to.equal('This field is required');
+      expect(validator.errors.choice.errors['0'].model2.errorMessage).to.equal(
+        'This field is required'
+      );
     });
   });
 });

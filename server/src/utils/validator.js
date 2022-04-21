@@ -11,6 +11,15 @@ const _validators = {
     }
     return !commons.isNullOrUndefined(value) && !!String(value).trim();
   },
+  requiredArray: (value, { required }, fields) => {
+    if (required && required(fields) === false) {
+      return true;
+    }
+    if (!value || value.length === 0) {
+      return false;
+    }
+    return true;
+  },
   email: (value) => {
     return value && value.trim()
       ? _validators.regex(value.trim(), {
