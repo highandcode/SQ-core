@@ -11,7 +11,6 @@ const Wrapper = ({
 }) => {
   const { userData } = rest;
   const map = getMap();
-  console.log(userData);
   const handleChange = (value, field, block) => {
     console.log(userData[block.name]);
     onChange &&

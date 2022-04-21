@@ -162,7 +162,6 @@ class DynamicContent extends Component {
   }
 
   onChange(value, field, block) {
-
     let obj = {};
     block = field.block ? field.block : block;
     if (block && block.name) {
@@ -191,10 +190,23 @@ class DynamicContent extends Component {
     this.props.contentStore.updateUserData(obj);
     this.props.contentStore.mergeUserData(this.state.pageData.pageData.merge);
   }
-  validateForms(forms) {
+
+  hasMatchingGroup(form, group) {
+    if (!group) {
+      return true;
+    }
+    if (typeof form.group === 'string') {
+      return form.group === group;
+    } else if (Array.isArray(form.group)) {
+      return form.group.indexOf(group) > -1;
+    }
+    return false;
+  }
+
+  validateForms(forms, group) {
     let isValid = true;
     forms.forEach((form) => {
-      if (!this.validateForm(form)) {
+      if (this.hasMatchingGroup(form, group) && !this.validateForm(form)) {
         isValid = false;
       }
     });
@@ -203,7 +215,6 @@ class DynamicContent extends Component {
   validateForm(block) {
     let validators = {};
     block.fields?.forEach((item) => {
-      console.log(item);
       let hasMatch = true;
       if (item.match) {
         const valid = new Validator(item.match);
@@ -265,7 +276,7 @@ class DynamicContent extends Component {
         }
         break;
       case 'submit':
-        isValid = this.validateForms(block.forms);
+        isValid = this.validateForms(block.forms, action.validateGroup);
         if (isValid) {
           this.props.contentStore.updateUserData({
             isSubmitting: true,
