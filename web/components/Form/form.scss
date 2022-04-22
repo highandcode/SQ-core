@@ -55,15 +55,15 @@
     }
   }
   &--inline-auto {
-    .sq-form-cmp_fields {
+    > .sq-form-cmp_fields {
       display: flex;
       flex-wrap: wrap;
-    }
-    .sq-form-cmp__field {
-      flex-basis: 100%;
-      @media (min-width:$screen-sm) {
-        flex-basis: auto;
-        padding-right: 20px;
+      .sq-form-cmp__field {
+        flex-basis: 100%;
+        @media (min-width:$screen-sm) {
+          flex-basis: auto;
+          padding-right: 20px;
+        }
       }
     }
   }
