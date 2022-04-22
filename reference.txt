@@ -1,0 +1,81 @@
+reference.txt
+
+
+hook:
+  load:
+    - method: POST
+      url: /api/v1/sales/getdata
+      after: 
+          method: POST
+          url: /api/v1/sales/getdata
+          preCall:
+            data: true
+          postCall:
+            data: true
+          params:
+            name: .agent.fullName
+          after:
+            - method: POST
+              url: /api/v1/sales/getdata
+              params:
+                name: .agent.fullName
+
+
+# Form component
+
+  - component: XForm
+    name: captcha
+    fields:
+      - name: humanKey
+        cmpType: ReCaptcha
+        Xvalidators:
+          - type: required
+        inject:
+          sitekey: siteKey
+  - component: XGrid
+    gridStyle: default
+    className: mb-xtrawide
+    columns:
+      - name: model
+        className: test
+        cmpType: Input
+        headerText: Model
+      - name: preference
+        className: test2
+        headerText: Preference
+      - cmpType: Form
+        name: details
+        headerText: Form
+        className: sq-form sq-form--inline-auto
+        component:
+          fields:
+            - cmpType: Input
+              name: firstName
+              label: First Name
+            - cmpType: Form
+              name: address
+              fields: 
+                - cmpType: Input
+                  name: add1
+                  label: Address 1
+                - cmpType: Input
+                  name: add2
+                  label: Address 1
+    inject:
+      data: choice.modelChoices
+  - component: XForm
+    name: details
+    className: sq-form sq-form--inline-auto
+    fields:
+      - cmpType: Input
+        name: firstName
+        label: First Name
+      - cmpType: Form
+        name: address
+        fields: 
+          - cmpType: Input
+            name: add1
+            label: Address 1
+          - cmpType: Input
+            name: add2
+            label: Address 1
