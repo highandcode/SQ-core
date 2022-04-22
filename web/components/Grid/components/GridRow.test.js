@@ -21,7 +21,7 @@ const columns = [
 describe("GridRow", () => {
   it("should render", () => {
     const wrapper = shallow(<GridRow />);
-    expect(wrapper.find('.sq-grid-cmp__data-row').length).toBe(1);
+    expect(wrapper.find('.sq-grid__data-row').length).toBe(1);
   });
 
   describe('GridRow:Columns', () => {

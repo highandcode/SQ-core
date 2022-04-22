@@ -23,14 +23,14 @@ const data1 = [
 describe("Grid", () => {
   it("should render Grid with defaults", () => {
     const wrapper = shallow(<Grid />);
-    expect(wrapper.find('.sq-grid-cmp').length).toBe(1);
+    expect(wrapper.find('.sq-grid').length).toBe(1);
   });
 
   describe('Grid:No Data View', () => {
 
     it('should render no columns as no data view', () => {
       const wrapper = shallow(<Grid fields={columns} />);
-      expect(wrapper.find('.sq-grid-cmp').length).toBe(1);
+      expect(wrapper.find('.sq-grid').length).toBe(1);
     });
 
   });
@@ -46,7 +46,7 @@ describe("Grid", () => {
       });
 
       it('should render body wrapper', () => {
-        expect(wrapper.find('.sq-grid-cmp__body').length).toBe(1);
+        expect(wrapper.find('.sq-grid__body').length).toBe(1);
       });
       it('should render two rows', () => {
         expect(wrapper.find(GridRow).length).toBe(2);
@@ -93,15 +93,15 @@ describe("Grid", () => {
     describe('Grid:showHeader={true/false}', () => {
       it('should have header by default', () => {
         let wrapper = shallow(<Grid columns={columns} data={data1} />);
-        expect(wrapper.find('.sq-grid-cmp__header').length).toBe(1);
+        expect(wrapper.find('.sq-grid__header').length).toBe(1);
       });
       it('should  have no header with showHeader={false} ', () => {
         let wrapper = shallow(<Grid columns={columns} showHeader={false} data={data1} />);
-        expect(wrapper.find('.sq-grid-cmp__header').length).toBe(0);
+        expect(wrapper.find('.sq-grid__header').length).toBe(0);
       });
       it('should have header howHeader={true}', () => {
         let wrapper = shallow(<Grid columns={columns} showHeader={true} data={data1} />);
-        expect(wrapper.find('.sq-grid-cmp__header').length).toBe(1);
+        expect(wrapper.find('.sq-grid__header').length).toBe(1);
       });
 
     });

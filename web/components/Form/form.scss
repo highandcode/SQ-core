@@ -1,4 +1,4 @@
-.sq-form-cmp {
+.sq-form {
   padding-bottom: 48px;
   &__field {
     margin-bottom: 20px;
@@ -23,11 +23,11 @@
   }
 
   &--2-cols {
-    .sq-form-cmp_fields {
+    .sq-form_fields {
       display: flex;
       flex-wrap: wrap;
     }
-    .sq-form-cmp__field {
+    .sq-form__field {
       flex-basis: 100%;
       @media (min-width:$screen-sm) {
         flex-basis: 50%;
@@ -39,11 +39,11 @@
     }
   }
   &--3-cols {
-    .sq-form-cmp_fields {
+    .sq-form_fields {
       display: flex;
       flex-wrap: wrap;
     }
-    .sq-form-cmp__field {
+    .sq-form__field {
       flex-basis: 100%;
       @media (min-width:$screen-sm) {
         flex-basis: 33%;
@@ -55,10 +55,10 @@
     }
   }
   &--inline-auto {
-    > .sq-form-cmp_fields {
+    > .sq-form_fields {
       display: flex;
       flex-wrap: wrap;
-      .sq-form-cmp__field {
+      .sq-form__field {
         flex-basis: 100%;
         @media (min-width:$screen-sm) {
           flex-basis: auto;

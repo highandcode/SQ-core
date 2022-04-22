@@ -1,9 +1,9 @@
-.sq-grid-cmp {
+.sq-grid {
   &__row {
     display: flex;
   }
   &--has-action {
-    .sq-grid-cmp__body .sq-grid-cmp__row {
+    .sq-grid__body .sq-grid__row {
       cursor: pointer;
       &:hover {
         background-color: $sq-color-gray-lightest2;
@@ -43,14 +43,14 @@
     }
   }
   &--striped {
-    .sq-grid-cmp__data-row {
+    .sq-grid__data-row {
       &:nth-child(even) {
         background: $gray-lighter;
       }
     }
   }
   &--bordered {
-    .sq-grid-cmp__data-row {
+    .sq-grid__data-row {
       border-bottom: solid 1px $sq-color-muted-lightest;
       &:last-child {
         border-bottom: none;
@@ -66,10 +66,10 @@
   }
 
   &--default {
-    .sq-grid-cmp__header-row {
+    .sq-grid__header-row {
       background-color: $sq-color-gray-lightest;
     }
-    .sq-grid-cmp__header-row-cell {
+    .sq-grid__header-row-cell {
       flex-basis: 250px;
       justify-content: flex-start;
       flex-grow: 0;
@@ -78,7 +78,7 @@
         flex-grow: 1;
       }
     }
-    .sq-grid-cmp__data-cell {
+    .sq-grid__data-cell {
       flex-grow: 0;
       flex-basis: 250px;
       justify-content: flex-start;

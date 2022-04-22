@@ -44,8 +44,8 @@ const Row = ({
   const childRow = onChildRowRender && onChildRowRender(columns, data);
   return (
     <>
-      <div className={`sq-grid-cmp__row-wraper  ${wrapperClassName}`}>
-        <div className={`sq-grid-cmp__row sq-grid-cmp__data-row  ${className}`} onClick={_onRowClick}>
+      <div className={`sq-grid__row-wraper  ${wrapperClassName}`}>
+        <div className={`sq-grid__row sq-grid__data-row  ${className}`} onClick={_onRowClick}>
           {columns.map((column, index) => {
             let isRender = true;
             if (typeof column.beforeRender === 'function') {
@@ -78,8 +78,8 @@ const Row = ({
           })}
         </div>
         {childRow && (
-          <div className="sq-grid-cmp__row-child-wrapper">
-            <div className={`sq-grid-cmp__child-row`}>{childRow}</div>
+          <div className="sq-grid__row-child-wrapper">
+            <div className={`sq-grid__child-row`}>{childRow}</div>
           </div>
         )}
       </div>

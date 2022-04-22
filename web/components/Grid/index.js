@@ -37,13 +37,13 @@ class Grid extends React.Component {
 
   render() {
     const { columns = [], data = [], className = '', showAdd = false, showHeader = true, strips = false, rowConfig = {}, onRowClick, gridStyle = 'normal' } = this.props;
-    const actionsClassName = typeof onRowClick === 'function' ? 'sq-grid-cmp--has-action' : '';
+    const actionsClassName = typeof onRowClick === 'function' ? 'sq-grid--has-action' : '';
     return (
-      <div className={`sq-grid-cmp ${className} ${actionsClassName} sq-grid-cmp${strips ? '--striped' : '--bordered'} sq-grid-cmp--${gridStyle}`}>
-        {this.hasData() && showHeader && <div className="sq-grid-cmp__header">{this.renderHeader(columns)}</div>}
-        <div className="sq-grid-cmp__body">{this.renderData(columns, data, rowConfig)}</div>
+      <div className={`sq-grid ${className} ${actionsClassName} sq-grid${strips ? '--striped' : '--bordered'} sq-grid--${gridStyle}`}>
+        {this.hasData() && showHeader && <div className="sq-grid__header">{this.renderHeader(columns)}</div>}
+        <div className="sq-grid__body">{this.renderData(columns, data, rowConfig)}</div>
         {this.hasActions() && (
-          <div className="sq-grid-cmp__actions">{showAdd && <Button buttonText={translate('Add')} onClick={this.addNewRow} />}</div>
+          <div className="sq-grid__actions">{showAdd && <Button buttonText={translate('Add')} onClick={this.addNewRow} />}</div>
         )}
       </div>
     );
@@ -78,11 +78,11 @@ class Grid extends React.Component {
 
   renderLoadingView() {
     const { loader } = this.props;
-    return <div className="sq-grid-cmp__body sq-grid-cmp__loading-data">{loader}</div>;
+    return <div className="sq-grid__body sq-grid__loading-data">{loader}</div>;
   }
   renderNoDataView() {
     const { noDataMessage = 'No Data Found' } = this.props;
-    return <div className="sq-grid-cmp__body sq-grid-cmp__no-data">{noDataMessage}</div>;
+    return <div className="sq-grid__body sq-grid__no-data">{noDataMessage}</div>;
   }
 
   handleRowChange(column, value, row) {

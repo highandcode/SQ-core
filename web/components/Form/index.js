@@ -85,13 +85,13 @@ class Form extends React.Component {
   render() {
     const { className = '', fields = [], value = {}, actions = [], errors = {}, actionConfig = {} } = this.props;
     return (
-      <div className={`sq-form-cmp ${className}`} onKeyPress={this.form_onKeyPress}>
-        <div className="sq-form-cmp_fields">
+      <div className={`sq-form ${className}`} onKeyPress={this.form_onKeyPress}>
+        <div className="sq-form_fields">
           {fields.map((field, index) => {
             return this.renderComp(field, value[field.name], errors[field.name], value, index);
           })}
         </div>
-        {actions.length > 0 && <div className={`sq-form-cmp_actions ${actionConfig.className || ''}`}>
+        {actions.length > 0 && <div className={`sq-form_actions ${actionConfig.className || ''}`}>
           {actions.map((action, index) => {
             return this.renderAction(action, index, actionConfig);
           })}
@@ -130,7 +130,7 @@ class Form extends React.Component {
     }
     return (
       isRender && (
-        <div className={`sq-form-cmp__field ${containerClass}`} key={index}>
+        <div className={`sq-form__field ${containerClass}`} key={index}>
           {
             <Comp
               {...finalOptions}
@@ -179,7 +179,7 @@ class Form extends React.Component {
 
     const Comp = supportedComponents[cmpType] || supportedComponents.Button;
     return (
-      <div className={`sq-form-cmp__action ${actionClassName}`} key={`sq-fa-${index}`}>
+      <div className={`sq-form__action ${actionClassName}`} key={`sq-fa-${index}`}>
         <Comp
           key={index}
           className={className}

@@ -30,7 +30,7 @@ const columns = [
 describe("GridCell", () => {
   it("should render", () => {
     const wrapper = shallow(<GridCell />);
-    expect(wrapper.find('.sq-grid-cmp__data-cell').length).toBe(1);
+    expect(wrapper.find('.sq-grid__data-cell').length).toBe(1);
   });
 
   describe('GridCell:Column', () => {

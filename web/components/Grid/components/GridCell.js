@@ -65,7 +65,7 @@ const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnal
   const newValue = (type && formatters[type] && formatters[type](customValue, restFormatter)) || customValue;
 
   return (
-    <div className={`sq-grid-cmp__data-cell ${getValue(this, className, row)}`}>
+    <div className={`sq-grid__data-cell ${getValue(this, className, row)}`}>
       <CellComponent
         {...errors}
         {...component}
