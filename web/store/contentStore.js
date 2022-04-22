@@ -41,12 +41,33 @@ class ContentStore {
       lastError: {},
     });
   }
+
+  checkAndPostApi(data) {
+    if (Array.isArray(data)) {
+      data.forEach((item) => {
+        this.postApi(item);
+      });
+    } else {
+      this.postApi(data);
+    }
+  }
+
   postApi(data) {
+    if (data.preCall) {
+      this.updateUserData({
+        ...data.preCall,
+      });
+    }
     return apiBridge[data.method.toLowerCase()](
       data.url,
       this.processParams(data.params),
       data.headers
     ).then((response) => {
+      if (data.postCall) {
+        this.updateUserData({
+          ...data.postCall,
+        });
+      }
       if (response.status === 'success') {
         this.updateUserData({
           ...response.data,
@@ -56,13 +77,7 @@ class ContentStore {
         this.updateErrorData(response.error);
       }
       if (data.after) {
-        if (Array.isArray(data.after)) {
-          data.after.forEach((item) => {
-            this.postApi(item);
-          });
-        } else {
-          this.postApi(data.after);
-        }
+        this.checkAndPostApi(data.after);
       }
       return response;
     });
