@@ -12,7 +12,6 @@ const Wrapper = ({
   const { userData } = rest;
   const map = getMap();
   const handleChange = (value, field, block) => {
-    console.log(userData[block.name]);
     onChange &&
       onChange(
         {
@@ -46,10 +45,11 @@ const Wrapper = ({
     <div className={`sq-wrapper ${className}`}>
       <div className="container-fluid">
         <div className="sq-wrapper__body row">
-          {items.map((item) => {
+          {items.map((item, idx) => {
             const Component = map[item.component] || map.Text;
             return (
               <Component
+                key={idx}
                 {...rest}
                 {...item}
                 onChange={(value, field) => handleChange(value, field, item)}

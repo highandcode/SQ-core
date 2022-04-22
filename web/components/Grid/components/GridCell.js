@@ -18,26 +18,25 @@ import { getFormatters } from '../../../utils/format';
 import { getValue } from '../../../utils/properties';
 import { getMap } from '../../ui';
 
-const CompMap = {
-  Text,
-  InputField,
-  Button,
-  Select,
-  LinkButton,
-  Form,
-  Grouper,
-  Radio,
-  Checkbox: CheckboxField,
-  CheckboxList,
-  Datepicker,
-  TextFields,
-  Icon,
-  Actions,
-  MoreActions,
-  ...getMap()
-};
-
 const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnalytics, onBlur, errors, onKeyPress, formatter = {} }) => {
+  const CompMap = {
+    Text,
+    InputField,
+    Button,
+    Select,
+    LinkButton,
+    Form,
+    Grouper,
+    Radio,
+    Checkbox: CheckboxField,
+    CheckboxList,
+    Datepicker,
+    TextFields,
+    Icon,
+    Actions,
+    MoreActions,
+    ...getMap()
+  };
   const _onChange = (newValue) => {
     onChange && onChange(column, newValue);
   };

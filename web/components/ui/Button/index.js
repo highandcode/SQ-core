@@ -22,7 +22,7 @@ const CustomButton = ({
   children,
   ...rest
 }) => {
-  const { disabled } = rest;
+  const { disabled, variant = 'contained', color = 'primary', startIcon, endIcon, disableRipple, disableFocusRipple, href } = rest;
   const { click } = analytics;
   return (
     <div className={`sq-button ${className} ${size} ${!buttonText && iconName ? 'sq-button--icon-only' : ''}`}>
@@ -35,9 +35,14 @@ const CustomButton = ({
           !disabled && onClick && onClick(e);
           !disabled && click && onAnalytics && onAnalytics(click);
         }}
-        variant="contained"
-        color="primary"
-        {...rest}
+        href={href}
+        variant={variant}
+        disableFocusRipple={disableFocusRipple}
+        disableRipple={disableRipple}
+        startIcon={startIcon}
+        endIcon={endIcon}
+        color={color}
+        disabled={Boolean(disabled)}
       >
         {iconName && iconDirection === 'left' && <Icon name={iconName} size={iconSize || size} variant={iconColor || 'normal'} />}
         {buttonText}
