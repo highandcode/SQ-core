@@ -36,6 +36,7 @@ class ContentStore {
     });
     return newObj;
   }
+  
   resetError() {
     this.updateUserData({
       lastError: {},

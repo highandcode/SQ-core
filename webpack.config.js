@@ -4,10 +4,10 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: {
-    server: ['@babel/polyfill', `./server/index.js`],
+    server: [`./server/index.js`],
     vanillajs: ['@babel/polyfill', `./vanillajs/index.js`],
-    cms: ['@babel/polyfill', `./cms/index.js`],
-    'scripts/index': ['@babel/polyfill', `./scripts/index.js`],
+    cms: [`./cms/index.js`],
+    'scripts/index': [`./scripts/index.js`],
     'scripts/build': ['@babel/polyfill', `./scripts/build.js`]
   },
   target: 'node',
