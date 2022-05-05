@@ -1,6 +1,6 @@
 {
   "name": "sq-core",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Full stack framework for cms and react app development",
   "main": "index.js",
   "startYear": "2021",
