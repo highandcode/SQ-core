@@ -4,10 +4,10 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: {
-    server: [`./server/index.js`],
+    server: ['@babel/polyfill', `./server/index.js`],
     vanillajs: ['@babel/polyfill', `./vanillajs/index.js`],
-    cms: [`./cms/index.js`],
-    'scripts/index': [`./scripts/index.js`],
+    cms: ['@babel/polyfill', `./cms/index.js`],
+    'scripts/index': ['@babel/polyfill', `./scripts/index.js`],
     'scripts/build': ['@babel/polyfill', `./scripts/build.js`]
   },
   target: 'node',
@@ -17,7 +17,11 @@ module.exports = {
     filename: `[name].js`,
     libraryTarget: 'umd'
   },
-  externals: [nodeExternals({})],
+  externals: [nodeExternals({
+    allowlist:[
+      '@babel/polyfill'
+    ]
+  })],
   module: {
     rules: [
       {
