@@ -5,7 +5,7 @@ import EventManager from './event-manager';
 import { CONSTANTS } from '../globals';
 
 var defaultHeaders = {
-  'Content-Type': 'application/json'
+  'Content-Type': 'application/json',
 };
 
 export class ApiBridge {
@@ -14,10 +14,14 @@ export class ApiBridge {
   }
 
   getCustomHeaders() {
-    var url = window.location != window.parent.location ? document.referrer : document.location.href;
-    var accesstore = document.location.ancestorOrigins && document.location.ancestorOrigins[0];
+    var url =
+      window.location != window.parent.location
+        ? document.referrer
+        : document.location.href;
+    var accesstore =
+      document.location.ancestorOrigins && document.location.ancestorOrigins[0];
     return {
-      'x-referer': accesstore || url
+      'x-referer': accesstore || url,
     };
   }
   getPrefix() {
@@ -30,8 +34,8 @@ export class ApiBridge {
       headers: {
         ...defaultHeaders,
         ...this.getCustomHeaders(),
-        ...headers
-      }
+        ...headers,
+      },
     })
       .then(checkStatus.bind(this))
       .then(parseJSON)
@@ -45,9 +49,9 @@ export class ApiBridge {
       headers: {
         ...defaultHeaders,
         ...this.getCustomHeaders(),
-        ...headers
+        ...headers,
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
       .then(checkStatus.bind(this))
       .then(parseJSON)
@@ -61,9 +65,9 @@ export class ApiBridge {
       headers: {
         ...defaultHeaders,
         ...this.getCustomHeaders(),
-        ...headers
+        ...headers,
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
       .then(checkStatus.bind(this))
       .then(parseJSON)
@@ -77,9 +81,9 @@ export class ApiBridge {
       headers: {
         ...defaultHeaders,
         ...this.getCustomHeaders(),
-        ...headers
+        ...headers,
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
       .then(checkStatus.bind(this))
       .then(parseJSON)
@@ -105,8 +109,8 @@ function checkStatus(response) {
       status: CONSTANTS.STATUS.UNNKOWN,
       error: {
         message: 'Unexpected error',
-        key: 'UNEXPECTED_ERROR'
-      }
+        key: 'UNEXPECTED_ERROR',
+      },
     };
   } else {
     return new Promise(function (resolve) {
@@ -116,8 +120,8 @@ function checkStatus(response) {
         status: CONSTANTS.STATUS.UNNKOWN,
         error: {
           message: response.statusText,
-          key: 'UNEXPECTED_ERROR'
-        }
+          key: 'UNEXPECTED_ERROR',
+        },
       });
     });
   }
@@ -148,7 +152,7 @@ function responseReader(response) {
       this.events.emit('onUnRecognizedError', response);
     default:
       return {
-        ...response
+        ...response,
       };
   }
 }
@@ -157,12 +161,41 @@ function messageParser(response) {
   if (response.error) {
     if (response.error.key && messages.get(response.error.key)) {
       response.error.message = messages.get(response.error.key);
+      response.error.errorMessage = messages.get(response.error.key);
+    }
+    if (response.errors) {
+      Object.keys(response.errors).forEach((errorField) => {
+        if (response.errors[errorField].errors) {
+          messageParser(response.errors[errorField]);
+        }
+        if (
+          response.errors[errorField].key &&
+          messages.get(response.errors[errorField].key)
+        ) {
+          response.errors[errorField].message = messages.get(
+            response.errors[errorField].key
+          );
+          response.errors[errorField].errorMessage = messages.get(
+            response.errors[errorField].key
+          );
+        }
+      });
     }
     if (response.error.errors) {
       Object.keys(response.error.errors).forEach((errorField) => {
-        if (response.error.errors[errorField].key && messages.get(response.error.errors[errorField].key)) {
-          response.error.errors[errorField].message = messages.get(response.error.errors[errorField].key);
-          response.error.errors[errorField].errorMessage = messages.get(response.error.errors[errorField].key);
+        if (response.error.errors[errorField].errors) {
+          messageParser(response.error.errors[errorField]);
+        }
+        if (
+          response.error.errors[errorField].key &&
+          messages.get(response.error.errors[errorField].key)
+        ) {
+          response.error.errors[errorField].message = messages.get(
+            response.error.errors[errorField].key
+          );
+          response.error.errors[errorField].errorMessage = messages.get(
+            response.error.errors[errorField].key
+          );
         }
       });
     }

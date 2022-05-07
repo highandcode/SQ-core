@@ -6,7 +6,7 @@ module.exports = {
   clearMocks: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ['web/**/*.{js,jsx,mjs}','vanillajs/**/*.{js,jsx,mjs}'],
+  collectCoverageFrom: ['web/**/*.{js,jsx,mjs}', 'vanillajs/**/*.{js,jsx,mjs}'],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage/ui',
@@ -16,11 +16,18 @@ module.exports = {
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
   setupFiles: ['<rootDir>/enzyme.config.js'],
-  
-  "moduleNameMapper": {
-    ".+\\.(svg|png|jpg)$": "identity-obj-proxy",
-    "^.+\\.(css|less|scss)$": "babel-jest"
+  coverageReporters: ['text', 'clover', 'json', 'lcov'],
+  moduleNameMapper: {
+    '.+\\.(svg|png|jpg)$': 'identity-obj-proxy',
+    '^.+\\.(css|less|scss)$': 'babel-jest',
   },
+  reporters: [
+    'default',
+    [
+      'jest-junit',
+      { outputDirectory: 'coverage/ui', outputName: 'junit.xml' },
+    ],
+  ],
   // The test environment that will be used for testing
   testEnvironment: 'jsdom',
 
@@ -35,7 +42,7 @@ module.exports = {
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
-  
+
   // Indicates whether each individual test should be reported during the run
   verbose: false,
 };

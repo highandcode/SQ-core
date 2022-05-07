@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Content from '../Content';
 import NavigationList from '../../components/ui/NavigationList';
 import './_documentation.scss';
 
-@inject('commonStore', 'contentStore')
-@observer
 class ComponentDemo extends Component {
   constructor() {
     super();

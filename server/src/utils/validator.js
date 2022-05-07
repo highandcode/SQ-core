@@ -338,7 +338,7 @@ class Validator {
     if (this.validators[field] && this.validators[field].validators) {
       Array.isArray(this.validators[field].validators) &&
         this.validators[field].validators.forEach(
-          ({ type, message, ...rest }) => {
+          ({ type, message,  key: vErrorKey, ...rest }) => {
             const isOptional = this.checkOptional(
               this.validators[field].optional
             );
@@ -361,14 +361,14 @@ class Validator {
                 errorMessage =
                   message ||
                   (_messages[type] && _messages[type](rest, this.values));
-                errorKey = this.options.keys[type] || '';
+                errorKey = vErrorKey || this.options.keys[type] || '';
                 return false;
               }
             }
           }
         );
     } else if (this.validators[field] && this.validators[field].validator) {
-      const { type, message, ...rest } = this.validators[field].validator;
+      const { type, message, key: vErrorKey, ...rest } = this.validators[field].validator;
       const isOptional = this.checkOptional(this.validators[field].optional);
       if ((!isOptional || this.values[field]) && _validators[type]) {
         const result = _validators[type](this.values[field], rest, this.values);
@@ -385,7 +385,7 @@ class Validator {
           isValid = false;
           errorMessage =
             message || (_messages[type] && _messages[type](rest, this.values));
-          errorKey = this.options.keys[type] || '';
+          errorKey = vErrorKey || this.options.keys[type] || '';
         }
       }
     }

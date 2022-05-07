@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { getMap } from '../../components';
 import { Validator } from '../../utils/validator';
@@ -12,8 +11,6 @@ import './_content.scss';
 addComp({
   Form
 });
-@inject('commonStore', 'contentStore')
-@observer
 class Content extends Component {
   constructor() {
     super();

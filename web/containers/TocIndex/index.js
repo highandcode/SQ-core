@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Header from '../../components/ui/Header';
 import LinkButton from '../../components/ui/LinkButton';
 import { getMap } from '../../components';
 import './_toc-index.scss';
 
-@inject('commonStore', 'contentStore')
-@observer
 class TableOfContent extends Component {
   constructor() {
     super();

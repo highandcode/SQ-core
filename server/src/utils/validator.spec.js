@@ -340,6 +340,31 @@ describe('Validator', () => {
       expect(validator.validate('test')).to.equal(true);
     });
   });
+
+  describe("error message with .errorKey", () => {
+    let validator;
+    beforeEach(() => {
+      validator = new Validator({
+        email1: {
+          validator: { type: 'email', key: 'ERROR_KEY' },
+        },
+        email2: {
+          validators: [{ type: 'email', key: 'ERROR_KEY' }],
+        },
+      });
+    });
+    it("validate(email1) should return .errorKey = ERROR_KEY", () => {
+      validator.setValue('email1', 'navneet@');
+      validator.validate('email1')
+      expect(validator.errors.email1.key).to.equal('ERROR_KEY');
+    });
+    it("validate(email2) should return .errorKey = ERROR_KEY", () => {
+      validator.setValue('email2', 'navneet@');
+      validator.validate('email2')
+      expect(validator.errors.email2.key).to.equal('ERROR_KEY');
+    });
+  });
+
   describe("type:'compareField'", () => {
     describe('with options { compare as = } defaultValue', () => {
       let validator;
