@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
 import Content from '../Content';
 import Header from '../../components/ui/Header';
 import './_content-with-search.scss';
 import animateScrollTo from 'animated-scroll-to';
 
-@inject('commonStore', 'contentStore')
-@observer
 class ContentWithSearch extends Component {
   constructor() {
     super();

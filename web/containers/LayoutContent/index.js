@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
 import Content from '../Content';
 import './_layout-content.scss';
-@inject('commonStore', 'contentStore')
-@observer
+
 class LayoutContent extends Component {
   constructor() {
     super();

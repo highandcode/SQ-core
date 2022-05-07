@@ -21,12 +21,16 @@ build_project:
   script:
     - echo ======= build started ========
     - npm install
-    - npm run-script test
+    - npm run-script test:coverage
     - npm run-script dist
     - cd dist
     - npm pack
     - echo ======= build finished ========
   artifacts:
+      reports:
+        junit:
+          - coverage/server/junit.xml
+          - coverage/ui/junit.xml
       paths:
         - dist/*.tgz
       expire_in: 24 hrs
@@ -38,12 +42,16 @@ build_release:
   script:
     - echo ======= release started ========
     - npm install
-    - npm run-script test
+    - npm run-script test:coverage
     - npm run-script dist
     - cd dist
     - npm publish
     - echo ======= release finished ========
   artifacts:
+      reports:
+        junit:
+          - coverage/server/junit.xml
+          - coverage/ui/junit.xml
       paths:
         - dist/*.tgz
       expire_in: 48 hrs

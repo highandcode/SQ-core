@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import ReactHtmlParser from 'react-html-parser';
 import Header from '../../components/ui/Header';
 import NavigationList from '../../components/ui/NavigationList';
 import CodeHighlight from '../../components/ui/CodeHighlight';
@@ -17,8 +15,6 @@ const _tempaltes = {
 
 import './_documentation.scss';
 
-@inject('commonStore', 'contentStore')
-@observer
 class ComponentDemo extends Component {
   constructor() {
     super();

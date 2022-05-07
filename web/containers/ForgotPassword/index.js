@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
@@ -8,8 +7,6 @@ import Form from '../../components/Form';
 import Alert from '../../components/Alert';
 import { CONSTANTS } from '../../globals';
 
-@inject('commonStore', 'userStore')
-@observer
 class ForgotPassword extends Component {
   constructor() {
     super();
@@ -37,7 +34,7 @@ class ForgotPassword extends Component {
     if (action.actionType === 'reset-password') {
       this.validator.setValues(formData);
       if (this.validator.validateAll()) {
-        const resp = await this.props.userStore.sendResetPasswordEmail(formData.emailphone);
+        const resp = await this.props.authActions.sendResetPasswordEmail(formData.emailphone);
         if (resp.status === CONSTANTS.STATUS.SUCCESS) {
           redirectTo('resetpasswordlinksent');
         } else {
@@ -84,8 +81,7 @@ class ForgotPassword extends Component {
 }
 
 ForgotPassword.propTypes = {
-  commonStore: PropTypes.object,
-  userStore: PropTypes.object,
+  authActions: PropTypes.object,
   store: PropTypes.object
 };
 

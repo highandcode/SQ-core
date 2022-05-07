@@ -8,8 +8,8 @@ import * as cordova from './cordova';
 import * as utils from './utils';
 
 /* stores module */
-import contentStore from './store/contentStore';
-
+// import contentStore from './store/contentStore';
+import * as reducers from './redux';
 /* domain module */
 import domain from './domain';
 
@@ -19,8 +19,7 @@ import * as root from './components/root';
 import * as components from './components';
 import * as ui from './components/ui';
 
-const stores = { contentStore };
 
 
 /* export module */
-export { containers, components, ui, root, stores, domain, globals, cordova, utils };
+export { containers, components, ui, root, reducers, domain, globals, cordova, utils };

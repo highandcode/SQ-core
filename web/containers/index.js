@@ -5,31 +5,28 @@ import ContentWithLeftNavigation from './ContentWithLeftNavigation';
 import ContentWithSearch from './ContentWithSearch';
 import Documentation from './Documentation';
 import * as DynamicContent from './DynamicContent';
-import ForgotPassword from './ForgotPassword';
 import LayoutContent from './LayoutContent';
-import Login from './Login';
 import MultiView from './MultiView';
-import Register from './Register';
-import ResendVerifyEmail from './ResendVerifyEmail';
-import ResetPassword from './ResetPassword';
 import TocIndex from './TocIndex';
-import VerifyEmail from './VerifyEmail';
+
+import ForgotPassword from './ForgotPassword';
+import Login from './Login';
+import Register from './Register';
+import ResetPassword from './ResetPassword';
 
 export {
   ComponentDemo,
+  DynamicContent,
+  ContentWithSearch,
+  MultiView,
+  ForgotPassword,
+  ResetPassword,
+  Documentation,
+  LayoutContent,
+  ContentWithLeftNavigation,
   Contact,
   Content,
-  ContentWithLeftNavigation,
-  ContentWithSearch,
-  Documentation,
-  DynamicContent,
-  ForgotPassword,
-  LayoutContent,
-  Login,
-  MultiView,
-  Register,
-  ResendVerifyEmail,
-  ResetPassword,
   TocIndex,
-  VerifyEmail
+  Login,
+  Register,
 };

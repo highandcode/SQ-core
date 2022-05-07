@@ -5,10 +5,11 @@ Core framework for web, plugin, cms &amp; nodejs server
 [![npm](https://img.shields.io/npm/dm/sq-core.svg)](https://www.npmjs.com/package/sq-core)
 [![npm](https://img.shields.io/npm/v/sq-core.svg)](https://www.npmjs.com/package/sq-core)
 
+
 ## Demos
 
-- **Basic demo**: https://www.nybblecore.com/examples/basic
-- **Full list**: https://www.nybblecore.com/examples/special
+- **Basic demo**: https://www.nybblecore.com/content/in/examples/basic
+- **Full list**: https://www.nybblecore.com/content/in/examples/special
 
 
 
