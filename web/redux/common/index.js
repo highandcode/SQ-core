@@ -80,20 +80,21 @@ export const showNotificationMessage =
     const { timeout = 3000 } = payload;
     const currentNotification = selectCurrentNotification(getState());
     currentNotification.prevTimeout &&
-      clearInterval(currentNotification.prevTimeout);
+      clearTimeout(currentNotification.prevTimeout);
     await dispatch(setNotificationTimeout(null));
     await dispatch(setNotification(payload));
-    const nextTimeout = setTimeout(async () => {
-      await dispatch(closeNotification());
+    const nextTimeout = setTimeout(() => {
+
+      dispatch(closeNotification());
       payload.callback && payload.callback();
     }, timeout);
     await dispatch(setNotificationTimeout(nextTimeout));
   };
-export const closeNotification = () => async (dispatch, getState) => {
+export const closeNotification = () => (dispatch, getState) => {
   const currentNotification = selectCurrentNotification(getState());
   currentNotification.prevTimeout &&
-    clearInterval(currentNotification.prevTimeout);
-  await dispatch(common.actions.setCloseNotification());
+    clearTimeout(currentNotification.prevTimeout);
+  dispatch(common.actions.setCloseNotification());
 };
 
 export const showPopup = (payload) => async (dispatch) => {

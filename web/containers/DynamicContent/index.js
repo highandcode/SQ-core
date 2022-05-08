@@ -416,7 +416,13 @@ class DynamicContent extends Component {
         <Snackbar
           open={store.common.notification.show}
           message={store.common.notification.message}
-          onClose={() => this.props.commonActions.closeNotification()}
+          autoHideDuration={null}
+          onClose={(evt, reason) => {
+            if (reason !== 'clickaway') {
+              this.props.commonActions.closeNotification()
+              return;
+            }
+          }}    
           severity={store.common.notification.type}
         />
         <ContentContainer
