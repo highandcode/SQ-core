@@ -48,6 +48,7 @@ const common = createSlice({
       state.popupScreen.show = true;
       state.popupScreen.name = action.payload.name;
       state.popupScreen.title = action.payload.title;
+      state.popupScreen.style = action.payload.style;
     },
     closePopupScreen: (state) => {
       state.popupScreen.show = false;
