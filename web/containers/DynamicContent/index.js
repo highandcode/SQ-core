@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { timer } from '../../utils/timer';
 import Progress from '../../components/Progress';
+import Snackbar from '../../components/Snackbar';
 import DefaultContent from '../Content';
 import Default from './Default';
 import LayoutContent from '../LayoutContent';
@@ -20,6 +21,17 @@ import {
   updateErrorData,
   sendContact,
 } from '../../redux/content';
+
+import {
+  startLoading,
+  showNotificationMessage,
+  closeNotification,
+  stopLoading,
+  showPopupScreen,
+  showPopup,
+  setError,
+  clearError,
+} from '../../redux/common';
 
 import './_dynamic-content.scss';
 
@@ -317,6 +329,25 @@ class DynamicContent extends Component {
           this.checkForInlineErrors(result);
           this.validateResults(result);
         }
+      case 'user-store':
+        await this.props.contentActions.mergeUserData({
+          ...action.params,
+        });
+        break;
+      case 'notify-message':
+        await this.props.commonActions.showNotificationMessage({
+          ...action.params,
+        });
+        break;
+      case 'popup':
+        await this.props.commonActions.showPopup({
+          ...action.params,
+        });
+        break;
+      case 'popup-screen':
+        await this.props.commonActions.showPopupScreen({
+          ...action.params,
+        });
         break;
     }
   }
@@ -349,7 +380,7 @@ class DynamicContent extends Component {
   render() {
     const { containerTemplate: overrideContainerTemplate, ...allProps } =
       this.props;
-    const { dataPacket } = allProps;
+    const { dataPacket, store } = allProps;
     const { pageData = {}, metaData } = this.state.pageData;
     const {
       container,
@@ -382,6 +413,12 @@ class DynamicContent extends Component {
     };
     return (
       <div className={`dynamic-content row ${rootClassName} ${loadingState}`}>
+        <Snackbar
+          open={store.common.notification.show}
+          message={store.common.notification.message}
+          onClose={() => this.props.commonActions.closeNotification()}
+          severity={store.common.notification.type}
+        />
         <ContentContainer
           {...allProps}
           pageData={pageData}
@@ -439,6 +476,18 @@ const mapDispatchToProps = (dispatch) => {
       mergeUserData: (data) => dispatch(mergeUserData(data)),
       sendContact: (data) => dispatch(sendContact(data)),
       updateErrorData: (data) => dispatch(updateErrorData(data)),
+    },
+    commonActions: {
+      showNotificationMessage: (data) =>
+        dispatch(showNotificationMessage(data)),
+      closeNotification: (data) => dispatch(closeNotification(data)),
+      startLoading: (data) => dispatch(startLoading(data)),
+      closePopup: (data) => dispatch(closePopup(data)),
+      showPopup: (data) => dispatch(showPopup(data)),
+      stopLoading: (data) => dispatch(stopLoading(data)),
+      setError: (data) => dispatch(setError(data)),
+      clearError: (data) => dispatch(clearError(data)),
+      showPopupScreen: (data) => dispatch(showPopupScreen(data)),
     },
     raiseAction: dispatch,
   };

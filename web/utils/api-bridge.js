@@ -1,5 +1,4 @@
 import { QueryString } from './query-string';
-import { redirectTo } from './redirect';
 import { messages } from './error-messages';
 import EventManager from './event-manager';
 import { CONSTANTS } from '../globals';

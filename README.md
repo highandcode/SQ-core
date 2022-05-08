@@ -4,7 +4,6 @@ Core framework for web, plugin, cms &amp; nodejs server
 
 [![npm](https://img.shields.io/npm/dm/sq-core.svg)](https://www.npmjs.com/package/sq-core)
 [![npm](https://img.shields.io/npm/v/sq-core.svg)](https://www.npmjs.com/package/sq-core)
-![coverage](https://gitlab.com/swish-labs/swishqube-core/badges/develop/coverage.svg)
 
 
 ## Demos
