@@ -18,7 +18,7 @@
     "test:coverage": "npm run server:test:coverage && npm run client:test:coverage",
     "start": "start-storybook -p 6006",
     "dist": "rm -rf dist && webpack && webpack --config webpack.web.config.js && node scripts/dist.js",
-    "dist:update": "webpack && webpack --config webpack.web.config.js && node scripts/dist.js",
+    "dist:target": "npm version patch && rm -rf dist && webpack && webpack --config webpack.web.config.js && node scripts/dist.js && cd dist && npm pack && cd .. && node scripts/dist-post.js",
     "build-storybook": "build-storybook"
   },
   "nyc": {

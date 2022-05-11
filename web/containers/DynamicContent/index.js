@@ -19,6 +19,7 @@ import {
   updateUserData,
   mergeUserData,
   updateErrorData,
+  resetUserData,
   sendContact,
 } from '../../redux/content';
 
@@ -146,6 +147,9 @@ class DynamicContent extends Component {
       .fetchContentPage(this.state.url)
       .unwrap();
     const pageResponse = resp.data;
+    if (pageResponse.pageData.reset) {
+      await this.props.contentActions.resetUserData(pageResponse.pageData.reset);
+    }
     await this.props.contentActions.updateUserData(
       pageResponse.metaData?.userData
     );
@@ -479,6 +483,7 @@ const mapDispatchToProps = (dispatch) => {
     contentActions: {
       postApi: (data) => dispatch(postApi(data)),
       fetchContentPage: (data) => dispatch(fetchContentPage(data)),
+      resetUserData: (data) => dispatch(resetUserData(data)),
       updateUserData: (data) => dispatch(updateUserData(data)),
       mergeUserData: (data) => dispatch(mergeUserData(data)),
       sendContact: (data) => dispatch(sendContact(data)),

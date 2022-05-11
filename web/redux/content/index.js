@@ -143,6 +143,11 @@ const content = createSlice({
       state.pageData[action.payload.pageId] = action.payload.data;
     },
 
+    clearAllUserData: (state) => {
+      state.userData = {
+        ...getSystem(),
+      };
+    },
     updateUserData: (state, action) => {
       state.userData = {
         ...state.userData,
@@ -175,6 +180,13 @@ export const mergeUserData = (payload) => (dispatch, getState) => {
   const data = processParams(getState().content.userData, payload, '');
   const merged = extendData(getState().content.userData, data);
   dispatch(updateUserData(merged));
+};
+export const resetUserData = (payload) => (dispatch, getState) => {
+  switch (payload.type) {
+    case 'clearAll':
+      dispatch(content.actions.clearAllUserData());
+      break;
+  }
 };
 
 export const { updatePageData, updateUserData } = content.actions;
