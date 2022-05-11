@@ -149,6 +149,7 @@ class DynamicContent extends Component {
     await this.props.contentActions.updateUserData(
       pageResponse.metaData?.userData
     );
+    await this.props.contentActions.updateUserData(pageResponse.pageData.init);
     await this.props.contentActions.mergeUserData(pageResponse.pageData.merge);
     await this.processHook(pageResponse.pageData.hook?.load);
     await this.props.contentActions.mergeUserData(pageResponse.pageData.merge);

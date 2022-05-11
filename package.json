@@ -1,6 +1,6 @@
 {
   "name": "sq-core",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Full stack framework for cms and react app development",
   "main": "index.js",
   "startYear": "2021",
@@ -18,6 +18,7 @@
     "test:coverage": "npm run server:test:coverage && npm run client:test:coverage",
     "start": "start-storybook -p 6006",
     "dist": "rm -rf dist && webpack && webpack --config webpack.web.config.js && node scripts/dist.js",
+    "dist:update": "webpack && webpack --config webpack.web.config.js && node scripts/dist.js",
     "build-storybook": "build-storybook"
   },
   "nyc": {
