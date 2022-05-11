@@ -23,19 +23,26 @@ export class ApiBridge {
       'x-referer': accesstore || url,
     };
   }
-  getPrefix() {
-    return window.API_SERVER || '';
+  
+  getPrefix(data) {
+    const result = this.events.emit('onPrefix', data);
+    return result || window.API_SERVER || '';
   }
 
   get(url, params, headers = {}) {
-    return fetch(this.getPrefix() + url + new QueryString(params).toString(), {
-      method: 'GET',
-      headers: {
-        ...defaultHeaders,
-        ...this.getCustomHeaders(),
-        ...headers,
-      },
-    })
+    return fetch(
+      this.getPrefix({ url, body: params }) +
+        url +
+        new QueryString(params).toString(),
+      {
+        method: 'GET',
+        headers: {
+          ...defaultHeaders,
+          ...this.getCustomHeaders(),
+          ...headers,
+        },
+      }
+    )
       .then(checkStatus.bind(this))
       .then(parseJSON)
       .then(messageParser)
@@ -43,7 +50,7 @@ export class ApiBridge {
   }
 
   post(url, body, headers = {}) {
-    return fetch(this.getPrefix() + url, {
+    return fetch(this.getPrefix({ url, body }) + url, {
       method: 'POST',
       headers: {
         ...defaultHeaders,
@@ -59,7 +66,7 @@ export class ApiBridge {
   }
 
   update(url, body, headers = {}) {
-    return fetch(this.getPrefix() + url, {
+    return fetch(this.getPrefix({ url, body }) + url, {
       method: 'PUT',
       headers: {
         ...defaultHeaders,
@@ -75,7 +82,7 @@ export class ApiBridge {
   }
 
   delete(url, body, headers = {}) {
-    return fetch(this.getPrefix() + url, {
+    return fetch(this.getPrefix({ url, body }) + url, {
       method: 'DELETE',
       headers: {
         ...defaultHeaders,
