@@ -23,7 +23,7 @@ export class ApiBridge {
       'x-referer': accesstore || url,
     };
   }
-  
+
   getPrefix(data) {
     const result = this.events.emit('onPrefix', data);
     return result || window.API_SERVER || '';
@@ -118,16 +118,22 @@ function checkStatus(response) {
         key: 'UNEXPECTED_ERROR',
       },
     };
+  } else if (response.status === 404) {
+    return {
+      code: response.status,
+      error: true,
+      status: CONSTANTS.STATUS.UNKNOWN,
+      error: {
+        message: 'Unexpected error',
+        key: 'UNEXPECTED_ERROR',
+      },
+    };
   } else {
     return new Promise(function (resolve) {
       resolve({
-        error: true,
         code: response.status,
-        status: CONSTANTS.STATUS.UNNKOWN,
-        error: {
-          message: response.statusText,
-          key: 'UNEXPECTED_ERROR',
-        },
+        status: CONSTANTS.STATUS.SUCCESS,
+        data: {},
       });
     });
   }

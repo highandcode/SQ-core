@@ -21,7 +21,7 @@ describe('utils:CustomModule', () => {
       expect(module.modules.test).toBeDefined();
     });
     it('should be able to add module', async () => {
-      var result = module.execute('test.addUser', 'test', 'in');
+      var result = await module.execute('test.addUser', 'test', 'in');
       expect(result).toEqual('test');
     });
   });
