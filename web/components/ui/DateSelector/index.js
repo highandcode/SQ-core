@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/moment';
-import './dateselector.scss';
+// import { DatePicker } from '@mui/lab';
+// import { TextField } from '@mui/material';
+// import AdapterDateFns from '@mui/lab/AdapterDateFns';
+// import LocalizationProvider from '@mui/lab/LocalizationProvider';
+// import './dateselector.scss';
 const DateSelector = ({
   value,
   label = '',
@@ -15,10 +17,10 @@ const DateSelector = ({
   maxDate,
   onChange,
   error,
-  errorMessage
+  errorMessage,
 }) => {
   const [fieldValue, setFieldValue] = useState({
-    value: value || null
+    value: value || null,
   });
   const [focus, setFocus] = useState(false);
   const handleonSelect = (date) => {
@@ -27,19 +29,19 @@ const DateSelector = ({
       onChange &&
         onChange({
           value: date.toISOString(),
-          text
+          text,
         });
       setFieldValue({
-        value: date.toISOString()
+        value: date.toISOString(),
       });
     } else {
       onChange &&
         onChange({
           value: date && date._i,
-          text: date && date._i
+          text: date && date._i,
         });
       setFieldValue({
-        value: null
+        value: null,
       });
     }
   };
@@ -51,8 +53,8 @@ const DateSelector = ({
   };
   return (
     <div className={`sq-date-selector ${className}`}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <KeyboardDatePicker
+      {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DatePicker
           error={error}
           label={label}
           format={format}
@@ -62,11 +64,14 @@ const DateSelector = ({
           readOnly={readOnly}
           value={fieldValue.value || value || null}
           inputVariant={inputVariant}
+          renderInput={(props) => (
+            <TextField label={label} helperText="Something" />
+          )}
           onChange={handleonSelect}
           onFocus={handleOnFocus}
           onBlur={handleOnBlur}
         />
-      </MuiPickersUtilsProvider>
+      </LocalizationProvider> */}
       {!focus && errorMessage && <div className="sq-error">{errorMessage}</div>}
     </div>
   );

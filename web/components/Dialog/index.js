@@ -1,43 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import IconButton from '@material-ui/core/IconButton';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Slide from '@material-ui/core/Slide';
-import { makeStyles } from '@material-ui/core/styles';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import IconButton from '@mui/material/IconButton';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Slide from '@mui/material/Slide';
 import Progress from '../Progress';
 import Icon from '../Icon';
 import './dialog.scss';
-
-const useStyles = makeStyles((theme) => {
-  return {
-    titleLeft: {
-      flexGrow: 1
-    },
-    appBar: {
-      position: 'relative'
-    },
-    iosStyle: {
-      position: 'relative',
-      background: 'white',
-      color: theme.palette.primary.dark,
-      borderTopLeftRadius: '20px',
-      borderTopRightRadius: '20px'
-    },
-    container: {
-      height: 'calc(100% - 20px)',
-      marginTop: '20px'
-    },
-    paper: {
-      borderTopLeftRadius: '20px',
-      borderTopRightRadius: '20px'
-    }
-  };
-});
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -56,28 +29,6 @@ const TitleClasses = {
   info: 'info'
 };
 
-const getCustomStyles = (style) => {
-  switch (style) {
-    case 'ios':
-      return {
-        appBar: 'iosStyle',
-        isBackStyle: true,
-        backIcon: 'arrow-left',
-        overridePaper: true,
-        iconColor: 'primary'
-      };
-    case 'default':
-    default:
-      return {
-        appBar: 'appBar',
-        isBackStyle: false,
-        backIcon: 'close',
-        overridePaper: false,
-        iconColor: 'white'
-      };
-      return;
-  }
-};
 
 const SQDialog = ({
   closeButton = true,
@@ -93,8 +44,7 @@ const SQDialog = ({
   onAction,
   style = 'default'
 }) => {
-  const classes = useStyles();
-  const customStyle = getCustomStyles(style);
+  const customStyle={};
   const handleClose = () => {
     onClose && onClose();
   };
@@ -103,7 +53,7 @@ const SQDialog = ({
   };
   let dialogClasses = {};
   if (customStyle.overridePaper) {
-    const { container, paper } = classes;
+    const { container, paper } = customStyle;
     dialogClasses = { container, paper };
   }
   return (
@@ -117,7 +67,7 @@ const SQDialog = ({
         aria-labelledby={title}
         aria-describedby={title}
       >
-        <AppBar className={classes[customStyle.appBar]}>
+        <AppBar className={customStyle[customStyle.appBar]}>
           <Toolbar>
             {customStyle.isBackStyle && closeButton && (
               <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">

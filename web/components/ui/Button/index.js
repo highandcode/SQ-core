@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { Button } from '@mui/material';
+import { withStyles } from '@mui/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Icon from '../../Icon';
-
 import './_button.scss';
+const defaultTheme = createTheme();
 
 const CustomButton = ({
   classes,
@@ -26,11 +27,9 @@ const CustomButton = ({
   const { click } = analytics;
   return (
     <div className={`sq-button ${className} ${size} ${!buttonText && iconName ? 'sq-button--icon-only' : ''}`}>
-      <Button
-        classes={{
-          root: classes[size],
-          label: classes.label
-        }}
+      <ThemeProvider theme={defaultTheme}>
+        <Button
+       
         onClick={(e) => {
           !disabled && onClick && onClick(e);
           !disabled && click && onAnalytics && onAnalytics(click);
@@ -49,6 +48,7 @@ const CustomButton = ({
         {iconName && iconDirection === 'right' && <Icon name={iconName} size={iconSize || size} variant={iconColor || 'normal'} />}
         {children}
       </Button>
+      </ThemeProvider>
     </div>
   );
 };
@@ -63,32 +63,4 @@ CustomButton.propTypes = {
   iconName: PropTypes.string
 };
 
-export default withStyles({
-  normal: {
-    padding: '15px 50px',
-    minWidth: 200,
-    fontSize: 14
-  },
-  large: {
-    width: '100%',
-    fontSize: 20,
-    padding: '15px 50px',
-    minWidth: 200
-  },
-  small: {
-    padding: '4px 8px',
-    fontSize: 12
-  },
-  auto: {
-    // padding: '4px 8px',
-    minWidth: 'auto',
-    fontSize: 12
-  },
-  medium: {
-    padding: '4px 18px',
-    fontSize: 14
-  },
-  label: {
-    textTransform: 'none'
-  }
-})(CustomButton);
+export default CustomButton;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import Chip from '@material-ui/core/Chip';
+import Autocomplete from '@mui/lab/Autocomplete';
+import Chip from '@mui/material/Chip';
 import InputField from '../InputField';
 import './auto-complete.scss';
 import { getValue } from '../../../utils/properties';
