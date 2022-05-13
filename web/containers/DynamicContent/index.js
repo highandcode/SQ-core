@@ -20,6 +20,7 @@ import {
   mergeUserData,
   updateErrorData,
   resetUserData,
+  customHooks,
   sendContact,
 } from '../../redux/content';
 
@@ -37,6 +38,7 @@ import {
 import './_dynamic-content.scss';
 
 const _window = window;
+
 let containers = {
   Default,
   LayoutContent,
@@ -466,7 +468,7 @@ DynamicContent.propTypes = {
   contentActions: PropTypes.object,
 };
 
-export { DynamicContent };
+export { DynamicContent, customHooks };
 
 const mapStateToProps = (state) => {
   return {
