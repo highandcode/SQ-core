@@ -1,6 +1,6 @@
 {
   "name": "sq-core",
-  "version": "2.0.0",
+  "version": "2.0.9",
   "description": "Full stack framework for cms and react app development",
   "main": "index.js",
   "startYear": "2021",
@@ -18,6 +18,7 @@
     "test:coverage": "npm run server:test:coverage && npm run client:test:coverage",
     "start": "start-storybook -p 6006",
     "dist": "rm -rf dist && webpack && webpack --config webpack.web.config.js && node scripts/dist.js",
+    "dist:target": "npm version patch && rm -rf dist && webpack && webpack --config webpack.web.config.js && node scripts/dist.js && cd dist && npm pack && cd .. && node scripts/dist-post.js",
     "build-storybook": "build-storybook"
   },
   "nyc": {
@@ -74,6 +75,7 @@
     "@babel/polyfill": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
+    "@babel/runtime": "^7.17.9",
     "@date-io/moment": "^1.3.9",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",

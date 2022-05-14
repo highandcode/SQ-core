@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { timer } from '../../utils/timer';
 import Progress from '../../components/Progress';
+import Snackbar from '../../components/Snackbar';
 import DefaultContent from '../Content';
 import Default from './Default';
 import LayoutContent from '../LayoutContent';
@@ -18,12 +19,26 @@ import {
   updateUserData,
   mergeUserData,
   updateErrorData,
+  resetUserData,
+  customHooks,
   sendContact,
 } from '../../redux/content';
+
+import {
+  startLoading,
+  showNotificationMessage,
+  closeNotification,
+  stopLoading,
+  showPopupScreen,
+  showPopup,
+  setError,
+  clearError,
+} from '../../redux/common';
 
 import './_dynamic-content.scss';
 
 const _window = window;
+
 let containers = {
   Default,
   LayoutContent,
@@ -134,9 +149,13 @@ class DynamicContent extends Component {
       .fetchContentPage(this.state.url)
       .unwrap();
     const pageResponse = resp.data;
+    if (pageResponse.pageData.reset) {
+      await this.props.contentActions.resetUserData(pageResponse.pageData.reset);
+    }
     await this.props.contentActions.updateUserData(
       pageResponse.metaData?.userData
     );
+    await this.props.contentActions.updateUserData(pageResponse.pageData.init);
     await this.props.contentActions.mergeUserData(pageResponse.pageData.merge);
     await this.processHook(pageResponse.pageData.hook?.load);
     await this.props.contentActions.mergeUserData(pageResponse.pageData.merge);
@@ -317,6 +336,27 @@ class DynamicContent extends Component {
           this.checkForInlineErrors(result);
           this.validateResults(result);
         }
+      case 'user-store':
+        await this.props.contentActions.mergeUserData({
+          ...action.params,
+        });
+        break;
+      case 'notify-message':
+        await this.props.commonActions.showNotificationMessage({
+          ...action.params,
+        });
+        break;
+      case 'popup':
+        await this.props.commonActions.showPopup({
+          ...action.params,
+        });
+        break;
+      case 'popup-screen':
+        await this.props.commonActions.showPopupScreen({
+          ...action.params,
+        });
+      case 'redirect':
+        redirectTo(action.to, action.params, action.options);
         break;
     }
   }
@@ -349,7 +389,7 @@ class DynamicContent extends Component {
   render() {
     const { containerTemplate: overrideContainerTemplate, ...allProps } =
       this.props;
-    const { dataPacket } = allProps;
+    const { dataPacket, store } = allProps;
     const { pageData = {}, metaData } = this.state.pageData;
     const {
       container,
@@ -382,6 +422,18 @@ class DynamicContent extends Component {
     };
     return (
       <div className={`dynamic-content row ${rootClassName} ${loadingState}`}>
+        <Snackbar
+          open={store.common.notification.show}
+          message={store.common.notification.message}
+          autoHideDuration={null}
+          onClose={(evt, reason) => {
+            if (reason !== 'clickaway') {
+              this.props.commonActions.closeNotification()
+              return;
+            }
+          }}    
+          severity={store.common.notification.type}
+        />
         <ContentContainer
           {...allProps}
           pageData={pageData}
@@ -418,7 +470,7 @@ DynamicContent.propTypes = {
   contentActions: PropTypes.object,
 };
 
-export { DynamicContent };
+export { DynamicContent, customHooks };
 
 const mapStateToProps = (state) => {
   return {
@@ -435,10 +487,23 @@ const mapDispatchToProps = (dispatch) => {
     contentActions: {
       postApi: (data) => dispatch(postApi(data)),
       fetchContentPage: (data) => dispatch(fetchContentPage(data)),
+      resetUserData: (data) => dispatch(resetUserData(data)),
       updateUserData: (data) => dispatch(updateUserData(data)),
       mergeUserData: (data) => dispatch(mergeUserData(data)),
       sendContact: (data) => dispatch(sendContact(data)),
       updateErrorData: (data) => dispatch(updateErrorData(data)),
+    },
+    commonActions: {
+      showNotificationMessage: (data) =>
+        dispatch(showNotificationMessage(data)),
+      closeNotification: (data) => dispatch(closeNotification(data)),
+      startLoading: (data) => dispatch(startLoading(data)),
+      closePopup: (data) => dispatch(closePopup(data)),
+      showPopup: (data) => dispatch(showPopup(data)),
+      stopLoading: (data) => dispatch(stopLoading(data)),
+      setError: (data) => dispatch(setError(data)),
+      clearError: (data) => dispatch(clearError(data)),
+      showPopupScreen: (data) => dispatch(showPopupScreen(data)),
     },
     raiseAction: dispatch,
   };

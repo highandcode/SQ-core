@@ -1,5 +1,4 @@
 class EventManager {
-
   constructor() {
     this.events = {};
   }
@@ -23,11 +22,15 @@ class EventManager {
   }
 
   emit(evtName, ...params) {
+    let output;
     if (this.events[evtName]) {
       this.events[evtName].forEach((fn) => {
-        fn.apply(this, params);
+        if (output !== false) {
+          output = fn.apply(this, params);
+        }
       });
     }
+    return output;
   }
 }
 

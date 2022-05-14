@@ -1,5 +1,4 @@
 import { QueryString } from './query-string';
-import { redirectTo } from './redirect';
 import { messages } from './error-messages';
 import EventManager from './event-manager';
 import { CONSTANTS } from '../globals';
@@ -11,6 +10,15 @@ var defaultHeaders = {
 export class ApiBridge {
   constructor() {
     this.events = new EventManager();
+    this.headers = {};
+  }
+
+  addHeader(name, value) {
+    this.headers[name] = value;
+  }
+
+  removeHeader(name) {
+    delete this.headers[name];
   }
 
   getCustomHeaders() {
@@ -22,21 +30,29 @@ export class ApiBridge {
       document.location.ancestorOrigins && document.location.ancestorOrigins[0];
     return {
       'x-referer': accesstore || url,
+      ...this.headers,
     };
   }
-  getPrefix() {
-    return window.API_SERVER || '';
+
+  getPrefix(data) {
+    const result = this.events.emit('onPrefix', data);
+    return result || window.API_SERVER || '';
   }
 
   get(url, params, headers = {}) {
-    return fetch(this.getPrefix() + url + new QueryString(params).toString(), {
-      method: 'GET',
-      headers: {
-        ...defaultHeaders,
-        ...this.getCustomHeaders(),
-        ...headers,
-      },
-    })
+    return fetch(
+      this.getPrefix({ url, body: params }) +
+        url +
+        new QueryString(params).toString(),
+      {
+        method: 'GET',
+        headers: {
+          ...defaultHeaders,
+          ...this.getCustomHeaders(),
+          ...headers,
+        },
+      }
+    )
       .then(checkStatus.bind(this))
       .then(parseJSON)
       .then(messageParser)
@@ -44,7 +60,7 @@ export class ApiBridge {
   }
 
   post(url, body, headers = {}) {
-    return fetch(this.getPrefix() + url, {
+    return fetch(this.getPrefix({ url, body }) + url, {
       method: 'POST',
       headers: {
         ...defaultHeaders,
@@ -60,7 +76,7 @@ export class ApiBridge {
   }
 
   update(url, body, headers = {}) {
-    return fetch(this.getPrefix() + url, {
+    return fetch(this.getPrefix({ url, body }) + url, {
       method: 'PUT',
       headers: {
         ...defaultHeaders,
@@ -76,7 +92,7 @@ export class ApiBridge {
   }
 
   delete(url, body, headers = {}) {
-    return fetch(this.getPrefix() + url, {
+    return fetch(this.getPrefix({ url, body }) + url, {
       method: 'DELETE',
       headers: {
         ...defaultHeaders,
@@ -112,16 +128,22 @@ function checkStatus(response) {
         key: 'UNEXPECTED_ERROR',
       },
     };
+  } else if (response.status === 404) {
+    return {
+      code: response.status,
+      error: true,
+      status: CONSTANTS.STATUS.UNKNOWN,
+      error: {
+        message: 'Unexpected error',
+        key: 'UNEXPECTED_ERROR',
+      },
+    };
   } else {
     return new Promise(function (resolve) {
       resolve({
-        error: true,
         code: response.status,
-        status: CONSTANTS.STATUS.UNNKOWN,
-        error: {
-          message: response.statusText,
-          key: 'UNEXPECTED_ERROR',
-        },
+        status: CONSTANTS.STATUS.SUCCESS,
+        data: {},
       });
     });
   }

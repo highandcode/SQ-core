@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as utils from '../../utils';
+import CustomModule from '../../utils/custom-module';
 const { queryString, apiBridge, object, common } = utils;
 const { query } = queryString;
 
@@ -16,6 +17,7 @@ const initialState = {
   },
   isContentLoading: false,
 };
+export const customHooks = new CustomModule();
 
 const extendData = (org, update) => {
   let obj = {
@@ -106,11 +108,30 @@ export const postApi = (payload) => async (dispatch, getState) => {
       })
     );
   }
-  const response = await apiBridge[payload.method.toLowerCase()](
-    payload.url,
-    processParams(getState().content.userData, payload.params),
-    payload.headers
-  );
+  let response = { data: {} };
+  if (payload.preHook) {
+    response = await customHooks.execute(payload.preHook, response, {
+      payload,
+      userData: getState().content.userData,
+      dispatch,
+    });
+  }
+  if (payload.method && payload.url) {
+    response = await apiBridge[payload.method.toLowerCase()](
+      payload.url,
+      processParams(getState().content.userData, payload.params),
+      payload.headers
+    );
+  }
+
+  if (payload.postHook) {
+    response = await customHooks.execute(payload.postHook, response, {
+      payload,
+      userData: getState().content.userData,
+      dispatch,
+    });
+  }
+
   if (payload.postCall) {
     await dispatch(
       updateUserData({
@@ -125,7 +146,7 @@ export const postApi = (payload) => async (dispatch, getState) => {
         lastError: {},
       })
     );
-  } else {
+  } else if (response.status === 'error') {
     await dispatch(updateErrorData(response.error));
   }
   if (payload.after) {
@@ -143,6 +164,11 @@ const content = createSlice({
       state.pageData[action.payload.pageId] = action.payload.data;
     },
 
+    clearAllUserData: (state) => {
+      state.userData = {
+        ...getSystem(),
+      };
+    },
     updateUserData: (state, action) => {
       state.userData = {
         ...state.userData,
@@ -175,6 +201,13 @@ export const mergeUserData = (payload) => (dispatch, getState) => {
   const data = processParams(getState().content.userData, payload, '');
   const merged = extendData(getState().content.userData, data);
   dispatch(updateUserData(merged));
+};
+export const resetUserData = (payload) => (dispatch, getState) => {
+  switch (payload.type) {
+    case 'clearAll':
+      dispatch(content.actions.clearAllUserData());
+      break;
+  }
 };
 
 export const { updatePageData, updateUserData } = content.actions;
