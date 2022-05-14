@@ -10,6 +10,15 @@ var defaultHeaders = {
 export class ApiBridge {
   constructor() {
     this.events = new EventManager();
+    this.headers = {};
+  }
+
+  addHeader(name, value) {
+    this.headers[name] = value;
+  }
+
+  removeHeader(name) {
+    delete this.headers[name];
   }
 
   getCustomHeaders() {
@@ -21,9 +30,10 @@ export class ApiBridge {
       document.location.ancestorOrigins && document.location.ancestorOrigins[0];
     return {
       'x-referer': accesstore || url,
+      ...this.headers,
     };
   }
-  
+
   getPrefix(data) {
     const result = this.events.emit('onPrefix', data);
     return result || window.API_SERVER || '';
@@ -118,16 +128,22 @@ function checkStatus(response) {
         key: 'UNEXPECTED_ERROR',
       },
     };
+  } else if (response.status === 404) {
+    return {
+      code: response.status,
+      error: true,
+      status: CONSTANTS.STATUS.UNKNOWN,
+      error: {
+        message: 'Unexpected error',
+        key: 'UNEXPECTED_ERROR',
+      },
+    };
   } else {
     return new Promise(function (resolve) {
       resolve({
-        error: true,
         code: response.status,
-        status: CONSTANTS.STATUS.UNNKOWN,
-        error: {
-          message: response.statusText,
-          key: 'UNEXPECTED_ERROR',
-        },
+        status: CONSTANTS.STATUS.SUCCESS,
+        data: {},
       });
     });
   }
