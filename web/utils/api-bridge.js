@@ -10,6 +10,15 @@ var defaultHeaders = {
 export class ApiBridge {
   constructor() {
     this.events = new EventManager();
+    this.headers = {};
+  }
+
+  addHeader(name, value) {
+    this.headers[name] = value;
+  }
+
+  removeHeader(name) {
+    delete this.headers[name];
   }
 
   getCustomHeaders() {
@@ -21,6 +30,7 @@ export class ApiBridge {
       document.location.ancestorOrigins && document.location.ancestorOrigins[0];
     return {
       'x-referer': accesstore || url,
+      ...this.headers,
     };
   }
 

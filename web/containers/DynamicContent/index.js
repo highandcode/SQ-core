@@ -355,6 +355,8 @@ class DynamicContent extends Component {
         await this.props.commonActions.showPopupScreen({
           ...action.params,
         });
+      case 'redirect':
+        redirectTo(action.to, action.params, action.options);
         break;
     }
   }
