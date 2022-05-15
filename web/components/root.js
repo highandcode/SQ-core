@@ -14,6 +14,7 @@ import Grid from './Grid';
 import Grouper from './Grouper';
 import * as Icon from './Icon';
 import IconCalendar from './IconCalendar';
+import ImageInfoSlider from './ui/ImageInfoSlider';
 import IconSelector from './IconSelector';
 import LabelValue from './LabelValue';
 import MoreActions from './MoreActions';
