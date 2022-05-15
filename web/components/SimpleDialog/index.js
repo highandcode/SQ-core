@@ -7,10 +7,6 @@ import Icon from '../Icon';
 import './dialog.scss';
 
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
 const IconSets = {
   default: '',
   error: 'erroroutline',

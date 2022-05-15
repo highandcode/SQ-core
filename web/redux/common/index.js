@@ -38,6 +38,7 @@ const common = createSlice({
       state.popup.message = action.payload.message;
       state.popup.title = action.payload.title;
       state.popup.type = action.payload.type;
+      state.popup.severity = action.payload.severity;
     },
     closePopup: (state) => {
       state.popup.show = false;

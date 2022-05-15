@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
+import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import Slide from '@mui/material/Slide';
 import Progress from '../Progress';
 import Icon from '../Icon';
@@ -20,15 +19,14 @@ const IconSets = {
   default: '',
   error: 'erroroutline',
   warning: 'warning',
-  info: 'info'
+  info: 'info',
 };
 const TitleClasses = {
   default: 'default',
   error: 'error',
   warning: 'warning',
-  info: 'info'
+  info: 'info',
 };
-
 
 const SQDialog = ({
   closeButton = true,
@@ -42,9 +40,8 @@ const SQDialog = ({
   severity = 'default',
   actions = [],
   onAction,
-  style = 'default'
 }) => {
-  const customStyle={};
+  const customStyle = {};
   const handleClose = () => {
     onClose && onClose();
   };
@@ -67,7 +64,26 @@ const SQDialog = ({
         aria-labelledby={title}
         aria-describedby={title}
       >
-        <AppBar className={customStyle[customStyle.appBar]}>
+        <DialogTitle>
+          {title}
+          {!customStyle.isBackStyle && closeButton && (
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+              aria-label="close"
+            >
+              <Icon name={'close'} size="large"></Icon>
+            </IconButton>
+          )}
+        </DialogTitle>
+        {/* <AppBar className={customStyle[customStyle.appBar]}>
           <Toolbar>
             {customStyle.isBackStyle && closeButton && (
               <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
@@ -88,7 +104,7 @@ const SQDialog = ({
               </IconButton>
             )}
           </Toolbar>
-        </AppBar>
+        </AppBar> */}
         <DialogContent>
           <div className={`sq-dialog__content-body ${overrideClasses.body}`}>
             {isLoading && (
@@ -102,9 +118,23 @@ const SQDialog = ({
         <DialogActions>
           {actions &&
             actions.map((action, idx) => {
-              const { actionType, buttonText, variant = 'contained', color = 'primary', className = '', ...rest } = action;
+              const {
+                actionType,
+                buttonText,
+                variant = 'contained',
+                color = 'primary',
+                className = '',
+                ...rest
+              } = action;
               return (
-                <Button key={idx} onClick={() => handleAction(action)} variant={variant} size="small" className={className} color={color}>
+                <Button
+                  key={idx}
+                  onClick={() => handleAction(action)}
+                  variant={variant}
+                  size="small"
+                  className={className}
+                  color={color}
+                >
                   {buttonText}
                 </Button>
               );
@@ -122,6 +152,6 @@ SQDialog.propTypes = {
   content: PropTypes.any,
   actions: PropTypes.array,
   onAction: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };
 export default SQDialog;

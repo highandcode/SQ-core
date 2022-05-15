@@ -43,7 +43,6 @@ const SelectField = ({
       });
   };
   const finalOptions = getValue(this, options, row) || [];
-  console.log('@@@@', finalOptions)
   const isValid = _.filter(finalOptions, { [valueField]: value }).length > 0;
   const InputToRender = InputCollection[inputVariant] || InputCollection.outlined;
   return (

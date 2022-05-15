@@ -1,14 +1,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
-import { withStyles } from '@mui/styles';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Icon from '../../Icon';
 import './_button.scss';
-const defaultTheme = createTheme();
 
 const CustomButton = ({
-  classes,
   className = '',
   actionValue,
   buttonText,
@@ -27,9 +23,7 @@ const CustomButton = ({
   const { click } = analytics;
   return (
     <div className={`sq-button ${className} ${size} ${!buttonText && iconName ? 'sq-button--icon-only' : ''}`}>
-      <ThemeProvider theme={defaultTheme}>
         <Button
-       
         onClick={(e) => {
           !disabled && onClick && onClick(e);
           !disabled && click && onAnalytics && onAnalytics(click);
@@ -48,7 +42,6 @@ const CustomButton = ({
         {iconName && iconDirection === 'right' && <Icon name={iconName} size={iconSize || size} variant={iconColor || 'normal'} />}
         {children}
       </Button>
-      </ThemeProvider>
     </div>
   );
 };

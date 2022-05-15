@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-// import { DatePicker } from '@mui/lab';
-// import { TextField } from '@mui/material';
-// import AdapterDateFns from '@mui/lab/AdapterDateFns';
-// import LocalizationProvider from '@mui/lab/LocalizationProvider';
-// import './dateselector.scss';
+import { DatePicker } from '@mui/lab';
+import { TextField } from '@mui/material';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import './dateselector.scss';
 const DateSelector = ({
   value,
   label = '',
   disabled,
   readOnly,
+  helperText,
   inputVariant = 'outlined',
-  format = 'MM/DD/YYYY',
+  format = 'MM/dd/yyyy',
   className = '',
   minDate,
   maxDate,
@@ -53,25 +54,29 @@ const DateSelector = ({
   };
   return (
     <div className={`sq-date-selector ${className}`}>
-      {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker
-          error={error}
-          label={label}
-          format={format}
+          // error={error}
+          // label={label}
+          inputFormat={format}
           disabled={disabled}
           minDate={minDate}
           maxDate={maxDate}
-          readOnly={readOnly}
           value={fieldValue.value || value || null}
-          inputVariant={inputVariant}
           renderInput={(props) => (
-            <TextField label={label} helperText="Something" />
+            <TextField
+              {...props}
+              label={label}
+              variant={inputVariant}
+              readOnly={readOnly}
+              helperText={helperText}
+            />
           )}
           onChange={handleonSelect}
           onFocus={handleOnFocus}
           onBlur={handleOnBlur}
         />
-      </LocalizationProvider> */}
+      </LocalizationProvider>
       {!focus && errorMessage && <div className="sq-error">{errorMessage}</div>}
     </div>
   );
