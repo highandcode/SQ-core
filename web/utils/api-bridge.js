@@ -1,38 +1,58 @@
 import { QueryString } from './query-string';
-import { redirectTo } from './redirect';
 import { messages } from './error-messages';
 import EventManager from './event-manager';
 import { CONSTANTS } from '../globals';
 
 var defaultHeaders = {
-  'Content-Type': 'application/json'
+  'Content-Type': 'application/json',
 };
 
 export class ApiBridge {
   constructor() {
     this.events = new EventManager();
+    this.headers = {};
+  }
+
+  addHeader(name, value) {
+    this.headers[name] = value;
+  }
+
+  removeHeader(name) {
+    delete this.headers[name];
   }
 
   getCustomHeaders() {
-    var url = window.location != window.parent.location ? document.referrer : document.location.href;
-    var accesstore = document.location.ancestorOrigins && document.location.ancestorOrigins[0];
+    var url =
+      window.location != window.parent.location
+        ? document.referrer
+        : document.location.href;
+    var accesstore =
+      document.location.ancestorOrigins && document.location.ancestorOrigins[0];
     return {
-      'x-referer': accesstore || url
+      'x-referer': accesstore || url,
+      ...this.headers,
     };
   }
-  getPrefix() {
-    return window.API_SERVER || '';
+
+  getPrefix(data) {
+    const result = this.events.emit('onPrefix', data);
+    return result || window.API_SERVER || '';
   }
 
   get(url, params, headers = {}) {
-    return fetch(this.getPrefix() + url + new QueryString(params).toString(), {
-      method: 'GET',
-      headers: {
-        ...defaultHeaders,
-        ...this.getCustomHeaders(),
-        ...headers
+    return fetch(
+      this.getPrefix({ url, body: params }) +
+        url +
+        new QueryString(params).toString(),
+      {
+        method: 'GET',
+        headers: {
+          ...defaultHeaders,
+          ...this.getCustomHeaders(),
+          ...headers,
+        },
       }
-    })
+    )
       .then(checkStatus.bind(this))
       .then(parseJSON)
       .then(messageParser)
@@ -40,14 +60,14 @@ export class ApiBridge {
   }
 
   post(url, body, headers = {}) {
-    return fetch(this.getPrefix() + url, {
+    return fetch(this.getPrefix({ url, body }) + url, {
       method: 'POST',
       headers: {
         ...defaultHeaders,
         ...this.getCustomHeaders(),
-        ...headers
+        ...headers,
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
       .then(checkStatus.bind(this))
       .then(parseJSON)
@@ -56,14 +76,14 @@ export class ApiBridge {
   }
 
   update(url, body, headers = {}) {
-    return fetch(this.getPrefix() + url, {
+    return fetch(this.getPrefix({ url, body }) + url, {
       method: 'PUT',
       headers: {
         ...defaultHeaders,
         ...this.getCustomHeaders(),
-        ...headers
+        ...headers,
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
       .then(checkStatus.bind(this))
       .then(parseJSON)
@@ -72,14 +92,14 @@ export class ApiBridge {
   }
 
   delete(url, body, headers = {}) {
-    return fetch(this.getPrefix() + url, {
+    return fetch(this.getPrefix({ url, body }) + url, {
       method: 'DELETE',
       headers: {
         ...defaultHeaders,
         ...this.getCustomHeaders(),
-        ...headers
+        ...headers,
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
       .then(checkStatus.bind(this))
       .then(parseJSON)
@@ -105,19 +125,25 @@ function checkStatus(response) {
       status: CONSTANTS.STATUS.UNNKOWN,
       error: {
         message: 'Unexpected error',
-        key: 'UNEXPECTED_ERROR'
-      }
+        key: 'UNEXPECTED_ERROR',
+      },
+    };
+  } else if (response.status === 404) {
+    return {
+      code: response.status,
+      error: true,
+      status: CONSTANTS.STATUS.UNKNOWN,
+      error: {
+        message: 'Unexpected error',
+        key: 'UNEXPECTED_ERROR',
+      },
     };
   } else {
     return new Promise(function (resolve) {
       resolve({
-        error: true,
         code: response.status,
-        status: CONSTANTS.STATUS.UNNKOWN,
-        error: {
-          message: response.statusText,
-          key: 'UNEXPECTED_ERROR'
-        }
+        status: CONSTANTS.STATUS.SUCCESS,
+        data: {},
       });
     });
   }
@@ -148,7 +174,7 @@ function responseReader(response) {
       this.events.emit('onUnRecognizedError', response);
     default:
       return {
-        ...response
+        ...response,
       };
   }
 }
@@ -157,12 +183,41 @@ function messageParser(response) {
   if (response.error) {
     if (response.error.key && messages.get(response.error.key)) {
       response.error.message = messages.get(response.error.key);
+      response.error.errorMessage = messages.get(response.error.key);
+    }
+    if (response.errors) {
+      Object.keys(response.errors).forEach((errorField) => {
+        if (response.errors[errorField].errors) {
+          messageParser(response.errors[errorField]);
+        }
+        if (
+          response.errors[errorField].key &&
+          messages.get(response.errors[errorField].key)
+        ) {
+          response.errors[errorField].message = messages.get(
+            response.errors[errorField].key
+          );
+          response.errors[errorField].errorMessage = messages.get(
+            response.errors[errorField].key
+          );
+        }
+      });
     }
     if (response.error.errors) {
       Object.keys(response.error.errors).forEach((errorField) => {
-        if (response.error.errors[errorField].key && messages.get(response.error.errors[errorField].key)) {
-          response.error.errors[errorField].message = messages.get(response.error.errors[errorField].key);
-          response.error.errors[errorField].errorMessage = messages.get(response.error.errors[errorField].key);
+        if (response.error.errors[errorField].errors) {
+          messageParser(response.error.errors[errorField]);
+        }
+        if (
+          response.error.errors[errorField].key &&
+          messages.get(response.error.errors[errorField].key)
+        ) {
+          response.error.errors[errorField].message = messages.get(
+            response.error.errors[errorField].key
+          );
+          response.error.errors[errorField].errorMessage = messages.get(
+            response.error.errors[errorField].key
+          );
         }
       });
     }

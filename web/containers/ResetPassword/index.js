@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
@@ -9,8 +8,6 @@ import Form from '../../components/Form';
 import Alert from '../../components/Alert';
 import { CONSTANTS } from '../../globals';
 
-@inject('commonStore', 'userStore')
-@observer
 class ForgotPassword extends Component {
   constructor() {
     super();
@@ -53,7 +50,7 @@ class ForgotPassword extends Component {
       this.validator.setValues(formData);
       if (this.validator.validateAll()) {
         const params = query.get();
-        const resp = await this.props.userStore.changePassword({
+        const resp = await this.props.authActions.changePassword({
           token: params.token,
           password: formData.password
         });

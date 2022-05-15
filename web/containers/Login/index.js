@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
@@ -9,8 +8,6 @@ import Form from '../../components/Form';
 import Alert from '../../components/Alert';
 import { CONSTANTS } from '../../globals';
 
-@inject('commonStore', 'authStore')
-@observer
 class Login extends Component {
   constructor() {
     super();
@@ -42,7 +39,7 @@ class Login extends Component {
     if (action.actionType === 'login') {
       this.validator.setValues(user);
       if (this.validator.validateAll()) {
-        const response = await this.props.authStore.login(user);
+        const response = await this.props.authActions.login(user);
         if (response.status === CONSTANTS.STATUS.SUCCESS) {
           redirectTo('dashboard');
         } else if (response.status === CONSTANTS.STATUS.ERROR) {
@@ -123,7 +120,7 @@ class Login extends Component {
 
 Login.propTypes = {
   commonStore: PropTypes.object,
-  authStore: PropTypes.object,
+  authActions: PropTypes.object,
   store: PropTypes.object
 };
 

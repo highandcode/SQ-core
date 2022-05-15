@@ -10,6 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import './select-field.scss';
 import { translate } from '../../../utils/translate';
 import { getValue } from '../../../utils/properties';
+
 const InputCollection = {
   standard: StandardInput,
   outlined: OutlinedInput

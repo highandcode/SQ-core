@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import BottomNavigation from '../../components/BottomNavigation';
 import { redirectTo } from '../../utils/redirect';
 import browser from '../../utils/browser';
 
-@inject('commonStore', 'authStore')
-@observer
 class MultiView extends Component {
   constructor() {
     super();

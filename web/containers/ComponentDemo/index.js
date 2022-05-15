@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import ReactHtmlParser from 'react-html-parser';
-import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Header from '../../components/ui/Header';
 import LinkButton from '../../components/ui/LinkButton';
 import NavigationList from '../../components/ui/NavigationList';
 import CodeHighlight from '../../components/ui/CodeHighlight';
 // import './_toc-index.scss';
-@inject('commonStore', 'contentStore')
-@observer
 class ComponentDemo extends Component {
   constructor() {
     super();

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { timer } from '../../utils/timer';
 import Progress from '../../components/Progress';
+import Snackbar from '../../components/Snackbar';
 import DefaultContent from '../Content';
 import Default from './Default';
 import LayoutContent from '../LayoutContent';
@@ -12,10 +13,32 @@ import TocIndex from '../TocIndex';
 import ComponentDemo from '../ComponentDemo';
 import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
+import {
+  fetchContentPage,
+  postApi,
+  updateUserData,
+  mergeUserData,
+  updateErrorData,
+  resetUserData,
+  customHooks,
+  sendContact,
+} from '../../redux/content';
+
+import {
+  startLoading,
+  showNotificationMessage,
+  closeNotification,
+  stopLoading,
+  showPopupScreen,
+  showPopup,
+  setError,
+  clearError,
+} from '../../redux/common';
 
 import './_dynamic-content.scss';
 
 const _window = window;
+
 let containers = {
   Default,
   LayoutContent,
@@ -32,8 +55,6 @@ export const registerContainers = (newContainers) => {
   };
 };
 
-@inject('commonStore', 'contentStore')
-@observer
 class DynamicContent extends Component {
   constructor() {
     super();
@@ -88,17 +109,31 @@ class DynamicContent extends Component {
     if (hook) {
       if (Array.isArray(hook)) {
         hook.forEach((item) => {
-          arr.push(this.props.contentStore.postApi(item));
+          arr.push(this.postApi(item));
         });
       } else {
-        arr.push(this.props.contentStore.postApi(hook));
+        arr.push(this.postApi(hook));
       }
     }
     return Promise.all(arr);
   }
 
+  checkAndPostApi(data) {
+    if (Array.isArray(data)) {
+      data.forEach((item) => {
+        this.postApi(item);
+      });
+    } else {
+      this.postApi(data);
+    }
+  }
+
+  postApi(data) {
+    return this.props.contentActions.postApi(data);
+  }
+
   async fetchPage(firstTime) {
-    const { location = {}, onAnalytics, transitionSpeed = 300 } = this.props;
+    const { onAnalytics, transitionSpeed = 300 } = this.props;
     if (!firstTime) {
       this.setState({
         isOut: true,
@@ -110,12 +145,20 @@ class DynamicContent extends Component {
         isLoading: true,
       });
     }, 300);
-    const pageResponse = await this.props.contentStore.getPage(this.state.url);
-    this.props.contentStore.updateUserData(pageResponse.metaData.userData);
-    this.props.contentStore.mergeUserData(pageResponse.pageData.merge);
-
+    const resp = await this.props.contentActions
+      .fetchContentPage(this.state.url)
+      .unwrap();
+    const pageResponse = resp.data;
+    if (pageResponse.pageData.reset) {
+      await this.props.contentActions.resetUserData(pageResponse.pageData.reset);
+    }
+    await this.props.contentActions.updateUserData(
+      pageResponse.metaData?.userData
+    );
+    await this.props.contentActions.updateUserData(pageResponse.pageData.init);
+    await this.props.contentActions.mergeUserData(pageResponse.pageData.merge);
     await this.processHook(pageResponse.pageData.hook?.load);
-    this.props.contentStore.mergeUserData(pageResponse.pageData.merge);
+    await this.props.contentActions.mergeUserData(pageResponse.pageData.merge);
     window.clearTimeout(interval);
     const { analytics = {} } = pageResponse;
     this.setState({
@@ -155,7 +198,7 @@ class DynamicContent extends Component {
   }
 
   getUpdatedUserData() {
-    const { userData } = this.props.contentStore;
+    const { userData } = this.props.store.content;
     return {
       ...userData,
     };
@@ -179,16 +222,16 @@ class DynamicContent extends Component {
       validations.validate(field.name);
       let errors;
 
-      this.props.contentStore.updateUserData({
+      this.props.contentActions.updateUserData({
         [block.name + '_errors']: {
-          ...this.props.contentStore.userData[block.name + '_errors'],
+          ...this.props.store.content.userData[block.name + '_errors'],
           ...validations.errors,
         },
       });
     }
 
-    this.props.contentStore.updateUserData(obj);
-    this.props.contentStore.mergeUserData(this.state.pageData.pageData.merge);
+    this.props.contentActions.updateUserData(obj);
+    this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
   }
 
   hasMatchingGroup(form, group) {
@@ -212,6 +255,7 @@ class DynamicContent extends Component {
     });
     return isValid;
   }
+
   validateForm(block) {
     let validators = {};
     block.fields?.forEach((item) => {
@@ -233,9 +277,9 @@ class DynamicContent extends Component {
     const validObj = new Validator(validators);
     validObj.setValues(this.getUpdatedUserData()[block.name]);
     const isValid = validObj.validateAll();
-    this.props.contentStore.updateUserData({
+    this.props.contentActions.updateUserData({
       [block.name + '_errors']: {
-        ...this.props.contentStore.userData[block.name + '_errors'],
+        ...this.props.store.content.userData[block.name + '_errors'],
         ...validObj.errors,
       },
     });
@@ -246,29 +290,30 @@ class DynamicContent extends Component {
     let isValid;
     switch (action.actionType) {
       case 'api':
-        this.props.contentStore.updateUserData({
+        await this.props.contentActions.updateUserData({
           isSubmitting: true,
         });
-        const result = await this.props.contentStore.postApi(action);
-        this.props.contentStore.mergeUserData(
+        const result = await this.props.contentActions.postApi(action);
+        await this.props.contentActions.mergeUserData(
           this.state.pageData.pageData.merge
         );
-        this.props.contentStore.updateUserData({
+        await this.props.contentActions.updateUserData({
           isSubmitting: false,
         });
+        this.checkForInlineErrors(result);
         this.validateResults(result);
         break;
       case 'submit-form':
         isValid = this.validateForm(block);
         if (isValid) {
-          this.props.contentStore.updateUserData({
+          await this.props.contentActions.updateUserData({
             isSubmitting: true,
           });
-          const result = await this.props.contentStore.postApi(action);
-          this.props.contentStore.mergeUserData(
+          const result = await this.props.contentActions.postApi(action);
+          await this.props.contentActions.mergeUserData(
             this.state.pageData.pageData.merge
           );
-          this.props.contentStore.updateUserData({
+          await this.props.contentActions.updateUserData({
             isSubmitting: false,
           });
           this.checkForInlineErrors(result);
@@ -278,19 +323,40 @@ class DynamicContent extends Component {
       case 'submit':
         isValid = this.validateForms(block.forms, action.validateGroup);
         if (isValid) {
-          this.props.contentStore.updateUserData({
+          await this.props.contentActions.updateUserData({
             isSubmitting: true,
           });
-          const result = await this.props.contentStore.postApi(action);
-          this.props.contentStore.mergeUserData(
+          const result = await this.props.contentActions.postApi(action);
+          await this.props.contentActions.mergeUserData(
             this.state.pageData.pageData.merge
           );
-          this.props.contentStore.updateUserData({
+          await this.props.contentActions.updateUserData({
             isSubmitting: false,
           });
-          this.validateResults(result);
           this.checkForInlineErrors(result);
+          this.validateResults(result);
         }
+      case 'user-store':
+        await this.props.contentActions.mergeUserData({
+          ...action.params,
+        });
+        break;
+      case 'notify-message':
+        await this.props.commonActions.showNotificationMessage({
+          ...action.params,
+        });
+        break;
+      case 'popup':
+        await this.props.commonActions.showPopup({
+          ...action.params,
+        });
+        break;
+      case 'popup-screen':
+        await this.props.commonActions.showPopupScreen({
+          ...action.params,
+        });
+      case 'redirect':
+        redirectTo(action.to, action.params, action.options);
         break;
     }
   }
@@ -299,11 +365,11 @@ class DynamicContent extends Component {
     if (result.error?.errors) {
       Object.keys(result.error.errors).forEach((errorKey) => {
         if (result.error.errors[errorKey].errors) {
-          this.props.contentStore.updateUserData({
+          this.props.contentActions.updateUserData({
             [`${errorKey}_errors`]: result.error.errors[errorKey].errors,
           });
         } else if (result.error.errors[errorKey].error) {
-          this.props.contentStore.updateUserData({
+          this.props.contentActions.updateUserData({
             [`${errorKey}_errors`]: result.error.errors[errorKey],
           });
         }
@@ -312,17 +378,18 @@ class DynamicContent extends Component {
   }
 
   validateResults(result) {
-    if (result.data?.redirect) {
+    if (result && result.data?.redirect) {
       redirectTo(result.data?.redirect);
     }
-    if (result.error?.redirect) {
+    if (result && result.error?.redirect) {
       redirectTo(result.error?.redirect);
     }
   }
+
   render() {
     const { containerTemplate: overrideContainerTemplate, ...allProps } =
       this.props;
-    const { dataPacket } = allProps;
+    const { dataPacket, store } = allProps;
     const { pageData = {}, metaData } = this.state.pageData;
     const {
       container,
@@ -349,12 +416,24 @@ class DynamicContent extends Component {
       ? `transition transition-page--${loading}`
       : '';
     const userData = {
-      ...this.props.contentStore.userData,
+      ...this.props.store.content.userData,
       ...dataPacket,
       contentPage: true,
     };
     return (
       <div className={`dynamic-content row ${rootClassName} ${loadingState}`}>
+        <Snackbar
+          open={store.common.notification.show}
+          message={store.common.notification.message}
+          autoHideDuration={null}
+          onClose={(evt, reason) => {
+            if (reason !== 'clickaway') {
+              this.props.commonActions.closeNotification()
+              return;
+            }
+          }}    
+          severity={store.common.notification.type}
+        />
         <ContentContainer
           {...allProps}
           pageData={pageData}
@@ -388,7 +467,46 @@ class DynamicContent extends Component {
 
 DynamicContent.propTypes = {
   commonStore: PropTypes.object,
-  contentStore: PropTypes.object,
+  contentActions: PropTypes.object,
 };
 
-export default DynamicContent;
+export { DynamicContent, customHooks };
+
+const mapStateToProps = (state) => {
+  return {
+    store: {
+      common: state.common,
+      content: state.content,
+      auth: state.auth,
+    },
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    contentActions: {
+      postApi: (data) => dispatch(postApi(data)),
+      fetchContentPage: (data) => dispatch(fetchContentPage(data)),
+      resetUserData: (data) => dispatch(resetUserData(data)),
+      updateUserData: (data) => dispatch(updateUserData(data)),
+      mergeUserData: (data) => dispatch(mergeUserData(data)),
+      sendContact: (data) => dispatch(sendContact(data)),
+      updateErrorData: (data) => dispatch(updateErrorData(data)),
+    },
+    commonActions: {
+      showNotificationMessage: (data) =>
+        dispatch(showNotificationMessage(data)),
+      closeNotification: (data) => dispatch(closeNotification(data)),
+      startLoading: (data) => dispatch(startLoading(data)),
+      closePopup: (data) => dispatch(closePopup(data)),
+      showPopup: (data) => dispatch(showPopup(data)),
+      stopLoading: (data) => dispatch(stopLoading(data)),
+      setError: (data) => dispatch(setError(data)),
+      clearError: (data) => dispatch(clearError(data)),
+      showPopupScreen: (data) => dispatch(showPopupScreen(data)),
+    },
+    raiseAction: dispatch,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DynamicContent);

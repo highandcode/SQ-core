@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
 import Form from '../../components/Form';
 import PropTypes from 'prop-types';
 import Link from '../../components/ui/Link';
@@ -7,8 +6,6 @@ import { Validator } from '../../utils/validator';
 import { redirectTo } from '../../utils/redirect';
 import { translate } from '../../utils/translate';
 
-@inject('commonStore', 'userStore')
-@observer
 class Register extends Component {
   constructor() {
     super();
@@ -45,7 +42,7 @@ class Register extends Component {
   async onRegisterClick(user, action) {
     this.validator.setValues(user);
     if (this.validator.validateAll()) {
-      const response = await this.props.userStore.registerUser(user);
+      const response = await this.props.authActions.registerUser(user);
       if (response.status == 'success') {
         redirectTo('successregister');
       } else if (response.error) {
@@ -116,8 +113,7 @@ class Register extends Component {
 }
 
 Register.propTypes = {
-  commonStore: PropTypes.object,
-  userStore: PropTypes.object,
+  authActions: PropTypes.object,
   store: PropTypes.object
 };
 

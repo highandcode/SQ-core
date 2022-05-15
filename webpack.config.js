@@ -4,24 +4,40 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: {
-    server: ['@babel/polyfill', `./server/index.js`],
-    vanillajs: ['@babel/polyfill', `./vanillajs/index.js`],
-    cms: ['@babel/polyfill', `./cms/index.js`],
-    'scripts/index': ['@babel/polyfill', `./scripts/index.js`],
-    'scripts/build': ['@babel/polyfill', `./scripts/build.js`]
+    server: [
+      'regenerator-runtime/runtime',
+      'core-js/stable',
+      `./server/index.js`,
+    ],
+    vanillajs: [
+      'regenerator-runtime/runtime',
+      'core-js/stable',
+      `./vanillajs/index.js`,
+    ],
+    cms: ['regenerator-runtime/runtime', 'core-js/stable', `./cms/index.js`],
+    'scripts/index': [
+      'regenerator-runtime/runtime',
+      'core-js/stable',
+      `./scripts/index.js`,
+    ],
+    'scripts/build': [
+      'regenerator-runtime/runtime',
+      'core-js/stable',
+      `./scripts/build.js`,
+    ],
   },
   target: 'node',
   mode: 'production',
   output: {
     path: `${paths.dist}`,
     filename: `[name].js`,
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
   },
-  externals: [nodeExternals({
-    allowlist:[
-      '@babel/polyfill'
-    ]
-  })],
+  externals: [
+    nodeExternals({
+      allowlist: ['regenerator-runtime/runtime', 'core-js/stable'],
+    }),
+  ],
   module: {
     rules: [
       {
@@ -30,15 +46,15 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env']
-          }
-        }
+            presets: ['@babel/preset-env'],
+          },
+        },
       },
       {
         test: /\.(txt|html)$/i,
-        use: 'raw-loader'
-      }
-    ]
+        use: 'raw-loader',
+      },
+    ],
   },
-  plugins: []
+  plugins: [],
 };
