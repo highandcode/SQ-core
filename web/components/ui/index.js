@@ -7,6 +7,7 @@ import Input from './InputField';
 import Link from './Link';
 import Text from './Text';
 import LinkBlock from './LinkBlock';
+import LinkButtonList from './LinkButtonList';
 import Select from './SelectField';
 import Label from './Label';
 import Switch from './Switch';
@@ -26,7 +27,10 @@ import Radio from './Radio';
 import RichText from './RichText';
 import TextFields from './TextFields';
 import ProgressIndicator from './ProgressIndicator';
+import Image from './Image';
 import ImageInfoSlider from './ImageInfoSlider';
+import ImageOnDevice from './ImageOnDevice';
+import ImageWithSlide from './ImageWithSlide';
 import Separator from './Separator';
 import Autocomplete from './Autocomplete';
 import DataList from '../DataList';
@@ -56,6 +60,9 @@ let comps = {
   Select,
   Autocomplete,
   DataList,
+  ImageOnDevice,
+  ImageWithSlide,
+  Image,
   SelectPopup,
   LinkBlock,
   DatePicker,
@@ -65,6 +72,7 @@ let comps = {
   RichText,
   ProgressIndicator,
   Separator,
+  LinkButtonList,
   ReCaptcha,
   ImageInfoSlider,
   IconCalendar,
