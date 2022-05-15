@@ -43,7 +43,7 @@ import Footer from './ui/Footer';
 import GlobalNavigation from './ui/GlobalNavigation';
 import Header from './ui/Header';
 import HeroContent from './ui/HeroContent';
-import ImageInfoSlider from './ui/ImageInfoSlider';
+import Image from './ui/Image';
 import ImageOnDevice from './ui/ImageOnDevice';
 import ImageWithSlide from './ui/ImageWithSlide';
 import ImageWithSlideList from './ui/ImageWithSlideList';
@@ -83,6 +83,7 @@ export {
   CardButtonList,
   Chart,
   DataList,
+  Image,
   Dialog,
   ErrorBoundry,
   FloatingActionButton,
