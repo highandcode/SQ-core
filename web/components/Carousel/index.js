@@ -28,18 +28,13 @@ const FullCarousel = ({
   animation = 'fade',
 }) => {
   interval = interval * 1;
-  const [now, setNow] = useState();
   const TemplateToRender = templates[template] || templates.default;
-  const handleChange = (now) => {
-    setNow(now);
-  };
   return (
     <div className={`sq-carousel ${className} sq-carousel--${template}`}>
       <Carousel
         indicatorContainerProps={{
           className: 'sq-carousel__indicator-container',
         }}
-        onChange={handleChange}
         className={carouselClassName}
         interval={interval}
         navButtonsAlwaysVisible={navButtonsAlwaysVisible}
@@ -48,7 +43,7 @@ const FullCarousel = ({
       >
         {items.map((item, i) => (
           <div
-            key={now !== undefined && i === now ? i + Math.random() : i}
+            key={i}
             className="sq-carousel__item"
           >
             <TemplateToRender data={item} />
