@@ -94,21 +94,21 @@ import {
   Cancel,
   FolderShared,
   Share,
-  GroupWork
+  GroupWork,
+  CalendarMonth,
+  ExitToApp,
+  Notifications,
+  SettingsApplications,
+  Article,
+  Info as InfoIcon,
+  WarningAmber as WarningIcon,
+  ErrorOutline as ErrorIcon,
+  Logout as LogoutIcon,
+  Dashboard as DashboardIcon,
+  Help as HelpIcon,
+  Person as User
 } from '@mui/icons-material';
 
-import { ReactComponent as NotificationIcon } from '../../assets/svg/notification.svg';
-import { ReactComponent as SettingsIcon } from '../../assets/svg/settings-gears.svg';
-import { ReactComponent as NoIcon } from '../../assets/svg/file-1.svg';
-import { ReactComponent as InfoIcon } from '../../assets/svg/icons8-info.svg';
-import { ReactComponent as WarningIcon } from '../../assets/svg/warning.svg';
-import { ReactComponent as ErrorIcon } from '../../assets/svg/error.svg';
-import { ReactComponent as ExitIcon } from '../../assets/svg/exit-1.svg';
-import { ReactComponent as LogoutIcon } from '../../assets/svg/logout.svg';
-import { ReactComponent as DashboardIcon } from '../../assets/svg/dashboard.svg';
-import { ReactComponent as HelpIcon } from '../../assets/svg/question-mark.svg';
-import { ReactComponent as Calendar } from '../../assets/svg/calendar.svg';
-import { ReactComponent as User } from '../../assets/svg/user.svg';
 
 import { getValue } from '../../utils/properties';
 import './icon.scss';
@@ -116,7 +116,7 @@ import './icon.scss';
 const types = {
   app: {},
   system: {
-    NoIcon: NoIcon,
+    NoIcon: Article,
     expand: ExpandMore,
     collapse: ExpandLess,
     close: HighlightOff,
@@ -132,13 +132,13 @@ const types = {
     clear: Clear,
     person: Person,
     warning: WarningIcon,
-    exit: ExitIcon,
+    exit: ExitToApp,
     logout: LogoutIcon,
     error: ErrorIcon,
     more: MoreVertIcon,
     share: Share,
     erroroutline: ErrorOutline,
-    calendar: Calendar,
+    calendar: CalendarMonth,
     'arrow-up': KeyboardArrowUp,
     check: Check,
     'arrow-down': KeyboardArrowDown,
@@ -196,11 +196,11 @@ const types = {
     hospital: LocalHospital,
     groceries: LocalGroceryStore,
     food: LocalDIning,
-    notification: NotificationIcon,
+    notification: Notifications,
     download: Download,
     dashboard: DashboardIcon,
     help: HelpIcon,
-    settings: SettingsIcon,
+    settings: SettingsApplications,
     user: User,
     list: ListIcon,
     add: Add,
@@ -230,15 +230,17 @@ const types = {
   }
 };
 
-const Icon = ({ className = '', img, textIcon, name, variant = 'default', size = 'normal', iconClass = '', row, svg, onClick }) => {
-  const list = {
+const list = ()=> {
+  return {
     ...types.basic,
     ...types.system,
     ...types.app
-  };
+  }
+};
+const Icon = ({ className = '', img, textIcon, name, variant = 'default', size = 'normal', iconClass = '', row, svg, onClick }) => {
   const finalName = getValue(this, name, row);
   const finalIconClass = getValue(this, iconClass, row);
-  const IconToRender = list[finalName] || (textIcon ? undefined : !img ? list.NoIcon : undefined);
+  const IconToRender = list()[finalName] || (textIcon ? undefined : !img ? list.NoIcon : undefined);
   return (
     <div
       className={`sq-icon ${finalIconClass} ${!finalName && textIcon ? 'sq-icon--text-icon' : ''} sq-icon--${
@@ -269,7 +271,7 @@ Icon.propTypes = {
 export default Icon;
 
 export const getIconList = (name) => {
-  return types[name] || list;
+  return types[name] || list();
 };
 
 export const registerIcon = (name, icon, group = 'app') => {
