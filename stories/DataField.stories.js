@@ -21,7 +21,7 @@ DataFieldLongText.args = {
   value: 'Name Your Home Name Your Home Name Your Home'
 };
 
-export const DataFieldLarge = Template.bind({});
-DataFieldLarge.args = {
+export const DataFieldWithoutData = Template.bind({});
+DataFieldWithoutData.args = {
   label: 'Test'
 };

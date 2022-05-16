@@ -12,7 +12,7 @@ const CustomButton = ({
   iconSize,
   iconColor = '',
   iconDirection = 'left',
-  size = 'normal',
+  size = 'medium',
   onClick,
   analytics = {},
   onAnalytics,
@@ -28,6 +28,7 @@ const CustomButton = ({
           !disabled && onClick && onClick(e);
           !disabled && click && onAnalytics && onAnalytics(click);
         }}
+        size={size}
         href={href}
         variant={variant}
         disableFocusRipple={disableFocusRipple}
