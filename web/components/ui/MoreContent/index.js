@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
-import Popover from '@material-ui/core/Popover';
-import Box from '@material-ui/core/Box';
+import Popover from '@mui/material/Popover';
+import Box from '@mui/material/Box';
 import Link from '../Link';
 
 import './more-content.scss';

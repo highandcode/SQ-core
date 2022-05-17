@@ -1,24 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import Slide from '@material-ui/core/Slide';
-import { makeStyles } from '@material-ui/core/styles';
+import Button from '@mui/material/Button';
+import Slide from '@mui/material/Slide';
 import Progress from '../Progress';
 import Icon from '../Icon';
 import './dialog.scss';
 
-const useStyles = makeStyles((theme) => ({
-  titleLeft: {
-    flexGrow: 1
-  },
-  appBar: {
-    position: 'relative'
-  }
-}));
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 const IconSets = {
   default: '',

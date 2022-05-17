@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Fab from '@material-ui/core/Fab';
-import { makeStyles } from '@material-ui/core/styles';
+import Fab from '@mui/material/Fab';
+import { makeStyles } from '@mui/material/styles';
 import Icon from '../Icon';
 import { getValue } from '../../utils/properties';
 

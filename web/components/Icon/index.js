@@ -1,75 +1,75 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ListIcon from '@material-ui/icons/List';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import HighlightOff from '@material-ui/icons/HighlightOff';
-import Add from '@material-ui/icons/Add';
-import PlayCircleFilled from '@material-ui/icons/PlayCircleFilled';
-import PlayArrow from '@material-ui/icons/PlayArrow';
-import VideogameAsset from '@material-ui/icons/VideogameAsset';
-import MonetizationOn from '@material-ui/icons/MonetizationOn';
-import Money from '@material-ui/icons/AttachMoney';
-import PersonAdd from '@material-ui/icons/PersonAdd';
-import Person from '@material-ui/icons/Person';
-import Clear from '@material-ui/icons/Clear';
-import Message from '@material-ui/icons/Message';
-import Receipt from '@material-ui/icons/Receipt';
-import Login from '@material-ui/icons/Lock';
-import Loan from '@material-ui/icons/Money';
-import Download from '@material-ui/icons/GetApp';
-import HomeIcon from '@material-ui/icons/Home';
-import BarChart from '@material-ui/icons/BarChart';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
-import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
-import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
-import AccountBalance from '@material-ui/icons/AccountBalance';
-import MailIcon from '@material-ui/icons/Mail';
-import TheatreIcon from '@material-ui/icons/Theaters';
-import LocalDIning from '@material-ui/icons/LocalDining';
-import LocalGroceryStore from '@material-ui/icons/LocalGroceryStore';
-import Commute from '@material-ui/icons/Commute';
-import OfflineBolt from '@material-ui/icons/OfflineBolt';
-import LocalMall from '@material-ui/icons/LocalMall';
-import VerifiedUser from '@material-ui/icons/VerifiedUser';
-import ErrorOutline from '@material-ui/icons/ErrorOutline';
-import LocalHospital from '@material-ui/icons/LocalHospital';
-import LocalTaxi from '@material-ui/icons/LocalTaxi';
-import Policy from '@material-ui/icons/EnhancedEncryption';
-import AirplanemodeActive from '@material-ui/icons/AirplanemodeActive';
-import AirportShuttle from '@material-ui/icons/AirportShuttle';
-import AllInclusive from '@material-ui/icons/AllInclusive';
-import Room from '@material-ui/icons/Room';
-import AttachFile from '@material-ui/icons/AttachFile';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
-import Autorenew from '@material-ui/icons/Autorenew';
-import BeachAccess from '@material-ui/icons/BeachAccess';
-import Call from '@material-ui/icons/Call';
-import CameraAlt from '@material-ui/icons/CameraAlt';
-import CardGiftcard from '@material-ui/icons/CardGiftcard';
-import KingBed from '@material-ui/icons/CardGiftcard';
-import Code from '@material-ui/icons/Code';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ShoppingCart from '@material-ui/icons/ShoppingCart';
-import People from '@material-ui/icons/People';
-import TrackChanges from '@material-ui/icons/TrackChanges';
-import Star from '@material-ui/icons/Star';
-import Theaters from '@material-ui/icons/Theaters';
-import Facebook from '@material-ui/icons/Facebook';
-import Twitter from '@material-ui/icons/Twitter';
-import TwoWheeler from '@material-ui/icons/TwoWheeler';
-import RssFeed from '@material-ui/icons/RssFeed';
-import CenterFocusWeak from '@material-ui/icons/CenterFocusWeak';
-import NetworkWifi from '@material-ui/icons/NetworkWifi';
-import Wifi from '@material-ui/icons/Wifi';
-import LinkedIn from '@material-ui/icons/LinkedIn';
-import Link from '@material-ui/icons/Link';
-import Check from '@material-ui/icons/Check';
-import Instagram from '@material-ui/icons/Instagram';
-import Adjust from '@material-ui/icons/Adjust';
-import CheckCircle from '@material-ui/icons/CheckCircle';
+import ListIcon from '@mui/icons-material/List';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import HighlightOff from '@mui/icons-material/HighlightOff';
+import Add from '@mui/icons-material/Add';
+import PlayCircleFilled from '@mui/icons-material/PlayCircleFilled';
+import PlayArrow from '@mui/icons-material/PlayArrow';
+import VideogameAsset from '@mui/icons-material/VideogameAsset';
+import MonetizationOn from '@mui/icons-material/MonetizationOn';
+import Money from '@mui/icons-material/AttachMoney';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Person from '@mui/icons-material/Person';
+import Clear from '@mui/icons-material/Clear';
+import Message from '@mui/icons-material/Message';
+import Receipt from '@mui/icons-material/Receipt';
+import Login from '@mui/icons-material/Lock';
+import Loan from '@mui/icons-material/Money';
+import Download from '@mui/icons-material/GetApp';
+import HomeIcon from '@mui/icons-material/Home';
+import BarChart from '@mui/icons-material/BarChart';
+import ChevronLeft from '@mui/icons-material/ChevronLeft';
+import ChevronRight from '@mui/icons-material/ChevronRight';
+import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import AccountBalance from '@mui/icons-material/AccountBalance';
+import MailIcon from '@mui/icons-material/Mail';
+import TheatreIcon from '@mui/icons-material/Theaters';
+import LocalDIning from '@mui/icons-material/LocalDining';
+import LocalGroceryStore from '@mui/icons-material/LocalGroceryStore';
+import Commute from '@mui/icons-material/Commute';
+import OfflineBolt from '@mui/icons-material/OfflineBolt';
+import LocalMall from '@mui/icons-material/LocalMall';
+import VerifiedUser from '@mui/icons-material/VerifiedUser';
+import ErrorOutline from '@mui/icons-material/ErrorOutline';
+import LocalHospital from '@mui/icons-material/LocalHospital';
+import LocalTaxi from '@mui/icons-material/LocalTaxi';
+import Policy from '@mui/icons-material/EnhancedEncryption';
+import AirplanemodeActive from '@mui/icons-material/AirplanemodeActive';
+import AirportShuttle from '@mui/icons-material/AirportShuttle';
+import AllInclusive from '@mui/icons-material/AllInclusive';
+import Room from '@mui/icons-material/Room';
+import AttachFile from '@mui/icons-material/AttachFile';
+import AssignmentTurnedIn from '@mui/icons-material/AssignmentTurnedIn';
+import Autorenew from '@mui/icons-material/Autorenew';
+import BeachAccess from '@mui/icons-material/BeachAccess';
+import Call from '@mui/icons-material/Call';
+import CameraAlt from '@mui/icons-material/CameraAlt';
+import CardGiftcard from '@mui/icons-material/CardGiftcard';
+import KingBed from '@mui/icons-material/CardGiftcard';
+import Code from '@mui/icons-material/Code';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ShoppingCart from '@mui/icons-material/ShoppingCart';
+import People from '@mui/icons-material/People';
+import TrackChanges from '@mui/icons-material/TrackChanges';
+import Star from '@mui/icons-material/Star';
+import Theaters from '@mui/icons-material/Theaters';
+import Facebook from '@mui/icons-material/Facebook';
+import Twitter from '@mui/icons-material/Twitter';
+import TwoWheeler from '@mui/icons-material/TwoWheeler';
+import RssFeed from '@mui/icons-material/RssFeed';
+import CenterFocusWeak from '@mui/icons-material/CenterFocusWeak';
+import NetworkWifi from '@mui/icons-material/NetworkWifi';
+import Wifi from '@mui/icons-material/Wifi';
+import LinkedIn from '@mui/icons-material/LinkedIn';
+import Link from '@mui/icons-material/Link';
+import Check from '@mui/icons-material/Check';
+import Instagram from '@mui/icons-material/Instagram';
+import Adjust from '@mui/icons-material/Adjust';
+import CheckCircle from '@mui/icons-material/CheckCircle';
 import {
   Email,
   MailOutline,
@@ -94,21 +94,21 @@ import {
   Cancel,
   FolderShared,
   Share,
-  GroupWork
-} from '@material-ui/icons';
+  GroupWork,
+  CalendarMonth,
+  ExitToApp,
+  Notifications,
+  SettingsApplications,
+  Article,
+  Info as InfoIcon,
+  WarningAmber as WarningIcon,
+  ErrorOutline as ErrorIcon,
+  Logout as LogoutIcon,
+  Dashboard as DashboardIcon,
+  Help as HelpIcon,
+  Person as User
+} from '@mui/icons-material';
 
-import { ReactComponent as NotificationIcon } from '../../assets/svg/notification.svg';
-import { ReactComponent as SettingsIcon } from '../../assets/svg/settings-gears.svg';
-import { ReactComponent as NoIcon } from '../../assets/svg/file-1.svg';
-import { ReactComponent as InfoIcon } from '../../assets/svg/icons8-info.svg';
-import { ReactComponent as WarningIcon } from '../../assets/svg/warning.svg';
-import { ReactComponent as ErrorIcon } from '../../assets/svg/error.svg';
-import { ReactComponent as ExitIcon } from '../../assets/svg/exit-1.svg';
-import { ReactComponent as LogoutIcon } from '../../assets/svg/logout.svg';
-import { ReactComponent as DashboardIcon } from '../../assets/svg/dashboard.svg';
-import { ReactComponent as HelpIcon } from '../../assets/svg/question-mark.svg';
-import { ReactComponent as Calendar } from '../../assets/svg/calendar.svg';
-import { ReactComponent as User } from '../../assets/svg/user.svg';
 
 import { getValue } from '../../utils/properties';
 import './icon.scss';
@@ -116,7 +116,7 @@ import './icon.scss';
 const types = {
   app: {},
   system: {
-    NoIcon: NoIcon,
+    NoIcon: Article,
     expand: ExpandMore,
     collapse: ExpandLess,
     close: HighlightOff,
@@ -132,13 +132,13 @@ const types = {
     clear: Clear,
     person: Person,
     warning: WarningIcon,
-    exit: ExitIcon,
+    exit: ExitToApp,
     logout: LogoutIcon,
     error: ErrorIcon,
     more: MoreVertIcon,
     share: Share,
     erroroutline: ErrorOutline,
-    calendar: Calendar,
+    calendar: CalendarMonth,
     'arrow-up': KeyboardArrowUp,
     check: Check,
     'arrow-down': KeyboardArrowDown,
@@ -196,11 +196,11 @@ const types = {
     hospital: LocalHospital,
     groceries: LocalGroceryStore,
     food: LocalDIning,
-    notification: NotificationIcon,
+    notification: Notifications,
     download: Download,
     dashboard: DashboardIcon,
     help: HelpIcon,
-    settings: SettingsIcon,
+    settings: SettingsApplications,
     user: User,
     list: ListIcon,
     add: Add,
@@ -230,15 +230,17 @@ const types = {
   }
 };
 
-const Icon = ({ className = '', img, textIcon, name, variant = 'default', size = 'normal', iconClass = '', row, svg, onClick }) => {
-  const list = {
+const list = ()=> {
+  return {
     ...types.basic,
     ...types.system,
     ...types.app
-  };
+  }
+};
+const Icon = ({ className = '', img, textIcon, name, variant = 'default', size = 'normal', iconClass = '', row, svg, onClick }) => {
   const finalName = getValue(this, name, row);
   const finalIconClass = getValue(this, iconClass, row);
-  const IconToRender = list[finalName] || (textIcon ? undefined : !img ? list.NoIcon : undefined);
+  const IconToRender = list()[finalName] || (textIcon ? undefined : !img ? list.NoIcon : undefined);
   return (
     <div
       className={`sq-icon ${finalIconClass} ${!finalName && textIcon ? 'sq-icon--text-icon' : ''} sq-icon--${
@@ -269,7 +271,7 @@ Icon.propTypes = {
 export default Icon;
 
 export const getIconList = (name) => {
-  return types[name] || list;
+  return types[name] || list();
 };
 
 export const registerIcon = (name, icon, group = 'app') => {
