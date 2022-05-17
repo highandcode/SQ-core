@@ -1,12 +1,12 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import StandardInput from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import StandardInput from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 import './select-field.scss';
 import { translate } from '../../../utils/translate';
 import { getValue } from '../../../utils/properties';
@@ -42,15 +42,15 @@ const SelectField = ({
         options
       });
   };
-  const finalOptions = getValue(this, options, row);
+  const finalOptions = getValue(this, options, row) || [];
   const isValid = _.filter(finalOptions, { [valueField]: value }).length > 0;
   const InputToRender = InputCollection[inputVariant] || InputCollection.outlined;
   return (
     <div className={`sq-select-field ${className}`}>
       <FormControl variant={inputVariant} fullWidth={true} className="sq-select-field-form-wrap">
         {label && <InputLabel htmlFor={name}>{label}</InputLabel>}
-        <Select id={name} className="sq-select-field__input" value={isValid ? value : ''} onChange={handleChange} input={<InputToRender label={label} />} {...rest}>
-          {defaultText && <MenuItem value={defaultValue}>{translate(defaultText)}</MenuItem>}
+        <Select id={name} className="sq-select-field__input" value={isValid ? value : undefined} onChange={handleChange} input={<InputToRender label={label} />} {...rest}>
+          {!!defaultText && <MenuItem value={defaultValue}>{translate(defaultText)}</MenuItem>}
           {finalOptions && finalOptions.map((option, key) => {
             return (
               <MenuItem key={key} value={option[valueField]}>

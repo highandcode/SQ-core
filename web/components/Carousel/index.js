@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Carousel from 'react-material-ui-carousel';
 
@@ -8,13 +8,13 @@ import './carousel.scss';
 
 let templates = {
   default: DefaultTemplate,
-  'full-bg': FullBgTemplate
+  'full-bg': FullBgTemplate,
 };
 
 const addTemplate = (newTemplates) => {
   templates = {
     ...templates,
-    ...newTemplates
+    ...newTemplates,
   };
 };
 
@@ -22,10 +22,10 @@ const FullCarousel = ({
   carouselClassName = '',
   className = '',
   items = [],
-  interval = 4000,
+  interval = 5000,
   navButtonsAlwaysVisible = true,
   template = 'default',
-  animation = 'fade'
+  animation = 'fade',
 }) => {
   interval = interval * 1;
   const TemplateToRender = templates[template] || templates.default;
@@ -33,7 +33,7 @@ const FullCarousel = ({
     <div className={`sq-carousel ${className} sq-carousel--${template}`}>
       <Carousel
         indicatorContainerProps={{
-          className: 'sq-carousel__indicator-container'
+          className: 'sq-carousel__indicator-container',
         }}
         className={carouselClassName}
         interval={interval}
@@ -42,7 +42,10 @@ const FullCarousel = ({
         navButtonsAlwaysInvisible={navButtonsAlwaysVisible}
       >
         {items.map((item, i) => (
-          <div key={i} className="sq-carousel__item">
+          <div
+            key={i}
+            className="sq-carousel__item"
+          >
             <TemplateToRender data={item} />
           </div>
         ))}
@@ -58,7 +61,7 @@ FullCarousel.propTypes = {
   template: PropTypes.string,
   interval: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   navButtonsAlwaysVisible: PropTypes.bool,
-  items: PropTypes.array
+  items: PropTypes.array,
 };
 
 export default FullCarousel;

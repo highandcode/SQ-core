@@ -58,7 +58,6 @@ import List from './ui/List';
 import MagicHeroContent from './ui/MagicHeroContent';
 import Navigation from './ui/Navigation';
 import NavigationList from './ui/NavigationList';
-import NotificationBar from './ui/NotificationBar';
 import PopupMessage from './ui/PopupMessage';
 import Pricing from './ui/Pricing';
 import ProgressIndicator from './ui/ProgressIndicator';
@@ -135,7 +134,6 @@ export {
   MagicHeroContent,
   Navigation,
   NavigationList,
-  NotificationBar,
   PopupMessage,
   Pricing,
   ProgressIndicator,

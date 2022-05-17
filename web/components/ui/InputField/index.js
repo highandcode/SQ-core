@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { TextField } from '@material-ui/core';
+import { TextField } from '@mui/material';
 import { getValue } from '../../../utils/properties';
 import { masks } from '../../../utils/mask';
 import { validators } from '../../../utils/validator';

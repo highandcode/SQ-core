@@ -1,8 +1,5 @@
 a {
-  @include b5-style();
-  @media screen and (min-width: $screen-md) {
-    @include b4-style();
-  }
+ 
   cursor: pointer;
   display: inline-block;
 }
@@ -27,6 +24,12 @@ a {
   }
   img {
     width: 100%;
+  }
+  &--default {
+    @include b5-style();
+    @media screen and (min-width: $screen-md) {
+      @include b4-style();
+    }
   }
   &--small {
     @include b5-style();

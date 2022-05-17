@@ -1,16 +1,10 @@
 import React from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@material-ui/lab/Alert';
-import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/lab/Alert';
 import PropTypes from 'prop-types';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
-const useStyles = makeStyles((theme) => ({
-  close: {
-    padding: theme.spacing(0.5)
-  }
-}));
 
 const SQSnackbar = ({
   open = false,
@@ -21,7 +15,6 @@ const SQSnackbar = ({
   severity = 'success',
   anchorOrigin = {}
 }) => {
-  const classes = useStyles();
   return (
     <Snackbar
       open={open}
@@ -35,7 +28,7 @@ const SQSnackbar = ({
         variant={variant}
         action={
           <React.Fragment>
-            <IconButton aria-label="close" color="inherit" size="small" className={classes.close} onClick={onClose}>
+            <IconButton aria-label="close" color="inherit" size="small" onClick={onClose}>
               <CloseIcon fontSize="small" />
             </IconButton>
           </React.Fragment>

@@ -6,6 +6,7 @@ import FeaturedContent from './FeaturedContent';
 import Input from './InputField';
 import Link from './Link';
 import Text from './Text';
+import DataField from './DataField';
 import LinkBlock from './LinkBlock';
 import LinkButtonList from './LinkButtonList';
 import Select from './SelectField';
@@ -41,6 +42,7 @@ let comps = {
   Header,
   Tabs,
   Text,
+  DataField,
   Switch,
   TagLabel,
   Slider,

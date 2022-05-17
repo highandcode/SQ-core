@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Carousel from 'react-material-ui-carousel';
-import { Paper } from '@material-ui/core';
+import { Paper } from '@mui/material';
 import { resolveImageUrl } from '../../../cordova';
 import Icon from '../../Icon';
 

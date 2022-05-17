@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MuiAlert from '@material-ui/lab/Alert';
-import AlertTitle from '@material-ui/lab/AlertTitle';
+import MuiAlert from '@mui/lab/Alert';
+import AlertTitle from '@mui/lab/AlertTitle';
 import './alert.scss';
 
 const errorMapping = {
