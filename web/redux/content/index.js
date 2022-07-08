@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as utils from '../../utils';
 import CustomModule from '../../utils/custom-module';
-const { queryString, apiBridge, object, common } = utils;
+import { Validator } from '../../utils/validator';
+import { showNotificationMessage } from '../common';
+const { queryString, apiBridge, object, common, processor } = utils;
 const { query } = queryString;
 
 const getSystem = () => {
@@ -15,32 +17,55 @@ const initialState = {
   userData: {
     ...getSystem(),
   },
+  protectedData: {},
   isContentLoading: false,
 };
 export const customHooks = new CustomModule();
 
-const extendData = (org, update) => {
-  let obj = {
-    ...org,
+export const parseCustomModule = (text) => {
+  const moduleName = text.indexOf('(') > -1 ? text.substr(0, text.indexOf('(')) : text;
+  let params = {};
+  const fnMatch = text.match(/[(].*[)]/);
+  if (fnMatch) {
+    const str = fnMatch[0].substr(1, fnMatch[0].length - 2);
+    const arrayParams = str.split(',');
+    arrayParams.forEach((itemParam) => {
+      var arr = itemParam.trim().split(':');
+      if (arr[0]) {
+        params[arr[0]] = arr[1]?.trim() || '';
+      }
+    });
+  }
+  return {
+    module: moduleName,
+    params,
   };
-  Object.keys(update).forEach((a) => {
-    if (!Array.isArray(update[a]) && typeof update[a] === 'object') {
-      obj[a] = extendData(obj[a], update[a]);
-    } else {
-      obj[a] = update[a];
-    }
-  });
-  return obj;
 };
 
-const processParams = (state, params = {}, defaultValue = null) => {
+export const processParams = (userData, params = {}, defaultValue = null, state) => {
   const newObj = {};
   Object.keys(params).forEach((key) => {
     let value;
-    if (typeof params[key] === 'object') {
-      value = processParams(state, params[key], defaultValue);
+    if (typeof params[key] === 'object' && params[key].match) {
+      const validator = new Validator(params[key].match);
+      validator.setValues(userData);
+      value = validator.validateAll();
+    } else if (typeof params[key] === 'object') {
+      value = processParams(userData, params[key], defaultValue, state);
+    } else if (params[key].toString().substr(0, 2) === '::') {
+      const moduleName = params[key].toString().split('::');
+      const passedKey = params[key].substr(params[key].toString().lastIndexOf('::') + 2, params[key].length - 4);
+      let parsedModule = parseCustomModule(moduleName[1]);
+      if (passedKey.substr(0, 1) === '.') {
+        value = object.getDataFromKey(userData, passedKey.substr(1), defaultValue);
+      } else {
+        value = passedKey;
+      }
+      if (parsedModule) {
+        value = processor.execute(parsedModule.module, value, parsedModule.params, { state, userData });
+      }
     } else if (params[key].toString().substr(0, 1) === '.') {
-      value = object.getDataFromKey(state, params[key].substr(1), defaultValue);
+      value = object.getDataFromKey(userData, params[key].substr(1), defaultValue);
     } else if (!common.isNullOrUndefined(params[key])) {
       value = params[key];
     }
@@ -51,30 +76,21 @@ const processParams = (state, params = {}, defaultValue = null) => {
   return newObj;
 };
 
-export const fetchContentPage = createAsyncThunk(
-  'content/fetchContentPage',
-  async (url) => {
-    const fullUrl = url || location.href;
+export const fetchContentPage = createAsyncThunk('content/fetchContentPage', async (url) => {
+  const fullUrl = url || location.href;
 
-    const response = await apiBridge.post(fullUrl);
-    // The value we return becomes the `fulfilled` action payload
-    return {
-      data: response.data,
-      pageId: url,
-    };
-  }
-);
-export const sendContact = createAsyncThunk(
-  'content/sendContact',
-  async (data) => {
-    const response = await apiBridge.post(
-      data.url || '/api/v1/contact/message',
-      data.payload
-    );
-    // The value we return becomes the `fulfilled` action payload
-    return response;
-  }
-);
+  const response = await apiBridge.post(fullUrl);
+  // The value we return becomes the `fulfilled` action payload
+  return {
+    data: response.data,
+    pageId: url,
+  };
+});
+export const sendContact = createAsyncThunk('content/sendContact', async (data) => {
+  const response = await apiBridge.post(data.url || '/api/v1/contact/message', data.payload);
+  // The value we return becomes the `fulfilled` action payload
+  return response;
+});
 
 export const updateErrorData = (data) => (dispatch, getState) => {
   const errors = {
@@ -91,16 +107,100 @@ export const updateErrorData = (data) => (dispatch, getState) => {
 };
 
 export const checkAndPostApi = (data) => async (dispatch, getState) => {
+  const result = [];
   if (Array.isArray(data)) {
     data.forEach((item) => {
-      dispatch(postApi(item));
+      result.push(dispatch(postApi(item)));
     });
   } else {
-    dispatch(postApi(data));
+    result.push(dispatch(postApi(data)));
   }
+  return Promise.all(result);
+};
+
+export const initApplication = (data) => async (dispatch, getState) => {
+  let response = {};
+  if (data.globals && data.globals.path) {
+    const result = await apiBridge.post(data.globals.path, {});
+    const pageData = result.data.pageData;
+    await dispatch(
+      updateProtectedUserData({
+        root: { ...data, ...pageData },
+      })
+    );
+    if (pageData.merge) {
+      await dispatch(mergeUserData(pageData.merge));
+    }
+    if (pageData.hook?.load) {
+      await dispatch(checkAndPostApi(pageData.hook.load));
+    }
+  } else {
+    await dispatch(
+      updateProtectedUserData({
+        root: { ...data },
+      })
+    );
+  }
+
+  return response;
+};
+
+export const executeHook = (payload) => async (dispatch, getState) => {
+  let response = {};
+  if (payload.preCall) {
+    await dispatch(
+      updateUserData({
+        ...payload.preCall,
+      })
+    );
+  }
+  if (payload.hook) {
+    response = await customHooks.execute(payload.hook, response, {
+      state: getState(),
+      payload,
+      data: {
+        params: processParams(getState().content.userData, payload.params, getState()),
+        headers: processParams(getState().content.userData, payload.headers, getState()),
+        query: processParams(getState().content.userData, payload.query, getState()),
+      },
+      userData: getState().content.userData,
+      dispatch,
+    });
+  }
+  if (payload.postCall) {
+    await dispatch(
+      updateUserData({
+        ...payload.postCall,
+      })
+    );
+  }
+
+  if (response.status === 'success') {
+    const data = payload.dataKey ? { [payload.dataKey]: response.data } : response.data;
+    await dispatch(
+      updateUserData({
+        ...data,
+        lastError: {},
+      })
+    );
+  } else if (response.status === 'error') {
+    await dispatch(updateErrorData(response.error));
+  }
+  if (payload.after) {
+    dispatch(checkAndPostApi(payload.after));
+  }
+
+  return response;
 };
 
 export const postApi = (payload) => async (dispatch, getState) => {
+  if (payload.match) {
+    const validator = new Validator(payload.match);
+    validator.setValues(selectUserData(getState()));
+    if (!validator.validateAll()) {
+      return;
+    }
+  }
   if (payload.preCall) {
     await dispatch(
       updateUserData({
@@ -111,7 +211,13 @@ export const postApi = (payload) => async (dispatch, getState) => {
   let response = { data: {} };
   if (payload.preHook) {
     response = await customHooks.execute(payload.preHook, response, {
+      state: getState(),
       payload,
+      data: {
+        params: processParams(getState().content.userData, payload.params, getState()),
+        headers: processParams(getState().content.userData, payload.headers, getState()),
+        query: processParams(getState().content.userData, payload.query, getState()),
+      },
       userData: getState().content.userData,
       dispatch,
     });
@@ -119,17 +225,34 @@ export const postApi = (payload) => async (dispatch, getState) => {
   if (payload.method && payload.url) {
     response = await apiBridge[payload.method.toLowerCase()](
       payload.url,
-      processParams(getState().content.userData, payload.params),
-      payload.headers
+      processParams(getState().content.userData, payload.params, getState()),
+      processParams(getState().content.userData, payload.headers, getState()),
+      processParams(getState().content.userData, payload.query, getState())
     );
   }
 
   if (payload.postHook) {
     response = await customHooks.execute(payload.postHook, response, {
+      state: getState(),
       payload,
+      data: {
+        params: processParams(getState().content.userData, payload.params, getState()),
+        headers: processParams(getState().content.userData, payload.headers, getState()),
+        query: processParams(getState().content.userData, payload.query, getState()),
+      },
       userData: getState().content.userData,
       dispatch,
     });
+  }
+
+  response = object.extendData(
+    payload.defaultResponse && (payload.defaultResponse[response.status] || payload.defaultResponse.error),
+    response
+  );
+
+  const { notification } = response || {};
+  if (notification) {
+    await dispatch(showNotificationMessage(notification));
   }
 
   if (payload.postCall) {
@@ -140,9 +263,10 @@ export const postApi = (payload) => async (dispatch, getState) => {
     );
   }
   if (response.status === 'success') {
+    const data = payload.dataKey ? { [payload.dataKey]: response.data } : response.data;
     await dispatch(
       updateUserData({
-        ...response.data,
+        ...data,
         lastError: {},
       })
     );
@@ -164,8 +288,21 @@ const content = createSlice({
       state.pageData[action.payload.pageId] = action.payload.data;
     },
 
+    updateProtectedUserData: (state, action) => {
+      state.protectedData = {
+        ...state.protectedData,
+        ...action.payload,
+      };
+      state.userData = {
+        ...state.userData,
+        ...action.payload,
+        ...getSystem(),
+      };
+    },
+
     clearAllUserData: (state) => {
       state.userData = {
+        ...state.protectedData,
         ...getSystem(),
       };
     },
@@ -176,16 +313,6 @@ const content = createSlice({
         ...getSystem(),
       };
     },
-    // extraReducers: (builder) => {
-    //   builder
-    //     .addCase(fetchContentPage.pending, (state) => {
-    //       console.log('@fetch', state);
-    //       state.isContentLoading = true;
-    //     })
-    //     .addCase(fetchContentPage.fulfilled, (state, action) => {
-    //       state.isContentLoading = false;
-    //     });
-    // },
   },
 });
 
@@ -197,9 +324,18 @@ export const resetLastError = () => (dispatch) => {
   );
 };
 
+export const selectRootData = (state) => {
+  return state.content.protectedData.root || {};
+};
+
+export const selectUserData = (state) => {
+  return state.content.userData;
+};
+
 export const mergeUserData = (payload) => (dispatch, getState) => {
-  const data = processParams(getState().content.userData, payload, '');
-  const merged = extendData(getState().content.userData, data);
+  const root = selectRootData(getState());
+  const data = processParams(getState().content.userData, {...root.merge, ...payload}, '', getState());
+  const merged = object.extendData(getState().content.userData, data);
   dispatch(updateUserData(merged));
 };
 export const resetUserData = (payload) => (dispatch, getState) => {
@@ -210,5 +346,5 @@ export const resetUserData = (payload) => (dispatch, getState) => {
   }
 };
 
-export const { updatePageData, updateUserData } = content.actions;
+export const { updateProtectedUserData, updatePageData, updateUserData } = content.actions;
 export default content.reducer;

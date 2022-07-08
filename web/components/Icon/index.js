@@ -70,9 +70,16 @@ import Check from '@mui/icons-material/Check';
 import Instagram from '@mui/icons-material/Instagram';
 import Adjust from '@mui/icons-material/Adjust';
 import CheckCircle from '@mui/icons-material/CheckCircle';
+
+import { ReactComponent as PHigh } from '../../assets/svg/p-hightest.svg';
+import { ReactComponent as PMedium } from '../../assets/svg/p-medium.svg';
+import { ReactComponent as PLow } from '../../assets/svg/p-low.svg';
+
 import {
   Email,
   MailOutline,
+  FileCopy,
+  PriorityHigh,
   YouTube,
   RadioButtonChecked,
   RadioButtonUnchecked,
@@ -85,6 +92,7 @@ import {
   EventNote,
   TableChart,
   CreditCard,
+  Label,
   Close,
   Search,
   ArrowDropUp,
@@ -106,9 +114,70 @@ import {
   Logout as LogoutIcon,
   Dashboard as DashboardIcon,
   Help as HelpIcon,
-  Person as User
+  Person as User,
+  Block,
+  Edit,
+  Restore,
+  Key,
+  NotInterested,
+  RestartAlt,
+  AccessAlarms,
+  AccessTime,
+  AcUnit,
+  AddToQueue,
+  AddComment,
+  AccountCircle,
+  Save,
+  SaveAs,
+  LibraryAdd,
+  PowerSettingsNew,
+  AddCircleOutline,
+  AddCircle,
+  Book,
+  LockOpen,
+  AddTask,
+  AddToPhotos,
+  Analytics,
+  Apps,
+  Assistant,
+  Build,
+  BuildCircle,
+  Cast,
+  CastConnected,
+  ChatBubbleOutline,
+  ChatBubble,
+  Chat,
+  ChangeCircle,
+  CheckCircleOutline,
+  ClearAll,
+  Comment,
+  CommentsDisabled,
+  ContactSupport,
+  Contacts,
+  DateRange,
+  DoDisturbOn,
+  DoNotDisturb,
+  DownloadForOffline,
+  EditAttributes,
+  EditOff,
+  ElectricBolt,
+  Language,
+  LightbulbCircle,
+  Lightbulb,
+  LightMode,
+  Loyalty,
+  Favorite,
+  FavoriteBorder,
+  FiberNew,
+  Folder,
+  FolderCopy,
+  GppGood,
+  GppMaybe,
+  GppBad,
+  Garage,
+  MarkUnreadChatAlt,
+  Shield,
 } from '@mui/icons-material';
-
 
 import { getValue } from '../../utils/properties';
 import './icon.scss';
@@ -116,6 +185,72 @@ import './icon.scss';
 const types = {
   app: {},
   system: {
+    'add-circle-outline': AddCircleOutline,
+    'add-circle': AddCircle,
+    Restore,
+    LockOpen,
+    Key,
+    NotInterested,
+    RestartAlt,
+    AccessAlarms,
+    AccessTime,
+    AcUnit,
+    AddToQueue,
+    AddComment,
+    AccountCircle,
+    Save,
+    SaveAs,
+    LibraryAdd,
+    PowerSettingsNew,
+    Book,
+    PHigh,
+    PMedium,
+    PUrgent: PriorityHigh,
+    PLow,
+    FileCopy,
+    AddTask,
+    AddToPhotos,
+    Analytics,
+    Apps,
+    Assistant,
+    Build,
+    BuildCircle,
+    Cast,
+    CastConnected,
+    ChatBubbleOutline,
+    ChatBubble,
+    Chat,
+    ChangeCircle,
+    CheckCircleOutline,
+    ClearAll,
+    Comment,
+    CommentsDisabled,
+    ContactSupport,
+    Contacts,
+    DateRange,
+    DoDisturbOn,
+    DoNotDisturb,
+    DownloadForOffline,
+    EditAttributes,
+    EditOff,
+    ElectricBolt,
+    Language,
+    LightbulbCircle,
+    Lightbulb,
+    LightMode,
+    Loyalty,
+    Favorite,
+    FavoriteBorder,
+    FiberNew,
+    Folder,
+    FolderCopy,
+    GppGood,
+    GppMaybe,
+    GppBad,
+    Garage,
+    MarkUnreadChatAlt,
+    Shield,
+    deactivate: Block,
     NoIcon: Article,
     expand: ExpandMore,
     collapse: ExpandLess,
@@ -156,7 +291,7 @@ const types = {
     arrowdropup: ArrowDropUp,
     arrowdropdown: ArrowDropDown,
     arrowleft: ArrowLeft,
-    arrowright: ArrowRight
+    arrowright: ArrowRight,
   },
   basic: {
     code: Code,
@@ -173,6 +308,7 @@ const types = {
     playarrow: PlayArrow,
     giftcard: CardGiftcard,
     creditcard: CreditCard,
+    edit: Edit,
     camera: CameraAlt,
     beach: BeachAccess,
     call: Call,
@@ -200,6 +336,7 @@ const types = {
     download: Download,
     dashboard: DashboardIcon,
     help: HelpIcon,
+    Label,
     settings: SettingsApplications,
     user: User,
     list: ListIcon,
@@ -226,30 +363,47 @@ const types = {
     networkwifi: NetworkWifi,
     wifi: Wifi,
     // LinkedIn,
-    link: Link
-  }
+    link: Link,
+  },
 };
 
-const list = ()=> {
+const list = () => {
   return {
     ...types.basic,
     ...types.system,
-    ...types.app
-  }
+    ...types.app,
+  };
 };
-const Icon = ({ className = '', img, textIcon, name, variant = 'default', size = 'normal', iconClass = '', row, svg, onClick }) => {
+const Icon = ({
+  className = '',
+  img,
+  textIcon,
+  name,
+  variant = 'default',
+  size = 'normal',
+  iconClass = '',
+  row,
+  svg,
+  onClick,
+}) => {
   const finalName = getValue(this, name, row);
   const finalIconClass = getValue(this, iconClass, row);
-  const IconToRender = list()[finalName] || (textIcon ? undefined : !img ? list.NoIcon : undefined);
+  const IconToRender =
+    list()[finalName] ||
+    (textIcon ? undefined : !img ? list().NoIcon : undefined);
   return (
     <div
-      className={`sq-icon ${finalIconClass} ${!finalName && textIcon ? 'sq-icon--text-icon' : ''} sq-icon--${
+      className={`sq-icon ${finalIconClass} ${
+        !finalName && textIcon ? 'sq-icon--text-icon' : ''
+      } sq-icon--${
         typeof variant === 'function' ? variant(row) : variant
       } sq-icon--${size} ${className}`}
       data-icon-name={finalName}
       onClick={onClick}
     >
-      {!finalName && textIcon && <span className="sq-icon__text">{getValue(this, textIcon, row)}</span>}
+      {!finalName && textIcon && (
+        <span className="sq-icon__text">{getValue(this, textIcon, row)}</span>
+      )}
       {svg || (IconToRender && <IconToRender />)}
       {img && <img src={img} />}
     </div>
@@ -265,7 +419,7 @@ Icon.propTypes = {
   onClick: PropTypes.func,
   variant: PropTypes.any,
   classes: PropTypes.object,
-  size: PropTypes.string
+  size: PropTypes.string,
 };
 
 export default Icon;

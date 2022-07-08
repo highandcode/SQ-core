@@ -4,7 +4,9 @@ import { DatePicker } from '@mui/lab';
 import { TextField } from '@mui/material';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
 import './dateselector.scss';
+
 const DateSelector = ({
   value,
   label = '',
@@ -13,6 +15,7 @@ const DateSelector = ({
   helperText,
   inputVariant = 'outlined',
   format = 'MM/dd/yyyy',
+  mask = '__/__/____',
   className = '',
   minDate,
   maxDate,
@@ -20,30 +23,23 @@ const DateSelector = ({
   error,
   errorMessage,
 }) => {
-  const [fieldValue, setFieldValue] = useState({
-    value: value || null,
-  });
+ 
   const [focus, setFocus] = useState(false);
-  const handleonSelect = (date) => {
-    if (date && date._isValid) {
+  const handleonSelect = (date, input) => {
+    if (date && moment(date, format, true).isValid()) {
       const text = moment(date).format(format);
       onChange &&
         onChange({
           value: date.toISOString(),
           text,
         });
-      setFieldValue({
-        value: date.toISOString(),
-      });
+     
     } else {
       onChange &&
         onChange({
-          value: date && date._i,
-          text: date && date._i,
+          value: input,
+          text: input,
         });
-      setFieldValue({
-        value: null,
-      });
     }
   };
   const handleOnFocus = () => {
@@ -56,17 +52,17 @@ const DateSelector = ({
     <div className={`sq-date-selector ${className}`}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker
-          // error={error}
-          // label={label}
           inputFormat={format}
           disabled={disabled}
           minDate={minDate}
           maxDate={maxDate}
-          value={fieldValue.value || value || null}
+          mask={mask}
+          value={value || null}
           renderInput={(props) => (
             <TextField
               {...props}
               label={label}
+              error={error}
               variant={inputVariant}
               readOnly={readOnly}
               helperText={helperText}

@@ -4,12 +4,18 @@ import BottomNavigation from './BottomNavigation';
 import CallToAction from './CallToAction';
 import CardButton from './CardButton';
 import CardButtonList from './CardButtonList';
+import DataField from './ui/DataField';
+import Pagination from './ui/Pagination';
+import DataFieldList from './ui/DataFieldList';
+import FileUploader from './ui/FileUploader';
 import * as Chart from './Chart';
 import DataList from './DataList';
+import FieldText from './ui/FieldText';
 import Dialog from './Dialog';
 import ErrorBoundry from './ErrorBoundry';
 import FloatingActionButton from './FloatingActionButton';
 import Form from './Form';
+import HTML from './ui/HTML';
 import Grid from './Grid';
 import Grouper from './Grouper';
 import * as Icon from './Icon';
@@ -27,11 +33,11 @@ import Snackbar from './Snackbar';
 import SpeedDial from './SpeedDial';
 import Tabs from './Tabs';
 import Ticker from './Ticker';
-
+import DropZoneFile from './ui/DropZoneFile';
 import Autocomplete from './ui/Autocomplete';
 import Button from './ui/Button';
 import Card from './ui/Card';
-import Checkbox from './ui/Checkbox';
+import { CheckboxField, CheckboxList } from './ui/Checkbox';
 import CodeHighlight from './ui/CodeHighlight';
 import CompRenderer from './ui/CompRenderer';
 import CustomButton from './ui/CustomButton';
@@ -107,7 +113,8 @@ export {
   Autocomplete,
   Button,
   Card,
-  Checkbox,
+  CheckboxField,
+  CheckboxList,
   CodeHighlight,
   CompRenderer,
   CustomButton,
@@ -139,6 +146,7 @@ export {
   ProgressIndicator,
   Radio,
   ReCaptcha,
+  Pagination,
   RichText,
   SelectField,
   SelectPopup,
@@ -148,5 +156,11 @@ export {
   Text,
   Textarea,
   TextColumnWithLinks,
-  TextFields
+  FieldText,
+  TextFields,
+  DataField,
+  DataFieldList,
+  HTML,
+  FileUploader,
+  DropZoneFile,
 };

@@ -5,10 +5,12 @@
     border: solid 1px $sq-color-gray-lighter;
     border-radius: 4px;
     padding: 10px;
+    opacity: 0;
     .tooltip-header {
       @include t4-style();
       margin-bottom: 8px;
     }
+    
     .tooltip-dot {
       display: inline-block;
       height: 10px;
@@ -18,10 +20,13 @@
     }
     .tooltip-data {
       display: flex;
+      
       margin-bottom: 4px;
     }
     .tooltip-label {
       margin-right: 5px;
+      display: flex;
+      align-items: center;
     }
     .tooltip-value {
       text-align: right;
@@ -86,6 +91,12 @@
     top: -12px;
     transition: opacity 0.2s linear, transform 0.2s ease-in-out;
     z-index: 1;
+  }
+
+  &--inline-tootlip {
+    .sq-chart-d-tooltip {
+      position: static;
+    }
   }
   &--no-data {
     padding: 20px;

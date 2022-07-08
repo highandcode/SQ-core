@@ -47,7 +47,9 @@ function copyFolderRecursiveSync(source, target, ignore = ['node_modules', 'cove
 
 function copyContent() {
   fs.copyFileSync(paths.appPath + '/package.json', paths.dist + `/package.json`);
+  fs.copyFileSync(paths.appPath + '/.gitignore', paths.dist + `/.gitignore`);
   fs.copyFileSync(paths.appPath + '/README.md', paths.dist + `/README.md`);
+  fs.copyFileSync(paths.appPath + '/LICENSE', paths.dist + `/LICENSE`);
   var target = `${paths.dist}/cms`;
   if (!fs.existsSync(target)) {
     fs.mkdirSync(target);

@@ -14,7 +14,7 @@ let templates = {
 const addTemplate = (newTemplates) => {
   templates = {
     ...templates,
-    ...newTemplates,
+    ...newTemplates,  
   };
 };
 

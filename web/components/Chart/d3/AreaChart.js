@@ -1,20 +1,20 @@
 import BaseChart from './Base';
-
+window.d3 = d3;
 class AreaChart extends BaseChart {
   constructor(el, options = {}) {
     super(
       el,
       {
         chart: options,
-        chartType: 'AreaChart'
+        chartType: 'AreaChart',
       },
       {
         margin: {
           top: 20,
           bottom: 90,
           left: 60,
-          right: 20
-        }
+          right: 20,
+        },
       }
     );
   }
@@ -32,7 +32,6 @@ class AreaChart extends BaseChart {
     this.focus.main.style('display', 'none');
     const tooltip = d3.select(this.element).select('.sq-chart-d-tooltip');
     tooltip.style('opacity', '0');
-    series.forEach((ser) => {});
   }
 
   showAllFocus() {
@@ -44,15 +43,31 @@ class AreaChart extends BaseChart {
   update() {
     const d3 = this.d3;
     const vis = this;
+    
     const element = this.element;
-    var { xValue, margin, series = [], colorSet, yAxis = {}, tooltip = {}, legendLabelWidth = 100 } = this.config;
-    const { labelWidth = 80 } = yAxis;
-    const { format: yAxisFormatter, minValue: yAxisMinValue } = yAxis;
+    var {
+      xValue,
+      margin,
+      series = [],
+      colorSet,
+      xAxis = {},
+      yAxis = {},
+      tooltip = {},
+      legendLabelWidth = 100,
+    } = this.config;
+    const { format: xAxisFormatter, type: xAxisDataType } = xAxis;
+    const { labelWidth = 80, format: yAxisFormatter, minValue: yAxisMinValue } = yAxis;
     const { formatter: tooltipFormatter = (v) => v } = tooltip;
     var { width, height, innerWidth, innerHeight } = this.getWidth();
     vis.t = d3.transition().duration(1000);
     vis.x = d3.scaleTime().range([0, innerWidth]);
     vis.y = d3.scaleLinear().range([innerHeight, 0]);
+    vis.data = vis.data.map((item) => {
+      return {
+        ...item,
+        [xValue]: xAxisDataType === 'date' && !(item[xValue] instanceof Date) ? new Date(item[xValue]) : item[xValue],
+      };
+    });
     let allValues = this.getValuesFromSeries(vis.data);
     const scale = 1.005;
     let minValue = d3.min(allValues, (d) => d) * scale;
@@ -69,9 +84,10 @@ class AreaChart extends BaseChart {
 
     vis.xAxis.attr('transform', `translate(0, ${innerHeight})`);
     // update axes
-    vis.xAxisCall.ticks(innerWidth / labelWidth);
+    const xTicksCount = innerWidth / labelWidth;
+    vis.xAxisCall.ticks(xTicksCount > vis.data.length ? vis.data.length + 1 : xTicksCount);
     vis.xAxisCall.scale(vis.x);
-    vis.xAxis.transition(vis.t).call(vis.xAxisCall);
+    vis.xAxis.transition(vis.t).call(vis.xAxisCall.tickFormat(xAxisFormatter));
     vis.yAxisCall.scale(vis.y);
     vis.yAxis.transition(vis.t).call(vis.yAxisCall.tickFormat(yAxisFormatter));
 
@@ -87,7 +103,11 @@ class AreaChart extends BaseChart {
     // vis.focus.main.select('rect').attr('fill', '#fff').append('text').texchart('Test');
     series.forEach((ser) => {
       vis.focus[ser.name] = vis.focus.main.append('g').attr('class', `circle-data ${ser.name}`);
-      vis.focus[ser.name].append('circle').attr('r', 5.5).attr('class', `sq-line-chart-circle`).style('stroke', ser.color);
+      vis.focus[ser.name]
+        .append('circle')
+        .attr('r', 5.5)
+        .attr('class', `sq-line-chart-circle`)
+        .style('stroke', ser.color);
       // vis.focus[ser.name].append('text').attr('x', 15).attr('dy', '.31em').attr('class', `sq-line-chart-t-text`);
     });
 
@@ -100,10 +120,14 @@ class AreaChart extends BaseChart {
 
     function mousemove(e) {
       const x0 = vis.x.invert(d3.pointer(e)[0]);
-      const i = vis.bisectDate(vis.data, x0, 1);
+      const bisectDate = d3.bisector(function (d, x) {
+        return d[xValue] - x;
+      }).left;
+      const i = bisectDate(vis.data, x0);
       const d0 = vis.data[i > 0 ? i - 1 : 0];
       const d1 = vis.data[i >= vis.data.length ? vis.data.length - 1 : i];
       const d = x0 - d0[xValue] > d1[xValue] - x0 ? d1 : d0;
+
       vis.focus.main.attr('transform', `translate(${vis.x(d[xValue])},0 )`);
       vis.focus.main.select('.x-hover-line').attr('y2', innerHeight);
       const tooltip = d3.select(vis.element).select('.sq-chart-d-tooltip');
@@ -114,7 +138,7 @@ class AreaChart extends BaseChart {
       series.forEach((ser) => {
         vis.focus[ser.name]
           .select('circle')
-          .attr('cy', vis.y(d[ser.yValue]))
+          .attr('cy', vis.y(d[ser.yValue] || 0))
           .style('stroke', d[ser.yValue] < 0 ? ser.negativeColor : ser.color);
         // vis.focus[ser.name].select('text').attr('y', vis.y(d[ser.yValue]));
         // vis.focus[ser.name].select('text').text(tooltipFormatter(d[ser.yValue]));
@@ -183,16 +207,26 @@ class AreaChart extends BaseChart {
         .line()
         // .curve(d3.curveCardinal)
         .x((d) => vis.x(d[xValue]))
-        .y((d) => vis.y(d[ser.yValue]));
+        .y((d) => vis.y(d[ser.yValue] || 0));
       vis.area = d3
         .area()
         // .curve(d3.curveCardinal)
         .x((d) => vis.x(d[xValue]))
         .y0((d) => vis.y(minValue > 0 ? minValue : 0))
-        .y1((d) => vis.y(d[ser.yValue]));
+        .y1((d) => vis.y(d[ser.yValue] || 0));
 
-      vis.g.select(`.area.p-${ser.name}`).attr('stroke', 'none').transition(vis.t).attr('d', vis.area(vis.data)).style('clip-path', 'url(#clip_pos)');
-      vis.g.select(`.area.n-${ser.name}`).attr('stroke', 'none').transition(vis.t).attr('d', vis.area(vis.data)).style('clip-path', 'url(#clip_neg)');
+      vis.g
+        .select(`.area.p-${ser.name}`)
+        .attr('stroke', 'none')
+        .transition(vis.t)
+        .attr('d', vis.area(vis.data))
+        .style('clip-path', 'url(#clip_pos)');
+      vis.g
+        .select(`.area.n-${ser.name}`)
+        .attr('stroke', 'none')
+        .transition(vis.t)
+        .attr('d', vis.area(vis.data))
+        .style('clip-path', 'url(#clip_neg)');
       vis.g
         .select(`.line.${ser.name}`)
         .attr('stroke', ser.color)
@@ -209,10 +243,13 @@ class AreaChart extends BaseChart {
   }
 
   draw() {
+    
     const vis = this;
     const element = this.element;
+
     const d3 = this.d3;
-    var { xValue, margin, yAxisLabel, xAxisLabel, series = [] } = this.config;
+    var { xValue, margin, yAxisLabel, xAxisLabel, series = [], xAxis = {} } = this.config;
+    const { type: xAxisDataType } = xAxis;
     var { width, height, innerWidth, innerHeight } = this.getWidth();
     const svg = d3.select(element).append('svg');
     const g = svg.append('g');
@@ -241,9 +278,25 @@ class AreaChart extends BaseChart {
         .attr('fill', `url(#grad${ser.name})`)
         .attr('stroke', 'grey')
         .attr('stroke-width', strokeWidth);
-      vis.g.append('path').attr('class', `line ${ser.name}`).attr('fill', 'none').attr('stroke', 'grey').attr('stroke-width', strokeWidth);
-      vis.g.append('path').attr('class', `line-n ${ser.name}`).attr('fill', 'none').attr('stroke', 'grey').attr('stroke-width', strokeWidth);
-      vis.lg = vis.defs.append('linearGradient').attr('id', `grad${ser.name}`).attr('x1', '0%').attr('x2', '0%').attr('y1', '0%').attr('y2', '100%');
+      vis.g
+        .append('path')
+        .attr('class', `line ${ser.name}`)
+        .attr('fill', 'none')
+        .attr('stroke', 'grey')
+        .attr('stroke-width', strokeWidth);
+      vis.g
+        .append('path')
+        .attr('class', `line-n ${ser.name}`)
+        .attr('fill', 'none')
+        .attr('stroke', 'grey')
+        .attr('stroke-width', strokeWidth);
+      vis.lg = vis.defs
+        .append('linearGradient')
+        .attr('id', `grad${ser.name}`)
+        .attr('x1', '0%')
+        .attr('x2', '0%')
+        .attr('y1', '0%')
+        .attr('y2', '100%');
       vis.lg.append('stop').attr('offset', '0%').style('stop-color', ser.color).style('stop-opacity', 0.4);
       vis.lg.append('stop').attr('offset', '100%').style('stop-color', 'white').style('stop-opacity', 0.4);
 
@@ -257,8 +310,20 @@ class AreaChart extends BaseChart {
       vis.lgN.append('stop').attr('offset', '0%').style('stop-color', 'white').style('stop-opacity', 0.4);
       vis.lgN.append('stop').attr('offset', '100%').style('stop-color', ser.negativeColor).style('stop-opacity', 0.4);
     });
-    vis.defs.append('clipPath').attr('id', `clip_pos`).append('rect').attr('x', 0).attr('y', 0).attr('width', innerWidth);
-    vis.defs.append('clipPath').attr('id', `clip_neg`).append('rect').attr('x', 0).attr('y', 200).attr('width', innerWidth);
+    vis.defs
+      .append('clipPath')
+      .attr('id', `clip_pos`)
+      .append('rect')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('width', innerWidth);
+    vis.defs
+      .append('clipPath')
+      .attr('id', `clip_neg`)
+      .append('rect')
+      .attr('x', 0)
+      .attr('y', 200)
+      .attr('width', innerWidth);
     this.legend = g.append('g').attr('class', 'sq-chart-legend');
     // axis generators
     vis.xAxisCall = d3.axisBottom();
@@ -272,6 +337,7 @@ class AreaChart extends BaseChart {
     if (!this.data) {
       return;
     }
+   
     this.update();
   }
 

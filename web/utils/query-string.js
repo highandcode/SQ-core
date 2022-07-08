@@ -9,8 +9,9 @@ class QueryString {
     var str = '';
     if (this.isObject) {
       Object.keys(this.input).forEach((key) => {
-        if (this.input[key]) {
-          str += (str ? '&' : '') + key + '=' + encodeURIComponent(this.input[key]);
+        if (typeof this.input[key] !== 'undefined') {
+          str +=
+            (str ? '&' : '') + key + '=' + encodeURIComponent(this.input[key]);
         }
       });
     }
@@ -35,7 +36,7 @@ const location = window.location;
 const query = {
   get: (search) => {
     return new QueryString(search || location.search).toObject();
-  }
+  },
 };
 export default QueryString;
 export { query, QueryString };

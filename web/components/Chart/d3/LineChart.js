@@ -43,13 +43,20 @@ class LineChart extends BaseChart {
     const d3 = this.d3;
     const vis = this;
     const element = this.element;
-    var { xValue, margin, series = [], colorSet, yAxis = {}, tooltip = {}, legendLabelWidth = 100 } = this.config;
+    var { xValue, margin, series = [], colorSet, yAxis = {}, xAxis = {}, tooltip = {}, legendLabelWidth = 100 } = this.config;
+    const { type: xAxisDataType} = xAxis;
     const { format: yAxisFormatter } = yAxis;
     const { formatter: tooltipFormatter = (v) => v } = tooltip;
     var { width, height, innerWidth, innerHeight } = this.getWidth();
     vis.t = d3.transition().duration(1000);
     vis.x = d3.scaleTime().range([0, innerWidth]);
     vis.y = d3.scaleLinear().range([innerHeight, 0]);
+    vis.data = vis.data.map((item) => {
+      return {
+        ...item,
+        [xValue]: xAxisDataType === 'date' && !(item[xValue] instanceof Date) ? new Date(item[xValue]) : item[xValue],
+      };
+    });
     let allValues = this.getValuesFromSeries(vis.data);
 
     vis.x.domain(d3.extent(vis.data, (d) => d[xValue]));
@@ -100,7 +107,7 @@ class LineChart extends BaseChart {
       series.forEach((ser) => {
         vis.focus[ser.name].select('circle').attr('cy', vis.y(d[ser.yValue]));
         vis.focus[ser.name].select('text').attr('y', vis.y(d[ser.yValue]));
-        vis.focus[ser.name].select('text').text(tooltipFormatter(d[ser.yValue]));
+        vis.focus[ser.name].select('text').text(tooltipFormatter(d[ser.yValue], d));
       });
     }
 

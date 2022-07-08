@@ -1,23 +1,30 @@
-import Entity from '../entity/entity';
 import Filterbale from './filterable';
 import Sortable from './sortable';
 
 class Queryable {
-  constructor(data = [], { entityType = Entity }) {
+  constructor(data = [], { entityType = (data) => data } = {}) {
     this.rData = data;
     this.entityType = entityType;
   }
 
   filterBy(options) {
-    return new Filterbale(this.rData, { entityType: this.entityType }).filterBy(options);
+    return new Filterbale(this.rData, { entityType: this.entityType }).filterBy(
+      options
+    );
   }
 
   sortBy(field, asc) {
-    return new Sortable(this.rData, { entityType: this.entityType }).sortBy(field, asc);
+    return new Sortable(this.rData, { entityType: this.entityType }).sortBy(
+      field,
+      asc
+    );
   }
-  
+
   sortOrder(field, asc) {
-    return new Sortable(this.rData, { entityType: this.entityType }).sortOrder(field, asc);
+    return new Sortable(this.rData, { entityType: this.entityType }).sortOrder(
+      field,
+      asc
+    );
   }
 
   toArray() {

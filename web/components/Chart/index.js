@@ -56,9 +56,9 @@ class CustomChart extends Component {
     }
   }
   render() {
-    const { data = [], noDataMessage = 'No data found' } = this.props;
+    const { className = '', data = [], noDataMessage = 'No data found' } = this.props;
     return (
-      <div className={`sq-chart`}>
+      <div className={`sq-chart ${className}`}>
         {data.length === 0 && <div className="sq-chart--no-data">{noDataMessage}</div>}
         <div ref={(div) => (this.chartContainer = div)}></div>
       </div>

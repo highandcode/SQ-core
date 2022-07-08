@@ -2,19 +2,29 @@
   &--default {
     width: 200px;
     display: inline-block;
-    padding: 10px 20px;
+    padding: 10px 0;
   }
+
   &__label {
     @include b6-style();
-    color: $sq-color-gray-dark;
+    color: $sq-color-gray;
     margin-bottom: 4px;
   }
   &__value {
-    @include b6-style();
-    font-family: 'Lato-Regular';
-    color: $sq-color-gray;
+    @include b5-style();
+    color: $sq-color-black;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+  }
+  
+  &--auto-form {
+    width: 100%;
+    padding: 10px 0;
+    .sq-data-field__value {
+      white-space:unset;
+      text-overflow: unset;
+      overflow: unset;
+    }
   }
 }

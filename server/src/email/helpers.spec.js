@@ -12,6 +12,13 @@ describe('Email:Helpers', () => {
       const output = helpers.processBody('Hello there I am ##data.name##', { name: 'Rocket of ##data.key##', key: 'Locket' });
       expect(output).to.equal('Hello there I am Rocket of Locket');
     });
+    it('should inject nested keys given in dynamic data', () => {
+      helpers.setDataItems({
+        block: 'section 1'
+      })
+      const output = helpers.processBody('Hello there I am ##data.block##', { name: 'Rocket of ##data.key##', key: 'Locket' });
+      expect(output).to.equal('Hello there I am section 1');
+    });
 
     it('should inject nested keys as functions given in data with ##data.key##', () => {
       const output = helpers.processBody('Hello there I am ##data.name##', {

@@ -8,7 +8,7 @@ function setUpFakeData(url, data, status) {
     data,
     json: () => {
       return data;
-    }
+    },
   };
 }
 
@@ -22,31 +22,31 @@ function setUp() {
   };
 }
 
-describe("Api Bridge", () => {
+describe('Api Bridge', () => {
   beforeEach(() => {
     setUp();
   });
-  it("should have get() method", () => {
+  it('should have get() method', () => {
     expect(typeof apiBridge.get).toBe('function');
   });
-  it("should have post() method", () => {
+  it('should have post() method', () => {
     expect(typeof apiBridge.post).toBe('function');
   });
-  it("should have update() method", () => {
+  it('should have update() method', () => {
     expect(typeof apiBridge.update).toBe('function');
   });
-  it("should have delete() method", () => {
+  it('should have delete() method', () => {
     expect(typeof apiBridge.delete).toBe('function');
   });
-  describe("ApiBridge:get()", function () {
+  describe('ApiBridge:get()', function () {
+    let response;
     beforeEach(async () => {
       resetFakeData();
       setUpFakeData('/test', { hello: true });
-      this.response = await apiBridge.get('/test');
+      response = await apiBridge.get('/test');
     });
     it('should return the data in promise', async () => {
-      expect(this.response).toEqual({ hello: true });
+      expect(response).toEqual({ hello: true });
     });
   });
-
 });

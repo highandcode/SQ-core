@@ -1,11 +1,16 @@
 import Header from './Header';
 import Button from './Button';
+import Alert from '../Alert';
 import LinkButton from './LinkButton';
 import HeroContent from './HeroContent';
 import FeaturedContent from './FeaturedContent';
 import Input from './InputField';
+import FileUploader from './FileUploader';
 import Link from './Link';
 import Text from './Text';
+import HTML from './HTML';
+import FieldText from './FieldText';
+import Pagination from './Pagination';
 import DataField from './DataField';
 import LinkBlock from './LinkBlock';
 import LinkButtonList from './LinkButtonList';
@@ -37,8 +42,10 @@ import Autocomplete from './Autocomplete';
 import DataList from '../DataList';
 import IconCalendar from '../IconCalendar';
 import MoreContent from './MoreContent';
+import DropZoneFile from './DropZoneFile';
 
 let comps = {
+  Alert,
   Header,
   Tabs,
   Text,
@@ -78,7 +85,12 @@ let comps = {
   ReCaptcha,
   ImageInfoSlider,
   IconCalendar,
-  MoreContent
+  MoreContent,
+  Pagination,
+  FieldText,
+  HTML,
+  FileUploader,
+  DropZoneFile,
 };
 
 const getMap = () => {

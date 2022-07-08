@@ -34,7 +34,6 @@ function translate(source, targetLang, text) {
     count++;
   });
   // }))
-  console.log('@final');
   Promise.all(queue).then(() => {
     console.log(objectReturn);
     console.log(__dirname);

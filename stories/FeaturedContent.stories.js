@@ -11,6 +11,7 @@ const Template = (args) => <FeaturedContent {...args} />;
 
 export const FeaturedContentWithHeader = Template.bind({});
 FeaturedContentWithHeader.args = {
+  eyebrow: 'eyebrow',
   items: [
     {
       icon: 'account',
@@ -32,7 +33,7 @@ FeaturedContentWithHeader.args = {
 
 export const FeaturedContentWithEyebrow = Template.bind({});
 FeaturedContentWithEyebrow.args = {
-  eyebrow: 'eyebrow',
+  eyebrow: 'Eyebrow',
   header: 'This is header',
-  subHeader: 'This is sub header'
+  SubHeader: 'This is subheader',
 };

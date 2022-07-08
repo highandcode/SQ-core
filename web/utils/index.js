@@ -1,4 +1,4 @@
-import apiBridge from './api-bridge';
+import apiBridge, { getParsers, addParsers, setErrorCodes } from './api-bridge';
 import * as appEvents from './app-events';
 import browser from './browser';
 
@@ -7,6 +7,7 @@ import currency from './currency';
 import * as datetime from './datetime';
 import * as errorMessages from './error-messages';
 import EventManager from './event-manager';
+import CustomProcessor from './custom-processor';
 import CustomModule from './custom-module';
 import * as format from './format';
 import * as object from '../../server/src/utils/object';
@@ -20,4 +21,32 @@ import cookie from './cookie-manager';
 import * as translate from './translate';
 import * as validator from './validator';
 
-export { apiBridge, appEvents, browser, common, currency, datetime, object, errorMessages, cookie, CustomModule, EventManager, format, mask, number, properties, queryString, redirect, timer, translate, validator };
+const processor = new CustomProcessor();
+
+export {
+  apiBridge,
+  appEvents,
+  browser,
+  common,
+  currency,
+  datetime,
+  object,
+  errorMessages,
+  cookie,
+  CustomModule,
+  EventManager,
+  CustomProcessor,
+  format,
+  mask,
+  number,
+  properties,
+  queryString,
+  redirect,
+  timer,
+  translate,
+  validator,
+  processor,
+  setErrorCodes,
+  getParsers,
+  addParsers
+};

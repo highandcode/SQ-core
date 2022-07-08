@@ -54,7 +54,7 @@ const SelectField = ({
               {translate(defaultText)}
             </li>
           )}
-          {finalOptions.map((option, key) => {
+          {Array.isArray(finalOptions) && finalOptions.map((option, key) => {
             return (
               <li key={key} value={option[valueField]} onClick={() => handleChange(option)}>
                 {translate(option[textField])}

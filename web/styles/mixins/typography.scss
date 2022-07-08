@@ -25,6 +25,10 @@
   font-family: $text-font-family;
   font-weight: normal;
 }
+@mixin semibold-font() {
+  font-family: $text-font-family;
+  font-weight: 700;
+}
 
 @mixin jumbo-style {
   @include header-font();

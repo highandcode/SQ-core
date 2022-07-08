@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getMap } from '../../components';
 import { Validator } from '../../utils/validator';
-import { object, common } from '../../utils';
+import { object, common, validator } from '../../utils';
 import { addComp } from '../../components/ui';
 import Form from '../../components/Form';
 
 import './_content.scss';
 
 addComp({
-  Form
+  Form,
 });
 class Content extends Component {
   constructor() {
@@ -29,54 +29,38 @@ class Content extends Component {
     onAction && onAction(value, action, block);
   }
 
-  processBlock(block) {
-    const { userData } = this.props;
-    Object.keys(block).forEach((keyForBlock) => {
-      if (Array.isArray(block[keyForBlock])) {
-        block[keyForBlock].forEach((item) => {
-          if (item.inject) {
-            Object.keys(item.inject).forEach((key) => {
-              item[key] = object.getDataFromKey(userData, item.inject[key]);
-            });
-          }
-        });
-      } else if (
-        typeof block[keyForBlock] === 'object' &&
-        !common.isNullOrUndefined(block[keyForBlock])
-      ) {
-        const item = block[keyForBlock];
-        if (item.inject) {
-          Object.keys(item.inject).forEach((key) => {
-            item[key] = object.getDataFromKey(userData, item.inject[key]);
-          });
-        }
+  getForms(items = []) {
+    let allForms = [];
+    items.forEach((item) => {
+      let forms = [];
+      if (item.items) {
+        forms = this.getForms(item.items);
+      }
+      allForms = allForms.concat(forms);
+      if (item.component === 'Form') {
+        allForms.push(item);
       }
     });
-    if (block.inject) {
-      Object.keys(block.inject).forEach((key) => {
-        block[key] = object.getDataFromKey(userData, block.inject[key]);
-      });
-    }
-    return block;
+    return allForms;
   }
 
   checkForAction(e, block, field) {
     let target = field || block;
     const actionType = target.actionType;
     if (actionType) {
-      let allForms = [];
-      this.props.pageData.items.forEach((item) => {
-        if (item.items) {
-          item.items.forEach((item) => {
-            if (item.component === 'Form') {
-              allForms = allForms.concat(item);
-            }
-          });
-        }
-        if (item.component === 'Form') {
-          allForms = allForms.concat(item);
-        }
-      });
+      let allForms = this.getForms(this.props.pageData.items);
+      // this.props.pageData.items.forEach((item) => {
+      //   if (item.items) {
+      //     item.items.forEach((item) => {
+      //       if (item.component === 'Form') {
+      //         allForms = allForms.concat(item);
+      //       }
+      //     });
+      //   }
+      //   if (item.component === 'Form') {
+      //     allForms = allForms.concat(item);
+      //   }
+      // });
       this.onAction(
         {},
         {
@@ -113,7 +97,7 @@ class Content extends Component {
             }
 
             const Comp = compMap[block.component];
-            block = this.processBlock(block);
+            block = object.processBlock(block, {userData});
             return Comp && isValid ? (
               <Comp
                 key={pathname + idx}

@@ -4,12 +4,16 @@ import './repeater.scss';
 
 const Repeater = ({
   className = '',
-  data = [],
+  data,
   dataGroup = {},
   options = {},
+  loader,
   onAction,
   template = () => {
     return <div>{`Template not defined`}</div>;
+  },
+  noDataTemplate = () => {
+    return <div>{`No data found`}</div>;
   },
   groupTemplate = () => {
     return <div>{`Group Template not defined`}</div>;
@@ -33,7 +37,9 @@ const Repeater = ({
 
   return (
     <div className={`sq-repeater ${className}`}>
-      {groupData &&
+      {!data && loader}
+      {data && data.length === 0 && noDataTemplate()}
+      {data && groupData &&
         Object.keys(groupData).map((groupKey, index) => {
           const items = groupData[groupKey];
           const isActive = !!selectedGroups[groupKey];
@@ -64,7 +70,7 @@ const Repeater = ({
             </div>
           );
         })}
-      {!groupData &&
+      {data && !groupData &&
         data.map((dataItem, index) => {
           return (
             <div className="sq-repeater__item" key={index}>

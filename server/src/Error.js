@@ -6,6 +6,13 @@ module.exports = {
       key: 'NO_DATA'
     };
   },
+  notfound: function () {
+    return {
+      code: 404,
+      message: 'not found',
+      key: 'NOT_FOUND'
+    };
+  },
   depsrecords: function () {
     return {
       code: 400,

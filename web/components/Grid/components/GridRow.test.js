@@ -1,76 +1,109 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import GridRow from './GridRow';
-import GridCell from './GridCell';
 
 const columns = [
   {
     name: 'name',
     className: 'col-name',
     headerText: 'Name',
-    cmpType: 'Input'
+    component: {
+      label: 'Name',
+    },
+    cmpType: 'Input',
   },
   {
     name: 'designation',
+    component: {
+      label: 'Designation',
+    },
     className: 'col-designation',
     headerText: 'Designation',
-    cmpType: 'Input'
-  }
+    cmpType: 'Input',
+  },
 ];
 
-describe("GridRow", () => {
-  it("should render", () => {
-    const wrapper = shallow(<GridRow />);
-    expect(wrapper.find('.sq-grid__data-row').length).toBe(1);
+describe('GridRow', () => {
+  it('should render', () => {
+    const { container } = render(<GridRow />);
+    expect(container.getElementsByClassName('sq-grid__data-row').length).toBe(
+      1
+    );
   });
 
   describe('GridRow:Columns', () => {
     let wrapper;
     beforeEach(() => {
-      wrapper = shallow(<GridRow columns={columns} data={{ name: 'Hello', designation: 'Desig' }} />);
+      const { container } = render(
+        <GridRow
+          columns={columns}
+          data={{ name: 'Hello', designation: 'Desig' }}
+        />
+      );
+      wrapper = container;
     });
     it('should render apply given class on column', () => {
-      expect(wrapper.find(GridCell).length).toBe(2);
+      expect(screen.getByDisplayValue('Hello')).toBeVisible();
     });
-
+    it('should render apply given class on column', () => {
+      expect(screen.getByDisplayValue('Desig')).toBeVisible();
+    });
   });
   describe('GridRow:onRowChange', () => {
-    let wrapper, onRowChange = jest.fn();
+    let wrapper,
+      onRowChange = jest.fn();
     beforeEach(() => {
-      wrapper = mount(<GridRow columns={columns} data={{ name: 'Hello', designation: 'Desig' }} onRowChange={onRowChange} />);
-      wrapper.find('input').at(0).simulate('change', { target: { value: 'dssf' } });
-      wrapper.find('input').at(0).simulate('blur');
+      const { container } = render(
+        <GridRow
+          columns={columns}
+          data={{ name: 'Hello', designation: 'Desig' }}
+          onRowChange={onRowChange}
+        />
+      );
+      wrapper = container;
     });
 
     it('should render given columns', () => {
+      fireEvent.change(screen.getByLabelText('Name'), {
+        target: { value: 'dssf' },
+      });
+      fireEvent.blur(screen.getByLabelText('Name'));
       expect(onRowChange).toHaveBeenCalled();
     });
-
   });
   describe('GridRow:onColumnChange', () => {
-    let wrapper, onColumnChange = jest.fn();
-    beforeEach(() => {
-      wrapper = mount(<GridRow columns={columns} data={{  name: 'Hello', designation: 'Desig' }} onColumnChange={onColumnChange} />);
-      wrapper.find('input').at(0).simulate('change', { target: { value: 'dssf' } });
-      wrapper.find('input').at(0).simulate('blur');
-    });
-
     it('should call onColumnChange', () => {
+      const onColumnChange = jest.fn();
+      const { container } = render(
+        <GridRow
+          columns={columns}
+          data={{ name: 'Hello', designation: 'Desig' }}
+          onColumnChange={onColumnChange}
+        />
+      );
+      fireEvent.change(screen.getByLabelText('Designation'), {
+        target: { value: 'dssf' },
+      });
+      fireEvent.blur(screen.getByLabelText('Designation'));
       expect(onColumnChange).toHaveBeenCalled();
     });
-
   });
   describe('GridRow:onFieldBlur', () => {
-    let wrapper, onFieldBlur = jest.fn();
-    beforeEach(() => {
-      wrapper = mount(<GridRow columns={columns} data={{ name: 'Hello', designation: 'Desig' }} onFieldBlur={onFieldBlur} />);
-      wrapper.find('input').at(0).simulate('change', { target: { value: 'dssf' } });
-      wrapper.find('input').at(0).simulate('blur');
-    });
-
-    it('should call on onFieldBlur()', () => {
+    it('should call onFieldBlur', () => {
+      const onFieldBlur = jest.fn();
+      render(
+        <GridRow
+          columns={columns}
+          data={{ name: 'Hello', designation: 'Desig' }}
+          onFieldBlur={onFieldBlur}
+        />
+      );
+      fireEvent.change(screen.getByLabelText('Designation'), {
+        target: { value: 'dssf' },
+      });
+      fireEvent.blur(screen.getByLabelText('Designation'));
       expect(onFieldBlur).toHaveBeenCalled();
     });
-
   });
 });

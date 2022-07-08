@@ -1,6 +1,6 @@
 import { currency, signs } from '../../server/src/utils/currency';
 
-let currentCurrency = localStorage.getItem('currency') || 'USD';
+let currentCurrency = localStorage?.getItem('currency') || 'USD';
 
 const set = (newCurr) => {
   if (currency[newCurr]) {
@@ -14,7 +14,7 @@ const get = () => {
 };
 
 const getSign = (curr) => {
-  return signs[curr] || signs[currentCurrency];
+  return signs[curr] || signs[currentCurrency] || '';
 };
 
 export default currency;

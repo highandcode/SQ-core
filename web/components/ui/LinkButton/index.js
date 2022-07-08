@@ -20,7 +20,7 @@ const LinkButton = ({
   iconName,
   urlParams,
   buttonText,
-  size = 'normal',
+  size = 'medium',
   type = 'Link',
   ...rest
 }) => {

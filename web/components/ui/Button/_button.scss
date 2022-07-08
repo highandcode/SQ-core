@@ -26,7 +26,12 @@
   }
   display: inline-block;
   .sq-icon {
-    margin-right: 8px;
+    &.left {
+      margin-right: 8px;
+    }
+    &.right {
+      margin-left: 4px;
+    }
   }
   &--inline {
     width: auto;

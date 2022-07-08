@@ -1,15 +1,16 @@
-import Entity from '../entity/entity';
 import _ from 'lodash';
 import Querytable from './queryable';
 
 class Filterable {
-  constructor(data = [], { entityType = Entity }) {
+  constructor(data = [], { entityType = (data) => data } = {}) {
     this.rData = data;
     this.entityType = entityType;
   }
 
   filterBy(options) {
-    return new Querytable(_.filter(this.rData, options), { entityType: this.entityType });
+    return new Querytable(_.filter(this.rData, options), {
+      entityType: this.entityType,
+    });
   }
 }
 

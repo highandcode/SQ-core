@@ -3,6 +3,32 @@ import { messages } from './error-messages';
 import EventManager from './event-manager';
 import { CONSTANTS } from '../globals';
 
+let CODES = {
+  UNAUTHORIZE_CODE: 403,
+  LOGIN_FAILED: 401,
+  BAD_REQUEST: 400,
+  GENERIC_ERROR: 500,
+  NOT_FOUND: 404,
+};
+
+const setErrorCodes = (newCodes) => {
+  CODES = {
+    ...CODES,
+    ...newCodes,
+  };
+};
+
+let responseParsers = {};
+
+const addParsers = (newParsers) => {
+  responseParsers = {
+    ...responseParsers,
+    ...newParsers,
+  };
+};
+
+const getParsers = () => responseParsers;
+
 var defaultHeaders = {
   'Content-Type': 'application/json',
 };
@@ -39,8 +65,8 @@ export class ApiBridge {
     return result || window.API_SERVER || '';
   }
 
-  get(url, params, headers = {}) {
-    return fetch(
+  get(url, params, headers = {}, { plain = false } = {}) {
+    const promisObj = fetch(
       this.getPrefix({ url, body: params }) +
         url +
         new QueryString(params).toString(),
@@ -52,57 +78,132 @@ export class ApiBridge {
           ...headers,
         },
       }
-    )
+    );
+    if (plain) {
+      return promisObj;
+    }
+    return promisObj
       .then(checkStatus.bind(this))
       .then(parseJSON)
+      .then(processCustomParser.bind(this))
       .then(messageParser)
       .then(responseReader.bind(this));
   }
 
-  post(url, body, headers = {}) {
-    return fetch(this.getPrefix({ url, body }) + url, {
-      method: 'POST',
-      headers: {
-        ...defaultHeaders,
-        ...this.getCustomHeaders(),
-        ...headers,
-      },
-      body: JSON.stringify(body),
-    })
+  rawPost(url, body, headers = {}, query = {}, { plain = false } = {}) {
+    const promisObj = fetch(
+      this.getPrefix({ url, body }) + url + new QueryString(query).toString(),
+      {
+        method: 'POST',
+        headers: {
+          ...this.getCustomHeaders(),
+          ...headers,
+        },
+        body: body,
+      }
+    );
+    if (plain) {
+      return promisObj;
+    }
+    return promisObj
       .then(checkStatus.bind(this))
       .then(parseJSON)
+      .then(processCustomParser.bind(this))
+      .then(messageParser)
+      .then(responseReader.bind(this));
+  }
+  post(url, body, headers = {}, query = {}, { plain = false } = {}) {
+    const promisObj = fetch(
+      this.getPrefix({ url, body }) + url + new QueryString(query).toString(),
+      {
+        method: 'POST',
+        headers: {
+          ...defaultHeaders,
+          ...this.getCustomHeaders(),
+          ...headers,
+        },
+        body: JSON.stringify(body),
+      }
+    );
+    if (plain) {
+      return promisObj;
+    }
+    return promisObj
+      .then(checkStatus.bind(this))
+      .then(parseJSON)
+      .then(processCustomParser.bind(this))
       .then(messageParser)
       .then(responseReader.bind(this));
   }
 
-  update(url, body, headers = {}) {
-    return fetch(this.getPrefix({ url, body }) + url, {
-      method: 'PUT',
-      headers: {
-        ...defaultHeaders,
-        ...this.getCustomHeaders(),
-        ...headers,
-      },
-      body: JSON.stringify(body),
-    })
+  update(url, body, headers = {}, query = {}, { plain = false } = {}) {
+    const promisObj = fetch(
+      this.getPrefix({ url, body }) + url + new QueryString(query).toString(),
+      {
+        method: 'PUT',
+        headers: {
+          ...defaultHeaders,
+          ...this.getCustomHeaders(),
+          ...headers,
+        },
+        body: JSON.stringify(body),
+      }
+    );
+    if (plain) {
+      return promisObj;
+    }
+    return promisObj
       .then(checkStatus.bind(this))
       .then(parseJSON)
+      .then(processCustomParser.bind(this))
       .then(messageParser)
       .then(responseReader.bind(this));
   }
 
-  delete(url, body, headers = {}) {
-    return fetch(this.getPrefix({ url, body }) + url, {
-      method: 'DELETE',
-      headers: {
-        ...defaultHeaders,
-        ...this.getCustomHeaders(),
-        ...headers,
-      },
-      body: JSON.stringify(body),
-    })
+  patch(url, body, headers = {}, query = {}, { plain = false } = {}) {
+    const promisObj = fetch(
+      this.getPrefix({ url, body }) + url + new QueryString(query).toString(),
+      {
+        method: 'PATCH',
+        headers: {
+          ...defaultHeaders,
+          ...this.getCustomHeaders(),
+          ...headers,
+        },
+        body: JSON.stringify(body),
+      }
+    );
+    if (plain) {
+      return promisObj;
+    }
+    return promisObj
       .then(checkStatus.bind(this))
       .then(parseJSON)
+      .then(processCustomParser.bind(this))
+      .then(messageParser)
+      .then(responseReader.bind(this));
+  }
+
+  delete(url, body, headers = {}, query, { plain = false } = {}) {
+    const promisObj = fetch(
+      this.getPrefix({ url, body }) + url + new QueryString(query).toString(),
+      {
+        method: 'DELETE',
+        headers: {
+          ...defaultHeaders,
+          ...this.getCustomHeaders(),
+          ...headers,
+        },
+        body: JSON.stringify(body),
+      }
+    );
+    if (plain) {
+      return promisObj;
+    }
+    return promisObj
+      .then(checkStatus.bind(this))
+      .then(parseJSON)
+      .then(processCustomParser.bind(this))
       .then(messageParser)
       .then(responseReader.bind(this));
   }
@@ -111,14 +212,14 @@ export class ApiBridge {
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
-  } else if (response.status === 401) {
+  } else if (response.status === CODES.LOGIN_FAILED) {
     return response;
-  } else if (response.status === 403) {
+  } else if (response.status === CODES.UNAUTHORIZE_CODE) {
     this.events.emit('onUnauthroized', response);
     return response;
-  } else if (response.status === 400) {
+  } else if (response.status === CODES.BAD_REQUEST) {
     return response;
-  } else if (response.status === 500) {
+  } else if (response.status === CODES.GENERIC_ERROR) {
     return {
       code: response.status,
       error: true,
@@ -128,7 +229,7 @@ function checkStatus(response) {
         key: 'UNEXPECTED_ERROR',
       },
     };
-  } else if (response.status === 404) {
+  } else if (response.status === CODES.NOT_FOUND) {
     return {
       code: response.status,
       error: true,
@@ -151,7 +252,16 @@ function checkStatus(response) {
 
 function parseJSON(response) {
   if (response && !response.error) {
-    return response.json();
+    let resp = {};
+    try {
+      resp = response.json();
+    } catch (ex) {
+      resp = {
+        error: true,
+        error: {},
+      };
+    }
+    return resp;
   } else {
     return response;
   }
@@ -161,7 +271,7 @@ function responseReader(response) {
     case CONSTANTS.STATUS.SUCCESS:
       return response;
     case CONSTANTS.STATUS.ERROR:
-      switch (response.error.handler) {
+      switch (response.error?.handler) {
         case 'POPUP':
           this.events.emit('onErrorPopup', response);
           break;
@@ -177,6 +287,15 @@ function responseReader(response) {
         ...response,
       };
   }
+}
+
+function processCustomParser(response) {
+  const parser = response.parser || 'default';
+  let newResult;
+  if (responseParsers[parser]) {
+    newResult = responseParsers[parser].call(this, response);
+  }
+  return newResult || response;
 }
 
 function messageParser(response) {
@@ -226,3 +345,4 @@ function messageParser(response) {
 }
 
 export default new ApiBridge();
+export { setErrorCodes, getParsers, addParsers };

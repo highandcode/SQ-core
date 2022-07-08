@@ -16,6 +16,7 @@ import { Validator } from '../../utils/validator';
 import {
   fetchContentPage,
   postApi,
+  executeHook,
   updateUserData,
   mergeUserData,
   updateErrorData,
@@ -150,14 +151,16 @@ class DynamicContent extends Component {
       .unwrap();
     const pageResponse = resp.data;
     if (pageResponse.pageData.reset) {
-      await this.props.contentActions.resetUserData(pageResponse.pageData.reset);
+      await this.props.contentActions.resetUserData(
+        pageResponse.pageData.reset
+      );
     }
     await this.props.contentActions.updateUserData(
       pageResponse.metaData?.userData
     );
-    await this.props.contentActions.updateUserData(pageResponse.pageData.init);
     await this.props.contentActions.mergeUserData(pageResponse.pageData.merge);
     await this.processHook(pageResponse.pageData.hook?.load);
+    await this.props.contentActions.mergeUserData(pageResponse.pageData.init);
     await this.props.contentActions.mergeUserData(pageResponse.pageData.merge);
     window.clearTimeout(interval);
     const { analytics = {} } = pageResponse;
@@ -212,10 +215,22 @@ class DynamicContent extends Component {
     } else {
       obj = value.value;
     }
+
     if (field.validators) {
+      const allValidators = {};
+      block.fields?.forEach((field) => {
+        if (field.validators) {
+          allValidators[field.name] = {
+            validators: field.validators,
+            impactOn: field.impactOn,
+          };
+        }
+      });
       const validations = new Validator({
+        ...allValidators,
         [field.name]: {
           validators: field.validators,
+          impactOn: field.impactOn,
         },
       });
       validations.setValues({ ...this.getUpdatedUserData(), ...value.value });
@@ -246,7 +261,7 @@ class DynamicContent extends Component {
     return false;
   }
 
-  validateForms(forms, group) {
+  validateForms(forms = [], group) {
     let isValid = true;
     forms.forEach((form) => {
       if (this.hasMatchingGroup(form, group) && !this.validateForm(form)) {
@@ -288,18 +303,51 @@ class DynamicContent extends Component {
 
   async onAction(value, action, block) {
     let isValid;
+    let result;
     switch (action.actionType) {
       case 'api':
         await this.props.contentActions.updateUserData({
           isSubmitting: true,
         });
-        const result = await this.props.contentActions.postApi(action);
+        result = await this.props.contentActions.postApi(action);
         await this.props.contentActions.mergeUserData(
           this.state.pageData.pageData.merge
         );
         await this.props.contentActions.updateUserData({
           isSubmitting: false,
         });
+        if (result.status === 'success') {
+          const data = action.dataKey
+            ? { [action.dataKey]: result.data }
+            : result.data;
+          await this.props.contentActions.updateUserData({
+            ...data,
+            lastError: {},
+          });
+        }
+        this.checkForInlineErrors(result);
+        this.validateResults(result);
+        break;
+      case 'module':
+        await this.props.contentActions.updateUserData({
+          isSubmitting: true,
+        });
+        result = await this.props.contentActions.executeHook(action);
+        await this.props.contentActions.mergeUserData(
+          this.state.pageData.pageData.merge
+        );
+        await this.props.contentActions.updateUserData({
+          isSubmitting: false,
+        });
+        if (result.status === 'success') {
+          const data = action.dataKey
+            ? { [action.dataKey]: result.data }
+            : result.data;
+          await this.props.contentActions.updateUserData({
+            ...data,
+            lastError: {},
+          });
+        }
         this.checkForInlineErrors(result);
         this.validateResults(result);
         break;
@@ -309,7 +357,7 @@ class DynamicContent extends Component {
           await this.props.contentActions.updateUserData({
             isSubmitting: true,
           });
-          const result = await this.props.contentActions.postApi(action);
+          result = await this.props.contentActions.postApi(action);
           await this.props.contentActions.mergeUserData(
             this.state.pageData.pageData.merge
           );
@@ -326,7 +374,7 @@ class DynamicContent extends Component {
           await this.props.contentActions.updateUserData({
             isSubmitting: true,
           });
-          const result = await this.props.contentActions.postApi(action);
+          result = await this.props.contentActions.postApi(action);
           await this.props.contentActions.mergeUserData(
             this.state.pageData.pageData.merge
           );
@@ -336,6 +384,7 @@ class DynamicContent extends Component {
           this.checkForInlineErrors(result);
           this.validateResults(result);
         }
+        break;
       case 'user-store':
         await this.props.contentActions.mergeUserData({
           ...action.params,
@@ -428,10 +477,10 @@ class DynamicContent extends Component {
           autoHideDuration={null}
           onClose={(evt, reason) => {
             if (reason !== 'clickaway') {
-              this.props.commonActions.closeNotification()
+              this.props.commonActions.closeNotification();
               return;
             }
-          }}    
+          }}
           severity={store.common.notification.type}
         />
         <ContentContainer
@@ -486,6 +535,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     contentActions: {
       postApi: (data) => dispatch(postApi(data)),
+      executeHook: (data) => dispatch(executeHook(data)),
       fetchContentPage: (data) => dispatch(fetchContentPage(data)),
       resetUserData: (data) => dispatch(resetUserData(data)),
       updateUserData: (data) => dispatch(updateUserData(data)),
