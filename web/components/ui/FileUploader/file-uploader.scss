@@ -1,0 +1,46 @@
+.sq-file-uploader {
+  > label {
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    height: auto;
+    min-width: 100%;
+    max-width: 100%;
+    > div {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      width: 100%;
+      span {
+        display: block;
+        margin-bottom: 4px;
+      }
+    }
+    .file-types {
+      width: 100%;
+      max-width: 100%;
+      white-space:unset;
+    }
+  }
+  > svg {
+    width: 32px;
+  }
+  &__list {
+    margin-bottom: 8px;
+  }
+
+  &__file-item {
+    display: flex;
+  }
+  &__file-name {
+    flex-grow: 1;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    overflow: hidden;
+  }
+  &__file-delete {
+    cursor: pointer;
+  }
+}

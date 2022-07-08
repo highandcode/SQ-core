@@ -1,111 +1,105 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Quill from 'quill';
-
+import RichTextEditor from 'react-rte';
 import 'quill/dist/quill.snow.css';
 import './_rich-text.scss';
+
+function getText(html) {
+  var divContainer = document.createElement('div');
+  divContainer.innerHTML = html;
+  return divContainer.textContent || divContainer.innerText || '';
+}
 
 class RichTextField extends React.Component {
   constructor() {
     super();
     this.state = {
-      value: '',
+      value: RichTextEditor.createEmptyValue(),
       focused: false,
-      hasChanged: false
+      hasChanged: false,
     };
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
-    this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
   }
 
-  handleOnChange(evt) {
+  handleOnChange(value) {
+    const html = value.toString('html');
+    const hasText = getText(html);
     this.setState({
-      value: evt.value,
-      hasChanged: true
+      value: value,
+      hasChanged: true,
     });
-    const { onKeyPress, onChange } = this.props;
-    onKeyPress &&
-      onKeyPress({
-        value: evt.value
-      });
+    const { onChange } = this.props;
+
     onChange &&
       onChange({
-        value: this.state.value
+        value: hasText && html,
       });
   }
 
   componentDidMount() {
-    const that = this;
-    this.setState({
-      value: this.props.value !== undefined ? this.props.value : ''
-    });
-    const { ...rest } = this.props;
-    this.editorInstance = new Quill(this.editor, {
-      theme: 'snow',
-      ...rest
-    });
-    this.editorInstance.on('text-change', function (delta, oldDelta, source) {
-      that.handleOnChange({
-        value: that.editorInstance.root.innerHTML,
-        textValue: that.editorInstance.root.innerText
-      });
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (this.props.value !== prevProps.value) {
+    if (this.props.value) {
       this.setState({
-        value: this.props.value
+        value: RichTextEditor.createValueFromString(this.props.value, 'html'),
       });
     }
-    if (this.props.disabled !== prevProps.disabled) {
-      if (this.props.disabled) {
-        this.editorInstance.disable();
-      } else {
-        this.editorInstance.enable();
-      }
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.state.focused && prevProps.value !== this.props.value) {
+      this.setState({
+        value: RichTextEditor.createValueFromString(this.props.value, 'html'),
+      });
     }
   }
 
   handleFocus() {
     this.setState({
-      focused: true
+      focused: true,
     });
   }
 
   handleBlur() {
     const { onBlur, onChange } = this.props;
     this.setState({
-      focused: false
+      focused: false,
     });
-    onBlur &&
-      onBlur({
-        value: this.state.value
-      });
-    onChange &&
-      onChange({
-        value: this.state.value
-      });
-  }
-
-  handleOnKeyUp(e) {
-    if (e.key === 'Enter') {
-      this.handleOnChange(e);
-      this.handleBlur();
-    }
   }
 
   render() {
     const { focused } = this.state;
-    const { errorMessage, label, className = '', formatter, ...rest } = this.props;
-    let formatteedValue = this.state.value;
+    const {
+      label,
+      className = '',
+      formatter,
+      value,
+      error,
+      errorMessage,
+      ...rest
+    } = this.props;
+
     return (
-      <div className={`sq-richtext-field${focused ? ' sq-richtext-field--focused' : ''} ${className}`}>
+      <div
+        className={`sq-richtext-field${
+          focused ? ' sq-richtext-field--focused' : ''
+        } ${className}`}
+      >
         {label && <label htmlFor="">{label}</label>}
-        <div className={`sq-richtext-field__editor`} ref={(el) => (this.editor = el)}></div>
-        {!focused && <div className="sq-textarea-field--error">{errorMessage}</div>}
+        {/* <div
+          className={`sq-richtext-field__editor`}
+          ref={(el) => (this.editor = el)}
+        ></div> */}
+        <RichTextEditor
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          onChange={this.handleOnChange}
+          className={`sq-richtext-field__editor`}
+          defaultValue={this.props.value}
+          value={this.state.value}
+        />
+        {!focused && error && (
+          <div className="sq-textarea-field--error">{errorMessage}</div>
+        )}
       </div>
     );
   }
@@ -118,6 +112,6 @@ RichTextField.propTypes = {
   formatter: PropTypes.object,
   onChange: PropTypes.func,
   onKeyPress: PropTypes.func,
-  onBlur: PropTypes.func
+  onBlur: PropTypes.func,
 };
 export default RichTextField;

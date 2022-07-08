@@ -5,6 +5,10 @@
     display: flex;
     align-items: center;
   }
+  &--auto {
+    display: inline-block;
+    width: auto;
+  }
   &--default {
     &.primary {
       color: $sq-color-primary;
@@ -22,6 +26,17 @@
       color: $sq-color-warning;
     }
   }
+ 
+  &--small {
+    .sq-tag-label__container {
+      padding: 2px 4px;
+    }
+    .sq-icon {
+      width: 12px;
+      height: 12px;
+    }
+    @include b6-style();
+  }
   &--filled {
     color: white;
     &.primary {
@@ -38,6 +53,38 @@
     }
     &.warning {
       background-color: $sq-color-warning;
+    }
+  }
+  &--outlined {
+    &.primary {
+      color: $sq-color-primary-darkest;
+      background-color: $sq-color-primary-lightest;
+      border: solid 1px $sq-color-primary-dark;
+    }
+    &.secondary {
+      color: $sq-color-secondary-darkest;
+      background-color: $sq-color-secondary-lightest;
+      border: solid 1px $sq-color-secondary-dark;
+    }
+    &.success {
+      color: $sq-color-success-darkest;
+      background-color: $sq-color-success-lightest;
+      border: solid 1px $sq-color-success-dark;
+    }
+    &.info {
+      color: $sq-color-info-darkest;
+      background-color: $sq-color-info-lightest;
+      border: solid 1px $sq-color-info-dark;
+    }
+    &.warning {
+      color: $sq-color-warning-darkest;
+      background-color: $sq-color-warning-lightest;
+      border: solid 1px $sq-color-warning-dark;
+    }
+    &.error {
+      color: $sq-color-error-darkest;
+      background-color: $sq-color-error-lightest;
+      border: solid 1px $sq-color-error-dark;
     }
   }
 }

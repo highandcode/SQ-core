@@ -15,7 +15,7 @@ module.exports = {
   moduleFileExtensions: ['js', 'json', 'jsx'],
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  setupFiles: ['<rootDir>/enzyme.config.js'],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
   coverageReporters: ['text', 'clover', 'json', 'lcov'],
   moduleNameMapper: {
     '.+\\.(svg|png|jpg)$': 'identity-obj-proxy',
@@ -29,7 +29,7 @@ module.exports = {
     ],
   ],
   // The test environment that will be used for testing
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-environment-jsdom',
 
   // The glob patterns Jest uses to detect test files
   testMatch: ['**/__tests__/**/*.js?(x)', '**/(*.)(test).js?(x)'],
@@ -38,7 +38,6 @@ module.exports = {
   testPathIgnorePatterns: ['\\\\node_modules\\\\'],
 
   // This option sets the URL for the jsdom environment. It is reflected in properties such as location.href
-  testURL: 'http://localhost',
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   transformIgnorePatterns: ['<rootDir>/node_modules/'],

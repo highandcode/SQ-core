@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'; 
+import hljs from 'highlight.js';
 
 const CodeHighlight = ({ code, className, language = '' }) => {
   const codeBlock = useRef(null);

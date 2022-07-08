@@ -56,7 +56,7 @@ class SQTabs extends React.Component {
           onChange={this.handleChange}
           className={'sq-tabs__root'}
         >
-          {finalOptions.map((tab, idx) => {
+          {finalOptions && finalOptions.map((tab, idx) => {
             const { [textField]: text, [valueField]: value, className, iconName, icon: iconConfig = {}, ...rest } = tab;
             const { ...icon } = iconConfig;
             const IconToRender = iconName && <Icon name={iconName} variant="normal" {...icon} />;

@@ -137,6 +137,7 @@ class Form extends React.Component {
               value={value}
               row={data}
               onClick={(e) => this.onClick(e, field, data)}
+              onAction={(action) => this.handleAction(action)}
               onChange={(fieldData) => this.onChange(field, fieldData, data)}
               onKeyPress={(fieldData) => this.handleOnKeyPress(field, fieldData, data)}
               onAnalytics={onAnalytics}

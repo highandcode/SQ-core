@@ -51,7 +51,7 @@ class Base {
     const { series } = this.config;
     const allData = data.map((item) => {
       return series.map((ser) => {
-        return item[ser.yValue];
+        return item[ser.yValue] || 0;
       });
     });
     let allValues = [];

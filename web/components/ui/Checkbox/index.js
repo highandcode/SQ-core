@@ -6,10 +6,12 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
-
+import common from '../../../utils/common';
+import './_checkbox-list.scss';
 const CheckboxField = ({
   name,
   className = '',
+  defaultValue = '',
   selectedValue = 'on',
   disabled = false,
   value = '',
@@ -22,10 +24,13 @@ const CheckboxField = ({
   onAnalytics,
   ...rest
 }) => {
-  const [stateChecked, setChecked] = useState(checked || selectedValue === value);
-  const { click: anlayticClick, checked: anlayticChecked, unchecked: analyticUnChcked } = analytics;
+  const stateChecked  = checked || selectedValue === value;
+  const {
+    click: anlayticClick,
+    checked: anlayticChecked,
+    unchecked: analyticUnChcked,
+  } = analytics;
   const handleChange = (input) => {
-    setChecked(input.target.checked);
     !disabled && anlayticClick && onAnalytics && onAnalytics(anlayticClick);
     if (input.target.checked) {
       !disabled &&
@@ -33,32 +38,47 @@ const CheckboxField = ({
         onChange(
           {
             checked: true,
-            value: selectedValue
+            value: selectedValue,
           },
           input
         );
-      !disabled && anlayticChecked && onAnalytics && onAnalytics(anlayticChecked);
+      !disabled &&
+        anlayticChecked &&
+        onAnalytics &&
+        onAnalytics(anlayticChecked);
     } else {
       !disabled &&
         onChange &&
         onChange(
           {
             checked: false,
-            value: ''
+            value: common.isNullOrUndefined(defaultValue) ? '' : defaultValue,
           },
           input
         );
-      !disabled && analyticUnChcked && onAnalytics && onAnalytics(analyticUnChcked);
+      !disabled &&
+        analyticUnChcked &&
+        onAnalytics &&
+        onAnalytics(analyticUnChcked);
     }
   };
   return (
     <>
       <FormControl component="fieldset" error={rest.error}>
-        <FormLabel component="legend">{label}</FormLabel>
-        <FormControlLabel className={className} control={<Checkbox checked={stateChecked} onChange={handleChange} name={name} />} label={text} />
+        {label && <FormLabel component="legend">{label}</FormLabel>}
+        <FormControlLabel
+          className={className}
+          control={
+            <Checkbox
+              checked={stateChecked}
+              onChange={handleChange}
+              name={name}
+            />
+          }
+          label={text}
+        />
       </FormControl>
-
-      {<div className="sq-error sq-checkbox-list--error">{errorMessage}</div>}
+      {rest.errorMessage && <div className="sq-error sq-checkbox-list--error">{errorMessage}</div>}
     </>
   );
 };
@@ -72,24 +92,35 @@ CheckboxField.propTypes = {
   checked: PropTypes.bool,
   className: PropTypes.string,
   value: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
-const CheckboxList = ({ name, options = [], className = '', info = '', value = [], label = '', onChange, errorMessage }) => {
-  const [values, setValues] = useState(value);
+const CheckboxList = ({
+  name,
+  options = [],
+  className = '',
+  info = '',
+  value = [],
+  label = '',
+  labelField = 'label',
+  textField = 'text',
+  valueField = 'value',
+  onChange,
+  errorMessage,
+}) => {
+
   const handleChange = (input, item) => {
     let finalValue;
     if (input.checked) {
-      finalValue = [...values, item.value];
-      setValues(finalValue);
+      finalValue = [...value, item[valueField]];
     } else {
-      values.splice(values.indexOf(item.value), 1);
-      finalValue = [...values];
-      setValues(values);
+      const cloneVals = value.slice();
+      cloneVals.splice(cloneVals.indexOf(item[valueField]), 1);
+      finalValue = [...cloneVals];
     }
     onChange &&
       onChange({
-        value: finalValue
+        value: finalValue,
       });
   };
   return (
@@ -102,9 +133,9 @@ const CheckboxList = ({ name, options = [], className = '', info = '', value = [
               <CheckboxField
                 key={index}
                 name={name}
-                checked={values.indexOf(option.value) > -1}
-                text={option.text}
-                label={option.label}
+                checked={value.indexOf(option[valueField]) > -1}
+                text={option[textField]}
+                label={option[labelField]}
                 onChange={(val, e) => handleChange(val, option)}
               />
             );
@@ -127,7 +158,7 @@ CheckboxList.propTypes = {
   value: PropTypes.array,
   onChange: PropTypes.func,
   error: PropTypes.bool,
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
 };
 
 export default CheckboxList;

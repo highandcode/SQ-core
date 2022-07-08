@@ -83,3 +83,14 @@
 .inline-block {
   display: inline-block;
 }
+
+.flb-d {
+  display: flex;
+}
+
+.flb-a-center {
+  align-items: center;
+}
+.flb-d-column {
+  flex-direction: column;
+}

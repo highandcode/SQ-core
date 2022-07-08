@@ -1,11 +1,10 @@
-import { Validator } from "../../utils/validator";
+import { Validator } from '../../utils/validator';
 
 class Entity {
-
   hasChanged = false;
   hasValidated = false;
 
-  constructor({ raw = {}, entityType }, options = {}) {
+  constructor({ raw = {}, entityType = Entity }, options = {}) {
     const { ref, repo, snapshot, validators = {} } = options;
     this.entityType = entityType;
     this.repo = repo;
@@ -19,7 +18,9 @@ class Entity {
   }
 
   updateField(name, value) {
-    this[name] = this.entityType.fields[name] ? this.entityType.fields[name](value) : value;
+    this[name] = this.entityType.fields[name]
+      ? this.entityType.fields[name](value)
+      : value;
     this.onUpdateFields && this.onUpdateFields({ [name]: value });
   }
   updateFields(fields) {
@@ -46,12 +47,20 @@ class Entity {
   }
 
   setData(raw) {
-    Object.keys(this.entityType.fields).forEach((fieldKey) => {
-      this[fieldKey] = this.entityType.fields[fieldKey](raw[fieldKey]);
-    });
-    this.entityType.infoFields && Object.keys(this.entityType.infoFields).forEach((fieldKey) => {
-      this[fieldKey] = this.entityType.infoFields[fieldKey](raw[fieldKey]);
-    });
+    console.log(raw, Object.keys(this.entityType.fields));
+    if (Object.keys(this.entityType.fields).length > 0) {
+      Object.keys(this.entityType.fields).forEach((fieldKey) => {
+        this[fieldKey] = this.entityType.fields[fieldKey](raw[fieldKey]);
+      });
+    } else {
+      Object.keys(raw).forEach((fieldKey) => {
+        this[fieldKey] = raw[fieldKey];
+      });
+    }
+    this.entityType.infoFields &&
+      Object.keys(this.entityType.infoFields).forEach((fieldKey) => {
+        this[fieldKey] = this.entityType.infoFields[fieldKey](raw[fieldKey]);
+      });
   }
   setDerivedFields() {
     if (this.entityType.derivedFields) {
@@ -78,14 +87,16 @@ class Entity {
       objToReturn[fieldKey] = this[fieldKey];
     });
     let overrides;
-    if (typeof (this.onBeforeJSON) === 'function') {
+    if (typeof this.onBeforeJSON === 'function') {
       overrides = this.onBeforeJSON(objToReturn);
     }
     return {
       ...objToReturn,
-      ...overrides
+      ...overrides,
     };
   }
 }
+
+Entity.fields = {};
 
 export default Entity;

@@ -6,15 +6,17 @@ import MenuItem from '@mui/material/MenuItem';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import StandardInput from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
+import ListItemText from '@mui/material/ListItemText';
 import FormControl from '@mui/material/FormControl';
 import './select-field.scss';
 import { translate } from '../../../utils/translate';
 import { getValue } from '../../../utils/properties';
+import Icon from '../../Icon';
 
 const InputCollection = {
   standard: StandardInput,
-  outlined: OutlinedInput
-}
+  outlined: OutlinedInput,
+};
 
 const SelectField = ({
   row,
@@ -31,6 +33,8 @@ const SelectField = ({
   analytics,
   textField = 'text',
   valueField = 'value',
+  iconField = 'iconName',
+  iconColor = 'iconColor',
   onAction,
   errorMessage,
   ...rest
@@ -39,27 +43,53 @@ const SelectField = ({
     onChange &&
       onChange({
         value: input.target.value,
-        options
+        options,
       });
   };
   const finalOptions = getValue(this, options, row) || [];
-  const isValid = _.filter(finalOptions, { [valueField]: value }).length > 0;
-  const InputToRender = InputCollection[inputVariant] || InputCollection.outlined;
+  const isValid = _.filter(finalOptions, { [valueField]: value }).length > 0 || value === '';
+  const InputToRender =
+    InputCollection[inputVariant] || InputCollection.outlined;
   return (
     <div className={`sq-select-field ${className}`}>
-      <FormControl variant={inputVariant} fullWidth={true} className="sq-select-field-form-wrap">
+      <FormControl
+        variant={inputVariant}
+        fullWidth={true}
+        className="sq-select-field-form-wrap"
+      >
         {label && <InputLabel htmlFor={name}>{label}</InputLabel>}
-        <Select id={name} className="sq-select-field__input" value={isValid ? value : undefined} onChange={handleChange} input={<InputToRender label={label} />} {...rest}>
-          {!!defaultText && <MenuItem value={defaultValue}>{translate(defaultText)}</MenuItem>}
-          {finalOptions && finalOptions.map((option, key) => {
-            return (
-              <MenuItem key={key} value={option[valueField]}>
-                {translate(option[textField])}
-              </MenuItem>
-            );
-          })}
+        <Select
+          id={name}
+          defaultValue={defaultValue}
+          className="sq-select-field__input"
+          value={isValid ? value : undefined}
+          onChange={handleChange}
+          input={<InputToRender label={label} />}
+          {...rest}
+        >
+          {!!defaultText && (
+            <MenuItem value={defaultValue}>{translate(defaultText)}</MenuItem>
+          )}
+
+          {Array.isArray(finalOptions) &&
+            finalOptions.map((option, key) => {
+              return (
+                <MenuItem key={key} value={option[valueField]}>
+                  {option[iconField] && (
+                    <Icon
+                      name={option[iconField]}
+                      size="small"
+                      variant={rest.disabled ? 'default' : option[iconColor]}
+                    />
+                  )}
+                  {option[textField]}
+                </MenuItem>
+              );
+            })}
         </Select>
-        {errorMessage && <div className="sq-error sq-select-field--error">{errorMessage}</div>}
+        {errorMessage && (
+          <div className="sq-error sq-select-field--error">{errorMessage}</div>
+        )}
       </FormControl>
     </div>
   );
@@ -77,7 +107,7 @@ SelectField.propTypes = {
   value: PropTypes.string,
   textField: PropTypes.string,
   valueField: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default SelectField;

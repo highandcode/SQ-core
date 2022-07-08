@@ -23,6 +23,9 @@
     border-radius: 50%;
     padding: 5px;
     box-sizing: content-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .sq-icon__text {
       color: $sq-color-white;
       text-transform: uppercase;
@@ -113,9 +116,18 @@
     color: $sq-color-warning;
   }
   &--error {
+    color: $sq-color-error;
+  }
+  &--error-light {
     color: $sq-color-error-light;
   }
   &--success {
     color: $sq-color-success;
+  }
+  &--success-light {
+    color: $sq-color-success-light;
+  }
+  &--success-dark {
+    color: $sq-color-success-dark;
   }
 }

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Autocomplete from '@mui/lab/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete';
 import Chip from '@mui/material/Chip';
+import Box from '@mui/material/Box';
+import Icon from '../../Icon';
 import InputField from '../InputField';
 import './auto-complete.scss';
 import { getValue } from '../../../utils/properties';
@@ -12,16 +14,19 @@ const SQAutocomplete = ({
   options = [],
   fixedOptions = [],
   className = '',
-  value = '',
+  inputClassName = '',
+  value = null,
   label = '',
   onChange,
   onAnalytics,
   inputVariant = 'outlined',
   analytics,
+  defaultValue = '',
   textField = 'text',
   valueField = 'value',
   multiple,
   onAction,
+  error,
   errorMessage,
   ...rest
 }) => {
@@ -29,20 +34,28 @@ const SQAutocomplete = ({
     onChange &&
       onChange({
         value: multiple
-          ? [...fixedOptions.map((i) => i[valueField]), ...value.filter((option) => fixedOptions.indexOf(option) === -1).map((i) => i[valueField])]
+          ? [
+              ...fixedOptions.map((i) => i[valueField]),
+              ...value
+                .filter((option) => fixedOptions.indexOf(option) === -1)
+                .map((i) => i[valueField]),
+            ]
           : value && value[valueField],
-        options
+        options,
       });
   };
   const finalOptions = getValue(this, options, row) || [];
   const finalFixedOptions = getValue(this, fixedOptions, row) || [];
   let optionFound;
   if (!multiple) {
-    optionFound = finalOptions && finalOptions.filter((i) => i[valueField] === value)[0];
+    optionFound =
+      finalOptions && finalOptions.filter((i) => i[valueField] === value)[0];
   } else {
-    optionFound = finalOptions && finalOptions.filter((i) => value.indexOf(i[valueField]) > -1);
+    optionFound =
+      finalOptions &&
+      finalOptions.filter((i) => value.indexOf(i[valueField]) > -1);
   }
-  
+
   const [inputValue, setInputValue] = useState('');
   return (
     <div className={`sq-autocomplete ${className}`}>
@@ -55,18 +68,46 @@ const SQAutocomplete = ({
         onChange={handleChange}
         renderTags={(tagValue, getTagProps) =>
           tagValue.map((option, index) => (
-            <Chip label={option[textField]} {...getTagProps({ index })} disabled={finalFixedOptions.indexOf(option) !== -1} />
+            <Chip
+              label={
+                <div className="sq-autocomplete__chip flb-d flb-a-center ">
+                  {option.iconName && (
+                    <Icon size={'xs'} name={option.iconName} variant={option.iconColor} />
+                  )}
+                  {option[textField]}
+                </div>
+              }
+              {...getTagProps({ index })}
+              disabled={finalFixedOptions.indexOf(option) !== -1}
+            />
           ))
         }
+        renderOption={(props, option) => (
+          <Box component="li" {...props}>
+            {option.iconName && (
+              <Icon name={option.iconName} variant={option.iconColor} />
+            )}
+            {option[textField]}
+          </Box>
+        )}
         value={optionFound || value || (multiple ? [] : '')}
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
         }}
         renderInput={(params) => {
-          return <InputField {...params} className="mb-wide" label={label} />;
+          return (
+            <InputField
+              {...params}
+              error={error}
+              className={inputClassName}
+              label={label}
+            />
+          );
         }}
       />
-      {errorMessage && <div className="sq-error sq-autocomplete--error">{errorMessage}</div>}
+      {errorMessage && (
+        <div className="sq-error sq-autocomplete--error">{errorMessage}</div>
+      )}
     </div>
   );
 };
@@ -81,7 +122,7 @@ SQAutocomplete.propTypes = {
   value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   textField: PropTypes.string,
   valueField: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default SQAutocomplete;

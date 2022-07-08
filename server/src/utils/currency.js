@@ -28,7 +28,7 @@ Object.keys(currency).forEach((currKey) => {
   }
 });
 const getSign = (curr) => {
-  return signs[curr] || signs[currentCurrency];
+  return signs[curr];
 };
 
 module.exports = {

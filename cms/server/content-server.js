@@ -248,22 +248,24 @@ class ContentServer {
     });
   }
 
-  getErrorPage(siteConfig) {
+  getErrorPage(siteConfig, path) {
     const config = this.config;
     siteConfig = siteConfig || config.siteConfig;
     const siteMap = siteConfig.siteMap;
     let filePath = '';
     let contents;
+    filePath = this.getIfMatchPagesOnRoute(siteConfig, path, 500);
+    console.log(filePath);
 
-    if (siteMap.errorRedirects && siteMap.errorRedirects[500]) {
+    if (!filePath && siteMap.errorRedirects && siteMap.errorRedirects[500]) {
       filePath = this.getFilePath(
         siteMap.errorRedirects && siteMap.errorRedirects[500]
       );
-    } else {
+    } else if (!filePath) {
       filePath = this.getFilePath('/content/pages/error.yaml');
     }
     if (!this.fse.existsSync(filePath)) {
-      filePath = this.get404Page();
+      filePath = this.get404Page(undefined, path);
     }
     let fileContents = this.fse.readFileSync(`${filePath}`, 'utf8');
     try {
@@ -274,11 +276,31 @@ class ContentServer {
     return contents[0];
   }
 
-  get404Page(siteConfig) {
+  getIfMatchPagesOnRoute(siteConfig, path, errorCode) {
+    let filePath = '';
+    siteConfig.siteMap.errorRedirects &&
+      Object.keys(siteConfig.siteMap.errorRedirects).forEach((key) => {
+        if (typeof siteConfig.siteMap.errorRedirects[key] === 'object') {
+          if (
+            path.match(key) &&
+            siteConfig.siteMap.errorRedirects[key][errorCode]
+          ) {
+            filePath = this.getFilePath(
+              siteConfig.siteMap.errorRedirects[key][errorCode]
+            );
+          }
+        }
+      });
+    return filePath;
+  }
+
+  get404Page(siteConfig, path) {
     const config = this.config;
     siteConfig = siteConfig || config.siteConfig;
     let filePath = '';
+    filePath = this.getIfMatchPagesOnRoute(siteConfig, path, 404);
     if (
+      !filePath &&
       siteConfig.siteMap.errorRedirects &&
       siteConfig.siteMap.errorRedirects[404]
     ) {
@@ -286,7 +308,7 @@ class ContentServer {
         siteConfig.siteMap.errorRedirects &&
           siteConfig.siteMap.errorRedirects[404]
       );
-    } else {
+    } else if (!filePath) {
       filePath = this.getFilePath('/content/pages/404.yaml');
     }
     return filePath;
@@ -387,7 +409,7 @@ class ContentServer {
     }
 
     if (!this.fse.existsSync(filePath)) {
-      filePath = this.get404Page(currentSiteConfig);
+      filePath = this.get404Page(currentSiteConfig, fullPath);
       status = 404;
     } else if (!isLaunchMatch) {
       siblingData = this.getAllSiblings(
@@ -406,7 +428,7 @@ class ContentServer {
     try {
       contents = yaml.loadAll(fileContents);
     } catch (ex) {
-      contents = [this.getErrorPage(currentSiteConfig)];
+      contents = [this.getErrorPage(currentSiteConfig, fullPath)];
     }
     console.log('app path found');
 
@@ -418,7 +440,7 @@ class ContentServer {
       userData: {
         launchTime,
         launchEnded,
-        ...this.config.userData()
+        ...this.config.userData(),
       },
       parentPath: siblingData.parentPath || fullPath,
       siblingPages: siblingData.pages,
@@ -446,21 +468,23 @@ class ContentServer {
   }
 
   processContent(contents, data) {
-    if (contents.inject) {
-      if (contents.inject) {
-        Object.keys(contents.inject).forEach((key) => {
+    if (contents && contents.inject) {
+      Object.keys(contents.inject).forEach((key) => {
+        if (typeof contents.inject[key] === 'string') {
           contents[key] = utils.object.getDataFromKey(
             data,
             contents.inject[key]
           );
-        });
-      }
+        }
+      });
     }
     if (contents && contents.items) {
       contents.items.forEach((item) => {
         if (item.inject) {
           Object.keys(item.inject).forEach((key) => {
-            item[key] = utils.object.getDataFromKey(data, item.inject[key]);
+            if (typeof item.inject[key] === 'string') {
+              item[key] = utils.object.getDataFromKey(data, item.inject[key]);
+            }
           });
         }
       });

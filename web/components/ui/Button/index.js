@@ -38,9 +38,9 @@ const CustomButton = ({
         color={color}
         disabled={Boolean(disabled)}
       >
-        {iconName && iconDirection === 'left' && <Icon name={iconName} size={iconSize || size} variant={iconColor || 'normal'} />}
+        {iconName && iconDirection === 'left' && <Icon className='left' name={iconName} size={iconSize || size} variant={iconColor || 'normal'} />}
         {buttonText}
-        {iconName && iconDirection === 'right' && <Icon name={iconName} size={iconSize || size} variant={iconColor || 'normal'} />}
+        {iconName && iconDirection === 'right' && <Icon className='right' name={iconName} size={iconSize || size} variant={iconColor || 'normal'} />}
         {children}
       </Button>
     </div>

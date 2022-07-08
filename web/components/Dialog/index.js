@@ -11,7 +11,7 @@ import Progress from '../Progress';
 import Icon from '../Icon';
 import './dialog.scss';
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = React.forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 

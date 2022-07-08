@@ -3,11 +3,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.sq-image--medium {
-  
   img {
     width: 100%;
-    max-width: 980px;
+  }
+  &--medium {
+    img {
+      width: 100%;
+      max-width: 980px;
+    }
   }
 }

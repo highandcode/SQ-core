@@ -133,7 +133,7 @@ class InputField extends React.Component {
 
   render() {
     const { focused } = this.state;
-    const { errorMessage, className = '', formatter, onAnalytics, onAction, mask = {}, sideAction, row, ...rest } = this.props;
+    const { errorMessage, className = '', formatter, onAnalytics, onAction, mask = {}, sideAction, impactOn, row, ...rest } = this.props;
     const finalAction = getValue(this, sideAction, row);
     let formattedValue = this.applyMask(this.state.value);
     return (
@@ -142,6 +142,9 @@ class InputField extends React.Component {
           <TextField
             className="sq-input-field__input"
             variant="outlined"
+            inputProps={{
+              "aria-label": rest.label,
+            }}
             {...rest}
             error={rest.error}
             value={formattedValue}
@@ -150,6 +153,7 @@ class InputField extends React.Component {
             onKeyDown={this.handleOnKeyDown}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
+           
           />
           {finalAction && <div className="sq-input-field__side-actions">{finalAction}</div>}
         </div>

@@ -14,18 +14,21 @@ class MailRepository {
 
   init() {
     this.transport = this.nodemailer.createTransport({
-      ...this.config.smtpSettings
+      ...this.config.smtpSettings,
     });
   }
 
   templates(name, data) {
     const template = templates()[name];
+    if (!template) {
+      console.log(`No template named "${name}" found.`);
+    }
     if (template) {
       return template({
         ...this.config.server,
         product: this.config.product,
         ...this.customParams(),
-        ...data
+        ...data,
       });
     }
     return null;
@@ -33,6 +36,9 @@ class MailRepository {
 
   sendEmail(template, to, data) {
     const message = this.templates(template, data);
+    if (!message) {
+      return;
+    }
     const fromEmail = message.from || this.config.email.defaultFrom;
     if (message.fromName) {
       message.from = `${message.fromName} <${fromEmail}>`;
@@ -51,12 +57,18 @@ class MailRepository {
       if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath);
       }
-      fs.writeFile(`${dirPath}/email-${datetime.now().toString('YYYY-MM-DD-hh_mm_ss')}.html`, message.body, (err) => {
-        if (err) {
-          console.error(err);
-          return;
+      fs.writeFile(
+        `${dirPath}/email-${datetime
+          .now()
+          .toString('YYYY-MM-DD-hh_mm_ss')}.html`,
+        message.body,
+        (err) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
         }
-      });
+      );
     }
   }
 
@@ -65,7 +77,7 @@ class MailRepository {
       from,
       to,
       subject,
-      html: body
+      html: body,
     };
     return new Promise((resolve, reject) => {
       this.transport.sendMail(message, function (err, info) {
@@ -81,5 +93,5 @@ class MailRepository {
 
 module.exports = {
   MailRepository,
-  setTemplates: set
+  setTemplates: set,
 };
