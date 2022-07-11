@@ -27,13 +27,16 @@ const SQFileUploader = ({
   errorMessage,
   uploadButtonText = 'Upload',
   clearButtonText = 'Clear',
+  uploadOnChange = false,
   onChange,
   value,
   ...rest
 }) => {
   const [file, setFile] = useState([]);
-  const handleChange = (filenew) => {
-   setFile([...(multiple ? file : []), ...(multiple ? filenew : [filenew])]);
+  const handleChange = async (filenew) => {
+    const newFiles = [...(multiple ? file : []), ...(multiple ? filenew : [filenew])];
+    await setFile(newFiles);
+    uploadOnChange && handleAction({files: newFiles});
   };
   const handleDelete = (filenew) => {
     const idx = file.indexOf(filenew);
@@ -54,14 +57,14 @@ const SQFileUploader = ({
       });
   };
 
-  const handleAction = () => {
+  const handleAction = (obj) => {
     onAction &&
       onAction({
         ...rest,
         success,
         failed,
         data: {
-          files: file,
+          files: (obj && obj.files) || file,
         },
       });
     setFile([]);
@@ -104,12 +107,12 @@ const SQFileUploader = ({
         </div>
       )}
       {errorMessage && <div className="sq-error">{errorMessage}</div>}
-      <Button
+      {!uploadOnChange && <Button
         disabled={file.length === 0}
         variant="outlined"
         onClick={handleAction}
         buttonText={uploadButtonText}
-      />
+      />}
       {clearAll && <Button
         disabled={file.length === 0}
         variant="outlined"

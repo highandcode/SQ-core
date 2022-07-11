@@ -36,6 +36,7 @@ describe('utils:object', function () {
         object.getDataFromKey(
           { test: '12' },
           {
+            test: 'test',
             key: {
               type: {
                 obje: true,
@@ -45,12 +46,17 @@ describe('utils:object', function () {
           null
         )
       ).to.eqls({
+        test: 'test',
         key: {
           type: {
             obje: true,
           },
         },
       });
+    });
+
+    it('should not return root object if not found', () => {
+      expect(object.getDataFromKey({ test: '12', id: '1', id2: '1' }, 'id23')).to.equal('');
     });
 
     it('should return value from nested object', () => {
