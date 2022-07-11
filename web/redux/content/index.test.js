@@ -83,7 +83,6 @@ describe('reducer:content', () => {
           },
         }
       );
-      console.log(result);
       expect(result).toMatchObject({
         newTest: {},
         a: {
@@ -221,4 +220,5 @@ describe('reducer:content', () => {
       });
     });
   });
+
 });
