@@ -1,8 +1,3 @@
+var SQ = window.SQ || {};
 
-class SQCore {
-  constructor() {
-
-  }
-}
-
-export default new SQCore();
+export default SQ;
