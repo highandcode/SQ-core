@@ -12,6 +12,9 @@
       text-align: center;
       width: 100%;
       span {
+        &:first-child {
+          display: none;
+        }
         display: block;
         margin-bottom: 4px;
       }

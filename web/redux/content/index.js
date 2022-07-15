@@ -159,9 +159,9 @@ export const executeHook = (payload) => async (dispatch, getState) => {
       state: getState(),
       payload,
       data: {
-        params: processParams(getState().content.userData, payload.params, getState()),
-        headers: processParams(getState().content.userData, payload.headers, getState()),
-        query: processParams(getState().content.userData, payload.query, getState()),
+        params: processParams(getState().content.userData, payload.params, undefined, getState()),
+        headers: processParams(getState().content.userData, payload.headers, undefined, getState()),
+        query: processParams(getState().content.userData, payload.query, undefined, getState()),
       },
       userData: getState().content.userData,
       dispatch,
@@ -214,9 +214,9 @@ export const postApi = (payload) => async (dispatch, getState) => {
       state: getState(),
       payload,
       data: {
-        params: processParams(getState().content.userData, payload.params, getState()),
-        headers: processParams(getState().content.userData, payload.headers, getState()),
-        query: processParams(getState().content.userData, payload.query, getState()),
+        params: processParams(getState().content.userData, payload.params, undefined, getState()),
+        headers: processParams(getState().content.userData, payload.headers, undefined, getState()),
+        query: processParams(getState().content.userData, payload.query, undefined, getState()),
       },
       userData: getState().content.userData,
       dispatch,
@@ -225,9 +225,9 @@ export const postApi = (payload) => async (dispatch, getState) => {
   if (payload.method && payload.url) {
     response = await apiBridge[payload.method.toLowerCase()](
       payload.url,
-      processParams(getState().content.userData, payload.params, getState()),
-      processParams(getState().content.userData, payload.headers, getState()),
-      processParams(getState().content.userData, payload.query, getState())
+      processParams(getState().content.userData, payload.params, undefined, getState()),
+      processParams(getState().content.userData, payload.headers, undefined, getState()),
+      processParams(getState().content.userData, payload.query, undefined, getState())
     );
   }
 
@@ -236,9 +236,9 @@ export const postApi = (payload) => async (dispatch, getState) => {
       state: getState(),
       payload,
       data: {
-        params: processParams(getState().content.userData, payload.params, getState()),
-        headers: processParams(getState().content.userData, payload.headers, getState()),
-        query: processParams(getState().content.userData, payload.query, getState()),
+        params: processParams(getState().content.userData, payload.params, undefined, getState()),
+        headers: processParams(getState().content.userData, payload.headers, undefined, getState()),
+        query: processParams(getState().content.userData, payload.query, undefined, getState()),
       },
       userData: getState().content.userData,
       dispatch,
@@ -334,7 +334,7 @@ export const selectUserData = (state) => {
 
 export const mergeUserData = (payload) => (dispatch, getState) => {
   const root = selectRootData(getState());
-  const data = processParams(getState().content.userData, {...root.merge, ...payload}, '', getState());
+  const data = processParams(getState().content.userData, { ...root.merge, ...payload }, '', getState());
   const merged = object.extendData(getState().content.userData, data);
   dispatch(updateUserData(merged));
 };

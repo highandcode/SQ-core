@@ -1,76 +1,53 @@
+$sides: (
+  l: 'left',
+  r: 'right',
+  t: 'top',
+  b: 'bottom',
+);
 
-.mb-narrow {
-  margin-bottom: 10px;
-}
-.mb-wide {
-  margin-bottom: 20px;
-}
+@each $initial, $side in $sides {
+  .m#{$initial}-narrow {
+    margin-#{$side}: 10px;
+  }
 
-.mb-none {
-  margin-bottom: 0;
-}
+  .m#{$initial}-wide {
+    margin-#{$side}: 20px;
+  }
 
-.mb-xtrawide {
-  margin-bottom: 40px;
-}
+  .m#{$initial}-none {
+    margin-#{$side}: 0;
+  }
 
-.mb-jumbo {
-  margin-bottom: 60px;
-}
-.mt-none {
-  margin-top: 0;
-}
-.mt-narrow {
-  margin-top: 10px;
-}
-.mt-wide {
-  margin-top: 20px;
-}
+  .m#{$initial}-xtrawide {
+    margin-#{$side}: 40px;
+  }
 
-.mt-xtrawide {
-  margin-top: 40px;
-}
-.mt-jumbo {
-  margin-top: 60px;
+  .m#{$initial}-jumbo {
+    margin-#{$side}: 60px;
+  }
 }
 
-.pt-narrow {
-  padding-top: 10px;
-}
-.pt-wide {
-  padding-top: 20px;
-}
+@each $initial, $side in $sides {
+  .p#{$initial}-narrow {
+    padding-#{$side}: 10px;
+  }
 
-.pt-xtrawide {
-  padding-top: 40px;
-}
-.pt-jumbo {
-  padding-top: 60px;
-}
-.pt-none {
-  padding-top: 0;
-}
+  .p#{$initial}-wide {
+    padding-#{$side}: 20px;
+  }
 
+  .p#{$initial}-none {
+    padding-#{$side}: 0;
+  }
 
-.pb-narrow {
-  padding-bottom: 10px;
-}
-.pb-wide {
-  padding-bottom: 20px;
-}
+  .p#{$initial}-xtrawide {
+    padding-#{$side}: 40px;
+  }
 
-.pb-xtrawide {
-  padding-bottom: 40px;
+  .p#{$initial}-jumbo {
+    padding-#{$side}: 60px;
+  }
 }
-
-.pb-jumbo {
-  padding-bottom: 60px;
-}
-
-.pb-none {
-  padding-bottom: 0;
-}
-
 
 .list-none {
   list-style: none;

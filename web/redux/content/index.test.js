@@ -48,38 +48,43 @@ describe('reducer:content', () => {
       });
     });
     it('should return nested data properly if not found', () => {
-      expect(
-        processParams(
-          {
-            app: {
-              local: true,
-            },
-            content: {
-              a: {
-                b: true,
-                c: {
-                  d: 1,
-                },
-              },
-            },
-            c: true,
-            d: {
+      const result = processParams(
+        {
+          app: {
+            local: true,
+          },
+          content: {
+            a: {
               b: true,
+              c: {
+                d: 1,
+              },
             },
           },
-          {
-            a: {
-              test: {
-                app1: '.gotcha',
-                app2: {
-                  a: '.gotcha',
-                },
-                app3: '.d',
+          c: true,
+          d: {
+            b: true,
+          },
+        },
+        {
+          newTest: {
+            k1: '.k1',
+            k2: '.k2',
+            k3: '.k3',
+          },
+          a: {
+            test: {
+              app1: '.gotcha',
+              app2: {
+                a: '.gotcha',
               },
+              app3: '.d',
             },
-          }
-        )
-      ).toMatchObject({
+          },
+        }
+      );
+      expect(result).toMatchObject({
+        newTest: {},
         a: {
           test: {
             app2: {},
@@ -215,4 +220,5 @@ describe('reducer:content', () => {
       });
     });
   });
+
 });

@@ -47,7 +47,6 @@ class Entity {
   }
 
   setData(raw) {
-    console.log(raw, Object.keys(this.entityType.fields));
     if (Object.keys(this.entityType.fields).length > 0) {
       Object.keys(this.entityType.fields).forEach((fieldKey) => {
         this[fieldKey] = this.entityType.fields[fieldKey](raw[fieldKey]);
