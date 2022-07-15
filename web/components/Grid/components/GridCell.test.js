@@ -3,7 +3,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import GridCell from './GridCell';
 
-
 const columns = [
   {
     name: 'test',
@@ -22,13 +21,13 @@ const columns = [
     className: 'col-test2',
     cmpType: 'Input',
     component: { label: 'Test2' },
-    beforeRender: jest.fn(() => {
+    beforeRender: () => {
       return {
         className: 'col-override',
         cmpType: 'Button',
         component: { buttonText: 'hello' },
       };
-    }),
+    },
   },
 ];
 
@@ -65,12 +64,7 @@ describe('GridCell', () => {
       onBlur = jest.fn();
     beforeEach(() => {
       const { container } = render(
-        <GridCell
-          column={columns[1]}
-          onChange={onChange}
-          onKeyPress={onKeyPress}
-          onBlur={onBlur}
-        />
+        <GridCell column={columns[1]} onChange={onChange} onKeyPress={onKeyPress} onBlur={onBlur} />
       );
       wrapper = container;
     });

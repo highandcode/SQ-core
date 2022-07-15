@@ -40,8 +40,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var utils = require('sq-core/server/src/utils');
-var { ContentServer } = require('sq-core/cms/server');
+var { utils} = require('sq-core/server');
+var { ContentServer } = require('sq-core/cms');
 
 var routes = require('./routes');
 var config = require('../config/environment');
