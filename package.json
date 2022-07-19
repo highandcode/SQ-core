@@ -1,6 +1,6 @@
 {
   "name": "sq-core",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "private": true,
   "scripts": {
     "client:test": "node scripts/test.js --no-watch",
