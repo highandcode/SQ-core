@@ -21,12 +21,14 @@ class Content extends Component {
 
   onChange(value, field, block) {
     const { onChange } = this.props;
-    onChange && onChange(value, field, block);
+    let allForms = this.getForms(this.props.pageData.items);
+    onChange && onChange(value, field, { ...block, forms: allForms });
   }
 
   onAction(value, action, block) {
     const { onAction } = this.props;
-    onAction && onAction(value, action, block);
+    let allForms = this.getForms(this.props.pageData.items);
+    onAction && onAction(value, action, { ...block, forms: allForms });
   }
 
   getForms(items = []) {
@@ -49,18 +51,6 @@ class Content extends Component {
     const actionType = target.actionType;
     if (actionType) {
       let allForms = this.getForms(this.props.pageData.items);
-      // this.props.pageData.items.forEach((item) => {
-      //   if (item.items) {
-      //     item.items.forEach((item) => {
-      //       if (item.component === 'Form') {
-      //         allForms = allForms.concat(item);
-      //       }
-      //     });
-      //   }
-      //   if (item.component === 'Form') {
-      //     allForms = allForms.concat(item);
-      //   }
-      // });
       this.onAction(
         {},
         {

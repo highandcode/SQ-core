@@ -329,27 +329,33 @@ class DynamicContent extends Component {
         this.validateResults(result);
         break;
       case 'module':
-        await this.props.contentActions.updateUserData({
-          isSubmitting: true,
-        });
-        result = await this.props.contentActions.executeHook(action);
-        await this.props.contentActions.mergeUserData(
-          this.state.pageData.pageData.merge
-        );
-        await this.props.contentActions.updateUserData({
-          isSubmitting: false,
-        });
-        if (result.status === 'success') {
-          const data = action.dataKey
-            ? { [action.dataKey]: result.data }
-            : result.data;
-          await this.props.contentActions.updateUserData({
-            ...data,
-            lastError: {},
-          });
+        let isValid = true;
+        if (action.validate) {
+          isValid = this.validateForms(block.forms, action.validateGroup);
         }
-        this.checkForInlineErrors(result);
-        this.validateResults(result);
+        if (isValid) {
+          await this.props.contentActions.updateUserData({
+            isSubmitting: true,
+          });
+          result = await this.props.contentActions.executeHook(action);
+          await this.props.contentActions.mergeUserData(
+            this.state.pageData.pageData.merge
+          );
+          await this.props.contentActions.updateUserData({
+            isSubmitting: false,
+          });
+          if (result.status === 'success') {
+            const data = action.dataKey
+              ? { [action.dataKey]: result.data }
+              : result.data;
+            await this.props.contentActions.updateUserData({
+              ...data,
+              lastError: {},
+            });
+          }
+          this.checkForInlineErrors(result);
+          this.validateResults(result);
+        }
         break;
       case 'submit-form':
         isValid = this.validateForm(block);
