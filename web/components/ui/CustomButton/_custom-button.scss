@@ -31,6 +31,9 @@ $sq-custom-button-min-wd-xxl: 390px;
       }
     }
   }
+  &--inline {
+    display: inline-block;
+  }
   &--small {
     min-width: $sq-custom-button-min-wd-sm;
   }
