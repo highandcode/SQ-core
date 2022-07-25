@@ -8,7 +8,7 @@ function CustomCard({ className = '', header = '', value = '', formatter = {}, c
   const formatters = getFormatters();
   const newValue = (type && formatters[type] && formatters[type](value, restFormatter)) || value;
   return (
-    <div className={`sq-plain-card ${className} sq-plain-card--${cardType}`} onClick={()=> onClick && onClick({ value })}>
+    <div className={`sq-plain-card ${className} sq-plain-card--${cardType}`} onClick={(e)=> onClick && onClick(e, { value })}>
       {header && (
         <div className="sq-plain-card__header">
           <span className="sq-plain-card__icon"></span>
