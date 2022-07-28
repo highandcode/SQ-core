@@ -222,6 +222,11 @@ const _validators = {
       min: 6,
     });
   },
+  postalCN: (value) => {
+    return _validators.regex(value, {
+      regex: /^((\d{5}-\d{4})|(\d{5})|([A-Z]\d[A-Z]\s\d[A-Z]\d))$/
+    });
+  },
   options: (value, config = {}, values) => {
     const { subType = 'array', options = [], fieldName = 'value', optional = false } = config;
     const finalOptions = commons.getValue(this, options, config, values);
