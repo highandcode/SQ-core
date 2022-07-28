@@ -135,7 +135,7 @@ const _validators = {
   strongPassword: (value, options) => {
     if (value) {
       return _validators.regex(value, {
-        regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+        regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@!#$%^&*~]).{8,20}$/,
       });
     }
     return true;
@@ -275,7 +275,7 @@ const _messages = {
   phone: () => `Enter a valid phone number`,
   internationalphone: () => `Enter a valid phone number with country code e.g. +91 910 989 9887`,
   password: () => `Password should be 6 characters long`,
-  strongPassword: () => `Password should be 8 characters long with atleast 1 uppercase, special character and number`,
+  strongPassword: () => `Password should be min 8 characters long with atleast 1 uppercase, special character and number`,
 };
 
 class Validator {
