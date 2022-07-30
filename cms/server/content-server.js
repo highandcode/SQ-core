@@ -9,14 +9,11 @@ const pkgName = require('../../package.json');
 
 class ContentServer {
   constructor({ fse, dirname = __dirname, ...options } = {}, app) {
-    dirname =
-      dirname == '/'
-        ? `${process.cwd()}/node_modules/${pkgName.name}/cms/`
-        : dirname;
-    const lastIndex = dirname.lastIndexOf('server');
-    const cmsRootServer =
-      lastIndex > -1 ? dirname.substr(0, lastIndex) : dirname;
+    console.log(`__dirname${__dirname}`);
+    dirname = `${process.cwd()}/node_modules/${pkgName.name}/cms/`
+    const cmsRootServer = dirname;
     console.log(`root:${cmsRootServer}`);
+    console.log(`root:client::${cmsRootServer}client`);
     this.config = Object.assign(
       {
         rootPath: cmsRootServer,

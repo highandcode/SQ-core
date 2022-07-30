@@ -13,7 +13,7 @@ const Repeater = ({
     return <div>{`Template not defined`}</div>;
   },
   noDataTemplate = () => {
-    return <div>{`No data found`}</div>;
+    return <div className='sq-repeater__no-data-message'>{`No data found`}</div>;
   },
   groupTemplate = () => {
     return <div>{`Group Template not defined`}</div>;
