@@ -59,7 +59,7 @@ class MagicHeroContentDefault extends Component {
 
   componentDidMount() {
     const { tweens, timeline } = this.getTimeline();
-    const { tweens: tlTweens = [], ...restTimeline } = timeline || {};
+    const { tweens: tlTweens = [], ...restTimeline } = JSON.parse(JSON.stringify(timeline || {}));
     if (timeline) {
       this.tlObj = gsap.timeline(restTimeline);
       this.trigger = restTimeline.trigger;
