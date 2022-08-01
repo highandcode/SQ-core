@@ -55,7 +55,8 @@ describe('CMS::ContentServer', function () {
         clientLibs: '/clientlibs',
         envConfig: {},
         mode: 'production',
-        siteConfig: mockSiteConfig
+        siteConfig: mockSiteConfig,
+        dirname: `${process.cwd()}/cms/`
       },
       app
     );
@@ -92,7 +93,7 @@ describe('CMS::ContentServer', function () {
         mode: 'production',
         siteConfig: {},
         fse,
-        dirname: '/test/server'
+        dirname: '/test/'
       });
     });
 
