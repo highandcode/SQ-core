@@ -49,11 +49,11 @@ class MailRepository {
       message.cc = cc;
     }
     if (bcc) {
-      message.cc = bcc;
+      message.bcc = bcc;
     }
 
     if (message && this.config.email.enabled) {
-      return this.send(message.from, to, message.subject, message.body);
+      return this.send(message);
     }
     if (this.config.email.loggerEnabled && this.config.email.loggerPath) {
       const dirPath = `${this.config.email.loggerPath}/${to}`;
@@ -78,13 +78,7 @@ class MailRepository {
     }
   }
 
-  send(from, to, subject, body) {
-    const message = {
-      from,
-      to,
-      subject,
-      html: body,
-    };
+  send(message) {
     return new Promise((resolve, reject) => {
       this.transport.sendMail(message, function (err, info) {
         if (err) {
