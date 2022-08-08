@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { TextField } from '@mui/material';
 import { getValue } from '../../../utils/properties';
-import { masks } from '../../../utils/mask';
+import { getMasks } from '../../../utils/mask';
 import { validators } from '../../../utils/validator';
 import './input-field.scss';
 
@@ -56,8 +56,8 @@ class InputField extends React.Component {
   applyMask(value = '') {
     const { mask = {} } = this.props;
     const { type, ...rest } = mask;
-    return masks[type]
-      ? masks[type].mask(value, {
+    return getMasks()[type]
+      ? getMasks()[type].mask(value, {
           input: this.state.focused,
           ...rest
         })
@@ -67,8 +67,8 @@ class InputField extends React.Component {
   removeMask(value = '') {
     const { mask = {} } = this.props;
     const { type, ...rest } = mask;
-    return masks[type]
-      ? masks[type].unmask(value, {
+    return getMasks()[type]
+      ? getMasks()[type].unmask(value, {
           input: this.state.focused,
           ...rest
         })

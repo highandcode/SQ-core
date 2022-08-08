@@ -61,4 +61,10 @@ const masks = {
   }
 };
 
+export const getMasks = () => masks;
+
+export const addMask = (name, obj) => {
+  masks[name] = obj;
+};
+
 export { masks };

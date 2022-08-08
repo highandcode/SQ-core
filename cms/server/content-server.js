@@ -225,7 +225,7 @@ class ContentServer {
   getPageContent(path) {
     return new Promise((resolve, reject) => {
       const data = this.getPageData(path);
-      new PageBuilder(data)
+      new PageBuilder(data, this.config)
         .build()
         .then((page) => {
           resolve({
