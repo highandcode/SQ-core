@@ -17,6 +17,15 @@ describe('utils:format', () => {
       expect(masks.currency.mask('-15.0')).toEqual('-$15.0');
     });
   });
+  describe('number()', function () {
+    it('should number in format', async () => {
+      expect(masks.number.mask('24234324', {pattern: 'DDDDD DD'})).toEqual('24234 32');
+    });
+    it('should number in format', async () => {
+      expect(masks.number.mask('24234324', {pattern: '(DDDDD) DD'})).toEqual('(24234) 32');
+    });
+    
+  });
   describe('phone()', function () {
     it('should return (991) 0', async () => {
       expect(masks.phone.mask(9910)).toEqual('(991) 0');
