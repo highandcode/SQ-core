@@ -23,10 +23,8 @@ class WebBuildProcess extends BaseBuild {
 
       metaTags: `<meta name="viewport" content="width=device-width, initial-scale=1.0">`,
 
-      scriptToInclude: `<script type="text/javascript">
-        window.APP_CONFIG = ${JSON.stringify(_appConfig)};
-      </script>
-      ${this.config.scripts}
+      scriptToInclude: `
+       ${this.config.scripts}
       `
     };
   }

@@ -135,7 +135,7 @@ const _validators = {
   strongPassword: (value, options) => {
     if (value) {
       return _validators.regex(value, {
-        regex: /(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/,
+        regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@!#$%^&*~]).{8,20}$/,
       });
     }
     return true;
@@ -222,6 +222,11 @@ const _validators = {
       min: 6,
     });
   },
+  postalCN: (value) => {
+    return _validators.regex(value, {
+      regex: /^((\d{5}-\d{4})|(\d{5})|([A-Z]\d[A-Z]\s\d[A-Z]\d))$/
+    });
+  },
   options: (value, config = {}, values) => {
     const { subType = 'array', options = [], fieldName = 'value', optional = false } = config;
     const finalOptions = commons.getValue(this, options, config, values);
@@ -275,7 +280,7 @@ const _messages = {
   phone: () => `Enter a valid phone number`,
   internationalphone: () => `Enter a valid phone number with country code e.g. +91 910 989 9887`,
   password: () => `Password should be 6 characters long`,
-  strongPassword: () => `Password should be 6 characters long with atleast 1 uppercase and number`,
+  strongPassword: () => `Password should be min 8 characters long with atleast 1 uppercase, special character and number`,
 };
 
 class Validator {

@@ -4,6 +4,9 @@
   display: block;
   margin-bottom: 15px;
   text-align: center;
+  &--med {
+    width: 140px;
+  }
   .sq-link__container {
     display: flex;
     flex-direction: column;

@@ -18,7 +18,7 @@ class MailRepository {
     });
   }
 
-  templates(name, data) {
+  templates(name, data, extra) {
     const template = templates()[name];
     if (!template) {
       console.log(`No template named "${name}" found.`);
@@ -29,13 +29,13 @@ class MailRepository {
         product: this.config.product,
         ...this.customParams(),
         ...data,
-      });
+      }, extra);
     }
     return null;
   }
 
-  sendEmail(template, to, data) {
-    const message = this.templates(template, data);
+  sendEmail(template, to, data, { cc, bcc } = {}) {
+    const message = this.templates(template, data, { urlRepo: this.urlRepo });
     if (!message) {
       return;
     }
@@ -45,9 +45,15 @@ class MailRepository {
     } else {
       message.from = `${this.config.email.defaultFromName} <${fromEmail}>`;
     }
+    if (cc) {
+      message.cc = cc;
+    }
+    if (bcc) {
+      message.bcc = bcc;
+    }
 
     if (message && this.config.email.enabled) {
-      return this.send(message.from, to, message.subject, message.body);
+      return this.send(message);
     }
     if (this.config.email.loggerEnabled && this.config.email.loggerPath) {
       const dirPath = `${this.config.email.loggerPath}/${to}`;
@@ -72,13 +78,7 @@ class MailRepository {
     }
   }
 
-  send(from, to, subject, body) {
-    const message = {
-      from,
-      to,
-      subject,
-      html: body,
-    };
+  send(message) {
     return new Promise((resolve, reject) => {
       this.transport.sendMail(message, function (err, info) {
         if (err) {

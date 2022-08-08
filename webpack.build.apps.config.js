@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: {
-    basic: ['@babel/polyfill', `./cms/apps/basic/src/index.js`]
+    basic: [`./cms/apps/basic/src/index.js`]
   },
   mode: 'production',
   // devtool: 'source-map',
@@ -33,12 +33,20 @@ module.exports = {
           // Creates `style` nodes from JS strings
           MiniCssExtractPlugin.loader,
           // Translates CSS into CommonJS
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              // Add this option
+              url: false,
+            },
+          },
           // Compiles Sass to CSS
           {
             loader: 'sass-loader',
             options: {
-              includePaths: [paths.cmsApps],
+              sassOptions: {
+                includePaths: [paths.cmsApps],
+              },
               sourceMap: false
             }
           }
