@@ -9,6 +9,13 @@ module.exports = {
     'vanillajs/**/*.{js,jsx,ts,tsx}',
     '!vanillajs/**/*.d.ts',
   ],
+  reporters: [
+    'default',
+    [
+      'jest-junit',
+      { outputDirectory: 'coverage/ui', outputName: 'junit.xml' },
+    ],
+  ],
   setupFiles: ['react-app-polyfill/jsdom'],
   setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
   testMatch: [
