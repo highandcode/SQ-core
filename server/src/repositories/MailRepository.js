@@ -40,6 +40,7 @@ class MailRepository {
       return;
     }
     const fromEmail = message.from || this.config.email.defaultFrom;
+    message.to = to;
     if (message.fromName) {
       message.from = `${message.fromName} <${fromEmail}>`;
     } else {
