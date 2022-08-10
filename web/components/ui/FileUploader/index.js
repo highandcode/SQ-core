@@ -34,9 +34,13 @@ const SQFileUploader = ({
 }) => {
   const [file, setFile] = useState([]);
   const handleChange = async (filenew) => {
-    const newFiles = [...(multiple ? file : []), ...(multiple ? filenew : [filenew])];
-    await setFile(newFiles);
-    uploadOnChange && handleAction({files: newFiles});
+    const takeOne = multiple ? filenew : [filenew];
+    let listToBeAdded = [].filter.call(takeOne, (i) => file.filter((d)=>d.name === i.name).length === 0);  
+    if (listToBeAdded.length > 0) {
+      const newFiles = [...(multiple ? file : []), ...(listToBeAdded)];
+      await setFile(newFiles);
+      uploadOnChange && handleAction({files: newFiles});
+    }
   };
   const handleDelete = (filenew) => {
     const idx = file.indexOf(filenew);
@@ -78,6 +82,7 @@ const SQFileUploader = ({
       <FileUploader
         disabled={disabled}
         multiple={multiple}
+        fileOrFiles={file.length ? null : file}
         className="sq-file-uploader__file"
         handleChange={handleChange}
         name="file"
