@@ -63,11 +63,10 @@ const CheckboxField = ({
     }
   };
   return (
-    <>
+    <div className={`sq-checkbox-field ${className}`}>
       <FormControl component="fieldset" error={rest.error}>
         {label && <FormLabel component="legend">{label}</FormLabel>}
         <FormControlLabel
-          className={className}
           control={
             <Checkbox
               checked={stateChecked}
@@ -79,7 +78,7 @@ const CheckboxField = ({
         />
       </FormControl>
       {rest.errorMessage && <div className="sq-error sq-checkbox-list--error">{errorMessage}</div>}
-    </>
+    </div>
   );
 };
 

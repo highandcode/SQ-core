@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getMap } from '../ui';
+import { Validator } from '../../utils/validator';
 import { object, common, validator } from '../../utils';
 
 const Wrapper = ({
@@ -14,13 +15,27 @@ const Wrapper = ({
   const map = { ...getMap(), Wrapper };
   const handleChange = (value, field, block) => {
     var finalBlock = field.block || block;
+
+    let latestValue = {};
+
+    if (typeof(userData[finalBlock.name]) === 'object') {
+      latestValue = {
+        ...userData[finalBlock.name],
+      }
+    }
+    if (typeof(value.value) === 'object') {
+      latestValue = {
+        ...latestValue,
+        ...value.value
+      }
+    } else {
+      latestValue = value.value;
+    }
+
     onChange &&
       onChange(
         {
-          value: {
-            ...userData[finalBlock.name],
-            ...value.value,
-          },
+          value: latestValue,
         },
         {
           ...field,
@@ -51,8 +66,17 @@ const Wrapper = ({
           {items.map((item, idx) => {
             const newItem = object.processBlock(item, {userData});
             const Component = map[newItem.component] || map.Text;
+            let validator;
+            let isValid = true;
+            if (item.match) {
+              validator = new Validator({
+                ...item.match,
+              });
+              validator.setValues(userData);
+              isValid = validator.validateAll();
+            }
             return (
-              <Component
+              isValid && <Component
                 key={idx}
                 {...rest}
                 onChange={(value, field) => handleChange(value, field, newItem)}

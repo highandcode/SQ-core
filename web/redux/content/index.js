@@ -41,7 +41,27 @@ export const parseCustomModule = (text) => {
     params,
   };
 };
-
+export const processEachParam = (userData, key, defaultValue, state) => {
+  let value;
+   if (key.toString().substr(0, 2) === '::') {
+    const moduleName = key.toString().split('::');
+    const passedKey = key.substr(key.toString().lastIndexOf('::') + 2, key.length - 4);
+    let parsedModule = parseCustomModule(moduleName[1]);
+    if (passedKey.substr(0, 1) === '.') {
+      value = object.getDataFromKey(userData, passedKey.substr(1), defaultValue);
+    } else {
+      value = passedKey;
+    }
+    if (parsedModule) {
+      value = processor.execute(parsedModule.module, value, parsedModule.params, { state, userData });
+    }
+  } else if (key.toString().substr(0, 1) === '.') {
+    value = object.getDataFromKey(userData, key.substr(1), defaultValue);
+  } else if (!common.isNullOrUndefined(key)) {
+    value = key;
+  }
+  return value;
+};
 export const processParams = (userData, params = {}, defaultValue = null, state) => {
   const newObj = {};
   Object.keys(params).forEach((key) => {
@@ -52,22 +72,8 @@ export const processParams = (userData, params = {}, defaultValue = null, state)
       value = validator.validateAll();
     } else if (typeof params[key] === 'object') {
       value = processParams(userData, params[key], defaultValue, state);
-    } else if (params[key].toString().substr(0, 2) === '::') {
-      const moduleName = params[key].toString().split('::');
-      const passedKey = params[key].substr(params[key].toString().lastIndexOf('::') + 2, params[key].length - 4);
-      let parsedModule = parseCustomModule(moduleName[1]);
-      if (passedKey.substr(0, 1) === '.') {
-        value = object.getDataFromKey(userData, passedKey.substr(1), defaultValue);
-      } else {
-        value = passedKey;
-      }
-      if (parsedModule) {
-        value = processor.execute(parsedModule.module, value, parsedModule.params, { state, userData });
-      }
-    } else if (params[key].toString().substr(0, 1) === '.') {
-      value = object.getDataFromKey(userData, params[key].substr(1), defaultValue);
-    } else if (!common.isNullOrUndefined(params[key])) {
-      value = params[key];
+    } else {
+      value = processEachParam(userData, params[key], defaultValue, state);
     }
     if (!common.isNullOrUndefined(value)) {
       newObj[key] = value;
