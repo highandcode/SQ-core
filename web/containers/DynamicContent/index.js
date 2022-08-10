@@ -290,7 +290,10 @@ class DynamicContent extends Component {
       }
     });
     const validObj = new Validator(validators);
-    validObj.setValues(this.getUpdatedUserData()[block.name]);
+    validObj.setValues({
+      ...this.getUpdatedUserData(),
+      ...this.getUpdatedUserData()[block.name],
+    });
     const isValid = validObj.validateAll();
     this.props.contentActions.updateUserData({
       [block.name + '_errors']: {

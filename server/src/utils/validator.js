@@ -419,10 +419,17 @@ const addValidator = (name, fn) => {
     _validators[name] = fn;
   }
 };
+const addMessage = (name, message) => {
+  if (name) {
+    _messages[name] = message;
+  }
+};
 
 module.exports = {
   Validator,
   validators: _validators,
   addValidator,
   getValidators: () => _validators,
+  addMessage,
+  getMessages: () => _messages
 };
