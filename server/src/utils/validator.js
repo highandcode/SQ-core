@@ -177,14 +177,14 @@ const _validators = {
   dateFromStr: (value, { format = 'MM/dd/yyyy' }) => {
     return value ? moment(value, format, true).isValid() : true;
   },
-  Validator: (value, { validators, optional = false } = {}) => {
+  Validator: (value, { validators, optional = false } = {}, fields) => {
     const valid = new Validator(
       {
         ...validators,
       },
       { optional }
     );
-    valid.setValues(value);
+    valid.setValues({ ...fields, ...value });
     const result = valid.validateAll();
     return {
       custom: true,
