@@ -31,12 +31,19 @@ const CustomButton = ({
     }
   };
 
-  const { disabled } = rest;
+  const { disable, target, href, tagName = 'div' } = rest;
   const { click } = analytics;
   const TemplateToRender = templatesObject[template] || templatesObject.default;
+  const TagNameForRender = tagName;
+  const otherProps = {};
+  if (href) {
+    otherProps.href = href;
+  }
   return (
-    <div
+    <TagNameForRender
       role="button"
+      target={target}
+      {...otherProps}
       tabIndex={disabled ? "-1" : "0"}
       className={`sq-custom-button ${className} ${size} ${template ? ' sq-custom-button-tpl--' + template : ''} 
       ${color ? ' sq-custom-button--' + color : ''}
@@ -51,7 +58,7 @@ const CustomButton = ({
       <div className="sq-custom-button__container">
         <TemplateToRender iconName={iconName} size={size} buttonText={buttonText} variant={rest.variant} >{children}</TemplateToRender>
       </div>
-    </div>
+    </TagNameForRender>
   );
 };
 
