@@ -31,7 +31,7 @@ const CustomButton = ({
     }
   };
 
-  const { disable, target, href, tagName = 'div' } = rest;
+  const { disabled, target, href, tagName = 'div' } = rest;
   const { click } = analytics;
   const TemplateToRender = templatesObject[template] || templatesObject.default;
   const TagNameForRender = tagName;
@@ -66,6 +66,7 @@ CustomButton.propTypes = {
   classes: PropTypes.object,
   className: PropTypes.string,
   size: PropTypes.string,
+  disabled: PropTypes.bool,
   actionValue: PropTypes.string,
   onAnalytics: PropTypes.func,
   analytics: PropTypes.object,
