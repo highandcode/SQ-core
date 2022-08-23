@@ -52,14 +52,15 @@ var object = {
     });
     if (block.inject) {
       Object.keys(block.inject).forEach((key) => {
+        const keyDynoData = object.getDataFromKey(userData, key);
         if (typeof block.inject[key] === 'object' && block.inject[key].match) {
           const _valid = new Validator({
             ...block.inject[key].match,
           });
-          _valid.setValues(userData);
+          _valid.setValues({...userData, [key]: keyDynoData});
           block[key] = _valid.validateAll();
         } else {
-          block[key] = object.getDataFromKey(userData, block.inject[key]);
+          block[key] = object.getDataFromKey({...userData, [key]: keyDynoData}, block.inject[key]);
         }
       });
     }
