@@ -22,7 +22,7 @@ const styles = {
 };
 
 
-const RadioField = ({ classes, name, options = [], defaultValue = '', className = '', value = '', label = '', onChange, errorMessage, display = 'Column', valueField = 'value', textField = 'text' }) => {
+const RadioField = ({ disabled, classes, name, options = [], defaultValue = '', className = '', value = '', label = '', onChange, errorMessage, display = 'Column', valueField = 'value', textField = 'text' }) => {
   const handleChange = (input) => {
     onChange && onChange({
       value: input.target.value
@@ -33,7 +33,7 @@ const RadioField = ({ classes, name, options = [], defaultValue = '', className 
       <FormLabel component="legend">{label}</FormLabel>
       <RadioGroup aria-label={name} name={name} className={`${classes['display' + display]}`} value={value || defaultValue} onChange={handleChange}>
         {options && options.map((option, index) => {
-          return <FormControlLabel key={index} value={option[valueField]} disabled={option.disabled} control={<Radio />} label={option[textField]} />;
+          return <FormControlLabel key={index} value={option[valueField]} disabled={disabled || option.disabled} control={<Radio />} label={option[textField]} />;
         })}
       </RadioGroup>
       {<div className="sq-error sq-select-field--error">{errorMessage}</div>}
