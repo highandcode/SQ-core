@@ -20,7 +20,7 @@ var object = {
     });
     return obj;
   },
-  getDataFromKey: function (data, key, defaultValue = '') {
+  getDataFromKey: function (data = {}, key, defaultValue = '') {
     if (!common.isNullOrUndefined(data[key])) {
       return data[key];
     }
