@@ -23,6 +23,7 @@ class Content extends Component {
     const { onChange } = this.props;
     let allForms = this.getForms(this.props.pageData.items);
     onChange && onChange(value, field, { ...block, forms: allForms });
+    this.checkForAction(value, { ...block, forms: allForms }, field);
   }
 
   onAction(value, action, block) {
@@ -48,6 +49,7 @@ class Content extends Component {
 
   checkForAction(e, block, field) {
     let target = field || block;
+    console.log('c@@@checkingaction', target)
     const actionType = target.actionType;
     if (actionType) {
       let allForms = this.getForms(this.props.pageData.items);
