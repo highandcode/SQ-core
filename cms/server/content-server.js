@@ -309,34 +309,34 @@ class ContentServer {
     return filePath;
   }
 
-  getLaunchWaitPage(siteConfig) {
+  getLaunchWaitPage(siteConfig, targetPage = 'launchSoon') {
     const config = this.config;
     siteConfig = siteConfig || config.siteConfig;
     let filePath = '';
     if (
       siteConfig.siteMap.errorRedirects &&
-      siteConfig.siteMap.errorRedirects.launchSoon
+      siteConfig.siteMap.errorRedirects[targetPage]
     ) {
       filePath = this.getFilePath(
         siteConfig.siteMap.errorRedirects &&
-          siteConfig.siteMap.errorRedirects.launchSoon
+          siteConfig.siteMap.errorRedirects[targetPage]
       );
     } else {
       filePath = this.getFilePath('/content/pages/comingsoon.yaml');
     }
     return filePath;
   }
-  getLaunchEndPage(siteConfig) {
+  getLaunchEndPage(siteConfig, targetPage = 'launchEnded') {
     const config = this.config;
     siteConfig = siteConfig || config.siteConfig;
     let filePath = '';
     if (
       siteConfig.siteMap.errorRedirects &&
-      siteConfig.siteMap.errorRedirects.launchEnded
+      siteConfig.siteMap.errorRedirects[targetPage]
     ) {
       filePath = this.getFilePath(
         siteConfig.siteMap.errorRedirects &&
-          siteConfig.siteMap.errorRedirects.launchEnded
+          siteConfig.siteMap.errorRedirects[targetPage]
       );
     } else {
       filePath = this.getFilePath('/content/pages/launchend.yaml');
@@ -379,10 +379,14 @@ class ContentServer {
     }
     if (isLaunchMatch) {
       var timeToLaunch;
+      var pageForWait;
+      var pageForEnded;
       var timeToEnd;
       if (typeof currentSiteConfig.launchConfig[launchMatchKey] === 'object') {
         timeToLaunch = currentSiteConfig.launchConfig[launchMatchKey].start;
         timeToEnd = currentSiteConfig.launchConfig[launchMatchKey].end;
+        pageForWait = currentSiteConfig.launchConfig[launchMatchKey].waitPath;
+        pageForEnded = currentSiteConfig.launchConfig[launchMatchKey].waitEnded;
       } else {
         timeToLaunch = currentSiteConfig.launchConfig[launchMatchKey];
       }
@@ -395,10 +399,10 @@ class ContentServer {
         .new(timeToEnd)
         .diffInSeconds(utils.datetime.new());
       if (diffInSeconds > 0) {
-        filePath = this.getLaunchWaitPage(currentSiteConfig);
+        filePath = this.getLaunchWaitPage(currentSiteConfig, pageForWait);
         isFile = true;
       } else if (diffInSecondsEnd < 0) {
-        filePath = this.getLaunchEndPage(currentSiteConfig);
+        filePath = this.getLaunchEndPage(currentSiteConfig, pageForEnded);
         isFile = true;
       }
     }
