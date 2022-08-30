@@ -51,14 +51,7 @@ const _validators = {
     });
     return returnToVal;
   },
-  equals: (value, { subType = '=', matchValue, fieldName }, otherFields) => {
-    const finalValue = fieldName ? otherFields[fieldName] : value;
-    if (subType === '=') {
-      return finalValue === matchValue;
-    } else if (subType === '!=') {
-      return finalValue !== matchValue;
-    }
-  },
+ 
   exists: (value) => {
     return !!value || value === 0;
   },
@@ -414,6 +407,8 @@ Validator.parseMessage = function (message) {
   return message;
 };
 
+const getValidators = () => _validators;
+
 const addValidator = (name, fn) => {
   if (name && typeof fn === 'function') {
     _validators[name] = fn;
@@ -427,9 +422,9 @@ const addMessage = (name, message) => {
 
 module.exports = {
   Validator,
-  validators: _validators,
+  // validators: _validators,
   addValidator,
-  getValidators: () => _validators,
+  getValidators: getValidators,
   addMessage,
   getMessages: () => _messages
 };

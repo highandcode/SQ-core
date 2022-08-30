@@ -1,6 +1,6 @@
 const { chai } = require('../../../tests/setup');
 var expect = chai.expect;
-const object = require('./object');
+const { object } = require('./index');
 
 describe('utils:object', function () {
   describe('#object.clone(obj)', function () {
@@ -111,6 +111,9 @@ describe('utils:object', function () {
           other: { test: 'new' },
         })
       ).to.equal('You are an absolute $2,000.00.');
+    });
+    it('should not print undefined if value is not available', () => {
+      expect(object.processMessage('You are an absolute ##data.choice1##.', {}, { removePrefix: 'data.' })).to.equal('You are an absolute .');
     });
   });
   describe('#processBlock(block, data)', function () {

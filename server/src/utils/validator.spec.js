@@ -1,7 +1,8 @@
 const { chai } = require('../../../tests/setup');
-const { Validator, validators, addValidator } = require('./validator');
+const { Validator, getValidators, addValidator } = require('./validator');
 const { expect } = chai;
-
+require('./special-validators');
+const validators = getValidators();
 describe('Validator', () => {
   it('should be defined', () => {
     expect(Validator).not.to.be.undefined;
@@ -750,7 +751,7 @@ describe('Validator', () => {
       expect(validator.validate('multivalue')).to.equal(false);
     });
   });
-  describe("type:'equal' subType as '='", () => {
+  describe("type:'equals' subType as '='", () => {
     let validator;
     beforeEach(() => {
       validator = new Validator({
@@ -766,6 +767,24 @@ describe('Validator', () => {
     it("validate(text) should return false in case of 'a' (text)", () => {
       validator.setValue('text', 'a');
       expect(validator.validate('text')).to.equal(false);
+    });
+  });
+  describe("type:'equals' with nested key value name", () => {
+    let validator;
+    beforeEach(() => {
+      validator = new Validator({
+        'text.special1': {
+          validator: { type: 'equals', matchValue: 'ok' },
+        },
+      });
+    });
+    it("validate(text) should return true in case of 'test' (text)", () => {
+      validator.setValues({
+        text: {
+          special1: 'ok'
+        }
+      });
+      expect(validator.validate('text')).to.equal(true);
     });
   });
   describe("type:'date'", () => {

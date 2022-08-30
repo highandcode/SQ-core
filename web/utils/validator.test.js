@@ -1,6 +1,6 @@
 import { Validator } from './validator';
 
-describe.only('Validator', () => {
+describe('Validator', () => {
   it('should be defined', () => {
     expect(Validator).toBeDefined();
   });

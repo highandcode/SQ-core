@@ -168,6 +168,14 @@ let formatters = {
     }
     return '';
   },
+  phoneNumber: (value) => {
+    value = common.isNullOrUndefined(value) ? '' : value.toString();
+    const x = value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+    if (!x || !value) {
+      return value;
+    }
+    return !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+  },
   custom: (value, { format = (value) => value, ...rest }) => {
     return format(value, rest);
   },
