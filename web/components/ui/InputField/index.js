@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { TextField } from '@mui/material';
 import { getValue } from '../../../utils/properties';
 import { getMasks } from '../../../utils/mask';
-import { validators } from '../../../utils/validator';
+import { getValidators } from '../../../utils/validator';
 import './input-field.scss';
 
 class InputField extends React.Component {
@@ -23,6 +23,7 @@ class InputField extends React.Component {
   }
 
   handleOnChange(evt) {
+    const validators = getValidators();
     const { keyup = {} } = this.props;
     const { type, ...rest } = keyup;
     const keyUpValidator = validators[type];

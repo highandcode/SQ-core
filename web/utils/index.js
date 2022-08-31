@@ -22,7 +22,7 @@ import * as translate from './translate';
 import * as validator from './validator';
 
 const processor = new CustomProcessor();
-
+require('../../server/src/utils/special-validators')(validator);
 export {
   apiBridge,
   appEvents,

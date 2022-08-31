@@ -5,7 +5,7 @@ const timer = require('./timer');
 const { ValidatorCast } = require('./validator-cast');
 const { ParamsValidator } = require('./params-validator');
 
-require('./special-validators');
+require('./special-validators')(validator);
 
 module.exports = {
   guid: require('./guid.js'),
