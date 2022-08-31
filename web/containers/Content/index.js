@@ -49,7 +49,6 @@ class Content extends Component {
 
   checkForAction(e, block, field) {
     let target = field || block;
-    console.log('c@@@checkingaction', target)
     const actionType = target.actionType;
     if (actionType) {
       let allForms = this.getForms(this.props.pageData.items);
