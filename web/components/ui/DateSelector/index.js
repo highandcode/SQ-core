@@ -23,9 +23,10 @@ const DateSelector = ({
   error,
   errorMessage,
 }) => {
- 
+  const isValid = value ? moment(value, format, true).isValid() : false;
   const [focus, setFocus] = useState(false);
   const handleonSelect = (date, input) => {
+    console.log(date, input);
     if (date && moment(date, format, true).isValid()) {
       const text = moment(date).format(format);
       onChange &&
@@ -57,7 +58,7 @@ const DateSelector = ({
           minDate={minDate}
           maxDate={maxDate}
           mask={mask}
-          value={value || null}
+          value={isValid ? (value || null) : null}
           renderInput={(props) => (
             <TextField
               {...props}
