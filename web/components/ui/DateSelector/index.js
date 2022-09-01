@@ -14,7 +14,8 @@ const DateSelector = ({
   readOnly,
   helperText,
   inputVariant = 'outlined',
-  format = 'MM/dd/yyyy',
+  inputFormat = 'MM/dd/yyyy',
+  outputFormat = 'MM/DD/YYYY',
   mask = '__/__/____',
   className = '',
   minDate,
@@ -23,22 +24,23 @@ const DateSelector = ({
   error,
   errorMessage,
 }) => {
-  const isValid = value ? moment(value, format, true).isValid() : false;
+  const isValid = value ? moment(value).isValid() : false;
+  const valueDate = isValid ? moment(value)._d : value;
   const [focus, setFocus] = useState(false);
   const handleonSelect = (date, input) => {
-    console.log(date, input);
-    if (date && moment(date, format, true).isValid()) {
-      const text = moment(date).format(format);
+    if (!input && date && moment(date).isValid()) {
+      const text = moment(date).format(outputFormat);
       onChange &&
         onChange({
-          value: date.toISOString(),
+          value: moment(date).toISOString(),
           text,
         });
      
-    } else {
+    } else if (input) {
+      const valueToPass =  moment(input, outputFormat, true).isValid() ? moment(input).toISOString() : null;
       onChange &&
         onChange({
-          value: input,
+          value: valueToPass,
           text: input,
         });
     }
@@ -53,12 +55,12 @@ const DateSelector = ({
     <div className={`sq-date-selector ${className}`}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker
-          inputFormat={format}
+          inputFormat={inputFormat}
           disabled={disabled}
           minDate={minDate}
           maxDate={maxDate}
           mask={mask}
-          value={isValid ? (value || null) : null}
+          value={isValid ? (valueDate || null) : null}
           renderInput={(props) => (
             <TextField
               {...props}

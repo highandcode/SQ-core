@@ -4,6 +4,7 @@ import FieldText from '../FieldText';
 import Text from '../Text';
 import TagLabel from '../TagLabel';
 import HTML from '../HTML';
+import Link from '../Link';
 import { processor } from '../../../utils';
 import './_data-field.scss';
 
@@ -12,6 +13,7 @@ const fields = {
   Text,
   TagLabel,
   HTML,
+  Link,
 };
 const DataField = ({
   label,
@@ -21,6 +23,7 @@ const DataField = ({
   defaultText = '--',
   fieldType = '',
   optionsName,
+  ...rest
 }) => {
   const RenderText = fields[fieldType] || fields.Text;
   let otherProps = {};
@@ -32,7 +35,7 @@ const DataField = ({
       <label className="sq-data-field__label">{label}</label>
       <div className="sq-data-field__container">
         <div className="sq-data-field__value">
-          <RenderText value={otherProps.text || value || defaultText} {...otherProps} />
+          <RenderText value={otherProps.text || value || defaultText} {...otherProps} {...rest} />
         </div>
       </div>
     </div>
