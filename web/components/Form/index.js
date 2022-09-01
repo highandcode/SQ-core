@@ -9,7 +9,7 @@ let supportedComponents = getMap();
 export const registerComponents = (newComps) => {
   supportedComponents = {
     ...supportedComponents,
-    ...newComps
+    ...newComps,
   };
 };
 
@@ -19,7 +19,7 @@ class Form extends React.Component {
     this.state = {
       data: {},
       validated: false,
-      lastAction: null
+      lastAction: null,
     };
     this.form_onKeyPress = this.form_onKeyPress.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -28,10 +28,11 @@ class Form extends React.Component {
   form_onKeyPress(evt) {
     if (evt.key === 'Enter') {
       evt.stopPropagation();
-      const { defaultAction = this.props.actions && this.props.actions[0] } = this.props;
+      const { defaultAction = this.props.actions && this.props.actions[0] } =
+        this.props;
       setTimeout(() => defaultAction && this.handleAction(defaultAction));
       this.setState({
-        lastAction: defaultAction
+        lastAction: defaultAction,
       });
     }
   }
@@ -40,8 +41,8 @@ class Form extends React.Component {
     if (this.props.value !== prevProps.value) {
       this.setState({
         data: {
-          ...this.props.value
-        }
+          ...this.props.value,
+        },
       });
     }
   }
@@ -49,25 +50,24 @@ class Form extends React.Component {
   onClick(e, field, data) {
     const { onClick } = this.props;
     onClick && onClick(e, field, data);
-    
   }
   onChange(field, selectedValue, data) {
     const { onChange, onFieldChange } = this.props;
     const updatedData = {
       ...this.state.data,
       ...this.props.value,
-      [field.name]: selectedValue.value
+      [field.name]: selectedValue.value,
     };
     this.setState({
       data: {
         ...this.state.data,
-        [field.name]: selectedValue.value
-      }
+        [field.name]: selectedValue.value,
+      },
     });
     onChange &&
       onChange(
         {
-          value: updatedData
+          value: updatedData,
         },
         field,
         data
@@ -75,7 +75,7 @@ class Form extends React.Component {
     onFieldChange &&
       onFieldChange(
         {
-          ...selectedValue
+          ...selectedValue,
         },
         field,
         data
@@ -83,19 +83,34 @@ class Form extends React.Component {
   }
 
   render() {
-    const { className = '', fields = [], value = {}, actions = [], errors = {}, actionConfig = {} } = this.props;
+    const {
+      className = '',
+      fields = [],
+      value = {},
+      actions = [],
+      errors = {},
+      actionConfig = {},
+    } = this.props;
     return (
       <div className={`sq-form ${className}`} onKeyPress={this.form_onKeyPress}>
         <div className="sq-form_fields">
           {fields.map((field, index) => {
-            return this.renderComp(field, value[field.name], errors[field.name], value, index);
+            return this.renderComp(
+              field,
+              value[field.name],
+              errors[field.name],
+              value,
+              index
+            );
           })}
         </div>
-        {actions.length > 0 && <div className={`sq-form_actions ${actionConfig.className || ''}`}>
-          {actions.map((action, index) => {
-            return this.renderAction(action, index, actionConfig);
-          })}
-        </div>}
+        {actions.length > 0 && (
+          <div className={`sq-form_actions ${actionConfig.className || ''}`}>
+            {actions.map((action, index) => {
+              return this.renderAction(action, index, actionConfig);
+            })}
+          </div>
+        )}
       </div>
     );
   }
@@ -106,17 +121,17 @@ class Form extends React.Component {
     const supportedComponents = getMap();
     const Comp = supportedComponents[cmpType] || supportedComponents.Input;
     let finalOptions = {
-      ...options
+      ...options,
     };
     let isRender = true;
     if (field.match) {
       const validator = new Validator(field.match);
-      validator.setValues({...userData, ...data});
+      validator.setValues({ ...userData, ...data });
       isRender = validator.validateAll();
     }
 
     if (isRender && typeof beforeRender === 'function') {
-      const result = beforeRender(field, value, {...userData, ...data});
+      const result = beforeRender(field, value, { ...userData, ...data });
       if (result === false) {
         isRender = result;
       } else {
@@ -124,7 +139,7 @@ class Form extends React.Component {
         isRender = !(returnIsRender === false);
         finalOptions = {
           ...finalOptions,
-          ...overrides
+          ...overrides,
         };
       }
     }
@@ -136,10 +151,17 @@ class Form extends React.Component {
               {...finalOptions}
               value={value}
               row={data}
-              onClick={(e) => this.onClick(e, field, data)}
-              onAction={(action) => this.handleAction(action)}
+              onClick={(e) => {
+                console.log('@@@action', e);
+                this.onClick(e, field, data);
+              }}
+              onAction={(action) => {
+                this.handleAction(action);
+              }}
               onChange={(fieldData) => this.onChange(field, fieldData, data)}
-              onKeyPress={(fieldData) => this.handleOnKeyPress(field, fieldData, data)}
+              onKeyPress={(fieldData) =>
+                this.handleOnKeyPress(field, fieldData, data)
+              }
               onAnalytics={onAnalytics}
               {...error}
             />
@@ -151,11 +173,12 @@ class Form extends React.Component {
 
   handleAction(action) {
     const { onAction, value } = this.props;
+
     onAction &&
       onAction(
         {
           ...value,
-          ...this.state.data
+          ...this.state.data,
         },
         action
       );
@@ -166,7 +189,7 @@ class Form extends React.Component {
     onFieldKeyPress &&
       onFieldKeyPress(
         {
-          ...selectedValue
+          ...selectedValue,
         },
         field,
         data
@@ -175,12 +198,21 @@ class Form extends React.Component {
 
   renderAction(action, index, config) {
     const { onAnalytics } = this.props;
-    const { cmpType, actionType, className, actionClassName = '', ...options } = action;
+    const {
+      cmpType,
+      actionType,
+      className,
+      actionClassName = '',
+      ...options
+    } = action;
     const supportedComponents = getMap();
 
     const Comp = supportedComponents[cmpType] || supportedComponents.Button;
     return (
-      <div className={`sq-form__action ${actionClassName}`} key={`sq-fa-${index}`}>
+      <div
+        className={`sq-form__action ${actionClassName}`}
+        key={`sq-fa-${index}`}
+      >
         <Comp
           key={index}
           className={className}
@@ -188,7 +220,7 @@ class Form extends React.Component {
           onClick={(evt) => {
             if (this.state.lastAction === action) {
               this.setState({
-                lastAction: null
+                lastAction: null,
               });
             } else {
               this.handleAction(action);
@@ -214,7 +246,7 @@ Form.propTypes = {
   onFieldKeyPress: PropTypes.func,
   onAction: PropTypes.func,
   onValidate: PropTypes.func,
-  errorMessage: PropTypes.func
+  errorMessage: PropTypes.func,
 };
 
 export default Form;

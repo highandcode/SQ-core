@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getMap } from '../ui';
 import { Validator } from '../../utils/validator';
-import { object, common, validator } from '../../utils';
+import { object } from '../../utils';
 
 const Wrapper = ({
   items = [],
   className = '',
+  onClick,
+  onAction,
   onChange,
   onFieldKeyPress,
   ...rest
@@ -79,6 +81,12 @@ const Wrapper = ({
               isValid && <Component
                 key={idx}
                 {...rest}
+                onClick={(e, field) => {
+                  onClick && onClick(e, field || newItem)
+                }}
+                onAction={(e, field) => {
+                  onAction && onAction(e, field || newItem)
+                }}
                 onChange={(value, field) => handleChange(value, field, newItem)}
                 onFieldKeyPress={(value, field, data) =>
                   handleOnFieldChange(value, field, data, newItem)

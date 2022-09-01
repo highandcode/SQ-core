@@ -34,18 +34,15 @@ class MailRepository {
     return null;
   }
 
-  sendEmail(template, to, data, { cc, bcc } = {}) {
+  sendEmail(template, to, data, { from, fromName, cc, bcc } = {}) {
     const message = this.templates(template, data, { urlRepo: this.urlRepo });
     if (!message) {
       return;
     }
-    const fromEmail = message.from || this.config.email.defaultFrom;
+    const fromEmail = message.from || from || this.config.email.defaultFrom;
+    const _fromName = message.fromName || fromName || this.config.email.defaultFromName;
     message.to = to;
-    if (message.fromName) {
-      message.from = `${message.fromName} <${fromEmail}>`;
-    } else {
-      message.from = `${this.config.email.defaultFromName} <${fromEmail}>`;
-    }
+    message.from = `${_fromName} <${fromEmail}>`;
     if (cc) {
       message.cc = cc;
     }
