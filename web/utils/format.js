@@ -43,22 +43,22 @@ const formatters = {
     });
   },
   dateFull: (value, options = {}) => {
-    return new DateTime(value).toString('MMM, DD YYYY');
+    return value ? new DateTime(value).toString('MMM, DD YYYY') : '';
   },
   shortDate: (value, { format = 'MM/DD/YY (ddd)' } = {}) => {
-    return new DateTime(value).toString(format);
+    return value ? new DateTime(value).toString(format) : '';
   },
   dateOnly: (value, { format = 'DD/MM' } = {}) => {
-    return new DateTime(value).toString(format);
+    return value ? new DateTime(value).toString(format) : '';
   },
   monthYear: (value, options = {}) => {
-    return new DateTime(value).toString('MMM YYYY');
+    return value ? new DateTime(value).toString('MMM YYYY') : '';
   },
   dateFullTime: (value, options = {}) => {
-    return new DateTime(value).toString('MMM, DD YYYY hh:mm A');
+    return value ? new DateTime(value).toString('MMM, DD YYYY hh:mm A') : '';
   },
   time: (value, options = {}) => {
-    return new DateTime(value).toString('hh:mm A');
+    return value ? new DateTime(value).toString('hh:mm A') : '';
   },
 };
 _setFormatters(formatters);
