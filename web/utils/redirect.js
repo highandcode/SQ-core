@@ -27,7 +27,7 @@ export const redirectTo = (screen, params = {}, { target = '', ...options } = {}
   if (!screen) {
     return;
   }
-  events.emit('beforeRedirect', screen, params, { target });
+  events.emit('beforeRedirect', screen, params, { target, ...options });
   if (params.handler === 'custom') {
     customHandlers[params.handlerType] && customHandlers[params.handlerType](screen, params, options);
   } else {
