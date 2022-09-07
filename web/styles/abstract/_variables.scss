@@ -141,9 +141,9 @@ $sq-heading-color: $sq-color-muted-darkest;
 
 // Fonts
 
-$header-font-family: "Lato-Regular", Arial;
-$paragraph-font-family: "Lato-Light", Arial;
-$text-font-family: "Lato-Light", Arial;
+$header-font-family: var(--header-font-family);
+$paragraph-font-family: var(--paragraph-font-family);
+$text-font-family: var(--text-font-family);
 
 $jumbo-font-size: 58px;
 $large-font-size: 48px;
