@@ -33,7 +33,7 @@
   &__data {
     &-cell {
       padding: 0px 10px;
-      @media (min-width:$screen-sm) {
+      @media (min-width: $screen-sm) {
         padding: 0px 20px;
         min-height: 36px;
       }
@@ -63,6 +63,23 @@
   }
   &__no-data {
     padding: 20px 0;
+  }
+
+  &-header {
+    &--sortable {
+      .sq-grid__header-row-cell.sort-enable {
+        padding-right: 40px;
+        position: relative;
+        cursor: pointer;
+      }
+      .sq-grid__cell-sort {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+      }
+    }
   }
 
   &--default {

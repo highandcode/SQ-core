@@ -8,7 +8,7 @@ import { translate } from '../../utils/translate';
 import { getValue } from '../../utils/properties';
 
 const RowTypes = {
-  GridRow
+  GridRow,
 };
 
 class Grid extends React.Component {
@@ -18,7 +18,7 @@ class Grid extends React.Component {
       updatedIndex: 0,
       data: [],
       validated: false,
-      total: {}
+      total: {},
     };
     this.addNewRow = this.addNewRow.bind(this);
     this.handleFieldBlur = this.handleFieldBlur.bind(this);
@@ -28,6 +28,7 @@ class Grid extends React.Component {
     this.handleRowClick = this.handleRowClick.bind(this);
     this.handleFieldAction = this.handleFieldAction.bind(this);
     this.handleChildRowRender = this.handleChildRowRender.bind(this);
+    this.handleSort = this.handleSort.bind(this);
   }
 
   addNewRow(evt) {
@@ -42,15 +43,19 @@ class Grid extends React.Component {
       <div className={`sq-grid ${className} ${actionsClassName} sq-grid${strips ? '--striped' : '--bordered'} sq-grid--${gridStyle}`}>
         {this.hasData() && showHeader && <div className="sq-grid__header">{this.renderHeader(columns)}</div>}
         <div className="sq-grid__body">{this.renderData(columns, data, rowConfig)}</div>
-        {this.hasActions() && (
-          <div className="sq-grid__actions">{showAdd && <Button buttonText={translate('Add')} onClick={this.addNewRow} />}</div>
-        )}
+        {this.hasActions() && <div className="sq-grid__actions">{showAdd && <Button buttonText={translate('Add')} onClick={this.addNewRow} />}</div>}
       </div>
     );
   }
 
+  handleSort(data, column) {
+    const { onSort } = this.props;
+    onSort && onSort(data, column);
+  }
+
   renderHeader(columns) {
-    return <GridHeaderRow columns={columns} />;
+    const { sortColumn, sortOrder, enableSort = false } = this.props;
+    return <GridHeaderRow columns={columns} sortColumn={sortColumn} sortOrder={sortOrder} enableSort={enableSort} onSort={this.handleSort} />;
   }
 
   renderData(columns, data, rowConfig) {
@@ -103,7 +108,7 @@ class Grid extends React.Component {
     const { onFieldChange, onColumnValidate } = this.props;
     const result = onColumnValidate && onColumnValidate(column, value, row);
     this.setState({
-      updatedIndex: this.state.updatedIndex + 1
+      updatedIndex: this.state.updatedIndex + 1,
     });
     if (result === false) {
       return;
@@ -136,7 +141,6 @@ class Grid extends React.Component {
     const RowComp = RowTypes[rowType] || RowTypes.GridRow;
     const finalClassName = getValue(this, className, data, columns);
     const finalWrapperClassName = getValue(this, wrapperClassName, data, columns);
-
 
     return (
       <RowComp
@@ -177,7 +181,7 @@ Grid.propTypes = {
   onRowValidate: PropTypes.func,
   onSubmit: PropTypes.func,
   onAddNew: PropTypes.func,
-  errorMessage: PropTypes.func
+  errorMessage: PropTypes.func,
 };
 
 export default Grid;
