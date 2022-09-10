@@ -216,9 +216,9 @@ const _validators = {
     });
   },
   postalCN: (value) => {
-    return _validators.regex(value, {
-      regex: /^((\d{5}-\d{4})|(\d{5})|([A-Z]\d[A-Z]\s\d[A-Z]\d))$/
-    });
+    return value ? _validators.regex(value, {
+      regex: /^((\d{5}-\d{4})|(\d{5})|([a-zA-Z]\d[a-zA-Z]\s\d[a-zA-Z]\d))$/
+    }) : true;
   },
   options: (value, config = {}, values) => {
     const { subType = 'array', options = [], fieldName = 'value', optional = false } = config;
@@ -273,6 +273,7 @@ const _messages = {
   phone: () => `Enter a valid phone number`,
   internationalphone: () => `Enter a valid phone number with country code e.g. +91 910 989 9887`,
   password: () => `Password should be 6 characters long`,
+  postalCN: () => `Enter a valid postal code`,
   strongPassword: () => `Password should be min 8 characters long with atleast 1 uppercase, special character and number`,
 };
 
