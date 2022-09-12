@@ -5,6 +5,7 @@ import { Validator } from '../../utils/validator';
 import { object, common, validator } from '../../utils';
 import { addComp } from '../../components/ui';
 import Form from '../../components/Form';
+import ErrorBoundary from '../../components/ErrorBoundry';
 
 import './_content.scss';
 
@@ -88,36 +89,37 @@ class Content extends Component {
             }
 
             const Comp = compMap[block.component];
-            block = object.processBlock(block, {userData});
+            block = object.processBlock(block, { userData });
             return Comp && isValid ? (
-              <Comp
-                key={pathname + idx}
-                {...rest}
-                value={userData[block.name]}
-                errors={userData[block.name + '_errors']}
-                {...block}
-                onClick={(e, field) => {
-                  this.onClick(e, block, field);
-                }}
-                onChange={(value, field) => {
-                  this.onChange(value, field, block);
-                }}
-                onAction={(value, action) => {
-                  this.onAction(value, action, block);
-                }}
-                onFieldKeyPress={(value, field, data) => {
-                  this.onChange(
-                    {
-                      value: {
-                        ...data,
-                        [field.name]: value.value,
+              <ErrorBoundary key={pathname + idx}>
+                <Comp
+                  {...rest}
+                  value={userData[block.name]}
+                  errors={userData[block.name + '_errors']}
+                  {...block}
+                  onClick={(e, field) => {
+                    this.onClick(e, block, field);
+                  }}
+                  onChange={(value, field) => {
+                    this.onChange(value, field, block);
+                  }}
+                  onAction={(value, action) => {
+                    this.onAction(value, action, block);
+                  }}
+                  onFieldKeyPress={(value, field, data) => {
+                    this.onChange(
+                      {
+                        value: {
+                          ...data,
+                          [field.name]: value.value,
+                        },
                       },
-                    },
-                    field,
-                    block
-                  );
-                }}
-              />
+                      field,
+                      block
+                    );
+                  }}
+                />
+              </ErrorBoundary>
             ) : undefined;
           })}
       </div>

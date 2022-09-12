@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Alert from '../Alert';
 
-
-class ErrorBoundary extends React.Component {
+class ErrorBoundry extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error) {
+    console.log('@@@@@', error);
+    // You can also log the error to an error reporting service
     this.setState({
       hasError: true
     });
@@ -17,14 +19,19 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <h1>Something went wrong.</h1>;
+      return (
+        <div className="error-boundry mt-wide mb-wide">
+          <Alert type='error' message='Some error has occured' />
+        </div>
+      );
     }
+
     return this.props.children;
   }
 }
 
-ErrorBoundary.propTypes = {
+ErrorBoundry.propTypes = {
   children: PropTypes.node
 };
 
-export default ErrorBoundary;
+export default ErrorBoundry;

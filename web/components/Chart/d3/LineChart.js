@@ -163,7 +163,6 @@ class LineChart extends BaseChart {
           // console.log('@@@y', vis.y(d[ser.yValue]));
           return vis.y(d[ser.yValue]);
         });
-      // console.log('@@@', vis.line(vis.data));
       vis.g.select(`.line.${ser.name}`).attr('stroke', ser.color).transition(vis.t).attr('d', vis.line(vis.data));
     });
   }

@@ -65,7 +65,6 @@ const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnal
   const newValue = (type && formatters[type] && formatters[type](customValue, restFormatter)) || customValue;
   const { title, ...tooltipProps } = tooltip;
   const finalValTitle = getValue(this, title, row);
-  console.log('@@@', tooltip, finalValTitle);
   return (
     <div className={`sq-grid__data-cell ${getValue(this, className, row)}`} role="grid-cell">
       {finalValTitle && <Tooltip disableFocusListener disableTouchListener title={finalValTitle} {...tooltipProps}>

@@ -3,16 +3,9 @@ import PropTypes from 'prop-types';
 import { getMap } from '../ui';
 import { Validator } from '../../utils/validator';
 import { object } from '../../utils';
+import ErrorBoundary from '../ErrorBoundry';
 
-const Wrapper = ({
-  items = [],
-  className = '',
-  onClick,
-  onAction,
-  onChange,
-  onFieldKeyPress,
-  ...rest
-}) => {
+const Wrapper = ({ items = [], className = '', onClick, onAction, onChange, onFieldKeyPress, ...rest }) => {
   const { userData } = rest;
   const map = { ...getMap(), Wrapper };
   const handleChange = (value, field, block) => {
@@ -20,16 +13,16 @@ const Wrapper = ({
 
     let latestValue = {};
 
-    if (typeof(userData[finalBlock.name]) === 'object') {
+    if (typeof userData[finalBlock.name] === 'object') {
       latestValue = {
         ...userData[finalBlock.name],
-      }
+      };
     }
-    if (typeof(value.value) === 'object') {
+    if (typeof value.value === 'object') {
       latestValue = {
         ...latestValue,
-        ...value.value
-      }
+        ...value.value,
+      };
     } else {
       latestValue = value.value;
     }
@@ -60,13 +53,13 @@ const Wrapper = ({
         }
       );
   };
-  
+
   return (
     <div className={`sq-wrapper ${className}`}>
       <div className="container-fluid">
         <div className="sq-wrapper__body row">
           {items.map((item, idx) => {
-            const newItem = object.processBlock(item, {userData});
+            const newItem = object.processBlock(item, { userData });
             const Component = map[newItem.component] || map.Text;
             let validator;
             let isValid = true;
@@ -78,23 +71,24 @@ const Wrapper = ({
               isValid = validator.validateAll();
             }
             return (
-              isValid && <Component
-                key={idx}
-                {...rest}
-                onClick={(e, field) => {
-                  onClick && onClick(e, field || newItem)
-                }}
-                onAction={(e, field) => {
-                  onAction && onAction(e, field || newItem)
-                }}
-                onChange={(value, field) => handleChange(value, field, newItem)}
-                onFieldKeyPress={(value, field, data) =>
-                  handleOnFieldChange(value, field, data, newItem)
-                }
-                errors={userData[newItem.name + '_errors']}
-                value={userData[newItem.name]}
-                {...newItem}
-              />
+              isValid && (
+                <ErrorBoundary key={idx}>
+                  <Component
+                    {...rest}
+                    onClick={(e, field) => {
+                      onClick && onClick(e, field || newItem);
+                    }}
+                    onAction={(e, field) => {
+                      onAction && onAction(e, field || newItem);
+                    }}
+                    onChange={(value, field) => handleChange(value, field, newItem)}
+                    onFieldKeyPress={(value, field, data) => handleOnFieldChange(value, field, data, newItem)}
+                    errors={userData[newItem.name + '_errors']}
+                    value={userData[newItem.name]}
+                    {...newItem}
+                  />
+                </ErrorBoundary>
+              )
             );
           })}
         </div>

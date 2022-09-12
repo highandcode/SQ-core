@@ -4,6 +4,7 @@ import './form.scss';
 
 import { getMap } from '../ui/index';
 import { Validator } from '../../utils/validator';
+import ErrorBoundry from '../ErrorBoundry';
 let supportedComponents = getMap();
 
 export const registerComponents = (newComps) => {
@@ -28,8 +29,7 @@ class Form extends React.Component {
   form_onKeyPress(evt) {
     if (evt.key === 'Enter') {
       evt.stopPropagation();
-      const { defaultAction = this.props.actions && this.props.actions[0] } =
-        this.props;
+      const { defaultAction = this.props.actions && this.props.actions[0] } = this.props;
       setTimeout(() => defaultAction && this.handleAction(defaultAction));
       this.setState({
         lastAction: defaultAction,
@@ -83,25 +83,12 @@ class Form extends React.Component {
   }
 
   render() {
-    const {
-      className = '',
-      fields = [],
-      value = {},
-      actions = [],
-      errors = {},
-      actionConfig = {},
-    } = this.props;
+    const { className = '', fields = [], value = {}, actions = [], errors = {}, actionConfig = {} } = this.props;
     return (
       <div className={`sq-form ${className}`} onKeyPress={this.form_onKeyPress}>
         <div className="sq-form_fields">
           {fields.map((field, index) => {
-            return this.renderComp(
-              field,
-              value[field.name],
-              errors[field.name],
-              value,
-              index
-            );
+            return this.renderComp(field, value[field.name], errors[field.name], value, index);
           })}
         </div>
         {actions.length > 0 && (
@@ -147,23 +134,23 @@ class Form extends React.Component {
       isRender && (
         <div className={`sq-form__field ${containerClass}`} key={index}>
           {
-            <Comp
-              {...finalOptions}
-              value={value}
-              row={data}
-              onClick={(e) => {
-                this.onClick(e, field, data);
-              }}
-              onAction={(action) => {
-                this.handleAction(action);
-              }}
-              onChange={(fieldData) => this.onChange(field, fieldData, data)}
-              onKeyPress={(fieldData) =>
-                this.handleOnKeyPress(field, fieldData, data)
-              }
-              onAnalytics={onAnalytics}
-              {...error}
-            />
+            <ErrorBoundry>
+              <Comp
+                {...finalOptions}
+                value={value}
+                row={data}
+                onClick={(e) => {
+                  this.onClick(e, field, data);
+                }}
+                onAction={(action) => {
+                  this.handleAction(action);
+                }}
+                onChange={(fieldData) => this.onChange(field, fieldData, data)}
+                onKeyPress={(fieldData) => this.handleOnKeyPress(field, fieldData, data)}
+                onAnalytics={onAnalytics}
+                {...error}
+              />
+            </ErrorBoundry>
           }
         </div>
       )
@@ -197,21 +184,12 @@ class Form extends React.Component {
 
   renderAction(action, index, config) {
     const { onAnalytics } = this.props;
-    const {
-      cmpType,
-      actionType,
-      className,
-      actionClassName = '',
-      ...options
-    } = action;
+    const { cmpType, actionType, className, actionClassName = '', ...options } = action;
     const supportedComponents = getMap();
 
     const Comp = supportedComponents[cmpType] || supportedComponents.Button;
     return (
-      <div
-        className={`sq-form__action ${actionClassName}`}
-        key={`sq-fa-${index}`}
-      >
+      <div className={`sq-form__action ${actionClassName}`} key={`sq-fa-${index}`}>
         <Comp
           key={index}
           className={className}
