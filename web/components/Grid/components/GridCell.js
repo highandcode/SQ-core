@@ -68,7 +68,7 @@ const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnal
   console.log('@@@', tooltip, finalValTitle);
   return (
     <div className={`sq-grid__data-cell ${getValue(this, className, row)}`} role="grid-cell">
-      {finalValTitle && <Tooltip disableFocusListener disableTouchListener title={finalValTitle}>
+      {finalValTitle && <Tooltip disableFocusListener disableTouchListener title={finalValTitle} {...tooltipProps}>
         <span>
           <CellComponent {...errors} {...component} value={newValue} row={row} column={column} onClick={_onClick} onChange={_onChange} onAnalytics={onAnalytics} onAction={_onAction} onKeyPress={_onKeyPress} onBlur={_Blur} />
         </span>
