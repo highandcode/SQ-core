@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import InputField from '../../ui/InputField';
+import { Tooltip } from '@mui/material';
 import Grouper from '../../Grouper';
 import Button from '../../ui/Button';
 import Text from '../../ui/Text';
@@ -35,7 +36,7 @@ const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnal
     Icon,
     Actions,
     MoreActions,
-    ...getMap()
+    ...getMap(),
   };
   const _onChange = (newValue) => {
     onChange && onChange(column, newValue);
@@ -53,7 +54,7 @@ const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnal
     onKeyPress && onKeyPress(column, value);
   };
   const focusedProps = column.beforeRender && column.beforeRender(column, value, row);
-  const { cmpType, className = '', component, render } = { ...column, ...focusedProps };
+  const { cmpType, className = '', component, render, tooltip = {} } = { ...column, ...focusedProps };
   const CellComponent = CompMap[cmpType] || CompMap.Text;
   const { type, ...restFormatter } = formatter;
   let customValue = value;
@@ -62,22 +63,19 @@ const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnal
   }
   const formatters = getFormatters();
   const newValue = (type && formatters[type] && formatters[type](customValue, restFormatter)) || customValue;
-
+  const { title, ...tooltipProps } = tooltip;
+  const finalValTitle = getValue(this, title, row);
+  console.log('@@@', tooltip, finalValTitle);
   return (
     <div className={`sq-grid__data-cell ${getValue(this, className, row)}`} role="grid-cell">
-      <CellComponent
-        {...errors}
-        {...component}
-        value={newValue}
-        row={row}
-        column={column}
-        onClick={_onClick}
-        onChange={_onChange}
-        onAnalytics={onAnalytics}
-        onAction={_onAction}
-        onKeyPress={_onKeyPress}
-        onBlur={_Blur}
-      />
+      {finalValTitle && <Tooltip disableFocusListener disableTouchListener title={finalValTitle}>
+        <span>
+          <CellComponent {...errors} {...component} value={newValue} row={row} column={column} onClick={_onClick} onChange={_onChange} onAnalytics={onAnalytics} onAction={_onAction} onKeyPress={_onKeyPress} onBlur={_Blur} />
+        </span>
+      </Tooltip>}
+      {!finalValTitle &&
+        <CellComponent {...errors} {...component} value={newValue} row={row} column={column} onClick={_onClick} onChange={_onChange} onAnalytics={onAnalytics} onAction={_onAction} onKeyPress={_onKeyPress} onBlur={_Blur} />
+      }
     </div>
   );
 };
@@ -94,7 +92,7 @@ GridCell.propTypes = {
   onKeyPress: PropTypes.func,
   onBlur: PropTypes.func,
   onClick: PropTypes.func,
-  beforeRender: PropTypes.func
+  beforeRender: PropTypes.func,
 };
 
 export default GridCell;

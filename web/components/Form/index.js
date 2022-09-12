@@ -152,7 +152,6 @@ class Form extends React.Component {
               value={value}
               row={data}
               onClick={(e) => {
-                console.log('@@@action', e);
                 this.onClick(e, field, data);
               }}
               onAction={(action) => {
