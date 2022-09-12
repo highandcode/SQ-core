@@ -40,6 +40,7 @@ class ColumnChart extends BaseChart {
     var { xValue, series = [] } = this.config;
     const columnSeries = series.filter((t) => !t.type || t.type === 'Column');
     const lineSeries = series.filter((t) => t.type === 'Line');
+    d3.select(element).select('svg').attr('width', 'auto');
     var { width, height, innerWidth, innerHeight } = this.getWidth();
     d3.select(element).select('svg').attr('width', width).attr('height', height);
     if (!this.data) {

@@ -58,6 +58,7 @@ class AreaChart extends BaseChart {
     const { format: xAxisFormatter, type: xAxisDataType } = xAxis;
     const { labelWidth = 80, format: yAxisFormatter, minValue: yAxisMinValue } = yAxis;
     const { formatter: tooltipFormatter = (v) => v } = tooltip;
+    vis.svg.attr('class', 'chart-svg').attr('width', 'auto');
     var { width, height, innerWidth, innerHeight } = this.getWidth();
     vis.t = d3.transition().duration(1000);
     vis.x = d3.scaleTime().range([0, innerWidth]);

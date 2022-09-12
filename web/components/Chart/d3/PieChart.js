@@ -26,6 +26,7 @@ class PieChart extends BaseChart {
     }
     const data = this.data;
     var { xValue, yValue, colorSet, margin } = this.config;
+    this.svg.attr('width', 'auto');
     const { width, height } = this.getWidth();
     this.svg.attr('width', width).attr('height', height);
     const pie = d3
