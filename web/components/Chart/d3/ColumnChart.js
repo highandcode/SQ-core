@@ -23,6 +23,10 @@ class ColumnChart extends BaseChart {
 
   init() {}
 
+  resetWidth() {
+    const d3 = this.d3;
+    d3.select(this.element).select('svg').attr('width', 'auto');
+  }
   refresh() {
     this.update();
   }

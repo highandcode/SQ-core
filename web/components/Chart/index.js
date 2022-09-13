@@ -23,6 +23,7 @@ class CustomChart extends Component {
     if (this.resizing) {
       return;
     }
+    this.chart?.resetWidth && this.chart?.resetWidth();
     this.resizing = window.setTimeout(() => {
       this.chart && this.chart.update();
       this.resizing = undefined;

@@ -40,6 +40,10 @@ class AreaChart extends BaseChart {
     series.forEach((ser) => {});
   }
 
+  resetWidth() {
+    this.svg.attr('class', 'chart-svg').attr('width', 'auto');
+  }
+
   update() {
     const d3 = this.d3;
     const vis = this;
