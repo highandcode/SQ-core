@@ -8,7 +8,14 @@ const Response = require('../../server/src/Response');
 const pkgName = require('../../package.json');
 
 class ContentServer {
-  constructor({ fse, dirname = `${process.cwd()}/node_modules/${pkgName.name}/cms/`, ...options } = {}, app) {
+  constructor(
+    {
+      fse,
+      dirname = `${process.cwd()}/node_modules/${pkgName.name}/cms/`,
+      ...options
+    } = {},
+    app
+  ) {
     const cmsRootServer = dirname;
     console.log(`root:${cmsRootServer}`);
     console.log(`root:client::${cmsRootServer}client`);
@@ -17,6 +24,7 @@ class ContentServer {
         rootPath: cmsRootServer,
         rootClientPath: cmsRootServer + 'client',
         rootApp: '',
+        appConfig: {},
         mode: 'development',
         srcPath: cmsRootServer,
         serverPath: '/content/*',
@@ -210,16 +218,20 @@ class ContentServer {
   }
 
   serveJson(req, res) {
-    const data = this.getPageData(req.params['0']);
+    this.getPageDataForUi(req.params['0']).then((data) => {
+      res.status(200).send(new Response(data).success());
+    });
     // setTimeout(() => {
-    res.status(200).send(
-      new Response({
-        pageData: data.pageData,
-        siteMap: data.siteConfig,
-        metaData: data.merged,
-      }).success()
-    );
     // }, 5000);
+  }
+
+  getPageDataForUi(path) {
+    const data = this.getPageData(path);
+    return Promise.resolve({
+      pageData: data.pageData,
+      siteMap: data.siteConfig,
+      metaData: data.merged,
+    });
   }
 
   getPageContent(path) {

@@ -235,8 +235,8 @@ function checkStatus(response) {
       error: true,
       status: CONSTANTS.STATUS.UNKNOWN,
       error: {
-        message: 'Unexpected error',
-        key: 'UNEXPECTED_ERROR',
+        message: 'Page not found',
+        key: 'NOT_FOUND',
       },
     };
   } else {
@@ -283,9 +283,7 @@ function responseReader(response) {
     case CONSTANTS.STATUS.UNNKOWN:
       this.events.emit('onUnRecognizedError', response);
     default:
-      return {
-        ...response,
-      };
+      return response;
   }
 }
 

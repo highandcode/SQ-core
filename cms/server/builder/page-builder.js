@@ -45,8 +45,6 @@ class PageBuilder {
 
   build() {
     console.log('building page ->' + this.data.title);
-    console.log('building page:destPath->' + this.data.destPath);
-    // }
     console.log('building page:template->' + this.data.template);
     console.log('building page:layout->' + this.data.layout);
     let currentNode = this.currentNode;
