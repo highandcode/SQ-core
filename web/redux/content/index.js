@@ -84,8 +84,15 @@ export const processParams = (userData, params = {}, defaultValue = null, state)
 
 export const fetchContentPage = createAsyncThunk('content/fetchContentPage', async (url) => {
   const fullUrl = url || location.href;
-
-  const response = await apiBridge.post(fullUrl);
+  const mode = window.APP_CONFIG.siteMode === 'static' ? 'get' : 'post';
+  const postFix = mode === 'get' ? '/get.json' : '';
+  
+  let response = await apiBridge[mode](`${fullUrl}${postFix}`);
+  if (response.error) {
+    if (window.APP_CONFIG?.siteMap?.errorRedirects[response.code]) {
+      response = await apiBridge[mode](`${window.APP_CONFIG?.siteMap?.errorRedirects[response.code]}${postFix}`);
+    }
+  }
   // The value we return becomes the `fulfilled` action payload
   return {
     data: response.data,

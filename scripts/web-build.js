@@ -13,10 +13,8 @@ class WebBuildProcess extends BaseBuild {
       },
       config
     );
-    const _appConfig = {
-      ...appConfig
-    };
-
+    this.appConfig = appConfig;
+   
     this.tags = {
       findLink: '<link',
       findScript: '<script',
@@ -24,9 +22,17 @@ class WebBuildProcess extends BaseBuild {
       metaTags: `<meta name="viewport" content="width=device-width, initial-scale=1.0">`,
 
       scriptToInclude: `
+        ${this.getAppConfig()}
        ${this.config.scripts}
       `
     };
+  }
+
+  getAppConfig() {
+    if (this.config.inlineAppConfig) {
+      return `<script> window.APP_CONFIG = ${JSON.stringify(this.appConfig)}; </script>`;
+    }
+    return '';
   }
 
   insertContent(fullContent, beforeWhat, newContent) {
