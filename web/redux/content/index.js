@@ -82,15 +82,19 @@ export const processParams = (userData, params = {}, defaultValue = null, state)
   return newObj;
 };
 
-export const fetchContentPage = createAsyncThunk('content/fetchContentPage', async (url) => {
-  const fullUrl = url || location.href;
+export const fetchJsonPath = ({url, params, headers}) => {
   const mode = window.APP_CONFIG.siteMode === 'static' ? 'get' : 'post';
   const postFix = mode === 'get' ? '/get.json' : '';
+  return apiBridge[mode](`${url}${postFix}`, params, headers); 
+}
+
+export const fetchContentPage = createAsyncThunk('content/fetchContentPage', async (url) => {
+  const fullUrl = url || location.href;
   
-  let response = await apiBridge[mode](`${fullUrl}${postFix}`);
+  let response = await fetchJsonPath({ url: fullUrl});
   if (response.error) {
     if (window.APP_CONFIG?.siteMap?.errorRedirects[response.code]) {
-      response = await apiBridge[mode](`${window.APP_CONFIG?.siteMap?.errorRedirects[response.code]}${postFix}`);
+      response = await fetchJsonPath({ url: window.APP_CONFIG?.siteMap?.errorRedirects[response.code] });
     }
   }
   // The value we return becomes the `fulfilled` action payload
@@ -134,7 +138,7 @@ export const checkAndPostApi = (data) => async (dispatch, getState) => {
 export const initApplication = (data) => async (dispatch, getState) => {
   let response = {};
   if (data.globals && data.globals.path) {
-    const result = await apiBridge.post(data.globals.path, {});
+    const result = await fetchJsonPath({ url: data.globals.path });
     const pageData = result.data.pageData;
     await dispatch(
       updateProtectedUserData({

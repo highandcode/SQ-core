@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const {
   server: { ContentServer },
-} = require('sq-core/cms');
+} = require('../cms');
 
 class StaticContentBuilder {
   constructor({ serverConfig, ...options } = {}) {
