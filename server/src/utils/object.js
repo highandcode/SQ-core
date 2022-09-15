@@ -66,7 +66,7 @@ var object = {
     }
     return block;
   },
-  processMessage: (html, data, options = {}) => {
+  processMessage: (html, data = {}, options = {}) => {
     const { removePrefix = '' } = options;
     const allFormatters = getFormatters();
     const dataToProcess = data;

@@ -26,6 +26,7 @@ const FullCarousel = ({
   navButtonsAlwaysVisible = true,
   template = 'default',
   animation = 'fade',
+  ...rest
 }) => {
   interval = interval * 1;
   const TemplateToRender = templates[template] || templates.default;
@@ -46,7 +47,7 @@ const FullCarousel = ({
             key={i}
             className="sq-carousel__item"
           >
-            <TemplateToRender data={item} />
+            <TemplateToRender {...rest} data={item} />
           </div>
         ))}
       </Carousel>

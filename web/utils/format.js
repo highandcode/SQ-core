@@ -45,6 +45,9 @@ const formatters = {
   dateFull: (value, options = {}) => {
     return value ? new DateTime(value).toString('MMM, DD YYYY') : '';
   },
+  dateForTimezone: (value, { timezone = 'America/New_York', format = 'MMM, DD YYYY hh:mm A zz' } = {}) => {
+    return value ? new DateTime(value)._date.tz(timezone).format(format) : '';
+  },
   shortDate: (value, { format = 'MM/DD/YY (ddd)' } = {}) => {
     return value ? new DateTime(value).toString(format) : '';
   },

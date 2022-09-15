@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Paper } from '@mui/material';
 import MagicHeroContent from '../../ui/MagicHeroContent';
 
-function FullBg({ data }) {
+function FullBg({ data, ...rest }) {
   return (
     <Paper>
-      <MagicHeroContent {...data} />
+      <MagicHeroContent {...rest} {...data}  />
     </Paper>
   );
 }

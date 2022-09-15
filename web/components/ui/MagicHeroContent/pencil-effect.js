@@ -84,12 +84,12 @@ class MagicHeroContentDefault extends Component {
   }
 
   render() {
-    const { name, content = {}, className = '' } = this.props;
+    const { name, content = {}, className = '', ...restProps } = this.props;
     const { component, ...restContent } = content;
     const CmpToRender = compMap[component] || compMap.HeroContent;
     return (
       <div className={`sq-magic-hero-content-pencil ${className} ${name}`}>
-        <CmpToRender {...restContent} />
+        <CmpToRender {...restProps} {...restContent} />
       </div>
     );
   }

@@ -106,7 +106,7 @@ class Footer extends Component {
             <div className="row">
               <div className="col-xs-12 col-md-9 sq-footer__content-section">
                 <div className="sq-footer__links">
-                  <nav className="sq-footer__nav">
+                  <nav className={`sq-footer__nav ${classes.itemWrapper}`}>
                     {items &&
                       items.map((linkItem, idx) => {
                         return (
