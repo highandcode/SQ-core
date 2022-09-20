@@ -12,7 +12,6 @@ describe('utils:CustomModule', () => {
       module = new CustomModule();
       module.add('test', {
         addUser: (p1, p2) => {
-          console.log('added');
           return 'test';
         },
       });

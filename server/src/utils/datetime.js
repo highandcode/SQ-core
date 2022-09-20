@@ -55,7 +55,18 @@ class MomentDateTime {
   diffInMinutes(otherDate) {
     return this._date.diff(otherDate._date, 'minutes');
   }
-
+  subtractDays(input) {
+    this._date.subtract(input, 'days');
+    return this;
+  }
+  subtractMinutes(input) {
+    this._date.subtract(input, 'minutes');
+    return this;
+  }
+  subtractMonths(input) {
+    this._date.subtract(input, 'months');
+    return this;
+  }
   addDays(input) {
     this._date.add(input, 'days');
     return this;
