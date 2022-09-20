@@ -4,7 +4,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TextField } from '@mui/material';
-
+import { getValue } from '../../../utils/properties';
 import './dateselector.scss';
 
 const DateSelector = ({
@@ -23,6 +23,7 @@ const DateSelector = ({
   onChange,
   error,
   errorMessage,
+  row,
 }) => {
   const isValid = value ? moment(value).isValid() : false;
   const valueDate = isValid ? moment(value)._d : value;
@@ -51,14 +52,18 @@ const DateSelector = ({
   const handleOnBlur = () => {
     setFocus(false);
   };
+
+  const finalMinDate = getValue(this, minDate, row);
+  const finalMaxDate = getValue(this, maxDate, row);
+
   return (
     <div className={`sq-date-selector ${className}`}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker
           inputFormat={inputFormat}
           disabled={disabled}
-          minDate={minDate}
-          maxDate={maxDate}
+          minDate={finalMinDate}
+          maxDate={finalMaxDate}
           mask={mask}
           value={isValid ? (valueDate || null) : null}
           renderInput={(props) => (
