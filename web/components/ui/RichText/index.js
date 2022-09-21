@@ -10,13 +10,12 @@ function getText(html) {
 
 let configOptions = {
   default: {
-    plugins: 'code fullscreen',
-    toolbar: 'undo redo | styleselect | bold italic underline strikethrough | superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | code fullscreen',
+    plugins: 'code link fullscreen',
+    toolbar: 'heading | undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | code fullscreen',
   },
   compact: {
-    menubar: false,
-    plugins: 'code fullscreen',
-    toolbar: 'undo redo | styleselect | bold italic underline strikethrough | superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | code fullscreen',
+    plugins: 'code link fullscreen',
+    toolbar: 'heading | undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | code fullscreen',
   },
 };
 
@@ -59,6 +58,7 @@ class RichTextField extends React.Component {
   }
 
   componentDidMount() {
+    console.log('@@@component did mount', this.props);
     if (this.props.value) {
       this.setState({
         value: this.props.value,
@@ -69,6 +69,7 @@ class RichTextField extends React.Component {
     }
     window.tinymce.init({
       target: this.editorRef.current,
+      content_css: '/static/css/main.css',
       ...(configOptions[this.props.editorStyle] || {}),
       ...this.props.editorOptions,
       setup: (editor) => {
@@ -82,10 +83,12 @@ class RichTextField extends React.Component {
     });
   }
   componentDidUpdate(prevProps) {
+    console.log('@@@component did update', prevProps, this.props);
     if (!this.state.focused && prevProps.value !== this.props.value) {
       this.setState({
         value: this.props.value,
       });
+      console.log('@@newvalue', this.props.value);
     }
   }
 
