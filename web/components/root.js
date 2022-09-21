@@ -69,7 +69,7 @@ import Pricing from './ui/Pricing';
 import ProgressIndicator from './ui/ProgressIndicator';
 import Radio from './ui/Radio';
 import ReCaptcha from './ui/ReCaptcha';
-import RichText from './ui/RichText';
+import RichText, { setEditorOptions } from './ui/RichText';
 import SelectField from './ui/SelectField';
 import SelectPopup from './ui/SelectPopup';
 import Separator from './ui/Separator';
@@ -79,6 +79,10 @@ import Text from './ui/Text';
 import Textarea from './ui/Textarea';
 import TextColumnWithLinks from './ui/TextColumnWithLinks';
 import TextFields from './ui/TextFields';
+
+export const editor = {
+  setEditorOptions
+};
 
 export {
   Actions,
