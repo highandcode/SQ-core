@@ -93,7 +93,7 @@ class Grid extends React.Component {
 
   renderLoadingView() {
     const { loader } = this.props;
-    return <div className="sq-grid__body sq-grid__loading-data">{loader}</div>;
+    return <div className="sq-grid__body container-fluid sq-grid__loading-data">{loader}</div>;
   }
   renderNoDataView() {
     const { noDataMessage = 'No Data Found' } = this.props;

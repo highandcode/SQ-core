@@ -28,12 +28,14 @@ const GridHeaderRow = ({ columns = [], sortColumn, sortOrder = 'asc', onSort, en
         const hasSortApplied = isColSortEnabled && isSortEnabled && hasSortColumn;
         return (
           <div key={'gh-' + index} className={`sq-grid__cell sq-grid__header-row-cell ${hasSortApplied ? 'sort-active' : ''} ${isColSortEnabled ? 'sort-enable' : ''} ${column.className}`} onClick={(e) => isColSortEnabled && handleClick(e, column)}>
-            <div className="sq-grid__cell sq-grid__header-row-cell-text">
-              <Tooltip title={column.headerText}>
-                <span>{column.headerText}</span>
-              </Tooltip>
+            <div className="sq-grid__header-row-cell-wrapper">
+              <div className="sq-grid__cell sq-grid__header-row-cell-text">
+                <Tooltip title={column.headerText}>
+                  <span>{column.headerText}</span>
+                </Tooltip>
+              </div>
+              {isColSortEnabled && <Icon variant={`${hasSortColumn ? 'black' : 'muted-light'}`} className="sq-grid__cell-sort" name={sortOrderIconName} />}
             </div>
-            {isColSortEnabled && <Icon variant={`${hasSortColumn ? 'black' : 'muted-light'}`} className="sq-grid__cell-sort" name={sortOrderIconName} />}
           </div>
         );
       })}

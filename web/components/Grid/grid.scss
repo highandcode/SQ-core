@@ -1,4 +1,5 @@
 .sq-grid {
+  
   &__row {
     display: flex;
   }
@@ -31,41 +32,48 @@
   }
   &__header-row {
     color: #333;
-    border-top: solid 1px $sq-color-muted-light;
-    border-bottom: solid 1px $sq-color-muted-light;
     height: 100%;
     &-cell {
-      padding: 5px 10px;
-      @media (min-width: $screen-sm) {
-        padding: 10px 10px;
-      }
+
+      border-top: solid 1px $sq-color-muted-light;
+      border-bottom: solid 1px $sq-color-muted-light;
       line-height: 36px;
       font-weight: bold;
       font-size: 10px;
       text-transform: uppercase;
       overflow: hidden;
+      &-wrapper {
+        width: 100%;
+        padding: 5px 10px;
+        @media (min-width: $screen-sm) {
+          padding: 10px 20px;
+        }
+      }
       &-text {
         width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
       }
       &.sort-enable {
+        .sq-grid__header-row-cell-wrapper {
           border-right: solid 2px transparent;
           transition: all ease 300ms;
+        }
         &:hover {
-          background-color: #edf4f6;
-          border-right: solid 2px $sq-color-primary-lighter;
-          
-       }
+          .sq-grid__header-row-cell-wrapper {
+            background-color: #edf4f6;
+            border-right: solid 2px $sq-color-primary-lighter;
+          }
+        }
       }
     }
   }
- 
+
   &__data {
     &-cell {
       padding: 10px;
       @media (min-width: $screen-sm) {
-        padding: 5px 10px;
+        padding: 5px 20px;
         min-height: 36px;
       }
     }
@@ -89,7 +97,7 @@
   &-header {
     &--sortable {
       .sq-grid__header-row-cell.sort-enable {
-        padding-right: 40px;
+        padding-right: 24px;
         position: relative;
         cursor: pointer;
       }
