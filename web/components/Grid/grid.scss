@@ -125,6 +125,7 @@
   .sq-grid__data-cell {
     flex-grow: 0;
     flex-shrink: 0;
+    overflow: hidden;
     flex-basis: 250px;
     justify-content: flex-start;
   }
