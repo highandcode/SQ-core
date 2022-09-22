@@ -44,7 +44,7 @@ const Row = ({
   const childRow = onChildRowRender && onChildRowRender(columns, data);
   return (
     <>
-      <div className={`sq-grid__row-wraper  ${wrapperClassName}`} role="row">
+      <div className={`sq-grid__row-wrapper  ${wrapperClassName}`} role="row">
         <div className={`sq-grid__row sq-grid__data-row  ${className}`} onClick={_onRowClick}>
           {columns.map((column, index) => {
             let isRender = true;

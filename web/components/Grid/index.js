@@ -20,6 +20,8 @@ class Grid extends React.Component {
       validated: false,
       total: {},
     };
+    this.headerRef = React.createRef();
+    this.bodyRef = React.createRef();
     this.addNewRow = this.addNewRow.bind(this);
     this.handleFieldBlur = this.handleFieldBlur.bind(this);
     this.handleFieldClick = this.handleFieldClick.bind(this);
@@ -29,6 +31,14 @@ class Grid extends React.Component {
     this.handleFieldAction = this.handleFieldAction.bind(this);
     this.handleChildRowRender = this.handleChildRowRender.bind(this);
     this.handleSort = this.handleSort.bind(this);
+    this.onBody_Scroll = this.onBody_Scroll.bind(this);
+  }
+  onBody_Scroll(e) {
+    this.headerRef.current.scrollLeft = this.bodyRef.current.scrollLeft;
+  }
+
+  componentDidMount() {
+    this.bodyRef.current.addEventListener('scroll', this.onBody_Scroll);
   }
 
   addNewRow(evt) {
@@ -37,12 +47,12 @@ class Grid extends React.Component {
   }
 
   render() {
-    const { columns = [], data = [], className = '', showAdd = false, showHeader = true, strips = false, rowConfig = {}, onRowClick, gridStyle = 'normal' } = this.props;
+    const { columns = [], data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default' } = this.props;
     const actionsClassName = typeof onRowClick === 'function' ? 'sq-grid--has-action' : '';
     return (
-      <div className={`sq-grid ${className} ${actionsClassName} sq-grid${strips ? '--striped' : '--bordered'} sq-grid--${gridStyle}`}>
-        {this.hasData() && showHeader && <div className="sq-grid__header">{this.renderHeader(columns)}</div>}
-        <div className="sq-grid__body">{this.renderData(columns, data, rowConfig)}</div>
+      <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle}`}>
+        {this.hasData() && showHeader && <div className="sq-grid__header" ref={this.headerRef}>{this.renderHeader(columns)}</div>}
+        <div className="sq-grid__body" ref={this.bodyRef}>{this.renderData(columns, data, rowConfig)}</div>
         {this.hasActions() && <div className="sq-grid__actions">{showAdd && <Button buttonText={translate('Add')} onClick={this.addNewRow} />}</div>}
       </div>
     );

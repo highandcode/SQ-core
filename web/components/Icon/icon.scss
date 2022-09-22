@@ -10,7 +10,7 @@
   width: 24px;
   height: 24px;
   display: inline-block;
-  @include b3-style();
+  @include b4-style();
   text-align: center;
 
   &--wide {
@@ -61,26 +61,32 @@
   &--xs {
     width: 16px;
     height: 16px;
+    @include b7-style();
   }
   &--small {
     width: 20px;
     height: 20px;
+    @include b6-style();
   }
   &--medium {
     width: 30px;
     height: 30px;
+    @include b5-style();
   }
   &--large {
     width: 36px;
     height: 36px;
+    @include b3-style();
   }
   &--xl {
     width: 42px;
     height: 42px;
+    @include b2-style();
   }
   &--xxl {
     width: 50px;
     height: 50px;
+    @include b1-style();
   }
   &--auto {
     width: 100%;
