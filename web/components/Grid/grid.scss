@@ -99,13 +99,15 @@
   &-header {
     &--sortable {
       .sq-grid__header-row-cell.sort-enable {
-        padding-right: 24px;
+        .sq-grid__header-row-cell-wrapper {
+          padding-right: 24px;
+        }
         position: relative;
         cursor: pointer;
       }
       .sq-grid__cell-sort {
         position: absolute;
-        right: 0;
+        right: 5px;
         top: 0;
         bottom: 0;
         margin: auto;
