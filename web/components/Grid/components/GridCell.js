@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import InputField from '../../ui/InputField';
 import { Tooltip } from '@mui/material';
+import InputField from '../../ui/InputField';
 import Grouper from '../../Grouper';
 import Button from '../../ui/Button';
 import Text from '../../ui/Text';

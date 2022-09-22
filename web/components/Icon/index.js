@@ -74,6 +74,9 @@ import CheckCircle from '@mui/icons-material/CheckCircle';
 import { ReactComponent as PHigh } from '../../assets/svg/p-hightest.svg';
 import { ReactComponent as PMedium } from '../../assets/svg/p-medium.svg';
 import { ReactComponent as PLow } from '../../assets/svg/p-low.svg';
+import { ReactComponent as SortN } from '../../assets/svg/sort-n.svg';
+import { ReactComponent as SortAsc } from '../../assets/svg/sort-asc.svg';
+import { ReactComponent as SortDesc } from '../../assets/svg/sort-desc.svg';
 
 import {
   Email,
@@ -364,6 +367,9 @@ const types = {
     wifi: Wifi,
     // LinkedIn,
     link: Link,
+    'sort-n': SortN,
+    'sort-asc': SortAsc,
+    'sort-desc': SortDesc,
   },
 };
 
