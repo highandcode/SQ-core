@@ -34,9 +34,8 @@
     color: #333;
     height: 100%;
     &-cell {
-
-      border-top: solid 1px $sq-color-muted-light;
-      border-bottom: solid 1px $sq-color-muted-light;
+      border-top: solid 1px #cfd7df;
+      border-bottom: solid 1px #cfd7df;
       line-height: 36px;
       font-weight: bold;
       font-size: 10px;
@@ -72,6 +71,9 @@
   &__data {
     &-cell {
       padding: 10px;
+      > span {
+        width: 100%;
+      }
       @media (min-width: $screen-sm) {
         padding: 5px 20px;
         min-height: 36px;
