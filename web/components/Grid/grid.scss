@@ -72,7 +72,7 @@
     &-cell {
       padding: 10px;
       > span {
-        width: 100%;
+        max-width: 100%;
       }
       @media (min-width: $screen-sm) {
         padding: 5px 20px;
