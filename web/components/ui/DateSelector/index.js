@@ -24,6 +24,7 @@ const DateSelector = ({
   error,
   errorMessage,
   row,
+  ...rest,
 }) => {
   const isValid = value ? moment(value).isValid() : false;
   const valueDate = isValid ? moment(value)._d : value;
@@ -60,6 +61,7 @@ const DateSelector = ({
     <div className={`sq-date-selector ${className}`}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker
+          {...rest}
           inputFormat={inputFormat}
           disabled={disabled}
           minDate={finalMinDate}
