@@ -24,7 +24,7 @@ const DateSelector = ({
   error,
   errorMessage,
   row,
-  ...rest,
+  ...rest
 }) => {
   const isValid = value ? moment(value).isValid() : false;
   const valueDate = isValid ? moment(value)._d : value;
