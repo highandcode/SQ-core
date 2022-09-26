@@ -70,6 +70,7 @@ import ProgressIndicator from './ui/ProgressIndicator';
 import Radio from './ui/Radio';
 import ReCaptcha from './ui/ReCaptcha';
 import RichText, { setEditorOptions } from './ui/RichText';
+import BasicRTE from './ui/BasicRTE';
 import SelectField from './ui/SelectField';
 import SelectPopup from './ui/SelectPopup';
 import Separator from './ui/Separator';
@@ -152,6 +153,7 @@ export {
   ReCaptcha,
   Pagination,
   RichText,
+  BasicRTE,
   SelectField,
   SelectPopup,
   Separator,

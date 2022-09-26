@@ -1,4 +1,4 @@
-.sq-richtext-field {
+.sq-basic-rte {
   .ql-toolbar {
     background-color: white;
   }
@@ -13,7 +13,7 @@
     font-family: $paragraph-font-family;
   }
   &--small {
-    .sq-richtext-field__editor {
+    .sq-basic-rte__editor {
       min-height: 90px;
     }
     .public-DraftEditor-content {
@@ -22,8 +22,5 @@
       color: $sq-color-black;
       font-family: $paragraph-font-family;
     }
-  }
-  .tox-statusbar__branding, .tox-promotion {
-    display: none;
   }
 }

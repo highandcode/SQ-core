@@ -9,9 +9,13 @@ function getText(html) {
 }
 
 let configOptions = {
+  full: {
+    plugins: 'code link table fullscreen',
+    toolbar: 'heading | undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | table | code fullscreen',
+  },
   default: {
-    plugins: 'code link fullscreen',
-    toolbar: 'heading | undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | code fullscreen',
+    plugins: 'code link table fullscreen',
+    toolbar: 'heading | undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | table | code fullscreen',
   },
   compact: {
     plugins: 'code link fullscreen',
@@ -58,7 +62,6 @@ class RichTextField extends React.Component {
   }
 
   componentDidMount() {
-    console.log('@@@component did mount', this.props);
     if (this.props.value) {
       this.setState({
         value: this.props.value,
@@ -83,12 +86,11 @@ class RichTextField extends React.Component {
     });
   }
   componentDidUpdate(prevProps) {
-    console.log('@@@component did update', prevProps, this.props);
+
     if (!this.state.focused && prevProps.value !== this.props.value) {
       this.setState({
         value: this.props.value,
       });
-      console.log('@@newvalue', this.props.value);
     }
   }
 
@@ -115,27 +117,6 @@ class RichTextField extends React.Component {
         <div>
           <textarea ref={this.editorRef}>{value}</textarea>
         </div>
-        {/* <div
-          className={`sq-richtext-field__editor`}
-          ref={(el) => (this.editor = el)}
-        ></div> */}
-        {/* <Editor
-          init={{
-            height: 500,
-            menubar: false,
-            plugins: ['advlist autolink lists link image charmap print preview anchor', 'searchreplace visualblocks code fullscreen', 'insertdatetime media table paste code help wordcount'],
-            toolbar: 'undo redo | formatselect | ' + 'bold italic backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'removeformat | help',
-            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-          }}
-        /> */}
-        {/* <RichTextEditor
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          onChange={this.handleOnChange}
-          className={`sq-richtext-field__editor`}
-          defaultValue={this.props.value}
-          value={this.state.value}
-        /> */}
         {!focused && error && <div className="sq-textarea-field--error">{errorMessage}</div>}
       </div>
     );
