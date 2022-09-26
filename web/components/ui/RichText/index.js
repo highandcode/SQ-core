@@ -73,6 +73,8 @@ class RichTextField extends React.Component {
     window.tinymce.init({
       target: this.editorRef.current,
       content_css: '/static/css/main.css',
+      branding: false,
+      promotion: false,
       ...(configOptions[this.props.editorStyle] || {}),
       ...this.props.editorOptions,
       setup: (editor) => {
