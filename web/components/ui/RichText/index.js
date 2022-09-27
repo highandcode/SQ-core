@@ -93,11 +93,11 @@ class RichTextField extends React.Component {
     });
   }
   componentDidUpdate(prevProps) {
-
-    if (!this.state.focused && prevProps.value !== this.props.value) {
+    if (!this.state.focused && prevProps.value !== this.props.value && this.state.value !== this.props.value) {
       this.setState({
         value: this.props.value,
       });
+      this.editor.setContent(this.props.value);
     }
   }
 
