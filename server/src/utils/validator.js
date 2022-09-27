@@ -299,6 +299,11 @@ class Validator {
     };
   }
 
+  clearValues() {
+    this.values = {};
+    return this;
+  }
+
   setValues(values) {
     this.values = {
       ...this.values,
