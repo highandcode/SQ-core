@@ -57,6 +57,14 @@ const DateSelector = ({
   const finalMinDate = getValue(this, minDate, row);
   const finalMaxDate = getValue(this, maxDate, row);
 
+  const extraProps = {};
+  if (finalMinDate) {
+    extraProps.minDate = finalMinDate;
+  }
+  if (finalMaxDate) {
+    extraProps.maxDate = finalMaxDate;
+  }
+
   return (
     <div className={`sq-date-selector ${className}`}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -64,8 +72,7 @@ const DateSelector = ({
           {...rest}
           inputFormat={inputFormat}
           disabled={disabled}
-          minDate={finalMinDate}
-          maxDate={finalMaxDate}
+          {...extraProps}
           mask={mask}
           value={isValid ? (valueDate || null) : null}
           renderInput={(props) => (
