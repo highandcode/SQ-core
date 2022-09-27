@@ -126,6 +126,7 @@ $body-bg: #fff ;
 //** Global text color on `<body>`.
 $text-color: $gray-base;
 
+
 //== Typography
 
 $screen-xs: 320px;
@@ -144,6 +145,8 @@ $sq-heading-color: $sq-color-muted-darkest;
 $header-font-family: var(--header-font-family);
 $paragraph-font-family: var(--paragraph-font-family);
 $text-font-family: var(--text-font-family);
+
+
 
 $jumbo-font-size: 58px;
 $large-font-size: 48px;
@@ -191,3 +194,7 @@ $sq-footer-background-color-dark: $sq-color-primary-darkest;
 // Global Navigation
 $sq-global-navigation-background-color:  $sq-color-muted-lightest;
 $sq-global-navigation-background-color-dark: $sq-color-primary-darkest;
+
+
+// base config
+$base-font-size:  $t6-font-size;

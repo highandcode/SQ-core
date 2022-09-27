@@ -118,7 +118,7 @@ const _validators = {
     return value ? _validators.number(value) && _validators.length(value, { exact: 10 }) : optional !== undefined ? optional : false;
   },
   internationalphone: (value) => {
-    return !commons.isNullOrUndefined(value) && _validators.regex(value, { regex: /^\+[1-9]{1}[0-9]{10,14}$/ });
+    return value ? !commons.isNullOrUndefined(value) && _validators.regex(value, { regex: /^\+[1-9]{1}[0-9]{10,14}$/ }) : true;
   },
 
   regex: (value, options) => {

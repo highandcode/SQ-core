@@ -11,15 +11,21 @@ function getText(html) {
 let configOptions = {
   full: {
     plugins: 'code link table fullscreen',
-    toolbar: 'heading | undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | table | code fullscreen',
+    toolbar: 'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | table | code fullscreen',
   },
   default: {
     plugins: 'code link table fullscreen',
-    toolbar: 'heading | undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | table | code fullscreen',
+    toolbar: 'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | table | code fullscreen',
   },
   compact: {
+    menubar: false,
     plugins: 'code link fullscreen',
-    toolbar: 'heading | undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | code fullscreen',
+    toolbar: 'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | code fullscreen',
+  },
+  basic: {
+    menubar: false,
+    plugins: 'link fullscreen',
+    toolbar: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | link fullscreen',
   },
 };
 
