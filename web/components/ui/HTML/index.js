@@ -13,7 +13,7 @@ const HTML = ({ className = '', value = '', onAction }) => {
       try {
         params = JSON.parse(actionParams);
       } catch (ex) {}
-      onAction && onAction({ actionType, href, ...actionParams });
+      onAction && onAction({}, { actionType, href, ...actionParams });
       e.stopPropagation();
       e.preventDefault();
     }
