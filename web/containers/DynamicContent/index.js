@@ -296,7 +296,11 @@ class DynamicContent extends Component {
             const link = url.createObjectURL(blob);
             var a = document.createElement('a');
             a.href = link;
-            a.download = doc.originalName; // this should be the file name with the required extension
+            var url = action.href;
+            const strip = url.indexOf('?') > -1 ? url.indexOf('?') : url.length;
+            const exactUrl = url.substr(0, strip);
+            const fileName = exactUrl.substr(exactUrl.lastIndexOf('/') + 1);
+            a.download = fileName; // this should be the file name with the required extension
             document.body.appendChild(a);
             a.click();
             a.remove();
