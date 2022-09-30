@@ -6,16 +6,14 @@ const HTML = ({ className = '', value = '', onAction }) => {
   const container = useRef();
   const handleClick = (e) => {
     if (e.target && e.target.getAttribute('data-action-type')) {
-      var actionType = e.target.getAttribute('data-action-type');
-      var href = e.target.getAttribute('href');
-      var actionParams = e.target.getAttribute('data-action-params');
-      let params = {};
-      try {
-        params = JSON.parse(actionParams);
-      } catch (ex) {}
-      onAction && onAction({}, { actionType, href, ...actionParams });
       e.stopPropagation();
       e.preventDefault();
+      var actionType = e.target.getAttribute('data-action-type');
+      let params = {};
+      for (var i = 0; i < e.target.attributes.length; i++) {
+        params[e.target.attributes[i].name] = e.target.attributes[i].value;
+      }
+      onAction && onAction({}, { actionType, ...params });
     }
   };
   useEffect(() => {
