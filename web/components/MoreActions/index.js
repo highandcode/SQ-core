@@ -45,7 +45,7 @@ const MoreActions = ({
     onAnalytics && dialog && onAnalytics(dialog);
     if (dialgAction.action === 'ok') {
       onClick && onClick(action);
-      onAction && onAction(action);
+      onAction && onAction(dialgAction, action);
       onAnalytics && click && onAnalytics(click);
     }
     setTimeout(() => {

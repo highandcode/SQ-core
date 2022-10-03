@@ -142,8 +142,8 @@ class Form extends React.Component {
                 onClick={(e) => {
                   this.onClick(e, field, data);
                 }}
-                onAction={(action) => {
-                  this.handleAction(action);
+                onAction={(dialgAction, action) => {
+                  this.handleAction(dialgAction, action);
                 }}
                 onChange={(fieldData) => this.onChange(field, fieldData, data)}
                 onKeyPress={(fieldData) => this.handleOnKeyPress(field, fieldData, data)}
@@ -157,7 +157,7 @@ class Form extends React.Component {
     );
   }
 
-  handleAction(action) {
+  handleAction(evt, action) {
     const { onAction, value } = this.props;
 
     onAction &&
@@ -200,7 +200,7 @@ class Form extends React.Component {
                 lastAction: null,
               });
             } else {
-              this.handleAction(action);
+              this.handleAction(evt, action);
             }
           }}
           onAnalytics={onAnalytics}
