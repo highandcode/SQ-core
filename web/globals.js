@@ -72,7 +72,7 @@ export class GlobalOptions {
     });
     if (sortBy) {
       result = result.sort((a, b) => {
-        if (a[sortBy] > b[sortBy]) {
+        if (a[sortBy]?.toLowerCase() > b[sortBy].toLowerCase()) {
           return sortOrder === 'asc' ? 1 : -1;
         } else if (a[sortBy] < b[sortBy]) {
           return sortOrder === 'asc' ? -1 : 1;
