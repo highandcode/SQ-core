@@ -3,9 +3,21 @@ import moment from 'moment';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TextField } from '@mui/material';
 import { getValue } from '../../../utils/properties';
 import './dateselector.scss';
+
+const instanceTypes = {
+  DatePicker,
+  TimePicker,
+  DateTimePicker,
+  DesktopDatePicker,
+  MobileDatePicker
+};
 
 const DateSelector = ({
   value,
@@ -18,11 +30,13 @@ const DateSelector = ({
   outputFormat = 'MM/DD/YYYY',
   mask = '__/__/____',
   className = '',
+  valueFormat,
   minDate,
   maxDate,
   onChange,
   error,
   errorMessage,
+  instanceType = 'DatePicker',
   row,
   ...rest
 }) => {
@@ -34,12 +48,12 @@ const DateSelector = ({
       const text = moment(date).format(outputFormat);
       onChange &&
         onChange({
-          value: moment(date).toISOString(),
+          value: !valueFormat ? moment(date).toISOString() : moment(date).format(valueFormat),
           text,
         });
      
     } else if (input) {
-      const valueToPass =  moment(input, outputFormat, true).isValid() ? moment(input).toISOString() : null;
+      const valueToPass =  moment(input, outputFormat, true).isValid() ? !valueFormat ? moment(input).toISOString() : moment(input).format(valueFormat) : null;
       onChange &&
         onChange({
           value: valueToPass,
@@ -64,11 +78,11 @@ const DateSelector = ({
   if (finalMaxDate) {
     extraProps.maxDate = finalMaxDate;
   }
-
+  const DatePickerInstance = instanceTypes[instanceType];
   return (
     <div className={`sq-date-selector ${className}`}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DatePicker
+        <DatePickerInstance
           {...rest}
           inputFormat={inputFormat}
           disabled={disabled}

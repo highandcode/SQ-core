@@ -11,7 +11,7 @@ export default {
 };
 
 const Template = (args) => {
-  const [value, setValue] = useState(new Date());
+  const [value, setValue] = useState();
 
   const onChange = (value) => {
     setValue(value.value);
@@ -19,6 +19,7 @@ const Template = (args) => {
   return (
     <div className="">
       <DateSelector {...args} onChange={onChange} value={value} />
+      Value: {value}
     </div>
   );
 };
@@ -28,9 +29,43 @@ WithDefaultStyle.args = {
   label: 'Date of birth (MM/DD/YYYY)',
   placeholder: 'MM/DD/YYYY',
 };
+
+export const WithCustomOutputFormat = Template.bind({});
+WithCustomOutputFormat.args = {
+  label: 'Date of birth (MM/DD/YYYY)',
+  placeholder: 'MM/DD/YYYY',
+  valueFormat: 'YYYY-MM-DD',
+};
 export const WithCustomFormat = Template.bind({});
 WithCustomFormat.args = {
   label: 'Date of birth with custom format',
-  format: 'MM/DD/YYYY hh:mm A',
   outputFormat: 'MM/DD/YYYY hh:mm A',
+};
+export const WithTimePickerExample = Template.bind({});
+WithTimePickerExample.args = {
+  label: 'Date of birth with custom format',
+  inputFormat: 'hh:mm a',
+  outputFormat: 'hh:mm A',
+  instanceType: 'TimePicker'
+};
+export const WithDateTimerPickerExample = Template.bind({});
+WithDateTimerPickerExample.args = {
+  label: 'Date of birth with custom format',
+  inputFormat: 'dd/mm/yyyy hh:mm a',
+  outputFormat: 'hh:mm A',
+  instanceType: 'DateTimePicker'
+};
+export const WithMobileDateTimePicker = Template.bind({});
+WithMobileDateTimePicker.args = {
+  label: 'Date picker mobile',
+  inputFormat: 'dd/mm/yyyy',
+  outputFormat: 'hh:mm A',
+  instanceType: 'MobileDatePicker'
+};
+export const WithDesktopDatePicker = Template.bind({});
+WithDesktopDatePicker.args = {
+  label: 'Date desktop datepicker',
+  inputFormat: 'dd/mm/yyyy',
+  outputFormat: 'hh:mm A',
+  instanceType: 'DesktopDatePicker'
 };
