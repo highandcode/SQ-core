@@ -39,7 +39,7 @@ const SQFileUploader = ({
     if (listToBeAdded.length > 0) {
       const newFiles = [...(multiple ? file : []), ...(listToBeAdded)];
       await setFile(newFiles);
-      uploadOnChange && handleAction({}, {files: newFiles});
+      uploadOnChange && handleAction({files: newFiles});
     }
   };
   const handleDelete = (filenew) => {
@@ -63,7 +63,7 @@ const SQFileUploader = ({
 
   const handleAction = (obj) => {
     onAction &&
-      onAction({
+      onAction({}, {
         ...rest,
         success,
         failed,
