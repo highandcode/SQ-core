@@ -285,8 +285,8 @@ class DynamicContent extends Component {
     let result;
     switch (action.actionType) {
       case 'download-doc':
-        apiBridge
-          .get(action.href, {}, {}, { plain: true })
+        const method = action.method || 'get';
+        apiBridge[method](action.href || action.url, {}, {}, { plain: true })
           .then((res) => {
             return res.blob();
           })
