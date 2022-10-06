@@ -283,10 +283,11 @@ class DynamicContent extends Component {
   async onAction(value, action, block) {
     let isValid;
     let result;
+    console.log(action);
     switch (action.actionType) {
       case 'download-doc':
         const method = action.method || 'get';
-        apiBridge[method](action.href || action.url, {}, {}, { plain: true })
+        apiBridge[method](action.href || action.url, action.params || {}, action.headers || {}, { plain: true })
           .then((res) => {
             return res.blob();
           })
@@ -296,10 +297,10 @@ class DynamicContent extends Component {
             const link = url.createObjectURL(blob);
             var a = document.createElement('a');
             a.href = link;
-            var url = action.href;
+            var url = action.href || action.url;
             const strip = url.indexOf('?') > -1 ? url.indexOf('?') : url.length;
             const exactUrl = url.substr(0, strip);
-            const fileName = exactUrl.substr(exactUrl.lastIndexOf('/') + 1);
+            const fileName = exactUrl.substr(exactUrl.lastIndexOf('/') + 1) || 'newfile';
             a.download = fileName; // this should be the file name with the required extension
             document.body.appendChild(a);
             a.click();
