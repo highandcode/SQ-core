@@ -28,6 +28,7 @@ const SQAutocomplete = ({
   onAction,
   error,
   errorMessage,
+  compProps = {},
   ...rest
 }) => {
   const handleChange = (e, value) => {
@@ -61,7 +62,7 @@ const SQAutocomplete = ({
   return (
     <div className={`sq-autocomplete ${className}`}>
       <Autocomplete
-        {...rest}
+        {...compProps}
         multiple={multiple}
         options={finalOptions}
         inputValue={inputValue}
@@ -91,7 +92,7 @@ const SQAutocomplete = ({
             {option[textField]}
           </Box>
         )}
-        value={optionFound || value || (multiple ? [] : '')}
+        value={optionFound || value || (multiple ? [] : null)}
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
         }}
