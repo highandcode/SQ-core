@@ -297,6 +297,108 @@ export const postApi = (payload) => async (dispatch, getState) => {
   return response;
 };
 
+export const downloadApi = (payload) => async (dispatch, getState) => {
+  if (payload.match) {
+    const validator = new Validator(payload.match);
+    validator.setValues(selectUserData(getState()));
+    if (!validator.validateAll()) {
+      return;
+    }
+  }
+  if (payload.preCall) {
+    await dispatch(
+      updateUserData({
+        ...payload.preCall,
+      })
+    );
+  }
+  let response = { data: {} };
+  if (payload.preHook) {
+    response = await customHooks.execute(payload.preHook, response, {
+      state: getState(),
+      payload,
+      data: {
+        params: processParams(getState().content.userData, payload.params, undefined, getState()),
+        headers: processParams(getState().content.userData, payload.headers, undefined, getState()),
+        query: processParams(getState().content.userData, payload.query, undefined, getState()),
+      },
+      userData: getState().content.userData,
+      dispatch,
+    });
+  }
+  if (payload.href || payload.url) {
+    const method = payload.method || 'get';
+    await apiBridge[method](payload.href || payload.url, processParams(getState().content.userData, payload.params, undefined, getState()), processParams(getState().content.userData, payload.headers, undefined, getState()),processParams(getState().content.userData, payload.query, undefined, getState()), { plain: true })
+      .then((res) => {
+        return res.blob();
+      })
+      .then((data) => {
+        var blob = new Blob([data], { type: 'application/octetstream' });
+        var url = window.URL || window.webkitURL;
+        const link = url.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = link;
+        var url = payload.href || payload.url;
+        const strip = url.indexOf('?') > -1 ? url.indexOf('?') : url.length;
+        const exactUrl = url.substr(0, strip);
+        const fileName = exactUrl.substr(exactUrl.lastIndexOf('/') + 1) || 'no-name';
+        a.download = fileName; // this should be the file name with the required extension
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(link);
+      });
+  }
+
+  if (payload.postHook) {
+    response = await customHooks.execute(payload.postHook, response, {
+      state: getState(),
+      payload,
+      data: {
+        params: processParams(getState().content.userData, payload.params, undefined, getState()),
+        headers: processParams(getState().content.userData, payload.headers, undefined, getState()),
+        query: processParams(getState().content.userData, payload.query, undefined, getState()),
+      },
+      userData: getState().content.userData,
+      dispatch,
+    });
+  }
+
+  response = object.extendData(
+    payload.defaultResponse && (payload.defaultResponse[response.status] || payload.defaultResponse.error),
+    response
+  );
+
+  const { notification } = response || {};
+  if (notification) {
+    await dispatch(showNotificationMessage(notification));
+  }
+
+  if (payload.postCall) {
+    await dispatch(
+      updateUserData({
+        ...payload.postCall,
+      })
+    );
+  }
+  if (response.status === 'success') {
+    const data = payload.dataKey ? { [payload.dataKey]: response.data } : response.data;
+    await dispatch(
+      updateUserData({
+        ...data,
+        lastError: {},
+      })
+    );
+  } else if (response.status === 'error') {
+    await dispatch(updateErrorData(response.error));
+  }
+  if (payload.after) {
+    dispatch(checkAndPostApi(payload.after));
+  }
+  return response;
+};
+
+
 const content = createSlice({
   name: 'content',
   initialState,

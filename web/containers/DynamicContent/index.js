@@ -13,8 +13,7 @@ import TocIndex from '../TocIndex';
 import ComponentDemo from '../ComponentDemo';
 import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
-import apiBridge from '../../utils/api-bridge';
-import { fetchContentPage, postApi, executeHook, updateUserData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact } from '../../redux/content';
+import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact } from '../../redux/content';
 
 import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
 
@@ -286,28 +285,25 @@ class DynamicContent extends Component {
     console.log(action);
     switch (action.actionType) {
       case 'download-doc':
-        const method = action.method || 'get';
-        apiBridge[method](action.href || action.url, action.params || {}, action.headers || {}, { plain: true })
-          .then((res) => {
-            return res.blob();
-          })
-          .then((data) => {
-            var blob = new Blob([data], { type: 'application/octetstream' });
-            var url = window.URL || window.webkitURL;
-            const link = url.createObjectURL(blob);
-            var a = document.createElement('a');
-            a.href = link;
-            var url = action.href || action.url;
-            const strip = url.indexOf('?') > -1 ? url.indexOf('?') : url.length;
-            const exactUrl = url.substr(0, strip);
-            const fileName = exactUrl.substr(exactUrl.lastIndexOf('/') + 1) || 'newfile';
-            a.download = fileName; // this should be the file name with the required extension
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(link);
+        await this.props.contentActions.updateUserData({
+          isSubmitting: true,
+        });
+        result = await this.props.contentActions.downloadApi(action);
+        await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
+        await this.props.contentActions.updateUserData({
+          isSubmitting: false,
+        });
+        if (result.status === 'success') {
+          const data = action.dataKey ? { [action.dataKey]: result.data } : result.data;
+          await this.props.contentActions.updateUserData({
+            ...data,
+            lastError: {},
           });
-          break;
+        }
+        this.checkForInlineErrors(result);
+        this.validateResults(result);
+        break;
+        break;
       case 'api':
         await this.props.contentActions.updateUserData({
           isSubmitting: true,
@@ -493,6 +489,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     contentActions: {
       postApi: (data) => dispatch(postApi(data)),
+      downloadApi: (data) => dispatch(downloadApi(data)),
       executeHook: (data) => dispatch(executeHook(data)),
       fetchContentPage: (data) => dispatch(fetchContentPage(data)),
       resetUserData: (data) => dispatch(resetUserData(data)),

@@ -386,6 +386,7 @@ const Icon = ({
   textIcon,
   name,
   variant = 'default',
+  color = 'default',
   size = 'normal',
   iconClass = '',
   row,
@@ -394,6 +395,8 @@ const Icon = ({
 }) => {
   const finalName = getValue(this, name, row);
   const finalIconClass = getValue(this, iconClass, row);
+  const finalColor = getValue(this, color, row);
+  const finalVariant = getValue(this, variant, row);
   const IconToRender =
     list()[finalName] ||
     (textIcon ? undefined : !img ? list().NoIcon : undefined);
@@ -401,9 +404,7 @@ const Icon = ({
     <div
       className={`sq-icon ${finalIconClass} ${
         !finalName && textIcon ? 'sq-icon--text-icon' : ''
-      } sq-icon--${
-        typeof variant === 'function' ? variant(row) : variant
-      } sq-icon--${size} ${className}`}
+      } sq-icon--${finalVariant} sq-icon--${finalColor} sq-icon--${size} ${className}`}
       data-icon-name={finalName}
       onClick={onClick}
     >

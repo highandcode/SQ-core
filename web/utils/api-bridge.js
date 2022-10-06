@@ -65,11 +65,11 @@ export class ApiBridge {
     return result || window.API_SERVER || '';
   }
 
-  get(url, params, headers = {}, { plain = false } = {}) {
+  get(url, params, headers = {}, query = {}, { plain = false } = {}) {
     const promisObj = fetch(
       this.getPrefix({ url, body: params }) +
         url +
-        new QueryString(params).toString(),
+        new QueryString({...params, ...query}).toString(),
       {
         method: 'GET',
         headers: {
@@ -90,11 +90,11 @@ export class ApiBridge {
       .then(responseReader.bind(this));
   }
 
-  rawPost(url, body, headers = {}, query = {}, { plain = false } = {}) {
+  rawPost(url, body, headers = {}, query = {}, { method = 'POST', plain = false } = {}) {
     const promisObj = fetch(
       this.getPrefix({ url, body }) + url + new QueryString(query).toString(),
       {
-        method: 'POST',
+        method: method,
         headers: {
           ...this.getCustomHeaders(),
           ...headers,
@@ -112,6 +112,7 @@ export class ApiBridge {
       .then(messageParser)
       .then(responseReader.bind(this));
   }
+
   post(url, body, headers = {}, query = {}, { plain = false } = {}) {
     const promisObj = fetch(
       this.getPrefix({ url, body }) + url + new QueryString(query).toString(),
