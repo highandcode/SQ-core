@@ -30,7 +30,7 @@ class Form extends React.Component {
     if (evt.key === 'Enter') {
       evt.stopPropagation();
       const { defaultAction = this.props.actions && this.props.actions[0] } = this.props;
-      setTimeout(() => defaultAction && this.handleAction(defaultAction));
+      setTimeout(() => defaultAction && this.handleAction(evt, defaultAction));
       this.setState({
         lastAction: defaultAction,
       });

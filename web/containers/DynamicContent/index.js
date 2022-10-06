@@ -280,9 +280,7 @@ class DynamicContent extends Component {
   }
 
   async onAction(value, action, block) {
-    let isValid;
     let result;
-    console.log(action);
     switch (action.actionType) {
       case 'download-doc':
         await this.props.contentActions.updateUserData({
