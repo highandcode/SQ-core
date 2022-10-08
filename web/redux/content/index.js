@@ -109,7 +109,7 @@ export const sendContact = createAsyncThunk('content/sendContact', async (data) 
   return response;
 });
 
-export const updateErrorData = (data) => (dispatch, getState) => {
+export const updateErrorData = (data) => (dispatch) => {
   const errors = {
     lastError: {},
   };
@@ -123,7 +123,7 @@ export const updateErrorData = (data) => (dispatch, getState) => {
   dispatch(updateUserData(errors));
 };
 
-export const checkAndPostApi = (data) => async (dispatch, getState) => {
+export const checkAndPostApi = (data) => async (dispatch) => {
   const result = [];
   if (Array.isArray(data)) {
     data.forEach((item) => {
@@ -135,7 +135,7 @@ export const checkAndPostApi = (data) => async (dispatch, getState) => {
   return Promise.all(result);
 };
 
-export const initApplication = (data) => async (dispatch, getState) => {
+export const initApplication = (data) => async (dispatch) => {
   let response = {};
   if (data.globals && data.globals.path) {
     const result = await fetchJsonPath({ url: data.globals.path });
@@ -225,7 +225,7 @@ export const postApi = (payload) => async (dispatch, getState) => {
       })
     );
   }
-  let response = { data: {} };
+  let response = { status: 'success', data: {} };
   if (payload.preHook) {
     response = await customHooks.execute(payload.preHook, response, {
       state: getState(),
@@ -312,7 +312,7 @@ export const downloadApi = (payload) => async (dispatch, getState) => {
       })
     );
   }
-  let response = { data: {} };
+  let response = { status: 'success', data: {} };
   if (payload.preHook) {
     response = await customHooks.execute(payload.preHook, response, {
       state: getState(),
