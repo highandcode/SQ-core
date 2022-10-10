@@ -220,7 +220,7 @@ export const postApi = (payload) => async (dispatch, getState) => {
   }
   if (payload.preCall) {
     await dispatch(
-      updateUserData({
+      mergeUserData({
         ...payload.preCall,
       })
     );
@@ -274,7 +274,7 @@ export const postApi = (payload) => async (dispatch, getState) => {
 
   if (payload.postCall) {
     await dispatch(
-      updateUserData({
+      mergeUserData({
         ...payload.postCall,
       })
     );
@@ -307,7 +307,7 @@ export const downloadApi = (payload) => async (dispatch, getState) => {
   }
   if (payload.preCall) {
     await dispatch(
-      updateUserData({
+      mergeUserData({
         ...payload.preCall,
       })
     );
@@ -376,7 +376,7 @@ export const downloadApi = (payload) => async (dispatch, getState) => {
 
   if (payload.postCall) {
     await dispatch(
-      updateUserData({
+      mergeUserData({
         ...payload.postCall,
       })
     );
