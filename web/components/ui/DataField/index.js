@@ -20,6 +20,7 @@ const DataField = ({
   className = '',
   value = '',
   size = 'default',
+  iconSize,
   defaultText = '--',
   fieldType = '',
   optionsName,
@@ -35,7 +36,7 @@ const DataField = ({
       <label className="sq-data-field__label">{label}</label>
       <div className="sq-data-field__container">
         <div className="sq-data-field__value">
-          <RenderText value={otherProps.text || value || defaultText} {...otherProps} {...rest} />
+          <RenderText value={otherProps.text || value || defaultText} {...otherProps} size={iconSize} {...rest} />
         </div>
       </div>
     </div>
