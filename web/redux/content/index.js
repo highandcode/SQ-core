@@ -240,8 +240,10 @@ export const postApi = (payload) => async (dispatch, getState) => {
     });
   }
   if (payload.method && payload.url) {
-    response = await apiBridge[payload.method.toLowerCase()](
-      payload.url,
+    let processor = { method: payload.method, url: payload.url };
+    processor = processParams(getState().content.userData, processor, undefined, getState());
+    response = await apiBridge[processor.method.toLowerCase()](
+      processor.url,
       processParams(getState().content.userData, payload.params, undefined, getState()),
       processParams(getState().content.userData, payload.headers, undefined, getState()),
       processParams(getState().content.userData, payload.query, undefined, getState())
@@ -327,8 +329,10 @@ export const downloadApi = (payload) => async (dispatch, getState) => {
     });
   }
   if (payload.href || payload.url) {
-    const method = payload.method || 'get';
-    await apiBridge[method](payload.href || payload.url, processParams(getState().content.userData, payload.params, undefined, getState()), processParams(getState().content.userData, payload.headers, undefined, getState()),processParams(getState().content.userData, payload.query, undefined, getState()), { plain: true })
+    let processor = { method: payload.method, url: payload.url, href: payload.href };
+    processor = processParams(getState().content.userData, processor, undefined, getState());
+    const method = processor.method || 'get';
+    await apiBridge[method](processor.href || processor.url, processParams(getState().content.userData, payload.params, undefined, getState()), processParams(getState().content.userData, payload.headers, undefined, getState()),processParams(getState().content.userData, payload.query, undefined, getState()), { plain: true })
       .then((res) => {
         return res.blob();
       })
@@ -338,11 +342,11 @@ export const downloadApi = (payload) => async (dispatch, getState) => {
         const link = url.createObjectURL(blob);
         var a = document.createElement('a');
         a.href = link;
-        var url = payload.href || payload.url;
-        const strip = url.indexOf('?') > -1 ? url.indexOf('?') : url.length;
-        const exactUrl = url.substr(0, strip);
+        var newurl = payload.href || payload.url;
+        const strip = newurl.indexOf('?') > -1 ? newurl.indexOf('?') : newurl.length;
+        const exactUrl = newurl.substr(0, strip);
         const fileName = exactUrl.substr(exactUrl.lastIndexOf('/') + 1) || 'no-name';
-        a.download = fileName; // this should be the file name with the required extension
+        a.download = payload.fileName || fileName; // this should be the file name with the required extension
         document.body.appendChild(a);
         a.click();
         a.remove();
