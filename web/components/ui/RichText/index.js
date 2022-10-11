@@ -30,7 +30,7 @@ let configOptions = {
 };
 
 export const setEditorOptions = (name, options) => {
-  configOptions[name] = {
+  configOptions = {
     ...configOptions,
     [name]: options,
     default: configOptions.default,
