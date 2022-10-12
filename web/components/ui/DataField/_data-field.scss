@@ -8,6 +8,8 @@
   &__label {
     @include b6-style();
     color: $sq-color-gray;
+    display: flex;
+    align-items: center;
     margin-bottom: 4px;
   }
   &__value {
@@ -16,7 +18,23 @@
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-  
+  &--inline {
+    display: flex;
+    .sq-data-field__label {
+      margin-right: 5px;
+    }
+    &.space-between {
+      .sq-data-field__label {
+        flex-basis: 50%;
+      }
+      .sq-data-field__value {
+        flex-basis: 50%;
+      }
+    }
+    .sq-data-field__value {
+      flex-basis: 50%;
+    }
+  }
   &--auto-form {
     width: 100%;
     padding: 10px 0;

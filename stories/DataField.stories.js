@@ -27,3 +27,35 @@ DataFieldWithoutData.args = {
 };
 
 
+export const DataFieldInlineStyle = Template.bind({});
+DataFieldInlineStyle.args = {
+  label: 'Name',
+  value: 'John Doe',
+  className: 'sq-data-field--inline'
+};
+
+export const DataFieldInlineStyleIcon = Template.bind({});
+DataFieldInlineStyleIcon.args = {
+  labelIcon: 'call',
+  value: '+919999999191',
+  className: 'sq-data-field--inline'
+};
+
+export const DataFieldInlineStyleIconText = Template.bind({});
+DataFieldInlineStyleIconText.args = {
+  label: 'Call',
+  labelIcon: 'call',
+  value: '+919999999191',
+  className: 'sq-data-field--inline'
+};
+
+
+export const DataFieldInlineStyleIconTextSpacing = Template.bind({});
+DataFieldInlineStyleIconTextSpacing.args = {
+  label: 'Call',
+  labelIcon: 'call',
+  value: '+919999999191',
+  className: 'sq-data-field--inline space-between'
+};
+
+
