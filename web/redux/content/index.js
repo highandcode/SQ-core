@@ -330,7 +330,6 @@ export const downloadApi = (payload) => async (dispatch, getState) => {
   }
   if (payload.href || payload.url) {
     let paramToProcess = { method: payload.method, url: payload.url, href: payload.href };
-    console.log(payload, paramToProcess);
     paramToProcess = processParams(getState().content.userData, paramToProcess, undefined, getState());
     const method = paramToProcess.method || 'get';
     await apiBridge[method](paramToProcess.href || paramToProcess.url, processParams(getState().content.userData, payload.params, undefined, getState()), processParams(getState().content.userData, payload.headers, undefined, getState()),processParams(getState().content.userData, payload.query, undefined, getState()), { plain: true })
