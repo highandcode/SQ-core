@@ -386,7 +386,7 @@ const Icon = ({
   textIcon,
   name,
   variant = 'default',
-  color = 'default',
+  color,
   size = 'normal',
   iconClass = '',
   row,
@@ -404,7 +404,7 @@ const Icon = ({
     <div
       className={`sq-icon ${finalIconClass} ${
         !finalName && textIcon ? 'sq-icon--text-icon' : ''
-      } sq-icon--${finalVariant} sq-icon--${finalColor} sq-icon--${size} ${className}`}
+      } sq-icon--${finalVariant} ${finalColor ? `sq-icon--${finalColor}` : ''} sq-icon--${size} ${className}`}
       data-icon-name={finalName}
       onClick={onClick}
     >

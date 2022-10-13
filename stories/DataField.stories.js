@@ -55,6 +55,7 @@ DataFieldInlineStyleIconTextSpacing.args = {
   label: 'Call',
   labelIcon: 'call',
   value: '+919999999191',
+  labelIconColor: 'primary',
   className: 'sq-data-field--inline space-between'
 };
 

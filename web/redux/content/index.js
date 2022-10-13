@@ -43,7 +43,7 @@ export const parseCustomModule = (text) => {
 };
 export const processEachParam = (userData, key, defaultValue, state) => {
   let value;
-   if (key.toString().substr(0, 2) === '::') {
+   if (key && key.toString().substr(0, 2) === '::') {
     const moduleName = key.toString().split('::');
     const passedKey = key.substr(key.toString().lastIndexOf('::') + 2, key.length - 4);
     let parsedModule = parseCustomModule(moduleName[1]);
@@ -55,7 +55,7 @@ export const processEachParam = (userData, key, defaultValue, state) => {
     if (parsedModule) {
       value = processor.execute(parsedModule.module, value, parsedModule.params, { state, userData });
     }
-  } else if (key.toString().substr(0, 1) === '.') {
+  } else if (key && key.toString().substr(0, 1) === '.') {
     value = object.getDataFromKey(userData, key.substr(1), defaultValue);
   } else if (!common.isNullOrUndefined(key)) {
     value = key;
@@ -240,10 +240,10 @@ export const postApi = (payload) => async (dispatch, getState) => {
     });
   }
   if (payload.method && payload.url) {
-    let processor = { method: payload.method, url: payload.url };
-    processor = processParams(getState().content.userData, processor, undefined, getState());
-    response = await apiBridge[processor.method.toLowerCase()](
-      processor.url,
+    let paramToProcess = { method: payload.method, url: payload.url };
+    paramToProcess = processParams(getState().content.userData, paramToProcess, undefined, getState());
+    response = await apiBridge[paramToProcess.method.toLowerCase()](
+      paramToProcess.url,
       processParams(getState().content.userData, payload.params, undefined, getState()),
       processParams(getState().content.userData, payload.headers, undefined, getState()),
       processParams(getState().content.userData, payload.query, undefined, getState())
@@ -329,10 +329,11 @@ export const downloadApi = (payload) => async (dispatch, getState) => {
     });
   }
   if (payload.href || payload.url) {
-    let processor = { method: payload.method, url: payload.url, href: payload.href };
-    processor = processParams(getState().content.userData, processor, undefined, getState());
-    const method = processor.method || 'get';
-    await apiBridge[method](processor.href || processor.url, processParams(getState().content.userData, payload.params, undefined, getState()), processParams(getState().content.userData, payload.headers, undefined, getState()),processParams(getState().content.userData, payload.query, undefined, getState()), { plain: true })
+    let paramToProcess = { method: payload.method, url: payload.url, href: payload.href };
+    console.log(payload, paramToProcess);
+    paramToProcess = processParams(getState().content.userData, paramToProcess, undefined, getState());
+    const method = paramToProcess.method || 'get';
+    await apiBridge[method](paramToProcess.href || paramToProcess.url, processParams(getState().content.userData, payload.params, undefined, getState()), processParams(getState().content.userData, payload.headers, undefined, getState()),processParams(getState().content.userData, payload.query, undefined, getState()), { plain: true })
       .then((res) => {
         return res.blob();
       })
