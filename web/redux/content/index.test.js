@@ -219,6 +219,22 @@ describe('reducer:content', () => {
         });
       });
     });
+    describe('with undefined/null/0 value ', () => {
+      it('should return except undefined & null value', () => {
+        const result  = processParams(
+          {
+            dynamicValue: 'dyno',
+          },
+          {
+            result: undefined,
+            resultWithDynamic: null,
+            withNumber: 0,
+          }
+        );
+        expect(result).toMatchObject({
+          withNumber: 0,
+        });
+      });
+    });
   });
-
 });

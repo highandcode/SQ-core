@@ -66,11 +66,11 @@ export const processParams = (userData, params = {}, defaultValue = null, state)
   const newObj = {};
   Object.keys(params).forEach((key) => {
     let value;
-    if (typeof params[key] === 'object' && params[key].match) {
+    if (typeof params[key] === 'object' && params[key] !== null && params[key].match) {
       const validator = new Validator(params[key].match);
       validator.setValues(userData);
       value = validator.validateAll();
-    } else if (typeof params[key] === 'object') {
+    } else if (typeof params[key] === 'object' && params[key] !== null) {
       value = processParams(userData, params[key], defaultValue, state);
     } else {
       value = processEachParam(userData, params[key], defaultValue, state);
