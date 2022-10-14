@@ -6,6 +6,7 @@ import { object, common, validator } from '../../utils';
 import { addComp } from '../../components/ui';
 import Form from '../../components/Form';
 import ErrorBoundary from '../../components/ErrorBoundry';
+import Dialog from '../../components/Dialog';
 
 import './_content.scss';
 
@@ -18,6 +19,7 @@ class Content extends Component {
     this.state = {};
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.onDialogAction = this.onDialogAction.bind(this);
   }
 
   onChange(value, field, block) {
@@ -28,9 +30,37 @@ class Content extends Component {
   }
 
   onAction(value, action, block) {
+    if (action.confirm) {
+      this.setState({
+        confirmAction: true,
+        action: action,
+        actionValue: value,
+      });
+      return;
+    }
     const { onAction } = this.props;
     let allForms = this.getForms(this.props.pageData.items);
     onAction && onAction(value, action, { ...block, forms: allForms });
+  }
+  onDialogAction(dialgAction, action, block) {
+    if (dialgAction.action === 'ok') {
+      const { onAction } = this.props;
+      let allForms = this.getForms(this.props.pageData.items);
+      onAction && onAction(this.state.actionValue, action, { ...block, forms: allForms });
+      setTimeout(() => {
+        this.setState({
+          confirmAction: false,
+          action: null,
+          actionValue: null,
+        });
+      }, 200);
+      return;
+    }
+    this.setState({
+      confirmAction: false,
+      action: null,
+      actionValue: null,
+    });
   }
 
   getForms(items = []) {
@@ -122,6 +152,29 @@ class Content extends Component {
               </ErrorBoundary>
             ) : undefined;
           })}
+        {this.state.action && this.state.action.confirm && (
+          <Dialog
+            title={this.state.action.confirm.title}
+            content={this.state.action.confirm.content}
+            classes={{
+              body: 'sq-dialog__content-body--confirm',
+            }}
+            closeButton={false}
+            open={this.state.confirmAction}
+            onAction={(dialgAction) => this.onDialogAction(dialgAction, this.state.action)}
+            actions={this.state.action.confirm.actions || [
+              {
+                buttonText: 'Yes',
+                action: 'ok',
+              },
+              {
+                buttonText: 'Cancel',
+                variant: 'outlined',
+                action: 'cancel',
+              },
+            ]}
+          />
+        )}
       </div>
     );
   }
