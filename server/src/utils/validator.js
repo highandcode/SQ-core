@@ -59,26 +59,32 @@ const _validators = {
     return !value && value !== 0;
   },
   digits: (value, { length }) => {
-    if (length) {
-      if (value.toString().length > length) {
-        return false;
+    if (!commons.isNullOrUndefinedBlank(value)) {
+      if (length) {
+        if (value.toString().length > length) {
+          return false;
+        }
       }
+      return new RegExp(`^[0-9]+$`, 'g').test(value);
     }
-    return new RegExp(`^[0-9]+$`, 'g').test(value);
+    return true;
   },
   decimals: (value, { length, negative = false, decimals = 2 }) => {
-    if (length) {
-      if (value.length > length) {
-        return false;
+    if (!commons.isNullOrUndefinedBlank(value)) {
+      if (length) {
+        if (value.length > length) {
+          return false;
+        }
+      }
+      if (decimals > 0) {
+        return new RegExp(`^${negative ? '\\s*[+-]?' : ''}(\\d+|\\.\\d+|\\d+\\.\\d{1,${decimals}}|\\d+\\.)?$`, 'g').test(
+          value
+        );
+      } else {
+        return new RegExp(`^${negative ? '\\s*[+-]?' : ''}(\\d+)?$`, 'g').test(value);
       }
     }
-    if (decimals > 0) {
-      return new RegExp(`^${negative ? '\\s*[+-]?' : ''}(\\d+|\\.\\d+|\\d+\\.\\d{1,${decimals}}|\\d+\\.)?$`, 'g').test(
-        value
-      );
-    } else {
-      return new RegExp(`^${negative ? '\\s*[+-]?' : ''}(\\d+)?$`, 'g').test(value);
-    }
+    return true;
   },
   compareField: (value, { fieldName, compare = '=', trim = false }, otherFields) => {
     let val1 = commons.isNullOrUndefined(value) ? '' : value;
