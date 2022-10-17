@@ -5,10 +5,13 @@ import PropTypes from 'prop-types';
 const HTML = ({ className = '', value = '', onAction }) => {
   const container = useRef();
   const handleClick = (e) => {
-    if (e.target && e.target.getAttribute('data-action-type')) {
+    if (e.target && (e.target.getAttribute('data-action-type') || e.target.getAttribute('href')?.indexOf('download-doc') > -1)) {
       e.stopPropagation();
       e.preventDefault();
-      var actionType = e.target.getAttribute('data-action-type');
+      let actionType = e.target.getAttribute('data-action-type');
+      if(e.target.getAttribute('href')?.indexOf('download-doc') > -1) {
+        actionType = 'download-doc';
+      }
       let params = {};
       for (var i = 0; i < e.target.attributes.length; i++) {
         params[e.target.attributes[i].name] = e.target.attributes[i].value;
