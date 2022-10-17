@@ -39,9 +39,7 @@ describe('Grid', () => {
         wrapper = container;
       });
       it('should render header', () => {
-        expect(wrapper.getElementsByClassName('sq-grid__header').length).toBe(
-          1
-        );
+        expect(wrapper.getElementsByClassName('sq-grid__header').length).toBe(1);
       });
 
       it('should render body wrapper', () => {
@@ -54,11 +52,8 @@ describe('Grid', () => {
   });
   describe('Grid:Custom wrapper class', () => {
     it('should have button to add', () => {
-      let { container } = render(
-        <Grid className="custom-class" columns={columns} data={data1} />
-      );
+      let { container } = render(<Grid className="custom-class" columns={columns} data={data1} />);
       expect(container.getElementsByClassName('custom-class').length).toBe(1);
     });
   });
-  
 });

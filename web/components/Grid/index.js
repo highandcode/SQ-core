@@ -51,8 +51,14 @@ class Grid extends React.Component {
     const actionsClassName = typeof onRowClick === 'function' ? 'sq-grid--has-action' : '';
     return (
       <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle}`}>
-        {this.hasData() && showHeader && <div className="sq-grid__header" ref={this.headerRef}>{this.renderHeader(columns)}</div>}
-        <div className="sq-grid__body" ref={this.bodyRef}>{this.renderData(columns, data, rowConfig)}</div>
+        {this.hasData() && showHeader && (
+          <div className="sq-grid__header" ref={this.headerRef}>
+            {this.renderHeader(columns)}
+          </div>
+        )}
+        <div className="sq-grid__body" ref={this.bodyRef}>
+          {this.renderData(columns, data, rowConfig)}
+        </div>
         {this.hasActions() && <div className="sq-grid__actions">{showAdd && <Button buttonText={translate('Add')} onClick={this.addNewRow} />}</div>}
       </div>
     );
