@@ -34,6 +34,7 @@ module.exports = {
     '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$',
     '^.+\\.module\\.(css|sass|scss)$',
   ],
+  coverageDirectory: 'coverage/ui',
   modulePaths: [],
   moduleNameMapper: {
     '^react-native$': 'react-native-web',
