@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { idFromLabel } from '../../../utils/properties';
 import { Button } from '@mui/material';
 import Icon from '../../Icon';
 import './_button.scss';
@@ -21,13 +22,15 @@ const CustomButton = ({
 }) => {
   const { disabled, variant = 'contained', color = 'primary', startIcon, endIcon, disableRipple, disableFocusRipple, href } = rest;
   const { click } = analytics;
+  const testId = idFromLabel(buttonText);
   return (
-    <div className={`sq-button ${className} ${size} ${!buttonText && iconName ? 'sq-button--icon-only' : ''}`}>
+    <div className={`sq-button ${className} ${size} ${!buttonText && iconName ? 'sq-button--icon-only' : ''}`} data-testid={testId}>
         <Button
         onClick={(e) => {
           !disabled && onClick && onClick(e);
           !disabled && click && onAnalytics && onAnalytics(click);
         }}
+        data-testid={`${testId}_button`}
         size={size}
         href={href}
         variant={variant}

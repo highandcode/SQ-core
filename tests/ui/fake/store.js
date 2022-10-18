@@ -1,8 +1,10 @@
-export const create = () => {
+export const create = ({ userData = {}, notification = {} } = {}) => {
   return {
-    content: {},
+    content: {
+      userData: userData,
+    },
     common: {
-      notification: {},
+      notification: notification,
     },
   };
 };

@@ -1,3 +1,3 @@
-import common, { getValue } from '../../server/src/utils/common';
+import common, { getValue, idFromLabel } from '../../server/src/utils/common';
 
-export { common, getValue };
+export { common, getValue, idFromLabel };

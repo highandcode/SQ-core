@@ -281,6 +281,7 @@ class DynamicContent extends Component {
 
   async onAction(value, action, block) {
     let result;
+    let isValid = true;
     switch (action.actionType) {
       case 'download-doc':
         await this.props.contentActions.updateUserData({
@@ -322,7 +323,6 @@ class DynamicContent extends Component {
         this.validateResults(result);
         break;
       case 'module':
-        let isValid = true;
         if (action.validate) {
           isValid = this.validateForms(block.forms, action.validateGroup);
         }

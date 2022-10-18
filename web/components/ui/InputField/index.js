@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { TextField } from '@mui/material';
-import { getValue } from '../../../utils/properties';
+import { getValue, idFromLabel } from '../../../utils/properties';
 import { getMasks } from '../../../utils/mask';
 import { getValidators } from '../../../utils/validator';
 import './input-field.scss';
@@ -137,14 +137,16 @@ class InputField extends React.Component {
     const { errorMessage, className = '', formatter, onAnalytics, onAction, mask = {}, sideAction, impactOn, row, ...rest } = this.props;
     const finalAction = getValue(this, sideAction, row);
     let formattedValue = this.applyMask(this.state.value);
+    const testId = idFromLabel(rest.label);
     return (
-      <div className={`sq-input-field${focused ? ' sq-input-field--focused' : ''} ${className}`}>
+      <div className={`sq-input-field${focused ? ' sq-input-field--focused' : ''} ${className}`} data-testid={testId}>
         <div className="sq-input-field__container">
           <TextField
             className="sq-input-field__input"
             variant="outlined"
             inputProps={{
               "aria-label": rest.label,
+              "data-testid": `${testId}_input`
             }}
             {...rest}
             error={rest.error}
