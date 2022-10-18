@@ -40,6 +40,7 @@ module.exports = {
     '^react-native$': 'react-native-web',
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
     '^.+.(css|sass|scss)$': 'identity-obj-proxy',
+    'config_(.*)': '<rootDir>/tests/$1/index.js',
   },
   moduleFileExtensions: ['web.js', 'js', 'web.ts', 'ts', 'web.tsx', 'tsx', 'json', 'web.jsx', 'jsx', 'node'],
   watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],

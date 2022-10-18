@@ -1,18 +1,30 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, act, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import DynamicContent from './index';
+import { fake } from 'config_ui';
+import { DynamicContent } from './index';
 
 describe('DynamicContent', () => {
-  it('should render DynamicContent with defaults', () => {
-    const { container } = render(<DynamicContent />);
-    expect(container.getElementsByClassName('dynamic-content').length).toBe(1);
+  console.log('@@@');
+  console.log(fake);
+  let mockProps;
+  beforeEach(() => {
+    mockProps = {
+      location: fake.location.create({
+        pathname: '/content/en',
+      }),
+      contentActions: fake.contentActions.create(),
+      store: fake.store.create(),
+    };
   });
-
-  //   describe('No Data View', () => {
-  //     it('should render no columns as no data view', () => {
-  //       const { container } = render(<DynamicContent />);
-  //       expect(container.getElementsByClassName('sq-grid').length).toBe(1);
-  //     });
-  //   });
+  it('should render DynamicContent with defaults', async () => {
+    let _container;
+    jest.useFakeTimers();
+    await act(() => {
+      const { container } = render(<DynamicContent {...mockProps} />);
+      _container = container;
+      jest.advanceTimersByTime(2000);
+    });
+    expect(_container.getElementsByClassName('dynamic-content').length).toBe(1);
+  });
 });

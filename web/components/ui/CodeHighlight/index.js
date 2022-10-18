@@ -1,13 +1,11 @@
 import React, { useRef, useEffect } from 'react';
-import PropTypes from 'prop-types'; 
-import hljs from 'highlight.js';
-
+import PropTypes from 'prop-types';
 const CodeHighlight = ({ code, className, language = '' }) => {
   const codeBlock = useRef(null);
 
   useEffect(() => {
-    hljs.highlightBlock(codeBlock.current);
-  });
+    window.hljs && window.hljs.highlightBlock(codeBlock.current);
+  }, []);
   return (
     <div className={`sq-codehighlight ${className}`}>
       <pre className={`${language}`} ref={codeBlock}>
