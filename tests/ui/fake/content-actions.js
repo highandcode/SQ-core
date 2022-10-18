@@ -6,7 +6,7 @@ export const create = ({
       pageData: {},
     },
   },
-}) => {
+} = {}) => {
   return {
     fetchContentPage: createAsyncAction(fetchContentPage),
     updateUserData: jest.fn(),
