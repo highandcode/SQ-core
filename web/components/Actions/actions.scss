@@ -11,7 +11,12 @@
       padding-left: 0;
       margin-left: 0px;
     }
+    &.Button {
+      border-left: none;
+      padding-left: 4px;
+    }
   }
+  
   &--flex {
     display: flex;
     .sq-actions__action {

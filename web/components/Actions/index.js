@@ -20,6 +20,7 @@ const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics,
       setShowConfirm(true);
       return;
     }
+    action.onClick && action.onClick(event, action);
     onClick && onClick(action);
     onAction && onAction(action);
     onAnalytics && click && onAnalytics(click);
@@ -62,7 +63,7 @@ const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics,
         };
         return (
           <React.Fragment key={idx}>
-            <div className="sq-actions__action">
+            <div className={`sq-actions__action ${action.cmpType}`}>
               <ActionToRender
                 {...overridingProps}
                 onClick={(event) => {
