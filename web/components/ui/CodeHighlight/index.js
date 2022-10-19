@@ -5,7 +5,7 @@ const CodeHighlight = ({ code, className, language = '' }) => {
 
   useEffect(() => {
     window.hljs && window.hljs.highlightBlock(codeBlock.current);
-  }, []);
+  }, [code]);
   return (
     <div className={`sq-codehighlight ${className}`}>
       <pre className={`${language}`} ref={codeBlock}>
