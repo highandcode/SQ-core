@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Tooltip } from '@mui/material';
 import Icon from '../../Icon';
 
-const GridHeaderRow = ({ columns = [], sortColumn, sortOrder = 'asc', onSort, enableSort }) => {
+const GridHeaderRow = ({ columns = [], sortColumn, sortOrder = 'asc', onSort, enableSort, spacerWidth = 0 }) => {
   const isSortEnabled = enableSort && sortColumn && sortOrder;
   const handleClick = (e, column) => {
     const finalColName = column.sortColumnName || column.name;
@@ -39,6 +39,7 @@ const GridHeaderRow = ({ columns = [], sortColumn, sortOrder = 'asc', onSort, en
           </div>
         );
       })}
+      {spacerWidth ? <div className='sq-grid__cell sq-grid__header-row-cell sq-grid__header-row__spacer' style={{flexBasis: `${spacerWidth}px`, flexGrow: 0, flexShrink: 0}}></div> : undefined}
     </div>
   );
 };

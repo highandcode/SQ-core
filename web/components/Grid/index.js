@@ -71,7 +71,11 @@ class Grid extends React.Component {
 
   renderHeader(columns) {
     const { sortColumn, sortOrder, enableSort = false } = this.props;
-    return <GridHeaderRow columns={columns} sortColumn={sortColumn} sortOrder={sortOrder} enableSort={enableSort} onSort={this.handleSort} />;
+    let scrollbarWidth = 0;
+    if (this.bodyRef?.current) {
+      scrollbarWidth = this.bodyRef.current.offsetWidth - this.bodyRef.current.clientWidth;
+    }
+    return <GridHeaderRow columns={columns} sortColumn={sortColumn} sortOrder={sortOrder} enableSort={enableSort} spacerWidth={scrollbarWidth} onSort={this.handleSort} />;
   }
 
   renderData(columns, data, rowConfig) {
