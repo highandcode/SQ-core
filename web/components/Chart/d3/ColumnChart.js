@@ -36,7 +36,7 @@ class ColumnChart extends BaseChart {
 
     const element = this.element;
     const { colorSet, xAxis = {}, yAxis, tooltip = {}, legend = {} } = this.config;
-    const { labelWidth: legendLabelWidth = 80 } = legend;
+    const { labelWidth: legendLabelWidth = 80, enable: legendEnabled = true } = legend;
     const { format, ticks = 5 } = yAxis || {};
     const { labelWidth = 44 } = xAxis;
     const { formatter: formatTooltip = (d) => d[xValue] } = tooltip;
@@ -125,42 +125,44 @@ class ColumnChart extends BaseChart {
     });
 
     rects.exit().remove();
-    const legRects = this.legend.selectAll('rect').data(series);
-    const totalSeries = series.length;
+    if (legendEnabled) {
+      const legRects = this.legend.selectAll('rect').data(series);
+      const totalSeries = series.length;
 
-    legRects
-      .enter()
-      .append('rect')
-      .merge(legRects)
-      .attr('x', function (d, i) {
-        return innerWidth - (totalSeries - (i)) * legendLabelWidth;
-      })
-      .attr('y', function (d, i) {
-        return height - 70;
-      })
-      .attr('width', 10)
-      .attr('height', 10)
-      .style('fill', function (d) {
-        var color = d.color;
-        return color;
-      });
-    const legTexts = this.legend.selectAll('text').data(series);
+      legRects
+        .enter()
+        .append('rect')
+        .merge(legRects)
+        .attr('x', function (d, i) {
+          return innerWidth - (totalSeries - i) * legendLabelWidth;
+        })
+        .attr('y', function (d, i) {
+          return height - 70;
+        })
+        .attr('width', 10)
+        .attr('height', 10)
+        .style('fill', function (d) {
+          var color = d.color;
+          return color;
+        });
+      const legTexts = this.legend.selectAll('text').data(series);
 
-    legTexts
-      .enter()
-      .append('text')
-      .merge(legTexts)
-      .attr('x', function (d, i) {
-        return innerWidth - (totalSeries - (i)) * legendLabelWidth + 16;
-      })
-      .attr('y', function (d, i) {
-        return height - 70;
-      })
-      .attr('alignment-baseline', 'hanging')
-      .text(function (d) {
-        var text = d.label || d.name;
-        return text;
-      });
+      legTexts
+        .enter()
+        .append('text')
+        .merge(legTexts)
+        .attr('x', function (d, i) {
+          return innerWidth - (totalSeries - i) * legendLabelWidth + 16;
+        })
+        .attr('y', function (d, i) {
+          return height - 70;
+        })
+        .attr('alignment-baseline', 'hanging')
+        .text(function (d) {
+          var text = d.label || d.name;
+          return text;
+        });
+    }
     rects
       .enter()
       .append('rect')
