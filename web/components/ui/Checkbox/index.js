@@ -8,6 +8,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import common from '../../../utils/common';
 import './_checkbox-list.scss';
+
 const CheckboxField = ({
   name,
   className = '',
@@ -69,6 +70,7 @@ const CheckboxField = ({
         <FormControlLabel
           control={
             <Checkbox
+              disabled={disabled}
               checked={stateChecked}
               onChange={handleChange}
               name={name}
@@ -98,6 +100,7 @@ const CheckboxList = ({
   name,
   options = [],
   className = '',
+  disabled = false,
   info = '',
   value = [],
   label = '',
@@ -132,6 +135,7 @@ const CheckboxList = ({
               <CheckboxField
                 key={index}
                 name={name}
+                disabled={disabled}
                 checked={value.indexOf(option[valueField]) > -1}
                 text={option[textField]}
                 label={option[labelField]}
