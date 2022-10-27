@@ -45,6 +45,7 @@ const SQAutocomplete = ({
         options,
       });
   };
+
   const finalOptions = getValue(this, options, row) || [];
   const finalFixedOptions = getValue(this, fixedOptions, row) || [];
   let optionFound;
@@ -66,7 +67,7 @@ const SQAutocomplete = ({
         multiple={multiple}
         options={finalOptions}
         inputValue={inputValue}
-        getOptionLabel={(option) => option[textField] || ''}
+        getOptionLabel={(option) => rest.getOptionLabel ? rest.getOptionLabel(option) : (option[textField])   || ''}
         onChange={handleChange}
         renderTags={(tagValue, getTagProps) =>
           tagValue.map((option, index) => (
@@ -89,7 +90,7 @@ const SQAutocomplete = ({
             {option.iconName && (
               <Icon name={option.iconName} variant={option.iconColor} />
             )}
-            {option[textField]}
+            {rest.getOptionLabel ? rest.getOptionLabel(option) : (option[textField]) }
           </Box>
         )}
         value={optionFound || value || (multiple ? [] : null)}
