@@ -1,8 +1,8 @@
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect';
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation(query => ({
+  value: jest.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -12,4 +12,11 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: jest.fn(),
     dispatchEvent: jest.fn(),
   })),
+});
+
+let __cookies;
+Object.defineProperty(window.document, 'cookie', {
+  get: () => __cookies,
+  set: (v) => (__cookies = v),
+  split: (s) => __cookies.split(s),
 });

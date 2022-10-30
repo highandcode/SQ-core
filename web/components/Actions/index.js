@@ -80,7 +80,7 @@ const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics,
                 }}
                 closeButton={false}
                 open={showConfirm}
-                onAction={(dialgAction) => handleAction(dialgAction, action)}
+                onAction={(data, dialgAction) => handleAction(dialgAction, action)}
                 actions={[
                   {
                     buttonText: 'Yes',

@@ -33,6 +33,35 @@
     align-items: center;
     z-index: $z-index-level-2ndtopest;
   }
+  &--fixed-right {
+    .MuiDialog-paperWidthSm {
+      @media (min-width: $screen-sm) {
+        max-width: 500px !important;
+      }
+    }
+    .MuiPaper-root {
+      width: 100%;
+      max-height: 100%;
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      bottom: 0;
+      margin: auto;
+      overflow: unset;
+    }
+    @media (min-width: $screen-sm) {
+      .sq-dialog__close {
+        left: -24px;
+        right: unset;
+        .sq-icon {
+          color:grey;
+          background-color: white;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
 }
 .MuiDialogContent-root {
   position: relative;

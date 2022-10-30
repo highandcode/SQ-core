@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Checkbox from '@mui/material/Checkbox';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import StandardInput from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
@@ -10,7 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 import FormControl from '@mui/material/FormControl';
 import './select-field.scss';
 import { translate } from '../../../utils/translate';
-import { getValue } from '../../../utils/properties';
+import { getValue, idFromLabel } from '../../../utils/properties';
 import Icon from '../../Icon';
 
 const InputCollection = {
@@ -23,7 +24,7 @@ const SelectField = ({
   name,
   options = [],
   className = '',
-  value = '',
+  value = null,
   label = '',
   defaultText = '',
   defaultValue = '',
@@ -35,8 +36,10 @@ const SelectField = ({
   valueField = 'value',
   iconField = 'iconName',
   iconColor = 'iconColor',
+  checkbox = false,
   onAction,
   errorMessage,
+  multiple,
   ...rest
 }) => {
   const handleChange = (input) => {
@@ -50,6 +53,7 @@ const SelectField = ({
   const isValid = _.filter(finalOptions, { [valueField]: value }).length > 0 || value === '';
   const InputToRender =
     InputCollection[inputVariant] || InputCollection.outlined;
+  const testId = idFromLabel(label);
   return (
     <div className={`sq-select-field ${className}`}>
       <FormControl
@@ -62,9 +66,11 @@ const SelectField = ({
           id={name}
           defaultValue={defaultValue}
           className="sq-select-field__input"
-          value={isValid ? value : undefined}
+          data-testid={testId}
+          value={multiple ? value ? value : [] : isValid ? value : undefined}
           onChange={handleChange}
           input={<InputToRender label={label} />}
+          multiple={multiple}
           {...rest}
         >
           {!!defaultText && (
@@ -75,6 +81,7 @@ const SelectField = ({
             finalOptions.map((option, key) => {
               return (
                 <MenuItem key={key} value={option[valueField]}>
+                  {multiple && checkbox && <Checkbox checked={value?.indexOf(option[valueField]) > -1} />}
                   {option[iconField] && (
                     <Icon
                       name={option[iconField]}

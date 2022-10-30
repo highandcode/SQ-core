@@ -35,6 +35,10 @@ var defaultHeaders = {
 
 export class ApiBridge {
   constructor() {
+    this.reset();
+  }
+
+  reset() {
     this.events = new EventManager();
     this.headers = {};
   }
@@ -48,12 +52,8 @@ export class ApiBridge {
   }
 
   getCustomHeaders() {
-    var url =
-      window.location != window.parent.location
-        ? document.referrer
-        : document.location.href;
-    var accesstore =
-      document.location.ancestorOrigins && document.location.ancestorOrigins[0];
+    var url = window.location != window.parent.location ? document.referrer : document.location.href;
+    var accesstore = document.location.ancestorOrigins && document.location.ancestorOrigins[0];
     return {
       'x-referer': accesstore || url,
       ...this.headers,
@@ -66,147 +66,97 @@ export class ApiBridge {
   }
 
   get(url, params, headers = {}, query = {}, { plain = false } = {}) {
-    const promisObj = fetch(
-      this.getPrefix({ url, body: params }) +
-        url +
-        new QueryString({...params, ...query}).toString(),
-      {
-        method: 'GET',
-        headers: {
-          ...defaultHeaders,
-          ...this.getCustomHeaders(),
-          ...headers,
-        },
-      }
-    );
+    const promisObj = fetch(this.getPrefix({ url, body: params }) + url + new QueryString({ ...params, ...query }).toString(), {
+      method: 'GET',
+      headers: {
+        ...defaultHeaders,
+        ...this.getCustomHeaders(),
+        ...headers,
+      },
+    });
     if (plain) {
       return promisObj;
     }
-    return promisObj
-      .then(checkStatus.bind(this))
-      .then(parseJSON)
-      .then(processCustomParser.bind(this))
-      .then(messageParser)
-      .then(responseReader.bind(this));
+    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this));
   }
 
   rawPost(url, body, headers = {}, query = {}, { method = 'POST', plain = false } = {}) {
-    const promisObj = fetch(
-      this.getPrefix({ url, body }) + url + new QueryString(query).toString(),
-      {
-        method: method,
-        headers: {
-          ...this.getCustomHeaders(),
-          ...headers,
-        },
-        body: body,
-      }
-    );
+    const promisObj = fetch(this.getPrefix({ url, body }) + url + new QueryString(query).toString(), {
+      method: method,
+      headers: {
+        ...this.getCustomHeaders(),
+        ...headers,
+      },
+      body: body,
+    });
     if (plain) {
       return promisObj;
     }
-    return promisObj
-      .then(checkStatus.bind(this))
-      .then(parseJSON)
-      .then(processCustomParser.bind(this))
-      .then(messageParser)
-      .then(responseReader.bind(this));
+    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this));
   }
 
   post(url, body, headers = {}, query = {}, { plain = false } = {}) {
-    const promisObj = fetch(
-      this.getPrefix({ url, body }) + url + new QueryString(query).toString(),
-      {
-        method: 'POST',
-        headers: {
-          ...defaultHeaders,
-          ...this.getCustomHeaders(),
-          ...headers,
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    const promisObj = fetch(this.getPrefix({ url, body }) + url + new QueryString(query).toString(), {
+      method: 'POST',
+      headers: {
+        ...defaultHeaders,
+        ...this.getCustomHeaders(),
+        ...headers,
+      },
+      body: JSON.stringify(body),
+    });
     if (plain) {
       return promisObj;
     }
-    return promisObj
-      .then(checkStatus.bind(this))
-      .then(parseJSON)
-      .then(processCustomParser.bind(this))
-      .then(messageParser)
-      .then(responseReader.bind(this));
+    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this));
   }
 
   update(url, body, headers = {}, query = {}, { plain = false } = {}) {
-    const promisObj = fetch(
-      this.getPrefix({ url, body }) + url + new QueryString(query).toString(),
-      {
-        method: 'PUT',
-        headers: {
-          ...defaultHeaders,
-          ...this.getCustomHeaders(),
-          ...headers,
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    const promisObj = fetch(this.getPrefix({ url, body }) + url + new QueryString(query).toString(), {
+      method: 'PUT',
+      headers: {
+        ...defaultHeaders,
+        ...this.getCustomHeaders(),
+        ...headers,
+      },
+      body: JSON.stringify(body),
+    });
     if (plain) {
       return promisObj;
     }
-    return promisObj
-      .then(checkStatus.bind(this))
-      .then(parseJSON)
-      .then(processCustomParser.bind(this))
-      .then(messageParser)
-      .then(responseReader.bind(this));
+    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this));
   }
 
   patch(url, body, headers = {}, query = {}, { plain = false } = {}) {
-    const promisObj = fetch(
-      this.getPrefix({ url, body }) + url + new QueryString(query).toString(),
-      {
-        method: 'PATCH',
-        headers: {
-          ...defaultHeaders,
-          ...this.getCustomHeaders(),
-          ...headers,
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    const promisObj = fetch(this.getPrefix({ url, body }) + url + new QueryString(query).toString(), {
+      method: 'PATCH',
+      headers: {
+        ...defaultHeaders,
+        ...this.getCustomHeaders(),
+        ...headers,
+      },
+      body: JSON.stringify(body),
+    });
     if (plain) {
       return promisObj;
     }
-    return promisObj
-      .then(checkStatus.bind(this))
-      .then(parseJSON)
-      .then(processCustomParser.bind(this))
-      .then(messageParser)
-      .then(responseReader.bind(this));
+    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this));
   }
 
   delete(url, body, headers = {}, query, { plain = false } = {}) {
-    const promisObj = fetch(
-      this.getPrefix({ url, body }) + url + new QueryString(query).toString(),
-      {
-        method: 'DELETE',
-        headers: {
-          ...defaultHeaders,
-          ...this.getCustomHeaders(),
-          ...headers,
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    const promisObj = fetch(this.getPrefix({ url, body }) + url + new QueryString(query).toString(), {
+      method: 'DELETE',
+      headers: {
+        ...defaultHeaders,
+        ...this.getCustomHeaders(),
+        ...headers,
+      },
+      body: JSON.stringify(body),
+    });
     if (plain) {
       return promisObj;
     }
-    return promisObj
-      .then(checkStatus.bind(this))
-      .then(parseJSON)
-      .then(processCustomParser.bind(this))
-      .then(messageParser)
-      .then(responseReader.bind(this));
+    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this));
   }
 }
 
@@ -223,7 +173,6 @@ function checkStatus(response) {
   } else if (response.status === CODES.GENERIC_ERROR) {
     return {
       code: response.status,
-      error: true,
       status: CONSTANTS.STATUS.UNNKOWN,
       error: {
         message: 'Unexpected error',
@@ -233,7 +182,6 @@ function checkStatus(response) {
   } else if (response.status === CODES.NOT_FOUND) {
     return {
       code: response.status,
-      error: true,
       status: CONSTANTS.STATUS.UNKNOWN,
       error: {
         message: 'Page not found',
@@ -258,7 +206,6 @@ function parseJSON(response) {
       resp = response.json();
     } catch (ex) {
       resp = {
-        error: true,
         error: {},
       };
     }
@@ -279,6 +226,8 @@ function responseReader(response) {
         case 'CUSTOM':
           this.events.emit('onCustomError', response);
           break;
+        default:
+          break;
       }
       return response;
     case CONSTANTS.STATUS.UNNKOWN:
@@ -298,47 +247,31 @@ function processCustomParser(response) {
 }
 
 function messageParser(response) {
-  if (response.error) {
-    if (response.error.key && messages.get(response.error.key)) {
-      response.error.message = messages.get(response.error.key);
-      response.error.errorMessage = messages.get(response.error.key);
-    }
-    if (response.errors) {
-      Object.keys(response.errors).forEach((errorField) => {
-        if (response.errors[errorField].errors) {
-          messageParser(response.errors[errorField]);
-        }
-        if (
-          response.errors[errorField].key &&
-          messages.get(response.errors[errorField].key)
-        ) {
-          response.errors[errorField].message = messages.get(
-            response.errors[errorField].key
-          );
-          response.errors[errorField].errorMessage = messages.get(
-            response.errors[errorField].key
-          );
-        }
-      });
-    }
-    if (response.error.errors) {
-      Object.keys(response.error.errors).forEach((errorField) => {
-        if (response.error.errors[errorField].errors) {
-          messageParser(response.error.errors[errorField]);
-        }
-        if (
-          response.error.errors[errorField].key &&
-          messages.get(response.error.errors[errorField].key)
-        ) {
-          response.error.errors[errorField].message = messages.get(
-            response.error.errors[errorField].key
-          );
-          response.error.errors[errorField].errorMessage = messages.get(
-            response.error.errors[errorField].key
-          );
-        }
-      });
-    }
+  if (response?.error?.key && messages.get(response.error.key)) {
+    response.error.message = messages.get(response.error.key);
+    response.error.errorMessage = messages.get(response.error.key);
+  }
+  if (response?.errors) {
+    Object.keys(response.errors).forEach((errorField) => {
+      if (response.errors[errorField].errors) {
+        messageParser(response.errors[errorField]);
+      }
+      if (response.errors[errorField].key && messages.get(response.errors[errorField].key)) {
+        response.errors[errorField].message = messages.get(response.errors[errorField].key);
+        response.errors[errorField].errorMessage = messages.get(response.errors[errorField].key);
+      }
+    });
+  }
+  if (response?.error?.errors) {
+    Object.keys(response.error.errors).forEach((errorField) => {
+      if (response.error.errors[errorField].errors) {
+        messageParser(response.error.errors[errorField]);
+      }
+      if (response.error.errors[errorField].key && messages.get(response.error.errors[errorField].key)) {
+        response.error.errors[errorField].message = messages.get(response.error.errors[errorField].key);
+        response.error.errors[errorField].errorMessage = messages.get(response.error.errors[errorField].key);
+      }
+    });
   }
   return response;
 }

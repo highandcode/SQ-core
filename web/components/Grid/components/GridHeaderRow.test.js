@@ -12,7 +12,7 @@ const columns = [
 ];
 
 describe('GridHeaderRow', () => {
-  it('should render', () => {
+ test('should render', () => {
     const { container } = render(<GridHeaderRow />);
     expect(container.getElementsByClassName('sq-grid__header-row').length).toBe(
       1
@@ -26,15 +26,15 @@ describe('GridHeaderRow', () => {
       wrapper = container;
     });
 
-    it('should render given columns', () => {
+   test('should render given columns', () => {
       expect(
         wrapper.getElementsByClassName('sq-grid__header-row-cell').length
       ).toBe(1);
     });
-    it('should render apply given class on column', () => {
+   test('should render apply given class on column', () => {
       expect(wrapper.getElementsByClassName('col-test').length).toBe(1);
     });
-    it('should have text "Test"', async () => {
+   test('should have text "Test"', async () => {
       expect(await screen.findByText('Test')).toBeVisible();
     });
   });

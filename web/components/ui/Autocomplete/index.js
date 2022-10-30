@@ -53,7 +53,7 @@ const SQAutocomplete = ({
     optionFound =
       finalOptions && finalOptions.filter((i) => i[valueField] === value)[0];
   } else {
-    optionFound = value.map((item) => {
+    optionFound = value?.map((item) => {
       const found = finalOptions && finalOptions.filter((i) => i[valueField] === item)[0];
       return found;
     }).filter((i) => !!i);

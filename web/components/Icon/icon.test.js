@@ -5,19 +5,19 @@ import Icon from './index';
 
 describe('Icon', () => {
   describe('Icon:Defaults', () => {
-    it('should render default icon', () => {
+   test('should render default icon', () => {
       const { container } = render(<Icon />);
       expect(
         container.getElementsByClassName('sq-icon--default').length
       ).toBe(1);
     });
-    it('should render given varient', () => {
+   test('should render given varient', () => {
       const { container } = render(<Icon name="help" variant={`error`} />);
       expect(
         container.getElementsByClassName('sq-icon--error').length
       ).toBe(1);
     });
-    it('should render given size', () => {
+   test('should render given size', () => {
       const { container } = render(<Icon name="help" size={`large`} />);
       expect(
         container.getElementsByClassName('sq-icon--large').length

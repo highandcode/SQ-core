@@ -1,10 +1,10 @@
 import { Validator } from './validator';
 
 describe('Validator', () => {
-  it('should be defined', () => {
+ test('should be defined', () => {
     expect(Validator).toBeDefined();
   });
-  it('should be able to create object', () => {
+ test('should be able to create object', () => {
     expect(new Validator()).toBeDefined();
   });
 
@@ -26,13 +26,13 @@ describe('Validator', () => {
       }
     );
 
-    it('should have "error" property with invalid value', function () {
+   test('should have "error" property with invalid value', function () {
       expect(validator.errors.test.error).toBe(true);
     });
-    it('should have "errorMessage" property with invalid value', function () {
+   test('should have "errorMessage" property with invalid value', function () {
       expect(validator.errors.test.errorMessage).toBeDefined();
     });
-    it('should have "error" property with valid value', function () {
+   test('should have "error" property with valid value', function () {
       expect(validator.errors.test1).not.toBeDefined();
     });
   });

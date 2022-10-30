@@ -100,16 +100,6 @@ class DynamicContent extends Component {
     return Promise.all(arr);
   }
 
-  checkAndPostApi(data) {
-    if (Array.isArray(data)) {
-      data.forEach((item) => {
-        this.postApi(item);
-      });
-    } else {
-      this.postApi(data);
-    }
-  }
-
   postApi(data) {
     return this.props.contentActions.postApi(data);
   }
@@ -138,7 +128,7 @@ class DynamicContent extends Component {
     await this.props.contentActions.mergeUserData(pageResponse.pageData.init);
     await this.props.contentActions.mergeUserData(pageResponse.pageData.merge);
     window.clearTimeout(interval);
-    const { analytics = {} } = pageResponse;
+    const { analytics = {} } = pageResponse.pageData;
     this.setState({
       isLoading: false,
       pageData: pageResponse,
@@ -302,7 +292,6 @@ class DynamicContent extends Component {
         this.checkForInlineErrors(result);
         this.validateResults(result);
         break;
-        break;
       case 'api':
         await this.props.contentActions.updateUserData({
           isSubmitting: true,
@@ -395,6 +384,7 @@ class DynamicContent extends Component {
         await this.props.commonActions.showPopupScreen({
           ...action.params,
         });
+        break;
       case 'redirect':
         redirectTo(action.to, action.params, action.options);
         break;
