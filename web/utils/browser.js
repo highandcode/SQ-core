@@ -8,11 +8,20 @@ const breakpoints = {
     var content = styles['content'];
     return (content || 'xs').replace(/"/g, '').replace(/'/g, '');
   },
-  down: (breakpint) => {
+  down: (breakpoint) => {
     const current = breakpoints.current();
     const currentIdx = order.indexOf(current);
-    const breakIdx = order.indexOf(breakpint);
+    const breakIdx = order.indexOf(breakpoint);
     if (currentIdx <= breakIdx) {
+      return true;
+    }
+    return false;
+  },
+  up: (breakpoint) => {
+    const current = breakpoints.current();
+    const currentIdx = order.indexOf(current);
+    const breakIdx = order.indexOf(breakpoint);
+    if (currentIdx >= breakIdx) {
       return true;
     }
     return false;

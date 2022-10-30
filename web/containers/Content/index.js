@@ -5,6 +5,7 @@ import { Validator } from '../../utils/validator';
 import { object, common, validator } from '../../utils';
 import { addComp } from '../../components/ui';
 import Form from '../../components/Form';
+import Wrapper from '../../components/Wrapper';
 import ErrorBoundary from '../../components/ErrorBoundry';
 import Dialog from '../../components/Dialog';
 
@@ -12,6 +13,7 @@ import './_content.scss';
 
 addComp({
   Form,
+  Wrapper,
 });
 class Content extends Component {
   constructor() {
@@ -133,8 +135,8 @@ class Content extends Component {
                   onChange={(value, field) => {
                     this.onChange(value, field, block);
                   }}
-                  onAction={(value, action) => {
-                    this.onAction(value, action, block);
+                  onAction={(value, action, overrideBlock) => {
+                    this.onAction(value, action, overrideBlock || block);
                   }}
                   onFieldKeyPress={(value, field, data) => {
                     this.onChange(
@@ -161,7 +163,7 @@ class Content extends Component {
             }}
             closeButton={false}
             open={this.state.confirmAction}
-            onAction={(dialgAction) => this.onDialogAction(dialgAction, this.state.action)}
+            onAction={(data, dialgAction) => this.onDialogAction(dialgAction, this.state.action)}
             actions={this.state.action.confirm.actions || [
               {
                 buttonText: 'Yes',

@@ -41,7 +41,7 @@ const setup = (props) => {
 };
 
 describe('GridCell', () => {
-  it('should render', () => {
+ test('should render', () => {
     const { container: wrapper } = render(<GridCell />);
     expect(wrapper.getElementsByClassName('sq-grid__data-cell').length).toBe(1);
   });
@@ -53,7 +53,7 @@ describe('GridCell', () => {
       wrapper = container;
     });
 
-    it('should render apply given class on column', () => {
+   test('should render apply given class on column', () => {
       expect(wrapper.getElementsByClassName('col-test').length).toBe(1);
     });
   });
@@ -68,13 +68,13 @@ describe('GridCell', () => {
       );
       wrapper = container;
     });
-    it('should render raise onChange event with child component', () => {
+   test('should render raise onChange event with child component', () => {
       fireEvent.change(screen.getByLabelText('Test1'), {
         target: { value: '1' },
       });
       expect(onKeyPress).toHaveBeenCalledWith(columns[1], { value: '1' });
     });
-    it('should render raise onBlur with child component', () => {
+   test('should render raise onBlur with child component', () => {
       fireEvent.change(screen.getByLabelText('Test1'), {
         target: { value: '12' },
       });
@@ -89,7 +89,7 @@ describe('GridCell', () => {
       const { container } = render(<GridCell column={columns[2]} />);
       wrapper = container;
     });
-    it('should render Button component', () => {
+   test('should render Button component', () => {
       expect(wrapper.getElementsByClassName('sq-button').length).toBe(1);
     });
   });

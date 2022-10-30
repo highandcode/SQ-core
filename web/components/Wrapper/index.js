@@ -78,8 +78,8 @@ const Wrapper = ({ items = [], className = '', onClick, onAction, onChange, onFi
                     onClick={(e, field) => {
                       onClick && onClick(e, field || newItem);
                     }}
-                    onAction={(e, field) => {
-                      onAction && onAction(e, field || newItem);
+                    onAction={(e, field, block) => {
+                      onAction && onAction(e, field || newItem, block || newItem);
                     }}
                     onChange={(value, field) => handleChange(value, field, newItem)}
                     onFieldKeyPress={(value, field, data) => handleOnFieldChange(value, field, data, newItem)}

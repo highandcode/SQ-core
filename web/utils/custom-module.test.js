@@ -2,7 +2,7 @@ import CustomModule from './custom-module';
 
 describe('utils:CustomModule', () => {
   describe('CustomModule()', function () {
-    it('should have defined', async () => {
+   test('should have defined', async () => {
       expect(CustomModule).toBeDefined();
     });
   });
@@ -16,10 +16,10 @@ describe('utils:CustomModule', () => {
         },
       });
     });
-    it('should be able to add module', async () => {
+   test('should be able to add module', async () => {
       expect(module.modules.test).toBeDefined();
     });
-    it('should be able to add module', async () => {
+   test('should be able to add module', async () => {
       var result = await module.execute('test.addUser', 'test', 'in');
       expect(result).toEqual('test');
     });
@@ -36,7 +36,7 @@ describe('utils:CustomModule', () => {
         },
       });
     });
-    it('should be able to execute async module', async () => {
+   test('should be able to execute async module', async () => {
       var result = await module.execute('test.addUser', 'test', 'in');
       expect(result.test).toEqual(true);
       expect(result.p1).toEqual('test');

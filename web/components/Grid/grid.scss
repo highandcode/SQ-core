@@ -17,7 +17,9 @@
     .sq-grid__body .sq-grid__row {
       cursor: pointer;
       &:hover {
-        background-color: $sq-color-gray-lightest;
+        .sq-grid__data-cell {
+          background-color: $sq-color-gray-lightest;
+        }
       }
     }
   }

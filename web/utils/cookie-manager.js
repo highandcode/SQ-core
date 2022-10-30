@@ -37,7 +37,9 @@ class CookieManager {
         c = c.substring(1);
       }
       const splitV = c.split('=');
-      obj[splitV[0]] = splitV[1] || '';
+      if (splitV[0]) {
+        obj[splitV[0]] = splitV[1] || '';
+      }
     }
     return obj;
   }

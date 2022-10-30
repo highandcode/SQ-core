@@ -25,7 +25,7 @@ const columns = [
 ];
 
 describe('GridRow', () => {
-  it('should render', () => {
+ test('should render', () => {
     const { container } = render(<GridRow />);
     expect(container.getElementsByClassName('sq-grid__data-row').length).toBe(
       1
@@ -43,10 +43,10 @@ describe('GridRow', () => {
       );
       wrapper = container;
     });
-    it('should render apply given class on column', () => {
+   test('should render apply given class on column', () => {
       expect(screen.getByDisplayValue('Hello')).toBeVisible();
     });
-    it('should render apply given class on column', () => {
+   test('should render apply given class on column', () => {
       expect(screen.getByDisplayValue('Desig')).toBeVisible();
     });
   });
@@ -64,7 +64,7 @@ describe('GridRow', () => {
       wrapper = container;
     });
 
-    it('should render given columns', () => {
+   test('should render given columns', () => {
       fireEvent.change(screen.getByLabelText('Name'), {
         target: { value: 'dssf' },
       });
@@ -73,7 +73,7 @@ describe('GridRow', () => {
     });
   });
   describe('GridRow:onColumnChange', () => {
-    it('should call onColumnChange', () => {
+   test('should call onColumnChange', () => {
       const onColumnChange = jest.fn();
       const { container } = render(
         <GridRow
@@ -90,7 +90,7 @@ describe('GridRow', () => {
     });
   });
   describe('GridRow:onFieldBlur', () => {
-    it('should call onFieldBlur', () => {
+   test('should call onFieldBlur', () => {
       const onFieldBlur = jest.fn();
       render(
         <GridRow

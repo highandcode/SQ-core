@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import GridRow from './components/GridRow';
 import GridHeaderRow from './components/GridHeaderRow';
+import ColFilters from './components/GridColumnFilter';
+import Dialog from '../Dialog';
 import Button from '../ui/Button';
 import './grid.scss';
 import { translate } from '../../utils/translate';
@@ -22,6 +24,7 @@ class Grid extends React.Component {
     };
     this.headerRef = React.createRef();
     this.bodyRef = React.createRef();
+    this.bodyWrapperRef = React.createRef();
     this.addNewRow = this.addNewRow.bind(this);
     this.handleFieldBlur = this.handleFieldBlur.bind(this);
     this.handleFieldClick = this.handleFieldClick.bind(this);
@@ -32,6 +35,7 @@ class Grid extends React.Component {
     this.handleChildRowRender = this.handleChildRowRender.bind(this);
     this.handleSort = this.handleSort.bind(this);
     this.onBody_Scroll = this.onBody_Scroll.bind(this);
+    this.handleColSelChange = this.handleColSelChange.bind(this);
   }
   onBody_Scroll(e) {
     this.headerRef.current.scrollLeft = this.bodyRef.current.scrollLeft;
@@ -46,18 +50,73 @@ class Grid extends React.Component {
     onAddNew && onAddNew(evt);
   }
 
+  handleColSelChange(data) {
+    this.setState({
+      tempColSelection: data.value,
+    });
+  }
+
+  handleApplySelection(action) {
+    const { onColFilterChange } = this.props;
+    if (action.actionType === 'apply') {
+      this.setState({
+        selectedColumns: this.state.tempColSelection,
+      });
+      onColFilterChange &&
+        onColFilterChange({
+          value: this.state.tempColSelection,
+        });
+    } else {
+      this.setState({
+        tempColSelection: this.state.selectedColumns,
+      });
+      onColFilterChange &&
+        onColFilterChange({
+          value: this.state.selectedColumns,
+          cancel: true,
+        });
+    }
+  }
+
   render() {
-    const { columns = [], data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default' } = this.props;
+    const { columns = [], showColSelection = false, data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default' } = this.props;
     const actionsClassName = typeof onRowClick === 'function' ? 'sq-grid--has-action' : '';
+    const finalColumns = columns.filter((col) => (!this.state.selectedColumns || this.state.selectedColumns.length === 0 ? true : this.state.selectedColumns.indexOf(col.name) > -1));
     return (
       <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle}`}>
+        <Dialog
+          open={showColSelection}
+          classes={{
+            dialog: {
+              root: 'sq-dialog--fixed-right',
+            },
+          }}
+          actions={[
+            {
+              buttonText: 'Apply',
+              actionType: 'apply',
+            },
+            {
+              buttonText: 'Cancel',
+              variant: 'outlined',
+              actionType: 'cancel',
+            },
+          ]}
+          onClose={(data, action) => this.handleApplySelection(action)}
+          onAction={(data, action) => this.handleApplySelection(action)}
+          title={'Columns'}
+        >
+          <ColFilters columns={columns} value={this.state.tempColSelection || columns.map((i) => i.name)} onChange={this.handleColSelChange} />
+        </Dialog>
         {this.hasData() && showHeader && (
           <div className="sq-grid__header" ref={this.headerRef}>
-            {this.renderHeader(columns)}
+            {this.renderHeader(finalColumns)}
           </div>
         )}
         <div className="sq-grid__body" ref={this.bodyRef}>
-          {this.renderData(columns, data, rowConfig)}
+          <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
+            {this.renderData(finalColumns, data, rowConfig)}
+          </div>
         </div>
         {this.hasActions() && <div className="sq-grid__actions">{showAdd && <Button buttonText={translate('Add')} onClick={this.addNewRow} />}</div>}
       </div>

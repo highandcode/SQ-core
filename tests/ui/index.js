@@ -1,3 +1,3 @@
 import * as fake from './fake';
-
-export { fake };
+import { timer } from '../../web/utils/timer';
+export { fake, timer };

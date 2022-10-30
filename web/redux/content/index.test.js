@@ -10,11 +10,11 @@ processor.add('test', {
 });
 describe('reducer:content', () => {
   describe('parseCustomModule()', function () {
-    it('should have defined', async () => {
+   test('should have defined', async () => {
       expect(parseCustomModule).toBeDefined();
     });
     describe('parseCustomModule(): parsing plain string', function () {
-      it('should be able to return blank params with module name', async () => {
+     test('should be able to return blank params with module name', async () => {
         expect(parseCustomModule('globals.options')).toMatchObject({
           module: 'globals.options',
           params: {},
@@ -22,7 +22,7 @@ describe('reducer:content', () => {
       });
     });
     describe('parseCustomModule(): parsing with function params string', function () {
-      it('should be able to return blank params with module name', async () => {
+     test('should be able to return blank params with module name', async () => {
         expect(parseCustomModule('globals.filterOptions(valueField: text, textField: item)')).toMatchObject({
           module: 'globals.filterOptions',
           params: {
@@ -35,7 +35,7 @@ describe('reducer:content', () => {
   });
 
   describe('processParams()', () => {
-    it('should return hard coded data', () => {
+   test('should return hard coded data', () => {
       expect(
         processParams(
           {},
@@ -47,7 +47,7 @@ describe('reducer:content', () => {
         test: 'gotcha',
       });
     });
-    it('should return nested data properly if not found', () => {
+   test('should return nested data properly if not found', () => {
       const result = processParams(
         {
           app: {
@@ -95,7 +95,7 @@ describe('reducer:content', () => {
         },
       });
     });
-    it('should return data from userData matched key', () => {
+   test('should return data from userData matched key', () => {
       expect(
         processParams(
           {
@@ -109,7 +109,7 @@ describe('reducer:content', () => {
         test: 'value 2',
       });
     });
-    it('should return data from userData matched key', () => {
+   test('should return data from userData matched key', () => {
       expect(
         processParams(
           {
@@ -139,7 +139,7 @@ describe('reducer:content', () => {
       });
     });
     describe('match validator', () => {
-      it('should execute set result of match', () => {
+     test('should execute set result of match', () => {
         expect(
           processParams(
             {
@@ -173,7 +173,7 @@ describe('reducer:content', () => {
       });
     });
     describe('custom parser', () => {
-      it('should execute set result of match', () => {
+     test('should execute set result of match', () => {
         expect(
           processParams(
             {
@@ -189,7 +189,7 @@ describe('reducer:content', () => {
           resultWithDynamic: 'dyno',
         });
       });
-      it('should pass params and options to parser function ', () => {
+     test('should pass params and options to parser function ', () => {
         expect(
           processParams(
             {
@@ -220,7 +220,7 @@ describe('reducer:content', () => {
       });
     });
     describe('with undefined/null/0 value ', () => {
-      it('should return except undefined & null value', () => {
+     test('should return except undefined & null value', () => {
         const result  = processParams(
           {
             dynamicValue: 'dyno',

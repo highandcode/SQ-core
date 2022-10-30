@@ -5,12 +5,12 @@ function TestEntity(data) {
 
 describe('domain:Queryable', () => {
   describe('Queryable basic', function () {
-    it('should be defined', async () => {
+   test('should be defined', async () => {
       expect(Queryable).toBeDefined();
     });
   });
   describe('Queryable sortOrder', function () {
-    it('should return sortable object', async () => {
+   test('should return sortable object', async () => {
       expect(new Queryable([], { entityType: TestEntity }).sortOrder('id')).toBeDefined();
     });
   });
@@ -29,7 +29,7 @@ describe('domain:Queryable', () => {
       );
     });
 
-    it('should return sorted data by 1 field "text"', () => {
+   test('should return sorted data by 1 field "text"', () => {
       const result = queryObj.sortBy('text');
       expect(result.rData).toEqual([
         { uid: 'u2', text: 'A1c' },
@@ -38,7 +38,7 @@ describe('domain:Queryable', () => {
         { uid: 'u3', text: 'DD' },
       ]);
     });
-    it('should return sorted data by 2 field "text"', () => {
+   test('should return sorted data by 2 field "text"', () => {
       const result = queryObj.sortOrder('uid').sortBy('text');
       expect(result.rData).toEqual([
         { uid: 'u1', text: 'Abc' },
@@ -47,7 +47,7 @@ describe('domain:Queryable', () => {
         { uid: 'u3', text: 'DD' },
       ]);
     });
-    it('should return sorted data by 2 field "text" desc', () => {
+   test('should return sorted data by 2 field "text" desc', () => {
       const result = queryObj.sortOrder('uid', 'desc').sortBy('text');
       expect(result.rData).toEqual([
         { uid: 'u3', text: 'Acord' },
@@ -56,7 +56,7 @@ describe('domain:Queryable', () => {
         { uid: 'u1', text: 'Abc' },
       ]);
     });
-    it('should return sorted data by 2 field "text"', () => {
+   test('should return sorted data by 2 field "text"', () => {
       const result = queryObj.sortOrder('uid').sortBy('text', 'desc');
       expect(result.rData).toEqual([
         { uid: 'u1', text: 'Abc' },
@@ -66,7 +66,7 @@ describe('domain:Queryable', () => {
       ]);
     });
 
-    it('should return sorted data by data type number', () => {
+   test('should return sorted data by data type number', () => {
       const newColl = new Queryable([
         { uid: 1, text: 'Abc' },
         { uid: 4, text: 'A1c' },
