@@ -59,7 +59,7 @@ const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnal
   const { type, ...restFormatter } = formatter;
   let customValue = value;
   if (render) {
-    customValue = render(row, value, column,);
+    customValue = render(value, column, row);
   }
   const formatters = getFormatters();
   const newValue = (type && formatters[type] && formatters[type](customValue, restFormatter)) || customValue;
