@@ -175,7 +175,7 @@ class Grid extends React.Component {
     if (result === false) {
       return;
     }
-    onChange && onChange(row, value, column,);
+    onChange && onChange(value, column, row);
   }
 
   handleChildRowRender(column, data) {
@@ -192,7 +192,7 @@ class Grid extends React.Component {
     if (result === false) {
       return;
     }
-    onFieldChange && onFieldChange(row, value, column,);
+    onFieldChange && onFieldChange(value, column, row);
   }
 
   handleRowClick(columns, row) {
@@ -204,12 +204,12 @@ class Grid extends React.Component {
 
   handleFieldBlur(column, value, row) {
     const { onFieldBlur } = this.props;
-    onFieldBlur && onFieldBlur(row, value, column,);
+    onFieldBlur && onFieldBlur(value, column, row);
   }
 
   handleFieldClick(column, value, row) {
     const { onFieldClick } = this.props;
-    onFieldClick && onFieldClick(row, value, column,);
+    onFieldClick && onFieldClick(value, column, row);
   }
   handleFieldAction(column, action, row) {
     const { onAction } = this.props;
