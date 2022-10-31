@@ -6,7 +6,7 @@ describe('utils:CustomModule', () => {
       expect(CustomModule).toBeDefined();
     });
   });
-  describe('CustomModule: Add Module', function () {
+  describe('Add Module', function () {
     let module;
     beforeEach(() => {
       module = new CustomModule();
@@ -24,7 +24,7 @@ describe('utils:CustomModule', () => {
       expect(result).toEqual('test');
     });
   });
-  describe('CustomModule: Add Async Module', function () {
+  describe('Add Async Module', function () {
     let module;
     beforeEach(() => {
       module = new CustomModule();
@@ -40,6 +40,22 @@ describe('utils:CustomModule', () => {
       var result = await module.execute('test.addUser', 'test', 'in');
       expect(result.test).toEqual(true);
       expect(result.p1).toEqual('test');
+    });
+  });
+  describe('If module don\'t exist Module', function () {
+    let module;
+    beforeEach(() => {
+      module = new CustomModule();
+      // module.add('test', {
+      //   addUser: (response, action) => {
+      //     return new Promise((resolve) => {
+      //       setTimeout(() => resolve({ test: true, p1: response, p2: action }), 100);
+      //     });
+      //   },
+      // });
+    });
+   test('should be able to execute async module', async () => {
+      expect(module.execute('test.addUser', 'test', 'in')).toThrow(true);
     });
   });
 });
