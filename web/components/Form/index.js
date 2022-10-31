@@ -184,7 +184,7 @@ class Form extends React.Component {
 
   renderAction(action, index, config) {
     const { onAnalytics, row } = this.props;
-    const { cmpType, actionType, className, actionClassName = '', ...options } = action;
+    const { cmpType, actionType, className, actionClassName = '', beforeRender, ...options } = action;
     const supportedComponents = getMap();
     const result = beforeRender && beforeRender(action, row);
     const Comp = supportedComponents[cmpType] || supportedComponents.Button;
