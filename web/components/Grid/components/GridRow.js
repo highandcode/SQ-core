@@ -38,8 +38,8 @@ const Row = ({
   const _onClick = (column, value) => {
     onFieldClick && onFieldClick(column, value, data);
   };
-  const _onAction = (column, value) => {
-    onFieldAction && onFieldAction(column, value, data);
+  const _onAction = (column, action) => {
+    onFieldAction && onFieldAction(column, action, data);
   };
   const childRow = onChildRowRender && onChildRowRender(columns, data);
   return (

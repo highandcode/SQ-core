@@ -22,7 +22,7 @@ const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics,
     }
     action.onClick && action.onClick(event, action);
     onClick && onClick(action);
-    onAction && onAction(action);
+    onAction && onAction(event, action);
     onAnalytics && click && onAnalytics(click);
   };
   const handleAction = (dialgAction, action) => {
@@ -31,7 +31,7 @@ const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics,
     onAnalytics && dialog && onAnalytics(dialog);
     if (dialgAction.action === 'ok') {
       onClick && onClick(action);
-      onAction && onAction(action);
+      onAction && onAction(dialgAction, action);
       onAnalytics && click && onAnalytics(click);
     }
     setTimeout(() => {

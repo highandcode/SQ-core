@@ -35,7 +35,7 @@ const MoreActions = ({
       return;
     }
     onClick && onClick(action);
-    onAction && onAction(action);
+    onAction && onAction(event, action);
     onAnalytics && click && onAnalytics(click);
     setAnchorEl(null);
   };
@@ -45,7 +45,7 @@ const MoreActions = ({
     onAnalytics && dialog && onAnalytics(dialog);
     if (dialgAction.action === 'ok') {
       onClick && onClick(action);
-      onAction && onAction(action);
+      onAction && onAction(dialogAction, action);
       onAnalytics && click && onAnalytics(click);
     }
     setTimeout(() => {

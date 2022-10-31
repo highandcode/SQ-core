@@ -183,29 +183,35 @@ class Form extends React.Component {
   }
 
   renderAction(action, index, config) {
-    const { onAnalytics } = this.props;
+    const { onAnalytics, row } = this.props;
     const { cmpType, actionType, className, actionClassName = '', ...options } = action;
     const supportedComponents = getMap();
-
+    const result = beforeRender && beforeRender(action, row);
     const Comp = supportedComponents[cmpType] || supportedComponents.Button;
     return (
-      <div className={`sq-form__action ${actionClassName}`} key={`sq-fa-${index}`}>
-        <Comp
-          key={index}
-          className={className}
-          {...options}
-          onClick={(evt) => {
-            if (this.state.lastAction === action) {
-              this.setState({
-                lastAction: null,
-              });
-            } else {
-              this.handleAction(evt, action);
-            }
-          }}
-          onAnalytics={onAnalytics}
-        />
-      </div>
+      <>
+        {result ? (
+          <div className={`sq-form__action ${actionClassName}`} key={`sq-fa-${index}`}>
+            <Comp
+              key={index}
+              className={className}
+              {...options}
+              onClick={(evt) => {
+                if (this.state.lastAction === action) {
+                  this.setState({
+                    lastAction: null,
+                  });
+                } else {
+                  this.handleAction(evt, action);
+                }
+              }}
+              onAnalytics={onAnalytics}
+            />
+          </div>
+        ) : (
+          <></>
+        )}
+      </>
     );
   }
 }

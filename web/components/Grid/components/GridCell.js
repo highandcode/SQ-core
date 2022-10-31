@@ -44,7 +44,7 @@ const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnal
   const _onClick = (newValue) => {
     onClick && onClick(column, newValue);
   };
-  const _onAction = (newValue) => {
+  const _onAction = (evt, newValue) => {
     onAction && onAction(column, newValue);
   };
   const _Blur = (value) => {
@@ -59,7 +59,7 @@ const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnal
   const { type, ...restFormatter } = formatter;
   let customValue = value;
   if (render) {
-    customValue = render(value, column, row);
+    customValue = render(row, value, column,);
   }
   const formatters = getFormatters();
   const newValue = (type && formatters[type] && formatters[type](customValue, restFormatter)) || customValue;
