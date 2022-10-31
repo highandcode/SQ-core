@@ -97,7 +97,7 @@ class Grid extends React.Component {
               actionType: 'cancel',
             },
           ]}
-          title={'Columns'}
+          title={'Customize Columns'}
           {...editColumnPane}
           classes={{
             dialog: {

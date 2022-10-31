@@ -17,7 +17,13 @@ const Transition = React.forwardRef((props, ref) => {
 
 const SQDialog = ({ closeButton = true, classes: overrideClasses = {}, fullScreen = false, open = false, isLoading = false, title, content, children, onClose, actions = [], onAction }) => {
   const handleClose = () => {
-    onClose && onClose({}, { actionType: 'close' });
+    onClose &&
+      onClose(
+        {
+          cancel: true,
+        },
+        { actionType: 'close' }
+      );
   };
   const handleAction = (action) => {
     onAction && onAction({}, action);
