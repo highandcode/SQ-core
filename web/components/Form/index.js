@@ -190,7 +190,7 @@ class Form extends React.Component {
     const Comp = supportedComponents[cmpType] || supportedComponents.Button;
     return (
       <>
-        {result ? (
+        {result !== false ? (
           <div className={`sq-form__action ${actionClassName}`} key={`sq-fa-${index}`}>
             <Comp
               key={index}
