@@ -17,10 +17,13 @@ Object.defineProperty(window, 'open', {
   writable: true,
   value: jest.fn().mockImplementation((query) => jest.fn()),
 });
-// Object.defineProperty(window.location, 'href', {
-//   writable: true,
-//   value: jest.fn().mockImplementation((query) => query),
-// });
+delete window.location;
+window.location = {};
+let _url = 'test';
+Object.defineProperty(window.location, 'href', {
+  get: () => _url,
+  set: (u) => (_url = u),
+});
 
 let __cookies;
 Object.defineProperty(window.document, 'cookie', {

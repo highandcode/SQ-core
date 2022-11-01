@@ -71,14 +71,14 @@ describe('utils:redirect', () => {
       expect(fakeFn).toHaveBeenCalled();
       expect(window.open).toHaveBeenCalled();
     });
-    test.skip('[fullUrl] should redirect to page ', async () => {
+    test('[fullUrl] should redirect to page ', async () => {
       jest.useFakeTimers();
       const fakeFn = jest.fn();
       events.subscribe('beforeRedirect', fakeFn);
-      redirectTo('http:/go.com/en/home');
+      redirectTo('http:/go.com/park/home');
       jest.advanceTimersByTime(10);
       expect(fakeFn).toHaveBeenCalled();
-      expect(location.href).toBe('http:/go.com/en/home');
+      expect(location.href).toBe('http:/go.com/park/home');
     });
     test('[fullUrl] should open in new window with query string ', async () => {
       redirectTo('http:/go.com/park/home', { bar: 'foo' }, { target: '_blank' });
