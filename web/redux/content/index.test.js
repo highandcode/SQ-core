@@ -1,5 +1,8 @@
-import { parseCustomModule, processParams } from './index';
-import { processor } from '../../utils';
+import reducer, { customHooks, initApplication, postApi, resetLastError, resetUserData, updateUserData, mergeUserData, parseCustomModule, processParams } from './index';
+import { fake } from '../../../tests/ui';
+import * as utils from '../../utils';
+const { queryString, apiBridge, object, common, processor } = utils;
+
 processor.add('test', {
   getOption: (value, options) => {
     return value;
@@ -10,11 +13,11 @@ processor.add('test', {
 });
 describe('reducer:content', () => {
   describe('parseCustomModule()', function () {
-   test('should have defined', async () => {
+    test('should have defined', async () => {
       expect(parseCustomModule).toBeDefined();
     });
     describe('parseCustomModule(): parsing plain string', function () {
-     test('should be able to return blank params with module name', async () => {
+      test('should be able to return blank params with module name', async () => {
         expect(parseCustomModule('globals.options')).toMatchObject({
           module: 'globals.options',
           params: {},
@@ -22,7 +25,7 @@ describe('reducer:content', () => {
       });
     });
     describe('parseCustomModule(): parsing with function params string', function () {
-     test('should be able to return blank params with module name', async () => {
+      test('should be able to return blank params with module name', async () => {
         expect(parseCustomModule('globals.filterOptions(valueField: text, textField: item)')).toMatchObject({
           module: 'globals.filterOptions',
           params: {
@@ -35,7 +38,7 @@ describe('reducer:content', () => {
   });
 
   describe('processParams()', () => {
-   test('should return hard coded data', () => {
+    test('should return hard coded data', () => {
       expect(
         processParams(
           {},
@@ -47,7 +50,7 @@ describe('reducer:content', () => {
         test: 'gotcha',
       });
     });
-   test('should return nested data properly if not found', () => {
+    test('should return nested data properly if not found', () => {
       const result = processParams(
         {
           app: {
@@ -95,7 +98,7 @@ describe('reducer:content', () => {
         },
       });
     });
-   test('should return data from userData matched key', () => {
+    test('should return data from userData matched key', () => {
       expect(
         processParams(
           {
@@ -109,7 +112,7 @@ describe('reducer:content', () => {
         test: 'value 2',
       });
     });
-   test('should return data from userData matched key', () => {
+    test('should return data from userData matched key', () => {
       expect(
         processParams(
           {
@@ -139,7 +142,7 @@ describe('reducer:content', () => {
       });
     });
     describe('match validator', () => {
-     test('should execute set result of match', () => {
+      test('should execute set result of match', () => {
         expect(
           processParams(
             {
@@ -173,7 +176,7 @@ describe('reducer:content', () => {
       });
     });
     describe('custom parser', () => {
-     test('should execute set result of match', () => {
+      test('should execute set result of match', () => {
         expect(
           processParams(
             {
@@ -189,7 +192,7 @@ describe('reducer:content', () => {
           resultWithDynamic: 'dyno',
         });
       });
-     test('should pass params and options to parser function ', () => {
+      test('should pass params and options to parser function ', () => {
         expect(
           processParams(
             {
@@ -220,8 +223,8 @@ describe('reducer:content', () => {
       });
     });
     describe('with undefined/null/0 value ', () => {
-     test('should return except undefined & null value', () => {
-        const result  = processParams(
+      test('should return except undefined & null value', () => {
+        const result = processParams(
           {
             dynamicValue: 'dyno',
           },
@@ -233,6 +236,319 @@ describe('reducer:content', () => {
         );
         expect(result).toMatchObject({
           withNumber: 0,
+        });
+      });
+    });
+  });
+
+  test('should return initial state', () => {
+    expect(reducer(undefined, { type: undefined })).toEqual({ isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {} } });
+  });
+
+  describe('Action: updateUserData()', () => {
+    test('should update data in userData', () => {
+      expect(reducer(undefined, updateUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 1 } } });
+    });
+    test('should override whole data in userData', () => {
+      const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+      expect(reducer(prevState, updateUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 1 } } });
+    });
+  });
+
+  describe('Action: mergeUserData()', () => {
+    test('should append data in userData', () => {
+      const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+      const { store, next, invoke } = fake.thunk.create({
+        content: {
+          ...prevState,
+        },
+      });
+      const action = mergeUserData({ test: { nodata22: 1 } });
+      invoke(action);
+      expect(store.dispatch).toHaveBeenCalledWith({ payload: { query: {}, test: { nodata: 2, nodata22: 1 } }, type: 'content/updateUserData' });
+    });
+  });
+
+  describe('Action: resetUserData()', () => {
+    test('should append data in userData', () => {
+      const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+      const { store, invoke } = fake.thunk.create({
+        content: {
+          ...prevState,
+        },
+      });
+      const action = resetUserData({ type: 'clearAll' });
+      invoke(action);
+      expect(store.dispatch).toHaveBeenCalledWith({ payload: undefined, type: 'content/clearAllUserData' });
+    });
+  });
+
+  describe('Action: resetLastError()', () => {
+    test('should append data in userData', () => {
+      const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { lastError: { p: { error: true, errorMessage: 'error' } }, query: {}, test: { nodata: 2 } } };
+      const { store, invoke } = fake.thunk.create({
+        content: {
+          ...prevState,
+        },
+      });
+      const action = resetLastError();
+      invoke(action);
+      expect(store.dispatch).toHaveBeenCalledWith({ payload: { lastError: {} }, type: 'content/updateUserData' });
+    });
+  });
+
+  describe('Action: postApi()', () => {
+    describe('postApi with simple api call [success]', () => {
+      let store;
+      beforeEach(async () => {
+        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {
+            ...prevState,
+          },
+        });
+        apiBridge.post = jest.fn(() => Promise.resolve({ status: 'success', data: { prime: true } }));
+        const action = postApi({
+          method: 'post',
+          url: 'fake/api',
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should store response in userData', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({ payload: { prime: true, lastError: {} }, type: 'content/updateUserData' });
+      });
+    });
+
+    describe('postApi with simple api call [error] + errors', () => {
+      let store;
+      beforeEach(async () => {
+        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {
+            ...prevState,
+          },
+        });
+        apiBridge.post = jest.fn(() => Promise.resolve({ status: 'error', error: { test: { error: true, errorMessage: 'cont error', errors: { field1: { error: true, errorMessage: 'internal error' } } } } }));
+        const action = postApi({
+          method: 'post',
+          url: 'fake/api',
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should store error in lastError object in userData', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({ payload: { test_errors: { field1: { error: true, errorMessage: 'internal error' } }, lastError: { test: { error: true, errorMessage: 'cont error', errors: { field1: { error: true, errorMessage: 'internal error' } } } } }, type: 'content/updateUserData' });
+      });
+    });
+
+    describe('postApi with match [failed]', () => {
+      let store;
+      beforeEach(async () => {
+        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, done: 'ok', test: { nodata: 2 } } };
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {
+            ...prevState,
+          },
+        });
+        apiBridge.post = jest.fn(() => Promise.resolve({ status: 'success', data: { prime: true } }));
+        const action = postApi({
+          match: {
+            test: {
+              validator: {
+                type: 'equals',
+                matchValue: 'none',
+              },
+            },
+          },
+          method: 'post',
+          url: 'fake/api',
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should store response in userData', () => {
+        expect(store.dispatch).not.toHaveBeenCalledWith({ payload: { prime: true, lastError: {} }, type: 'content/updateUserData' });
+      });
+    });
+    describe('postApi with preCall and postCall', () => {
+      let store;
+      let postHook;
+      beforeEach(async () => {
+        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, f1: 'ok', f2: 'ok2', done: 'ok', test: { nodata: 2 } } };
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {
+            ...prevState,
+          },
+        });
+        apiBridge.post = jest.fn(() => Promise.resolve({ status: 'success', data: { prime: true } }));
+        const action = postApi({
+          match: {
+            done: {
+              validator: {
+                type: 'equals',
+                matchValue: 'ok',
+              },
+            },
+          },
+          preCall: {
+            test: '.done',
+            test2: '.test.nodata',
+          },
+          postCall: {
+            p2: '.f1',
+            p3: '.f2',
+          },
+          method: 'post',
+          url: 'fake/api',
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should store response in userData', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({ payload: { prime: true, lastError: {} }, type: 'content/updateUserData' });
+      });
+      test('should call updateUserData on preCall', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({ payload: { query: {}, f1: 'ok', f2: 'ok2', done: 'ok', test: 'ok', test2: 2 }, type: 'content/updateUserData' });
+      });
+      test('should updateUserData on postCall', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({
+          payload: {
+            query: {},
+            f1: 'ok',
+            f2: 'ok2',
+            done: 'ok',
+            test: { nodata: 2 },
+            p2: 'ok',
+            p3: 'ok2',
+          },
+          type: 'content/updateUserData',
+        });
+      });
+    });
+    describe('postApi with hooks', () => {
+      let store;
+      let postHook;
+      let preHook;
+      beforeEach(async () => {
+        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {} } };
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {
+            ...prevState,
+          },
+        });
+        postHook = jest.fn();
+        preHook = jest.fn();
+        customHooks.add('test', {
+          hook: preHook,
+          hook2: postHook,
+        });
+        const action = postApi({
+          preHook: 'test.hook',
+          postHook: 'test.hook2',
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should call preHook', () => {
+        expect(preHook).toHaveBeenCalled();
+      });
+      test('should call postHook', () => {
+        expect(postHook).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('Action: initApplication()', () => {
+    describe('initApplication with default config', () => {
+      let store;
+      beforeEach(async () => {
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {},
+        });
+
+        const action = initApplication({
+          url: true,
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should store data in protectedData ', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({
+          payload: {
+            root: {
+              url: true,
+            },
+          },
+          type: 'content/updateProtectedUserData',
+        });
+      });
+    });
+    describe('initApplication with loading config and merge', () => {
+      let store;
+      beforeEach(async () => {
+        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {
+            ...prevState,
+          },
+        });
+        apiBridge.post = jest.fn(() =>
+          Promise.resolve({
+            status: 'success',
+            data: {
+              pageData: {
+                merge: {
+                  test: '.coratan',
+                },
+                hook: {
+                  load: {
+                    path: '/test/d',
+                    method: 'post',
+                  },
+                },
+                test: 'mode',
+              },
+            },
+          })
+        );
+        const action = initApplication({
+          globals: {
+            path: '/get/root',
+          },
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should store data in protectedData ', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({
+          payload: {
+            root: {
+              globals: {
+                path: '/get/root',
+              },
+              merge: {
+                test: '.coratan',
+              },
+              hook: {
+                load: {
+                  path: '/test/d',
+                  method: 'post',
+                },
+              },
+              test: 'mode',
+            },
+          },
+          type: 'content/updateProtectedUserData',
+        });
+      });
+      test('should store merged data in mergeUserData ', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({
+          payload: {
+            query: {},
+            test: '',
+          },
+          type: 'content/updateUserData',
         });
       });
     });

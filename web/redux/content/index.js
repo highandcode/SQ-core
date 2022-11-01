@@ -43,7 +43,7 @@ export const parseCustomModule = (text) => {
 };
 export const processEachParam = (userData, key, defaultValue, state) => {
   let value;
-   if (key && key.toString().substr(0, 2) === '::') {
+  if (key && key.toString().substr(0, 2) === '::') {
     const moduleName = key.toString().split('::');
     const passedKey = key.substr(key.toString().lastIndexOf('::') + 2, key.length - 4);
     let parsedModule = parseCustomModule(moduleName[1]);
@@ -82,16 +82,16 @@ export const processParams = (userData, params = {}, defaultValue = null, state)
   return newObj;
 };
 
-export const fetchJsonPath = ({url, params, headers}) => {
-  const mode = window.APP_CONFIG.siteMode === 'static' ? 'get' : 'post';
+export const fetchJsonPath = ({ url, params, headers }) => {
+  const mode = window.APP_CONFIG?.siteMode === 'static' ? 'get' : 'post';
   const postFix = mode === 'get' ? '/get.json' : '';
-  return apiBridge[mode](`${url}${postFix}`, params, headers); 
-}
+  return apiBridge[mode](`${url}${postFix}`, params, headers);
+};
 
 export const fetchContentPage = createAsyncThunk('content/fetchContentPage', async (url) => {
   const fullUrl = url || location.href;
-  
-  let response = await fetchJsonPath({ url: fullUrl});
+
+  let response = await fetchJsonPath({ url: fullUrl });
   if (response.error) {
     if (window.APP_CONFIG?.siteMap?.errorRedirects[response.code]) {
       response = await fetchJsonPath({ url: window.APP_CONFIG?.siteMap?.errorRedirects[response.code] });
@@ -116,7 +116,8 @@ export const updateErrorData = (data) => (dispatch) => {
   Object.keys(data).forEach((errorKey) => {
     if (data[errorKey]?.errors) {
       errors[`${errorKey}_errors`] = data[errorKey]?.errors;
-    } else {
+    }
+    if (data[errorKey].error === true) {
       errors.lastError[errorKey] = data[errorKey];
     }
   });
@@ -242,12 +243,7 @@ export const postApi = (payload) => async (dispatch, getState) => {
   if (payload.method && payload.url) {
     let paramToProcess = { method: payload.method, url: payload.url };
     paramToProcess = processParams(getState().content.userData, paramToProcess, undefined, getState());
-    response = await apiBridge[paramToProcess.method.toLowerCase()](
-      paramToProcess.url,
-      processParams(getState().content.userData, payload.params, undefined, getState()),
-      processParams(getState().content.userData, payload.headers, undefined, getState()),
-      processParams(getState().content.userData, payload.query, undefined, getState())
-    );
+    response = await apiBridge[paramToProcess.method.toLowerCase()](paramToProcess.url, processParams(getState().content.userData, payload.params, undefined, getState()), processParams(getState().content.userData, payload.headers, undefined, getState()), processParams(getState().content.userData, payload.query, undefined, getState()));
   }
 
   if (payload.postHook) {
@@ -264,10 +260,7 @@ export const postApi = (payload) => async (dispatch, getState) => {
     });
   }
 
-  response = object.extendData(
-    payload.defaultResponse && (payload.defaultResponse[response.status] || payload.defaultResponse.error),
-    response
-  );
+  response = object.extendData(payload.defaultResponse && (payload.defaultResponse[response.status] || payload.defaultResponse.error), response);
 
   const { notification } = response || {};
   if (notification) {
@@ -332,7 +325,7 @@ export const downloadApi = (payload) => async (dispatch, getState) => {
     let paramToProcess = { method: payload.method, url: payload.url, href: payload.href };
     paramToProcess = processParams(getState().content.userData, paramToProcess, undefined, getState());
     const method = paramToProcess.method || 'get';
-    await apiBridge[method](paramToProcess.href || paramToProcess.url, processParams(getState().content.userData, payload.params, undefined, getState()), processParams(getState().content.userData, payload.headers, undefined, getState()),processParams(getState().content.userData, payload.query, undefined, getState()), { plain: true })
+    await apiBridge[method](paramToProcess.href || paramToProcess.url, processParams(getState().content.userData, payload.params, undefined, getState()), processParams(getState().content.userData, payload.headers, undefined, getState()), processParams(getState().content.userData, payload.query, undefined, getState()), { plain: true })
       .then((res) => {
         return res.blob();
       })
@@ -368,10 +361,7 @@ export const downloadApi = (payload) => async (dispatch, getState) => {
     });
   }
 
-  response = object.extendData(
-    payload.defaultResponse && (payload.defaultResponse[response.status] || payload.defaultResponse.error),
-    response
-  );
+  response = object.extendData(payload.defaultResponse && (payload.defaultResponse[response.status] || payload.defaultResponse.error), response);
 
   const { notification } = response || {};
   if (notification) {
@@ -402,15 +392,10 @@ export const downloadApi = (payload) => async (dispatch, getState) => {
   return response;
 };
 
-
 const content = createSlice({
   name: 'content',
   initialState,
   reducers: {
-    updatePageData: (state, action) => {
-      state.pageData[action.payload.pageId] = action.payload.data;
-    },
-
     updateProtectedUserData: (state, action) => {
       state.protectedData = {
         ...state.protectedData,
@@ -469,5 +454,5 @@ export const resetUserData = (payload) => (dispatch, getState) => {
   }
 };
 
-export const { updateProtectedUserData, updatePageData, updateUserData } = content.actions;
+export const { updateProtectedUserData, updateUserData } = content.actions;
 export default content.reducer;
