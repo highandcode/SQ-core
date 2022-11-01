@@ -9,6 +9,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TextField } from '@mui/material';
 import { getValue } from '../../../utils/properties';
+import { datetime } from '../../../utils/datetime';
 import './dateselector.scss';
 
 const instanceTypes = {
@@ -73,10 +74,10 @@ const DateSelector = ({
 
   const extraProps = {};
   if (finalMinDate) {
-    extraProps.minDate = finalMinDate;
+    extraProps.minDate = typeof(finalMinDate) === 'string' ? datetime.new(finalMinDate)._date._d : finalMinDate;
   }
   if (finalMaxDate) {
-    extraProps.maxDate = finalMaxDate;
+    extraProps.maxDate = typeof(finalMaxDate) === 'string' ? datetime.new(finalMaxDate)._date._d : finalMaxDate;
   }
   const DatePickerInstance = instanceTypes[instanceType];
   return (
