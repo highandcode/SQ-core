@@ -117,11 +117,14 @@ export const updateErrorData = (data) => (dispatch) => {
     if (data[errorKey]?.errors) {
       errors[`${errorKey}_errors`] = data[errorKey]?.errors;
     } else if (data[errorKey].error) {
-      errors[`${errorKey}_errors`] = data[errorKey];
+      errors.lastError[errorKey] = data[errorKey];
     }
   });
   if (data.error === true) {
-    errors.lastError = data;
+    errors.lastError = {
+      ...errors.lastError,
+      ...data,
+    };
   }
   dispatch(updateUserData(errors));
 };
