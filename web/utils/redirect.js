@@ -8,7 +8,7 @@ let customHandlers = {};
 export const setUrlMapping = (newMap) => {
   urlMapping = {
     ...urlMapping,
-    ...newMap
+    ...newMap,
   };
 };
 
@@ -19,7 +19,7 @@ export const setHistory = (newHistory) => {
 export const setCustomHandlers = (newHandlers) => {
   customHandlers = {
     ...customHandlers,
-    ...newHandlers
+    ...newHandlers,
   };
 };
 
@@ -29,7 +29,7 @@ export const redirectTo = (screen, params = {}, { target = '', ...options } = {}
   }
   events.emit('beforeRedirect', screen, params, { target, ...options });
   if (params.handler === 'custom') {
-    customHandlers[params.handlerType] && customHandlers[params.handlerType](screen, params, options);
+    customHandlers[params.handlerType] && customHandlers[params.handlerType](screen, params, { target, ...options });
   } else {
     const url = urlMapping[screen];
     const query = new QueryString(params).toString();

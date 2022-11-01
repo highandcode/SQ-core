@@ -13,6 +13,14 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn(),
   })),
 });
+Object.defineProperty(window, 'open', {
+  writable: true,
+  value: jest.fn().mockImplementation((query) => jest.fn()),
+});
+// Object.defineProperty(window.location, 'href', {
+//   writable: true,
+//   value: jest.fn().mockImplementation((query) => query),
+// });
 
 let __cookies;
 Object.defineProperty(window.document, 'cookie', {

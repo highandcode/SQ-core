@@ -12,7 +12,7 @@ const masks = {
     }
   },
   number: {
-    mask: (value, { pattern = '', param = 'D' }) => {
+    mask: (value, { pattern = '', param = 'D' } = {}) => {
       let out = '';
       if (pattern) {
         const allValues = pattern.split('');
@@ -48,7 +48,7 @@ const masks = {
     }
   },
   percentage: {
-    mask: (value, { input = false }) => {
+    mask: (value, { input = false } = {}) => {
       if (!input) {
         return value + '%';
       } else {

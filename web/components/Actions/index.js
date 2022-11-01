@@ -9,6 +9,7 @@ import './actions.scss';
 const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics, row, column, beforeRender }) => {
   const compMap = getMap();
   const [showConfirm, setShowConfirm] = useState(false);
+  const [currentAction, setCurrentAction] = useState(null);
   const handleOnClick = (event, action) => {
     const { analytics = {} } = action;
     const { click } = analytics;
@@ -18,6 +19,7 @@ const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics,
     }
     if (action.confirm) {
       setShowConfirm(true);
+      setCurrentAction(action);
       return;
     }
     action.onClick && action.onClick(event, action);
@@ -36,6 +38,7 @@ const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics,
     }
     setTimeout(() => {
       setShowConfirm(false);
+      setCurrentAction(null);
     });
   };
 
@@ -59,7 +62,7 @@ const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics,
         }
         const overridingProps = {
           ...rest,
-          ...result
+          ...result,
         };
         return (
           <React.Fragment key={idx}>
@@ -71,32 +74,32 @@ const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics,
                 }}
               />
             </div>
-            {action.confirm && (
-              <Dialog
-                title={action.confirm.title}
-                content={action.confirm.content}
-                classes={{
-                  body: 'sq-dialog__content-body--confirm'
-                }}
-                closeButton={false}
-                open={showConfirm}
-                onAction={(data, dialgAction) => handleAction(dialgAction, action)}
-                actions={[
-                  {
-                    buttonText: 'Yes',
-                    action: 'ok'
-                  },
-                  {
-                    buttonText: 'Cancel',
-                    variant: 'outlined',
-                    action: 'cancel'
-                  }
-                ]}
-              />
-            )}
           </React.Fragment>
         );
       })}
+      {currentAction?.confirm && (
+        <Dialog
+          title={currentAction.confirm.title}
+          content={currentAction.confirm.content}
+          classes={{
+            body: 'sq-dialog__content-body--confirm',
+          }}
+          closeButton={false}
+          open={showConfirm}
+          onAction={(value, dialgAction) => handleAction(dialgAction, currentAction)}
+          actions={[
+            {
+              buttonText: 'Yes',
+              action: 'ok',
+            },
+            {
+              buttonText: 'No',
+              variant: 'outlined',
+              action: 'cancel',
+            },
+          ]}
+        />
+      )}
     </div>
   );
 };
@@ -107,7 +110,7 @@ Actions.propTypes = {
   column: PropTypes.object,
   onClick: PropTypes.func,
   onAction: PropTypes.func,
-  actions: PropTypes.oneOfType([PropTypes.array, PropTypes.func])
+  actions: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
 };
 
 export default Actions;

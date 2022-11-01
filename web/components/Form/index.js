@@ -189,9 +189,9 @@ class Form extends React.Component {
     const result = beforeRender && beforeRender(action, row);
     const Comp = supportedComponents[cmpType] || supportedComponents.Button;
     return (
-      <>
+      <React.Fragment key={`sq-fa-${index}`}>
         {result !== false ? (
-          <div className={`sq-form__action ${actionClassName}`} key={`sq-fa-${index}`}>
+          <div className={`sq-form__action ${actionClassName}`}>
             <Comp
               key={index}
               className={className}
@@ -211,7 +211,7 @@ class Form extends React.Component {
         ) : (
           <></>
         )}
-      </>
+      </React.Fragment>
     );
   }
 }

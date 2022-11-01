@@ -11,13 +11,13 @@ class CustomProcessor {
           }
           return value;
         },
-        getOptionArray: (value, {}) => {
+        getOptionArray: (value) => {
           if (this.globalOptions[value]) {
             return this.globalOptions[value].toArray();
           }
           return [];
         },
-        getOption: (value, { optionsName }) => {
+        getOption: (value, { optionsName } = {}) => {
           if (this.globalOptions[optionsName]) {
             return this.globalOptions[optionsName].get(value);
           }
