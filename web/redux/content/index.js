@@ -116,11 +116,13 @@ export const updateErrorData = (data) => (dispatch) => {
   Object.keys(data).forEach((errorKey) => {
     if (data[errorKey]?.errors) {
       errors[`${errorKey}_errors`] = data[errorKey]?.errors;
-    }
-    if (data[errorKey].error === true) {
-      errors.lastError[errorKey] = data[errorKey];
+    } else if (data[errorKey].error) {
+      errors[`${errorKey}_errors`] = data[errorKey];
     }
   });
+  if (data.error === true) {
+    errors.lastError = data;
+  }
   dispatch(updateUserData(errors));
 };
 
@@ -454,5 +456,5 @@ export const resetUserData = (payload) => (dispatch, getState) => {
   }
 };
 
-export const { updateProtectedUserData, updateUserData } = content.actions;
+export const { updateProtectedUserData, updateUserData, clearAllUserData } = content.actions;
 export default content.reducer;

@@ -1,7 +1,7 @@
-import reducer, { customHooks, initApplication, postApi, resetLastError, resetUserData, updateUserData, mergeUserData, parseCustomModule, processParams } from './index';
+import reducer, { executeHook, customHooks, initApplication, postApi, clearAllUserData, resetLastError, resetUserData, updateUserData, updateProtectedUserData, mergeUserData, parseCustomModule, processParams } from './index';
 import { fake } from '../../../tests/ui';
 import * as utils from '../../utils';
-const { queryString, apiBridge, object, common, processor } = utils;
+const { apiBridge, processor } = utils;
 
 processor.add('test', {
   getOption: (value, options) => {
@@ -245,13 +245,28 @@ describe('reducer:content', () => {
     expect(reducer(undefined, { type: undefined })).toEqual({ isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {} } });
   });
 
-  describe('Action: updateUserData()', () => {
+  describe('Reducer: updateUserData()', () => {
     test('should update data in userData', () => {
       expect(reducer(undefined, updateUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 1 } } });
     });
     test('should override whole data in userData', () => {
       const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
       expect(reducer(prevState, updateUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 1 } } });
+    });
+  });
+  describe('Reducer: updateProtectedUserData()', () => {
+    test('should update data in protectedData', () => {
+      expect(reducer(undefined, updateProtectedUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, protectedData: { test: { nodata: 1 } }, userData: { query: {}, test: { nodata: 1 } } });
+    });
+  });
+  describe('Reducer: clearAllUserData()', () => {
+    test('should clear data in userData and reset to initial state', () => {
+      reducer(undefined, updateUserData({ test: { nodata: 1 } }));
+      expect(reducer(undefined, clearAllUserData({ type: 'clearAll' }))).toEqual({ isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {} } });
+    });
+    test('should clear the data except protected data', () => {
+      const lastState = reducer(undefined, updateProtectedUserData({ protect: { nodata: 1 } }));
+      expect(reducer(lastState, clearAllUserData({ type: 'clearAll' }))).toEqual({ isContentLoading: false, pageData: {}, protectedData: { protect: { nodata: 1 } }, userData: { protect: { nodata: 1 }, query: {} } });
     });
   });
 
@@ -338,7 +353,7 @@ describe('reducer:content', () => {
         invoke(action);
       });
       test('should store error in lastError object in userData', () => {
-        expect(store.dispatch).toHaveBeenCalledWith({ payload: { test_errors: { field1: { error: true, errorMessage: 'internal error' } }, lastError: { test: { error: true, errorMessage: 'cont error', errors: { field1: { error: true, errorMessage: 'internal error' } } } } }, type: 'content/updateUserData' });
+        expect(store.dispatch).toHaveBeenCalledWith({ payload: { test_errors: { field1: { error: true, errorMessage: 'internal error' } }, lastError: {} }, type: 'content/updateUserData' });
       });
     });
 
@@ -460,7 +475,7 @@ describe('reducer:content', () => {
   });
 
   describe('Action: initApplication()', () => {
-    describe('initApplication with default config', () => {
+    describe('with default config', () => {
       let store;
       beforeEach(async () => {
         const { store: _store, invoke } = fake.thunk.create({
@@ -484,7 +499,7 @@ describe('reducer:content', () => {
         });
       });
     });
-    describe('initApplication with loading config and merge', () => {
+    describe('with loading config and merge', () => {
       let store;
       beforeEach(async () => {
         const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
@@ -548,6 +563,128 @@ describe('reducer:content', () => {
             query: {},
             test: '',
           },
+          type: 'content/updateUserData',
+        });
+      });
+    });
+  });
+  describe('Action: executeHook()', () => {
+    describe('with default config [success]', () => {
+      let store;
+      let hook;
+      beforeEach(async () => {
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {},
+        });
+        hook = jest.fn(() => ({ status: 'success', data: { tank: true } }));
+        customHooks.add('auth', {
+          login: hook,
+        });
+        const action = executeHook({
+          hook: 'auth.login',
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should call given hook', () => {
+        expect(hook).toHaveBeenCalled();
+      });
+      test('should save result data at root of userData', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({
+          payload: { lastError: {}, tank: true },
+          type: 'content/updateUserData',
+        });
+      });
+    });
+    describe('with default config [error]', () => {
+      let store;
+      let hook;
+      beforeEach(async () => {
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {},
+        });
+        hook = jest.fn(() => ({ status: 'error', error: { error: true, errorMessage: 'error' } }));
+        customHooks.add('auth', {
+          login: hook,
+        });
+        const action = executeHook({
+          hook: 'auth.login',
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should call given hook', () => {
+        expect(hook).toHaveBeenCalled();
+      });
+      test('should save result data at root of userData', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({
+          payload: { lastError: { error: true, errorMessage: 'error' } },
+          type: 'content/updateUserData',
+        });
+      });
+    });
+    describe('with given result dataKey', () => {
+      let store;
+      let hook;
+      beforeEach(async () => {
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {},
+        });
+        hook = jest.fn(() => ({ status: 'success', data: { tank: true } }));
+        customHooks.add('auth', {
+          login: hook,
+        });
+        const action = executeHook({
+          hook: 'auth.login',
+          dataKey: 'wraper',
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should save result data at root of userData', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({
+          payload: { lastError: {}, wraper: { tank: true } },
+          type: 'content/updateUserData',
+        });
+      });
+    });
+    describe('with preCall and postCall', () => {
+      let store;
+      let hook;
+      beforeEach(async () => {
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {
+            userData: {
+              t1: '1',
+            },
+          },
+        });
+        hook = jest.fn(() => ({ status: 'success', data: { tank: true } }));
+        customHooks.add('auth', {
+          login: hook,
+        });
+        const action = executeHook({
+          hook: 'auth.login',
+          dataKey: 'wraper',
+          preCall: {
+            token: '.t1',
+          },
+          postCall: {
+            token2: '.t1',
+          },
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should save preCall data', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({
+          payload: { token: '.t1' },
+          type: 'content/updateUserData',
+        });
+      });
+      test('should save postCall data', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({
+          payload: { token2: '.t1' },
           type: 'content/updateUserData',
         });
       });
