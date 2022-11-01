@@ -3,6 +3,7 @@ import '../web/styles/core/_fonts.scss';
 import '../web/styles/index.scss';
 import './styles.scss';
 import DateSelector from '../web/components/ui/DateSelector';
+import { datetime } from '../web/utils/datetime';
 
 export default {
   title: 'Example/DateSelector',
@@ -46,26 +47,35 @@ WithTimePickerExample.args = {
   label: 'Date of birth with custom format',
   inputFormat: 'hh:mm a',
   outputFormat: 'hh:mm A',
-  instanceType: 'TimePicker'
+  instanceType: 'TimePicker',
 };
 export const WithDateTimerPickerExample = Template.bind({});
 WithDateTimerPickerExample.args = {
   label: 'Date of birth with custom format',
   inputFormat: 'dd/mm/yyyy hh:mm a',
   outputFormat: 'hh:mm A',
-  instanceType: 'DateTimePicker'
+  instanceType: 'DateTimePicker',
 };
 export const WithMobileDateTimePicker = Template.bind({});
 WithMobileDateTimePicker.args = {
   label: 'Date picker mobile',
   inputFormat: 'dd/mm/yyyy',
   outputFormat: 'hh:mm A',
-  instanceType: 'MobileDatePicker'
+  instanceType: 'MobileDatePicker',
 };
 export const WithDesktopDatePicker = Template.bind({});
 WithDesktopDatePicker.args = {
   label: 'Date desktop datepicker',
   inputFormat: 'dd/mm/yyyy',
   outputFormat: 'hh:mm A',
-  instanceType: 'DesktopDatePicker'
+  instanceType: 'DesktopDatePicker',
+};
+export const WithMinMaxDate = Template.bind({});
+WithMinMaxDate.args = {
+  label: 'Date desktop datepicker',
+  inputFormat: 'dd/mm/yyyy',
+  outputFormat: 'hh:mm A',
+  instanceType: 'DesktopDatePicker',
+  minDate: datetime.new().toISO(),
+  maxDate: datetime.new().addDays(5).toISO(),
 };
