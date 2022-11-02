@@ -29,7 +29,7 @@ const SQDialog = ({ closeButton = true, classes: overrideClasses = {}, fullScree
     onAction && onAction({}, action);
   };
   return (
-    <div className={`sq-dialog ${overrideClasses.root}`}>
+    <div className={`sq-dialog ${overrideClasses.root || ''}`}>
       <Dialog TransitionComponent={Transition} classes={overrideClasses.dialog} open={open} fullScreen={fullScreen} onClose={handleClose} aria-labelledby={title} aria-describedby={title}>
         {closeButton && (
           <IconButton
