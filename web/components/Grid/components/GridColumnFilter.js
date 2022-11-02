@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CheckboxField } from '../../ui/Checkbox';
 
 const GridColumnFilter = ({ columns = [], value = [], onChange }) => {
-  const hasAllSelection = columns.map((i) => value.indexOf(i.name) > -1).filter((a) => a === false).length === 0;
+  const hasAllSelection = columns.map((i) => value.customize !== false && value.indexOf(i.name) > -1).filter((a) => a === false).length === 0;
   const handleSelectAll = (data) => {
     if (data.checked) {
       onChange &&
@@ -42,10 +42,12 @@ const GridColumnFilter = ({ columns = [], value = [], onChange }) => {
       </div>
       <div className="sq-grid__col-filters__body">
         {columns.map((col) => {
-          return (
-            <div className="sq-grid__col-filters__item">
+          return col.customize !== false ? (
+            <div className="sq-grid__col-filters__item" key={`col-${col.name}`}>
               <CheckboxField onChange={(value) => handleChange(value, col)} checked={value.indexOf(col.name) > -1} text={col.headerText} />
             </div>
+          ) : (
+            <></>
           );
         })}
       </div>

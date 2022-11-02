@@ -359,7 +359,6 @@ describe('reducer:content', () => {
         invoke(action);
       });
       test('should set notification notification', () => {
-        console.log(store.results);
         expect(store.dispatch).toHaveBeenCalledWith({ payload: notification, type: 'common/setNotification' });
       });
     });

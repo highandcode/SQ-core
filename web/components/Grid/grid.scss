@@ -23,6 +23,7 @@
       }
     }
   }
+
   &__header-row,
   &__data {
     &-cell {
@@ -54,6 +55,8 @@
         width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
+        
       }
       &.sort-enable {
         .sq-grid__header-row-cell-wrapper {
