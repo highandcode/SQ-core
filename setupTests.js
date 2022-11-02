@@ -13,10 +13,19 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn(),
   })),
 });
+
 Object.defineProperty(window, 'open', {
   writable: true,
   value: jest.fn().mockImplementation((query) => jest.fn()),
 });
+Object.defineProperty(window, 'URL', {
+  writable: true,
+  value: {
+    createObjectURL: jest.fn().mockImplementation((query) => 'testURl'),
+    revokeObjectURL: jest.fn(),
+  },
+});
+
 delete window.location;
 window.location = {};
 let _url = 'test';

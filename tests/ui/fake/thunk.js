@@ -1,9 +1,9 @@
 const thunkMiddleware =
   ({ dispatch, getState }) =>
   (next) =>
-  (action) => {
+  async (action) => {
     if (typeof action === 'function') {
-      return action(dispatch, getState);
+      return await action(dispatch, getState);
     }
 
     return next(action);
@@ -11,12 +11,16 @@ const thunkMiddleware =
 const create = (prevState = {}) => {
   const next = jest.fn();
   const store = {
+    results: [],
     getState: jest.fn(() => prevState),
-    dispatch: jest.fn((action) => thunkMiddleware(store)(next)(action)),
+    dispatch: jest.fn(async (action) => {
+      let result = thunkMiddleware(store)(next)(action);
+      store.results.push(result);
+      return result;
+    }),
   };
 
   const invoke = (action) => thunkMiddleware(store)(next)(action);
-
   return { store, next, invoke };
 };
 export { thunkMiddleware, create };

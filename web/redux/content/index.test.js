@@ -1,4 +1,4 @@
-import reducer, { executeHook, customHooks, initApplication, postApi, clearAllUserData, resetLastError, resetUserData, updateUserData, updateProtectedUserData, mergeUserData, parseCustomModule, processParams } from './index';
+import reducer, { executeHook, customHooks, initApplication, downloadApi, postApi, clearAllUserData, resetLastError, resetUserData, updateUserData, updateProtectedUserData, mergeUserData, parseCustomModule, processParams } from './index';
 import { fake } from '../../../tests/ui';
 import * as utils from '../../utils';
 const { apiBridge, processor } = utils;
@@ -335,6 +335,35 @@ describe('reducer:content', () => {
       });
     });
 
+    describe('postApi with notification [success]', () => {
+      let store;
+      let notification;
+      beforeEach(async () => {
+        notification = { notification: { message: 'Test notification' } };
+        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {
+            ...prevState,
+          },
+          common: {
+            notification, // need to fake it get it from the store
+          },
+        });
+        apiBridge.post = jest.fn(() => Promise.resolve({ status: 'success', data: { prime: true } }));
+        const action = postApi({
+          method: 'post',
+          url: 'fake/api',
+          defaultResponse: { success: { notification } },
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should set notification notification', () => {
+        console.log(store.results);
+        expect(store.dispatch).toHaveBeenCalledWith({ payload: notification, type: 'common/setNotification' });
+      });
+    });
+
     describe('postApi with simple api call [error] + errors', () => {
       let store;
       beforeEach(async () => {
@@ -383,9 +412,10 @@ describe('reducer:content', () => {
         invoke(action);
       });
       test('should store response in userData', () => {
-        expect(store.dispatch).not.toHaveBeenCalledWith({ payload: { prime: true, lastError: {} }, type: 'content/updateUserData' });
+        expect(store.dispatch).not.toHaveBeenCalled();
       });
     });
+
     describe('postApi with preCall and postCall', () => {
       let store;
       let postHook;
@@ -441,6 +471,7 @@ describe('reducer:content', () => {
         });
       });
     });
+
     describe('postApi with hooks', () => {
       let store;
       let postHook;
@@ -459,6 +490,143 @@ describe('reducer:content', () => {
           hook2: postHook,
         });
         const action = postApi({
+          preHook: 'test.hook',
+          postHook: 'test.hook2',
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should call preHook', () => {
+        expect(preHook).toHaveBeenCalled();
+      });
+      test('should call postHook', () => {
+        expect(postHook).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('Action: downloadApi()', () => {
+    describe('downloadApi with simple api call [success]', () => {
+      let store;
+      beforeEach(async () => {
+        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {
+            ...prevState,
+          },
+        });
+        apiBridge.post = jest.fn(() => Promise.resolve({ blob: () => 'success' }));
+        const action = downloadApi({
+          method: 'post',
+          url: 'fake/api',
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should store response in userData', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({ payload: { lastError: {} }, type: 'content/updateUserData' });
+      });
+    });
+
+    describe('downloadApi with match [failed]', () => {
+      let store;
+      beforeEach(async () => {
+        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, done: 'ok', test: { nodata: 2 } } };
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {
+            ...prevState,
+          },
+        });
+        apiBridge.post = jest.fn(() => Promise.resolve({ blob: () => 'success' }));
+        const action = downloadApi({
+          match: {
+            test: {
+              validator: {
+                type: 'equals',
+                matchValue: 'none',
+              },
+            },
+          },
+          method: 'post',
+          url: 'fake/api',
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should store response in userData', () => {
+        expect(store.dispatch).not.toHaveBeenCalled();
+      });
+    });
+    describe('downloadApi with preCall and postCall', () => {
+      let store;
+      let postHook;
+      beforeEach(async () => {
+        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, f1: 'ok', f2: 'ok2', done: 'ok', test: { nodata: 2 } } };
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {
+            ...prevState,
+          },
+        });
+        apiBridge.post = jest.fn(() => Promise.resolve({ blob: () => 'success' }));
+        const action = downloadApi({
+          match: {
+            done: {
+              validator: {
+                type: 'equals',
+                matchValue: 'ok',
+              },
+            },
+          },
+          preCall: {
+            test: '.done',
+            test2: '.test.nodata',
+          },
+          postCall: {
+            p2: '.f1',
+            p3: '.f2',
+          },
+          method: 'post',
+          url: 'fake/api',
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should call updateUserData on preCall', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({ payload: { query: {}, f1: 'ok', f2: 'ok2', done: 'ok', test: 'ok', test2: 2 }, type: 'content/updateUserData' });
+      });
+      test('should updateUserData on postCall', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({
+          payload: {
+            query: {},
+            f1: 'ok',
+            f2: 'ok2',
+            done: 'ok',
+            test: { nodata: 2 },
+            p2: 'ok',
+            p3: 'ok2',
+          },
+          type: 'content/updateUserData',
+        });
+      });
+    });
+    describe('downloadApi with hooks', () => {
+      let store;
+      let postHook;
+      let preHook;
+      beforeEach(async () => {
+        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {} } };
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {
+            ...prevState,
+          },
+        });
+        postHook = jest.fn();
+        preHook = jest.fn();
+        customHooks.add('test', {
+          hook: preHook,
+          hook2: postHook,
+        });
+        const action = downloadApi({
           preHook: 'test.hook',
           postHook: 'test.hook2',
         });
@@ -568,6 +736,7 @@ describe('reducer:content', () => {
       });
     });
   });
+
   describe('Action: executeHook()', () => {
     describe('with default config [success]', () => {
       let store;
