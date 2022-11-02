@@ -11,11 +11,27 @@ import Progress from '../Progress';
 import Icon from '../Icon';
 import './dialog.scss';
 
-const Transition = React.forwardRef((props, ref) => {
+const TransitionUp = React.forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+const TransitionLeft = React.forwardRef((props, ref) => {
+  return <Slide direction="left" ref={ref} {...props} />;
+});
+const TransitionRight = React.forwardRef((props, ref) => {
+  return <Slide direction="right" ref={ref} {...props} />;
+});
+const TransitionBottom = React.forwardRef((props, ref) => {
+  return <Slide direction="bottom" ref={ref} {...props} />;
+});
 
-const SQDialog = ({ closeButton = true, classes: overrideClasses = {}, fullScreen = false, open = false, isLoading = false, title, content, children, onClose, actions = [], onAction }) => {
+const transitionOptions = {
+  left: TransitionLeft,
+  up: TransitionUp,
+  right: TransitionRight,
+  bottom: TransitionBottom,
+};
+
+const SQDialog = ({ closeButton = true, transitionDir = 'up', classes: overrideClasses = {}, fullScreen = false, open = false, isLoading = false, title, content, children, onClose, actions = [], onAction }) => {
   const handleClose = () => {
     onClose &&
       onClose(
@@ -30,7 +46,7 @@ const SQDialog = ({ closeButton = true, classes: overrideClasses = {}, fullScree
   };
   return (
     <div className={`sq-dialog ${overrideClasses.root || ''}`}>
-      <Dialog TransitionComponent={Transition} classes={overrideClasses.dialog} open={open} fullScreen={fullScreen} onClose={handleClose} aria-labelledby={title} aria-describedby={title}>
+      <Dialog TransitionComponent={transitionOptions[transitionDir]} classes={overrideClasses.dialog} open={open} fullScreen={fullScreen} onClose={handleClose} aria-labelledby={title} aria-describedby={title}>
         {closeButton && (
           <IconButton
             edge="start"
