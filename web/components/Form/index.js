@@ -27,7 +27,7 @@ class Form extends React.Component {
   }
 
   form_onKeyPress(evt) {
-    if (evt.key === 'Enter') {
+    if (this.props.submitOnEnter !== false && evt.key === 'Enter') {
       evt.stopPropagation();
       const { defaultAction = this.props.actions && this.props.actions[0] } = this.props;
       setTimeout(() => defaultAction && this.handleAction(evt, defaultAction));
