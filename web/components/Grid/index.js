@@ -86,7 +86,7 @@ class Grid extends React.Component {
   render() {
     const { columns = [], editColumnPane = {}, showColSelection = false, data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default' } = this.props;
     const actionsClassName = typeof onRowClick === 'function' ? 'sq-grid--has-action' : '';
-    const finalColumns = columns.filter((col) => (col.customize == false || !this.state.selectedColumns || !this.state.selectedColumns ? true : this.state.selectedColumns.indexOf(col.name) > -1));
+    const finalColumns = columns.filter((col) => (col.customize == false || !this.props.selectedColumns || !this.props.selectedColumns ? true : this.props.selectedColumns.indexOf(col.name) > -1));
     return (
       <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle}`}>
         <Dialog
@@ -112,7 +112,7 @@ class Grid extends React.Component {
           onClose={(data, action) => this.handleApplySelection(action)}
           onAction={(data, action) => this.handleApplySelection(action)}
         >
-          <ColFilters columns={columns} value={this.prop.selectedColumns || columns.map((i) => i.name)} onChange={this.handleColSelChange} />
+          <ColFilters columns={columns} value={this.props.selectedColumns || columns.map((i) => i.name)} onChange={this.handleColSelChange} />
         </Dialog>
         {this.hasData() && showHeader && (
           <div className="sq-grid__header" ref={this.headerRef}>
