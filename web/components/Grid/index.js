@@ -112,7 +112,7 @@ class Grid extends React.Component {
           onClose={(data, action) => this.handleApplySelection(action)}
           onAction={(data, action) => this.handleApplySelection(action)}
         >
-          <ColFilters columns={columns} value={this.props.selectedColumns || columns.map((i) => i.name)} onChange={this.handleColSelChange} />
+          <ColFilters columns={columns} value={this.state.tempColSelection || columns.map((i) => i.name)} onChange={this.handleColSelChange} />
         </Dialog>
         {this.hasData() && showHeader && (
           <div className="sq-grid__header" ref={this.headerRef}>
