@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Pagination from '@mui/material/Pagination';
+import './_pagination.scss';
 
 function SQPagination({
   className = '',
