@@ -77,3 +77,10 @@ $sides: (
 .flb-d-column {
   flex-direction: column;
 }
+
+.d-fl {
+  display: flex;
+}
+.j-content-fl-end {
+  justify-content: flex-end;
+}

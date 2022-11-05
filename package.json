@@ -116,6 +116,7 @@
     "jest-junit": "^14.0.0",
     "jest-resolve": "^27.4.2",
     "jest-watch-typeahead": "^1.0.0",
+    "material-ui-popup-state": "^4.1.0",
     "mini-css-extract-plugin": "^2.4.5",
     "mocha": "^6.2.3",
     "mocha-junit-reporter": "^2.0.2",

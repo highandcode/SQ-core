@@ -8,13 +8,14 @@ import './_text-fields.scss';
 const TextFields = ({ className = '', fields = [], row }) => {
   return (
     <div className={`sq-text-fields ${className}`}>
-      {fields.map(({ defaultValue = '', formatter = {}, beforeRender, ...field }, index) => {
+      {fields.map(({ defaultValue = '', formatter = {}, beforeRender, render, ...field }, index) => {
         const { type, ...restFormatter } = formatter;
         const textValue = getValue(this, defaultValue, row);
+        const valueRender = render && render(row, field);
         const isRender = beforeRender ? beforeRender(field, row) : true;
         const newValue =
           (type && formatters[type] && formatters[type](row[field.name], { defaultValue: textValue, field, row, ...restFormatter }, row)) ||
-          row[field.name] ||
+          row[field.name] || valueRender ||
           textValue;
         const classValue = getValue(this, field.className, row);
         return !common.isNullOrUndefined(newValue) && isRender !== false ? (

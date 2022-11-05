@@ -1,5 +1,5 @@
 .sq-tag-label {
-  border-radius: 5px;
+  padding: 8px;
   &__container {
     padding: 4px 6px;
     display: flex;
@@ -38,21 +38,30 @@
     @include b6-style();
   }
   &--filled {
-    color: white;
+    
     &.primary {
-      background-color: $sq-color-primary;
+      color: $sq-color-primary;
+      background-color: $sq-color-primary-lightest;
     }
     &.secondary {
-      background-color: $sq-color-secondary;
+      color: $sq-color-secondary;
+      background-color: $sq-color-secondary-lightest;
     }
     &.success {
-      background-color: $sq-color-success;
+      color: $sq-color-success-dark;
+      background-color: $sq-color-success-lightest;
     }
     &.info {
-      background-color: $sq-color-info;
+      color: $sq-color-info;
+      background-color: $sq-color-info-lightest;
     }
     &.warning {
-      background-color: $sq-color-warning;
+      color: $sq-color-warning;
+      background-color: $sq-color-warning-lightest;
+    }
+    &.error {
+      color: $sq-color-error-dark;
+      background-color: $sq-color-error-lightest;
     }
   }
   &--outlined {

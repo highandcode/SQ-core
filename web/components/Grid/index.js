@@ -93,6 +93,7 @@ class Grid extends React.Component {
       <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle}`}>
         <Dialog
           open={showColSelection}
+          transitionDir="left"
           actions={[
             {
               buttonText: 'Apply',
