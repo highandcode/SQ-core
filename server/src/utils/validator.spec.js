@@ -144,7 +144,6 @@ describe('Validator', () => {
     });
     it('type:"number" should have "Enter a valid phone number"', function () {
       validator.validate('number');
-      console.log(validator.errors);
       expect(validator.errors.number.errorMessage).to.equal('This field is required');
     });
     it('type:"numberOptional" should have no message', function () {

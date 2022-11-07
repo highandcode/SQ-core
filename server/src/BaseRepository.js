@@ -78,7 +78,6 @@ class BaseRepository {
       this._db.collections[this._collection]
         .update({ _id: uid }, { updatedOn: datetime.new().date(), ...rest })
         .then((doc) => {
-          console.log(doc);
           resolve(new this._entityType(doc));
         })
         .catch(() => {
