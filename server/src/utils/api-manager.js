@@ -6,17 +6,25 @@ class ApiManager {
     this.config = {
       headers: {
         'Content-Type': 'application/json',
-        ...headers
-      }
+        ...headers,
+      },
     };
     this.options = options;
     this.url =
       options.url ||
       new UrlGenerator({
         server: {
-          host: domain
-        }
+          host: domain,
+        },
       });
+  }
+
+  addHeader(name, value) {
+    this.config.headers[name] = value;
+  }
+
+  removeHeader(name) {
+    delete this.config.headers[name];
   }
 
   handleResponse(res) {
@@ -24,7 +32,7 @@ class ApiManager {
       ax_response: res,
       success: true,
       data: res.data,
-      code: res.status
+      code: res.status,
     };
   }
 
@@ -34,7 +42,7 @@ class ApiManager {
       ax_error: res,
       error: true,
       data: res.response?.data,
-      code: res.response?.status
+      code: res.response?.status,
     };
   }
 
@@ -45,7 +53,7 @@ class ApiManager {
         method: method,
         url: finalUrl,
         headers: { ...this.config.headers, ...options.headers },
-        data: body
+        data: body,
       })
         .then((response) => {
           resolve(this.handleResponse(response));
