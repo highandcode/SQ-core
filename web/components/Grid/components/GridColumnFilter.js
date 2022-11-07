@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { CheckboxField } from '../../ui/Checkbox';
+import Icon from '../../Icon';
 
 const GridColumnFilter = ({ columns = [], value = [], onChange }) => {
   const hasAllSelection = columns.map((i) => value.customize !== false && value.indexOf(i.name) > -1).filter((a) => a === false).length === 0;
@@ -44,7 +45,7 @@ const GridColumnFilter = ({ columns = [], value = [], onChange }) => {
         {columns.map((col) => {
           return col.customize !== false ? (
             <div className="sq-grid__col-filters__item" key={`col-${col.name}`}>
-              <CheckboxField onChange={(value) => handleChange(value, col)} checked={value.indexOf(col.name) > -1} text={col.headerText} />
+             <Icon name="DragHandle" /> <CheckboxField className='sq-grid__col-filters__checkbox' onChange={(value) => handleChange(value, col)} checked={value.indexOf(col.name) > -1} text={col.headerText} />
             </div>
           ) : (
             <></>

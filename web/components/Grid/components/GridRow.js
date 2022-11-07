@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import GridCell from './GridCell';
+import {object} from '../../../utils';
 
 const Row = ({
   columns = [],
@@ -42,6 +43,7 @@ const Row = ({
     onFieldAction && onFieldAction(column, action, data);
   };
   const childRow = onChildRowRender && onChildRowRender(columns, data);
+
   return (
     <>
       <div className={`sq-grid__row-wrapper  ${wrapperClassName}`} role="row">
@@ -51,7 +53,7 @@ const Row = ({
             if (typeof column.beforeRender === 'function') {
               isRender = column.beforeRender(column, data[column.name], data);
             }
-
+            const value = object.getDataFromKey(data, column.name, undefined);
             return (
               isRender && (
                 <GridCell
@@ -71,7 +73,7 @@ const Row = ({
                   }}
                   onAnalytics={onAnalytics}
                   onBlur={_onBlur}
-                  value={data[column.name]}
+                  value={value}
                 />
               )
             );

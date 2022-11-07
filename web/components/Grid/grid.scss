@@ -135,6 +135,20 @@
     flex-basis: 250px;
     justify-content: flex-start;
   }
+  &__col-filters {
+    &__item {
+      display: flex;
+      align-items: center;
+      border: solid 1px $sq-color-gray-lightest;
+      padding: 4px;
+      margin: 2px 0;
+    }
+    &__checkbox {
+      .MuiFormControlLabel-root {
+        margin: 0;
+      }
+    }
+  }
 
   &--fixed {
     height: 100%;

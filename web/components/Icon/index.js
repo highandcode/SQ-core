@@ -9,6 +9,7 @@ import PlayCircleFilled from '@mui/icons-material/PlayCircleFilled';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import VideogameAsset from '@mui/icons-material/VideogameAsset';
 import MonetizationOn from '@mui/icons-material/MonetizationOn';
+import DragHandle from '@mui/icons-material/DragHandle';
 import Money from '@mui/icons-material/AttachMoney';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Person from '@mui/icons-material/Person';
@@ -192,6 +193,7 @@ const types = {
     'add-circle': AddCircle,
     Restore,
     LockOpen,
+    DragHandle,
     Key,
     NotInterested,
     RestartAlt,
