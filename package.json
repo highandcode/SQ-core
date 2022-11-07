@@ -1,6 +1,6 @@
 {
   "name": "sq-core",
-  "version": "2.4.14",
+  "version": "2.4.15",
   "scripts": {
     "client:test": "node scripts/test.js --no-watch",
     "client:test:watch": "node scripts/test.js",
