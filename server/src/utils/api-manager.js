@@ -73,6 +73,9 @@ class ApiManager {
   put(url, body, options) {
     return this.request(url, body, { ...options, method: 'put' });
   }
+  patch(url, body, options) {
+    return this.request(url, body, { ...options, method: 'patch' });
+  }
   delete(url, body, options) {
     return this.request(url, body, { ...options, method: 'delete' });
   }
