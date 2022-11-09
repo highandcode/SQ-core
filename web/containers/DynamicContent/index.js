@@ -13,6 +13,7 @@ import TocIndex from '../TocIndex';
 import ComponentDemo from '../ComponentDemo';
 import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
+import { events } from '../../utils/app-events';
 import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
 
 import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
@@ -50,6 +51,7 @@ class DynamicContent extends Component {
     this.handlePageScroll = this.handlePageScroll.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onAction = this.onAction.bind(this);
+    this.onRefresh = this.onRefresh.bind(this);
   }
 
   handlePageScroll(e) {
@@ -84,6 +86,28 @@ class DynamicContent extends Component {
     );
     window.addEventListener('scroll', this.handlePageScroll);
     window.addEventListener('resize', this.handlePageScroll);
+    events.subscribe('refreshPage', this.onRefresh);
+  }
+
+  async componentWillUnmount() {
+    events.unsubscribe('refreshPage', this.onRefresh);
+  }
+
+  async onRefresh() {
+    const { refresh } = this.props.pageData || {};
+    let isValid = true;
+    if (refresh) {
+      if (refresh.match) {
+        const validations = new Validator({
+          ...refresh.match,
+        });
+        validations.setValues({ ...this.getUpdatedUserData() });
+        isValid = validations.validateAll();
+      }
+    }
+    if (isValid) {
+      this.refreshPage(refresh?.forceLoad);
+    }
   }
 
   async processHook(hook) {
@@ -104,7 +128,15 @@ class DynamicContent extends Component {
     return this.props.contentActions.postApi(data);
   }
 
-  async fetchPage(firstTime) {
+  async refreshPage(forceLoad) {
+    if (forceLoad) {
+      this.fetchPage();
+    } else {
+      this.fetchPage(undefined, this.state.pageData);
+    }
+  }
+
+  async fetchPage(firstTime, dataForPage) {
     const { onAnalytics, transitionSpeed = 300 } = this.props;
     if (!firstTime) {
       this.setState({
@@ -117,8 +149,14 @@ class DynamicContent extends Component {
         isLoading: true,
       });
     }, 300);
-    const resp = await this.props.contentActions.fetchContentPage(this.state.url).unwrap();
-    const pageResponse = resp.data;
+    let resp;
+    let pageResponse;
+    if (!dataForPage) {
+      resp = await this.props.contentActions.fetchContentPage(this.state.url).unwrap();
+      pageResponse = resp.data;
+    } else {
+      pageResponse = dataForPage;
+    }
     if (pageResponse.pageData.reset) {
       await this.props.contentActions.resetUserData(pageResponse.pageData.reset);
     }

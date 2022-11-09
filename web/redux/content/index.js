@@ -188,6 +188,7 @@ export const executeHook = (payload) => async (dispatch, getState) => {
       },
       userData: getState().content.userData,
       dispatch,
+      getState,
     });
   }
   if (payload.postCall) {
@@ -243,6 +244,7 @@ export const postApi = (payload) => async (dispatch, getState) => {
       },
       userData: getState().content.userData,
       dispatch,
+      getState,
     });
   }
   if (payload.method && payload.url) {
@@ -262,6 +264,7 @@ export const postApi = (payload) => async (dispatch, getState) => {
       },
       userData: getState().content.userData,
       dispatch,
+      getState,
     });
   }
 
@@ -324,6 +327,7 @@ export const downloadApi = (payload) => async (dispatch, getState) => {
       },
       userData: getState().content.userData,
       dispatch,
+      getState,
     });
   }
   if (payload.href || payload.url) {
@@ -363,6 +367,7 @@ export const downloadApi = (payload) => async (dispatch, getState) => {
       },
       userData: getState().content.userData,
       dispatch,
+      getState,
     });
   }
 
