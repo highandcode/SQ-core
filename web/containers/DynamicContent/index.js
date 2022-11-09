@@ -13,7 +13,7 @@ import TocIndex from '../TocIndex';
 import ComponentDemo from '../ComponentDemo';
 import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
-import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact } from '../../redux/content';
+import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
 
 import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
 
@@ -367,26 +367,26 @@ class DynamicContent extends Component {
         break;
       case 'user-store':
         await this.props.contentActions.mergeUserData({
-          ...action.params,
+          ...processParams(this.props.store.content.userData, action.params),
         });
         break;
       case 'notify-message':
         await this.props.commonActions.showNotificationMessage({
-          ...action.params,
+          ...processParams(this.props.store.content.userData, action.params),
         });
         break;
       case 'popup':
         await this.props.commonActions.showPopup({
-          ...action.params,
+          ...processParams(this.props.store.content.userData, action.params),
         });
         break;
       case 'popup-screen':
         await this.props.commonActions.showPopupScreen({
-          ...action.params,
+          ...processParams(this.props.store.content.userData, action.params),
         });
         break;
       case 'redirect':
-        redirectTo(action.to, action.params, action.options);
+        redirectTo(action.to, processParams(this.props.store.content.userData, action.params), action.options);
         break;
     }
   }

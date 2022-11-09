@@ -16,6 +16,13 @@
       padding-left: 4px;
     }
   }
+
+  &--vertical {
+    .sq-actions__action {
+      margin-left: 0;
+      margin-bottom: 8px;
+    }
+  }
   
   &--flex {
     display: flex;
