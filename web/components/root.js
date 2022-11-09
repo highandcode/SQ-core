@@ -49,6 +49,7 @@ import FeaturedContent from './ui/FeaturedContent';
 import Footer from './ui/Footer';
 import GlobalNavigation from './ui/GlobalNavigation';
 import Header from './ui/Header';
+import ButtonSelection from './ui/ButtonSelection';
 import HeroContent from './ui/HeroContent';
 import Image from './ui/Image';
 import ImageOnDevice from './ui/ImageOnDevice';
@@ -169,4 +170,5 @@ export {
   HTML,
   FileUploader,
   DropZoneFile,
+  ButtonSelection,
 };

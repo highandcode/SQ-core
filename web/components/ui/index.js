@@ -21,6 +21,7 @@ import TagLabel from './TagLabel';
 import ReCaptcha from './ReCaptcha';
 import Textarea from './Textarea';
 import DatePicker from './DatePicker';
+import ButtonSelection from './ButtonSelection';
 import DateSelector from './DateSelector';
 import SelectPopup from './SelectPopup';
 import Tabs from '../Tabs';
@@ -93,6 +94,7 @@ let comps = {
   FileUploader,
   DropZoneFile,
   BasicRTE,
+  ButtonSelection,
 };
 
 const getMap = () => {
