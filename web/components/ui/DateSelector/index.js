@@ -88,6 +88,14 @@ const DateSelector = ({
           inputFormat={inputFormat}
           disabled={disabled}
           {...extraProps}
+          PopperProps={{
+            className: 'sq-date-selector__dialog',
+          }}
+          DialogProps={{
+            classes: {
+              root: 'sq-date-selector__dialog',
+            }
+          }}
           mask={mask}
           value={isValid ? (valueDate || null) : null}
           renderInput={(props) => (
