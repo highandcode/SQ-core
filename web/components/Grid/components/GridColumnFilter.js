@@ -79,7 +79,7 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
                   <Draggable key={col.name} draggableId={col.name} index={index}>
                     {(provided, snapshot) => (
                       <div className={`sq-grid__col-filters__item ${snapshot.isDragging ? 'dragging' : ''}`} key={`col-${col.name}`} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                        <Icon name="DragHandle" /> <CheckboxField className="sq-grid__col-filters__checkbox" onChange={(value) => handleChange(value, col)} disabled={col.customize === false} checked={col.customize === false || value.indexOf(col.name) > -1} text={col.headerText} />
+                        <Icon name="DragHandle" /> <CheckboxField className="sq-grid__col-filters__checkbox" onChange={(value) => handleChange(value, col)} disabled={col.customize === false} checked={col.customize === false || value.indexOf(col.name) > -1} text={col.headerText || 'No Name'} />
                       </div>
                     )}
                   </Draggable>
