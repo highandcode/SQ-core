@@ -142,6 +142,9 @@
       border: solid 1px $sq-color-gray-lightest;
       padding: 4px;
       margin: 2px 0;
+      &.dragging {
+        background-color: $sq-color-gray-lightest;
+      }
     }
     &__checkbox {
       .MuiFormControlLabel-root {

@@ -36,6 +36,7 @@ class Grid extends React.Component {
     this.handleSort = this.handleSort.bind(this);
     this.onBody_Scroll = this.onBody_Scroll.bind(this);
     this.handleColSelChange = this.handleColSelChange.bind(this);
+    this.onColumReorder = this.onColumReorder.bind(this);
   }
   onBody_Scroll(e) {
     this.headerRef.current.scrollLeft = this.bodyRef.current.scrollLeft;
@@ -61,15 +62,22 @@ class Grid extends React.Component {
     });
   }
 
+  onColumReorder(colOrder) {
+    this.setState({
+      tempColOrder: colOrder,
+    });
+  }
+
   handleApplySelection(action) {
     const { onColFilterChange } = this.props;
     if (action.actionType === 'apply') {
       this.setState({
-        selectedColumns: this.state.tempColSelection,
+        selectedColumns: this.state.tempColSelection || this.props.selectedColumns,
+        colOrder: this.state.tempColOrder,
       });
       onColFilterChange &&
         onColFilterChange({
-          value: this.state.tempColSelection,
+          value: this.state.tempColSelection || this.props.selectedColumns,
         });
     } else {
       this.setState({
@@ -86,9 +94,13 @@ class Grid extends React.Component {
   render() {
     const { columns = [], editColumnPane = {}, showColSelection = false, data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default' } = this.props;
     const actionsClassName = typeof onRowClick === 'function' ? 'sq-grid--has-action' : '';
-    const finalColumns = columns.filter((col) => {
-      return col.customize === false || !this.props.selectedColumns ? true : this.props.selectedColumns.indexOf(col.name) > -1;
-    });
+    const finalColumns = columns
+      .sort((a, b) => {
+        return this.state.colOrder && (this.state.colOrder[a.name] > this.state.colOrder[b.name] ? 1 : this.state.colOrder[a.name] < this.state.colOrder[b.name] ? -1 : 0);
+      })
+      .filter((col) => {
+        return col.customize === false || !this.props.selectedColumns ? true : this.props.selectedColumns.indexOf(col.name) > -1;
+      });
     return (
       <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle}`}>
         <Dialog
@@ -115,7 +127,7 @@ class Grid extends React.Component {
           onClose={(data, action) => this.handleApplySelection(action)}
           onAction={(data, action) => this.handleApplySelection(action)}
         >
-          <ColFilters columns={columns} value={this.state.tempColSelection || this.props.selectedColumns || columns.map((i) => i.name)} onChange={this.handleColSelChange} />
+          <ColFilters colOrder={this.state.colOrder} onColumReorder={this.onColumReorder} columns={columns} value={this.state.tempColSelection || this.props.selectedColumns || columns.map((i) => i.name)} onChange={this.handleColSelChange} />
         </Dialog>
         {this.hasData() && showHeader && (
           <div className="sq-grid__header" ref={this.headerRef}>
