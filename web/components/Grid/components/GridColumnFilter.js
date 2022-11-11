@@ -20,9 +20,10 @@ const GridColumnFilter = ({ columns = [], value = [], onChange }) => {
   };
   const handleChange = (data, col) => {
     if (data.checked) {
+      const allCols = [...value, col.name];
       onChange &&
         onChange({
-          value: [...value, col.name],
+          value: columns.filter((col) => allCols.indexOf(col.name) > -1).map((i) => i.name),
         });
     } else {
       const copyVal = [...value];
@@ -45,7 +46,7 @@ const GridColumnFilter = ({ columns = [], value = [], onChange }) => {
         {columns.map((col) => {
           return col.customize !== false ? (
             <div className="sq-grid__col-filters__item" key={`col-${col.name}`}>
-             <Icon name="DragHandle" /> <CheckboxField className='sq-grid__col-filters__checkbox' onChange={(value) => handleChange(value, col)} checked={value.indexOf(col.name) > -1} text={col.headerText} />
+              <Icon name="DragHandle" /> <CheckboxField className="sq-grid__col-filters__checkbox" onChange={(value) => handleChange(value, col)} checked={value.indexOf(col.name) > -1} text={col.headerText} />
             </div>
           ) : (
             <></>
