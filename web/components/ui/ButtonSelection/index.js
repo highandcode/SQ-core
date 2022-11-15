@@ -31,7 +31,7 @@ const ButtonSelection = ({ className = '', label, options = [], textField = 'tex
               selectedProsp.variant = 'contained';
             }
             return (
-              <Button {...selectedProsp} aria-label={item[textField]} onClick={(e) => handleClick(e, item)}>
+              <Button {...selectedProsp} {...item} aria-label={item[textField]} onClick={(e) => handleClick(e, item)}>
                 {item[textField]}
               </Button>
             );
