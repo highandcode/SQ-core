@@ -5,25 +5,29 @@ import PropTypes from 'prop-types';
 const HTML = ({ className = '', value = '', onAction }) => {
   const container = useRef();
   const handleClick = (e) => {
-    if (e.target && (e.target.getAttribute('data-action-type') || e.target.getAttribute('href')?.indexOf('download-doc') > -1)) {
+    let targetToCheck = e.target;
+    while (targetToCheck.getAttribute('data-html-root') !== 'root' && targetToCheck && !targetToCheck.getAttribute('href')) {
+      targetToCheck = targetToCheck.parentElement;
+    }
+    if (targetToCheck && (targetToCheck.getAttribute('data-action-type') || targetToCheck.getAttribute('href')?.indexOf('download-doc') > -1)) {
       e.stopPropagation();
       e.preventDefault();
-      let actionType = e.target.getAttribute('data-action-type');
-      if(e.target.getAttribute('href')?.indexOf('download-doc') > -1) {
+      let actionType = targetToCheck.getAttribute('data-action-type');
+      if (targetToCheck.getAttribute('href')?.indexOf('download-doc') > -1) {
         actionType = 'download-doc';
       }
       let params = {};
-      for (var i = 0; i < e.target.attributes.length; i++) {
-        params[e.target.attributes[i].name] = e.target.attributes[i].value;
+      for (var i = 0; i < targetToCheck.attributes.length; i++) {
+        params[targetToCheck.attributes[i].name] = targetToCheck.attributes[i].value;
       }
       onAction && onAction({}, { actionType, ...params });
     }
   };
   useEffect(() => {
-    container.current.addEventListener('click', handleClick);
+    container.current.addEventListener('click', handleClick, false);
   }, []);
   return (
-    <div className={`sq-html ${className}`}>
+    <div className={`sq-html ${className}`} data-html-root="root">
       <div className="sq-html__container" ref={container}>
         <div className="sq-html__html">{HtmlParser(value)}</div>
       </div>
