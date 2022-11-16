@@ -21,6 +21,8 @@ class Grid extends React.Component {
       data: [],
       validated: false,
       total: {},
+      scrollLeft: 0,
+      scrollTop: 0,
     };
     this.headerRef = React.createRef();
     this.bodyRef = React.createRef();
@@ -43,6 +45,16 @@ class Grid extends React.Component {
   onBody_Scroll(e) {
     this.headerRef.current.scrollLeft = this.bodyRef.current.scrollLeft;
     this.fixedBodyRef.current.scrollTop = this.bodyRef.current.scrollTop;
+    if (this.bodyRef.current.scrollLeft > 0 && this.state.scrollLeft > 0) {
+      
+    } else {
+      if (!(this.bodyRef.current.scrollLeft === 0 && this.state.scrollLeft === 0)) {
+        this.setState({
+          scrollLeft: this.bodyRef.current.scrollLeft,
+          scrollTop: this.bodyRef.current.scrollTop,
+        });
+      }
+    }
   }
 
   componentDidMount() {
@@ -135,18 +147,20 @@ class Grid extends React.Component {
           <ColFilters colOrder={this.state.colOrder} onColumReorder={this.onColumReorder} columns={otherColumns} value={this.state.tempColSelection || this.props.selectedColumns || otherColumns.map((i) => i.name)} onChange={this.handleColSelChange} />
         </Dialog>
         <div className="sq-grid__root">
-         {this.hasData() && fixedColumns.length > 0 && <div className="sq-grid__left-fixed">
-            {showHeader && (
-              <div className="sq-grid__header" ref={this.fixedHeaderRef}>
-                {this.renderHeader(fixedColumns)}
-              </div>
-            )}
-            <div className="sq-grid__body" ref={this.fixedBodyRef}>
-              <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
-                {this.renderData(fixedColumns, data, rowConfig)}
+          {this.hasData() && fixedColumns.length > 0 && (
+            <div className={`sq-grid__left-fixed ${this.state.scrollLeft > 0 ? 'has-scrolled' : ''}`}>
+              {showHeader && (
+                <div className="sq-grid__header" ref={this.fixedHeaderRef}>
+                  {this.renderHeader(fixedColumns)}
+                </div>
+              )}
+              <div className="sq-grid__body" ref={this.fixedBodyRef}>
+                <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
+                  {this.renderData(fixedColumns, data, rowConfig)}
+                </div>
               </div>
             </div>
-          </div>}
+          )}
           <div className="sq-grid__center">
             {this.hasData() && showHeader && (
               <div className="sq-grid__header" ref={this.headerRef}>

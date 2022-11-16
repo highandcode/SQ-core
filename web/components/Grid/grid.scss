@@ -156,6 +156,7 @@
     height: 100%;
     display: flex;
     flex-direction: row;
+    overflow: hidden;
   }
   &__center {
     height: 100%;
@@ -166,6 +167,10 @@
     overflow: hidden;
   }
   &__left-fixed {
+    z-index: $z-index-level-2ndtopest;
+    &.has-scrolled {
+      box-shadow: 4px -5px 14px -2px rgb(229 229 229 / 50%);
+    }
     height: 100%;
     display: flex;
     flex-shrink: 0;
