@@ -21,8 +21,7 @@ class Grid extends React.Component {
       data: [],
       validated: false,
       total: {},
-      scrollLeft: 0,
-      scrollTop: 0,
+      hasLeftScrolled: false,
     };
     this.headerRef = React.createRef();
     this.bodyRef = React.createRef();
@@ -44,20 +43,16 @@ class Grid extends React.Component {
     this.onColumReorder = this.onColumReorder.bind(this);
   }
   onLeftBody_Scroll(e) {
-    console.log('-->>')
     this.bodyRef.current.scrollTop = this.fixedBodyRef.current.scrollTop;
   }
 
   onBody_Scroll(e) {
     this.headerRef.current.scrollLeft = this.bodyRef.current.scrollLeft;
     this.fixedBodyRef.current.scrollTop = this.bodyRef.current.scrollTop;
-    if (this.bodyRef.current.scrollLeft > 0 && this.state.scrollLeft > 0) {
-      
-    } else {
-      if (!(this.bodyRef.current.scrollLeft === 0 && this.state.scrollLeft === 0)) {
+    if (!(this.bodyRef.current.scrollLeft > 0 && this.state.hasLeftScrolled === true)) {
+      if (!(this.bodyRef.current.scrollLeft === 0 && this.state.hasLeftScrolled === false)) {
         this.setState({
-          scrollLeft: this.bodyRef.current.scrollLeft,
-          scrollTop: this.bodyRef.current.scrollTop,
+          hasLeftScrolled: this.bodyRef.current.scrollLeft > 0,
         });
       }
     }
@@ -123,8 +118,8 @@ class Grid extends React.Component {
       .filter((col) => {
         return col.customize === false || !this.props.selectedColumns ? true : this.props.selectedColumns.indexOf(col.name) > -1;
       });
-    const fixedColumns = columns.filter((i) => i.fixed === true);
-    const otherColumns = columns.filter((i) => !i.fixed);
+    const fixedColumns = finalColumns.filter((i) => i.fixed === true);
+    const otherColumns = finalColumns.filter((i) => !i.fixed);
     return (
       <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle}`}>
         <Dialog
@@ -154,7 +149,7 @@ class Grid extends React.Component {
           <ColFilters colOrder={this.state.colOrder} onColumReorder={this.onColumReorder} columns={otherColumns} value={this.state.tempColSelection || this.props.selectedColumns || otherColumns.map((i) => i.name)} onChange={this.handleColSelChange} />
         </Dialog>
         <div className="sq-grid__root">
-          <div className={`sq-grid__left-fixed ${this.state.scrollLeft > 0 ? 'has-scrolled' : ''}`}>
+          <div className={`sq-grid__left-fixed ${this.state.hasLeftScrolled > 0 ? 'has-scrolled' : ''}`}>
             {this.hasData() && fixedColumns.length > 0 && showHeader && (
               <div className="sq-grid__header" ref={this.fixedHeaderRef}>
                 {this.renderHeader(fixedColumns)}
