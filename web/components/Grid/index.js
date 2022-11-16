@@ -24,6 +24,8 @@ class Grid extends React.Component {
     };
     this.headerRef = React.createRef();
     this.bodyRef = React.createRef();
+    this.fixedHeaderRef = React.createRef();
+    this.fixedBodyRef = React.createRef();
     this.bodyWrapperRef = React.createRef();
     this.addNewRow = this.addNewRow.bind(this);
     this.handleFieldBlur = this.handleFieldBlur.bind(this);
@@ -40,6 +42,7 @@ class Grid extends React.Component {
   }
   onBody_Scroll(e) {
     this.headerRef.current.scrollLeft = this.bodyRef.current.scrollLeft;
+    this.fixedBodyRef.current.scrollTop = this.bodyRef.current.scrollTop;
   }
 
   componentDidMount() {
@@ -101,6 +104,8 @@ class Grid extends React.Component {
       .filter((col) => {
         return col.customize === false || !this.props.selectedColumns ? true : this.props.selectedColumns.indexOf(col.name) > -1;
       });
+    const fixedColumns = columns.filter((i) => i.fixed === true);
+    const otherColumns = columns.filter((i) => !i.fixed);
     return (
       <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle}`}>
         <Dialog
@@ -127,16 +132,32 @@ class Grid extends React.Component {
           onClose={(data, action) => this.handleApplySelection(action)}
           onAction={(data, action) => this.handleApplySelection(action)}
         >
-          <ColFilters colOrder={this.state.colOrder} onColumReorder={this.onColumReorder} columns={columns} value={this.state.tempColSelection || this.props.selectedColumns || columns.map((i) => i.name)} onChange={this.handleColSelChange} />
+          <ColFilters colOrder={this.state.colOrder} onColumReorder={this.onColumReorder} columns={otherColumns} value={this.state.tempColSelection || this.props.selectedColumns || otherColumns.map((i) => i.name)} onChange={this.handleColSelChange} />
         </Dialog>
-        {this.hasData() && showHeader && (
-          <div className="sq-grid__header" ref={this.headerRef}>
-            {this.renderHeader(finalColumns)}
-          </div>
-        )}
-        <div className="sq-grid__body" ref={this.bodyRef}>
-          <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
-            {this.renderData(finalColumns, data, rowConfig)}
+        <div className="sq-grid__root">
+         {this.hasData() && fixedColumns.length > 0 && <div className="sq-grid__left-fixed">
+            {showHeader && (
+              <div className="sq-grid__header" ref={this.fixedHeaderRef}>
+                {this.renderHeader(fixedColumns)}
+              </div>
+            )}
+            <div className="sq-grid__body" ref={this.fixedBodyRef}>
+              <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
+                {this.renderData(fixedColumns, data, rowConfig)}
+              </div>
+            </div>
+          </div>}
+          <div className="sq-grid__center">
+            {this.hasData() && showHeader && (
+              <div className="sq-grid__header" ref={this.headerRef}>
+                {this.renderHeader(otherColumns)}
+              </div>
+            )}
+            <div className="sq-grid__body" ref={this.bodyRef}>
+              <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
+                {this.renderData(otherColumns, data, rowConfig)}
+              </div>
+            </div>
           </div>
         </div>
         {this.hasActions() && <div className="sq-grid__actions">{showAdd && <Button buttonText={translate('Add')} onClick={this.addNewRow} />}</div>}
