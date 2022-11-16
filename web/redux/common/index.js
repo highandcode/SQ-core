@@ -26,39 +26,34 @@ const common = createSlice({
       state.error = {};
     },
     setNotification: (state, action) => {
-      state.notification.show = true;
       state.notification.message = action.payload.message;
       state.notification.type = action.payload.type;
+      state.notification.show = true;
     },
     setNotificationTimeout: (state, action) => {
       state.notification.prevTimeout = action.payload;
     },
     setPopup: (state, action) => {
-      state.popup.show = true;
       state.popup.message = action.payload.message;
       state.popup.title = action.payload.title;
       state.popup.type = action.payload.type;
       state.popup.severity = action.payload.severity;
+      state.popup.show = true;
     },
     closePopup: (state) => {
       state.popup.show = false;
-      state.popup.message = '';
-      state.popup.title = '';
     },
     setPopupScreen: (state, action) => {
-      state.popupScreen.show = true;
       state.popupScreen.name = action.payload.name;
       state.popupScreen.title = action.payload.title;
       state.popupScreen.style = action.payload.style;
+      state.popupScreen.show = true;
     },
     closePopupScreen: (state) => {
       state.popupScreen.show = false;
-      state.popupScreen.name = '';
-      state.popupScreen.title = '';
     },
     setCloseNotification: (state) => {
       state.notification.show = false;
-      state.notification.message = '';
     },
   },
 });

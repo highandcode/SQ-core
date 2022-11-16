@@ -65,6 +65,18 @@ export class ApiBridge {
     return result || window.API_SERVER || '';
   }
 
+  handleCatch(ex) {
+    const response = {
+      status: 'error',
+      error: {
+        message: ex?.toString(),
+        stack: ex.stack?.toString(),
+      },
+    };
+    this.events.emit('onUnRecognizedError', response);
+    return response;
+  }
+
   get(url, params, headers = {}, query = {}, { plain = false } = {}) {
     const promisObj = fetch(this.getPrefix({ url, body: params }) + url + new QueryString({ ...params, ...query }).toString(), {
       method: 'GET',
@@ -77,7 +89,7 @@ export class ApiBridge {
     if (plain) {
       return promisObj;
     }
-    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this));
+    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this)).catch(this.handleCatch.bind(this));
   }
 
   rawPost(url, body, headers = {}, query = {}, { method = 'POST', plain = false } = {}) {
@@ -92,7 +104,7 @@ export class ApiBridge {
     if (plain) {
       return promisObj;
     }
-    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this));
+    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this)).catch(this.handleCatch.bind(this));
   }
 
   post(url, body, headers = {}, query = {}, { plain = false } = {}) {
@@ -108,7 +120,7 @@ export class ApiBridge {
     if (plain) {
       return promisObj;
     }
-    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this));
+    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this)).catch(this.handleCatch.bind(this));
   }
 
   update(url, body, headers = {}, query = {}, { plain = false } = {}) {
@@ -124,7 +136,7 @@ export class ApiBridge {
     if (plain) {
       return promisObj;
     }
-    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this));
+    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this)).catch(this.handleCatch.bind(this));
   }
 
   patch(url, body, headers = {}, query = {}, { plain = false } = {}) {
@@ -140,7 +152,7 @@ export class ApiBridge {
     if (plain) {
       return promisObj;
     }
-    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this));
+    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this)).catch(this.handleCatch.bind(this));
   }
 
   delete(url, body, headers = {}, query, { plain = false } = {}) {
@@ -156,7 +168,7 @@ export class ApiBridge {
     if (plain) {
       return promisObj;
     }
-    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this));
+    return promisObj.then(checkStatus.bind(this)).then(parseJSON).then(processCustomParser.bind(this)).then(messageParser).then(responseReader.bind(this)).catch(this.handleCatch.bind(this));
   }
 }
 
