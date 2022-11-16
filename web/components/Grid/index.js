@@ -39,9 +39,15 @@ class Grid extends React.Component {
     this.handleChildRowRender = this.handleChildRowRender.bind(this);
     this.handleSort = this.handleSort.bind(this);
     this.onBody_Scroll = this.onBody_Scroll.bind(this);
+    this.onLeftBody_Scroll = this.onLeftBody_Scroll.bind(this);
     this.handleColSelChange = this.handleColSelChange.bind(this);
     this.onColumReorder = this.onColumReorder.bind(this);
   }
+  onLeftBody_Scroll(e) {
+    console.log('-->>')
+    this.bodyRef.current.scrollTop = this.fixedBodyRef.current.scrollTop;
+  }
+
   onBody_Scroll(e) {
     this.headerRef.current.scrollLeft = this.bodyRef.current.scrollLeft;
     this.fixedBodyRef.current.scrollTop = this.bodyRef.current.scrollTop;
@@ -59,6 +65,7 @@ class Grid extends React.Component {
 
   componentDidMount() {
     this.bodyRef.current.addEventListener('scroll', this.onBody_Scroll);
+    this.fixedBodyRef.current.addEventListener('scroll', this.onLeftBody_Scroll);
   }
 
   addNewRow(evt) {
@@ -147,20 +154,18 @@ class Grid extends React.Component {
           <ColFilters colOrder={this.state.colOrder} onColumReorder={this.onColumReorder} columns={otherColumns} value={this.state.tempColSelection || this.props.selectedColumns || otherColumns.map((i) => i.name)} onChange={this.handleColSelChange} />
         </Dialog>
         <div className="sq-grid__root">
-          {this.hasData() && fixedColumns.length > 0 && (
-            <div className={`sq-grid__left-fixed ${this.state.scrollLeft > 0 ? 'has-scrolled' : ''}`}>
-              {showHeader && (
-                <div className="sq-grid__header" ref={this.fixedHeaderRef}>
-                  {this.renderHeader(fixedColumns)}
-                </div>
-              )}
-              <div className="sq-grid__body" ref={this.fixedBodyRef}>
-                <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
-                  {this.renderData(fixedColumns, data, rowConfig)}
-                </div>
+          <div className={`sq-grid__left-fixed ${this.state.scrollLeft > 0 ? 'has-scrolled' : ''}`}>
+            {this.hasData() && fixedColumns.length > 0 && showHeader && (
+              <div className="sq-grid__header" ref={this.fixedHeaderRef}>
+                {this.renderHeader(fixedColumns)}
               </div>
+            )}
+            <div className="sq-grid__body" ref={this.fixedBodyRef}>
+              {this.hasData() && fixedColumns.length > 0 && <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
+                {this.renderData(fixedColumns, data, rowConfig)}
+              </div>}
             </div>
-          )}
+          </div>
           <div className="sq-grid__center">
             {this.hasData() && showHeader && (
               <div className="sq-grid__header" ref={this.headerRef}>
