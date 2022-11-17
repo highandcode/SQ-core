@@ -8,13 +8,14 @@ const TagLabel = ({
   className = '',
   value,
   iconName,
+  disabled,
   width = 'auto',
   size = 'medium',
   variant = 'filled',
   color = 'primary',
   row,
 }) => {
-  const finalColor = getValue(this, color, row);
+  const finalColor = !disabled ? getValue(this, color, row) : 'disabled';
   const finalVariant = getValue(this, variant, row);
   return (
     <div

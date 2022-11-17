@@ -19,6 +19,9 @@
     &.success {
       color: $sq-color-success;
     }
+    &.disabled {
+      color: $sq-color-gray;
+    }
     &.info {
       color: $sq-color-info;
     }
@@ -56,6 +59,10 @@
       color: $sq-color-warning;
       background-color: $sq-color-warning-lightest;
     }
+    &.disabled {
+      color: $sq-color-gray;
+      background-color: $sq-color-gray-lightest;
+    }
     &.error {
       color: $sq-color-error-dark;
       background-color: $sq-color-error-lightest;
@@ -66,6 +73,11 @@
       color: $sq-color-primary-darkest;
       background-color: $sq-color-primary-lightest;
       border: solid 1px $sq-color-primary-dark;
+    }
+    &.disabled {
+      color: $sq-color-gray-darkest;
+      background-color: $sq-color-gray-lightest;
+      border: solid 1px $sq-color-gray-dark;
     }
     &.secondary {
       color: $sq-color-secondary-darkest;

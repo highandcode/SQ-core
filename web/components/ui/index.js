@@ -45,6 +45,7 @@ import DataList from '../DataList';
 import IconCalendar from '../IconCalendar';
 import MoreContent from './MoreContent';
 import DropZoneFile from './DropZoneFile';
+import TagDropdown from './TagDropdown';
 
 let comps = {
   Alert,
@@ -95,6 +96,7 @@ let comps = {
   DropZoneFile,
   BasicRTE,
   ButtonSelection,
+  TagDropdown,
 };
 
 const getMap = () => {
