@@ -116,7 +116,7 @@ export const updateErrorData = (data) => (dispatch) => {
   Object.keys(data).forEach((errorKey) => {
     if (data[errorKey]?.errors) {
       errors[`${errorKey}_errors`] = data[errorKey]?.errors;
-    } else if (data[errorKey].error) {
+    } else if (data[errorKey]?.error) {
       errors.lastError[errorKey] = data[errorKey];
     }
   });
