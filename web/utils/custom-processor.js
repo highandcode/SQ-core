@@ -1,6 +1,11 @@
 class CustomProcessor {
   constructor() {
     this.processor = {
+      common: {
+        addClassName: (value, { oldValue = '' } = {}) => {
+          return oldValue + ' ' + value;
+        },
+      },
       globals: {
         options: (value) => {
           return this.globalOptions[value]?.toArray();
@@ -23,7 +28,7 @@ class CustomProcessor {
           }
           return value;
         },
-      }
+      },
     };
     this.globalOptions = {};
   }

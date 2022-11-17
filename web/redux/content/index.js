@@ -45,7 +45,7 @@ export const processEachParam = (userData, key, defaultValue, state) => {
   let value;
   if (key && key.toString().substr(0, 2) === '::') {
     const moduleName = key.toString().split('::');
-    const passedKey = key.substr(key.toString().lastIndexOf('::') + 2, key.length - 4);
+    const passedKey = key.substr(key.toString().lastIndexOf('::') + 2, key.length - 4).trim();
     let parsedModule = parseCustomModule(moduleName[1]);
     if (passedKey.substr(0, 1) === '.') {
       value = object.getDataFromKey(userData, passedKey.substr(1), defaultValue);
@@ -284,12 +284,20 @@ export const postApi = (payload) => async (dispatch, getState) => {
   }
   if (response.status === 'success') {
     const data = payload.dataKey ? { [payload.dataKey]: response.data } : response.data;
-    await dispatch(
-      updateUserData({
-        ...data,
-        lastError: {},
-      })
-    );
+    if (payload.saveType === 'protected') {
+      await dispatch(
+        updateProtectedUserData({
+          ...data,
+        })
+      );
+    } else {
+      await dispatch(
+        updateUserData({
+          ...data,
+          lastError: {},
+        })
+      );
+    }
   } else if (response.status === 'error') {
     await dispatch(updateErrorData(response.error));
   }

@@ -457,20 +457,25 @@ class DynamicContent extends Component {
   render() {
     const { containerTemplate: overrideContainerTemplate, ...allProps } = this.props;
     const { dataPacket, store } = allProps;
-    const { pageData = {}, metaData } = this.state.pageData;
-    const { container, containerTemplate, contentBodyClass = '', rootClassName = '', transition = {} } = pageData;
-    const ContentContainer = containers[overrideContainerTemplate || containerTemplate] || containers.Default;
-    const ContentTemplContainer = containers[container] || DefaultContent;
-    const { out: tranOut = 'out-up', in: tranIn = 'out-in', loading = 'loading' } = transition;
-    const classState = this.state.isOut ? `transition transition-page--${tranOut}` : this.state.isIn ? `transition transition-page--${tranIn}` : '';
-    const loadingState = this.state.isLoading ? `transition transition-page--${loading}` : '';
     const userData = {
       ...this.props.store.content.userData,
       ...dataPacket,
       contentPage: true,
     };
+    const { pageData = {}, metaData } = this.state.pageData;
+    const dynamicParams = processParams(userData, pageData.inject || {});
+    console.log(dynamicParams)
+    const { classes = {}, ...restDynamic } = dynamicParams;
+    const updatedPageData = {...pageData, ...restDynamic};
+    const { container, containerTemplate, contentBodyClass = '', rootClassName = '', transition = {} } = updatedPageData;
+    const ContentTemplateContainer = containers[overrideContainerTemplate || containerTemplate] || containers.Default;
+    const ContentContainer = containers[container] || DefaultContent;
+    const { out: tranOut = 'out-up', in: tranIn = 'out-in', loading = 'loading' } = transition;
+    const classState = this.state.isOut ? `transition transition-page--${tranOut}` : this.state.isIn ? `transition transition-page--${tranIn}` : '';
+    const loadingState = this.state.isLoading ? `transition transition-page--${loading}` : '';
+
     return (
-      <div className={`dynamic-content row ${rootClassName} ${loadingState}`}>
+      <div className={`dynamic-content row ${rootClassName} ${loadingState} ${classes.root || ''}`}>
         <Snackbar
           open={store.common.notification.show}
           message={store.common.notification.message}
@@ -483,12 +488,12 @@ class DynamicContent extends Component {
           }}
           severity={store.common.notification.type}
         />
-        <ContentContainer {...allProps} pageData={pageData} metaData={metaData} data={this.state.pageData} pageState={this.state.page} userData={userData}>
-          <div className={`${contentBodyClass} dynamic-content__body ${classState}`}>
-            <ContentTemplContainer {...allProps} pageData={pageData} metaData={metaData} data={this.state.pageData} userData={userData} pageState={this.state.page} onChange={this.onChange} onAction={this.onAction} />
+        <ContentTemplateContainer {...allProps} pageData={updatedPageData} metaData={metaData} data={this.state.pageData} pageState={this.state.page} userData={userData}>
+          <div className={`${contentBodyClass} dynamic-content__body ${classState} ${classes.body || ''}`}>
+            <ContentContainer {...allProps} pageData={updatedPageData} metaData={metaData} data={this.state.pageData} userData={userData} pageState={this.state.page} onChange={this.onChange} onAction={this.onAction} />
           </div>
-        </ContentContainer>
-        {this.state.isLoading && <Progress style={'fixed'} overlayStyle="full" />}
+        </ContentTemplateContainer>
+        {this.state.isLoading && <Progress className={`${classes.progress || ''}`} style={'fixed'} overlayStyle="full" />}
       </div>
     );
   }

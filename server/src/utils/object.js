@@ -53,7 +53,7 @@ var object = {
     if (block.inject) {
       Object.keys(block.inject).forEach((key) => {
         const keyDynoData = object.getDataFromKey(userData, key);
-        if (typeof block.inject[key] === 'object' && block.inject[key].match) {
+        if (typeof block.inject[key] === 'object' && block.inject[key] !== null && block.inject[key].match) {
           const _valid = new Validator({
             ...block.inject[key].match,
           });
