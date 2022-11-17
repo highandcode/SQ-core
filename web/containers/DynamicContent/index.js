@@ -464,7 +464,6 @@ class DynamicContent extends Component {
     };
     const { pageData = {}, metaData } = this.state.pageData;
     const dynamicParams = processParams(userData, pageData.inject || {});
-    console.log(dynamicParams)
     const { classes = {}, ...restDynamic } = dynamicParams;
     const updatedPageData = {...pageData, ...restDynamic};
     const { container, containerTemplate, contentBodyClass = '', rootClassName = '', transition = {} } = updatedPageData;
