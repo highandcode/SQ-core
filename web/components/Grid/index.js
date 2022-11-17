@@ -118,6 +118,7 @@ class Grid extends React.Component {
       .filter((col) => {
         return col.customize === false || !this.props.selectedColumns ? true : this.props.selectedColumns.indexOf(col.name) > -1;
       });
+    const nonFixedColumns = columns.filter((i) => !i.fixed);
     const fixedColumns = finalColumns.filter((i) => i.fixed === true);
     const otherColumns = finalColumns.filter((i) => !i.fixed);
     return (
@@ -146,7 +147,7 @@ class Grid extends React.Component {
           onClose={(data, action) => this.handleApplySelection(action)}
           onAction={(data, action) => this.handleApplySelection(action)}
         >
-          <ColFilters colOrder={this.state.colOrder} onColumReorder={this.onColumReorder} columns={otherColumns} value={this.state.tempColSelection || this.props.selectedColumns || otherColumns.map((i) => i.name)} onChange={this.handleColSelChange} />
+          <ColFilters colOrder={this.state.colOrder} onColumReorder={this.onColumReorder} columns={nonFixedColumns} value={this.state.tempColSelection || this.props.selectedColumns || nonFixedColumns.map((i) => i.name)} onChange={this.handleColSelChange} />
         </Dialog>
         <div className="sq-grid__root">
           <div className={`sq-grid__left-fixed ${this.state.hasLeftScrolled > 0 ? 'has-scrolled' : ''}`}>
