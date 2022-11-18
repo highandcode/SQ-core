@@ -194,6 +194,25 @@
       }
     }
   }
+  &__right-fixed {
+    z-index: $z-index-level-2ndtopest;
+    box-shadow: -4px -5px 14px -2px rgb(229 229 229 / 50%);
+    &.has-scrolled-end {
+      box-shadow: none;
+    }
+
+    height: 100%;
+    display: flex;
+    flex-shrink: 0;
+    flex-grow: 0;
+    flex-direction: column;
+    .sq-grid__body {
+      &::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+      }
+    }
+  }
   &--fixed {
     height: 100%;
     display: flex;

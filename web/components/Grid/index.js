@@ -22,11 +22,14 @@ class Grid extends React.Component {
       validated: false,
       total: {},
       hasLeftScrolled: false,
+      hasScrolledEnd: false,
     };
     this.headerRef = React.createRef();
     this.bodyRef = React.createRef();
     this.fixedHeaderRef = React.createRef();
-    this.fixedBodyRef = React.createRef();
+    this.fixedRHeaderRef = React.createRef();
+    this.fixedLBodyRef = React.createRef();
+    this.fixedRBodyRef = React.createRef();
     this.bodyWrapperRef = React.createRef();
     this.addNewRow = this.addNewRow.bind(this);
     this.handleFieldBlur = this.handleFieldBlur.bind(this);
@@ -39,16 +42,22 @@ class Grid extends React.Component {
     this.handleSort = this.handleSort.bind(this);
     this.onBody_Scroll = this.onBody_Scroll.bind(this);
     this.onLeftBody_Scroll = this.onLeftBody_Scroll.bind(this);
+    this.onRightBody_Scroll = this.onRightBody_Scroll.bind(this);
     this.handleColSelChange = this.handleColSelChange.bind(this);
     this.onColumReorder = this.onColumReorder.bind(this);
   }
   onLeftBody_Scroll(e) {
-    this.bodyRef.current.scrollTop = this.fixedBodyRef.current.scrollTop;
+    this.bodyRef.current.scrollTop = this.fixedLBodyRef.current.scrollTop;
+    this.fixedRBodyRef.current.scrollTop = this.fixedLBodyRef.current.scrollTop;
+  }
+  onRightBody_Scroll(e) {
+    this.bodyRef.current.scrollTop = this.fixedRBodyRef.current.scrollTop;
+    this.fixedLBodyRef.current.scrollTop = this.fixedRBodyRef.current.scrollTop;
   }
 
   onBody_Scroll(e) {
     this.headerRef.current.scrollLeft = this.bodyRef.current.scrollLeft;
-    this.fixedBodyRef.current.scrollTop = this.bodyRef.current.scrollTop;
+    this.fixedLBodyRef.current.scrollTop = this.bodyRef.current.scrollTop;
     if (!(this.bodyRef.current.scrollLeft > 0 && this.state.hasLeftScrolled === true)) {
       if (!(this.bodyRef.current.scrollLeft === 0 && this.state.hasLeftScrolled === false)) {
         this.setState({
@@ -60,7 +69,8 @@ class Grid extends React.Component {
 
   componentDidMount() {
     this.bodyRef.current.addEventListener('scroll', this.onBody_Scroll);
-    this.fixedBodyRef.current.addEventListener('scroll', this.onLeftBody_Scroll);
+    this.fixedLBodyRef.current.addEventListener('scroll', this.onLeftBody_Scroll);
+    this.fixedRBodyRef.current.addEventListener('scroll', this.onRightBody_Scroll);
   }
 
   addNewRow(evt) {
@@ -119,7 +129,8 @@ class Grid extends React.Component {
         return col.customize === false || !this.props.selectedColumns ? true : this.props.selectedColumns.indexOf(col.name) > -1;
       });
     const nonFixedColumns = columns.filter((i) => !i.fixed);
-    const fixedColumns = finalColumns.filter((i) => i.fixed === true);
+    const fixedLeftColumns = finalColumns.filter((i) => i.fixed === true && (!i.direction || i.direction === 'left'));
+    const fixedRightColumns = finalColumns.filter((i) => i.fixed === true && i.direction === 'right');
     const otherColumns = finalColumns.filter((i) => !i.fixed);
     return (
       <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle}`}>
@@ -151,15 +162,17 @@ class Grid extends React.Component {
         </Dialog>
         <div className="sq-grid__root">
           <div className={`sq-grid__left-fixed ${this.state.hasLeftScrolled > 0 ? 'has-scrolled' : ''}`}>
-            {this.hasData() && fixedColumns.length > 0 && showHeader && (
+            {this.hasData() && fixedLeftColumns.length > 0 && showHeader && (
               <div className="sq-grid__header" ref={this.fixedHeaderRef}>
-                {this.renderHeader(fixedColumns)}
+                {this.renderHeader(fixedLeftColumns)}
               </div>
             )}
-            <div className="sq-grid__body" ref={this.fixedBodyRef}>
-              {this.hasData() && fixedColumns.length > 0 && <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
-                {this.renderData(fixedColumns, data, rowConfig)}
-              </div>}
+            <div className="sq-grid__body" ref={this.fixedLBodyRef}>
+              {this.hasData() && fixedLeftColumns.length > 0 && (
+                <div className="sq-grid-body__wrapper">
+                  {this.renderData(fixedLeftColumns, data, rowConfig)}
+                </div>
+              )}
             </div>
           </div>
           <div className="sq-grid__center">
@@ -172,6 +185,20 @@ class Grid extends React.Component {
               <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
                 {this.renderData(otherColumns, data, rowConfig)}
               </div>
+            </div>
+          </div>
+          <div className={`sq-grid__right-fixed ${this.state.hasScrolledEnd > 0 ? 'has-scrolled-end' : ''}`}>
+            {this.hasData() && fixedRightColumns.length > 0 && showHeader && (
+              <div className="sq-grid__header" ref={this.fixedRHeaderRef}>
+                {this.renderHeader(fixedRightColumns)}
+              </div>
+            )}
+            <div className="sq-grid__body" ref={this.fixedRBodyRef}>
+              {this.hasData() && fixedRightColumns.length > 0 && (
+                <div className="sq-grid-body__wrapper">
+                  {this.renderData(fixedRightColumns, data, rowConfig)}
+                </div>
+              )}
             </div>
           </div>
         </div>
