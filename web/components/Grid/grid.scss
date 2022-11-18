@@ -1,5 +1,4 @@
 .sq-grid {
-  
   &__row {
     display: flex;
   }
@@ -33,6 +32,16 @@
       justify-content: left;
     }
   }
+  .sq-grid__center {
+    .sq-grid__header-row,
+    .sq-grid__data {
+      &-cell {
+        &:first-child {
+          flex-grow: 1 !important;
+        }
+      }
+    }
+  }
   &__header-row {
     color: #333;
     height: 100%;
@@ -58,7 +67,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        
       }
       &.sort-enable {
         .sq-grid__header-row-cell-wrapper {
@@ -173,7 +181,7 @@
     &.has-scrolled {
       box-shadow: 4px -5px 14px -2px rgb(229 229 229 / 50%);
     }
-   
+
     height: 100%;
     display: flex;
     flex-shrink: 0;
