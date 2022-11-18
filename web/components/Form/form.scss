@@ -68,4 +68,12 @@
       }
     }
   }
+  &--narrow-space {
+    .sq-form__field {
+      margin-bottom: 8px;
+    }
+    .sq-form_actions {
+      margin-top: 16px;
+    }
+  }
 }
