@@ -22,7 +22,6 @@ class Grid extends React.Component {
       validated: false,
       total: {},
       hasLeftScrolled: false,
-      hasScrolledEnd: false,
     };
     this.headerRef = React.createRef();
     this.bodyRef = React.createRef();
@@ -187,7 +186,7 @@ class Grid extends React.Component {
               </div>
             </div>
           </div>
-          <div className={`sq-grid__right-fixed ${this.state.hasScrolledEnd > 0 ? 'has-scrolled-end' : ''}`}>
+          <div className={`sq-grid__right-fixed`}>
             {this.hasData() && fixedRightColumns.length > 0 && showHeader && (
               <div className="sq-grid__header" ref={this.fixedRHeaderRef}>
                 {this.renderHeader(fixedRightColumns)}
