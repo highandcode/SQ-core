@@ -81,6 +81,7 @@ import Text from './ui/Text';
 import Textarea from './ui/Textarea';
 import TextColumnWithLinks from './ui/TextColumnWithLinks';
 import TextFields from './ui/TextFields';
+import EditableField from './EditableField';
 
 export const editor = {
   setEditorOptions
@@ -171,4 +172,5 @@ export {
   FileUploader,
   DropZoneFile,
   ButtonSelection,
+  EditableField,
 };

@@ -1,0 +1,30 @@
+.sq-editable-field {
+  width: 100%;
+  padding-right: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  &__edit {
+    position: absolute;
+    display: none;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  &__actions {
+    background-color: white;
+    position: absolute;
+    box-shadow: 5px -11px 18px rgb(25 25 25 / 12%);
+    top: -30px;
+    border-radius: 4px;
+    right: 0;
+
+  }
+  &:hover {
+    .sq-editable-field__edit {
+      display: block;
+    }
+  }
+}
