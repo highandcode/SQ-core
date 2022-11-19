@@ -48,30 +48,9 @@ class DynamicContent extends Component {
         innerHeight: _window.innerHeight,
       },
     };
-    this.handlePageScroll = this.handlePageScroll.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onAction = this.onAction.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
-  }
-
-  handlePageScroll(e) {
-    if (this.scrollExecuting) {
-      return;
-    }
-    this.scrollExecuting = _window.setTimeout(() => {
-      this.setState(
-        {
-          page: {
-            ...this.state.page,
-            pageYOffset: _window.pageYOffset,
-            innerHeight: _window.innerHeight,
-          },
-        },
-        () => {
-          this.scrollExecuting = null;
-        }
-      );
-    }, 300);
   }
 
   async componentDidMount() {
@@ -84,12 +63,12 @@ class DynamicContent extends Component {
         this.fetchPage(true);
       }
     );
-    window.addEventListener('scroll', this.handlePageScroll);
-    window.addEventListener('resize', this.handlePageScroll);
     events.subscribe('refreshPage', this.onRefresh);
   }
 
   async componentWillUnmount() {
+    window.removeEventListener('scroll', this.handlePageScroll);
+    window.removeEventListener('resize', this.handlePageScroll);
     events.unsubscribe('refreshPage', this.onRefresh);
   }
 
@@ -465,7 +444,7 @@ class DynamicContent extends Component {
     const { pageData = {}, metaData } = this.state.pageData;
     const dynamicParams = processParams(userData, pageData.inject || {});
     const { classes = {}, ...restDynamic } = dynamicParams;
-    const updatedPageData = {...pageData, ...restDynamic};
+    const updatedPageData = { ...pageData, ...restDynamic };
     const { container, containerTemplate, contentBodyClass = '', rootClassName = '', transition = {} } = updatedPageData;
     const ContentTemplateContainer = containers[overrideContainerTemplate || containerTemplate] || containers.Default;
     const ContentContainer = containers[container] || DefaultContent;
