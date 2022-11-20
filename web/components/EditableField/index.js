@@ -8,7 +8,7 @@ import { getMap, addComp } from '../ui';
 import Icon from '../Icon';
 import './_editable-field.scss';
 
-const EditableField = ({ column, row, viewType = 'Text', editType = 'Input', value, classes = {}, editProps = {}, className = '', onChange, onClick, onAction, onAnalytics, onBlur, errors, onKeyPress, formatter = {}, ...rest }) => {
+const EditableField = ({ column, row, viewType = 'Text', editType = 'Input', value, classes = {}, viewProps = {}, editProps = {}, className = '', onChange, onClick, onAction, onAnalytics, onBlur, onKeyPress, formatter = {}, ...rest }) => {
   const editableRef = useRef();
   const CompMap = {
     ...getMap(),
@@ -34,7 +34,7 @@ const EditableField = ({ column, row, viewType = 'Text', editType = 'Input', val
         <div className={`sq-editable-field ${getValue(this, className, row)}`} onDoubleClick={() => popupState.open()} ref={editableRef}>
           <div className="sq-editable-field__cmp">
             <div>
-              {<CmpToRender value={value} {...rest} row={row} column={column} />}
+              {<CmpToRender value={value} {...rest} row={row} column={column} onAnalytics={onAnalytics} />}
               {
                 <div className="sq-editable-field__edit">
                   <IconButton {...bindTrigger(popupState)}>
@@ -76,13 +76,20 @@ const EditableField = ({ column, row, viewType = 'Text', editType = 'Input', val
                   horizontal: 'left',
                 }}
               >
-                {<CmpToEdit {...editProps} value={changedValue?.value || value} onChange={handleChange} />}
+                {<CmpToEdit {...editProps} value={changedValue?.value || value} onChange={handleChange} onKeyPress={onKeyPress} onAnalytics={onAnalytics} />}
                 <div className="sq-editable-field__actions">
                   <IconButton>
                     <Icon name="check" color={'success'} onClick={() => applyChange()} />
                   </IconButton>
                   <IconButton>
-                    <Icon name="close" color={'error'} onClick={() => popupState.close()} />
+                    <Icon
+                      name="close"
+                      color={'error'}
+                      onClick={() => {
+                        setChangeValue({ value });
+                        popupState.close();
+                      }}
+                    />
                   </IconButton>
                 </div>
               </Popover>
@@ -98,7 +105,6 @@ addComp({
 });
 
 EditableField.propTypes = {
-  errors: PropTypes.object,
   column: PropTypes.object,
   value: PropTypes.any,
   row: PropTypes.object,
