@@ -1,34 +1,53 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Popover from '@mui/material/Popover';
 import IconButton from '@mui/material/IconButton';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
-import { getFormatters } from '../../utils/format';
 import { getValue } from '../../utils/properties';
 import { getMap, addComp } from '../ui';
-import Button from '../ui/Button';
 import Icon from '../Icon';
 import './_editable-field.scss';
 
-const EditableField = ({ column, row, viewType = 'Text', editType = 'Input', editProps = {}, className = '', onChange, onClick, onAction, onAnalytics, onBlur, errors, onKeyPress, formatter = {}, ...rest }) => {
+const EditableField = ({ column, row, viewType = 'Text', editType = 'Input', value, popOverClassName = '', editProps = {}, className = '', onChange, onClick, onAction, onAnalytics, onBlur, errors, onKeyPress, formatter = {}, ...rest }) => {
+  const editableRef = useRef();
   const CompMap = {
     ...getMap(),
   };
 
+  const [changedValue, setChangeValue] = useState();
+
+  const handleChange = (data) => {
+    setChangeValue(data);
+  };
+
+  const applyChange = () => {
+    console.log(changedValue);
+    onChange && onChange(changedValue);
+  };
+
   const CmpToRender = CompMap[viewType] || CompMap.Text;
   const CmpToEdit = CompMap[editType] || CompMap.Input;
-
   return (
-    <div className={`sq-editable-field ${getValue(this, className, row)}`} role="grid-cell">
-      <div className="sq-editable-field__cmp">
-        <PopupState variant="popover">
-          {(popupState) => (
+    <PopupState variant="popover">
+      {(popupState) => (
+        <div className={`sq-editable-field ${getValue(this, className, row)}`} onDoubleClick={() => popupState.open()} ref={editableRef} role="grid-cell">
+          <div className="sq-editable-field__cmp">
             <div>
-              {<CmpToRender {...rest} />}
-              {<Icon className="sq-editable-field__edit" name="edit" size="xs" {...bindTrigger(popupState)} />}
+              {<CmpToRender value={value} {...rest} row={row} column={column} />}
+              {
+                <div className="sq-editable-field__edit">
+                  <IconButton {...bindTrigger(popupState)}>
+                    <Icon name="edit" size="xs" />
+                  </IconButton>
+                </div>
+              }
               <Popover
                 {...bindPopover(popupState)}
+                anchorEl={editableRef.current}
                 PaperProps={{
+                  classes: {
+                    root: `sq-editable-field__pop-over ${getValue(this, popOverClassName, row)}`,
+                  },
                   elevation: 0,
                   sx: {
                     overflow: 'visible',
@@ -50,24 +69,24 @@ const EditableField = ({ column, row, viewType = 'Text', editType = 'Input', edi
                 }}
                 transformOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'left',
                 }}
               >
-                {<CmpToEdit {...rest} {...editProps} />}
+                {<CmpToEdit {...editProps} value={changedValue?.value || value} onChange={handleChange} />}
                 <div className="sq-editable-field__actions">
                   <IconButton>
-                    <Icon name="check" color={'success'} />
+                    <Icon name="check" color={'success'} onClick={() => applyChange()} />
                   </IconButton>
                   <IconButton>
-                    <Icon name="close" color={'error'} />
+                    <Icon name="close" color={'error'} onClick={() => popupState.close()} />
                   </IconButton>
                 </div>
               </Popover>
             </div>
-          )}
-        </PopupState>
-      </div>
-    </div>
+          </div>
+        </div>
+      )}
+    </PopupState>
   );
 };
 addComp({

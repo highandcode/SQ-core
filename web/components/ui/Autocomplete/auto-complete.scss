@@ -1,6 +1,5 @@
 .sq-autocomplete {
-  
-}
-.MuiPopover-root, .MuiAutocomplete-popper {
-  z-index:  9999999999 !important;
+  &__pop-over {
+    z-index: $z-index-level-topest !important;
+  }
 }

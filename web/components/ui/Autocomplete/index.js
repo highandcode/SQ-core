@@ -8,40 +8,11 @@ import InputField from '../InputField';
 import './auto-complete.scss';
 import { getValue } from '../../../utils/properties';
 
-const SQAutocomplete = ({
-  row,
-  name,
-  options = [],
-  fixedOptions = [],
-  className = '',
-  inputClassName = '',
-  value = null,
-  label = '',
-  onChange,
-  onAnalytics,
-  inputVariant = 'outlined',
-  analytics,
-  defaultValue = '',
-  textField = 'text',
-  valueField = 'value',
-  multiple,
-  onAction,
-  error,
-  errorMessage,
-  compProps = {},
-  ...rest
-}) => {
+const SQAutocomplete = ({ row, name, options = [], fixedOptions = [], className = '', inputClassName = '', value = null, label = '', onChange, onAnalytics, inputVariant = 'outlined', analytics, defaultValue = '', textField = 'text', valueField = 'value', multiple, onAction, error, errorMessage, compProps = {}, ...rest }) => {
   const handleChange = (e, value) => {
     onChange &&
       onChange({
-        value: multiple
-          ? [
-              ...fixedOptions.map((i) => i[valueField]),
-              ...value
-                .filter((option) => fixedOptions.indexOf(option) === -1)
-                .map((i) => i[valueField]),
-            ]
-          : value && value[valueField],
+        value: multiple ? [...fixedOptions.map((i) => i[valueField]), ...value.filter((option) => fixedOptions.indexOf(option) === -1).map((i) => i[valueField])] : value && value[valueField],
         options,
       });
   };
@@ -50,13 +21,14 @@ const SQAutocomplete = ({
   const finalFixedOptions = getValue(this, fixedOptions, row) || [];
   let optionFound;
   if (!multiple) {
-    optionFound =
-      finalOptions && finalOptions.filter((i) => i[valueField] === value)[0];
+    optionFound = finalOptions && finalOptions.filter((i) => i[valueField] === value)[0];
   } else {
-    optionFound = value?.map((item) => {
-      const found = finalOptions && finalOptions.filter((i) => i[valueField] === item)[0];
-      return found;
-    }).filter((i) => !!i);
+    optionFound = value
+      ?.map((item) => {
+        const found = finalOptions && finalOptions.filter((i) => i[valueField] === item)[0];
+        return found;
+      })
+      .filter((i) => !!i);
   }
 
   const [inputValue, setInputValue] = useState('');
@@ -64,19 +36,20 @@ const SQAutocomplete = ({
     <div className={`sq-autocomplete ${className}`}>
       <Autocomplete
         {...compProps}
+        classes={{
+          popper: 'sq-autocomplete__pop-over',
+        }}
         multiple={multiple}
         options={finalOptions}
         inputValue={inputValue}
-        getOptionLabel={(option) => rest.getOptionLabel ? rest.getOptionLabel(option) : (option[textField])   || ''}
+        getOptionLabel={(option) => (rest.getOptionLabel ? rest.getOptionLabel(option) : option[textField] || '')}
         onChange={handleChange}
         renderTags={(tagValue, getTagProps) =>
           tagValue.map((option, index) => (
             <Chip
               label={
                 <div className="sq-autocomplete__chip flb-d flb-a-center ">
-                  {option.iconName && (
-                    <Icon size={'xs'} name={option.iconName} variant={option.iconColor} />
-                  )}
+                  {option.iconName && <Icon size={'xs'} name={option.iconName} variant={option.iconColor} />}
                   {option[textField]}
                 </div>
               }
@@ -87,10 +60,8 @@ const SQAutocomplete = ({
         }
         renderOption={(props, option) => (
           <Box component="li" {...props}>
-            {option.iconName && (
-              <Icon name={option.iconName} variant={option.iconColor} />
-            )}
-            {rest.getOptionLabel ? rest.getOptionLabel(option) : (option[textField]) }
+            {option.iconName && <Icon name={option.iconName} variant={option.iconColor} />}
+            {rest.getOptionLabel ? rest.getOptionLabel(option) : option[textField]}
           </Box>
         )}
         value={optionFound || value || (multiple ? [] : null)}
@@ -98,19 +69,10 @@ const SQAutocomplete = ({
           setInputValue(newInputValue);
         }}
         renderInput={(params) => {
-          return (
-            <InputField
-              {...params}
-              error={error}
-              className={inputClassName}
-              label={label}
-            />
-          );
+          return <InputField {...params} error={error} className={inputClassName} label={label} />;
         }}
       />
-      {errorMessage && (
-        <div className="sq-error sq-autocomplete--error">{errorMessage}</div>
-      )}
+      {errorMessage && <div className="sq-error sq-autocomplete--error">{errorMessage}</div>}
     </div>
   );
 };

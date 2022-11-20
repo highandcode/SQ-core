@@ -5,6 +5,9 @@
   display: flex;
   align-items: center;
   position: relative;
+  &__pop-over {
+    min-width: 170px !important;
+  }
   &__edit {
     position: absolute;
     display: none;
@@ -14,13 +17,13 @@
     margin: auto;
   }
   &__actions {
+    padding: 2px 8px;
     background-color: white;
     position: absolute;
     box-shadow: 5px -11px 18px rgb(25 25 25 / 12%);
     top: -30px;
     border-radius: 4px;
     right: 0;
-
   }
   &:hover {
     .sq-editable-field__edit {
