@@ -64,6 +64,11 @@ const SelectField = ({
         {label && <InputLabel htmlFor={name}>{label}</InputLabel>}
         <Select
           id={name}
+          MenuProps={{
+            classes: {
+              root: 'sq-select-field__pop-over'
+            }
+          }}
           defaultValue={defaultValue}
           className="sq-select-field__input"
           data-testid={testId}

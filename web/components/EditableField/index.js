@@ -8,20 +8,21 @@ import { getMap, addComp } from '../ui';
 import Icon from '../Icon';
 import './_editable-field.scss';
 
-const EditableField = ({ column, row, viewType = 'Text', editType = 'Input', value, popOverClassName = '', editProps = {}, className = '', onChange, onClick, onAction, onAnalytics, onBlur, errors, onKeyPress, formatter = {}, ...rest }) => {
+const EditableField = ({ column, row, viewType = 'Text', editType = 'Input', value, classes = {}, editProps = {}, className = '', onChange, onClick, onAction, onAnalytics, onBlur, errors, onKeyPress, formatter = {}, ...rest }) => {
   const editableRef = useRef();
   const CompMap = {
     ...getMap(),
   };
 
-  const [changedValue, setChangeValue] = useState();
+  const [changedValue, setChangeValue] = useState({
+    value,
+  });
 
   const handleChange = (data) => {
     setChangeValue(data);
   };
 
   const applyChange = () => {
-    console.log(changedValue);
     onChange && onChange(changedValue);
   };
 
@@ -30,7 +31,7 @@ const EditableField = ({ column, row, viewType = 'Text', editType = 'Input', val
   return (
     <PopupState variant="popover">
       {(popupState) => (
-        <div className={`sq-editable-field ${getValue(this, className, row)}`} onDoubleClick={() => popupState.open()} ref={editableRef} role="grid-cell">
+        <div className={`sq-editable-field ${getValue(this, className, row)}`} onDoubleClick={() => popupState.open()} ref={editableRef}>
           <div className="sq-editable-field__cmp">
             <div>
               {<CmpToRender value={value} {...rest} row={row} column={column} />}
@@ -44,9 +45,12 @@ const EditableField = ({ column, row, viewType = 'Text', editType = 'Input', val
               <Popover
                 {...bindPopover(popupState)}
                 anchorEl={editableRef.current}
+                classes={{
+                  root: 'sq-editable-field__pop-over-root',
+                }}
                 PaperProps={{
                   classes: {
-                    root: `sq-editable-field__pop-over ${getValue(this, popOverClassName, row)}`,
+                    root: `sq-editable-field__pop-over ${getValue(this, classes.popover, row)}`,
                   },
                   elevation: 0,
                   sx: {

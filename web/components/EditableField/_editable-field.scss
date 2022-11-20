@@ -5,8 +5,17 @@
   display: flex;
   align-items: center;
   position: relative;
+  border-radius: 4px;
+  margin-left: -4px;
+  padding-left: 4px;
+  &:hover {
+    background-color: $sq-color-gray-lightest;
+  }
   &__pop-over {
     min-width: 170px !important;
+    &-root {
+      z-index: $z-index-level-2ndtopest !important;
+    }
   }
   &__edit {
     position: absolute;
@@ -15,6 +24,7 @@
     right: 0;
     bottom: 0;
     margin: auto;
+    height: 32px;
   }
   &__actions {
     padding: 2px 8px;

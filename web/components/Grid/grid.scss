@@ -177,7 +177,7 @@
     overflow: hidden;
   }
   &__left-fixed {
-    z-index: $z-index-level-2ndtopest;
+    z-index: $z-index-level-4;
     &.has-scrolled {
       box-shadow: 4px -5px 14px -2px rgb(229 229 229 / 50%);
     }

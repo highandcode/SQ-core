@@ -7,23 +7,27 @@
     }
   }
 
+  &__menu {
+    z-index: $z-index-level-2ndtopest !important;
+    .MuiMenuItem-root.sq-tag-label--list-item-wrap {
+      padding: 4px 8px;
+    }
+  }
   &__icon {
     &.active {
       background-color: $brand-primary;
       color: white;
     }
   }
-}
-.sq-tag-label--list-item {
-  min-width: 134px;
-  padding: 4px;
-  .sq-tag-label__container {
-    justify-content: center;
+  &--list-item {
+    min-width: 134px;
+    padding: 4px;
+    .sq-tag-label__container {
+      justify-content: center;
+    }
   }
 }
-.MuiMenuItem-root.sq-tag-label--list-item-wrap {
-  padding: 4px 8px;
-}
+
 .sq-tag-label {
   &--filled {
     &.purple {
