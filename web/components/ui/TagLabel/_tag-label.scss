@@ -4,6 +4,7 @@
   &__container {
     display: flex;
     align-items: center;
+    justify-content: center;
   }
   &--auto {
     display: inline-block;
@@ -31,7 +32,7 @@
   }
  
   &--small {
-    padding: 4px;
+    padding: 4px 8px;
     .sq-icon {
       width: 12px;
       height: 12px;
