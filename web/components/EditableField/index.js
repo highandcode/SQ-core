@@ -78,18 +78,16 @@ const EditableField = ({ column, row, viewType = 'Text', editType = 'Input', val
               >
                 {<CmpToEdit {...editProps} value={changedValue?.value || value} onChange={handleChange} onKeyPress={onKeyPress} onAnalytics={onAnalytics} />}
                 <div className="sq-editable-field__actions">
-                  <IconButton>
-                    <Icon name="check" color={'success'} onClick={() => applyChange()} />
+                  <IconButton onClick={() => applyChange()}>
+                    <Icon name="check" color={'success'} />
                   </IconButton>
-                  <IconButton>
-                    <Icon
-                      name="close"
-                      color={'error'}
-                      onClick={() => {
-                        setChangeValue({ value });
-                        popupState.close();
-                      }}
-                    />
+                  <IconButton
+                    onClick={() => {
+                      setChangeValue({ value });
+                      popupState.close();
+                    }}
+                  >
+                    <Icon name="close" color={'error'} />
                   </IconButton>
                 </div>
               </Popover>

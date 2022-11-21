@@ -13,6 +13,7 @@ import FieldText from './FieldText';
 import Pagination from './Pagination';
 import DataField from './DataField';
 import LinkBlock from './LinkBlock';
+import IconButton from './IconButton';
 import LinkButtonList from './LinkButtonList';
 import Select from './SelectField';
 import Label from './Label';
@@ -97,6 +98,7 @@ let comps = {
   BasicRTE,
   ButtonSelection,
   TagDropdown,
+  IconButton,
 };
 
 const getMap = () => {
