@@ -60,8 +60,11 @@ describe('Grid', () => {
         expect(wrapper.getElementsByClassName('sq-grid__header').length).toBe(1);
       });
 
-      test('should render body wrapper', () => {
-        expect(wrapper.getElementsByClassName('sq-grid__body').length).toBe(1);
+      test('should render root wrapper', () => {
+        expect(wrapper.getElementsByClassName('sq-grid__root').length).toBe(1);
+      });
+      test('should render 3 body wrapper', () => {
+        expect(wrapper.getElementsByClassName('sq-grid__body').length).toBe(3);
       });
       test('should render two rows', () => {
         expect(screen.getAllByRole('row').length).toBe(2);
