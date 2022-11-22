@@ -177,12 +177,12 @@ class Grid extends React.Component {
           <div className="sq-grid__center">
             {this.hasData() && showHeader && (
               <div className="sq-grid__header" ref={this.headerRef}>
-                {this.renderHeader(otherColumns)}
+                {this.renderHeader(otherColumns, true)}
               </div>
             )}
             <div className="sq-grid__body" ref={this.bodyRef}>
               <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
-                {this.renderData(otherColumns, data, rowConfig)}
+                {this.renderData(otherColumns, data, rowConfig, true)}
               </div>
             </div>
           </div>
@@ -211,23 +211,23 @@ class Grid extends React.Component {
     onSort && onSort(data, column);
   }
 
-  renderHeader(columns) {
+  renderHeader(columns, spacer) {
     const { sortColumn, sortOrder, enableSort = false } = this.props;
     let scrollbarWidth = 0;
     if (this.bodyRef?.current) {
       scrollbarWidth = this.bodyRef.current.offsetWidth - this.bodyRef.current.clientWidth;
     }
-    return <GridHeaderRow columns={columns} sortColumn={sortColumn} sortOrder={sortOrder} enableSort={enableSort} spacerWidth={scrollbarWidth} onSort={this.handleSort} />;
+    return <GridHeaderRow spacer={spacer} columns={columns} sortColumn={sortColumn} sortOrder={sortOrder} enableSort={enableSort} spacerWidth={scrollbarWidth} onSort={this.handleSort} />;
   }
 
-  renderData(columns, data, rowConfig) {
+  renderData(columns, data, rowConfig, spacer) {
     if (this.isLoading()) {
       return this.renderLoadingView();
     } else if (!this.hasData()) {
       return this.renderNoDataView();
     } else {
       return data.map((rowData, index) => {
-        return this.renderRow(columns, rowData, rowConfig, index);
+        return this.renderRow(columns, rowData, rowConfig, index, spacer);
       });
     }
   }
@@ -298,7 +298,7 @@ class Grid extends React.Component {
     const { onAction } = this.props;
     onAction && onAction(row, action, column);
   }
-  renderRow(columns, data, rowConfig = {}, index) {
+  renderRow(columns, data, rowConfig = {}, index, spacer) {
     const { rowType, className = '', wrapperClassName = '' } = rowConfig;
     const RowComp = RowTypes[rowType] || RowTypes.GridRow;
     const finalClassName = getValue(this, className, data, columns);
@@ -308,6 +308,7 @@ class Grid extends React.Component {
       <RowComp
         key={`${index}${this.state.updatedIndex}`}
         columns={columns}
+        spacer={spacer}
         className={finalClassName}
         wrapperClassName={finalWrapperClassName}
         data={data}

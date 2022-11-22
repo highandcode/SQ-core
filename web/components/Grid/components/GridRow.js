@@ -1,30 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import GridCell from './GridCell';
-import {object} from '../../../utils';
+import { object } from '../../../utils';
 
-const Row = ({
-  columns = [],
-  data = {},
-  onRowClick,
-  onRowChange,
-  onFieldBlur,
-  onFieldClick,
-  onFieldAction,
-  onColumnChange,
-  onChildRowRender,
-  onAnalytics,
-  className,
-  wrapperClassName,
-  errors = {}
-}) => {
+const Row = ({ columns = [], spacer = false, data = {}, onRowClick, onRowChange, onFieldBlur, onFieldClick, onFieldAction, onColumnChange, onChildRowRender, onAnalytics, className, wrapperClassName, errors = {} }) => {
   const _onChange = (column, value) => {
     onColumnChange && onColumnChange(column, value, data);
     onRowChange &&
       onRowChange(
         column,
         {
-          [column.name]: value.value
+          [column.name]: value.value,
         },
         data
       );
@@ -78,6 +64,7 @@ const Row = ({
               )
             );
           })}
+          {spacer && <div className="sq-grid__data-cell sq-grid__data-cell--spacer" />}
         </div>
         {childRow && (
           <div className="sq-grid__row-child-wrapper">
@@ -99,7 +86,7 @@ Row.propTypes = {
   onFieldClick: PropTypes.func,
   onFieldAction: PropTypes.func,
   onColumnChange: PropTypes.func,
-  onFieldBlur: PropTypes.func
+  onFieldBlur: PropTypes.func,
 };
 
 export default Row;

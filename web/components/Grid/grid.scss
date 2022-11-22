@@ -30,6 +30,7 @@
       display: flex;
       align-items: center;
       justify-content: left;
+      
     }
   }
   // .sq-grid__center {
@@ -53,6 +54,13 @@
       font-size: 10px;
       text-transform: uppercase;
       overflow: hidden;
+      &--spacer {
+        flex-basis: 20px !important;
+        flex-shrink: 1 !important;
+        flex-grow: 1!important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
       &-wrapper {
         width: 100%;
         padding: 5px 10px;
@@ -88,6 +96,13 @@
       padding: 10px;
       > span {
         max-width: 100%;
+      }
+      &--spacer {
+        flex-basis: 20px !important;
+        flex-shrink: 1 !important;
+        flex-grow: 1!important;
+        padding: 0!important;
+        margin: 0 !important;
       }
       @media (min-width: $screen-sm) {
         padding: 5px 20px;
