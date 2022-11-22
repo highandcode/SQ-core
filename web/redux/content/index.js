@@ -157,6 +157,9 @@ export const initApplication = (data) => async (dispatch) => {
     if (pageData.hook?.load) {
       await dispatch(checkAndPostApi(pageData.hook.load));
     }
+    if (pageData.hook?.afterLoad) {
+      await dispatch(checkAndPostApi(pageData.hook.afterLoad));
+    }
   } else {
     await dispatch(
       updateProtectedUserData({
