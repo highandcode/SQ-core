@@ -46,7 +46,7 @@ const SQDialog = ({ closeButton = true, transitionDir = 'up', classes: overrideC
   };
   return (
     <div className={`sq-dialog ${overrideClasses.root || ''}`}>
-      <Dialog TransitionComponent={transitionOptions[transitionDir]} classes={overrideClasses.dialog} open={open} fullScreen={fullScreen} onClose={handleClose} aria-labelledby={title} aria-describedby={title}>
+      <Dialog TransitionComponent={transitionOptions[transitionDir]} classes={overrideClasses.dialog} open={open} fullScreen={fullScreen} onClose={handleClose}>
         {closeButton && (
           <IconButton
             edge="start"
@@ -111,7 +111,7 @@ const SQDialog = ({ closeButton = true, transitionDir = 'up', classes: overrideC
 };
 SQDialog.propTypes = {
   open: PropTypes.bool,
-  title: PropTypes.string,
+  title: PropTypes.any,
   isLoading: PropTypes.bool,
   type: PropTypes.string,
   content: PropTypes.any,
