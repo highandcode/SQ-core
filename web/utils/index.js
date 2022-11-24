@@ -17,6 +17,7 @@ import * as properties from './properties';
 import * as queryString from './query-string';
 import * as redirect from './redirect';
 import * as timer from './timer';
+import string from './string';
 import cookie from './cookie-manager';
 import * as translate from './translate';
 import * as validator from './validator';
@@ -46,6 +47,7 @@ export {
   translate,
   validator,
   processor,
+  string,
   setErrorCodes,
   getParsers,
   addParsers
