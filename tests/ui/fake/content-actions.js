@@ -25,6 +25,7 @@ export const create = ({
   return {
     fetchContentPage: createAsyncAction(fetchContentPage),
     postApi: jest.fn(() => Promise.resolve(postApi)),
+    updateMetaData: jest.fn(() => Promise.resolve({})),
     downloadApi: jest.fn(() => Promise.resolve(downloadApi)),
     executeHook: jest.fn(() => Promise.resolve(executeHook)),
     resetUserData: jest.fn(),

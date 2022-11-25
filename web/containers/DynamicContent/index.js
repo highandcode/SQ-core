@@ -14,7 +14,7 @@ import ComponentDemo from '../ComponentDemo';
 import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
 import { events } from '../../utils/app-events';
-import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
+import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
 
 import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
 
@@ -139,6 +139,13 @@ class DynamicContent extends Component {
     if (pageResponse.pageData.reset) {
       await this.props.contentActions.resetUserData(pageResponse.pageData.reset);
     }
+    await this.props.contentActions.updateMetaData({
+      url: this.state.url,
+      data: {
+        metaData: pageResponse.metaData,
+        siteMap: pageResponse.siteMap,
+      },
+    });
     await this.props.contentActions.updateUserData(pageResponse.metaData?.userData);
     await this.props.contentActions.mergeUserData(pageResponse.pageData.merge);
     await this.processHook(pageResponse.pageData.hook?.load);
@@ -499,6 +506,7 @@ const mapDispatchToProps = (dispatch) => {
     contentActions: {
       postApi: (data) => dispatch(postApi(data)),
       downloadApi: (data) => dispatch(downloadApi(data)),
+      updateMetaData: (data) => dispatch(updateMetaData(data)),
       executeHook: (data) => dispatch(executeHook(data)),
       fetchContentPage: (data) => dispatch(fetchContentPage(data)),
       resetUserData: (data) => dispatch(resetUserData(data)),

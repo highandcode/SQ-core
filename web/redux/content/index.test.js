@@ -242,37 +242,37 @@ describe('reducer:content', () => {
   });
 
   test('should return initial state', () => {
-    expect(reducer(undefined, { type: undefined })).toEqual({ isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {} } });
+    expect(reducer(undefined, { type: undefined })).toEqual({ isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {} } });
   });
 
   describe('Reducer: updateUserData()', () => {
     test('should update data in userData', () => {
-      expect(reducer(undefined, updateUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 1 } } });
+      expect(reducer(undefined, updateUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 1 } } });
     });
     test('should override whole data in userData', () => {
-      const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
-      expect(reducer(prevState, updateUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 1 } } });
+      const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+      expect(reducer(prevState, updateUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 1 } } });
     });
   });
   describe('Reducer: updateProtectedUserData()', () => {
     test('should update data in protectedData', () => {
-      expect(reducer(undefined, updateProtectedUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, protectedData: { test: { nodata: 1 } }, userData: { query: {}, test: { nodata: 1 } } });
+      expect(reducer(undefined, updateProtectedUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, metaData: {}, protectedData: { test: { nodata: 1 } }, userData: { query: {}, test: { nodata: 1 } } });
     });
   });
   describe('Reducer: clearAllUserData()', () => {
     test('should clear data in userData and reset to initial state', () => {
       reducer(undefined, updateUserData({ test: { nodata: 1 } }));
-      expect(reducer(undefined, clearAllUserData({ type: 'clearAll' }))).toEqual({ isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {} } });
+      expect(reducer(undefined, clearAllUserData({ type: 'clearAll' }))).toEqual({ isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {} } });
     });
     test('should clear the data except protected data', () => {
       const lastState = reducer(undefined, updateProtectedUserData({ protect: { nodata: 1 } }));
-      expect(reducer(lastState, clearAllUserData({ type: 'clearAll' }))).toEqual({ isContentLoading: false, pageData: {}, protectedData: { protect: { nodata: 1 } }, userData: { protect: { nodata: 1 }, query: {} } });
+      expect(reducer(lastState, clearAllUserData({ type: 'clearAll' }))).toEqual({ isContentLoading: false, pageData: {}, metaData: {}, protectedData: { protect: { nodata: 1 } }, userData: { protect: { nodata: 1 }, query: {} } });
     });
   });
 
   describe('Action: mergeUserData()', () => {
     test('should append data in userData', () => {
-      const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+      const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
       const { store, next, invoke } = fake.thunk.create({
         content: {
           ...prevState,
@@ -286,7 +286,7 @@ describe('reducer:content', () => {
 
   describe('Action: resetUserData()', () => {
     test('should append data in userData', () => {
-      const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+      const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
       const { store, invoke } = fake.thunk.create({
         content: {
           ...prevState,
@@ -300,7 +300,7 @@ describe('reducer:content', () => {
 
   describe('Action: resetLastError()', () => {
     test('should append data in userData', () => {
-      const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { lastError: { p: { error: true, errorMessage: 'error' } }, query: {}, test: { nodata: 2 } } };
+      const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { lastError: { p: { error: true, errorMessage: 'error' } }, query: {}, test: { nodata: 2 } } };
       const { store, invoke } = fake.thunk.create({
         content: {
           ...prevState,
@@ -316,7 +316,7 @@ describe('reducer:content', () => {
     describe('postApi with simple api call [success]', () => {
       let store;
       beforeEach(async () => {
-        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
         const { store: _store, invoke } = fake.thunk.create({
           content: {
             ...prevState,
@@ -340,7 +340,7 @@ describe('reducer:content', () => {
       let notification;
       beforeEach(async () => {
         notification = { notification: { message: 'Test notification' } };
-        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
         const { store: _store, invoke } = fake.thunk.create({
           content: {
             ...prevState,
@@ -366,7 +366,7 @@ describe('reducer:content', () => {
     describe('postApi with simple api call [error] + errors', () => {
       let store;
       beforeEach(async () => {
-        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
         const { store: _store, invoke } = fake.thunk.create({
           content: {
             ...prevState,
@@ -388,7 +388,7 @@ describe('reducer:content', () => {
     describe('postApi with match [failed]', () => {
       let store;
       beforeEach(async () => {
-        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, done: 'ok', test: { nodata: 2 } } };
+        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, done: 'ok', test: { nodata: 2 } } };
         const { store: _store, invoke } = fake.thunk.create({
           content: {
             ...prevState,
@@ -419,7 +419,7 @@ describe('reducer:content', () => {
       let store;
       let postHook;
       beforeEach(async () => {
-        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, f1: 'ok', f2: 'ok2', done: 'ok', test: { nodata: 2 } } };
+        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, f1: 'ok', f2: 'ok2', done: 'ok', test: { nodata: 2 } } };
         const { store: _store, invoke } = fake.thunk.create({
           content: {
             ...prevState,
@@ -476,7 +476,7 @@ describe('reducer:content', () => {
       let postHook;
       let preHook;
       beforeEach(async () => {
-        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {} } };
+        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {} } };
         const { store: _store, invoke } = fake.thunk.create({
           content: {
             ...prevState,
@@ -508,7 +508,7 @@ describe('reducer:content', () => {
     describe('downloadApi with simple api call [success]', () => {
       let store;
       beforeEach(async () => {
-        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
         const { store: _store, invoke } = fake.thunk.create({
           content: {
             ...prevState,
@@ -530,7 +530,7 @@ describe('reducer:content', () => {
     describe('downloadApi with match [failed]', () => {
       let store;
       beforeEach(async () => {
-        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, done: 'ok', test: { nodata: 2 } } };
+        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, done: 'ok', test: { nodata: 2 } } };
         const { store: _store, invoke } = fake.thunk.create({
           content: {
             ...prevState,
@@ -560,7 +560,7 @@ describe('reducer:content', () => {
       let store;
       let postHook;
       beforeEach(async () => {
-        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, f1: 'ok', f2: 'ok2', done: 'ok', test: { nodata: 2 } } };
+        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, f1: 'ok', f2: 'ok2', done: 'ok', test: { nodata: 2 } } };
         const { store: _store, invoke } = fake.thunk.create({
           content: {
             ...prevState,
@@ -613,7 +613,7 @@ describe('reducer:content', () => {
       let postHook;
       let preHook;
       beforeEach(async () => {
-        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {} } };
+        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {} } };
         const { store: _store, invoke } = fake.thunk.create({
           content: {
             ...prevState,
@@ -669,7 +669,7 @@ describe('reducer:content', () => {
     describe('with loading config and merge', () => {
       let store;
       beforeEach(async () => {
-        const prevState = { isContentLoading: false, pageData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
+        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
         const { store: _store, invoke } = fake.thunk.create({
           content: {
             ...prevState,

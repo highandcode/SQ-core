@@ -17,6 +17,7 @@ const initialState = {
   userData: {
     ...getSystem(),
   },
+  metaData: {},
   protectedData: {},
   isContentLoading: false,
 };
@@ -417,6 +418,15 @@ const content = createSlice({
   name: 'content',
   initialState,
   reducers: {
+    updateMetaData: (state, action) => {
+      state.metaData = {
+        prev: state.metaData?.latest,
+        latest: {
+          url: action.payload.url,
+          ...action.payload.data,
+        },
+      };
+    },
     updateProtectedUserData: (state, action) => {
       state.protectedData = {
         ...state.protectedData,
@@ -475,5 +485,5 @@ export const resetUserData = (payload) => (dispatch, getState) => {
   }
 };
 
-export const { updateProtectedUserData, updateUserData, clearAllUserData } = content.actions;
+export const { updateProtectedUserData, updateUserData, clearAllUserData, updateMetaData } = content.actions;
 export default content.reducer;
