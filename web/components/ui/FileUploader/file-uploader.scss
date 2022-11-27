@@ -1,32 +1,34 @@
 .sq-file-uploader {
-  > label {
-    display: flex;
-    padding: 10px;
-    flex-direction: column;
-    height: auto;
-    min-width: 100%;
-    max-width: 100%;
-    > div {
+  > span {
+    > label {
       display: flex;
+      padding: 10px;
       flex-direction: column;
-      text-align: center;
-      width: 100%;
-      span {
-        &:first-child {
-          display: none;
+      height: auto;
+      min-width: 100%;
+      max-width: 100%;
+      > div {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        width: 100%;
+        span {
+          &:first-child {
+            display: none;
+          }
+          display: block;
+          margin-bottom: 4px;
         }
-        display: block;
-        margin-bottom: 4px;
+      }
+      .file-types {
+        width: 100%;
+        max-width: 100%;
+        white-space:unset;
       }
     }
-    .file-types {
-      width: 100%;
-      max-width: 100%;
-      white-space:unset;
+    > svg {
+      width: 32px;
     }
-  }
-  > svg {
-    width: 32px;
   }
   &__list {
     margin-bottom: 8px;

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FileUploader } from 'react-drag-drop-files';
 import Button from '../Button';
+import Tooltip from '@mui/material/Tooltip';
 import './file-uploader.scss';
 import Icon from '../../Icon';
-import Alert from '../../Alert';
 
 const SQFileUploader = ({
   className = '',
@@ -79,15 +79,19 @@ const SQFileUploader = ({
 
   return (
     <div className={`sq-file-uploader ${className}`}>
-      <FileUploader
-        disabled={disabled}
-        multiple={multiple}
-        fileOrFiles={file.length ? null : file}
-        className="sq-file-uploader__file"
-        handleChange={handleChange}
-        name="file"
-        types={fileTypes}
-      />
+      <Tooltip title={fileTypes.join(', ').toLowerCase()}>
+        <span>
+          <FileUploader
+            disabled={disabled}
+            multiple={multiple}
+            fileOrFiles={file.length ? null : file}
+            className="sq-file-uploader__file"
+            handleChange={handleChange}
+            name="file"
+            types={fileTypes}
+          />
+        </span>
+      </Tooltip>
       {file && (
         <div className="sq-file-uploader__list">
           {file.map((file) => {
