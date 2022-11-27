@@ -163,39 +163,40 @@ class Grid extends React.Component {
           <div className={`sq-grid__left-fixed ${this.state.hasLeftScrolled > 0 ? 'has-scrolled' : ''}`}>
             {this.hasData() && fixedLeftColumns.length > 0 && showHeader && (
               <div className="sq-grid__header" ref={this.fixedHeaderRef}>
-                {this.renderHeader(fixedLeftColumns)}
+                {!this.isLoading() && this.renderHeader(fixedLeftColumns)}
               </div>
             )}
             <div className="sq-grid__body" ref={this.fixedLBodyRef}>
-              {this.hasData() && fixedLeftColumns.length > 0 && (
+              {this.hasData() && !this.isLoading() && fixedLeftColumns.length > 0 && (
                 <div className="sq-grid-body__wrapper">
-                  {this.renderData(fixedLeftColumns, data, rowConfig)}
+                  {this.renderData(fixedLeftColumns, data, rowConfig, undefined, true)}
                 </div>
               )}
             </div>
           </div>
           <div className="sq-grid__center">
+            {this.isLoading() && this.renderLoadingView()}
             {this.hasData() && showHeader && (
               <div className="sq-grid__header" ref={this.headerRef}>
-                {this.renderHeader(otherColumns, true)}
+                {!this.isLoading() && this.renderHeader(otherColumns, true)}
               </div>
             )}
             <div className="sq-grid__body" ref={this.bodyRef}>
               <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
-                {this.renderData(otherColumns, data, rowConfig, true)}
+                {!this.isLoading() && this.renderData(otherColumns, data, rowConfig, true)}
               </div>
             </div>
           </div>
           <div className={`sq-grid__right-fixed`}>
             {this.hasData() && fixedRightColumns.length > 0 && showHeader && (
               <div className="sq-grid__header" ref={this.fixedRHeaderRef}>
-                {this.renderHeader(fixedRightColumns)}
+                {!this.isLoading() && this.renderHeader(fixedRightColumns)}
               </div>
             )}
             <div className="sq-grid__body" ref={this.fixedRBodyRef}>
               {this.hasData() && fixedRightColumns.length > 0 && (
                 <div className="sq-grid-body__wrapper">
-                  {this.renderData(fixedRightColumns, data, rowConfig)}
+                  {!this.isLoading() && this.renderData(fixedRightColumns, data, rowConfig,  undefined, true)}
                 </div>
               )}
             </div>
@@ -220,12 +221,10 @@ class Grid extends React.Component {
     return <GridHeaderRow spacer={spacer} columns={columns} sortColumn={sortColumn} sortOrder={sortOrder} enableSort={enableSort} spacerWidth={scrollbarWidth} onSort={this.handleSort} />;
   }
 
-  renderData(columns, data, rowConfig, spacer) {
-    if (this.isLoading()) {
-      return this.renderLoadingView();
-    } else if (!this.hasData()) {
+  renderData(columns, data, rowConfig, spacer, disableLoader) {
+    if (!this.hasData()) {
       return this.renderNoDataView();
-    } else {
+    } else if (this.hasData()) {
       return data.map((rowData, index) => {
         return this.renderRow(columns, rowData, rowConfig, index, spacer);
       });
@@ -243,9 +242,9 @@ class Grid extends React.Component {
     return this.props.showAdd;
   }
 
-  renderLoadingView() {
+  renderLoadingView(disable = false) {
     const { loader } = this.props;
-    return <div className="sq-grid__body container-fluid sq-grid__loading-data">{loader}</div>;
+    return disable === false && <div className="sq-grid__body container-fluid sq-grid__loading-data">{loader}</div>;
   }
   renderNoDataView() {
     const { noDataMessage = 'No Data Found' } = this.props;
