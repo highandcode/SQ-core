@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 import GridRow from './components/GridRow';
 import GridHeaderRow from './components/GridHeaderRow';
 import ColFilters from './components/GridColumnFilter';
@@ -157,7 +159,9 @@ class Grid extends React.Component {
           onClose={(data, action) => this.handleApplySelection(action)}
           onAction={(data, action) => this.handleApplySelection(action)}
         >
-          <ColFilters colOrder={this.state.colOrder} onColumReorder={this.onColumReorder} columns={nonFixedColumns} value={this.state.tempColSelection || this.props.selectedColumns || nonFixedColumns.map((i) => i.name)} onChange={this.handleColSelChange} />
+          <DndProvider backend={HTML5Backend}>
+            <ColFilters colOrder={this.state.colOrder} onColumReorder={this.onColumReorder} columns={nonFixedColumns} value={this.state.tempColSelection || this.props.selectedColumns || nonFixedColumns.map((i) => i.name)} onChange={this.handleColSelChange} />
+          </DndProvider>
         </Dialog>
         <div className="sq-grid__root">
           <div className={`sq-grid__left-fixed ${this.state.hasLeftScrolled > 0 ? 'has-scrolled' : ''}`}>
