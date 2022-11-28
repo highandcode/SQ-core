@@ -160,7 +160,7 @@ class Grid extends React.Component {
           onAction={(data, action) => this.handleApplySelection(action)}
         >
           <DndProvider backend={HTML5Backend}>
-            <ColFilters colOrder={this.state.colOrder} onColumReorder={this.onColumReorder} columns={nonFixedColumns} value={this.state.tempColSelection || this.props.selectedColumns || nonFixedColumns.map((i) => i.name)} onChange={this.handleColSelChange} />
+            <ColFilters colOrder={this.state.colOrder} onColumReorder={this.onColumReorder} columns={columns} value={this.state.tempColSelection || this.props.selectedColumns || columns.map((i) => i.name)} onChange={this.handleColSelChange} />
           </DndProvider>
         </Dialog>
         <div className="sq-grid__root">

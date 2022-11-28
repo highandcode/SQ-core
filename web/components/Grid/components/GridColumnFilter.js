@@ -9,15 +9,12 @@ const ItemTypes = {
   CARD: 'CARD',
 };
 
-const reorder = (list, startIndex, endIndex) => {
-  const result = [...list];
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-  return result;
-};
-
 const style = {
   cursor: 'move',
+};
+
+const fixedStyles = {
+  cursor: 'not-allowed',
 };
 
 const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColumReorder }) => {
@@ -55,24 +52,24 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
       }
     }
   };
-  const onDragEnd = (result) => {
-    // dropped outside the list
-    if (!result.destination) {
-      return;
-    }
+  // const onDragEnd = (result) => {
+  //   // dropped outside the list
+  //   if (!result.destination) {
+  //     return;
+  //   }
 
-    const items = reorder(internalColumns, result.source.index, result.destination.index);
-    const colOrder = {};
-    items.forEach((key, idx) => {
-      colOrder[key.name] = idx;
-    });
-    setInternalColumns(items);
-    onColumReorder && onColumReorder(colOrder);
-    onChange &&
-      onChange({
-        value: items.filter((col) => value.indexOf(col.name) > -1).map((i) => i.name),
-      });
-  };
+  //   const items = reorder(internalColumns, result.source.index, result.destination.index);
+  //   const colOrder = {};
+  //   items.forEach((key, idx) => {
+  //     colOrder[key.name] = idx;
+  //   });
+  //   setInternalColumns(items);
+  //   onColumReorder && onColumReorder(colOrder);
+  //   onChange &&
+  //     onChange({
+  //       value: items.filter((col) => value.indexOf(col.name) > -1).map((i) => i.name),
+  //     });
+  // };
 
   const findCard = useCallback(
     (name) => {
@@ -114,7 +111,7 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
       <div className="sq-grid__col-filters__body">
         <div ref={drop} className={`sq-grid__col-filters__list`}>
           {internalColumns.map((col, i) => (
-            <Card key={col.name} index={i} name={`${col.name}`} text={col.headerText} moveCard={moveCard} findCard={findCard}>
+            <Card key={col.name} id={col.name} fixed={col.fixed} index={i} name={`${col.name}`} text={col.headerText} moveCard={moveCard} findCard={findCard}>
               <div className={`sq-grid__col-filters__item`} key={`col-${col.name}`}>
                 <Icon name="DragHandle" /> <CheckboxField className="sq-grid__col-filters__checkbox" onChange={(value) => handleChange(value, col)} disabled={col.customize === false} checked={col.customize === false || value.indexOf(col.name) > -1} text={col.headerText || 'No Name'} />
               </div>
@@ -151,7 +148,7 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
   );
 };
 
-const Card = memo(function Card({ id, children, index, moveCard, findCard }) {
+const Card = memo(function Card({ id, children, index, moveCard, fixed }) {
   const ref = useRef(null);
   const [{ handlerId }, drop] = useDrop({
     accept: ItemTypes.CARD,
@@ -161,7 +158,7 @@ const Card = memo(function Card({ id, children, index, moveCard, findCard }) {
       };
     },
     hover(item, monitor) {
-      if (!ref.current) {
+      if (!ref.current || fixed === true || item.fixed == true) {
         return;
       }
       const dragIndex = item.index;
@@ -212,8 +209,9 @@ const Card = memo(function Card({ id, children, index, moveCard, findCard }) {
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
     item: () => {
-      return { id, index };
+      return { id, index, fixed };
     },
+    canDrag: !fixed,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -222,7 +220,7 @@ const Card = memo(function Card({ id, children, index, moveCard, findCard }) {
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
   return (
-    <div ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
+    <div ref={ref} style={{ ...style, ...(fixed ? fixedStyles : {}), opacity }} data-handler-id={handlerId}>
       {children}
     </div>
   );
