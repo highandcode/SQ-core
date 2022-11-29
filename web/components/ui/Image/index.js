@@ -4,10 +4,13 @@ import './_image.scss';
 import { resolveImageUrl } from '../../../cordova';
 
 
-const Image = ({ className = '', alt, imageUrl, size = 'medium' }) => {
+const Image = ({ className = '', alt, imageUrl, size = 'medium', noImage = '' }) => {
   return (
     <div className={`sq-image sq-image--${size} ${className}`}>
-      <img alt={alt} src={resolveImageUrl(imageUrl)} />
+      {imageUrl && <img alt={alt} src={resolveImageUrl(imageUrl)} />}
+      {!imageUrl && noImage && <div className="sq-image__no-image">
+        {noImage}
+      </div>}
     </div>
   );
 };
