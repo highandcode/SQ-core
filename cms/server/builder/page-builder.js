@@ -90,7 +90,6 @@ class PageBuilder {
           } else {
             finalPath = `${this.site.srcPath}/apps/core/layouts/default.ejs`;
           }
-          console.log('layout:' + finalPath);
           // render layout
           return ejsRenderFile(
             `${finalPath}`,
