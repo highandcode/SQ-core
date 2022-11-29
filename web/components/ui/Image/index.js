@@ -1,13 +1,13 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import './_image.scss';
 import { resolveImageUrl } from '../../../cordova';
 
 
-const Image = ({ className = '', imageUrl, size = 'medium' }) => {
+const Image = ({ className = '', alt, imageUrl, size = 'medium' }) => {
   return (
     <div className={`sq-image sq-image--${size} ${className}`}>
-      <img src={resolveImageUrl(imageUrl)} />
+      <img alt={alt} src={resolveImageUrl(imageUrl)} />
     </div>
   );
 };
