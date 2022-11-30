@@ -45,6 +45,7 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
       const idx = copyVal.indexOf(col.name);
       if (idx > -1) {
         copyVal.splice(idx, 1);
+        console.log('@copyVal', copyVal);
         onChange &&
           onChange({
             value: copyVal,
@@ -81,27 +82,24 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
     },
     [internalColumns]
   );
-  const moveCard = useCallback(
-    (index, atIndex) => {
-      let updatedCols = update(internalColumns, {
-        $splice: [
-          [index, 1],
-          [atIndex, 0, internalColumns[index]],
-        ],
+  const moveCard = (index, atIndex) => {
+    let updatedCols = update(internalColumns, {
+      $splice: [
+        [index, 1],
+        [atIndex, 0, internalColumns[index]],
+      ],
+    });
+    setInternalColumns(updatedCols);
+    const colOrder = {};
+    updatedCols.forEach((key, idx) => {
+      colOrder[key.name] = idx;
+    });
+    onColumReorder && onColumReorder(colOrder);
+    onChange &&
+      onChange({
+        value: updatedCols.filter((col) => value.indexOf(col.name) > -1).map((i) => i.name),
       });
-      setInternalColumns(updatedCols);
-      const colOrder = {};
-      updatedCols.forEach((key, idx) => {
-        colOrder[key.name] = idx;
-      });
-      onColumReorder && onColumReorder(colOrder);
-      onChange &&
-        onChange({
-          value: updatedCols.filter((col) => value.indexOf(col.name) > -1).map((i) => i.name),
-        });
-    },
-    [findCard, internalColumns, setInternalColumns]
-  );
+  };
   const [, drop] = useDrop(() => ({ accept: ItemTypes.CARD }));
   return (
     <div className={`sq-grid__col-filters`} role="column-filter">

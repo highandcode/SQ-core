@@ -129,10 +129,10 @@ class Grid extends React.Component {
       .filter((col) => {
         return col.customize === false || !this.props.selectedColumns ? true : this.props.selectedColumns.indexOf(col.name) > -1;
       });
-    const nonFixedColumns = columns.filter((i) => !i.fixed);
     const fixedLeftColumns = finalColumns.filter((i) => i.fixed === true && (!i.direction || i.direction === 'left'));
     const fixedRightColumns = finalColumns.filter((i) => i.fixed === true && i.direction === 'right');
     const otherColumns = finalColumns.filter((i) => !i.fixed);
+    console.log('@@grid', this.state.tempColSelection, this.props.selectedColumns);
     return (
       <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle}`}>
         <Dialog
@@ -179,13 +179,13 @@ class Grid extends React.Component {
             </div>
           </div>
           <div className="sq-grid__center">
-            {this.isLoading() && this.renderLoadingView()}
             {this.hasData() && showHeader && (
               <div className="sq-grid__header" ref={this.headerRef}>
                 {!this.isLoading() && this.renderHeader(otherColumns, true)}
               </div>
             )}
             <div className="sq-grid__body" ref={this.bodyRef}>
+              {this.isLoading() && this.renderLoadingView()}
               <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
                 {!this.isLoading() && this.renderData(otherColumns, data, rowConfig, true)}
               </div>
