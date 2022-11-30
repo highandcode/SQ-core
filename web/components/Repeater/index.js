@@ -4,6 +4,7 @@ import './repeater.scss';
 
 const Repeater = ({
   className = '',
+  itemClassName = '',
   data,
   dataGroup = {},
   options = {},
@@ -61,7 +62,7 @@ const Repeater = ({
                 {items &&
                   items.map((dataItem, index) => {
                     return (
-                      <div className="sq-repeater__item" key={index}>
+                      <div className={`sq-repeater__item ${itemClassName}`} key={index}>
                         <Template index={index} data={dataItem} options={options} />
                       </div>
                     );
@@ -73,7 +74,7 @@ const Repeater = ({
       {data && !groupData &&
         data.map((dataItem, index) => {
           return (
-            <div className="sq-repeater__item" key={index}>
+            <div className={`sq-repeater__item ${itemClassName}`} key={index}>
               <Template data={dataItem} index={index} options={options} onAction={onAction} />
             </div>
           );

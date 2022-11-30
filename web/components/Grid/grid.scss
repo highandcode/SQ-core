@@ -27,6 +27,7 @@
   &__data {
     &-cell {
       flex-basis: 250px;
+      min-width: 250px;
       display: flex;
       align-items: center;
       justify-content: left;
@@ -152,6 +153,7 @@
   .sq-grid__header-row-cell {
     background-color: $sq-color-gray-lightest;
     flex-basis: 250px;
+    min-width: 250px;
     justify-content: flex-start;
     flex-grow: 0;
     flex-shrink: 0;
@@ -161,6 +163,7 @@
     flex-shrink: 0;
     overflow: hidden;
     flex-basis: 250px;
+    min-width: 250px;
     justify-content: flex-start;
   }
   &__col-filters {
