@@ -8,6 +8,7 @@ import DataField from './ui/DataField';
 import Pagination from './ui/Pagination';
 import DataFieldList from './ui/DataFieldList';
 import FileUploader from './ui/FileUploader';
+import ImageWithSpotlight from './ImageWithSpotlight';
 import * as Chart from './Chart';
 import DataList from './DataList';
 import FieldText from './ui/FieldText';
@@ -173,4 +174,5 @@ export {
   DropZoneFile,
   ButtonSelection,
   EditableField,
+  ImageWithSpotlight,
 };
