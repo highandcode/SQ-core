@@ -91,38 +91,13 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
       <div className="sq-grid__col-filters__body">
         <div ref={drop} className={`sq-grid__col-filters__list`}>
           {internalColumns.map((col, i) => (
-            <Card key={col.name} id={col.name} fixed={col.fixed} index={i} name={`${col.name}`} text={col.headerText} moveCard={moveCard} findCard={findCard}>
+            <Card key={col.name} id={col.name} fixed={col.fixed || col.customize === false} index={i} name={`${col.name}`} text={col.headerText} moveCard={moveCard} findCard={findCard}>
               <div className={`sq-grid__col-filters__item`} key={`col-${col.name}`}>
                 <Icon name="DragHandle" /> <CheckboxField className="sq-grid__col-filters__checkbox" onChange={(value) => handleChange(value, col)} disabled={col.customize === false} checked={col.customize === false || value.indexOf(col.name) > -1} text={col.headerText || 'No Name'} />
               </div>
             </Card>
           ))}
         </div>
-        {/* <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="droppable">
-            {(provided, snapshot) => (
-              <div {...provided.droppableProps} className={`sq-grid__col-filters__list ${!snapshot.isDraggingOver ? 'drag-in-progress' : ''}`} ref={provided.innerRef}>
-                {internalColumns.map((col, index) => (
-                  <Draggable key={col.name} draggableId={col.name} index={index}>
-                    {(provided, snapshot) => (
-                      <div className={`sq-grid__col-filters__item ${snapshot.isDragging ? 'dragging' : ''}`} key={`col-${col.name}`} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                        <Icon name="DragHandle" /> <CheckboxField className="sq-grid__col-filters__checkbox" onChange={(value) => handleChange(value, col)} disabled={col.customize === false} checked={col.customize === false || value.indexOf(col.name) > -1} text={col.headerText || 'No Name'} />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext> */}
-        {/* {columns.map((col) => {
-          return (
-            <div className="sq-grid__col-filters__item" key={`col-${col.name}`}>
-              <Icon name="DragHandle" /> <CheckboxField className="sq-grid__col-filters__checkbox" onChange={(value) => handleChange(value, col)} disabled={col.customize === false} checked={col.customize === false || value.indexOf(col.name) > -1} text={col.headerText} />
-            </div>
-          );
-        })} */}
       </div>
     </div>
   );
