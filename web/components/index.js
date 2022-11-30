@@ -28,6 +28,7 @@ import ImageWithSlide from './ui/ImageWithSlide';
 import ImageWithSlideList from './ui/ImageWithSlideList';
 import LaunchTimer from './LaunchTimer';
 import Carousel from './Carousel';
+import ImageWithSpotlight from './ImageWithSpotlight';
 import PropsTable from './PropsTable';
 import ReCaptcha from './ui/ReCaptcha';
 
@@ -63,7 +64,8 @@ let comps = {
   Carousel,
   Progress,
   Form,
-  Grid
+  Grid,
+  ImageWithSpotlight,
 };
 
 const getMap = () => {
