@@ -60,6 +60,7 @@
       overflow: hidden;
       &--spacer {
         flex-basis: 20px !important;
+        min-width: 20px !important;
         flex-shrink: 1 !important;
         flex-grow: 1!important;
         padding: 0 !important;
@@ -103,6 +104,7 @@
       }
       &--spacer {
         flex-basis: 20px !important;
+        min-width: 20px !important;
         flex-shrink: 1 !important;
         flex-grow: 1!important;
         padding: 0!important;
