@@ -7,7 +7,7 @@ const string = {
   getTwoChars: (val) => {
     if (!common.isNullOrUndefined(val)) {
       const array = val.split(' ').filter((i) => !!i);
-      return (array[0][0] || '') + (array[1][0] || '');
+      return (array[0] && array[0][0] || '') + (array[1] && array[1][0] || '');
     }
     return '';
   },
