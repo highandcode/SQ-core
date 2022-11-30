@@ -15,7 +15,7 @@
   &--has-action {
     .sq-grid__body .sq-grid__row {
       cursor: pointer;
-      &:hover {
+      &.hover {
         .sq-grid__data-cell {
           background-color: $sq-color-gray-lightest;
         }
@@ -86,7 +86,7 @@
           border-right: solid 2px transparent;
           transition: all ease 300ms;
         }
-        &:hover {
+        &.hover {
           .sq-grid__header-row-cell-wrapper {
             background-color: #edf4f6;
             border-right: solid 2px $sq-color-primary-lighter;

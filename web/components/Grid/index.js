@@ -119,9 +119,14 @@ class Grid extends React.Component {
     }
   }
 
+  hasActionClickRow() {
+    const { onRowClick } = this.props;
+    return typeof onRowClick === 'function';
+  }
+
   render() {
     const { columns = [], editColumnPane = {}, showColSelection = false, data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default' } = this.props;
-    const actionsClassName = typeof onRowClick === 'function' ? 'sq-grid--has-action' : '';
+    const actionsClassName = this.hasActionClickRow() ? 'sq-grid--has-action' : '';
     const finalColumns = columns
       .sort((a, b) => {
         return this.state.colOrder && (this.state.colOrder[a.name] > this.state.colOrder[b.name] ? 1 : this.state.colOrder[a.name] < this.state.colOrder[b.name] ? -1 : 0);
@@ -170,11 +175,7 @@ class Grid extends React.Component {
               </div>
             )}
             <div className="sq-grid__body" ref={this.fixedLBodyRef}>
-              {this.hasData() && !this.isLoading() && fixedLeftColumns.length > 0 && (
-                <div className="sq-grid-body__wrapper">
-                  {this.renderData(fixedLeftColumns, data, rowConfig, undefined, true)}
-                </div>
-              )}
+              {this.hasData() && !this.isLoading() && fixedLeftColumns.length > 0 && <div className="sq-grid-body__wrapper">{this.renderData(fixedLeftColumns, data, rowConfig, undefined, true)}</div>}
             </div>
           </div>
           <div className="sq-grid__center">
@@ -197,11 +198,7 @@ class Grid extends React.Component {
               </div>
             )}
             <div className="sq-grid__body" ref={this.fixedRBodyRef}>
-              {this.hasData() && fixedRightColumns.length > 0 && (
-                <div className="sq-grid-body__wrapper">
-                  {!this.isLoading() && this.renderData(fixedRightColumns, data, rowConfig,  undefined, true)}
-                </div>
-              )}
+              {this.hasData() && fixedRightColumns.length > 0 && <div className="sq-grid-body__wrapper">{!this.isLoading() && this.renderData(fixedRightColumns, data, rowConfig, undefined, true)}</div>}
             </div>
           </div>
         </div>
@@ -311,10 +308,20 @@ class Grid extends React.Component {
         key={`${index}${this.state.updatedIndex}`}
         columns={columns}
         spacer={spacer}
-        className={finalClassName}
+        className={`${finalClassName} ${this.hasActionClickRow() && this.state.hoverIndex === index ? 'hover' : ''}`}
         wrapperClassName={finalWrapperClassName}
         data={data}
         errors={data.validators && data.validators.errors}
+        onMouseOver={() =>
+          this.setState({
+            hoverIndex: index,
+          })
+        }
+        onMouseOut={() =>
+          this.setState({
+            hoverIndex: undefined,
+          })
+        }
         onAnalytics={this.props.onAnalytics}
         onRowClick={this.handleRowClick}
         onRowChange={this.handleRowChange}

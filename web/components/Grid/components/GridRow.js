@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import GridCell from './GridCell';
 import { object } from '../../../utils';
 
-const Row = ({ columns = [], spacer = false, data = {}, onRowClick, onRowChange, onFieldBlur, onFieldClick, onFieldAction, onColumnChange, onChildRowRender, onAnalytics, className, wrapperClassName, errors = {} }) => {
+const Row = ({ columns = [], spacer = false, data = {}, onMouseOver, onMouseOut, onRowClick, onRowChange, onFieldBlur, onFieldClick, onFieldAction, onColumnChange, onChildRowRender, onAnalytics, className, wrapperClassName, errors = {} }) => {
   const _onChange = (column, value) => {
     onColumnChange && onColumnChange(column, value, data);
     onRowChange &&
@@ -32,8 +32,8 @@ const Row = ({ columns = [], spacer = false, data = {}, onRowClick, onRowChange,
 
   return (
     <>
-      <div className={`sq-grid__row-wrapper  ${wrapperClassName}`} role="row">
-        <div className={`sq-grid__row sq-grid__data-row  ${className}`} onClick={_onRowClick}>
+      <div className={`sq-grid__row-wrapper ${wrapperClassName}`} role="row" onMouseOver={onMouseOver} onMouseOut={onMouseOver}>
+        <div className={`sq-grid__row sq-grid__data-row ${className}`} onClick={_onRowClick}>
           {columns.map((column, index) => {
             let isRender = true;
             if (typeof column.beforeRender === 'function') {
