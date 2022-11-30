@@ -132,7 +132,6 @@ class Grid extends React.Component {
     const fixedLeftColumns = finalColumns.filter((i) => i.fixed === true && (!i.direction || i.direction === 'left'));
     const fixedRightColumns = finalColumns.filter((i) => i.fixed === true && i.direction === 'right');
     const otherColumns = finalColumns.filter((i) => !i.fixed);
-    console.log('@@grid', this.state.tempColSelection, this.props.selectedColumns);
     return (
       <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle}`}>
         <Dialog

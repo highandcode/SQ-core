@@ -45,7 +45,6 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
       const idx = copyVal.indexOf(col.name);
       if (idx > -1) {
         copyVal.splice(idx, 1);
-        console.log('@copyVal', copyVal);
         onChange &&
           onChange({
             value: copyVal,
@@ -53,24 +52,7 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
       }
     }
   };
-  // const onDragEnd = (result) => {
-  //   // dropped outside the list
-  //   if (!result.destination) {
-  //     return;
-  //   }
-
-  //   const items = reorder(internalColumns, result.source.index, result.destination.index);
-  //   const colOrder = {};
-  //   items.forEach((key, idx) => {
-  //     colOrder[key.name] = idx;
-  //   });
-  //   setInternalColumns(items);
-  //   onColumReorder && onColumReorder(colOrder);
-  //   onChange &&
-  //     onChange({
-  //       value: items.filter((col) => value.indexOf(col.name) > -1).map((i) => i.name),
-  //     });
-  // };
+  
 
   const findCard = useCallback(
     (name) => {
