@@ -7,24 +7,28 @@ import './_pagination.scss';
 function SQPagination({ className = '', disabled = false, defaultPage, count, onChange, value = {}, color = 'primary', defaultPageSize = 30, pageSizeLabel = 'Page size', pageSizeOptions = [], enablePageSize = false }) {
   console.log(value);
   const handleChange = (event, inputValue) => {
-    onChange &&
-      onChange({
-        value: {
-          pageSize: defaultPageSize,
-          ...value,
-          currentPage: inputValue,
-        },
-      });
+    if (value.currentPage !== inputValue) {
+      onChange &&
+        onChange({
+          value: {
+            pageSize: defaultPageSize,
+            ...value,
+            currentPage: inputValue,
+          },
+        });
+    }
   };
   const handlePageSizeChange = (inputValue) => {
-    onChange &&
-      onChange({
-        value: {
-          pageSize: defaultPageSize,
-          ...value,
-          pageSize: inputValue,
-        },
-      });
+    if (value.pageSize !== inputValue) {
+      onChange &&
+        onChange({
+          value: {
+            pageSize: defaultPageSize,
+            ...value,
+            pageSize: inputValue,
+          },
+        });
+    }
   };
 
   return (
