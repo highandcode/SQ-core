@@ -111,7 +111,7 @@ const MoreActions = ({
           },
         }}
       >
-        {finalActions.map((action) => {
+        {finalActions.map((action, idx) => {
           const disabled = getValue(this, action.disabled, row) || undefined;
           const result = getValue(this, action.render, row);
           const render = result !== false ? true : false;
@@ -120,7 +120,7 @@ const MoreActions = ({
           }
           return (
             <MenuItem
-              key={action.action}
+              key={idx}
               disabled={disabled}
               onClick={(event) => handleOnClick(event, action)}
             >
