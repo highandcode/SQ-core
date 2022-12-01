@@ -473,8 +473,7 @@ class ContentServer {
       currentNode,
       merged,
     };
-    data.pageData = this.processContent(contents, data);
-
+    data.pageData = this.processContent(contents, data) || {};
     return data;
   }
 

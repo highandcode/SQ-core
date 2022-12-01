@@ -31,7 +31,7 @@ module.exports = {
     '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)': '<rootDir>/config/jest/fileTransform.js',
   },
   transformIgnorePatterns: [
-    "/node_modules/(?!gsap|@mui|d3|d3-array|d3-tip|internmap|delaunator|robust-predicates)",
+    "/node_modules/(?!gsap|@mui|d3|d3-array|d3-tip|internmap|delaunator|robust-predicates|react-dnd-html5-backend|react-dnd|@react-dnd|dnd-core)",
     '^.+\\.module\\.(css|sass|scss)$',
   ],
   coverageDirectory: 'coverage/ui',

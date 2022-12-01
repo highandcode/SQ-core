@@ -5,7 +5,6 @@ import Pagination from '@mui/material/Pagination';
 import './_pagination.scss';
 
 function SQPagination({ className = '', disabled = false, defaultPage, count, onChange, value = {}, color = 'primary', defaultPageSize = 30, pageSizeLabel = 'Page size', pageSizeOptions = [], enablePageSize = false }) {
-  console.log(value);
   const handleChange = (event, inputValue) => {
     if (value.currentPage !== inputValue) {
       onChange &&

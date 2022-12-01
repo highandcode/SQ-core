@@ -86,7 +86,8 @@ export const processParams = (userData, params = {}, defaultValue = null, state)
 export const fetchJsonPath = ({ url, params, headers }) => {
   const mode = window.APP_CONFIG?.siteMode === 'static' ? 'get' : 'post';
   const postFix = mode === 'get' ? '/get.json' : '';
-  return apiBridge[mode](`${url}${postFix}`, params, headers);
+  const cb = mode === 'get' ? { _cb: window.APP_CONFIG?.appVersion } : {};
+  return apiBridge[mode](`${url}${postFix}`, {...cb, ...params}, headers);
 };
 
 export const fetchContentPage = createAsyncThunk('content/fetchContentPage', async (url) => {
