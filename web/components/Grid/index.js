@@ -302,7 +302,17 @@ class Grid extends React.Component {
     const RowComp = RowTypes[rowType] || RowTypes.GridRow;
     const finalClassName = getValue(this, className, data, columns);
     const finalWrapperClassName = getValue(this, wrapperClassName, data, columns);
-
+    const hoverEvents = {};
+    if (this.hasActionClickRow()) {
+      hoverEvents.onMouseOver = () =>
+        this.setState({
+          hoverIndex: index,
+        });
+      hoverEvents.onMouseOut = () =>
+        this.setState({
+          hoverIndex: undefined,
+        });
+    }
     return (
       <RowComp
         key={`${index}${this.state.updatedIndex}`}
@@ -312,16 +322,7 @@ class Grid extends React.Component {
         wrapperClassName={finalWrapperClassName}
         data={data}
         errors={data.validators && data.validators.errors}
-        onMouseOver={() =>
-          this.setState({
-            hoverIndex: index,
-          })
-        }
-        onMouseOut={() =>
-          this.setState({
-            hoverIndex: undefined,
-          })
-        }
+        {...hoverEvents}
         onAnalytics={this.props.onAnalytics}
         onRowClick={this.handleRowClick}
         onRowChange={this.handleRowChange}
