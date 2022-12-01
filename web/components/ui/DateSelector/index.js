@@ -60,6 +60,12 @@ const DateSelector = ({
           value: valueToPass,
           text: input,
         });
+    } else {
+      onChange &&
+        onChange({
+          value: undefined,
+          text: '',
+        });
     }
   };
   const handleOnFocus = () => {
