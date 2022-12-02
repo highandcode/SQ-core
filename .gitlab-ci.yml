@@ -46,6 +46,7 @@ build_release:
     - npm run-script test:coverage
     - npm run-script dist
     - cd dist
+    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
     - npm publish
     - echo ======= release finished ========
   artifacts:
