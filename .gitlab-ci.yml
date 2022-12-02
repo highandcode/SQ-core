@@ -51,12 +51,10 @@ build_release:
     - npm publish
     - echo ======= release finished ========
   artifacts:
-      reports:
-        junit:
-          - coverage/server/junit.xml
-          - coverage/ui/junit.xml
-      paths:
-        - dist/*.tgz
-      expire_in: 48 hrs
+    reports:
+      junit:
+        - coverage/server/junit.xml
+        - coverage/ui/junit.xml
+    expire_in: 48 hrs
   only:
     - tags
