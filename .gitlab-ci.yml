@@ -44,6 +44,7 @@ build_release:
     - npm version $CI_COMMIT_TAG --git-tag-version false
     - npm install
     - npm run-script test:coverage
+    - npm run-script build:apps
     - npm run-script dist
     - cd dist
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
