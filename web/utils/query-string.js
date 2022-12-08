@@ -35,7 +35,11 @@ const location = window.location;
 
 const query = {
   get: (search) => {
-    return new QueryString(search || location.search).toObject();
+    let brouterSearch = '';
+    if (location.href.indexOf('?') > -1) {
+      brouterSearch = location.href.substr(location.href.indexOf('?'));
+    }
+    return new QueryString(search || location.search || brouterSearch).toObject();
   },
 };
 export default QueryString;
