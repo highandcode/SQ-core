@@ -67,6 +67,7 @@ import MagicHeroContent from './ui/MagicHeroContent';
 import Navigation from './ui/Navigation';
 import NavigationList from './ui/NavigationList';
 import PopupMessage from './ui/PopupMessage';
+import IconButton from './ui/IconButton';
 import Pricing from './ui/Pricing';
 import ProgressIndicator from './ui/ProgressIndicator';
 import Radio from './ui/Radio';
@@ -140,6 +141,7 @@ export {
   ImageWithSlide,
   ImageWithSlideList,
   InputField,
+  IconButton,
   Label,
   Link,
   LinkBlock,
