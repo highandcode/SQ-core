@@ -11,16 +11,19 @@ function getText(html) {
 let configOptions = {
   full: {
     plugins: 'code link table fullscreen',
-    toolbar: 'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | table | code fullscreen',
+    toolbar:
+      'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | table | code fullscreen',
   },
   default: {
     plugins: 'code link table fullscreen',
-    toolbar: 'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | table | code fullscreen',
+    toolbar:
+      'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | table | code fullscreen',
   },
   compact: {
     menubar: false,
     plugins: 'code link fullscreen',
-    toolbar: 'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | code fullscreen',
+    toolbar:
+      'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | code fullscreen',
   },
   basic: {
     menubar: false,
@@ -68,6 +71,7 @@ class RichTextField extends React.Component {
   }
 
   componentDidMount() {
+    const { onInit, onSetup } = this.props;
     if (this.props.value) {
       this.setState({
         value: this.props.value,
@@ -86,6 +90,10 @@ class RichTextField extends React.Component {
         this.editor = editor;
         editor.on('Change', this.handleOnChange);
         editor.setContent(this.props.value);
+        editor.on('init', function (e) {
+          onInit && onInit(editor);
+        });
+        onSetup && onSetup(editor);
         Object.keys(this.props.events || {}).forEach((eventName) => {
           editor.on(eventName, this.props.events[eventName]);
         });
