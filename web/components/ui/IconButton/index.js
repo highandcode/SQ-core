@@ -21,7 +21,7 @@ const SQIconButton = ({ to = '', title, disabled, children, color = 'primary', c
   );
   return (
     <div className={`sq-icon-button ${disabled ? 'sq-icon-button--disabled' : ''}`}>
-      {!title && {button}}
+      {!title && button}
       {title && (
         <Tooltip title={title}>
           <span>
