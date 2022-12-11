@@ -1,5 +1,5 @@
 {
-  "name": "sq-core",
+  "name": "qubejs-core",
   "version": "2.0.0",
   "scripts": {
     "client:test": "node scripts/test.js --no-watch",

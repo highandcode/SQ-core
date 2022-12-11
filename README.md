@@ -1,9 +1,9 @@
 
-# sq-core
+# qubejs-core
 Core framework for web, plugin, cms &amp; nodejs server
 
-[![npm](https://img.shields.io/npm/dm/sq-core.svg)](https://www.npmjs.com/package/sq-core)
-[![npm](https://img.shields.io/npm/v/sq-core.svg)](https://www.npmjs.com/package/sq-core)
+[![npm](https://img.shields.io/npm/dm/qubejs-core.svg)](https://www.npmjs.com/package/qubejs-core)
+[![npm](https://img.shields.io/npm/v/qubejs-core.svg)](https://www.npmjs.com/package/qubejs-core)
 
 
 ## Demos
@@ -13,12 +13,12 @@ Core framework for web, plugin, cms &amp; nodejs server
 
 
 
-## Download and Install sq-core
+## Download and Install qubejs-core
 
 ### Install from npm
 
 ```
-npm install sq-core
+npm install qubejs-core
 ```
 ## Available Modules
 
@@ -40,8 +40,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var { utils} = require('sq-core/server');
-var { ContentServer } = require('sq-core/cms');
+var { utils} = require('qubejs-core/server');
+var { ContentServer } = require('qubejs-core/cms');
 
 var routes = require('./routes');
 var config = require('../config/environment');
