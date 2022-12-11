@@ -23,11 +23,15 @@ const TemplateWithBackground = ({
   const HTag = headerTag;
   const BTag = bodyTag;
   const componentMap = getMap();
+  const styles = {};
+  if (background) {
+    styles.backgroundImage = `url(${resolveImageUrl(background)})`;
+  }
   return (
     <div className={`sq-hero-content--large-background ${className} sq-hero-content--large-background-theme-${theme}`}>
       <div
         className={`sq-hero-content__root ${common.toStringBlank(classes.root)}`}
-        style={{ backgroundImage: `url(${resolveImageUrl(background)})` }}
+        style={styles}
       >
         <div className={`sq-hero-content__wrapper ${common.toStringBlank(classes.wrapper)}`}>
           <div className={`sq-hero-content__inner-wrapper ${common.toStringBlank(classes.innerWrapper)}`}>

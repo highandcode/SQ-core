@@ -10,25 +10,25 @@ function getText(html) {
 
 let configOptions = {
   full: {
-    plugins: 'code link table fullscreen',
+    plugins: 'lists code link table fullscreen',
     toolbar:
-      'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | table | code fullscreen',
+      'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | numlist bullist | alignleft aligncenter alignright alignjustify | outdent indent | table | lists code fullscreen',
   },
   default: {
-    plugins: 'code link table fullscreen',
+    plugins: 'lists code link table fullscreen',
     toolbar:
-      'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | table | code fullscreen',
+      'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | numlist bullist | alignleft aligncenter alignright alignjustify | outdent indent | table | code fullscreen',
   },
   compact: {
     menubar: false,
-    plugins: 'code link fullscreen',
+    plugins: 'lists code link fullscreen',
     toolbar:
-      'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | code fullscreen',
+      'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | numlist bullist | alignleft aligncenter alignright alignjustify | outdent indent | code fullscreen',
   },
   basic: {
     menubar: false,
-    plugins: 'link fullscreen',
-    toolbar: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | link fullscreen',
+    plugins: 'lists link fullscreen',
+    toolbar: 'bold italic underline | alignleft aligncenter alignright | numlist bullist | link fullscreen',
   },
 };
 

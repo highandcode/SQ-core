@@ -1,4 +1,5 @@
-$sq-global-navigation-sub-navbg: $white;
+$sq-global-navigation-sub-navbg:$black;
+$sq-global-navigation-nav-color: $black;
 
 .sq-global-navigation {
   width: 100%;
@@ -110,7 +111,7 @@ $sq-global-navigation-sub-navbg: $white;
       float: left;
       @include b5-style();
       line-height: 24px;
-      color: $sq-color-primary-darker;
+      color: $sq-global-navigation-nav-color;
     }
     &--active {
       .sq-global-navigation__item-text {
@@ -133,7 +134,7 @@ $sq-global-navigation-sub-navbg: $white;
     margin: 0;
     width: 100%;
     @media (min-width: $screen-md) {
-      background-color: $sq-color-primary-darkest;
+      background-color: $sq-global-navigation-sub-navbg;
       &:before {
         content: ' ';
         display: block;
@@ -141,7 +142,7 @@ $sq-global-navigation-sub-navbg: $white;
         width: 10px;
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
-        border-bottom: 10px solid $sq-color-primary-darkest;
+        border-bottom: 10px solid $sq-global-navigation-sub-navbg;
         position: absolute;
         box-sizing: border-box;
         overflow: hidden;
@@ -264,7 +265,7 @@ $sq-global-navigation-sub-navbg: $white;
         border-color: $sq-color-primary-dark;
         > li {
           &:hover {
-            background-color: $sq-color-primary-darkest;
+            background-color: $sq-global-navigation-sub-navbg;
           }
         }
       }
