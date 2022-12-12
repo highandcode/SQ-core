@@ -7,6 +7,7 @@ class WebBuildProcess extends BaseBuild {
     super(config);
     this.config = Object.assign(
       {
+        urlAppConfig: true,
         host: '',
         indexHtml: '',
         scripts: ''
@@ -18,7 +19,7 @@ class WebBuildProcess extends BaseBuild {
     this.tags = {
       findLink: '<link',
       findScript: '<script',
-
+      
       metaTags: `<meta name="viewport" content="width=device-width, initial-scale=1.0">`,
 
       scriptToInclude: `
@@ -31,6 +32,8 @@ class WebBuildProcess extends BaseBuild {
   getAppConfig() {
     if (this.config.inlineAppConfig) {
       return `<script> window.APP_CONFIG = ${JSON.stringify(this.appConfig)}; </script>`;
+    } else if (this.config.urlAppConfig) {
+      return `<script src="/env/app-config?_cb=${this.config.version}" />`
     }
     return '';
   }
