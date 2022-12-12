@@ -519,7 +519,6 @@ const mapDispatchToProps = (dispatch) => {
       showNotificationMessage: (data) => dispatch(showNotificationMessage(data)),
       closeNotification: (data) => dispatch(closeNotification(data)),
       startLoading: (data) => dispatch(startLoading(data)),
-      closePopup: (data) => dispatch(closePopup(data)),
       showPopup: (data) => dispatch(showPopup(data)),
       stopLoading: (data) => dispatch(stopLoading(data)),
       setError: (data) => dispatch(setError(data)),

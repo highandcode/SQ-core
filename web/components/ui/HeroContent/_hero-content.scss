@@ -15,6 +15,16 @@
 
   &__links-container {
     margin-top: 16px;
+    .sq-button {
+      margin-right: 0;
+      margin-bottom: 8px;
+    }
+    @media (min-width: $screen-sm) {
+      .sq-button {
+        margin-right: 8px;
+        margin-bottom: 0;
+      }
+    }
   }
   &__links2-container {
     margin-top: 16px;

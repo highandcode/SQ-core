@@ -7,7 +7,7 @@ import { resolveImageUrl } from '../../../cordova';
 
 const Link = ({
   to = '',
-  href = '#',
+  href = '',
   children,
   className = '',
   onClick,
@@ -15,6 +15,7 @@ const Link = ({
   size = 'normal',
   iconDirection = 'left',
   color = 'default',
+  urlParams = {},
   iconName,
   iconColor,
   iconSvg,
@@ -26,13 +27,14 @@ const Link = ({
   const { click } = analytics;
   return (
     <a
-      href={href}
+      href={to || href || '#'}
       onClick={(e) => {
-        !disabled && onClick && onClick(e);
-        !disabled && to && redirectTo(to, {}, { target });
         if (to || href === '#') {
           e.preventDefault();
+          e.stopPropagation();
         }
+        !disabled && onClick && onClick(e);
+        !disabled && to && redirectTo(to, urlParams, { target });
         !disabled &&
           click &&
           onAnalytics &&

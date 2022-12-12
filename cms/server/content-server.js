@@ -184,6 +184,7 @@ class ContentServer {
     } else {
       folder = path;
     }
+
     const pages = [];
     if (this.fse.lstatSync(folder).isDirectory()) {
       this.fse.readdirSync(folder).forEach((file) => {
@@ -441,7 +442,6 @@ class ContentServer {
     } catch (ex) {
       contents = [this.getErrorPage(currentSiteConfig, fullPath)];
     }
-    console.log('app path found');
 
     const merged = {
       navigation: currentSiteConfig.siteMap.children,

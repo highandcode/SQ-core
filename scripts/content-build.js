@@ -35,6 +35,7 @@ class StaticContentBuilder {
       fs.mkdirSync(target);
     }
     contentPath = contentPath.replace(this.serverConfig.contentPath, '');
+    contentPath = contentPath.charAt(0) === '/' ? contentPath.substring(1) : contentPath;
     ops.push(
       this.contentServer.getPageContent(contentPath).then((data) => {
         this.writeFileSync(`${target}`, 'index.html', data.data);

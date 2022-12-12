@@ -12,7 +12,9 @@ class ComponentDemo extends Component {
 
   componentDidMount() {
     const { metaData = {}, pageData = {}, ...rest } = this.props;
-    eval(pageData.javascript);
+    if (pageData.javascript) {
+      eval(pageData.javascript);
+    }
   }
 
   render() {

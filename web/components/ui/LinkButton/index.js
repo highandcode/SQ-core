@@ -35,6 +35,7 @@ const LinkButton = ({
           color={color}
           size={size}
           buttonText={buttonText}
+          to={to}
           {...rest}
           onClick={(e) => {
             onClick && onClick(e);
