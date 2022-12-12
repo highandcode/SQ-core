@@ -9,9 +9,7 @@
       font-weight: 700;
     }
   }
-  &__navigation {
-    column-count: 3;
-  }
+ 
   &__params {
     &-name {
       @include t4-style();

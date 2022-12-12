@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Header from "../../components/ui/Header";
 import LinkButton from "../../components/ui/LinkButton";
-import { getMap } from "../../components";
 import "./_toc-index.scss";
 
 class TableOfContent extends Component {
@@ -11,11 +10,17 @@ class TableOfContent extends Component {
     this.state = {};
   }
 
+  extractCatName  (name) {
+    if (name.indexOf('::') > -1) {
+      return name.substr(name.indexOf('::') + 2);
+    }
+    return name;
+  };
+
   render() {
     const { metaData = {}, pageData = {}, ...rest } = this.props;
     const { className = "" } = pageData;
     const categories = Object.keys(metaData.siblingPages || {});
-    const compMap = getMap();
     return (
       <div className={`sq-content-toc sq-content-page__body ${className}`}>
         <div className="container-fluid">
@@ -26,7 +31,7 @@ class TableOfContent extends Component {
                 const category = metaData.siblingPages[cat];
                 return (
                   <div key={idx} className="sq-content-toc__item">
-                    <h4 className="sq-content-toc__header ">{cat} </h4>
+                    <h4 className="sq-content-toc__header ">{this.extractCatName(cat)} </h4>
                     {category.map((data, cIdx) => {
                       return (
                         <div key={cIdx}>

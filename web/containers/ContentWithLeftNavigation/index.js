@@ -16,7 +16,6 @@ class ComponentDemo extends Component {
       eval(pageData.javascript);
     }
   }
-
   render() {
     const { metaData = {}, pageData = {}, transitionClass, ...rest } = this.props;
     const { className = '' } = pageData;
