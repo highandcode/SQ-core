@@ -205,7 +205,8 @@ class ContentServer {
           if (contents.length > 0) {
             pages.push({
               path: url + '/' + file.replace('.yaml', ''),
-              ...contents[0],
+              category: contents[0].category,
+              title: contents[0].title,
             });
           }
         }
