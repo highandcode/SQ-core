@@ -10,9 +10,9 @@ var mockSiteConfigCustomized = {
     errorRedirects: {
       500: '/content/pages/mockerror',
       404: '/content/pages/mock404',
-      launchSoon: '/content/pages/mocklaunch'
-    }
-  }
+      launchSoon: '/content/pages/mocklaunch',
+    },
+  },
 };
 
 describe('CMS::ContentServer', function () {
@@ -21,7 +21,13 @@ describe('CMS::ContentServer', function () {
   let common_inst;
   let real_inst;
   beforeEach(() => {
-    fse = mocks.createMockRepository({}, ['readdir', 'existsSync', 'lstatSync', 'readdirSync', 'readFileSync']);
+    fse = mocks.createMockRepository({}, [
+      'readdir',
+      'existsSync',
+      'lstatSync',
+      'readdirSync',
+      'readFileSync',
+    ]);
     app = mocks.createMockRepository({}, ['get', 'post', 'use']);
     chai.spy.on(fse, 'readdir', () => []);
     chai.spy.on(fse, 'lstatSync', () => ({ isDirectory: () => true }));
@@ -41,7 +47,7 @@ describe('CMS::ContentServer', function () {
         mode: 'production',
         siteConfig: mockSiteConfig,
         fse,
-        dirname: '/test/server'
+        dirname: '/test/server',
       },
       app
     );
@@ -56,7 +62,7 @@ describe('CMS::ContentServer', function () {
         envConfig: {},
         mode: 'production',
         siteConfig: mockSiteConfig,
-        dirname: `${process.cwd()}/cms/`
+        dirname: `${process.cwd()}/cms/`,
       },
       app
     );
@@ -69,7 +75,7 @@ describe('CMS::ContentServer', function () {
         clientLibs: '/clientlibs',
         envConfig: {},
         mode: 'production',
-        siteConfig: mockSiteConfigCustomized
+        siteConfig: mockSiteConfigCustomized,
       },
       app
     );
@@ -93,7 +99,7 @@ describe('CMS::ContentServer', function () {
         mode: 'production',
         siteConfig: {},
         fse,
-        dirname: '/test/'
+        dirname: '/test/',
       });
     });
 
@@ -108,7 +114,7 @@ describe('CMS::ContentServer', function () {
   describe('mapVanity()', () => {
     it('should call app.use with string', () => {
       common_inst.mapVanity({
-        test: '/test'
+        test: '/test',
       });
       expect(app.use).to.be.called.with('/test');
     });
@@ -116,8 +122,8 @@ describe('CMS::ContentServer', function () {
       common_inst.mapVanity({
         '/content/(.*)': {
           type: 'regex',
-          target: '/content/$1'
-        }
+          target: '/content/$1',
+        },
       });
       expect(app.use).not.to.be.called.with('/content/$1');
     });
@@ -134,25 +140,37 @@ describe('CMS::ContentServer', function () {
         mode: 'production',
         siteConfig: {},
         fse,
-        dirname: '/test/server'
+        dirname: '/test/server',
       });
     });
 
     afterEach(() => {});
 
     it('should give priority to file gold.yaml', () => {
-      chai.spy.on(fse, 'existsSync', (path) => (path.indexOf('gold') > -1 ? true : false));
-      expect(inst.getFilePath('/test/dir/gold')).to.equal('/test/test/dir/gold.yaml');
+      chai.spy.on(fse, 'existsSync', (path) =>
+        path.indexOf('gold') > -1 ? true : false
+      );
+      expect(inst.getFilePath('/test/dir/gold')).to.equal(
+        '/test/test/dir/gold.yaml'
+      );
       chai.spy.restore(fse, 'existsSync');
     });
     it('should give priority to if have /index.yaml', () => {
-      chai.spy.on(fse, 'existsSync', (path) => (path.indexOf('/index.yaml') > -1 ? true : false));
-      expect(inst.getFilePath('/test/dir/site')).to.equal('/test/test/dir/site/index.yaml');
+      chai.spy.on(fse, 'existsSync', (path) =>
+        path.indexOf('/index.yaml') > -1 ? true : false
+      );
+      expect(inst.getFilePath('/test/dir/site')).to.equal(
+        '/test/test/dir/site/index.yaml'
+      );
       chai.spy.restore(fse, 'existsSync');
     });
     it('should return same path if not has yaml file', () => {
-      chai.spy.on(fse, 'existsSync', (path) => (path.indexOf('.yaml') > -1 ? false : true));
-      expect(inst.getFilePath('/test/dir/site')).to.equal('/test/test/dir/site');
+      chai.spy.on(fse, 'existsSync', (path) =>
+        path.indexOf('.yaml') > -1 ? false : true
+      );
+      expect(inst.getFilePath('/test/dir/site')).to.equal(
+        '/test/test/dir/site'
+      );
       chai.spy.restore(fse, 'existsSync');
     });
     it('should return path if not matched', () => {
@@ -176,13 +194,13 @@ describe('CMS::ContentServer', function () {
               children: [
                 {
                   title: 'Chain',
-                  href: '/content/in/gold/chain'
+                  href: '/content/in/gold/chain',
                 },
                 {
                   title: 'Ring',
-                  href: '/content/in/gold/ring'
-                }
-              ]
+                  href: '/content/in/gold/ring',
+                },
+              ],
             },
             {
               title: 'Silver',
@@ -190,17 +208,17 @@ describe('CMS::ContentServer', function () {
               children: [
                 {
                   title: 'Panjeb',
-                  href: '/content/in/silver/panjeb'
+                  href: '/content/in/silver/panjeb',
                 },
                 {
                   title: 'Kada',
-                  href: '/content/in/silver/kada'
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  href: '/content/in/silver/kada',
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
     describe('finding root as site', () => {
       let result;
@@ -248,21 +266,21 @@ describe('CMS::ContentServer', function () {
       result = common_inst.processContent(
         {
           inject: {
-            value: 'cold.war'
+            value: 'cold.war',
           },
           items: [
             {
               inject: {
-                take: 'item'
-              }
-            }
-          ]
+                take: 'item',
+              },
+            },
+          ],
         },
         {
           item: 'gold',
           cold: {
-            war: 'test'
-          }
+            war: 'test',
+          },
         }
       );
     });
@@ -329,7 +347,11 @@ describe('CMS::ContentServer', function () {
         expect(result.extraParams.launchTime).to.equal('');
       });
       it('should return merged.navigation', () => {
-        expect(result.merged.navigation).to.eql([]);
+        expect(result.merged.navigation).to.eql([
+          {
+            title: 'home',
+          },
+        ]);
       });
     });
     describe('getPageData() for good pages', () => {

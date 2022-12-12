@@ -164,7 +164,7 @@ class ContentServer {
           foundNode = childNode;
           break;
         } else if (
-          (!childNode.always && childNode.href.indexOf(path) > -1) ||
+          (!childNode.always && childNode.href?.indexOf(path) > -1) ||
           path.indexOf(childNode.href) > -1
         ) {
           // console.log("matched index");
@@ -512,6 +512,7 @@ class ContentServer {
         // }, 3000);
       })
       .catch((response) => {
+        console.log(response);
         res.status(response.status).send(response.data);
       });
   }

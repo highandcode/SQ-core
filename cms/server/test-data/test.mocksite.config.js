@@ -42,6 +42,10 @@ module.exports = {
       variant: 'primary',
       href: 'home'
     },
-    children: []
+    children: [
+      {
+        title: 'home'
+      }
+    ]
   }
 };

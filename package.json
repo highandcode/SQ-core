@@ -15,7 +15,7 @@
     "test:coverage": "npm run server:test:junit && npm run client:test:coverage",
     "start": "start-storybook -p 6006",
     "clean:dist": "rm -rf dist && npm run dist",
-    "dist": "webpack && webpack --config webpack.web.config.js && node scripts/dist.js",
+    "dist": "npm run build:apps && webpack && webpack --config webpack.web.config.js && node scripts/dist.js",
     "dist:push": "npm run dist && cd dist && git add . && git commit -m 'v2.x.x-update' && git push",
     "dist:target": "npm version patch && rm -rf dist && webpack && webpack --config webpack.web.config.js && node scripts/dist.js && cd dist && npm pack && cd .. && node scripts/dist-post.js",
     "build-storybook": "build-storybook"
