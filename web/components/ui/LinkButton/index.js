@@ -33,6 +33,7 @@ const LinkButton = ({
           iconName={iconName}
           iconColor={iconColor}
           color={color}
+          urlParams={urlParams}
           size={size}
           buttonText={buttonText}
           to={to}
