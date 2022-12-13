@@ -33,7 +33,7 @@ class WebBuildProcess extends BaseBuild {
     if (this.config.inlineAppConfig) {
       return `<script> window.APP_CONFIG = ${JSON.stringify(this.appConfig)}; </script>`;
     } else if (this.config.urlAppConfig) {
-      return `<script src="/env/app-config?_cb=${this.config.version}" />`
+      return `<script src="/env/app-config?_cb=${this.config.version}" ></script>`
     }
     return '';
   }
