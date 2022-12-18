@@ -30,7 +30,7 @@ const Link = ({
     <a
       href={to || href || '#'}
       onClick={(e) => {
-        if (urlFinal === '#') {
+        if (urlFinal || urlFinal === '#') {
           e.preventDefault();
           e.stopPropagation();
         }
