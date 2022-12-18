@@ -53,7 +53,7 @@ class BaseBuild {
               document.body.style.marginTop = "1px";
               setTimeout(function () {
                   document.body.style.marginTop = originalMarginTop;
-                  setFullHeight && setFullHeight();
+                  window.setFullHeight && window.setFullHeight();
               }, 100);
           }, false);
       </script>
