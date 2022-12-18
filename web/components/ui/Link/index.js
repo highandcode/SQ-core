@@ -25,11 +25,12 @@ const Link = ({
 }) => {
   const { target, analytics = {}, onAnalytics } = rest;
   const { click } = analytics;
+  const urlFinal = to || href || '#';
   return (
     <a
       href={to || href || '#'}
       onClick={(e) => {
-        if (to || href === '#') {
+        if (urlFinal === '#') {
           e.preventDefault();
           e.stopPropagation();
         }
