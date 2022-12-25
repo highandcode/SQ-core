@@ -22,9 +22,9 @@ function SQPagination({ className = '', disabled = false, defaultPage, count, on
       onChange &&
         onChange({
           value: {
-            pageSize: defaultPageSize,
             ...value,
             pageSize: inputValue,
+            currentPage: 1
           },
         });
     }
