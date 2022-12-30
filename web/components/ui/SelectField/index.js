@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Select from '@mui/material/Select';
@@ -7,11 +7,10 @@ import Checkbox from '@mui/material/Checkbox';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import StandardInput from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
-import ListItemText from '@mui/material/ListItemText';
 import FormControl from '@mui/material/FormControl';
 import './select-field.scss';
 import { translate } from '../../../utils/translate';
-import { getValue, idFromLabel } from '../../../utils/properties';
+import { common, getValue, idFromLabel } from '../../../utils/properties';
 import Icon from '../../Icon';
 
 const InputCollection = {
@@ -72,7 +71,7 @@ const SelectField = ({
           defaultValue={defaultValue}
           className="sq-select-field__input"
           data-testid={testId}
-          value={multiple ? value ? value : [] : isValid ? value : undefined}
+          value={multiple ? !common.isNullOrUndefined(value) ? value : [] : isValid ? value : undefined}
           onChange={handleChange}
           input={<InputToRender label={label} />}
           multiple={multiple}
