@@ -103,7 +103,7 @@ class SelectPopup extends React.Component {
         {finalOption && <div className="sq-select-popup__eyebrow">{label}</div>}
         <div className="sq-select-popup__container" onClick={this.handleOnClick}>
           <div className={`sq-select-popup__selected-text ${!finalOption ? 'default' : 'selected'}`}>{finalText}</div>
-          <Link onClick={this.handleOnClick}>{!finalOption ? actionLabel : actionChangeLabel}</Link>
+          <Link size="small" onClick={this.handleOnClick}>{!finalOption ? actionLabel : actionChangeLabel}</Link>
         </div>
         {errorMessage && <div className="sq-error sq-select-field--error">{errorMessage}</div>}
         <Dialog

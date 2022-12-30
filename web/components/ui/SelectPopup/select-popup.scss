@@ -16,7 +16,7 @@
       color: $sq-color-primary;
     }
     flex-grow: 1;
-    font-size: 1.1428571428571428rem;
+    font-size: 14px;
     font-weight: 400;
     line-height: 1.2;
     overflow: hidden;
@@ -33,9 +33,9 @@
   }
   &__container {
     display: flex;
-    padding: 18px;
-    border: solid 1px $sq-color-gray;
-    border-radius: 20px;
+    padding: 10px;
+    border: solid 1px $sq-color-gray-light;
+    border-radius: 5px;
     .sq-link {
       margin-left: 20px;
       display: flex;
