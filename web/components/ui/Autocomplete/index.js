@@ -8,7 +8,7 @@ import InputField from '../InputField';
 import './auto-complete.scss';
 import { getValue } from '../../../utils/properties';
 
-const SQAutocomplete = ({ row, name, options = [], fixedOptions = [], className = '', inputClassName = '', value = null, label = '', onChange, onAnalytics, inputVariant = 'outlined', analytics, defaultValue = '', textField = 'text', valueField = 'value', multiple, onAction, error, errorMessage, compProps = {}, ...rest }) => {
+const SQAutocomplete = ({ row, name, options = [], fixedOptions = [], className = '', disabled, inputClassName = '', value = null, label = '', onChange, onAnalytics, inputVariant = 'outlined', analytics, defaultValue = '', textField = 'text', valueField = 'value', multiple, onAction, error, errorMessage, compProps = {}, ...rest }) => {
   const handleChange = (e, value) => {
     onChange &&
       onChange({
@@ -35,6 +35,7 @@ const SQAutocomplete = ({ row, name, options = [], fixedOptions = [], className 
   return (
     <div className={`sq-autocomplete ${className}`}>
       <Autocomplete
+        disabled={disabled}
         {...compProps}
         classes={{
           popper: 'sq-autocomplete__pop-over',
@@ -82,6 +83,7 @@ SQAutocomplete.propTypes = {
   errorMessage: PropTypes.string,
   label: PropTypes.string,
   row: PropTypes.object,
+  disabled: PropTypes.bool,
   className: PropTypes.string,
   options: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
   value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
