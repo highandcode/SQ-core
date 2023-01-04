@@ -31,7 +31,6 @@ const SQAutocomplete = ({ row, name, options = [], fixedOptions = [], className 
       .filter((i) => !!i);
   }
 
-  const [inputValue, setInputValue] = useState('');
   return (
     <div className={`sq-autocomplete ${className}`}>
       <Autocomplete
@@ -42,7 +41,6 @@ const SQAutocomplete = ({ row, name, options = [], fixedOptions = [], className 
         }}
         multiple={multiple}
         options={finalOptions}
-        inputValue={inputValue}
         getOptionLabel={(option) => (rest.getOptionLabel ? rest.getOptionLabel(option) : option[textField] || '')}
         onChange={handleChange}
         renderTags={(tagValue, getTagProps) =>
@@ -66,9 +64,6 @@ const SQAutocomplete = ({ row, name, options = [], fixedOptions = [], className 
           </Box>
         )}
         value={optionFound || value || (multiple ? [] : null)}
-        onInputChange={(event, newInputValue) => {
-          setInputValue(newInputValue);
-        }}
         renderInput={(params) => {
           return <InputField {...params} error={error} className={inputClassName} label={label} />;
         }}
