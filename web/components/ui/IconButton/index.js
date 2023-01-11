@@ -5,28 +5,50 @@ import Tooltip from '@mui/material/Tooltip';
 import { redirectTo } from '../../../utils/redirect';
 import Icon from '../../Icon';
 
-const SQIconButton = ({ to = '', title, disabled, children, color = 'primary', className = '', onClick, iconSize = 'small', iconName, urlParams, ...rest }) => {
+const SQIconButton = ({
+  to = '',
+  title,
+  variant = 'outlined',
+  disabled,
+  children,
+  color = 'primary',
+  className = '',
+  onClick,
+  iconSize = 'normal',
+  iconName,
+  urlParams,
+  ...rest
+}) => {
   const finalColor = disabled ? 'default' : color;
   let button = (
     <IconButton
-      className={className}
+      className={'sq-icon-button__button'}
       disabled={disabled}
+      variant={variant}
       onClick={(e) => {
         !disabled && onClick && onClick(e);
         !disabled && to && redirectTo(to, urlParams, { ...rest });
       }}
     >
-      <Icon name={iconName} variant={finalColor} color={finalColor} size={iconSize} />
+      <Icon
+        className={`sq-icon--${variant}`}
+        name={iconName}
+        variant={finalColor}
+        color={finalColor}
+        size={iconSize}
+      />
     </IconButton>
   );
   return (
-    <div className={`sq-icon-button ${disabled ? 'sq-icon-button--disabled' : ''}`}>
+    <div
+      className={`sq-icon-button ${className} ${
+        disabled ? 'sq-icon-button--disabled' : ''
+      }`}
+    >
       {!title && button}
       {title && (
         <Tooltip title={title}>
-          <span>
-            {button}
-          </span>
+          <span>{button}</span>
         </Tooltip>
       )}
     </div>

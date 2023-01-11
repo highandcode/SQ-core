@@ -5,6 +5,7 @@ const _ = require('lodash');
 const utils = require('../../server/src/utils');
 const PageBuilder = require('./builder/page-builder');
 const Response = require('../../server/src/Response');
+
 const pkgName = require('../../package.json');
 
 class ContentServer {
@@ -16,7 +17,8 @@ class ContentServer {
     } = {},
     app
   ) {
-    const cmsRootServer = dirname;
+    let cmsRootServer = dirname;
+    cmsRootServer = utils.path.ensureSlashAtEnd(cmsRootServer);
     console.log(`root:${cmsRootServer}`);
     console.log(`root:client::${cmsRootServer}client`);
     this.config = Object.assign(
@@ -38,67 +40,98 @@ class ContentServer {
       options
     );
     this.app = app;
+    this.config.rootPath = utils.path.ensureSlashAtEnd(this.config.rootPath);
+    this.config.contentPath = utils.path.ensureSlashAtEnd(
+      this.config.contentPath
+    );
+    this.config.srcPath = utils.path.ensureSlashAtEnd(this.config.srcPath);
+    this.rootContentPath = `${this.config.rootPath}content/`;
+    this.config.rootApp = utils.path.ensureSlashAtEnd(this.config.rootApp);
     this.fse = fse || our_fse;
     this.contentFolder = this.config.serverPath.substr(
       0,
       this.config.serverPath.lastIndexOf('/')
     );
+    this.contentFolder = utils.path.ensureNoSlashAtEnd(this.contentFolder);
+    console.log('content-folder' + this.contentFolder);
     this.clientLibs = cmsRootServer + 'client';
     this.allSiteMaps = {};
     this.searchSiteMaps();
   }
 
-  getFilePath(path) {
+  getFileLocation(path) {
     const pathToSeach = [this.config.rootApp, this.config.rootPath];
-
+    let filePath = path;
+    path = utils.path.ensureNoSlashAtStart(path);
+    let rootPath;
+    let isFile = true;
     for (let i = 0; i < pathToSeach.length; i++) {
       let currentPath = pathToSeach[i];
-      // console.log('>>>' + currentPath + ':' + path);
+      // console.log('>>checking' + currentPath);
       if (this.fse.existsSync(`${currentPath}${path}.yaml`)) {
-        return `${currentPath}${path}.yaml`;
+        filePath = `${currentPath}${path}.yaml`;
+        rootPath = currentPath;
+        break;
       } else if (this.fse.existsSync(`${currentPath}${path}/index.yaml`)) {
-        return `${currentPath}${path}/index.yaml`;
-      } else if (this.fse.existsSync(`${currentPath}${path}`)) {
-        return `${currentPath}${path}`;
+        filePath = `${currentPath}${path}/index.yaml`;
+        isFile = false;
+        rootPath = currentPath;
+        break;
       }
     }
-    return path;
+    return { filePath, rootPath, isFile };
+  }
+
+  getFilePath(path) {
+    const { filePath } = this.getFileLocation(path);
+    return filePath;
   }
 
   searchSiteMaps() {
-    console.log('searching site maps in:' + this.config.contentPath);
     const siteMaps = {};
-    this.fse.readdir(this.config.contentPath, (err, list) => {
-      if (err) throw err;
-      for (var i = 0; i < list.length; i++) {
-        // console.log(`${this.config.contentPath}/${list[i]}/sitemap.yaml`);
-        if (
-          this.fse.existsSync(
-            `${this.config.contentPath}/${list[i]}/sitemap.yaml`
-          )
-        ) {
-          let contents;
-          try {
-            let fileContents = this.fse.readFileSync(
-              `${this.config.contentPath}/${list[i]}/sitemap.yaml`,
-              'utf8'
-            );
-            contents = yaml.loadAll(fileContents);
-          } catch (ex) {
-            contents = '';
-          }
-          if (contents) {
-            siteMaps[list[i]] = contents[0];
+    [this.rootContentPath, this.config.contentPath].forEach((path) => {
+      console.log('searching site maps in:' + path);
+      this.fse.readdir(path, (err, list) => {
+        if (this.fse.existsSync(path)) {
+          if (err) throw err;
+          for (var i = 0; i < list.length; i++) {
+            if (this.fse.existsSync(`${path}${list[i]}/sitemap.yaml`)) {
+              console.log(`${path}${list[i]}/sitemap.yaml`);
+              let contents;
+              try {
+                let fileContents = this.fse.readFileSync(
+                  `${path}${list[i]}/sitemap.yaml`,
+                  'utf8'
+                );
+                contents = yaml.loadAll(fileContents);
+              } catch (ex) {
+                contents = '';
+              }
+              if (contents) {
+                siteMaps[list[i]] = contents[0];
+                console.log('added site map:' + list[i]);
+              }
+            } else if (
+              this.fse.existsSync(`${path}${list[i]}/site.config.js`)
+            ) {
+              console.log(`${path}${list[i]}/site.config.js`);
+              let contents;
+              try {
+                let fileContents = require(`${path}${list[i]}/site.config.js`);
+                contents = fileContents;
+              } catch (ex) {
+                contents = '';
+              }
+              if (contents) {
+                siteMaps[list[i]] = contents;
+                console.log('added site map:' + list[i]);
+              }
+            }
           }
         }
-        // if (path.extname(list[i]) === fileType) {
-        //   console.log(list[i]); //print the file
-        //   files.push(list[i]); //store the file name into the array files
-        // }
-      }
-      this.allSiteMaps = siteMaps;
-      // console.log(this.allSiteMaps);
+      });
     });
+    this.allSiteMaps = siteMaps;
   }
 
   init() {
@@ -271,7 +304,7 @@ class ContentServer {
         siteMap.errorRedirects && siteMap.errorRedirects[500]
       );
     } else if (!filePath) {
-      filePath = this.getFilePath('/content/pages/error.yaml');
+      filePath = this.getFilePath('/content/pages/error');
     }
     if (!this.fse.existsSync(filePath)) {
       filePath = this.get404Page(undefined, path);
@@ -318,7 +351,7 @@ class ContentServer {
           siteConfig.siteMap.errorRedirects[404]
       );
     } else if (!filePath) {
-      filePath = this.getFilePath('/content/pages/404.yaml');
+      filePath = this.getFilePath('/content/pages/404');
     }
     return filePath;
   }
@@ -336,7 +369,7 @@ class ContentServer {
           siteConfig.siteMap.errorRedirects[targetPage]
       );
     } else {
-      filePath = this.getFilePath('/content/pages/comingsoon.yaml');
+      filePath = this.getFilePath('/content/pages/comingsoon');
     }
     return filePath;
   }
@@ -353,7 +386,7 @@ class ContentServer {
           siteConfig.siteMap.errorRedirects[targetPage]
       );
     } else {
-      filePath = this.getFilePath('/content/pages/launchend.yaml');
+      filePath = this.getFilePath('/content/pages/launchend');
     }
     return filePath;
   }
@@ -367,13 +400,12 @@ class ContentServer {
     let status = 200;
     const srcFile = path;
     const appPath = this.getAppNameFromUrl(srcFile);
+    console.log('appPath:' + appPath);
     const currentSiteConfig = this.allSiteMaps[appPath] || config.siteConfig;
-
+    // console.log(currentSiteConfig);
     const fullPath = `${this.contentFolder}/${srcFile}`;
     console.log('--serving=' + fullPath);
     let siblingData = {};
-    let filePath = `${config.contentPath}/${srcFile}.yaml`;
-    let isFile = true;
     let isLaunchMatch = false;
     let launchMatchKey = '';
     let launchTime = '';
@@ -387,10 +419,7 @@ class ContentServer {
       });
     }
 
-    if (!this.fse.existsSync(filePath)) {
-      filePath = `${config.contentPath}/${srcFile}/index.yaml`;
-      isFile = false;
-    }
+    let { filePath, rootPath, isFile } = this.getFileLocation(fullPath);
     if (isLaunchMatch) {
       var timeToLaunch;
       var pageForWait;
@@ -426,7 +455,7 @@ class ContentServer {
       status = 404;
     } else if (!isLaunchMatch) {
       siblingData = this.getAllSiblings(
-        `${config.contentPath}/${srcFile}`,
+        `${rootPath}${fullPath}`,
         isFile,
         fullPath
       );

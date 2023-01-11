@@ -12,6 +12,16 @@ const _validators = {
     }
     return !commons.isNullOrUndefined(value) && !!String(value).trim();
   },
+  fieldName: (value) => {
+    return _validators.regex(value, {
+      regex: /^[a-zA-Z-_0-9]*$/,
+    });
+  },
+  path: (value) => {
+    return _validators.regex(value, {
+      regex: /^[a-zA-Z_0-9/]*$/,
+    });
+  },
   requiredArray: (value, { required }, fields) => {
     if (required && required(fields) === false) {
       return true;
@@ -32,7 +42,11 @@ const _validators = {
   and: (value, { validations = [], ...options }, otherFields) => {
     let returnToVal = true;
     validations.forEach((item) => {
-      if (_validators[item.type] && _validators[item.type](value, { ...options, ...item }, otherFields) === false) {
+      if (
+        _validators[item.type] &&
+        _validators[item.type](value, { ...options, ...item }, otherFields) ===
+          false
+      ) {
         returnToVal = false;
       }
     });
@@ -44,14 +58,15 @@ const _validators = {
       if (
         _validators[item.type] &&
         !returnToVal &&
-        _validators[item.type](value, { ...options, ...item }, otherFields) === true
+        _validators[item.type](value, { ...options, ...item }, otherFields) ===
+          true
       ) {
         returnToVal = true;
       }
     });
     return returnToVal;
   },
- 
+
   exists: (value) => {
     return !!value || value === 0;
   },
@@ -77,18 +92,29 @@ const _validators = {
         }
       }
       if (decimals > 0) {
-        return new RegExp(`^${negative ? '\\s*[+-]?' : ''}(\\d+|\\.\\d+|\\d+\\.\\d{1,${decimals}}|\\d+\\.)?$`, 'g').test(
+        return new RegExp(
+          `^${
+            negative ? '\\s*[+-]?' : ''
+          }(\\d+|\\.\\d+|\\d+\\.\\d{1,${decimals}}|\\d+\\.)?$`,
+          'g'
+        ).test(value);
+      } else {
+        return new RegExp(`^${negative ? '\\s*[+-]?' : ''}(\\d+)?$`, 'g').test(
           value
         );
-      } else {
-        return new RegExp(`^${negative ? '\\s*[+-]?' : ''}(\\d+)?$`, 'g').test(value);
       }
     }
     return true;
   },
-  compareField: (value, { fieldName, compare = '=', trim = false }, otherFields) => {
+  compareField: (
+    value,
+    { fieldName, compare = '=', trim = false },
+    otherFields
+  ) => {
     let val1 = commons.isNullOrUndefined(value) ? '' : value;
-    let val2 = commons.isNullOrUndefined(otherFields[fieldName]) ? '' : otherFields[fieldName];
+    let val2 = commons.isNullOrUndefined(otherFields[fieldName])
+      ? ''
+      : otherFields[fieldName];
     if (trim) {
       val1 = val1.trim();
       val2 = val2.trim();
@@ -104,7 +130,10 @@ const _validators = {
     if (commons.isNullOrUndefinedBlank(value) && options.optional === true) {
       return true;
     }
-    let isValid = new RegExp(`^\\s*[+-]?(\\d+|\\.\\d+|\\d+\\.\\d+|\\d+\\.)$`, 'g').test(value);
+    let isValid = new RegExp(
+      `^\\s*[+-]?(\\d+|\\.\\d+|\\d+\\.\\d+|\\d+\\.)$`,
+      'g'
+    ).test(value);
     if (!commons.isNullOrUndefined(options.min) && isValid) {
       isValid = value * 1 >= options.min;
     }
@@ -121,15 +150,27 @@ const _validators = {
     return false;
   },
   phone: (value, { optional = true } = {}) => {
-    return value ? _validators.number(value) && _validators.length(value, { exact: 10 }) : optional !== undefined ? optional : false;
+    return value
+      ? _validators.number(value) && _validators.length(value, { exact: 10 })
+      : optional !== undefined
+      ? optional
+      : false;
   },
   internationalphone: (value) => {
-    return value ? !commons.isNullOrUndefined(value) && _validators.regex(value, { regex: /^\+[1-9]{1}[0-9]{10,14}$/ }) : true;
+    return value
+      ? !commons.isNullOrUndefined(value) &&
+          _validators.regex(value, { regex: /^\+[1-9]{1}[0-9]{10,14}$/ })
+      : true;
   },
 
   regex: (value, options) => {
-    const regex = typeof options.regex === 'string' ? new RegExp(options.regex) : options.regex;
-    return value && !commons.isNullOrUndefined(regex) ? regex.test(value) : true;
+    const regex =
+      typeof options.regex === 'string'
+        ? new RegExp(options.regex)
+        : options.regex;
+    return value && !commons.isNullOrUndefined(regex)
+      ? regex.test(value)
+      : true;
   },
   strongPassword: (value, options) => {
     if (value) {
@@ -141,13 +182,22 @@ const _validators = {
   },
   length: (value, options) => {
     let isValid = true;
-    if (!commons.isNullOrUndefined(options.exact) && String(value).trim().length !== options.exact) {
+    if (
+      !commons.isNullOrUndefined(options.exact) &&
+      String(value).trim().length !== options.exact
+    ) {
       isValid = false;
     }
-    if (!commons.isNullOrUndefined(options.min) && String(value).trim().length < options.min) {
+    if (
+      !commons.isNullOrUndefined(options.min) &&
+      String(value).trim().length < options.min
+    ) {
       isValid = false;
     }
-    if (!commons.isNullOrUndefined(options.max) && String(value).trim().length > options.max) {
+    if (
+      !commons.isNullOrUndefined(options.max) &&
+      String(value).trim().length > options.max
+    ) {
       isValid = false;
     }
     return isValid;
@@ -222,12 +272,19 @@ const _validators = {
     });
   },
   postalCN: (value) => {
-    return value ? _validators.regex(value, {
-      regex: /^((\d{5}-\d{4})|(\d{5})|([a-zA-Z]\d[a-zA-Z]\s\d[a-zA-Z]\d))$/
-    }) : true;
+    return value
+      ? _validators.regex(value, {
+          regex: /^((\d{5}-\d{4})|(\d{5})|([a-zA-Z]\d[a-zA-Z]\s\d[a-zA-Z]\d))$/,
+        })
+      : true;
   },
   options: (value, config = {}, values) => {
-    const { subType = 'array', options = [], fieldName = 'value', optional = false } = config;
+    const {
+      subType = 'array',
+      options = [],
+      fieldName = 'value',
+      optional = false,
+    } = config;
     const finalOptions = commons.getValue(this, options, config, values);
     if (optional && !value) {
       return true;
@@ -248,7 +305,10 @@ const _validators = {
   },
   array: (value, config = {}) => {
     if (config.valueType === 'string') {
-      return Array.isArray(value) && value.map((i) => typeof i).filter((s) => s !== 'string').length === 0;
+      return (
+        Array.isArray(value) &&
+        value.map((i) => typeof i).filter((s) => s !== 'string').length === 0
+      );
     }
     return Array.isArray(value);
   },
@@ -257,10 +317,13 @@ const _validators = {
 const _messages = {
   options: () => `Please select a valid option`,
   required: () => `This field is required`,
+  path: () => `Path should be alphanumeric (-_ is allowed) without spaces separated with /`,
   compareField: () => `This field should match compare criteria`,
   emailphone: () => `Enter a valid email or phone`,
-  emailinternationalphone: () => `Enter a valid email or phone with international code e.g +91`,
+  emailinternationalphone: () =>
+    `Enter a valid email or phone with international code e.g +91`,
   email: () => `Enter a valid email`,
+  fieldName: () => `Should be alphanumeric with no spaces only _ is allowed`,
   array: () => `Array does not match schema`,
   length: ({ exact, min, max }) => {
     if (exact) {
@@ -277,10 +340,12 @@ const _messages = {
     }
   },
   phone: () => `Enter a valid phone number`,
-  internationalphone: () => `Enter a valid phone number with country code e.g. +91 910 989 9887`,
+  internationalphone: () =>
+    `Enter a valid phone number with country code e.g. +91 910 989 9887`,
   password: () => `Password should be 6 characters long`,
   postalCN: () => `Enter a valid postal code`,
-  strongPassword: () => `Password should be min 8 characters long with atleast 1 uppercase, special character and number`,
+  strongPassword: () =>
+    `Password should be min 8 characters long with atleast 1 uppercase, special character and number`,
 };
 
 class Validator {
@@ -336,28 +401,43 @@ class Validator {
     let extraParams = {};
     if (this.validators[field] && this.validators[field].validators) {
       Array.isArray(this.validators[field].validators) &&
-        this.validators[field].validators.forEach(({ type, message, key: vErrorKey, ...rest }) => {
-          const isOptional = this.checkOptional(this.validators[field].optional);
-          if (_validators[type] && (!isOptional || this.values[field])) {
-            const result = _validators[type](this.values[field], rest, this.values);
-            let final;
-            if (typeof result === 'object' && result.custom === true) {
-              const { isValid: isNewValid, ...rest } = result;
-              final = isNewValid;
-              extraParams = rest;
-            } else {
-              final = !!result;
-            }
-            if (isValid && !final) {
-              isValid = false;
-              errorMessage = message || (_messages[type] && _messages[type](rest, this.values));
-              errorKey = vErrorKey || this.options.keys[type] || '';
-              return false;
+        this.validators[field].validators.forEach(
+          ({ type, message, key: vErrorKey, ...rest }) => {
+            const isOptional = this.checkOptional(
+              this.validators[field].optional
+            );
+            if (_validators[type] && (!isOptional || this.values[field])) {
+              const result = _validators[type](
+                this.values[field],
+                rest,
+                this.values
+              );
+              let final;
+              if (typeof result === 'object' && result.custom === true) {
+                const { isValid: isNewValid, ...rest } = result;
+                final = isNewValid;
+                extraParams = rest;
+              } else {
+                final = !!result;
+              }
+              if (isValid && !final) {
+                isValid = false;
+                errorMessage =
+                  message ||
+                  (_messages[type] && _messages[type](rest, this.values));
+                errorKey = vErrorKey || this.options.keys[type] || '';
+                return false;
+              }
             }
           }
-        });
+        );
     } else if (this.validators[field] && this.validators[field].validator) {
-      const { type, message, key: vErrorKey, ...rest } = this.validators[field].validator;
+      const {
+        type,
+        message,
+        key: vErrorKey,
+        ...rest
+      } = this.validators[field].validator;
       const isOptional = this.checkOptional(this.validators[field].optional);
       if ((!isOptional || this.values[field]) && _validators[type]) {
         const result = _validators[type](this.values[field], rest, this.values);
@@ -372,7 +452,8 @@ class Validator {
         }
         if (isValid && !final) {
           isValid = false;
-          errorMessage = message || (_messages[type] && _messages[type](rest, this.values));
+          errorMessage =
+            message || (_messages[type] && _messages[type](rest, this.values));
           errorKey = vErrorKey || this.options.keys[type] || '';
         }
       }
@@ -388,7 +469,8 @@ class Validator {
         error: true,
         ...extraParams,
         errorMessage:
-          Validator.parseMessage(errorMessage) || Validator.parseMessage(this.validators[field].errorMessage),
+          Validator.parseMessage(errorMessage) ||
+          Validator.parseMessage(this.validators[field].errorMessage),
       };
       if (errorKey) {
         this.errors[field].key = errorKey;
@@ -438,5 +520,5 @@ module.exports = {
   addValidator,
   getValidators: getValidators,
   addMessage,
-  getMessages: () => _messages
+  getMessages: () => _messages,
 };

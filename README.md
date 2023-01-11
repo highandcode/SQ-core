@@ -8,10 +8,12 @@ Core framework for web, plugin, cms &amp; nodejs server
 
 ## Demos
 
-- **Basic demo**: https://www.nybblecore.com/content/in/examples/basic
-- **Full list**: https://www.nybblecore.com/content/in/examples/special
+- **Basic demo**: https://www.qubejs.com/content/in/examples/basic
+- **Full list**: https://www.qubejs.com/content/in/examples/special
 
 
+## Issues Report
+https://github.com/qubejs/qubejs-core
 
 ## Download and Install qubejs-core
 

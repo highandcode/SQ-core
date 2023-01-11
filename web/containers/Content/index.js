@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getMap } from '../../components';
-import { Validator } from '../../utils/validator';
-import { object, common, validator } from '../../utils';
-import { addComp } from '../../components/ui';
 import Form from '../../components/Form';
 import Wrapper from '../../components/Wrapper';
+import { getMap, addComp } from '../../components';
+import { Validator } from '../../utils/validator';
+import { object, common, validator } from '../../utils';
+import { addComp as addUIComp, getMap as getUIMap } from '../../components/ui';
 import ErrorBoundary from '../../components/ErrorBoundry';
 import Dialog from '../../components/Dialog';
 
 import './_content.scss';
 
-addComp({
+addUIComp({
+  ...getMap(),
   Form,
   Wrapper,
 });
+// addComp({
+//   ...getUIMap(),
+// });
 class Content extends Component {
   constructor() {
     super();
@@ -48,7 +52,8 @@ class Content extends Component {
     if (dialgAction.action === 'ok') {
       const { onAction } = this.props;
       let allForms = this.getForms(this.props.pageData.items);
-      onAction && onAction(this.state.actionValue, action, { ...block, forms: allForms });
+      onAction &&
+        onAction(this.state.actionValue, action, { ...block, forms: allForms });
       setTimeout(() => {
         this.setState({
           confirmAction: false,
@@ -102,10 +107,8 @@ class Content extends Component {
   render() {
     const { pageData = {}, location, ...rest } = this.props;
     const { userData = {} } = rest;
-    const { pathname } = location;
     const { className = '' } = pageData;
-    const compMap = getMap();
-
+    const compMap = { ...getMap(), ...getUIMap() };
     return (
       <div className={`sq-content-page__body ${className}`}>
         {pageData.items &&
@@ -123,7 +126,7 @@ class Content extends Component {
             const Comp = compMap[block.component];
             block = object.processBlock(block, { userData });
             return Comp && isValid ? (
-              <ErrorBoundary key={pathname + idx}>
+              <ErrorBoundary key={idx}>
                 <Comp
                   {...rest}
                   value={userData[block.name]}
@@ -163,18 +166,22 @@ class Content extends Component {
             }}
             closeButton={false}
             open={this.state.confirmAction}
-            onAction={(data, dialgAction) => this.onDialogAction(dialgAction, this.state.action)}
-            actions={this.state.action.confirm.actions || [
-              {
-                buttonText: 'Yes',
-                action: 'ok',
-              },
-              {
-                buttonText: 'Cancel',
-                variant: 'outlined',
-                action: 'cancel',
-              },
-            ]}
+            onAction={(data, dialgAction) =>
+              this.onDialogAction(dialgAction, this.state.action)
+            }
+            actions={
+              this.state.action.confirm.actions || [
+                {
+                  buttonText: 'Yes',
+                  action: 'ok',
+                },
+                {
+                  buttonText: 'Cancel',
+                  variant: 'outlined',
+                  action: 'cancel',
+                },
+              ]
+            }
           />
         )}
       </div>

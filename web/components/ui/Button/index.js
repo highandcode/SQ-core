@@ -10,7 +10,7 @@ const CustomButton = ({
   actionValue,
   buttonText,
   iconName = '',
-  iconSize = 'small',
+  iconSize = 'normal',
   iconColor = '',
   iconDirection = 'left',
   size = 'medium',

@@ -15,6 +15,7 @@ module.exports = {
   object: require('./object'),
   number: require('./number'),
   common: require('./common'),
+  path: require('./path'),
   mask: require('./mask'),
   filter: require('./filter'),
   validatorCaster: new ValidatorCast(),

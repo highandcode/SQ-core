@@ -1,0 +1,43 @@
+title: Page not found
+template: apps/core/templates/page
+className: sq-page sq-error-page
+contentBodyClass: container-form
+layout: apps/core/layouts/spa
+containerTemplate: AdminDashboard
+items:
+    - component: Form
+      className: mt-wide
+      name: page
+      fields:
+        - name: title
+          label: Title
+          validators:
+            - type: required
+        - name: path
+          label: Path
+          mask:
+            type: appendText
+            text: /content/
+          validators:
+            - type: required
+              defaultValue: /content/
+            - type: path
+    - component: Button
+      size: large
+      buttonText: Create
+      actionType: submit
+      url: /api/v1/admin/content/page
+      method: post
+      dataKey: createPage
+      defaultResponse:
+        success:
+          data:
+            redirect:
+              to: editPage
+              urlParams:
+                path: .createPage.path
+            
+      params:
+        pageData:
+          title: .page.title
+        path: .page.path

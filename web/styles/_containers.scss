@@ -96,6 +96,16 @@
   margin: auto;
   width: 100%;
 }
+.container-wide {
+  max-width: 1440px;
+  margin: auto;
+  width: 100%;
+}
+.container-ultrawide {
+  max-width: 1740px;
+  margin: auto;
+  width: 100%;
+}
 
 .panel-bg-primary {
   background: $sq-color-primary;

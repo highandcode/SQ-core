@@ -169,7 +169,7 @@ describe('CMS::ContentServer', function () {
         path.indexOf('.yaml') > -1 ? false : true
       );
       expect(inst.getFilePath('/test/dir/site')).to.equal(
-        '/test/test/dir/site'
+        '/test/dir/site'
       );
       chai.spy.restore(fse, 'existsSync');
     });

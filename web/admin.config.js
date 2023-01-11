@@ -1,0 +1,25 @@
+module.exports = {
+  globals: {
+    path: '/content/admin/root',
+  },
+  urls: {
+    protected: ['/content/admin/portal/*'],
+  },
+  apis: {
+    userInfo: '/api/v1/admin/user/info',
+    getUsers: '/api/v1/admin/users/all',
+    getPage: '/api/v1/admin/content/page/get',
+    getContentTree: '/api/v1/admin/content/page/gettree',
+    contentPage: '/api/v1/admin/content/page',
+  },
+  urlMapping: {
+    login: '/content/admin/login',
+    register: '/content/admin/register',
+    adminDashboard: '/content/admin/portal/dashboard',
+    editPage: '/content/admin/portal/pages/edit',
+    '/content/(.*)': {
+      type: 'regex',
+      target: '/content/$1',
+    },
+  },
+};

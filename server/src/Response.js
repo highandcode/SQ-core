@@ -25,6 +25,7 @@ Response.prototype.success = function () {
 Response.prototype.error = function () {
   this.status = Response.TYPES.ERROR;
   this.code = this.data.code || this.code || 500;
+  this.data.error = true;
   return this.json();
 };
 

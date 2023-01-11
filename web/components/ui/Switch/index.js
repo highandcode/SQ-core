@@ -9,6 +9,7 @@ const SQSwitch = ({
   className = '',
   defaultValue = false,
   selectedValue = true,
+  inline = true,
   value,
   color = 'primary',
   onChange,
@@ -35,7 +36,7 @@ const SQSwitch = ({
     onAnalytics && changeAnalytics && onAnalytics(changeAnalytics);
   };
   return (
-    <div className={`sq-swich ${className}`}>
+    <div className={`sq-switch ${inline ? 'sq-switch--inline' : ''} ${className}`}>
       {label}
       <Switch
         checked={checked}

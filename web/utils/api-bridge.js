@@ -2,6 +2,7 @@ import { QueryString } from './query-string';
 import { messages } from './error-messages';
 import EventManager from './event-manager';
 import { CONSTANTS } from '../globals';
+import { redirectTo } from './redirect';
 
 let CODES = {
   UNAUTHORIZE_CODE: 403,
@@ -232,6 +233,9 @@ function responseReader(response) {
       return response;
     case CONSTANTS.STATUS.ERROR:
       switch (response.error?.handler) {
+        case 'REDIRECT':
+          response.error.redirectUrl && redirectTo(response.error.redirectUrl);
+          break;
         case 'POPUP':
           this.events.emit('onErrorPopup', response);
           break;
