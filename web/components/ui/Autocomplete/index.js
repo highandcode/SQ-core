@@ -4,7 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import Icon from '../../Icon';
-import InputField from '../InputField';
+import { TextField } from '@mui/material';
 import './auto-complete.scss';
 import { getValue } from '../../../utils/properties';
 
@@ -31,6 +31,7 @@ const SQAutocomplete = ({ row, name, options = [], fixedOptions = [], className 
       .filter((i) => !!i);
   }
 
+  const [inputValue, setInputValue] = useState('');
   return (
     <div className={`sq-autocomplete ${className}`}>
       <Autocomplete
@@ -41,6 +42,7 @@ const SQAutocomplete = ({ row, name, options = [], fixedOptions = [], className 
         }}
         multiple={multiple}
         options={finalOptions}
+        inputValue={inputValue}
         getOptionLabel={(option) => (rest.getOptionLabel ? rest.getOptionLabel(option) : option[textField] || '')}
         onChange={handleChange}
         renderTags={(tagValue, getTagProps) =>
@@ -64,8 +66,11 @@ const SQAutocomplete = ({ row, name, options = [], fixedOptions = [], className 
           </Box>
         )}
         value={optionFound || value || (multiple ? [] : null)}
+        onInputChange={(event, newInputValue) => {
+          setInputValue(newInputValue);
+        }}
         renderInput={(params) => {
-          return <InputField {...params} error={error} className={inputClassName} label={label} />;
+          return <TextField {...params} error={error} className={inputClassName} label={label} />;
         }}
       />
       {errorMessage && <div className="sq-error sq-autocomplete--error">{errorMessage}</div>}
