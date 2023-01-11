@@ -1,4 +1,5 @@
 jest.mock('../../utils/redirect');
+import '../../index';
 import React from 'react';
 import { render, screen, act, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';

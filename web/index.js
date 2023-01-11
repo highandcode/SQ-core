@@ -19,7 +19,19 @@ import * as root from './components/root';
 import * as components from './components';
 import * as ui from './components/ui';
 
-
+containers.DynamicContent.registerContainers({
+  ...containers.default,
+});
 
 /* export module */
-export { containers, components, ui, root, reducers, domain, globals, cordova, utils };
+export {
+  containers,
+  components,
+  ui,
+  root,
+  reducers,
+  domain,
+  globals,
+  cordova,
+  utils,
+};

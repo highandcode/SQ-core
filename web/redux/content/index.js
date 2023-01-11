@@ -112,6 +112,7 @@ export const sendContact = createAsyncThunk('content/sendContact', async (data) 
 });
 
 export const updateErrorData = (data) => (dispatch) => {
+  console.log('error data', data);
   const errors = {
     lastError: {},
   };
@@ -203,7 +204,6 @@ export const executeHook = (payload) => async (dispatch, getState) => {
       })
     );
   }
-
   if (response.status === 'success') {
     const data = payload.dataKey ? { [payload.dataKey]: response.data } : response.data;
     await dispatch(

@@ -33,6 +33,7 @@ import CardButton from '../CardButton';
 import CardButtonList from '../CardButtonList';
 import Radio from './Radio';
 import RichText from './RichText';
+import InputWithOptions from './InputWithOptions';
 import BasicRTE from './BasicRTE';
 import TextFields from './TextFields';
 import ProgressIndicator from './ProgressIndicator';
@@ -99,6 +100,7 @@ let comps = {
   ButtonSelection,
   TagDropdown,
   IconButton,
+  InputWithOptions,
 };
 
 const getMap = () => {

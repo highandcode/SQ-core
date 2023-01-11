@@ -11,6 +11,14 @@ const masks = {
       return value && value.toString().replace(/[^0-9.-]/g, '');
     }
   },
+  appendText: {
+    mask: (value, { appendAt='start', text = ''} = {}) => {
+      return (appendAt === 'start' ? text : '') +  `${value || ''}` + (appendAt === 'end' ? text : '');
+    },
+    unmask: (value,{ text = ''} = {}) => {
+      return value && value.toString().indexOf(text) > -1 ? value.toString().replace(new RegExp(text,'gi'), '') : value;
+    }
+  },
   number: {
     mask: (value, { pattern = '', param = 'D' } = {}) => {
       let out = '';

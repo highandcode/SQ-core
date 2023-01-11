@@ -1,0 +1,17 @@
+.sq-placeholder-drop {
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  &--active {
+    background-color: $sq-color-success-lightest;
+    border: 2px dashed $sq-color-success-light;
+  }
+  &--can-drop {
+    background-color: $sq-color-warning-lightest;
+    border: 2px dashed $sq-color-warning-light;
+  }
+  &--default {
+    border: 2px dashed $sq-color-extra1-light;
+    background-color: $sq-color-extra1-lighter;
+  }
+}

@@ -12,7 +12,7 @@
   display: inline-block;
   @include b4-style();
   text-align: center;
-
+  padding: 5px;
   &--wide {
     width: 100px;
     height: 40px;
@@ -52,9 +52,21 @@
     box-sizing: content-box;
     padding: 5px;
     line-height: 22px;
-    .sq-icon__text {
+    .sq-icon__text, svg {
       color: $sq-color-white;
       text-transform: uppercase;
+    }
+  }
+  &--contained {
+    background-color: currentColor;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+   
+    svg {
+      color: $sq-color-white;
     }
   }
 
@@ -91,6 +103,7 @@
   &--auto {
     width: 100%;
     height: 100%;
+    padding: 0;
   }
   &--xxxl {
     font-size: 50px;
@@ -108,6 +121,15 @@
 
   &--primary {
     color: $sq-color-primary;
+  }
+
+  &--block {
+    display: block;
+    width: 100%;
+  }
+
+  &--extra1 {
+    color: $sq-color-extra1;
   }
   &--secondary {
     color: $sq-color-secondary;

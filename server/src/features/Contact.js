@@ -12,7 +12,7 @@ class Contact {
 
   get() {
     var that = this;
-    return function (bridge) {
+    return function () {
       that.router.post('/message', function (req, res) {
         that.mailRepo.sendEmail('contactus', that.config.email.messageBox, req.body);
         res.json(new Response({}).json());

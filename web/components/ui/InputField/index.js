@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { TextField } from '@mui/material';
+import { TextField, InputAdornment } from '@mui/material';
 import { getValue, idFromLabel } from '../../../utils/properties';
 import { getMasks } from '../../../utils/mask';
 import { getValidators } from '../../../utils/validator';
@@ -134,10 +134,17 @@ class InputField extends React.Component {
 
   render() {
     const { focused } = this.state;
-    const { errorMessage, className = '', formatter, onAnalytics, onAction, mask = {}, sideAction, impactOn, row, actionType, ...rest } = this.props;
+    const { errorMessage, className = '', formatter, onAnalytics, onAction, mask = {}, sideAction, impactOn, row, actionType, startAdornment, endAdornment, ...rest } = this.props;
     const finalAction = getValue(this, sideAction, row);
     let formattedValue = this.applyMask(this.state.value);
     const testId = idFromLabel(rest.label);
+    const finalInputProps = {};
+    if (startAdornment) {
+      finalInputProps.startAdornment = <InputAdornment position="start">{startAdornment}</InputAdornment>
+    }
+    if (endAdornment) {
+      finalInputProps.endAdornment = <InputAdornment position="end">{endAdornment}</InputAdornment>
+    }
     return (
       <div className={`sq-input-field${focused ? ' sq-input-field--focused' : ''} ${className}`} data-testid={testId}>
         <div className="sq-input-field__container">
@@ -149,6 +156,9 @@ class InputField extends React.Component {
               "data-testid": `${testId}_input`
             }}
             {...rest}
+            InputProps={{
+              ...finalInputProps,
+            }}
             error={rest.error}
             value={formattedValue}
             onChange={this.handleOnChange}

@@ -47,23 +47,6 @@ const SQDialog = ({ closeButton = true, transitionDir = 'up', classes: overrideC
   return (
     <div className={`sq-dialog ${overrideClasses.root || ''}`}>
       <Dialog TransitionComponent={transitionOptions[transitionDir]} classes={overrideClasses.dialog} open={open} fullScreen={fullScreen} onClose={handleClose}>
-        {closeButton && (
-          <IconButton
-            edge="start"
-            color="inherit"
-            className="sq-dialog__close"
-            onClick={handleClose}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-            aria-label="close"
-          >
-            <Icon name={'close'} size="large"></Icon>
-          </IconButton>
-        )}
         <DialogTitle>
           {title}
           {closeButton && (
@@ -80,7 +63,7 @@ const SQDialog = ({ closeButton = true, transitionDir = 'up', classes: overrideC
               }}
               aria-label="close"
             >
-              <Icon name={'close'} size="large"></Icon>
+              <Icon name={'close'} size="normal"></Icon>
             </IconButton>
           )}
         </DialogTitle>

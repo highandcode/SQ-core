@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 import ListIcon from '@mui/icons-material/List';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import HighlightOff from '@mui/icons-material/HighlightOff';
+import Delete from '@mui/icons-material/Delete';
 import Add from '@mui/icons-material/Add';
 import PlayCircleFilled from '@mui/icons-material/PlayCircleFilled';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import VideogameAsset from '@mui/icons-material/VideogameAsset';
+import OpenWith from '@mui/icons-material/OpenWith';
 import MonetizationOn from '@mui/icons-material/MonetizationOn';
 import DragHandle from '@mui/icons-material/DragHandle';
 import Money from '@mui/icons-material/AttachMoney';
@@ -72,6 +74,7 @@ import Instagram from '@mui/icons-material/Instagram';
 import Adjust from '@mui/icons-material/Adjust';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 
+import { ReactComponent as Move } from '../../assets/svg/move.svg';
 import { ReactComponent as PHigh } from '../../assets/svg/p-hightest.svg';
 import { ReactComponent as PMedium } from '../../assets/svg/p-medium.svg';
 import { ReactComponent as PLow } from '../../assets/svg/p-low.svg';
@@ -127,7 +130,11 @@ import {
   Key,
   NotInterested,
   RestartAlt,
+  Visibility,
+  Preview,
+  Publish,
   AccessAlarms,
+  Settings,
   AccessTime,
   AcUnit,
   AddToQueue,
@@ -163,12 +170,15 @@ import {
   DateRange,
   DoDisturbOn,
   DoNotDisturb,
+  AddBox,
+  CreateNewFolder,
   DownloadForOffline,
   EditAttributes,
   EditOff,
   ElectricBolt,
   Language,
   LightbulbCircle,
+  Pages,
   Lightbulb,
   LightMode,
   Loyalty,
@@ -196,6 +206,8 @@ const types = {
     Restore,
     LockOpen,
     DragHandle,
+    AddBox,
+    CreateNewFolder,
     Key,
     Menu,
     NotInterested,
@@ -301,11 +313,15 @@ const types = {
     arrowdropdown: ArrowDropDown,
     arrowleft: ArrowLeft,
     arrowright: ArrowRight,
+    OpenWith,
   },
   basic: {
     code: Code,
     star: Star,
     shared: FolderShared,
+    Visibility,
+    Preview,
+    Publish,
     location: Room,
     eventnote: EventNote,
     gamesport: VideogameAsset,
@@ -331,6 +347,7 @@ const types = {
     file: AttachFile,
     home: HomeIcon,
     login: Login,
+    Pages,
     mail: MailIcon,
     theatres: TheatreIcon,
     power: OfflineBolt,
@@ -346,6 +363,8 @@ const types = {
     dashboard: DashboardIcon,
     help: HelpIcon,
     Label,
+    Delete,
+    Settings,
     settings: SettingsApplications,
     user: User,
     list: ListIcon,
@@ -376,6 +395,7 @@ const types = {
     'sort-n': SortN,
     'sort-asc': SortAsc,
     'sort-desc': SortDesc,
+    Move,
   },
 };
 
@@ -410,7 +430,9 @@ const Icon = ({
     <div
       className={`sq-icon ${finalIconClass} ${
         !finalName && textIcon ? 'sq-icon--text-icon' : ''
-      } sq-icon--${finalVariant} ${finalColor ? `sq-icon--${finalColor}` : ''} sq-icon--${size} ${className}`}
+      } sq-icon--${finalVariant} ${
+        finalColor ? `sq-icon--${finalColor}` : ''
+      } sq-icon--${size} ${className}`}
       data-icon-name={finalName}
       onClick={onClick}
     >

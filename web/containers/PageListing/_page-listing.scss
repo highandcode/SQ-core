@@ -1,0 +1,11 @@
+.sq-page-listing {
+  &__container {
+    display: flex;
+  }
+  &__left {
+    width: 250px;
+  }
+  &__right {
+    flex-grow: 1;
+  }
+}

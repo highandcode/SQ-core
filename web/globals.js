@@ -85,4 +85,33 @@ export class GlobalOptions {
   }
 }
 
-export const GLOBAL_OPTIONS = {};
+export const GLOBAL_OPTIONS = {
+  inputVariant: new GlobalOptions({
+    outlined: 'Outlined',
+    standard: 'Standard',
+  }),
+  headerTags: new GlobalOptions({
+    h1: 'H1',
+    h2: 'H2',
+    h3: 'H3',
+    h4: 'H4',
+    h5: 'H5',
+    h6: 'H6',
+  }),
+  headerStyles: new GlobalOptions({
+    'sq-header--center': 'sq-header--center',
+    'sq-header--left': 'sq-header--left',
+  }),
+  formStyles: new GlobalOptions({
+    'sq-form--2-cols': '2 Columns',
+    'sq-form--3-cols': '3 Columns',
+    'sq-form--inline-auto': 'Inline Auto',
+    'sq-form--narrow-space': 'Narrow Space',
+    'pb-none': 'No Padding bottom',
+  }),
+  salutation: new GlobalOptions({
+    'Mr.': 'Mr.',
+    'Mrs.': 'Mrs.',
+    'Miss.': 'Miss',
+  }),
+};
