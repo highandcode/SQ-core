@@ -11,6 +11,9 @@ const admin = createSlice({
     setContentPage: (state, action) => {
       state.contentData = action.payload;
     },
+    setContentPages: (state, action) => {
+      state.contentPages = action.payload;
+    },
     setContentTree: (state, action) => {
       state.contentTree = action.payload;
     },
@@ -44,6 +47,18 @@ export const loadPageTree =
     }
   };
 
+export const loadPagesByPath =
+  (payload, { url } = {}) =>
+  async (dispatch, getState) => {
+    const result = await utils.apiBridge.post(
+      url || adminConfig.apis.getPageByPath,
+      payload
+    );
+    if (result.status === CONSTANTS.STATUS.SUCCESS) {
+      await dispatch(setContentPages(result.data.pages));
+    }
+  };
+
 export const savePageDraft =
   (payload, { url } = {}) =>
   async (dispatch, getState) => {
@@ -61,6 +76,6 @@ export const savePageDraft =
     }
   };
 
-export const { setRoot, setContentPage, setContentTree } = admin.actions;
+export const { setRoot, setContentPage, setContentTree, setContentPages } = admin.actions;
 
 export default admin.reducer;

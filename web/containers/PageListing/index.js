@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Grid,
-  Actions,
-} from '../../components/root';
+import { Grid, Actions } from '../../components/root';
 import * as utils from '../../utils';
-import { loadPageTree } from '../../redux/admin';
+import { loadPageTree, loadPagesByPath } from '../../redux/admin';
 import BaseContainer from '../BaseContainer';
 import { GLOBAL_OPTIONS } from '../../globals';
 
@@ -22,6 +19,7 @@ class PageListing extends BaseContainer {
     this.state = {};
     this.onFilterChange = this.onFilterChange.bind(this);
     this.onGridAction = this.onGridAction.bind(this);
+    this.onTreeSelect = this.onTreeSelect.bind(this);
   }
 
   async componentDidMount() {
@@ -74,6 +72,12 @@ class PageListing extends BaseContainer {
     }
   }
 
+  async onTreeSelect(data) {
+    this.props.commonActions.startLoading();
+    await this.props.raiseAction(loadPagesByPath({ parentPath: data.value }));
+    this.props.commonActions.stopLoading();
+  }
+
   render() {
     const { store } = this.props;
     const { isLoading } = this.state;
@@ -99,7 +103,10 @@ class PageListing extends BaseContainer {
           <div className={`container-fluid  sq-v-screen__body-container`}>
             <div className="sq-v-screen-grow sq-page-listing__container">
               <div className="sq-page-listing__left">
-                <PathTree data={store.admin.contentTree} />
+                <PathTree
+                  data={store.admin.contentTree}
+                  onChange={this.onTreeSelect}
+                />
               </div>
               <Grid
                 className="sq-basic-grid sq-page-listing__right sq-basic-grid--rounded sq-grid--fixed"
@@ -112,39 +119,16 @@ class PageListing extends BaseContainer {
                     className: 'col-icon',
                     sort: false,
                     component: {
-                      textIcon: (row) => row.firstName?.substr(0, 1),
-                      // iconClass: (row) => 'sq-icon--primary',
-                      variant: (row) => (row.active ? 'primary' : 'default'),
+                      name: 'page',
                     },
                   },
                   {
-                    name: 'firstName',
-                    headerText: 'User',
-                    className: 'sq-basic-grid--col-default',
-                    render: (val, col, row) =>
-                      `${row.firstName} ${row.lastName}`,
-                  },
-                  {
-                    name: 'email',
-                    className: 'sq-basic-grid--col-title',
-                    headerText: 'Email',
-                    tooltip: {
-                      title: (row) => row.email,
-                      arrow: true,
-                    },
+                    name: 'title',
+                    headerText: 'Page Title',
+                    className: 'col-large-grow',
+                    render: (val, col, row) => `${row.pageData.title}`,
                   },
 
-                  {
-                    name: 'loginDate',
-                    className: 'sq-basic-grid--col-default',
-                    headerText: 'Login Date',
-                    render: (row) => {
-                      return formatters.shortDate(
-                        row,
-                        GLOBAL_OPTIONS.defaultFormat
-                      );
-                    },
-                  },
                   {
                     name: 'actions',
                     headerText: 'Actions',
@@ -190,7 +174,7 @@ class PageListing extends BaseContainer {
                   },
                 ]}
                 showHeader={true}
-                data={store.admin?.contentTree}
+                data={store.admin?.contentPages}
               />
             </div>
           </div>

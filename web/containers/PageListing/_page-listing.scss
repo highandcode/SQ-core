@@ -4,8 +4,14 @@
   }
   &__left {
     width: 250px;
+    padding-right: 16px;
+    overflow: auto;
   }
   &__right {
     flex-grow: 1;
   }
+}
+
+.sq-path-tree {
+  height: 100%!important;
 }

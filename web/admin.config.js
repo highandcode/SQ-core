@@ -9,6 +9,7 @@ module.exports = {
     userInfo: '/api/v1/admin/user/info',
     getUsers: '/api/v1/admin/users/all',
     getPage: '/api/v1/admin/content/page/get',
+    getPageByPath: '/api/v1/admin/content/page/getbypath',
     getContentTree: '/api/v1/admin/content/page/gettree',
     contentPage: '/api/v1/admin/content/page',
   },

@@ -48,7 +48,7 @@ class AdminPanel {
         });
         that.router.post('/content/page/get', function (req, res) {
           that.contentRepo
-            .getByPath(req.body.path)
+            .getByPath(req.body.parentPath)
             .then((result) => {
               res.json(new Response(result).json());
             })
@@ -62,11 +62,15 @@ class AdminPanel {
             })
             .catch((ex) => that.handleError(ex, res));
         });
-        that.router.post('/content/page/getall', function (req, res) {
+        that.router.post('/content/page/getbypath', function (req, res) {
           that.contentRepo
             .getAllPages(req.body.parentPath)
             .then((result) => {
-              res.json(new Response(result).json());
+              res.json(
+                new Response({
+                  pages: result,
+                }).json()
+              );
             })
             .catch((ex) => that.handleError(ex, res));
         });
