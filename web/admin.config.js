@@ -3,7 +3,7 @@ module.exports = {
     path: '/content/admin/root',
   },
   urls: {
-    protected: ['/content/admin/portal/*'],
+    protected: ['content/admin/(?!(login|register|forgotpassword)$).*$'],
   },
   apis: {
     userInfo: '/api/v1/admin/user/info',

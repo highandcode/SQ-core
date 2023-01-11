@@ -3,7 +3,7 @@ import { updateUserData, updateProtectedUserData, customHooks } from '../content
 import { CONSTANTS } from '../../globals';
 import * as utils from '../../utils';
 import adminConfig from '../../admin.config';
-// import { showNotificationMessage } from '../common';
+import { showNotificationMessage } from '../common';
 const initialState = {
   currentUser: null,
 };
@@ -39,7 +39,6 @@ customHooks.add('authentication', {
       }
       utils.redirect.redirectTo('adminDashboard');
     }
-    console.log(response, ' >>>');
     return response;
   },
   loadUserProfile: async (response, { dispatch }) => {
@@ -49,23 +48,14 @@ customHooks.add('authentication', {
 export const loadUserProfile = () => async (dispatch) => {
   // console.log(getState().content.userData);
   const response = await utils.apiBridge.get(adminConfig.apis.userInfo, {});
-  if (response.status !== CONSTANTS.STATUS.SUCCESS) {
+  if (response.status !== CONSTANTS.STATUS.SUCCESS && utils.cookie.get('qjs-token')) {
     utils.cookie.remove('qjs-token');
-    await dispatch(clearUser());
-    await dispatch(
-      updateProtectedUserData({
-        currentUser: undefined,
-        currentUserPreference: undefined,
-      })
-    );
-  } else if (response.statusCode === 500) {
     await dispatch(
       showNotificationMessage({
-        message: 'Unauthorized',
+        message: response.error.errorMessage || 'Unauthorized',
         type: 'error',
       })
     );
-    utils.cookie.remove('qjs-token');
     await dispatch(clearUser());
     await dispatch(
       updateProtectedUserData({
@@ -73,7 +63,7 @@ export const loadUserProfile = () => async (dispatch) => {
         currentUserPreference: undefined,
       })
     );
-  } else {
+  } else if (response.status === CONSTANTS.STATUS.SUCCESS) {
     await dispatch(setUser(response.data.userInfo));
     await dispatch(setPreference(response.data.preference));
     await dispatch(

@@ -26,6 +26,7 @@ module.exports = {
       classes: {
         wrapper: 'container',
       },
+      navigation:[],
       mobileItems: [],
       rightItems: [],
     },

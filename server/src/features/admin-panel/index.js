@@ -222,16 +222,14 @@ const middleware = () => {
       validations = validator.validate();
     }
 
-    if (
-      !isPublic &&
-      isFeatureAdmin &&
-      req.cookies[websettings.cookie.tokenKey]
-    ) {
-      logger.log('Token:' + req.cookies[websettings.cookie.tokenKey]);
+    const tokenValue =
+      req.cookies[websettings.cookie.tokenKey] ||
+      req.headers[websettings.cookie.tokenKey];
+
+    if (!isPublic && isFeatureAdmin && tokenValue) {
+      logger.log('Token:' + tokenValue);
       try {
-        var info = tokenManager.decrypt(
-          req.cookies[websettings.cookie.tokenKey]
-        );
+        var info = tokenManager.decrypt(tokenValue);
         tokenValidated = true;
         logger.log('Admin Middleware:Token validated');
       } catch (err) {
@@ -261,10 +259,10 @@ const middleware = () => {
         }
       } else {
         logger.log('Admin Middleware:no access:');
-        res.status(403).send(
+        res.status(400).send(
           new Response({
-            code: 403,
-            messageId: 'INSUFFICIENT_PERMISSION',
+            code: 400,
+            key: 'INSUFFICIENT_PERMISSION',
             message: 'no permission',
           }).error()
         );
@@ -276,7 +274,7 @@ const middleware = () => {
         res.status(403).send(
           new Response({
             code: 403,
-            messageId: 'NOT_LOGGED_IN',
+            key: 'NOT_LOGGED_IN',
             message: 'not logged in',
           }).error()
         );

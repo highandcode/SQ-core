@@ -100,6 +100,7 @@ class AdminDashboard extends AdminContainer {
         buttonText: 'Logout',
       },
     ].filter((i) => !!i);
+    const { currentUser } = this.props.store.authentication;
     return (
       <>
         <div
@@ -113,7 +114,7 @@ class AdminDashboard extends AdminContainer {
               onCloseDrawer={this.toggleMenu}
               openDrawer={this.state.openDrawer}
               logo={siteMap.siteMap.logo}
-              items={siteMap.siteMap.globalNavigationLoggedIn.navigation}
+              items={currentUser ? siteMap.siteMap.globalNavigationLoggedIn.navigation : siteMap.siteMap.globalNavigation.navigation}
               roles={[]}
               permissions={store.authentication.currentUser?.permissions}
               className={'sq-left-navigation--compact'}
@@ -130,7 +131,7 @@ class AdminDashboard extends AdminContainer {
                     <Icon name="Menu" size="large" onClick={this.toggleMenu} />
                   </div>
                 </div>
-                <UserMenu user={store.authentication.currentUser} onAction={this.onUserMenuAction} listOfActions={listOfActions} />
+                {store.authentication.currentUser && <UserMenu user={store.authentication.currentUser} onAction={this.onUserMenuAction} listOfActions={listOfActions} />}
               </header>
               <section className="sq-template__sub-header">
                 <BreadCrumb
