@@ -13,7 +13,7 @@ const CustomButton = ({
   iconSize = 'normal',
   iconColor = '',
   iconDirection = 'left',
-  size = 'medium',
+  size = 'normal',
   onClick,
   analytics = {},
   onAnalytics,
