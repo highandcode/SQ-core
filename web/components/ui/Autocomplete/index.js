@@ -40,8 +40,8 @@ const SQAutocomplete = ({ row, name, options = [], fixedOptions = [], className 
         classes={{
           popper: 'sq-autocomplete__pop-over',
         }}
-        freeSolo
-        autoSelect
+        freeSolo={multiple}
+        autoSelect={multiple}
         multiple={multiple}
         options={finalOptions}
         inputValue={inputValue}
