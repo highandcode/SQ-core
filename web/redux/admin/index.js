@@ -44,6 +44,11 @@ export const loadPageTree =
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       await dispatch(setContentTree(result.data));
+      await dispatch(
+        loadPagesByPath({
+          parentPath: result.data.path,
+        })
+      );
     }
   };
 
@@ -76,6 +81,7 @@ export const savePageDraft =
     }
   };
 
-export const { setRoot, setContentPage, setContentTree, setContentPages } = admin.actions;
+export const { setRoot, setContentPage, setContentTree, setContentPages } =
+  admin.actions;
 
 export default admin.reducer;
