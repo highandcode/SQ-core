@@ -48,7 +48,7 @@ class AdminPanel {
         });
         that.router.post('/content/page/get', function (req, res) {
           that.contentRepo
-            .getByPath(req.body.parentPath)
+            .getByPath(req.body.path)
             .then((result) => {
               res.json(new Response(result).json());
             })

@@ -45,11 +45,10 @@ class PageListing extends BaseContainer {
   }
 
   async onGridAction(row, value, column) {
-    const { currentPage } = this.props.appStore.user?.usersPage;
     switch (value.action) {
       case 'edit':
-        utils.redirect.redirectTo('editUser', {
-          userId: row.emailId /* replace with data.uid */,
+        utils.redirect.redirectTo('editPage', {
+          path: row.path /* replace with data.uid */,
         });
         break;
       case 'activate':

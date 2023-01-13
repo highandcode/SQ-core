@@ -1,6 +1,9 @@
 .sq-component-editor {
   position: relative;
-  padding: 50px;
+  padding: 50px 20px;
+  @media (min-width: $screen-lg) {
+    padding: 50px;
+  }
   border: 2px dashed transparent;
   background-color: white;
   &:hover {
