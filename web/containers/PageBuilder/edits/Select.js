@@ -51,16 +51,6 @@ export default {
                 label: 'Value',
                 name: 'text',
               },
-              {
-                cmpType: 'Input',
-                label: 'Key',
-                name: 'value',
-              },
-              {
-                cmpType: 'Input',
-                label: 'Value',
-                name: 'text',
-              },
             ],
           },
         ],
