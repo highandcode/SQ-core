@@ -11,6 +11,7 @@ import FileUploader from './ui/FileUploader';
 import ImageWithSpotlight from './ImageWithSpotlight';
 import * as Chart from './Chart';
 import DataList from './DataList';
+import FormList from './FormList';
 import FieldText from './ui/FieldText';
 import Dialog from './Dialog';
 import ErrorBoundry from './ErrorBoundry';
@@ -177,4 +178,5 @@ export {
   ButtonSelection,
   EditableField,
   ImageWithSpotlight,
+  FormList,
 };

@@ -35,6 +35,34 @@ export default {
             label: 'Input Variant',
             options: GLOBAL_OPTIONS.inputVariant.toArray(),
           },
+          {
+            name: 'options',
+            cmpType: 'FormList',
+            label: 'Options',
+            formClassName: 'sq-form--2-cols mb-wide',
+            fields: [
+              {
+                cmpType: 'Input',
+                label: 'Key',
+                name: 'value',
+              },
+              {
+                cmpType: 'Input',
+                label: 'Value',
+                name: 'text',
+              },
+              {
+                cmpType: 'Input',
+                label: 'Key',
+                name: 'value',
+              },
+              {
+                cmpType: 'Input',
+                label: 'Value',
+                name: 'text',
+              },
+            ],
+          },
         ],
       },
       {
@@ -46,6 +74,7 @@ export default {
           className: '.main.className',
           label: '.main.label',
           inputVariant: '.main.inputVariant',
+          options: '.main.options',
         },
       },
     ],
