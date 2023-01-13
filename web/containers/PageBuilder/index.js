@@ -176,7 +176,7 @@ class PageBuilder extends Component {
               <IconButton
                 title="Elements"
                 iconName="code"
-                variant={this.state.enableMenu ? 'default' : 'primary'}
+                variant={!this.state.enableMenu ? 'default' : 'primary'}
                 onClick={this.toggleElements}
               />
             </div>
@@ -184,7 +184,7 @@ class PageBuilder extends Component {
               <IconButton
                 title="Properties"
                 iconName="default"
-                variant={this.state.enableProps ? 'default' : 'primary'}
+                variant={!this.state.enableProps ? 'default' : 'primary'}
                 onClick={this.toggleProps}
               />
             </div>

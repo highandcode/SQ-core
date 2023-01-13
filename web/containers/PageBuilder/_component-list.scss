@@ -16,7 +16,9 @@
   }
   &__group {
     background-color: $sq-color-slate-light;
-    color: $sq-color-slate-darker;
+    color: $black;
+    text-transform: uppercase;
+    @include b8-style();
     padding: 10px;
   }
 }
