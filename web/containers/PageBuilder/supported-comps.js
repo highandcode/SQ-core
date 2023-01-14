@@ -6,6 +6,7 @@ import { ItemTypes } from './ItemTypes';
 import HeaderEdit from './edits/Header';
 import HeroContentEdit from './edits/HeroContent';
 import InputEdit from './edits/Input';
+import ReCaptchaEdit from './edits/ReCaptcha';
 import SelectEdit from './edits/Select';
 import FormEdit from './edits/Form';
 import CheckboxEdit from './edits/CheckboxField';
@@ -108,6 +109,15 @@ const compList = {
     sampleData: {
       name: 'fieldname',
       label: 'Label',
+    },
+  },
+  ReCaptcha: {
+    Component: getMap().ReCaptcha,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: ReCaptchaEdit,
+    sampleData: {
+    
     },
   },
   Select: {

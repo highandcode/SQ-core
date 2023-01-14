@@ -25,6 +25,33 @@ import {
   processParams,
 } from '../../redux/content';
 
+const config = {
+  templates: [
+    {
+      text: '/apps/core/templates/page',
+      value: '/apps/core/templates/page',
+    },
+  ],
+  layouts: [
+    {
+      text: '/apps/core/layouts/spa',
+      value: '/apps/core/layouts/spa',
+    },
+  ],
+  containers: [
+    {
+      text: 'Default',
+      value: 'Default',
+    },
+  ],
+};
+
+export const updateConfig = ({
+  templates = [],
+  layouts = [],
+  containers = {},
+}) => {};
+
 import {
   startLoading,
   showNotificationMessage,
@@ -63,6 +90,7 @@ class PageBuilder extends Component {
     this.onContentChange = this.onContentChange.bind(this);
     this.onContentDelete = this.onContentDelete.bind(this);
     this.savePageAsDraft = this.savePageAsDraft.bind(this);
+    this.formOnChange = this.formOnChange.bind(this);
   }
   async componentDidMount() {
     const { pageData, store } = this.props;
@@ -110,6 +138,21 @@ class PageBuilder extends Component {
   toggleElements() {
     this.setState({ enableMenu: !this.state.enableMenu });
   }
+
+  formOnChange(data) {
+    const finalData = {
+      pageData: {
+        ...this.state.contentData.pageData,
+        ...data.value,
+      },
+    };
+    this.setState({
+      contentData: {
+        ...this.state.contentData,
+        pageData: finalData.pageData,
+      },
+    });
+  }
   onContentChange(data, idx) {
     const finalData = {
       pageData: {
@@ -152,7 +195,7 @@ class PageBuilder extends Component {
   }
 
   render() {
-    const { className = '', ...rest } = this.props;
+    const { className = '', pageData } = this.props;
     const compList = getSupportedComps();
     return (
       <div
@@ -182,8 +225,6 @@ class PageBuilder extends Component {
                   variant={!this.state.enableMenu ? 'default' : 'primary'}
                   onClick={this.toggleElements}
                 />
-              </div>
-              <div className="sq-page-builder__r-options">
                 <IconButton
                   title="Properties"
                   iconName="default"
@@ -191,6 +232,8 @@ class PageBuilder extends Component {
                   onClick={this.toggleProps}
                 />
               </div>
+              {/* <div className="sq-page-builder__r-options">
+              </div> */}
 
               <div className="sq-page-builder__container">
                 <div className="sq-page-builder__left">
@@ -231,11 +274,24 @@ class PageBuilder extends Component {
                     <Panel header="Properties" onClose={this.toggleProps}>
                       <Form
                         value={this.state.contentData.pageData}
+                        onChange={this.formOnChange}
                         fields={[
                           {
                             name: 'title',
                             cmpType: 'InputField',
                             label: 'Title',
+                          },
+                          {
+                            name: 'template',
+                            cmpType: 'Autocomplete',
+                            label: 'Template',
+                            options: pageData.templates || config.templates,
+                          },
+                          {
+                            name: 'layout',
+                            cmpType: 'Autocomplete',
+                            label: 'Layout',
+                            options: pageData.templates || config.layouts,
                           },
                           {
                             name: 'className',
