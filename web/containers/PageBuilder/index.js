@@ -99,7 +99,7 @@ class PageBuilder extends Component {
         {
           path: utils.queryString.query.get().path,
         },
-        pageData.urls
+        pageData.getPageConfig
       )
     );
     this.setState({
@@ -109,7 +109,7 @@ class PageBuilder extends Component {
   async savePageAsDraft() {
     const { pageData, store } = this.props;
     await this.props.raiseAction(
-      savePageDraft(this.state.contentData, pageData.urls)
+      savePageDraft(this.state.contentData, pageData.savePageConfig)
     );
   }
   componentOnDrop(item) {

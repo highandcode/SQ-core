@@ -10,6 +10,7 @@ import ReCaptchaEdit from './edits/ReCaptcha';
 import SelectEdit from './edits/Select';
 import FormEdit from './edits/Form';
 import CheckboxEdit from './edits/CheckboxField';
+import CheckboxListEdit from './edits/CheckboxList';
 import WrapperEdit from './edits/Wrapper';
 import { GLOBAL_OPTIONS } from '../../globals';
 
@@ -135,6 +136,16 @@ const compList = {
     group: 'Form Elements',
     type: ItemTypes.FORM_ELEMENT,
     editData: CheckboxEdit,
+    sampleData: {
+      name: 'fieldname',
+      label: 'Label',
+    },
+  },
+  CheckboxList: {
+    Component: getMap().CheckboxList,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: CheckboxListEdit,
     sampleData: {
       name: 'fieldname',
       label: 'Label',

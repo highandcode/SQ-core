@@ -101,6 +101,9 @@ export const GLOBAL_OPTIONS = {
   headerStyles: new GlobalOptions({
     'sq-header--center': 'sq-header--center',
     'sq-header--left': 'sq-header--left',
+    'mb-narrow': 'Margin bottom narrow',
+    'mb-wide': 'Margin bottom wide',
+    'mb-none': 'Margin bottom none',
   }),
   formStyles: new GlobalOptions({
     'sq-form--2-cols': '2 Columns',
