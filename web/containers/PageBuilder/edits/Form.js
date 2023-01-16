@@ -1,33 +1,9 @@
 import { GLOBAL_OPTIONS } from '../../../globals';
-export default {
- 
+import { withEditTabs } from './Common';
+
+export default withEditTabs({
   pageData: {
     items: [
-      {
-        component: 'Form',
-        name: 'main',
-        fields: [
-          {
-            name: 'name',
-            cmpType: 'InputField',
-            label: 'Field Name',
-            validators: [
-              {
-                type: 'required',
-              },
-              {
-                type: 'fieldName',
-              },
-            ],
-          },
-          {
-            name: 'className',
-            cmpType: 'InputWithOptions',
-            label: 'className',
-            options: GLOBAL_OPTIONS.formStyles.toArray(),
-          },
-        ],
-      },
       {
         component: 'Button',
         actionType: 'submit-event',
@@ -39,4 +15,25 @@ export default {
       },
     ],
   },
-};
+  general: [
+    {
+      name: 'name',
+      cmpType: 'InputField',
+      label: 'Field Name',
+      validators: [
+        {
+          type: 'required',
+        },
+        {
+          type: 'fieldName',
+        },
+      ],
+    },
+    {
+      name: 'className',
+      cmpType: 'InputWithOptions',
+      label: 'className',
+      options: GLOBAL_OPTIONS.formStyles.toArray(),
+    },
+  ],
+});
