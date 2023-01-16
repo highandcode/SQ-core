@@ -2,8 +2,14 @@
   border-radius: 5px;
   position: relative;
   min-width: 250px;
+  height: 100%;
   &__header {
     padding: 15px;
+  }
+  &__container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
   &__close{ 
     position: absolute;
@@ -12,6 +18,8 @@
   }
   &__body {
     padding: 15px;
+    overflow: auto;
+    flex-grow: 1;
   }
   &--default {
     border: 1px solid $sq-color-slate-lightest;

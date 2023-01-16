@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import update from 'immutability-helper';
 import Form from '../../components/Form';
 import IconButton from '../../components/ui/IconButton';
 import Button from '../../components/ui/Button';
@@ -25,6 +26,43 @@ import {
   processParams,
 } from '../../redux/content';
 
+const config = {
+  templates: [
+    {
+      text: '/apps/core/templates/page',
+      value: '/apps/core/templates/page',
+    },
+  ],
+  layouts: [
+    {
+      text: '/apps/core/layouts/spa',
+      value: '/apps/core/layouts/spa',
+    },
+  ],
+  containers: [
+    {
+      text: 'Default',
+      value: 'Default',
+    },
+  ],
+};
+
+export const updateConfig = ({
+  templates,
+  layouts,
+  containers,
+}) => {
+  if (templates) {
+    config.templates = templates;
+  }
+  if (layouts) {
+    config.layouts = layouts;
+  }
+  if (containers) {
+    config.containers = containers;
+  }
+};
+
 import {
   startLoading,
   showNotificationMessage,
@@ -43,6 +81,7 @@ import { ItemTypes } from './ItemTypes';
 import { getSupportedComps, addComponent } from './supported-comps';
 import DynamicContent from '../DynamicContent';
 import * as utils from '../../utils';
+import ErrorBoundry from '../../components/ErrorBoundry';
 
 class PageBuilder extends Component {
   constructor() {
@@ -63,6 +102,9 @@ class PageBuilder extends Component {
     this.onContentChange = this.onContentChange.bind(this);
     this.onContentDelete = this.onContentDelete.bind(this);
     this.savePageAsDraft = this.savePageAsDraft.bind(this);
+    this.formOnChange = this.formOnChange.bind(this);
+    this.onMoveItemDown = this.onMoveItemDown.bind(this);
+    this.onMoveItemUp = this.onMoveItemUp.bind(this);
   }
   async componentDidMount() {
     const { pageData, store } = this.props;
@@ -71,7 +113,7 @@ class PageBuilder extends Component {
         {
           path: utils.queryString.query.get().path,
         },
-        pageData.urls
+        pageData.getPageConfig
       )
     );
     this.setState({
@@ -81,7 +123,7 @@ class PageBuilder extends Component {
   async savePageAsDraft() {
     const { pageData, store } = this.props;
     await this.props.raiseAction(
-      savePageDraft(this.state.contentData, pageData.urls)
+      savePageDraft(this.state.contentData, pageData.savePageConfig)
     );
   }
   componentOnDrop(item) {
@@ -109,6 +151,21 @@ class PageBuilder extends Component {
   }
   toggleElements() {
     this.setState({ enableMenu: !this.state.enableMenu });
+  }
+
+  formOnChange(data) {
+    const finalData = {
+      pageData: {
+        ...this.state.contentData.pageData,
+        ...data.value,
+      },
+    };
+    this.setState({
+      contentData: {
+        ...this.state.contentData,
+        pageData: finalData.pageData,
+      },
+    });
   }
   onContentChange(data, idx) {
     const finalData = {
@@ -151,118 +208,181 @@ class PageBuilder extends Component {
     });
   }
 
+  onMoveItemDown(index) {
+    const finalData = {
+      pageData: {
+        ...this.state.contentData.pageData,
+        items: [...this.state.contentData.pageData.items],
+      },
+    };
+    finalData.pageData.items = update(finalData.pageData.items, {
+      $splice: [
+        [index, 1],
+        [index + 1, 0, finalData.pageData.items[index]],
+      ],
+    });
+    this.setState({
+      contentData: {
+        ...this.state.contentData,
+        pageData: finalData.pageData,
+      },
+    });
+  }
+  onMoveItemUp(index) {
+    const finalData = {
+      pageData: {
+        ...this.state.contentData.pageData,
+        items: [...this.state.contentData.pageData.items],
+      },
+    };
+    finalData.pageData.items = update(finalData.pageData.items, {
+      $splice: [
+        [index, 1],
+        [index - 1, 0, finalData.pageData.items[index]],
+      ],
+    });
+    this.setState({
+      contentData: {
+        ...this.state.contentData,
+        pageData: finalData.pageData,
+      },
+    });
+  }
+
   render() {
-    const { className = '', ...rest } = this.props;
+    const { className = '', pageData } = this.props;
     const compList = getSupportedComps();
     return (
-      <div className={`sq-page-builder ${className}`}>
-        <div className="sq-page-builder__top-actions mb-wide">
-          <Switch
-            label="Preview"
-            value={this.state.preview}
-            onChange={this.togglePreview}
-          />
-          <Button
-            iconName={'Save'}
-            variant="outlined"
-            buttonText="Save as Draft"
-            onClick={this.savePageAsDraft}
-          />
-          <Button iconName={'Publish'} buttonText="Publish" />
-        </div>
-        <div className="sq-page-builder__content">
-          <DndProvider backend={HTML5Backend}>
-            <div className="sq-page-builder__l-options">
-              <IconButton
-                title="Elements"
-                iconName="code"
-                variant={this.state.enableMenu ? 'default' : 'primary'}
-                onClick={this.toggleElements}
-              />
-            </div>
-            <div className="sq-page-builder__r-options">
-              <IconButton
-                title="Properties"
-                iconName="default"
-                variant={this.state.enableProps ? 'default' : 'primary'}
-                onClick={this.toggleProps}
-              />
-            </div>
+      <div
+        className={`sq-page-builder sq-v-screen sq-v-screen--fixed ${className}`}
+      >
+        <div className="sq-v-screen__container">
+          <div className="sq-page-builder__top-actions mb-wide">
+            <Switch
+              label="Preview"
+              value={this.state.preview}
+              onChange={this.togglePreview}
+            />
+            <Button
+              iconName={'Save'}
+              variant="outlined"
+              buttonText="Save as Draft"
+              onClick={this.savePageAsDraft}
+            />
+            <Button iconName={'Publish'} buttonText="Publish" />
+          </div>
+          <div className="sq-page-builder__content sq-v-screen-grow">
+            <DndProvider backend={HTML5Backend}>
+              <div className="sq-page-builder__l-options">
+                <IconButton
+                  title="Elements"
+                  iconName="code"
+                  variant={!this.state.enableMenu ? 'default' : 'primary'}
+                  onClick={this.toggleElements}
+                />
+                <IconButton
+                  title="Properties"
+                  iconName="default"
+                  variant={!this.state.enableProps ? 'default' : 'primary'}
+                  onClick={this.toggleProps}
+                />
+              </div>
+              {/* <div className="sq-page-builder__r-options">
+              </div> */}
 
-            <div className="sq-page-builder__container">
-              <div className="sq-page-builder__left">
-                {this.state.enableMenu && (
-                  <Panel
-                    header="Elements"
-                    theme="dark"
-                    onClose={this.toggleElements}
-                  >
-                    <div className="row">
-                      <ComponentList compList={compList} />
-                    </div>
-                  </Panel>
-                )}
+              <div className="sq-page-builder__container">
+                <div className="sq-page-builder__left">
+                  {this.state.enableMenu && (
+                    <Panel
+                      header="Elements"
+                      theme="dark"
+                      onClose={this.toggleElements}
+                    >
+                      <div className="row">
+                        <ComponentList compList={compList} />
+                      </div>
+                    </Panel>
+                  )}
+                </div>
+                <div className="sq-page-builder__center">
+                  {this.state.preview && (
+                    <ErrorBoundry>
+                      <DynamicContent pageConfig={this.state.contentData} />
+                    </ErrorBoundry>
+                  )}
+                  {!this.state.preview && (
+                    <>
+                      <ContentEditor
+                        pageData={this.state.contentData.pageData}
+                        compList={compList}
+                        onDelete={this.onContentDelete}
+                        onChange={this.onContentChange}
+                        onMoveItemUp={this.onMoveItemUp}
+                        onMoveItemDown={this.onMoveItemDown}
+                      />
+                      <Placeholder
+                        allowedDropEffect={'any'}
+                        accept={[ItemTypes.COMPONENT, ItemTypes.FORM]}
+                        onDrop={this.componentOnDrop}
+                      />
+                    </>
+                  )}
+                </div>
+                <div className="sq-page-builder__right">
+                  {this.state.enableProps && (
+                    <Panel header="Properties" onClose={this.toggleProps}>
+                      <Form
+                        value={this.state.contentData.pageData}
+                        onChange={this.formOnChange}
+                        fields={[
+                          {
+                            name: 'title',
+                            cmpType: 'Input',
+                            label: 'Title',
+                          },
+                          {
+                            name: 'template',
+                            cmpType: 'Autocomplete',
+                            label: 'Template',
+                            options: pageData.templates || config.templates,
+                          },
+                          {
+                            name: 'layout',
+                            cmpType: 'Autocomplete',
+                            label: 'Layout',
+                            options: pageData.layouts || config.layouts,
+                          },
+                          {
+                            name: 'className',
+                            cmpType: 'Input',
+                            label: 'className',
+                          },
+                          {
+                            cmpType: 'Autocomplete',
+                            name: 'container',
+                            label: 'container',
+                            options: pageData.containers || config.containers,
+                          },
+                          {
+                            cmpType: 'Input',
+                            name: 'bodyClassName',
+                            label: 'bodyClassName',
+                          },
+                          {
+                            cmpType: 'Input',
+                            name: 'containerTemplate',
+                            label: 'containerTemplate',
+                          },
+                        ]}
+                      />
+                    </Panel>
+                  )}
+                </div>
               </div>
-              <div className="sq-page-builder__center">
-                {this.state.preview && (
-                  <DynamicContent pageConfig={this.state.contentData} />
-                )}
-                {!this.state.preview && (
-                  <>
-                    <ContentEditor
-                      pageData={this.state.contentData.pageData}
-                      compList={compList}
-                      onDelete={this.onContentDelete}
-                      onChange={this.onContentChange}
-                    />
-                    <Placeholder
-                      allowedDropEffect={'any'}
-                      accept={[ItemTypes.COMPONENT, ItemTypes.FORM]}
-                      onDrop={this.componentOnDrop}
-                    />
-                  </>
-                )}
-              </div>
-              <div className="sq-page-builder__right">
-                {this.state.enableProps && (
-                  <Panel header="Properties" onClose={this.toggleProps}>
-                    <Form
-                      value={this.state.contentData.pageData}
-                      fields={[
-                        {
-                          name: 'title',
-                          cmpType: 'InputField',
-                          label: 'Title',
-                        },
-                        {
-                          name: 'className',
-                          cmpType: 'InputField',
-                          label: 'className',
-                        },
-                        {
-                          cmpType: 'InputField',
-                          name: 'container',
-                          label: 'container',
-                        },
-                        {
-                          cmpType: 'InputField',
-                          name: 'bodyClassName',
-                          label: 'bodyClassName',
-                        },
-                        {
-                          cmpType: 'InputField',
-                          name: 'containerTemplate',
-                          label: 'containerTemplate',
-                        },
-                      ]}
-                    />
-                  </Panel>
-                )}
-              </div>
-            </div>
-          </DndProvider>
+            </DndProvider>
+          </div>
+          <div className="sq-page-builder__footer"></div>
         </div>
-        <div className="sq-page-builder__footer"></div>
       </div>
     );
   }

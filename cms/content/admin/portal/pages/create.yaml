@@ -16,7 +16,7 @@ items:
         - name: path
           label: Path
           mask:
-            type: appendText
+            type: appendViewOnlyText
             text: /content/
           validators:
             - type: required

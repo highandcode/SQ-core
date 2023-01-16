@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import update from 'immutability-helper';
 import ErrorBoundary from '../../components/ErrorBoundry';
 import IconButton from '../../components/ui/IconButton';
 import Dialog from '../../components/Dialog';
@@ -7,6 +8,7 @@ import './_component-editor.scss';
 import DynamicContent from '../DynamicContent';
 import { Placeholder } from './Placeholder';
 
+let changeIdx = 1;
 class ComponentEditor extends Component {
   constructor() {
     super();
@@ -17,6 +19,10 @@ class ComponentEditor extends Component {
     this.onComponentDrop = this.onComponentDrop.bind(this);
     this.deleteComponentByIdx = this.deleteComponentByIdx.bind(this);
     this.deleteComponent = this.deleteComponent.bind(this);
+    this.moveUp = this.moveUp.bind(this);
+    this.moveDown = this.moveDown.bind(this);
+    this.moveElemDown = this.moveElemDown.bind(this);
+    this.moveElemUp = this.moveElemUp.bind(this);
   }
 
   toggleEditForm() {
@@ -28,6 +34,7 @@ class ComponentEditor extends Component {
   saveFormData(data) {
     const { onChange } = this.props;
     onChange && onChange(data);
+    changeIdx++;
     this.toggleEditForm();
   }
   saveFormElData(data, idx) {
@@ -40,6 +47,7 @@ class ComponentEditor extends Component {
       ...finalData[itemsPropName][idx],
       ...data,
     };
+    changeIdx++;
     onChange && onChange(finalData);
   }
   deleteComponentByIdx(idx) {
@@ -80,6 +88,47 @@ class ComponentEditor extends Component {
     onChange && onChange(finalData);
   }
 
+  moveUp() {
+    const { onMoveUp } = this.props;
+    onMoveUp && onMoveUp();
+  }
+
+  moveDown() {
+    const { onMoveDown } = this.props;
+    onMoveDown && onMoveDown();
+  }
+  moveElemUp(index) {
+    const { onChange, itemsPropName, compTypeProp, value } = this.props;
+    const items = (value && value[itemsPropName]) || [];
+    let updatedCols = update(items, {
+      $splice: [
+        [index, 1],
+        [index - 1, 0, items[index]],
+      ],
+    });
+    const finalData = {
+      ...value,
+      [itemsPropName]: updatedCols,
+    };
+    onChange && onChange(finalData);
+  }
+
+  moveElemDown(index) {
+    const { onChange, itemsPropName, compTypeProp, value } = this.props;
+    const items = (value && value[itemsPropName]) || [];
+    let updatedCols = update(items, {
+      $splice: [
+        [index, 1],
+        [index + 1, 0, items[index]],
+      ],
+    });
+    const finalData = {
+      ...value,
+      [itemsPropName]: updatedCols,
+    };
+    onChange && onChange(finalData);
+  }
+
   render() {
     const {
       pageData = {},
@@ -87,6 +136,8 @@ class ComponentEditor extends Component {
       sampleData = {},
       itemsPropName,
       name,
+      isStart,
+      isEnd,
       value,
       compTypeProp,
       component,
@@ -129,6 +180,8 @@ class ComponentEditor extends Component {
         </div>
         {/* <IconButton className="sq-component-editor__move" iconName={'Move'} /> */}
         <div className="sq-component-editor__actions">
+          {!isStart && <IconButton iconName={'arrow-up'} onClick={this.moveUp} />}
+          {!isEnd && <IconButton iconName={'arrow-down'} onClick={this.moveDown} />}
           <IconButton iconName={'Settings'} onClick={this.toggleEditForm} />
           <IconButton iconName={'Delete'} onClick={this.deleteComponent} />
         </div>
@@ -143,16 +196,21 @@ class ComponentEditor extends Component {
                 const Component = compList[item[compTypeProp]];
                 const { [compTypeProp]: cmpType, ...restItem } = item;
                 return (
-                  <ErrorBoundary key={idx}>
+                  <ErrorBoundary key={idx + changeIdx}>
                     <ComponentEditor
                       parentName={item.name}
                       component={item[compTypeProp]}
+                      isStart={idx === 0}
+                      isEnd={idx === items.length -1}
+                      index={idx}
                       itemsPropName={itemsPropName}
                       compList={compList}
                       {...Component}
                       value={restItem}
                       onDelete={() => this.deleteComponentByIdx(idx)}
                       onChange={(data) => this.saveFormElData(data, idx)}
+                      onMoveUp={() => this.moveElemUp(idx)}
+                      onMoveDown={() => this.moveElemDown(idx)}
                     />
                   </ErrorBoundary>
                 );

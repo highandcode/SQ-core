@@ -8,12 +8,12 @@ export default {
         fields: [
           {
             name: 'header',
-            cmpType: 'InputField',
+            cmpType: 'Input',
             label: 'Header',
           },
           {
             name: 'subHeader',
-            cmpType: 'InputField',
+            cmpType: 'Input',
             label: 'Sub Header',
           },
         ],

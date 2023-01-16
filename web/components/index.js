@@ -13,6 +13,7 @@ import Wrapper from './Wrapper';
 import CodeHighlight from './ui/CodeHighlight';
 import Progress from './Progress';
 import Form from './Form';
+import FormList from './FormList';
 import Grid from './Grid';
 import LinkBlock from './ui/LinkBlock';
 import Repeater from './ui/Repeater';
@@ -66,6 +67,7 @@ let comps = {
   Form,
   Grid,
   ImageWithSpotlight,
+  FormList,
 };
 
 const getMap = () => {

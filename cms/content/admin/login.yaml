@@ -53,7 +53,7 @@ items:
             cmpType: LinkButton
             buttonText: Don't have login?
             to: /content/admin/register
-          - cmpType: InputField
+          - cmpType: Input
             label: Email Address
             name: email
             validators:

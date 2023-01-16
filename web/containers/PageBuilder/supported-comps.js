@@ -6,10 +6,15 @@ import { ItemTypes } from './ItemTypes';
 import HeaderEdit from './edits/Header';
 import HeroContentEdit from './edits/HeroContent';
 import InputEdit from './edits/Input';
+import ReCaptchaEdit from './edits/ReCaptcha';
 import SelectEdit from './edits/Select';
+import RadioEdit from './edits/Radio';
 import FormEdit from './edits/Form';
 import CheckboxEdit from './edits/CheckboxField';
+import CheckboxListEdit from './edits/CheckboxList';
 import WrapperEdit from './edits/Wrapper';
+import ButtonEdit from './edits/Button';
+import TextEdit from './edits/Text';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 const compList = {
@@ -19,7 +24,7 @@ const compList = {
     hasPlaceholder: true,
     type: ItemTypes.FORM,
     itemsPropName: 'fields',
-    accept: [ItemTypes.FORM_ELEMENT, ItemTypes.FORM],
+    accept: [ItemTypes.FORM_ELEMENT],
     compTypeProp: 'cmpType',
     hasItems: true,
     editData: FormEdit,
@@ -106,8 +111,52 @@ const compList = {
     type: ItemTypes.FORM_ELEMENT,
     editData: InputEdit,
     sampleData: {
-      name: 'fieldname',
       label: 'Label',
+    },
+  },
+  Text: {
+    Component: getMap().Text,
+    group: 'Content',
+    type: ItemTypes.COMPONENT,
+    editData: TextEdit,
+    sampleData: {
+      value: 'text goes here',
+    },
+  },
+  Button: {
+    Component: getMap().Button,
+    group: 'Actions',
+    type: ItemTypes.COMPONENT,
+    editData: ButtonEdit,
+    sampleData: {
+      buttonText: 'Action',
+    },
+  },
+  Input: {
+    Component: getMap().Input,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: InputEdit,
+    sampleData: {
+      label: 'Label',
+    },
+  },
+  Radio: {
+    Component: getMap().Radio,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: RadioEdit,
+    sampleData: {
+      label: 'Radio Label',
+    },
+  },
+  ReCaptcha: {
+    Component: getMap().ReCaptcha,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: ReCaptchaEdit,
+    sampleData: {
+    
     },
   },
   Select: {
@@ -116,7 +165,6 @@ const compList = {
     type: ItemTypes.FORM_ELEMENT,
     editData: SelectEdit,
     sampleData: {
-      name: 'fieldname',
       label: 'Select',
     },
   },
@@ -126,7 +174,15 @@ const compList = {
     type: ItemTypes.FORM_ELEMENT,
     editData: CheckboxEdit,
     sampleData: {
-      name: 'fieldname',
+      label: 'Label',
+    },
+  },
+  CheckboxList: {
+    Component: getMap().CheckboxList,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: CheckboxListEdit,
+    sampleData: {
       label: 'Label',
     },
   },

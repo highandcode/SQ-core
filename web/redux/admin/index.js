@@ -3,6 +3,7 @@ import adminConfig from '../../admin.config';
 import { CONSTANTS } from '../../globals';
 import * as utils from '../../utils';
 import { showNotificationMessage } from '../common';
+import { processParams, selectUserData, customHooks } from '../content';
 const initialState = {};
 const admin = createSlice({
   name: 'admin',
@@ -24,47 +25,58 @@ const admin = createSlice({
 });
 
 export const getPage =
-  (payload, { url } = {}) =>
+  (payload, { url, params, hook } = {}) =>
   async (dispatch, getState) => {
     const result = await utils.apiBridge.post(
       url || adminConfig.apis.getPage,
-      payload
+      params ? processParams(selectUserData(getState()), params, undefined, getState()) : payload
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
+      if (hook) {
+        result.data = customHooks.execute(hook, result)
+      }
       await dispatch(setContentPage(result.data));
     }
   };
 
 export const loadPageTree =
-  (payload, { url } = {}) =>
+  (payload, { url, params } = {}) =>
   async (dispatch, getState) => {
     const result = await utils.apiBridge.post(
       url || adminConfig.apis.getContentTree,
-      payload
+      params ? processParams(selectUserData(getState()), params, undefined, getState()) : payload
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       await dispatch(setContentTree(result.data));
+      await dispatch(
+        loadPagesByPath({
+          parentPath: result.data.path,
+        })
+      );
     }
   };
 
 export const loadPagesByPath =
-  (payload, { url } = {}) =>
+  (payload, { url, params, hook } = {}) =>
   async (dispatch, getState) => {
     const result = await utils.apiBridge.post(
       url || adminConfig.apis.getPageByPath,
-      payload
+      params ? processParams(selectUserData(getState()), params, undefined, getState()) : payload
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
+      if (hook) {
+        result.data = customHooks.execute(hook, result);
+      }
       await dispatch(setContentPages(result.data.pages));
     }
   };
 
 export const savePageDraft =
-  (payload, { url } = {}) =>
+  (payload, { url, params, hook } = {}) =>
   async (dispatch, getState) => {
     const result = await utils.apiBridge.patch(
       url || adminConfig.apis.contentPage,
-      payload
+      params ? processParams({...selectUserData(getState()), ...payload}, params, undefined, getState()) : payload
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       dispatch(
@@ -72,10 +84,14 @@ export const savePageDraft =
           message: 'Page saved successfully',
         })
       );
+      if (hook) {
+        result.data = customHooks.execute(hook, result)
+      }
       await dispatch(setContentPage(result.data));
     }
   };
 
-export const { setRoot, setContentPage, setContentTree, setContentPages } = admin.actions;
+export const { setRoot, setContentPage, setContentTree, setContentPages } =
+  admin.actions;
 
 export default admin.reducer;

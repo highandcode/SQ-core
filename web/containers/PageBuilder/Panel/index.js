@@ -7,7 +7,7 @@ const Panel = ({ className, theme = 'default', header, children, onClose }) => {
       <div className="sq-c-panel__container">
         {header && (
           <div className="sq-c-panel__header">
-            <h4 className='mb-none'>{header}</h4>
+            <h5 className='mb-none'>{header}</h5>
             <IconButton className='sq-c-panel__close' iconSize='normal' color='black' iconName={'close'} onClick={onClose} />
           </div>
         )}

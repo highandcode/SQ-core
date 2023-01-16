@@ -1,5 +1,4 @@
 export default {
-
   pageData: {
     items: [
       {
@@ -7,14 +6,24 @@ export default {
         name: 'main',
         fields: [
           {
+            name: 'name',
+            cmpType: 'Input',
+            label: 'Name',
+            validators: [
+              {
+                type: 'required',
+              },
+            ],
+          },
+          {
             name: 'className',
             cmpType: 'Input',
             label: 'className',
           },
           {
-            name: 'bodyClassName',
+            name: 'sitekey',
             cmpType: 'Input',
-            label: 'bodyClassName',
+            label: 'sitekey',
           },
         ],
       },
@@ -23,8 +32,9 @@ export default {
         actionType: 'submit-event',
         buttonText: 'Save',
         params: {
+          name: '.main.name',
           className: '.main.className',
-          bodyClassName: '.main.bodyClassName',
+          sitekey: '.main.sitekey',
         },
       },
     ],

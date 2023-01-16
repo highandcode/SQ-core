@@ -11,12 +11,20 @@ const masks = {
       return value && value.toString().replace(/[^0-9.-]/g, '');
     }
   },
-  appendText: {
+  appendViewOnlyText: {
     mask: (value, { appendAt='start', text = ''} = {}) => {
-      return (appendAt === 'start' ? text : '') +  `${value || ''}` + (appendAt === 'end' ? text : '');
+      return value.indexOf(text) === -1 ? (appendAt === 'start' ? text : '') +  `${value || ''}` + (appendAt === 'end' ? text : '') : value;
     },
     unmask: (value,{ text = ''} = {}) => {
-      return value && value.toString().indexOf(text) > -1 ? value.toString().replace(new RegExp(text,'gi'), '') : value;
+      return value;
+    }
+  },
+  appendText: {
+    mask: (value, { appendAt='start', text = ''} = {}) => {
+      return value.indexOf(text) === -1 ? (appendAt === 'start' ? text : '') +  `${value || ''}` + (appendAt === 'end' ? text : '') : value;
+    },
+    unmask: (value,{ text = ''} = {}) => {
+      return value;
     }
   },
   number: {

@@ -11,7 +11,7 @@ export default withEditTabs({
           name: '.main.name',
           className: '.main.className',
           label: '.main.label',
-          inputVariant: '.main.inputVariant',
+          display: '.main.display',
           options: '.main.options',
         },
       },
@@ -29,10 +29,9 @@ export default withEditTabs({
       label: 'className',
     },
     {
-      name: 'inputVariant',
+      name: 'display',
       cmpType: 'Radio',
-      label: 'Input Variant',
-      options: GLOBAL_OPTIONS.inputVariant.toArray(),
+      options: GLOBAL_OPTIONS.radioDisplay.toArray(),
     },
     {
       name: 'options',
