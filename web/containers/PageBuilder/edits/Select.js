@@ -20,12 +20,12 @@ export default withEditTabs({
   general: [
     {
       name: 'label',
-      cmpType: 'InputField',
+      cmpType: 'Input',
       label: 'Label',
     },
     {
       name: 'className',
-      cmpType: 'InputField',
+      cmpType: 'Input',
       label: 'className',
     },
     {

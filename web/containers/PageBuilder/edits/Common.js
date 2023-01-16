@@ -17,7 +17,7 @@ const tabs = {
 const defaultGeneral = [
   {
     name: 'name',
-    cmpType: 'InputField',
+    cmpType: 'Input',
     label: 'Field Name',
     validators: [
       {
@@ -30,7 +30,7 @@ const defaultGeneral = [
   },
   {
     name: 'className',
-    cmpType: 'InputField',
+    cmpType: 'Input',
     label: 'className',
   },
 ];

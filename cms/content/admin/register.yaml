@@ -28,7 +28,7 @@ items:
     className: full-width--button
     name: register
     fields:
-      - cmpType: InputField
+      - cmpType: Input
         label: First Name
         name: firstName
         keyup: 
@@ -36,7 +36,7 @@ items:
           max: 50        
         validators:
           - type: required
-      - cmpType: InputField
+      - cmpType: Input
         label: Last Name
         name: lastName
         keyup: 
@@ -44,13 +44,13 @@ items:
           max: 50
         validators:
           - type: required
-      - cmpType: InputField
+      - cmpType: Input
         label: Email ID
         name: email
         validators:
           - type: required
           - type: email
-      - cmpType: InputField
+      - cmpType: Input
         name: password
         type: password
         label: Password
@@ -59,7 +59,7 @@ items:
           - type: strongPassword
         impactOn:
           - reEnterPassword
-      - cmpType: InputField
+      - cmpType: Input
         name: reEnterPassword
         type: password
         label: Confirm Password

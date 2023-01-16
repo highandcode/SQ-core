@@ -48,10 +48,20 @@ const config = {
 };
 
 export const updateConfig = ({
-  templates = [],
-  layouts = [],
-  containers = {},
-}) => {};
+  templates,
+  layouts,
+  containers,
+}) => {
+  if (templates) {
+    config.templates = templates;
+  }
+  if (layouts) {
+    config.layouts = layouts;
+  }
+  if (containers) {
+    config.containers = containers;
+  }
+};
 
 import {
   startLoading,
@@ -327,7 +337,7 @@ class PageBuilder extends Component {
                         fields={[
                           {
                             name: 'title',
-                            cmpType: 'InputField',
+                            cmpType: 'Input',
                             label: 'Title',
                           },
                           {
@@ -340,25 +350,26 @@ class PageBuilder extends Component {
                             name: 'layout',
                             cmpType: 'Autocomplete',
                             label: 'Layout',
-                            options: pageData.templates || config.layouts,
+                            options: pageData.layouts || config.layouts,
                           },
                           {
                             name: 'className',
-                            cmpType: 'InputField',
+                            cmpType: 'Input',
                             label: 'className',
                           },
                           {
-                            cmpType: 'InputField',
+                            cmpType: 'Autocomplete',
                             name: 'container',
                             label: 'container',
+                            options: pageData.containers || config.containers,
                           },
                           {
-                            cmpType: 'InputField',
+                            cmpType: 'Input',
                             name: 'bodyClassName',
                             label: 'bodyClassName',
                           },
                           {
-                            cmpType: 'InputField',
+                            cmpType: 'Input',
                             name: 'containerTemplate',
                             label: 'containerTemplate',
                           },

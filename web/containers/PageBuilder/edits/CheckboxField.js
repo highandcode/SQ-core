@@ -8,7 +8,7 @@ export default {
         fields: [
           {
             name: 'name',
-            cmpType: 'InputField',
+            cmpType: 'Input',
             label: 'Field Name',
             validations: [
               {
@@ -18,17 +18,17 @@ export default {
           },
           {
             name: 'className',
-            cmpType: 'InputField',
+            cmpType: 'Input',
             label: 'className',
           },
           {
             name: 'label',
-            cmpType: 'InputField',
+            cmpType: 'Input',
             label: 'Label',
           },
           {
             name: 'text',
-            cmpType: 'InputField',
+            cmpType: 'Input',
             label: 'Text',
           },
         ],

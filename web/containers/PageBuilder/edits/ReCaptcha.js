@@ -7,7 +7,7 @@ export default {
         fields: [
           {
             name: 'name',
-            cmpType: 'InputField',
+            cmpType: 'Input',
             label: 'Name',
             validators: [
               {
@@ -17,12 +17,12 @@ export default {
           },
           {
             name: 'className',
-            cmpType: 'InputField',
+            cmpType: 'Input',
             label: 'className',
           },
           {
             name: 'sitekey',
-            cmpType: 'InputField',
+            cmpType: 'Input',
             label: 'sitekey',
           },
         ],

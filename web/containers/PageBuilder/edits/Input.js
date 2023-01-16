@@ -21,7 +21,7 @@ export default withEditTabs({
   general: [
     {
       name: 'name',
-      cmpType: 'InputField',
+      cmpType: 'Input',
       label: 'Name',
       validators: [
         {
@@ -31,12 +31,12 @@ export default withEditTabs({
     },
     {
       name: 'label',
-      cmpType: 'InputField',
+      cmpType: 'Input',
       label: 'Label',
     },
     {
       name: 'className',
-      cmpType: 'InputField',
+      cmpType: 'Input',
       label: 'className',
     },
     {

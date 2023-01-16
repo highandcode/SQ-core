@@ -8,12 +8,12 @@ export default {
         fields: [
           {
             name: 'className',
-            cmpType: 'InputField',
+            cmpType: 'Input',
             label: 'className',
           },
           {
             name: 'bodyClassName',
-            cmpType: 'InputField',
+            cmpType: 'Input',
             label: 'bodyClassName',
           },
         ],

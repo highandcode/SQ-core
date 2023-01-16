@@ -20,7 +20,7 @@ export default withEditTabs({
   general: [
     {
       name: 'value',
-      cmpType: 'InputField',
+      cmpType: 'Input',
       label: 'value',
     },
     {
