@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import update from 'immutability-helper';
 import Form from '../../components/Form';
 import IconButton from '../../components/ui/IconButton';
 import Button from '../../components/ui/Button';
@@ -70,6 +71,7 @@ import { ItemTypes } from './ItemTypes';
 import { getSupportedComps, addComponent } from './supported-comps';
 import DynamicContent from '../DynamicContent';
 import * as utils from '../../utils';
+import ErrorBoundry from '../../components/ErrorBoundry';
 
 class PageBuilder extends Component {
   constructor() {
@@ -91,6 +93,8 @@ class PageBuilder extends Component {
     this.onContentDelete = this.onContentDelete.bind(this);
     this.savePageAsDraft = this.savePageAsDraft.bind(this);
     this.formOnChange = this.formOnChange.bind(this);
+    this.onMoveItemDown = this.onMoveItemDown.bind(this);
+    this.onMoveItemUp = this.onMoveItemUp.bind(this);
   }
   async componentDidMount() {
     const { pageData, store } = this.props;
@@ -194,6 +198,48 @@ class PageBuilder extends Component {
     });
   }
 
+  onMoveItemDown(index) {
+    const finalData = {
+      pageData: {
+        ...this.state.contentData.pageData,
+        items: [...this.state.contentData.pageData.items],
+      },
+    };
+    finalData.pageData.items = update(finalData.pageData.items, {
+      $splice: [
+        [index, 1],
+        [index + 1, 0, finalData.pageData.items[index]],
+      ],
+    });
+    this.setState({
+      contentData: {
+        ...this.state.contentData,
+        pageData: finalData.pageData,
+      },
+    });
+    console.log(finalData);
+  }
+  onMoveItemUp(index) {
+    const finalData = {
+      pageData: {
+        ...this.state.contentData.pageData,
+        items: [...this.state.contentData.pageData.items],
+      },
+    };
+    finalData.pageData.items = update(finalData.pageData.items, {
+      $splice: [
+        [index, 1],
+        [index - 1, 0, finalData.pageData.items[index]],
+      ],
+    });
+    this.setState({
+      contentData: {
+        ...this.state.contentData,
+        pageData: finalData.pageData,
+      },
+    });
+  }
+
   render() {
     const { className = '', pageData } = this.props;
     const compList = getSupportedComps();
@@ -251,7 +297,9 @@ class PageBuilder extends Component {
                 </div>
                 <div className="sq-page-builder__center">
                   {this.state.preview && (
-                    <DynamicContent pageConfig={this.state.contentData} />
+                    <ErrorBoundry>
+                      <DynamicContent pageConfig={this.state.contentData} />
+                    </ErrorBoundry>
                   )}
                   {!this.state.preview && (
                     <>
@@ -260,6 +308,8 @@ class PageBuilder extends Component {
                         compList={compList}
                         onDelete={this.onContentDelete}
                         onChange={this.onContentChange}
+                        onMoveItemUp={this.onMoveItemUp}
+                        onMoveItemDown={this.onMoveItemDown}
                       />
                       <Placeholder
                         allowedDropEffect={'any'}

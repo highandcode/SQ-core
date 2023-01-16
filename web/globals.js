@@ -98,6 +98,15 @@ export const GLOBAL_OPTIONS = {
     h5: 'H5',
     h6: 'H6',
   }),
+  buttonSize: new GlobalOptions({
+    small: 'small',
+    medium: 'medium',
+    large: 'large',
+  }),
+  radioDisplay: new GlobalOptions({
+    Column: 'Column',
+    Inline: 'Inline',
+  }),
   headerStyles: new GlobalOptions({
     'sq-header--center': 'sq-header--center',
     'sq-header--left': 'sq-header--left',
@@ -111,6 +120,29 @@ export const GLOBAL_OPTIONS = {
     'sq-form--inline-auto': 'Inline Auto',
     'sq-form--narrow-space': 'Narrow Space',
     'pb-none': 'No Padding bottom',
+  }),
+  
+  htmlTags: new GlobalOptions({
+    'span': 'span',
+    'div': 'div',
+    'h1': 'h1',
+    'h2': 'h2',
+    'h3': 'h3',
+    'h4': 'h4',
+    'h5': 'h5',
+    'p': 'p'
+  }),
+  actionTypes: new GlobalOptions({
+    submit: 'submit',
+    api: 'api',
+    module: 'module',
+  }),
+  methodTypes: new GlobalOptions({
+    get: 'get',
+    post: 'post',
+    patch: 'patch',
+    update: 'update',
+    delete: 'delete',
   }),
   salutation: new GlobalOptions({
     'Mr.': 'Mr.',

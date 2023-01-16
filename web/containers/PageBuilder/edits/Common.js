@@ -1,3 +1,4 @@
+import { getValidators } from '../../../utils/validator';
 const tabs = {
   general: {
     text: 'General',
@@ -13,14 +14,69 @@ const tabs = {
   },
 };
 
+const defaultGeneral = [
+  {
+    name: 'name',
+    cmpType: 'InputField',
+    label: 'Field Name',
+    validators: [
+      {
+        type: 'required',
+      },
+      {
+        type: 'fieldName',
+      },
+    ],
+  },
+  {
+    name: 'className',
+    cmpType: 'InputField',
+    label: 'className',
+  },
+];
+
+const defaultValidations = [
+  {
+    name: 'validators',
+    cmpType: 'FormList',
+    label: 'Validators',
+    formClassName: 'sq-form--2-cols mb-wide',
+    fields: [
+      {
+        cmpType: 'Select',
+        label: 'Type',
+        name: 'type',
+        options: () =>
+          Object.keys(getValidators()).map((item) => ({
+            text: item,
+            value: item,
+          })),
+      },
+      {
+        cmpType: 'Input',
+        label: 'Error Message',
+        name: 'message',
+      },
+      {
+        cmpType: 'Input',
+        label: 'Error Key',
+        name: 'key',
+      },
+    ],
+  },
+];
+
 export const withEditTabs = ({
   pageData = {},
   general = [],
   validations = [],
+  enableValidations = true,
   actions = [],
 }) => {
-  const isGeneralTab = general && general.length !== 0;
-  const isValidationsTab = validations && validations.length !== 0;
+  const finalGeneral = [...defaultGeneral, ...general];
+  const finalValidations = enableValidations ? [...defaultValidations, ...validations] : validations;
+  const isGeneralTab = finalGeneral && finalGeneral.length !== 0;
+  const isValidationsTab = finalValidations && finalValidations.length !== 0;
   const isActionsTab = actions && actions.length !== 0;
 
   let firstSelectedTab = '';
@@ -74,8 +130,8 @@ export const withEditTabs = ({
                 ...(isActionsTab ? [tabs.actions] : []),
               ],
             },
-            ...createTabItems(general, tabs.general.value),
-            ...createTabItems(validations, tabs.validations.value),
+            ...createTabItems(finalGeneral, tabs.general.value),
+            ...createTabItems(finalValidations, tabs.validations.value),
             ...createTabItems(actions, tabs.actions.value),
           ],
         },

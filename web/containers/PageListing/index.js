@@ -124,8 +124,13 @@ class PageListing extends BaseContainer {
                   {
                     name: 'title',
                     headerText: 'Page Title',
-                    className: 'col-large-grow',
+                    className: 'col-large',
                     render: (val, col, row) => `${row.pageData.title}`,
+                  },
+                  {
+                    name: 'path',
+                    headerText: 'Path',
+                    className: 'col-large-grow',
                   },
 
                   {
@@ -144,28 +149,28 @@ class PageListing extends BaseContainer {
                         },
                         {
                           cmpType: 'LinkButton',
-                          action: 'reset-password',
+                          action: 'preview',
                           iconName: 'RestartAlt',
-                          buttonText: translate('Reset Password'),
+                          buttonText: translate('Preview'),
                         },
                         {
                           cmpType: 'LinkButton',
                           iconName: 'deactivate',
                           iconVariant: 'error',
-                          action: 'deactivate',
-                          buttonText: translate('Deactivate'),
+                          action: 'unpublish',
+                          buttonText: translate('UnPublish'),
                           render: (row) => {
-                            return row.active;
+                            return row.status === 'PUBLISHED';
                           },
                         },
                         {
                           cmpType: 'LinkButton',
                           iconName: 'active',
                           iconVariant: 'success',
-                          action: 'activate',
-                          buttonText: translate('Re-Activate'),
+                          action: 'publish',
+                          buttonText: translate('Publish'),
                           render: (row) => {
-                            return !row.active;
+                            return row.status === 'DRAFT';
                           },
                         },
                       ],

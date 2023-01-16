@@ -10,6 +10,8 @@ class ContentEditor extends Component {
     this.state = {};
     this.componentOnChange = this.componentOnChange.bind(this);
     this.componentOnDelete = this.componentOnDelete.bind(this);
+    this.handleMoveUp = this.handleMoveUp.bind(this);
+    this.handleMoveDown = this.handleMoveDown.bind(this);
   }
 
   componentOnChange(data, idx) {
@@ -20,6 +22,17 @@ class ContentEditor extends Component {
     const { onDelete } = this.props;
     onDelete && onDelete(idx);
   }
+
+  handleMoveDown(idx) {
+    const { onMoveItemDown } = this.props;
+    onMoveItemDown && onMoveItemDown(idx);
+  }
+
+  handleMoveUp(idx) {
+    const { onMoveItemUp } = this.props;
+    onMoveItemUp && onMoveItemUp(idx);
+  }
+
   render() {
     const { pageData = {}, compList = {} } = this.props;
     const { className = '' } = pageData;
@@ -34,11 +47,15 @@ class ContentEditor extends Component {
                 <ComponentEditor
                   component={block.component}
                   {...block.metaData}
+                  isStart={idx === 0}
+                  isEnd={idx === pageData.items.length - 1}
                   {...Component}
                   value={block}
                   compList={compList}
                   onDelete={() => this.componentOnDelete(idx)}
                   onChange={(data) => this.componentOnChange(data, idx)}
+                  onMoveUp={() => this.handleMoveUp(idx)}
+                  onMoveDown={() => this.handleMoveDown(idx)}
                 />
               </ErrorBoundary>
             );

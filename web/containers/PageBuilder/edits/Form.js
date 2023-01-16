@@ -2,6 +2,7 @@ import { GLOBAL_OPTIONS } from '../../../globals';
 import { withEditTabs } from './Common';
 
 export default withEditTabs({
+  enableValidations:false,
   pageData: {
     items: [
       {
@@ -16,19 +17,6 @@ export default withEditTabs({
     ],
   },
   general: [
-    {
-      name: 'name',
-      cmpType: 'InputField',
-      label: 'Field Name',
-      validators: [
-        {
-          type: 'required',
-        },
-        {
-          type: 'fieldName',
-        },
-      ],
-    },
     {
       name: 'className',
       cmpType: 'InputWithOptions',
