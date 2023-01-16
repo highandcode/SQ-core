@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from '../../components/ErrorBoundry';
 import ComponentEditor from './ComponentEditor';
+import { Placeholder } from './Placeholder';
+import { ItemTypes } from './ItemTypes';
+
 import './_content-editor.scss';
 
 class ContentEditor extends Component {
@@ -12,6 +15,7 @@ class ContentEditor extends Component {
     this.componentOnDelete = this.componentOnDelete.bind(this);
     this.handleMoveUp = this.handleMoveUp.bind(this);
     this.handleMoveDown = this.handleMoveDown.bind(this);
+    this.componentOnDrop = this.componentOnDrop.bind(this);
   }
 
   componentOnChange(data, idx) {
@@ -26,6 +30,10 @@ class ContentEditor extends Component {
   handleMoveDown(idx) {
     const { onMoveItemDown } = this.props;
     onMoveItemDown && onMoveItemDown(idx);
+  }
+  componentOnDrop(item, atIdx) {
+    const { onDrop } = this.props;
+    onDrop && onDrop(item, atIdx);
   }
 
   handleMoveUp(idx) {
@@ -60,6 +68,11 @@ class ContentEditor extends Component {
               </ErrorBoundary>
             );
           })}
+        <Placeholder
+          allowedDropEffect={'any'}
+          accept={[ItemTypes.COMPONENT, ItemTypes.FORM]}
+          onDrop={this.componentOnDrop}
+        />
       </div>
     );
   }

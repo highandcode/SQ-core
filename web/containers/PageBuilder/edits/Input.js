@@ -19,16 +19,7 @@ export default withEditTabs({
     ],
   },
   general: [
-    {
-      name: 'name',
-      cmpType: 'Input',
-      label: 'Name',
-      validators: [
-        {
-          type: 'required',
-        },
-      ],
-    },
+    
     {
       name: 'label',
       cmpType: 'Input',

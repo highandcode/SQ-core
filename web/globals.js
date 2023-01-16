@@ -122,6 +122,13 @@ export const GLOBAL_OPTIONS = {
     'pb-none': 'No Padding bottom',
   }),
   
+  genericStyles: new GlobalOptions({
+    'mb-wide': 'Margin bottom wide',
+    'mt-wide': 'Margin top wide',
+    'pb-wide': 'Padding bottom wide',
+    'pt-wide': 'Padding top wide',
+  }),
+  
   htmlTags: new GlobalOptions({
     'span': 'span',
     'div': 'div',

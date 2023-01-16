@@ -120,7 +120,18 @@ const compList = {
     type: ItemTypes.COMPONENT,
     editData: TextEdit,
     sampleData: {
-      value: 'text goes here',
+      text: 'text goes here',
+    },
+  },
+  H1: {
+    Component: getMap().Text,
+    name: 'Text',
+    group: 'Content',
+    type: ItemTypes.COMPONENT,
+    editData: TextEdit,
+    sampleData: {
+      text: 'text goes here',
+      tag: 'h1'
     },
   },
   Button: {

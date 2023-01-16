@@ -7,16 +7,6 @@ export default {
         name: 'main',
         fields: [
           {
-            name: 'name',
-            cmpType: 'Input',
-            label: 'Field Name',
-            validations: [
-              {
-                type: 'required',
-              },
-            ],
-          },
-          {
             name: 'className',
             cmpType: 'Input',
             label: 'className',

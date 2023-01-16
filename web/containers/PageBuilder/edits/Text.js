@@ -9,7 +9,7 @@ export default withEditTabs({
         actionType: 'submit-event',
         buttonText: 'Save',
         params: {
-          value: '.main.value',
+          text: '.main.text',
           className: '.main.className',
           tag: '.main.tag',
           parentTag: '.main.parentTag',
@@ -19,9 +19,9 @@ export default withEditTabs({
   },
   general: [
     {
-      name: 'value',
+      name: 'text',
       cmpType: 'Input',
-      label: 'value',
+      label: 'text',
     },
     {
       name: 'tag',

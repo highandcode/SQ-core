@@ -319,10 +319,6 @@ class PageBuilder extends Component {
                         onChange={this.onContentChange}
                         onMoveItemUp={this.onMoveItemUp}
                         onMoveItemDown={this.onMoveItemDown}
-                      />
-                      <Placeholder
-                        allowedDropEffect={'any'}
-                        accept={[ItemTypes.COMPONENT, ItemTypes.FORM]}
                         onDrop={this.componentOnDrop}
                       />
                     </>

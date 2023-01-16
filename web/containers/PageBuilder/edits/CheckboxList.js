@@ -6,21 +6,7 @@ export default {
           component: 'Form',
           name: 'main',
           fields: [
-            {
-              name: 'name',
-              cmpType: 'Input',
-              label: 'Field Name',
-              validations: [
-                {
-                  type: 'required',
-                },
-              ],
-            },
-            {
-              name: 'className',
-              cmpType: 'Input',
-              label: 'className',
-            },
+         
             {
               name: 'label',
               cmpType: 'Input',
@@ -34,12 +20,12 @@ export default {
               fields: [
                 {
                   cmpType: 'Input',
-                  label: 'Key',
+                  label: 'Value',
                   name: 'value',
                 },
                 {
                   cmpType: 'Input',
-                  label: 'Value',
+                  label: 'Text',
                   name: 'text',
                 },
               ],

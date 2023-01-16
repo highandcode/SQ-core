@@ -24,11 +24,6 @@ export default withEditTabs({
       label: 'Label',
     },
     {
-      name: 'className',
-      cmpType: 'Input',
-      label: 'className',
-    },
-    {
       name: 'inputVariant',
       cmpType: 'Radio',
       label: 'Input Variant',
@@ -42,12 +37,12 @@ export default withEditTabs({
       fields: [
         {
           cmpType: 'Input',
-          label: 'Key',
+          label: 'Value',
           name: 'value',
         },
         {
           cmpType: 'Input',
-          label: 'Value',
+          label: 'Text',
           name: 'text',
         },
       ],

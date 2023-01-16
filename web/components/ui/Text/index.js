@@ -13,12 +13,12 @@ const SupportedTags = {
   'p': 'p'
 };
 
-const Text = ({ tag = 'span', parentTag = 'div', className = '', value }) => {
+const Text = ({ tag = 'span', parentTag = 'div', className = '', value, text }) => {
   const Tag = SupportedTags[tag] || SupportedTags.span;
   const ParentTag = SupportedTags[parentTag] || parentTag.div;
   return (
     <ParentTag className={`sq-text ${className}`}>
-      <Tag>{value}</Tag>
+      <Tag>{value || text}</Tag>
     </ParentTag>
   );
 };

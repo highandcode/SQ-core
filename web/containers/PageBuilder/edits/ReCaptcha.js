@@ -5,16 +5,7 @@ export default {
         component: 'Form',
         name: 'main',
         fields: [
-          {
-            name: 'name',
-            cmpType: 'Input',
-            label: 'Name',
-            validators: [
-              {
-                type: 'required',
-              },
-            ],
-          },
+         
           {
             name: 'className',
             cmpType: 'Input',

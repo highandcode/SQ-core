@@ -54,7 +54,7 @@ class FormList extends Component {
         <div className="sq-form-list__label mb-wide">{label}</div>
         {value.map((itemVal, idx) => {
           return (
-            <div className="sq-form-list__item">
+            <div className="sq-form-list__item" key={idx}>
               <div className="sq-form-list__item-wrap">
                 <Form
                   className={`pb-none ${formClassName}`}

@@ -1,3 +1,4 @@
+import { GLOBAL_OPTIONS } from '../../../globals';
 import { getValidators } from '../../../utils/validator';
 const tabs = {
   general: {
@@ -30,8 +31,9 @@ const defaultGeneral = [
   },
   {
     name: 'className',
-    cmpType: 'Input',
+    cmpType: 'InputWithOptions',
     label: 'className',
+    options: GLOBAL_OPTIONS.genericStyles.toArray(),
   },
 ];
 
@@ -74,7 +76,9 @@ export const withEditTabs = ({
   actions = [],
 }) => {
   const finalGeneral = [...defaultGeneral, ...general];
-  const finalValidations = enableValidations ? [...defaultValidations, ...validations] : validations;
+  const finalValidations = enableValidations
+    ? [...defaultValidations, ...validations]
+    : validations;
   const isGeneralTab = finalGeneral && finalGeneral.length !== 0;
   const isValidationsTab = finalValidations && finalValidations.length !== 0;
   const isActionsTab = actions && actions.length !== 0;
