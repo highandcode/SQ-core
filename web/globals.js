@@ -138,11 +138,11 @@ export const GLOBAL_OPTIONS = {
     module: 'module',
   }),
   methodTypes: new GlobalOptions({
-    get: 'get',
-    post: 'post',
-    patch: 'patch',
-    update: 'update',
-    delete: 'delete',
+    get: 'GET',
+    post: 'POST',
+    patch: 'PATCH',
+    update: 'UPDATE',
+    delete: 'DELETE',
   }),
   salutation: new GlobalOptions({
     'Mr.': 'Mr.',

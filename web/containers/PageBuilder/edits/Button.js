@@ -55,7 +55,8 @@ export default withEditTabs({
     },
     {
       name: 'method',
-      cmpType: 'Select',
+      cmpType: 'Radio',
+      display: 'Inline',
       options: GLOBAL_OPTIONS.methodTypes.toArray(),
       label: 'method',
     },
