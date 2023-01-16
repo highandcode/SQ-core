@@ -217,7 +217,6 @@ class PageBuilder extends Component {
         pageData: finalData.pageData,
       },
     });
-    console.log(finalData);
   }
   onMoveItemUp(index) {
     const finalData = {

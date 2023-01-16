@@ -147,7 +147,6 @@ class ComponentEditor extends Component {
     const { [itemsPropName]: items } = value || {};
     const { className = '' } = pageData;
     const { hasPlaceholder, accept, compList } = this.props;
-    console.log(hasItems, rest);
     return (
       <div
         className={`sq-component-editor ${className} ${value.className || ''}`}
@@ -210,7 +209,7 @@ class ComponentEditor extends Component {
                       value={restItem}
                       onDelete={() => this.deleteComponentByIdx(idx)}
                       onChange={(data) => this.saveFormElData(data, idx)}
-                      onMoveUp={() => this.moveElemDown(idx)}
+                      onMoveUp={() => this.moveElemUp(idx)}
                       onMoveDown={() => this.moveElemDown(idx)}
                     />
                   </ErrorBoundary>
