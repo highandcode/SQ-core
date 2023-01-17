@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import adminConfig from '../../admin.config';
 import { CONSTANTS } from '../../globals';
 import * as utils from '../../utils';
-import { showNotificationMessage } from '../common';
+import { showNotificationMessage, startLoading } from '../common';
 import { processParams, selectUserData, customHooks } from '../content';
 const initialState = {};
 const admin = createSlice({
@@ -33,7 +33,7 @@ export const getPage =
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {
-        result.data = customHooks.execute(hook, result)
+        result.data = await customHooks.execute(hook, result)
       }
       await dispatch(setContentPage(result.data));
     }
@@ -63,9 +63,10 @@ export const loadPagesByPath =
       url || adminConfig.apis.getPageByPath,
       params ? processParams(selectUserData(getState()), params, undefined, getState()) : payload
     );
+    console.log('>>>>', hook);
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {
-        result.data = customHooks.execute(hook, result);
+        result.data = await customHooks.execute(hook, result);
       }
       await dispatch(setContentPages(result.data.pages));
     }
@@ -85,7 +86,7 @@ export const savePageDraft =
         })
       );
       if (hook) {
-        result.data = customHooks.execute(hook, result)
+        result.data = await customHooks.execute(hook, result)
       }
       await dispatch(setContentPage(result.data));
     }

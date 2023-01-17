@@ -108,6 +108,7 @@ class PageBuilder extends Component {
   }
   async componentDidMount() {
     const { pageData, store } = this.props;
+    this.props.commonActions.startLoading();
     await this.props.raiseAction(
       getPage(
         {
@@ -119,12 +120,15 @@ class PageBuilder extends Component {
     this.setState({
       contentData: this.props.store.admin.contentData,
     });
+    this.props.commonActions.stopLoading();
   }
   async savePageAsDraft() {
     const { pageData, store } = this.props;
+    this.props.commonActions.startLoading();
     await this.props.raiseAction(
       savePageDraft(this.state.contentData, pageData.savePageConfig)
     );
+    this.props.commonActions.stopLoading();
   }
   componentOnDrop(item) {
     this.setState({

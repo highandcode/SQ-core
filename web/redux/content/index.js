@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as utils from '../../utils';
-import CustomModule from '../../utils/custom-module';
+import { customHooks } from './custom-hooks';
 import { Validator } from '../../utils/validator';
 import { showNotificationMessage } from '../common';
 const { queryString, apiBridge, object, common, processor } = utils;
@@ -21,7 +21,6 @@ const initialState = {
   protectedData: {},
   isContentLoading: false,
 };
-export const customHooks = new CustomModule();
 
 export const parseCustomModule = (text) => {
   const moduleName = text.indexOf('(') > -1 ? text.substr(0, text.indexOf('(')) : text;
@@ -87,7 +86,7 @@ export const fetchJsonPath = ({ url, params, headers }) => {
   const mode = window.APP_CONFIG?.siteMode === 'static' ? 'get' : 'post';
   const postFix = mode === 'get' ? '/get.json' : '';
   const cb = mode === 'get' ? { _cb: window.APP_CONFIG?.appVersion } : {};
-  return apiBridge[mode](`${url}${postFix}`, {...cb, ...params}, headers);
+  return apiBridge[mode](`${url}${postFix}`, { ...cb, ...params }, headers);
 };
 
 export const fetchContentPage = createAsyncThunk('content/fetchContentPage', async (url) => {
@@ -488,3 +487,4 @@ export const resetUserData = (payload) => (dispatch, getState) => {
 
 export const { updateProtectedUserData, updateUserData, clearAllUserData, updateMetaData } = content.actions;
 export default content.reducer;
+export { customHooks };
