@@ -11,20 +11,7 @@ import { ComponentList } from './ComponentList';
 import Panel from './Panel';
 import { Placeholder } from './Placeholder';
 
-import {
-  fetchContentPage,
-  postApi,
-  downloadApi,
-  executeHook,
-  updateUserData,
-  updateMetaData,
-  mergeUserData,
-  updateErrorData,
-  resetUserData,
-  customHooks,
-  sendContact,
-  processParams,
-} from '../../redux/content';
+import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
 
 const config = {
   templates: [
@@ -59,16 +46,7 @@ export const updateConfig = ({ templates, layouts, containers }) => {
   }
 };
 
-import {
-  startLoading,
-  showNotificationMessage,
-  closeNotification,
-  stopLoading,
-  showPopupScreen,
-  showPopup,
-  setError,
-  clearError,
-} from '../../redux/common';
+import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
 import { getPage, savePageDraft } from '../../redux/admin';
 import ContentEditor from './ContentEditor';
 
@@ -122,9 +100,7 @@ class PageBuilder extends Component {
   async savePageAsDraft() {
     const { pageData, store } = this.props;
     this.props.commonActions.startLoading();
-    await this.props.raiseAction(
-      savePageDraft(this.state.contentData, pageData.savePageConfig)
-    );
+    await this.props.raiseAction(savePageDraft(this.state.contentData, pageData.savePageConfig));
     this.props.commonActions.stopLoading();
   }
   componentOnDrop(item) {
@@ -137,9 +113,7 @@ class PageBuilder extends Component {
             ...(this.state.contentData.pageData.items || []),
             {
               component: item.name,
-              name:
-                item.name.toLowerCase() +
-                (this.state.contentData.pageData.items?.length || 1),
+              name: item.name.toLowerCase() + (this.state.contentData.pageData.items?.length || 1),
               ...item.metaData.sampleData,
             },
           ],
@@ -209,11 +183,7 @@ class PageBuilder extends Component {
     });
   }
   showPreview() {
-    utils.redirect.redirectTo(
-      'previewDraftPage',
-      utils.queryString.query.get(),
-      { target: '_blank' }
-    );
+    utils.redirect.redirectTo(utils.queryString.query.get().path, {mode: 'preview'}, { target: '_blank' });
   }
 
   onMoveItemDown(index) {
@@ -261,45 +231,19 @@ class PageBuilder extends Component {
     const { className = '', pageData } = this.props;
     const compList = getSupportedComps();
     return (
-      <div
-        className={`sq-page-builder sq-v-screen sq-v-screen--fixed ${className}`}
-      >
+      <div className={`sq-page-builder sq-v-screen sq-v-screen--fixed ${className}`}>
         <div className="sq-v-screen__container">
           <div className="sq-page-builder__top-actions mb-wide">
-            <Switch
-              label="Quick Preview"
-              value={this.state.preview}
-              onChange={this.toggleQuickPreview}
-            />
-            <Button
-              iconName={'Save'}
-              variant="outlined"
-              buttonText="Save as Draft"
-              onClick={this.savePageAsDraft}
-            />
-            <Button
-              iconName={'Preview'}
-              variant="outlined"
-              buttonText="Full Preview"
-              onClick={this.showPreview}
-            />
+            <Switch label="Quick Preview" value={this.state.preview} onChange={this.toggleQuickPreview} />
+            <Button iconName={'Save'} variant="outlined" buttonText="Save as Draft" onClick={this.savePageAsDraft} />
+            <Button iconName={'Preview'} variant="outlined" buttonText="Full Preview" onClick={this.showPreview} />
             <Button iconName={'Publish'} buttonText="Publish" />
           </div>
           <div className="sq-page-builder__content sq-v-screen-grow">
             <DndProvider backend={HTML5Backend}>
               <div className="sq-page-builder__l-options">
-                <IconButton
-                  title="Elements"
-                  iconName="code"
-                  variant={!this.state.enableMenu ? 'default' : 'primary'}
-                  onClick={this.toggleElements}
-                />
-                <IconButton
-                  title="Page Properties"
-                  iconName="default"
-                  variant={!this.state.enableProps ? 'default' : 'primary'}
-                  onClick={this.toggleProps}
-                />
+                <IconButton title="Elements" iconName="code" variant={!this.state.enableMenu ? 'default' : 'primary'} onClick={this.toggleElements} />
+                <IconButton title="Page Properties" iconName="default" variant={!this.state.enableProps ? 'default' : 'primary'} onClick={this.toggleProps} />
               </div>
               {/* <div className="sq-page-builder__r-options">
               </div> */}
@@ -307,11 +251,7 @@ class PageBuilder extends Component {
               <div className="sq-page-builder__container">
                 <div className="sq-page-builder__left">
                   {this.state.enableMenu && (
-                    <Panel
-                      header="Elements"
-                      theme="dark"
-                      onClose={this.toggleElements}
-                    >
+                    <Panel header="Elements" theme="dark" onClose={this.toggleElements}>
                       <div className="row">
                         <ComponentList compList={compList} />
                       </div>
@@ -326,15 +266,7 @@ class PageBuilder extends Component {
                   )}
                   {!this.state.preview && (
                     <>
-                      <ContentEditor
-                        pageData={this.state.contentData.pageData}
-                        compList={compList}
-                        onDelete={this.onContentDelete}
-                        onChange={this.onContentChange}
-                        onMoveItemUp={this.onMoveItemUp}
-                        onMoveItemDown={this.onMoveItemDown}
-                        onDrop={this.componentOnDrop}
-                      />
+                      <ContentEditor pageData={this.state.contentData.pageData} compList={compList} onDelete={this.onContentDelete} onChange={this.onContentChange} onMoveItemUp={this.onMoveItemUp} onMoveItemDown={this.onMoveItemDown} onDrop={this.componentOnDrop} />
                     </>
                   )}
                 </div>
@@ -423,8 +355,7 @@ const mapDispatchToProps = (dispatch) => {
       updateErrorData: (data) => dispatch(updateErrorData(data)),
     },
     commonActions: {
-      showNotificationMessage: (data) =>
-        dispatch(showNotificationMessage(data)),
+      showNotificationMessage: (data) => dispatch(showNotificationMessage(data)),
       closeNotification: (data) => dispatch(closeNotification(data)),
       startLoading: (data) => dispatch(startLoading(data)),
       showPopup: (data) => dispatch(showPopup(data)),
