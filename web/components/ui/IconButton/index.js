@@ -14,6 +14,7 @@ const SQIconButton = ({
   color = 'primary',
   className = '',
   onClick,
+  size,
   iconSize = 'normal',
   iconName,
   urlParams,
@@ -25,6 +26,7 @@ const SQIconButton = ({
       className={'sq-icon-button__button'}
       disabled={disabled}
       variant={variant}
+      size={size}
       onClick={(e) => {
         !disabled && onClick && onClick(e);
         !disabled && to && redirectTo(to, urlParams, { ...rest });

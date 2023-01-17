@@ -24,7 +24,7 @@ const compList = {
     hasPlaceholder: true,
     type: ItemTypes.FORM,
     itemsPropName: 'fields',
-    accept: [ItemTypes.FORM_ELEMENT],
+    accept: [ItemTypes.FORM_ELEMENT, ItemTypes.FORM],
     compTypeProp: 'cmpType',
     hasItems: true,
     editData: FormEdit,

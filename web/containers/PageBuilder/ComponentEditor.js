@@ -180,16 +180,16 @@ class ComponentEditor extends Component {
         </div>
         {/* <IconButton className="sq-component-editor__move" iconName={'Move'} /> */}
         <div className="sq-component-editor__actions">
-          {!isStart && <IconButton iconName={'arrow-up'} onClick={this.moveUp} />}
-          {!isEnd && <IconButton iconName={'arrow-down'} onClick={this.moveDown} />}
-          <IconButton iconName={'Settings'} onClick={this.toggleEditForm} />
-          <IconButton iconName={'Delete'} onClick={this.deleteComponent} />
+          {!isStart && <IconButton size="small" iconSize='small' iconName={'arrow-up'} onClick={this.moveUp} />}
+          {!isEnd && <IconButton size="small" iconSize='small' iconName={'arrow-down'} onClick={this.moveDown} />}
+          <IconButton size="small" iconSize='small' iconName={'Settings'} onClick={this.toggleEditForm} />
+          <IconButton size="small" iconSize='small' iconName={'Delete'} onClick={this.deleteComponent} />
         </div>
         <div
           className={`sq-component-editor__container ${value.bodyClassName}`}
         >
           <ErrorBoundary>
-            {!hasItems && <Component {...sampleData} {...value} />}
+            {!hasItems && <Component {...value} />}
             {hasItems &&
               items &&
               items.map((item, idx) => {

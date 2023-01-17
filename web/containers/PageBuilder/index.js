@@ -47,11 +47,7 @@ const config = {
   ],
 };
 
-export const updateConfig = ({
-  templates,
-  layouts,
-  containers,
-}) => {
+export const updateConfig = ({ templates, layouts, containers }) => {
   if (templates) {
     config.templates = templates;
   }
@@ -98,7 +94,7 @@ class PageBuilder extends Component {
     this.componentOnDrop = this.componentOnDrop.bind(this);
     this.toggleProps = this.toggleProps.bind(this);
     this.toggleElements = this.toggleElements.bind(this);
-    this.togglePreview = this.togglePreview.bind(this);
+    this.toggleQuickPreview = this.toggleQuickPreview.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
     this.onContentDelete = this.onContentDelete.bind(this);
     this.savePageAsDraft = this.savePageAsDraft.bind(this);
@@ -106,6 +102,7 @@ class PageBuilder extends Component {
     this.onMoveItemDown = this.onMoveItemDown.bind(this);
     this.onMoveItemUp = this.onMoveItemUp.bind(this);
   }
+
   async componentDidMount() {
     const { pageData, store } = this.props;
     this.props.commonActions.startLoading();
@@ -206,10 +203,17 @@ class PageBuilder extends Component {
     });
   }
 
-  togglePreview() {
+  toggleQuickPreview() {
     this.setState({
       preview: !this.state.preview,
     });
+  }
+  showPreview() {
+    utils.redirect.redirectTo(
+      'previewDraftPage',
+      utils.queryString.query.get(),
+      { target: '_blank' }
+    );
   }
 
   onMoveItemDown(index) {
@@ -263,15 +267,21 @@ class PageBuilder extends Component {
         <div className="sq-v-screen__container">
           <div className="sq-page-builder__top-actions mb-wide">
             <Switch
-              label="Preview"
+              label="Quick Preview"
               value={this.state.preview}
-              onChange={this.togglePreview}
+              onChange={this.toggleQuickPreview}
             />
             <Button
               iconName={'Save'}
               variant="outlined"
               buttonText="Save as Draft"
               onClick={this.savePageAsDraft}
+            />
+            <Button
+              iconName={'Preview'}
+              variant="outlined"
+              buttonText="Full Preview"
+              onClick={this.showPreview}
             />
             <Button iconName={'Publish'} buttonText="Publish" />
           </div>
@@ -285,7 +295,7 @@ class PageBuilder extends Component {
                   onClick={this.toggleElements}
                 />
                 <IconButton
-                  title="Properties"
+                  title="Page Properties"
                   iconName="default"
                   variant={!this.state.enableProps ? 'default' : 'primary'}
                   onClick={this.toggleProps}
@@ -330,7 +340,7 @@ class PageBuilder extends Component {
                 </div>
                 <div className="sq-page-builder__right">
                   {this.state.enableProps && (
-                    <Panel header="Properties" onClose={this.toggleProps}>
+                    <Panel header="Page Properties" onClose={this.toggleProps}>
                       <Form
                         value={this.state.contentData.pageData}
                         onChange={this.formOnChange}
