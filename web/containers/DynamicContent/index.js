@@ -289,7 +289,9 @@ class DynamicContent extends Component {
     return isValid;
   }
 
-  validateForm(block) {
+  getValidateFormFull(block, value = {}) {
+    let fullValid = true;
+    let allErros = {};
     let validators = {};
     block.fields?.forEach((item) => {
       let hasMatch = true;
@@ -297,7 +299,7 @@ class DynamicContent extends Component {
         const valid = new Validator(item.match);
         valid.setValues({
           ...this.getUpdatedUserData(),
-          ...this.getUpdatedUserData()[block.name],
+          ...value[block.name],
         });
         hasMatch = valid.validateAll();
       }
@@ -306,17 +308,29 @@ class DynamicContent extends Component {
           validators: item.validators,
         };
       }
+      if (item.cmpType === 'Form') {
+        const { isValid: inernvalValid, errors: newErrors } = this.getValidateFormFull(item, value[item.name]);
+        if (!inernvalValid) {
+          fullValid = inernvalValid;
+          allErros[item.name] = { errors: newErrors };
+        }
+      }
     });
     const validObj = new Validator(validators);
     validObj.setValues({
       ...this.getUpdatedUserData(),
-      ...this.getUpdatedUserData()[block.name],
+      ...value[block.name],
     });
-    const isValid = validObj.validateAll();
+    const isValid = validObj.validateAll() && fullValid;
+    return { isValid, errors: { ...validObj.errors, ...allErros } };
+  }
+
+  validateForm(block) {
+    const { isValid, errors } = this.getValidateFormFull(block, this.getUpdatedUserData());
     this.props.contentActions.updateUserData({
       [block.name + '_errors']: {
         ...this.props.store.content.userData[block.name + '_errors'],
-        ...validObj.errors,
+        ...errors,
       },
     });
     return isValid;

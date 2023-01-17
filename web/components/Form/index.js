@@ -90,7 +90,6 @@ class Form extends React.Component {
       <div className={`sq-form ${className}`} onKeyPress={this.form_onKeyPress}>
         <div className="sq-form_fields">
           {fields.map((field, index) => {
-           console.log('@@@eror', field.name, errors);
             return this.renderComp(field, value[field.name], errors[field.name], value, index);
           })}
         </div>

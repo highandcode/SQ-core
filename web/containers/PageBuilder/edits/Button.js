@@ -62,7 +62,7 @@ export default withEditTabs({
     },
     {
       name: 'params',
-      cmpType: 'ObjectBuilder',
+      cmpType: 'FormObject',
       output: 'object',
       label: 'params',
     },

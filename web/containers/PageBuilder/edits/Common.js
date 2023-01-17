@@ -49,10 +49,13 @@ const defaultValidations = [
         label: 'Type',
         name: 'type',
         options: () =>
-          Object.keys(getValidators()).map((item) => ({
-            text: item,
-            value: item,
-          })),
+          _.sortBy(
+            Object.keys(getValidators()).map((item) => ({
+              text: item,
+              value: item,
+            })),
+            'text'
+          ),
       },
       {
         cmpType: 'Input',
@@ -68,17 +71,9 @@ const defaultValidations = [
   },
 ];
 
-export const withEditTabs = ({
-  pageData = {},
-  general = [],
-  validations = [],
-  enableValidations = true,
-  actions = [],
-}) => {
+export const withEditTabs = ({ pageData = {}, general = [], validations = [], enableValidations = true, actions = [] }) => {
   const finalGeneral = [...defaultGeneral, ...general];
-  const finalValidations = enableValidations
-    ? [...defaultValidations, ...validations]
-    : validations;
+  const finalValidations = enableValidations ? [...defaultValidations, ...validations] : validations;
   const isGeneralTab = finalGeneral && finalGeneral.length !== 0;
   const isValidationsTab = finalValidations && finalValidations.length !== 0;
   const isActionsTab = actions && actions.length !== 0;
@@ -128,11 +123,7 @@ export const withEditTabs = ({
             {
               name: 'editTab',
               cmpType: 'Tabs',
-              options: [
-                ...(isGeneralTab ? [tabs.general] : []),
-                ...(isValidationsTab ? [tabs.validations] : []),
-                ...(isActionsTab ? [tabs.actions] : []),
-              ],
+              options: [...(isGeneralTab ? [tabs.general] : []), ...(isValidationsTab ? [tabs.validations] : []), ...(isActionsTab ? [tabs.actions] : [])],
             },
             ...createTabItems(finalGeneral, tabs.general.value),
             ...createTabItems(finalValidations, tabs.validations.value),
