@@ -52,6 +52,7 @@ class ContentEditor extends Component {
             const Component = compList[block.component];
             return (
               <ErrorBoundary key={idx}>
+                {/* <Placeholder allowedDropEffect={'any'} plaecHolderStle="line" accept={[ItemTypes.COMPONENT, ItemTypes.FORM]} onDrop={this.componentOnDrop} /> */}
                 <ComponentEditor
                   component={block.component}
                   {...block.metaData}
@@ -65,14 +66,11 @@ class ContentEditor extends Component {
                   onMoveUp={() => this.handleMoveUp(idx)}
                   onMoveDown={() => this.handleMoveDown(idx)}
                 />
+                {/* <Placeholder allowedDropEffect={'any'} plaecHolderStle="line" accept={[ItemTypes.COMPONENT, ItemTypes.FORM]} onDrop={this.componentOnDrop} /> */}
               </ErrorBoundary>
             );
           })}
-        <Placeholder
-          allowedDropEffect={'any'}
-          accept={[ItemTypes.COMPONENT, ItemTypes.FORM]}
-          onDrop={this.componentOnDrop}
-        />
+        <Placeholder allowedDropEffect={'any'} accept={[ItemTypes.COMPONENT, ItemTypes.FORM]} onDrop={this.componentOnDrop} />
       </div>
     );
   }

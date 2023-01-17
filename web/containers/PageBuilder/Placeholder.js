@@ -12,16 +12,16 @@ function selectBackgroundColor(isActive, canDrop) {
     return 'sq-placeholder-drop--default';
   }
 }
-export const Placeholder = ({ allowedDropEffect, onDrop, accept }) => {
+export const Placeholder = ({ allowedDropEffect, onDrop, accept, plaecHolderStle = 'box' }) => {
   const [{ canDrop, isOver }, drop] = useDrop(
     () => ({
       accept: accept || ItemTypes.COMPONENT,
       drop: (item, params) => {
         onDrop && onDrop(item, params);
-        return ({
+        return {
           name: `${allowedDropEffect}placeholder`,
           allowedDropEffect,
-        })
+        };
       },
       collect: (monitor) => ({
         isOver: monitor.isOver(),
@@ -33,10 +33,12 @@ export const Placeholder = ({ allowedDropEffect, onDrop, accept }) => {
   const isActive = canDrop && isOver;
   const backgroundCSS = selectBackgroundColor(isActive, canDrop);
   return (
-    <div className={`sq-placeholder-drop ${backgroundCSS}`} ref={drop} style={{ }}>
-      <Icon name="Move" variant={'extra1'} />
-      <br />
-      {isActive ? 'Release to drop' : 'Drag component here'}
+    <div className={`sq-placeholder-drop ${backgroundCSS} sq-placeholder-drop-style-${plaecHolderStle}`} ref={drop} style={{}}>
+      <div className="sq-placeholder-drop__content">
+        <Icon name="Move" variant={'extra1'} />
+        <br />
+        {isActive ? 'Release to drop' : 'Drag component here'}
+      </div>
     </div>
   );
 };

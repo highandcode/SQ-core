@@ -1,17 +1,39 @@
 .sq-placeholder-drop {
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
-  &--active {
-    background-color: $sq-color-success-lightest;
-    border: 2px dashed $sq-color-success-light;
+ 
+  
+
+  &-style-box {
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    &.sq-placeholder-drop--active {
+      background-color: $sq-color-success-lightest;
+      border: 2px dashed $sq-color-success-light;
+    }
+    &.sq-placeholder-drop--can-drop {
+      background-color: $sq-color-warning-lightest;
+      border: 2px dashed $sq-color-warning-light;
+    }
+    &.sq-placeholder-drop--default {
+      border: 2px dashed $sq-color-extra1-light;
+      background-color: $sq-color-extra1-lighter;
+    }
   }
-  &--can-drop {
-    background-color: $sq-color-warning-lightest;
-    border: 2px dashed $sq-color-warning-light;
-  }
-  &--default {
-    border: 2px dashed $sq-color-extra1-light;
-    background-color: $sq-color-extra1-lighter;
+  &-style-line {
+    padding: 5px;
+    border-top: solid 2px transparent;
+    .sq-placeholder-drop__content {
+      display: none;
+    }
+    &.sq-placeholder-drop--active {
+      background-color: $sq-color-info-lighter;
+      border-top: solid 2px $sq-color-info-light;
+    }
+    &.sq-placeholder-drop--can-drop {
+      // border-top: solid 2px $sq-color-slate-lightest;
+    }
+    &.sq-placeholder-drop--default {
+      
+    }
   }
 }

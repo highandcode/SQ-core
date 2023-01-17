@@ -84,7 +84,7 @@ class PageBuilder extends Component {
     super();
     this.state = {
       enableMenu: true,
-      enableProps: true,
+      enableProps: false,
       contentData: {
         pageData: {
           items: [],

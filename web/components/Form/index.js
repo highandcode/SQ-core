@@ -68,6 +68,8 @@ class Form extends React.Component {
       onChange(
         {
           value: updatedData,
+          orignField: selectedValue.orignField || field,
+          formTrace: selectedValue.formTrace && field.cmpType === 'Form' ? [field, ...selectedValue.formTrace] : [],
         },
         field,
         data
@@ -88,6 +90,7 @@ class Form extends React.Component {
       <div className={`sq-form ${className}`} onKeyPress={this.form_onKeyPress}>
         <div className="sq-form_fields">
           {fields.map((field, index) => {
+           console.log('@@@eror', field.name, errors);
             return this.renderComp(field, value[field.name], errors[field.name], value, index);
           })}
         </div>

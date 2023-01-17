@@ -9,31 +9,9 @@ import Default from './Default';
 import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
 import { events } from '../../utils/app-events';
-import {
-  fetchContentPage,
-  postApi,
-  downloadApi,
-  executeHook,
-  updateUserData,
-  updateMetaData,
-  mergeUserData,
-  updateErrorData,
-  resetUserData,
-  customHooks,
-  sendContact,
-  processParams,
-} from '../../redux/content';
+import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
 
-import {
-  startLoading,
-  showNotificationMessage,
-  closeNotification,
-  stopLoading,
-  showPopupScreen,
-  showPopup,
-  setError,
-  clearError,
-} from '../../redux/common';
+import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
 
 import './_dynamic-content.scss';
 
@@ -146,17 +124,13 @@ class DynamicContent extends Component {
     let resp;
     let pageResponse;
     if (!dataForPage) {
-      resp = await this.props.contentActions
-        .fetchContentPage(this.state.url)
-        .unwrap();
+      resp = await this.props.contentActions.fetchContentPage(this.state.url).unwrap();
       pageResponse = resp.data;
     } else {
       pageResponse = dataForPage;
     }
     if (pageResponse.pageData.reset) {
-      await this.props.contentActions.resetUserData(
-        pageResponse.pageData.reset
-      );
+      await this.props.contentActions.resetUserData(pageResponse.pageData.reset);
     }
     await this.props.contentActions.updateMetaData({
       url: this.state.url,
@@ -165,9 +139,7 @@ class DynamicContent extends Component {
         siteMap: pageResponse.siteMap,
       },
     });
-    await this.props.contentActions.updateUserData(
-      pageResponse.metaData?.userData
-    );
+    await this.props.contentActions.updateUserData(pageResponse.metaData?.userData);
     await this.props.contentActions.mergeUserData(pageResponse.pageData.merge);
     await this.processHook(pageResponse.pageData.hook?.load);
     await this.props.contentActions.mergeUserData(pageResponse.pageData.init);
@@ -217,15 +189,7 @@ class DynamicContent extends Component {
     };
   }
 
-  onChange(value, field, block) {
-    let obj = {};
-    block = field.block ? field.block : block;
-    if (block && block.name) {
-      obj[block.name] = value.value;
-    } else {
-      obj = value.value;
-    }
-
+  getValidationResult(field, block, value) {
     if (field.validators) {
       const allValidators = {};
       block.fields?.forEach((field) => {
@@ -243,14 +207,58 @@ class DynamicContent extends Component {
           impactOn: field.impactOn,
         },
       });
-      validations.setValues({ ...this.getUpdatedUserData(), ...value.value });
+      validations.setValues({ ...this.getUpdatedUserData(), ...value });
       validations.validate(field.name);
-      let errors;
 
+      return validations;
+    }
+  }
+
+  onChange(value, field, block) {
+    let obj = {};
+    block = field.block ? field.block : block;
+    if (block && block.name) {
+      obj[block.name] = value.value;
+    } else {
+      obj = value.value;
+    }
+    let nestErrors;
+    let currentError;
+    let currentValue;
+    let currentForm;
+    let lastError;
+    let existingErrors = this.props.store.content.userData[block.name + '_errors'] || {};
+    if (value.formTrace?.length > 0) {
+      currentValue = value.value;
+      if (value.orignField?.validators) {
+        nestErrors = {};
+        currentError = nestErrors;
+        value.formTrace.forEach((tForm) => {
+          currentValue = currentValue[tForm.name];
+          existingErrors = existingErrors[tForm.name] || {};
+          lastError = currentError;
+          currentError[tForm.name] = {
+            errors: {
+              ...existingErrors.errors,
+            },
+          };
+          currentError = currentError[tForm.name].errors;
+          currentForm = tForm;
+        });
+
+        let validations = this.getValidationResult(value.orignField, currentForm, currentValue);
+        if (validations) {
+          lastError[currentForm.name].errors = { ...lastError[currentForm.name].errors, ...validations.errors };
+        }
+      }
+    }
+    let validations = this.getValidationResult(field, block, value.value);
+    if (validations || nestErrors) {
       this.props.contentActions.updateUserData({
         [block.name + '_errors']: {
           ...this.props.store.content.userData[block.name + '_errors'],
-          ...validations.errors,
+          ...validations?.errors,
+          ...nestErrors,
         },
       });
     }
@@ -324,16 +332,12 @@ class DynamicContent extends Component {
           isSubmitting: true,
         });
         result = await this.props.contentActions.downloadApi(action);
-        await this.props.contentActions.mergeUserData(
-          this.state.pageData.pageData.merge
-        );
+        await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
         await this.props.contentActions.updateUserData({
           isSubmitting: false,
         });
         if (result.status === 'success') {
-          const data = action.dataKey
-            ? { [action.dataKey]: result.data }
-            : result.data;
+          const data = action.dataKey ? { [action.dataKey]: result.data } : result.data;
           await this.props.contentActions.updateUserData({
             ...data,
             lastError: {},
@@ -347,16 +351,12 @@ class DynamicContent extends Component {
           isSubmitting: true,
         });
         result = await this.props.contentActions.postApi(action);
-        await this.props.contentActions.mergeUserData(
-          this.state.pageData.pageData.merge
-        );
+        await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
         await this.props.contentActions.updateUserData({
           isSubmitting: false,
         });
         if (result.status === 'success') {
-          const data = action.dataKey
-            ? { [action.dataKey]: result.data }
-            : result.data;
+          const data = action.dataKey ? { [action.dataKey]: result.data } : result.data;
           await this.props.contentActions.updateUserData({
             ...data,
             lastError: {},
@@ -374,16 +374,12 @@ class DynamicContent extends Component {
             isSubmitting: true,
           });
           result = await this.props.contentActions.executeHook(action);
-          await this.props.contentActions.mergeUserData(
-            this.state.pageData.pageData.merge
-          );
+          await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
           await this.props.contentActions.updateUserData({
             isSubmitting: false,
           });
           if (result.status === 'success') {
-            const data = action.dataKey
-              ? { [action.dataKey]: result.data }
-              : result.data;
+            const data = action.dataKey ? { [action.dataKey]: result.data } : result.data;
             await this.props.contentActions.updateUserData({
               ...data,
               lastError: {},
@@ -400,9 +396,7 @@ class DynamicContent extends Component {
             isSubmitting: true,
           });
           result = await this.props.contentActions.postApi(action);
-          await this.props.contentActions.mergeUserData(
-            this.state.pageData.pageData.merge
-          );
+          await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
           await this.props.contentActions.updateUserData({
             isSubmitting: false,
           });
@@ -417,9 +411,7 @@ class DynamicContent extends Component {
             isSubmitting: true,
           });
           result = await this.props.contentActions.postApi(action);
-          await this.props.contentActions.mergeUserData(
-            this.state.pageData.pageData.merge
-          );
+          await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
           await this.props.contentActions.updateUserData({
             isSubmitting: false,
           });
@@ -433,10 +425,7 @@ class DynamicContent extends Component {
           await this.props.contentActions.updateUserData({
             isSubmitting: true,
           });
-          onSubmit &&
-            onSubmit(
-              processParams(this.props.store.content.userData, action.params)
-            );
+          onSubmit && onSubmit(processParams(this.props.store.content.userData, action.params));
         }
         break;
       case 'user-store':
@@ -460,11 +449,7 @@ class DynamicContent extends Component {
         });
         break;
       case 'redirect':
-        redirectTo(
-          action.to,
-          processParams(this.props.store.content.userData, action.params),
-          action.options
-        );
+        redirectTo(action.to, processParams(this.props.store.content.userData, action.params), action.options);
         break;
     }
   }
@@ -496,30 +481,17 @@ class DynamicContent extends Component {
     if (result && typeof result.data?.redirect === 'string') {
       redirectTo(result.data?.redirect);
     } else if (result && result.data?.redirect?.to) {
-      redirectTo(
-        result.data?.redirect.to,
-        processParams(
-          this.props.store.content.userData,
-          result.data?.redirect.urlParams
-        )
-      );
+      redirectTo(result.data?.redirect.to, processParams(this.props.store.content.userData, result.data?.redirect.urlParams));
     }
     if (result && typeof result.error?.redirect === 'string') {
       redirectTo(result.error?.redirect);
     } else if (result && result.error?.redirect?.to) {
-      redirectTo(
-        result.error?.redirect.to,
-        processParams(
-          this.props.store.content.userData,
-          result.error?.redirect.urlParams
-        )
-      );
+      redirectTo(result.error?.redirect.to, processParams(this.props.store.content.userData, result.error?.redirect.urlParams));
     }
   }
 
   render() {
-    const { containerTemplate: overrideContainerTemplate, ...allProps } =
-      this.props;
+    const { containerTemplate: overrideContainerTemplate, ...allProps } = this.props;
     const { dataPacket, store } = allProps;
     const userData = {
       ...this.props.store.content.userData,
@@ -530,37 +502,15 @@ class DynamicContent extends Component {
     const dynamicParams = processParams(userData, pageData.inject || {});
     const { classes = {}, ...restDynamic } = dynamicParams;
     const updatedPageData = { ...pageData, ...restDynamic };
-    const {
-      container,
-      containerTemplate,
-      contentBodyClass = '',
-      rootClassName = '',
-      transition = {},
-    } = updatedPageData;
-    const ContentTemplateContainer =
-      containers[overrideContainerTemplate || containerTemplate] ||
-      containers.Default;
+    const { container, containerTemplate, contentBodyClass = '', rootClassName = '', transition = {} } = updatedPageData;
+    const ContentTemplateContainer = containers[overrideContainerTemplate || containerTemplate] || containers.Default;
     const ContentContainer = containers[container] || DefaultContent;
-    const {
-      out: tranOut = 'out-up',
-      in: tranIn = 'out-in',
-      loading = 'loading',
-    } = transition;
-    const classState = this.state.isOut
-      ? `transition transition-page--${tranOut}`
-      : this.state.isIn
-      ? `transition transition-page--${tranIn}`
-      : '';
-    const loadingState = this.state.isLoading
-      ? `transition transition-page--${loading}`
-      : '';
+    const { out: tranOut = 'out-up', in: tranIn = 'out-in', loading = 'loading' } = transition;
+    const classState = this.state.isOut ? `transition transition-page--${tranOut}` : this.state.isIn ? `transition transition-page--${tranIn}` : '';
+    const loadingState = this.state.isLoading ? `transition transition-page--${loading}` : '';
 
     return (
-      <div
-        className={`dynamic-content row ${rootClassName} ${loadingState} ${
-          classes.root || ''
-        }`}
-      >
+      <div className={`dynamic-content row ${rootClassName} ${loadingState} ${classes.root || ''}`}>
         <Snackbar
           open={store.common.notification.show}
           message={store.common.notification.message}
@@ -573,46 +523,21 @@ class DynamicContent extends Component {
           }}
           severity={store.common.notification.type}
         />
-        <ContentTemplateContainer
-          {...allProps}
-          pageData={updatedPageData}
-          metaData={metaData}
-          data={this.state.pageData}
-          pageState={this.state.page}
-          userData={userData}
-        >
-          <div
-            className={`${contentBodyClass} dynamic-content__body ${classState} ${
-              classes.body || ''
-            }`}
-          >
-            <ContentContainer
-              {...allProps}
-              pageData={updatedPageData}
-              metaData={metaData}
-              data={this.state.pageData}
-              userData={userData}
-              pageState={this.state.page}
-              onChange={this.onChange}
-              onAction={this.onAction}
-            />
+        <ContentTemplateContainer {...allProps} pageData={updatedPageData} metaData={metaData} data={this.state.pageData} pageState={this.state.page} userData={userData}>
+          <div className={`${contentBodyClass} dynamic-content__body ${classState} ${classes.body || ''}`}>
+            <ContentContainer {...allProps} pageData={updatedPageData} metaData={metaData} data={this.state.pageData} userData={userData} pageState={this.state.page} onChange={this.onChange} onAction={this.onAction} />
           </div>
         </ContentTemplateContainer>
-        {this.state.isLoading && (
-          <Progress
-            className={`${classes.progress || ''}`}
-            style={'fixed'}
-            overlayStyle="full"
-          />
-        )}
+        {this.state.isLoading && <Progress className={`${classes.progress || ''}`} style={'fixed'} overlayStyle="full" />}
       </div>
     );
   }
 }
 
 DynamicContent.propTypes = {
-  commonStore: PropTypes.object,
   contentActions: PropTypes.object,
+  commonActions: PropTypes.object,
+  raiseAction: PropTypes.func,
 };
 
 export { DynamicContent, customHooks, registerContainers };
@@ -640,8 +565,7 @@ const mapDispatchToProps = (dispatch) => {
       updateErrorData: (data) => dispatch(updateErrorData(data)),
     },
     commonActions: {
-      showNotificationMessage: (data) =>
-        dispatch(showNotificationMessage(data)),
+      showNotificationMessage: (data) => dispatch(showNotificationMessage(data)),
       closeNotification: (data) => dispatch(closeNotification(data)),
       startLoading: (data) => dispatch(startLoading(data)),
       showPopup: (data) => dispatch(showPopup(data)),
