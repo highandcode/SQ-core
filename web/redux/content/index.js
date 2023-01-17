@@ -82,11 +82,40 @@ export const processParams = (userData, params = {}, defaultValue = null, state)
   return newObj;
 };
 
+const extractUrlInfo = (url, config) => {
+  let isFound = false;
+  let output;
+  Object.keys(config).forEach((urlKey) => {
+    if (!isFound && url.match(new RegExp(urlKey))) {
+      isFound = true;
+      output = {};
+      const foundCOnfig = config[urlKey];
+      if (foundCOnfig.url) {
+        output.url = foundCOnfig.url;
+      }
+      if (foundCOnfig.params) {
+        output.params = processParams({ url }, foundCOnfig.params);
+      }
+      if (foundCOnfig.method) {
+        output.method = foundCOnfig.method;
+      }
+    }
+  });
+  if (output) {
+    return output;
+  }
+  return {};
+};
+
 export const fetchJsonPath = ({ url, params, headers }) => {
   const mode = window.APP_CONFIG?.siteMode === 'static' ? 'get' : 'post';
-  const postFix = mode === 'get' ? '/get.json' : '';
+
+  const { url: overrideUrl, params: overrideParams, method: overrideMethod } = extractUrlInfo(url, APP_CONFIG.siteMap.dynamicContentConfig);
+  const postFix = !overrideUrl && mode === 'get' ? '/get.json' : '';
+
   const cb = mode === 'get' ? { _cb: window.APP_CONFIG?.appVersion } : {};
-  return apiBridge[mode](`${url}${postFix}`, { ...cb, ...params }, headers);
+
+  return apiBridge[overrideMethod || mode](`${overrideUrl || url}${postFix}`, { ...cb, ...(overrideParams || params) }, headers);
 };
 
 export const fetchContentPage = createAsyncThunk('content/fetchContentPage', async (url) => {
