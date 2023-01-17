@@ -1,36 +1,10 @@
 import { GLOBAL_OPTIONS } from '../../../globals';
+import { withEditTabs } from './Common';
 
-export default {
+export default withEditTabs({
+  enableValidations: false,
   pageData: {
     items: [
-      {
-        component: 'Form',
-        name: 'main',
-        fields: [
-          {
-            name: 'header',
-            cmpType: 'Input',
-            label: 'Header',
-          },
-          {
-            name: 'headerTag',
-            cmpType: 'Select',
-            label: 'Header Tag',
-            options: GLOBAL_OPTIONS.headerTags.toArray(),
-          },
-          {
-            name: 'className',
-            cmpType: 'InputWithOptions',
-            label: 'className',
-            options: GLOBAL_OPTIONS.headerStyles.toArray(),
-          },
-          {
-            name: 'subHeader',
-            cmpType: 'Input',
-            label: 'Sub Header',
-          },
-        ],
-      },
       {
         component: 'Button',
         actionType: 'submit-event',
@@ -44,4 +18,28 @@ export default {
       },
     ],
   },
-};
+  general: [
+    {
+      name: 'header',
+      cmpType: 'InputField',
+      label: 'Header',
+    },
+    {
+      name: 'headerTag',
+      cmpType: 'Select',
+      label: 'Header Tag',
+      options: GLOBAL_OPTIONS.headerTags.toArray(),
+    },
+    {
+      name: 'className',
+      cmpType: 'InputWithOptions',
+      label: 'className',
+      options: GLOBAL_OPTIONS.headerStyles.toArray(),
+    },
+    {
+      name: 'subHeader',
+      cmpType: 'InputField',
+      label: 'Sub Header',
+    },
+  ],
+});

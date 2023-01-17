@@ -1,23 +1,8 @@
-export default {
+import { GLOBAL_OPTIONS } from '../../../globals';
+import { withEditTabs } from './Common';
+export default withEditTabs({
   pageData: {
     items: [
-      {
-        component: 'Form',
-        name: 'main',
-        fields: [
-         
-          {
-            name: 'className',
-            cmpType: 'Input',
-            label: 'className',
-          },
-          {
-            name: 'sitekey',
-            cmpType: 'Input',
-            label: 'sitekey',
-          },
-        ],
-      },
       {
         component: 'Button',
         actionType: 'submit-event',
@@ -30,4 +15,11 @@ export default {
       },
     ],
   },
-};
+  general: [
+    {
+      name: 'sitekey',
+      cmpType: 'InputField',
+      label: 'sitekey',
+    },
+  ],
+});
