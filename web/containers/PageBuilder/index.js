@@ -56,6 +56,7 @@ import { getSupportedComps, addComponent } from './supported-comps';
 import DynamicContent from '../DynamicContent';
 import * as utils from '../../utils';
 import ErrorBoundry from '../../components/ErrorBoundry';
+import { GLOBAL_OPTIONS } from '../../globals';
 
 class PageBuilder extends Component {
   constructor() {
@@ -296,8 +297,9 @@ class PageBuilder extends Component {
                           },
                           {
                             name: 'className',
-                            cmpType: 'Input',
+                            cmpType: 'InputWithOptions',
                             label: 'className',
+                            options: GLOBAL_OPTIONS.bodyContainers.toArray(),
                           },
                           {
                             cmpType: 'Autocomplete',

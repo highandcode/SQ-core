@@ -45,9 +45,7 @@ export class GlobalOptions {
     return this.toArray()
       .filter((i) => values.indexOf(i.value) > -1)
       .map((item) => {
-        const dataItem = data.filter(
-          (innerItem) => innerItem[valueField] === item.value
-        )[0];
+        const dataItem = data.filter((innerItem) => innerItem[valueField] === item.value)[0];
         return {
           ...item,
           ...dataItem,
@@ -57,13 +55,7 @@ export class GlobalOptions {
 
   toArray({ sortBy, sortOrder = 'asc' } = {}) {
     let result = Object.keys(this.opts).map((key) => {
-      let {
-        text,
-        key: overrideKey,
-        ...rest
-      } = typeof this.opts[key] === 'string'
-        ? { text: this.opts[key] }
-        : this.opts[key];
+      let { text, key: overrideKey, ...rest } = typeof this.opts[key] === 'string' ? { text: this.opts[key] } : this.opts[key];
       return {
         value: overrideKey || key,
         text: translate(text || this.getText(key)),
@@ -98,6 +90,12 @@ export const GLOBAL_OPTIONS = {
     h5: 'H5',
     h6: 'H6',
   }),
+  bodyContainers: new GlobalOptions({
+    'body-container-small': 'body-container-small',
+    'body-container-med': 'body-container-med',
+    'body-container-lg': 'body-container-lg',
+    'body-container-xl': 'body-container-xl',
+  }),
   buttonSize: new GlobalOptions({
     small: 'small',
     medium: 'medium',
@@ -121,23 +119,23 @@ export const GLOBAL_OPTIONS = {
     'sq-form--narrow-space': 'Narrow Space',
     'pb-none': 'No Padding bottom',
   }),
-  
+
   genericStyles: new GlobalOptions({
     'mb-wide': 'Margin bottom wide',
     'mt-wide': 'Margin top wide',
     'pb-wide': 'Padding bottom wide',
     'pt-wide': 'Padding top wide',
   }),
-  
+
   htmlTags: new GlobalOptions({
-    'span': 'span',
-    'div': 'div',
-    'h1': 'h1',
-    'h2': 'h2',
-    'h3': 'h3',
-    'h4': 'h4',
-    'h5': 'h5',
-    'p': 'p'
+    span: 'span',
+    div: 'div',
+    h1: 'h1',
+    h2: 'h2',
+    h3: 'h3',
+    h4: 'h4',
+    h5: 'h5',
+    p: 'p',
   }),
   actionTypes: new GlobalOptions({
     submit: 'submit',

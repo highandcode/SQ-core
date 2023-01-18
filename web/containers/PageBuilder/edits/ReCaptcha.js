@@ -11,6 +11,7 @@ export default withEditTabs({
           name: '.main.name',
           className: '.main.className',
           sitekey: '.main.sitekey',
+          validators: '.main.validators',
         },
       },
     ],

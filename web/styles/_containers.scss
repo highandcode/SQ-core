@@ -134,3 +134,18 @@
   color: white;
   background: $sq-color-error;
 }
+
+
+.body-container-small {
+  max-width: 470px;
+}
+
+.body-container-med {
+  max-width: 750px;
+}
+.body-container-lg {
+  max-width: 920px;
+}
+.body-container-xl {
+  max-width: 1120px;
+}

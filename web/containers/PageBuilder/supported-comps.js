@@ -123,6 +123,16 @@ const compList = {
       text: 'text goes here',
     },
   },
+  InlineText: {
+    Component: getMap().Text,
+    name: 'Text',
+    group: 'Form Element',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: TextEdit,
+    sampleData: {
+      text: 'text goes here',
+    },
+  },
   H1: {
     Component: getMap().Text,
     name: 'Text',

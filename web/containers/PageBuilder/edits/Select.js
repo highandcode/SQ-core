@@ -13,7 +13,7 @@ export default withEditTabs({
           label: '.main.label',
           inputVariant: '.main.inputVariant',
           options: '.main.options',
-          validations: '.main.validations',
+          validators: '.main.validators',
         },
       },
     ],
