@@ -79,7 +79,7 @@ const CheckboxField = ({
           label={text}
         />
       </FormControl>
-      {rest.errorMessage && <div className="sq-error sq-checkbox-list--error">{errorMessage}</div>}
+      {errorMessage && <div className="sq-error sq-checkbox-list--error">{errorMessage}</div>}
     </div>
   );
 };

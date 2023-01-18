@@ -33,5 +33,15 @@ export default withEditTabs({
       cmpType: 'Input',
       label: 'Text',
     },
+    {
+      name: 'selectedValue',
+      cmpType: 'Input',
+      label: 'Text',
+    },
+    {
+      name: 'defaultValue',
+      cmpType: 'Input',
+      label: 'Text',
+    },
   ],
 });
