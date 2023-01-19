@@ -16,14 +16,14 @@ import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, up
 const config = {
   templates: [
     {
-      text: '/apps/core/templates/page',
-      value: '/apps/core/templates/page',
+      text: 'apps/core/templates/page',
+      value: 'apps/core/templates/page',
     },
   ],
   layouts: [
     {
-      text: '/apps/core/layouts/spa',
-      value: '/apps/core/layouts/spa',
+      text: 'apps/core/layouts/spa',
+      value: 'apps/core/layouts/spa',
     },
   ],
   containers: [

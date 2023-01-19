@@ -39,7 +39,8 @@ class ContentRepository extends BaseRepository {
     const result = await this.findOne({
       path,
     });
-    return result && result.toObject();
+    const obj = result.toObject();
+    return obj.uid ? obj : null;
   }
 
   addItemToTree(tree = [], items, fullPath) {

@@ -123,7 +123,7 @@ const compList = {
       text: 'text goes here',
     },
   },
-  InlineText: {
+  FormText: {
     Component: getMap().Text,
     name: 'Text',
     group: 'Form Elements',
@@ -133,9 +133,19 @@ const compList = {
       text: 'text goes here',
     },
   },
+  FormHeader: {
+    Component: getMap().Header,
+    name: 'Header',
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: TextEdit,
+    sampleData: {
+      text: 'text goes here',
+      tag: 'h1'
+    },
+  },
   Header: {
-    Component: getMap().Text,
-    name: 'Text',
+    Component: getMap().Header,
     group: 'Content',
     type: ItemTypes.COMPONENT,
     editData: TextEdit,

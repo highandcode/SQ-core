@@ -5,6 +5,7 @@ const _ = require('lodash');
 const utils = require('../../server/src/utils');
 const PageBuilder = require('./builder/page-builder');
 const Response = require('../../server/src/Response');
+const {ContentRepository} = require('../../server/src/repositories/ContentRepository');
 
 const pkgName = require('../../package.json');
 
@@ -27,6 +28,7 @@ class ContentServer {
         rootClientPath: cmsRootServer + 'client',
         rootApp: '',
         appConfig: {},
+        db: null,
         mode: 'development',
         srcPath: cmsRootServer,
         serverPath: '/content/*',
@@ -44,6 +46,9 @@ class ContentServer {
     this.config.contentPath = utils.path.ensureSlashAtEnd(
       this.config.contentPath
     );
+    if (this.config.db) {
+      this.contentRepo = new ContentRepository({ db: this.config.db });
+    }
     this.config.srcPath = utils.path.ensureSlashAtEnd(this.config.srcPath);
     this.rootContentPath = `${this.config.rootPath}content/`;
     this.config.rootApp = utils.path.ensureSlashAtEnd(this.config.rootApp);
@@ -260,8 +265,8 @@ class ContentServer {
     // }, 5000);
   }
 
-  getPageDataForUi(path) {
-    const data = this.getPageData(path);
+  async getPageDataForUi(path) {
+    const data = await this.getPageData(path);
     return Promise.resolve({
       pageData: data.pageData,
       siteMap: data.siteConfig,
@@ -270,8 +275,8 @@ class ContentServer {
   }
 
   getPageContent(path) {
-    return new Promise((resolve, reject) => {
-      const data = this.getPageData(path);
+    return new Promise(async (resolve, reject) => {
+      const data = await this.getPageData(path);
       new PageBuilder(data, this.config)
         .build()
         .then((page) => {
@@ -395,7 +400,7 @@ class ContentServer {
     return url.substr(0, url.indexOf('/'));
   }
 
-  getPageData(path) {
+  async getPageData(path) {
     const config = this.config;
     let status = 200;
     const srcFile = path;
@@ -450,9 +455,12 @@ class ContentServer {
       }
     }
 
+    let fileContents;
+    let fileFound = true;
     if (!this.fse.existsSync(filePath)) {
       filePath = this.get404Page(currentSiteConfig, fullPath);
       status = 404;
+      fileFound = false;
     } else if (!isLaunchMatch) {
       siblingData = this.getAllSiblings(
         `${rootPath}${fullPath}`,
@@ -460,15 +468,24 @@ class ContentServer {
         fullPath
       );
     }
-
-    let fileContents = this.fse.readFileSync(`${filePath}`, 'utf8');
+    let contents;
+    if (this.contentRepo && !fileFound) {
+      let test = await this.contentRepo.getByPath(fullPath);
+      console.log(test, fullPath);
+      if (test && !fileFound) {
+        status = 200;
+        contents = [test.pageData];
+      }
+    }
+    if (!contents) {
+      fileContents = this.fse.readFileSync(`${filePath}`, 'utf8');
+    }
     let currentNode = this.getPageNode(currentSiteConfig.siteMap, filePath);
     if (!currentNode) {
       currentNode = currentSiteConfig.siteMap;
     }
-    let contents;
     try {
-      contents = yaml.loadAll(fileContents);
+      contents = !contents ? yaml.loadAll(fileContents) : contents;
     } catch (ex) {
       contents = [this.getErrorPage(currentSiteConfig, fullPath)];
     }
