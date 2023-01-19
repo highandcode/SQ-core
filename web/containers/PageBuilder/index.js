@@ -313,9 +313,10 @@ class PageBuilder extends Component {
                             label: 'bodyClassName',
                           },
                           {
-                            cmpType: 'Input',
+                            cmpType: 'Autocomplete',
                             name: 'containerTemplate',
                             label: 'containerTemplate',
+                            options: pageData.containers || config.containers,
                           },
                         ]}
                       />

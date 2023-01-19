@@ -25,13 +25,13 @@ export default withEditTabs({
     },
     {
       name: 'tag',
-      cmpType: 'Select',
+      cmpType: 'Autocomplete',
       options: GLOBAL_OPTIONS.htmlTags.toArray(),
       label: 'Tag',
     },
     {
       name: 'parentTag',
-      cmpType: 'Select',
+      cmpType: 'Autocomplete',
       options: GLOBAL_OPTIONS.htmlTags.toArray(),
       label: 'Wrapper Tag',
     },

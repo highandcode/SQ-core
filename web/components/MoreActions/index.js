@@ -39,11 +39,11 @@ const MoreActions = ({
     onAnalytics && click && onAnalytics(click);
     setAnchorEl(null);
   };
-  const handleAction = (dialgAction, action) => {
+  const handleAction = (dialogAction, action) => {
     const { analytics = {} } = action;
     const { click, dialog } = analytics;
     onAnalytics && dialog && onAnalytics(dialog);
-    if (dialgAction.action === 'ok') {
+    if (dialogAction.action === 'ok') {
       onClick && onClick(action);
       onAction && onAction(dialogAction, action);
       onAnalytics && click && onAnalytics(click);
@@ -144,7 +144,7 @@ const MoreActions = ({
                   }}
                   closeButton={false}
                   open={showConfirm}
-                  onAction={(data, dialgAction) => handleAction(dialgAction, action)}
+                  onAction={(data, dialogAction) => handleAction(dialogAction, action)}
                   actions={[
                     {
                       buttonText: 'Yes',
