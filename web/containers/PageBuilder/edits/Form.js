@@ -17,11 +17,6 @@ export default withEditTabs({
     ],
   },
   general: [
-    {
-      name: 'className',
-      cmpType: 'InputWithOptions',
-      label: 'className',
-      options: GLOBAL_OPTIONS.formStyles.toArray(),
-    },
+    
   ],
 });

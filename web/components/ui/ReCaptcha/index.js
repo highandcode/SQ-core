@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ReCAPTCHA from 'react-google-recaptcha';
+import './_re-captcha.scss';
 
 class ReCaptcha extends React.Component {
   constructor() {
@@ -31,7 +32,9 @@ class ReCaptcha extends React.Component {
     const { errorMessage, className = '', sitekey } = this.props;
     return (
       <div className={`sq-re-captcha ${className}`}>
-        <ReCAPTCHA sitekey={sitekey} onChange={this.handleOnChange} />
+        <div className="sq-re-captcha__elm">
+          <ReCAPTCHA sitekey={sitekey} onChange={this.handleOnChange} />
+        </div>
         {!focused && <div className="sq-textarea-field--error">{errorMessage}</div>}
       </div>
     );

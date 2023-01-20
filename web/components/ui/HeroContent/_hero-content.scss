@@ -12,6 +12,9 @@
       @include b3-style();
     }
   }
+  &__inner-wrapper {
+    width: 100%;
+  }
 
   &__links-container {
     margin-top: 16px;

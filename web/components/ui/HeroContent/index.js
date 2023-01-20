@@ -10,9 +10,14 @@ const templates = {
   'without-image': WithoutImage,
   default: Default,
   'with-background': WithBackground,
-  'large-background': LargeBackground
+  'large-background': LargeBackground,
 };
-const HeroContent = ({ template = 'default', templateClassName = '', className = '', ...rest }) => {
+const HeroContent = ({
+  template = 'default',
+  templateClassName = '',
+  className = '',
+  ...rest
+}) => {
   const TemplateToRender = templates[template] || templates.default;
   return (
     <div className={`sq-hero-content ${className}`}>
@@ -24,7 +29,8 @@ const HeroContent = ({ template = 'default', templateClassName = '', className =
 HeroContent.propTypes = {
   className: PropTypes.string,
   header: PropTypes.string,
-  subHeader: PropTypes.string
+  subHeader: PropTypes.string,
 };
 
 export default HeroContent;
+export { templates };

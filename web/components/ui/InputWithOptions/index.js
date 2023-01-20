@@ -2,9 +2,16 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Input from '../InputField';
 import CheckboxList from '../Checkbox';
+import Autocomplete from '../Autocomplete';
+
+const map = {
+  CheckboxList,
+  Autocomplete
+};
 
 const InputWithOptions = ({
   optionsLabel,
+  optionCmpType = 'CheckboxList',
   label,
   value,
   className = '',
@@ -34,11 +41,14 @@ const InputWithOptions = ({
   const handleInputChange = (data) => {
     onChange && onChange(data);
   };
+  const CompToRender = map[optionCmpType];
   return (
     <div className={`sq-input-with-options ${className}`}>
-      <CheckboxList
+      <CompToRender
         label={optionsLabel}
         options={options}
+        className={'mb-wide'}
+        multiple={true}
         value={value?.split(' ')}
         onChange={handleCheckChange}
       />

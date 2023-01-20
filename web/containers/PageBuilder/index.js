@@ -302,6 +302,12 @@ class PageBuilder extends Component {
                             options: GLOBAL_OPTIONS.bodyContainers.toArray(),
                           },
                           {
+                            name: 'wrapperClassName',
+                            cmpType: 'InputWithOptions',
+                            label: 'wrapperClassName',
+                            options: GLOBAL_OPTIONS.pageWrapperClasses.toArray(),
+                          },
+                          {
                             cmpType: 'Autocomplete',
                             name: 'container',
                             label: 'container',

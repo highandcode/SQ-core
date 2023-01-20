@@ -15,7 +15,7 @@ const tabs = {
   },
 };
 
-const defaultGeneral = [
+const defaultGeneral = ({ classNames = [] } = {}) => [
   {
     name: 'name',
     cmpType: 'Input',
@@ -32,8 +32,10 @@ const defaultGeneral = [
   {
     name: 'className',
     cmpType: 'InputWithOptions',
+    optionsLabel: 'Pre-defined',
+    // optionCmpType: 'Autocomplete',
     label: 'className',
-    options: GLOBAL_OPTIONS.genericStyles.toArray(),
+    options: [...GLOBAL_OPTIONS.genericStyles.toArray(), ...classNames],
   },
 ];
 
@@ -71,9 +73,18 @@ const defaultValidations = [
   },
 ];
 
-export const withEditTabs = ({ pageData = {}, general = [], validations = [], enableValidations = true, actions = [] }) => {
-  const finalGeneral = [...defaultGeneral, ...general];
-  const finalValidations = enableValidations ? [...defaultValidations, ...validations] : validations;
+export const withEditTabs = ({
+  classNames = [],
+  pageData = {},
+  general = [],
+  validations = [],
+  enableValidations = true,
+  actions = [],
+}) => {
+  const finalGeneral = [...defaultGeneral({ classNames }), ...general];
+  const finalValidations = enableValidations
+    ? [...defaultValidations, ...validations]
+    : validations;
   const isGeneralTab = finalGeneral && finalGeneral.length !== 0;
   const isValidationsTab = finalValidations && finalValidations.length !== 0;
   const isActionsTab = actions && actions.length !== 0;
@@ -123,7 +134,11 @@ export const withEditTabs = ({ pageData = {}, general = [], validations = [], en
             {
               name: 'editTab',
               cmpType: 'Tabs',
-              options: [...(isGeneralTab ? [tabs.general] : []), ...(isValidationsTab ? [tabs.validations] : []), ...(isActionsTab ? [tabs.actions] : [])],
+              options: [
+                ...(isGeneralTab ? [tabs.general] : []),
+                ...(isValidationsTab ? [tabs.validations] : []),
+                ...(isActionsTab ? [tabs.actions] : []),
+              ],
             },
             ...createTabItems(finalGeneral, tabs.general.value),
             ...createTabItems(finalValidations, tabs.validations.value),

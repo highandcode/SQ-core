@@ -96,6 +96,10 @@ export const GLOBAL_OPTIONS = {
     'body-container-lg': 'body-container-lg',
     'body-container-xl': 'body-container-xl',
   }),
+  pageWrapperClasses: new GlobalOptions({
+    'sq-content-page--full-width': 'sq-content-page--full-width',
+    'sq-content-page--header-footer-body': 'sq-content-page--header-footer-body',
+  }),
   buttonSize: new GlobalOptions({
     small: 'small',
     medium: 'medium',
@@ -112,6 +116,16 @@ export const GLOBAL_OPTIONS = {
     'mb-wide': 'Margin bottom wide',
     'mb-none': 'Margin bottom none',
   }),
+  heroStyles: new GlobalOptions({
+    'sq-hero-content--left-aligned': 'sq-hero-content--left-aligned',
+    'sq-hero-content--large-background-theme-dark': 'sq-hero-content--large-background-theme-dark',
+  }),
+  heroTemplates: new GlobalOptions({
+    'without-image': 'without-image',
+    default: 'default',
+    'with-background': 'with-background',
+    'large-background': 'large-background',
+  }),
   formStyles: new GlobalOptions({
     'sq-form--2-cols': '2 Columns',
     'sq-form--3-cols': '3 Columns',
@@ -123,8 +137,17 @@ export const GLOBAL_OPTIONS = {
   genericStyles: new GlobalOptions({
     'mb-wide': 'Margin bottom wide',
     'mt-wide': 'Margin top wide',
+    'mb-jumbo': 'Margin bottom jumbo',
+    'mt-jumbo': 'Margin top jumbo',
+    'mb-none': 'Margin bottom none',
+    'mt-none': 'Margin top none',
     'pb-wide': 'Padding bottom wide',
     'pt-wide': 'Padding top wide',
+    'pb-none': 'Padding bottom none',
+    'pt-none': 'Padding top none',
+    'pb-jumbo': 'Padding bottom jumbo',
+    'pt-jumbo': 'Padding top jumbo',
+    'text-center': 'text-center',
   }),
 
   htmlTags: new GlobalOptions({
