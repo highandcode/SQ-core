@@ -13,6 +13,10 @@ const tabs = {
     text: 'Actions',
     value: 'actions',
   },
+  match: {
+    text: 'Match',
+    value: 'match',
+  },
 };
 
 const defaultGeneral = ({ classNames = [] } = {}) => [
@@ -32,8 +36,8 @@ const defaultGeneral = ({ classNames = [] } = {}) => [
   {
     name: 'className',
     cmpType: 'InputWithOptions',
-    optionsLabel: 'Pre-defined',
-    // optionCmpType: 'Autocomplete',
+    optionsLabel: 'Pre-defined Classes',
+    optionCmpType: 'Autocomplete',
     label: 'className',
     options: [...GLOBAL_OPTIONS.genericStyles.toArray(), ...classNames],
   },
@@ -68,6 +72,53 @@ const defaultValidations = [
         cmpType: 'Input',
         label: 'Error Key',
         name: 'key',
+      },
+    ],
+  },
+];
+
+const defaultMatch = [
+  {
+    name: 'match',
+    cmpType: 'FormObject',
+    label: 'match',
+    formClassName: 'sq-form--2-cols mb-wide',
+    fields: [
+      {
+        cmpType: 'Input',
+        label: 'Field Name',
+        name: 'key',
+      },
+      {
+        name: 'value',
+        cmpType: 'FormList',
+        label: 'Value',
+        formClassName: 'sq-form--2-cols mb-wide',
+        fields: [
+          {
+            cmpType: 'Select',
+            label: 'Type',
+            name: 'type',
+            options: () =>
+              _.sortBy(
+                Object.keys(getValidators()).map((item) => ({
+                  text: item,
+                  value: item,
+                })),
+                'text'
+              ),
+          },
+          {
+            cmpType: 'Input',
+            label: 'Error Message',
+            name: 'message',
+          },
+          {
+            cmpType: 'Input',
+            label: 'Error Key',
+            name: 'key',
+          },
+        ],
       },
     ],
   },
@@ -138,11 +189,13 @@ export const withEditTabs = ({
                 ...(isGeneralTab ? [tabs.general] : []),
                 ...(isValidationsTab ? [tabs.validations] : []),
                 ...(isActionsTab ? [tabs.actions] : []),
+                tabs.match,
               ],
             },
             ...createTabItems(finalGeneral, tabs.general.value),
             ...createTabItems(finalValidations, tabs.validations.value),
             ...createTabItems(actions, tabs.actions.value),
+            ...createTabItems(defaultMatch, tabs.match.value),
           ],
         },
         ...(pageData.items ? pageData.items : []),

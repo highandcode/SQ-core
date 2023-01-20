@@ -37,12 +37,12 @@ class FormObject extends Component {
 
     onChange &&
       onChange({
-        value: { ...value, key: 'value' },
+        value: { ...value, key: undefined },
       });
   }
 
   render() {
-    const { className = '', label, value = [], formClassName = 'sq-form--2-cols' } = this.props;
+    const { className = '', label, fields, value = {}, formClassName = 'sq-form--2-cols' } = this.props;
     return (
       <div className={`sq-form-list ${className}`}>
         <div className="sq-form-list__label mb-wide">{label}</div>
@@ -53,7 +53,7 @@ class FormObject extends Component {
               <div className="sq-form-list__item-wrap">
                 <Form
                   className={`pb-none ${formClassName}`}
-                  fields={[
+                  fields={fields || [
                     {
                       cmpType: 'Input',
                       name: 'key',

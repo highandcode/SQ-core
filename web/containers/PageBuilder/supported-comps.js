@@ -15,6 +15,7 @@ import CheckboxListEdit from './edits/CheckboxList';
 import WrapperEdit from './edits/Wrapper';
 import ButtonEdit from './edits/Button';
 import TextEdit from './edits/Text';
+import TabsEdit from './edits/Tabs';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 const compList = {
@@ -141,8 +142,15 @@ const compList = {
     editData: TextEdit,
     sampleData: {
       text: 'text goes here',
-      tag: 'h1'
+      tag: 'h1',
     },
+  },
+  Tabs: {
+    Component: getMap().Tabs,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: TabsEdit,
+    sampleData: {},
   },
   Header: {
     Component: getMap().Header,
@@ -151,7 +159,7 @@ const compList = {
     editData: TextEdit,
     sampleData: {
       text: 'text goes here',
-      tag: 'h1'
+      tag: 'h1',
     },
   },
   Button: {
@@ -186,9 +194,7 @@ const compList = {
     group: 'Form Elements',
     type: ItemTypes.FORM_ELEMENT,
     editData: ReCaptchaEdit,
-    sampleData: {
-    
-    },
+    sampleData: {},
   },
   Select: {
     Component: getMap().Select,

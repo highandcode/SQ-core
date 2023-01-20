@@ -319,8 +319,8 @@ describe('CMS::ContentServer', function () {
   describe('real instance test with test data', () => {
     describe('getPageData() parameters', () => {
       let result;
-      beforeEach(() => {
-        result = real_inst.getPageData('crm/goodpage');
+      beforeEach(async () => {
+        result = await real_inst.getPageData('crm/goodpage');
       });
       it('should return mode', () => {
         expect(result.mode).to.equal('production');
@@ -356,8 +356,8 @@ describe('CMS::ContentServer', function () {
     });
     describe('getPageData() for good pages', () => {
       let result;
-      beforeEach(() => {
-        result = real_inst.getPageData('crm/goodpage');
+      beforeEach(async () => {
+        result = await real_inst.getPageData('crm/goodpage');
       });
       it('should have page title "Sample page"', () => {
         expect(result.pageData.title).to.equal('Sample page');
@@ -366,8 +366,8 @@ describe('CMS::ContentServer', function () {
 
     describe('getPageData() for page has errors [default]', () => {
       let result;
-      beforeEach(() => {
-        result = real_inst.getPageData('crm/dataerror');
+      beforeEach(async () => {
+        result = await real_inst.getPageData('crm/dataerror');
       });
       it('should return defined page "Error occurred"', () => {
         expect(result.pageData.title).to.equal('Error occurred');
@@ -375,8 +375,8 @@ describe('CMS::ContentServer', function () {
     });
     describe('getPageData() for page dont exists [default]', () => {
       let result;
-      beforeEach(() => {
-        result = real_inst.getPageData('crm/non-exist');
+      beforeEach(async () => {
+        result = await real_inst.getPageData('crm/non-exist');
       });
       it('should return defined page "Page not found"', () => {
         expect(result.pageData.title).to.equal('Page not found');
@@ -384,8 +384,8 @@ describe('CMS::ContentServer', function () {
     });
     describe('getPageData() for page not launched [default]', () => {
       let result;
-      beforeEach(() => {
-        result = real_inst.getPageData('crm/launch');
+      beforeEach(async () => {
+        result = await real_inst.getPageData('crm/launch');
       });
       it('should return defined page "Coming soon"', () => {
         expect(result.pageData.title).to.equal('Coming soon');
@@ -394,8 +394,8 @@ describe('CMS::ContentServer', function () {
 
     describe('getPageData() for page has errors [customized]', () => {
       let result;
-      beforeEach(() => {
-        result = real_inst_customized.getPageData('crm/dataerror');
+      beforeEach(async () => {
+        result = await real_inst_customized.getPageData('crm/dataerror');
       });
       it('should return defined page "Mock error"', () => {
         expect(result.pageData.title).to.equal('Mock error');
@@ -403,8 +403,8 @@ describe('CMS::ContentServer', function () {
     });
     describe('getPageData() for page dont exists [customized]', () => {
       let result;
-      beforeEach(() => {
-        result = real_inst_customized.getPageData('crm/non-exist');
+      beforeEach(async () => {
+        result = await real_inst_customized.getPageData('crm/non-exist');
       });
       it('should return defined page "Mock not found"', () => {
         expect(result.pageData.title).to.equal('Mock not found');
@@ -412,8 +412,8 @@ describe('CMS::ContentServer', function () {
     });
     describe('getPageData() for page not launched [customized]', () => {
       let result;
-      beforeEach(() => {
-        result = real_inst_customized.getPageData('crm/launch');
+      beforeEach(async () => {
+        result = await real_inst_customized.getPageData('crm/launch');
       });
       it('should return defined page "Mock launch"', () => {
         expect(result.pageData.title).to.equal('Mock launch');
@@ -421,8 +421,8 @@ describe('CMS::ContentServer', function () {
     });
     describe('getPageData() for page already launched [customized]', () => {
       let result;
-      beforeEach(() => {
-        result = real_inst_customized.getPageData('crm/launched');
+      beforeEach(async () => {
+        result = await real_inst_customized.getPageData('crm/launched');
       });
       it('should return defined page "Launched page"', () => {
         expect(result.pageData.title).to.equal('Launched page');
