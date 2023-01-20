@@ -302,7 +302,6 @@ class ContentServer {
     let filePath = '';
     let contents;
     filePath = this.getIfMatchPagesOnRoute(siteConfig, path, 500);
-    console.log(filePath);
 
     if (!filePath && siteMap.errorRedirects && siteMap.errorRedirects[500]) {
       filePath = this.getFilePath(
@@ -471,7 +470,6 @@ class ContentServer {
     let contents;
     if (this.contentRepo && !fileFound) {
       let test = await this.contentRepo.getByPath(fullPath);
-      console.log(test, fullPath);
       if (test && !fileFound) {
         status = 200;
         contents = [test.pageData];
