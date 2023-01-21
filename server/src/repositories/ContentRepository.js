@@ -26,7 +26,7 @@ class ContentRepository extends BaseRepository {
   }
 
   async create(data) {
-    const pathVars = this.extractPath(`/content/${data.path}`);
+    const pathVars = this.extractPath(`${data.path}`);
     return await this.insert({
       ...data,
       ...pathVars,

@@ -16,6 +16,13 @@ const allowedValidators = [
   'strongPassword',
   'length',
   'compareField',
+  'number',
+  'emailphone',
+  'emailinternationalphone',
+  'date',
+  'password',
+  'postalCN',
+  'regex',
 ];
 
 export default () => ({
@@ -110,8 +117,8 @@ export default () => ({
         type: {
           validators: [
             {
-              type: 'equals',
-              matchValue: 'length',
+              type: 'oneOf',
+              options: ['date','length'],
             },
           ],
         },
@@ -125,8 +132,8 @@ export default () => ({
         type: {
           validators: [
             {
-              type: 'equals',
-              matchValue: 'length',
+              type: 'oneOf',
+              options: ['date','length'],
             },
           ],
         },

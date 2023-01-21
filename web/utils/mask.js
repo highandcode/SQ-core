@@ -16,7 +16,7 @@ const masks = {
       return value.indexOf(text) === -1 ? (appendAt === 'start' ? text : '') +  `${value || ''}` + (appendAt === 'end' ? text : '') : value;
     },
     unmask: (value,{ text = ''} = {}) => {
-      return value;
+      return value.replace(text, '');
     }
   },
   appendText: {
