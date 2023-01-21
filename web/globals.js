@@ -100,6 +100,10 @@ export const GLOBAL_OPTIONS = {
     'body-container-lg': 'body-container-lg',
     'body-container-xl': 'body-container-xl',
   }),
+  linkTypes: new GlobalOptions({
+    'Button': 'Button',
+    'LinkButton': 'LinkButton',
+  }),
   pageWrapperClasses: new GlobalOptions({
     'sq-content-page--full-width': 'sq-content-page--full-width',
     'sq-content-page--header-footer-body': 'sq-content-page--header-footer-body',

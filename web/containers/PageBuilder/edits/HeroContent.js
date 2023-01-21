@@ -1,7 +1,7 @@
 import { GLOBAL_OPTIONS } from '../../../globals';
-import { withEditTabs } from './Common';
+import { withEditTabsConfig } from './Common';
 
-export default withEditTabs({
+export default withEditTabsConfig(({ defaultParams }) => ({
   classNames: GLOBAL_OPTIONS.heroStyles.toArray(),
   enableValidations: false,
   pageData: {
@@ -11,12 +11,12 @@ export default withEditTabs({
         actionType: 'submit-event',
         buttonText: 'Save',
         params: {
-          header: '.main.header',
-          className: '.main.className',
+          ...defaultParams,
           background: '.main.background',
           headerTag: '.main.headerTag',
           template: '.main.template',
           subHeader: '.main.subHeader',
+          links: '.main.links',
         },
       },
     ],
@@ -49,5 +49,45 @@ export default withEditTabs({
       cmpType: 'InputField',
       label: 'Sub Header',
     },
+    {
+      name: 'links',
+      cmpType: 'FormList',
+      label: 'Links',
+      formClassName: 'sq-form--2-cols mb-wide',
+      fields: [
+        {
+          cmpType: 'Input',
+          label: 'Button Text',
+          name: 'buttonText',
+        },
+        {
+          cmpType: 'Input',
+          label: 'Icon Name',
+          name: 'iconName',
+        },
+        {
+          cmpType: 'Autocomplete',
+          label: 'Type',
+          name: 'type',
+          options: GLOBAL_OPTIONS.linkTypes.toArray(),
+        },
+        {
+          cmpType: 'Autocomplete',
+          label: 'size',
+          name: 'size',
+          options: GLOBAL_OPTIONS.buttonSize.toArray(),
+        },
+        {
+          cmpType: 'Input',
+          label: 'Icon Direction',
+          name: 'iconDirection',
+        },
+        {
+          cmpType: 'Input',
+          label: 'To Path',
+          name: 'to',
+        },
+      ],
+    },
   ],
-});
+}));

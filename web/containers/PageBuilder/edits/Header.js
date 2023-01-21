@@ -1,8 +1,9 @@
 import { GLOBAL_OPTIONS } from '../../../globals';
-import { withEditTabs } from './Common';
+import { withEditTabsConfig } from './Common';
 
-export default withEditTabs({
+export default withEditTabsConfig(({ defaultParams }) => ({
   enableValidations: false,
+  classNames: GLOBAL_OPTIONS.headerStyles.toArray(),
   pageData: {
     items: [
       {
@@ -10,8 +11,7 @@ export default withEditTabs({
         actionType: 'submit-event',
         buttonText: 'Save',
         params: {
-          header: '.main.header',
-          className: '.main.className',
+          ...defaultParams,
           headerTag: '.main.headerTag',
           subHeader: '.main.subHeader',
         },
@@ -31,15 +31,9 @@ export default withEditTabs({
       options: GLOBAL_OPTIONS.headerTags.toArray(),
     },
     {
-      name: 'className',
-      cmpType: 'InputWithOptions',
-      label: 'className',
-      options: GLOBAL_OPTIONS.headerStyles.toArray(),
-    },
-    {
       name: 'subHeader',
       cmpType: 'InputField',
       label: 'Sub Header',
     },
   ],
-});
+}));
