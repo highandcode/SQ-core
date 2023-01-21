@@ -9,6 +9,7 @@ export default withEditTabs({
         actionType: 'submit-event',
         buttonText: 'Save',
         params: {
+          name: '.main.name',
           textField: '.main.textField',
           valueField: '.main.valueField',
           className: '.main.className',

@@ -68,7 +68,6 @@ const SelectField = ({
               root: 'sq-select-field__pop-over'
             }
           }}
-          defaultValue={defaultValue}
           className="sq-select-field__input"
           data-testid={testId}
           value={multiple ? !common.isNullOrUndefined(value) ? value : [] : isValid ? value : undefined}

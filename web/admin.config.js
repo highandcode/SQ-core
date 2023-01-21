@@ -18,6 +18,7 @@ module.exports = {
     register: '/content/admin/register',
     adminDashboard: '/content/admin/portal/dashboard',
     editPage: '/content/admin/portal/pages/edit',
+    addNewPage: '/content/admin/portal/pages/create',
     previewDraftPage: '/content/admin/portal/pages/previewdraft',
     '/content/(.*)': {
       type: 'regex',

@@ -1,7 +1,7 @@
 import { GLOBAL_OPTIONS } from '../../../globals';
-import { withEditTabs } from './Common';
+import { withEditTabsConfig } from './Common';
 
-export default withEditTabs({
+export default withEditTabsConfig(({ defaultParams = {} }) => ({
   enableValidations: false,
   pageData: {
     items: [
@@ -10,8 +10,7 @@ export default withEditTabs({
         actionType: 'submit-event',
         buttonText: 'Save',
         params: {
-          name: '.main.name',
-          className: '.main.className',
+          ...defaultParams,
           bodyClassName: '.main.bodyClassName',
         },
       },
@@ -24,4 +23,4 @@ export default withEditTabs({
       label: 'bodyClassName',
     },
   ],
-});
+}));

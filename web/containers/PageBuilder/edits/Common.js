@@ -1,5 +1,5 @@
 import { GLOBAL_OPTIONS } from '../../../globals';
-import { getValidators } from '../../../utils/validator';
+import validators from './c-validators';
 const tabs = {
   general: {
     text: 'General',
@@ -44,45 +44,22 @@ const defaultGeneral = ({ classNames = [] } = {}) => [
 ];
 
 const defaultValidations = [
-  {
-    name: 'validators',
-    cmpType: 'FormList',
-    label: 'Validators',
-    formClassName: 'sq-form--2-cols mb-wide',
-    fields: [
-      {
-        cmpType: 'Select',
-        label: 'Type',
-        name: 'type',
-        options: () =>
-          _.sortBy(
-            Object.keys(getValidators()).map((item) => ({
-              text: item,
-              value: item,
-            })),
-            'text'
-          ),
-      },
-      {
-        cmpType: 'Input',
-        label: 'Error Message',
-        name: 'message',
-      },
-      {
-        cmpType: 'Input',
-        label: 'Error Key',
-        name: 'key',
-      },
-    ],
-  },
+  validators()
 ];
+
+const defaultParams = {
+  name: '.main.name',
+  className: '.main.className',
+  validators: '.main.validators',
+  match: '.main.match',
+};
 
 const defaultMatch = [
   {
     name: 'match',
     cmpType: 'FormObject',
     label: 'match',
-    formClassName: 'sq-form--2-cols mb-wide',
+    formClassName: 'mb-wide',
     fields: [
       {
         cmpType: 'Input',
@@ -90,39 +67,19 @@ const defaultMatch = [
         name: 'key',
       },
       {
+        cmpType: 'Form',
         name: 'value',
-        cmpType: 'FormList',
-        label: 'Value',
-        formClassName: 'sq-form--2-cols mb-wide',
         fields: [
-          {
-            cmpType: 'Select',
-            label: 'Type',
-            name: 'type',
-            options: () =>
-              _.sortBy(
-                Object.keys(getValidators()).map((item) => ({
-                  text: item,
-                  value: item,
-                })),
-                'text'
-              ),
-          },
-          {
-            cmpType: 'Input',
-            label: 'Error Message',
-            name: 'message',
-          },
-          {
-            cmpType: 'Input',
-            label: 'Error Key',
-            name: 'key',
-          },
+          validators()
         ],
       },
     ],
   },
 ];
+
+export const withEditTabsConfig = (cb) => {
+  return withEditTabs(cb({ defaultParams }));
+};
 
 export const withEditTabs = ({
   classNames = [],

@@ -22,6 +22,9 @@ const _validators = {
       regex: /^[a-zA-Z_0-9/]*$/,
     });
   },
+  oneOf: (value, { options = [] } = {}) => {
+    return options.indexOf(value) > -1;
+  },
   requiredArray: (value, { required }, fields) => {
     if (required && required(fields) === false) {
       return true;
@@ -317,7 +320,8 @@ const _validators = {
 const _messages = {
   options: () => `Please select a valid option`,
   required: () => `This field is required`,
-  path: () => `Path should be alphanumeric (-_ is allowed) without spaces separated with /`,
+  path: () =>
+    `Path should be alphanumeric (-_ is allowed) without spaces separated with /`,
   compareField: () => `This field should match compare criteria`,
   emailphone: () => `Enter a valid email or phone`,
   emailinternationalphone: () =>
@@ -409,7 +413,7 @@ class Validator {
             if (_validators[type] && (!isOptional || this.values[field])) {
               const result = _validators[type](
                 this.values[field],
-                rest,
+                { fieldName: field, ...rest },
                 this.values
               );
               let final;

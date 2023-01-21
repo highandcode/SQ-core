@@ -82,6 +82,10 @@ export const GLOBAL_OPTIONS = {
     outlined: 'Outlined',
     standard: 'Standard',
   }),
+  compareOperators: new GlobalOptions({
+    '=': '= equals',
+    '!=': '!= not equals',
+  }),
   headerTags: new GlobalOptions({
     h1: 'H1',
     h2: 'H2',

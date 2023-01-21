@@ -89,7 +89,7 @@ class PageListing extends BaseContainer {
                 type: 'Button',
                 iconName: 'add',
                 size: 'small',
-                to: 'addnewuser',
+                to: 'addNewPage',
                 buttonText: 'Add New',
               },
             ].filter((i) => i)}
