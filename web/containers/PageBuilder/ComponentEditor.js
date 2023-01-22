@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import update from 'immutability-helper';
+import Tooltip from '@mui/material/Tooltip';
 import ErrorBoundary from '../../components/ErrorBoundry';
 import IconButton from '../../components/ui/IconButton';
 import Dialog from '../../components/Dialog';
@@ -173,17 +174,47 @@ class ComponentEditor extends Component {
             )}
           </div>
         </Dialog>
-        <div className="sq-component-editor__name">
-          <span className="sq-component-editor__name-text">{component}</span>
-          {value.className ? `.${value.className}` : ''}
-          {value.name ? `#${value.name}` : ''}
-        </div>
+        <Tooltip
+          title={`${component}${value.className ? `.${value.className}` : ''}${
+            value.name ? `#${value.name}` : ''
+          }`}
+        >
+          <div className="sq-component-editor__name">
+            {component}
+            {value.className ? `.${value.className}` : ''}
+            {value.name ? `#${value.name}` : ''}
+          </div>
+        </Tooltip>
         {/* <IconButton className="sq-component-editor__move" iconName={'Move'} /> */}
         <div className="sq-component-editor__actions">
-          {!isStart && <IconButton size="small" iconSize='small' iconName={'arrow-up'} onClick={this.moveUp} />}
-          {!isEnd && <IconButton size="small" iconSize='small' iconName={'arrow-down'} onClick={this.moveDown} />}
-          <IconButton size="small" iconSize='small' iconName={'Settings'} onClick={this.toggleEditForm} />
-          <IconButton size="small" iconSize='small' iconName={'Delete'} onClick={this.deleteComponent} />
+          {!isStart && (
+            <IconButton
+              size="small"
+              iconSize="small"
+              iconName={'arrow-up'}
+              onClick={this.moveUp}
+            />
+          )}
+          {!isEnd && (
+            <IconButton
+              size="small"
+              iconSize="small"
+              iconName={'arrow-down'}
+              onClick={this.moveDown}
+            />
+          )}
+          <IconButton
+            size="small"
+            iconSize="small"
+            iconName={'Settings'}
+            onClick={this.toggleEditForm}
+          />
+          <IconButton
+            size="small"
+            iconSize="small"
+            iconName={'Delete'}
+            onClick={this.deleteComponent}
+          />
         </div>
         <div
           className={`sq-component-editor__container ${value.bodyClassName}`}
@@ -201,7 +232,7 @@ class ComponentEditor extends Component {
                       parentName={item.name}
                       component={item[compTypeProp]}
                       isStart={idx === 0}
-                      isEnd={idx === items.length -1}
+                      isEnd={idx === items.length - 1}
                       index={idx}
                       itemsPropName={itemsPropName}
                       compList={compList}

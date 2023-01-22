@@ -1,4 +1,5 @@
 import { GLOBAL_OPTIONS } from '../../../globals';
+import { getIconList } from '../../../components/Icon';
 import validators from './c-validators';
 const tabs = {
   general: {
@@ -43,9 +44,7 @@ const defaultGeneral = ({ classNames = [] } = {}) => [
   },
 ];
 
-const defaultValidations = [
-  validators()
-];
+const defaultValidations = [validators()];
 
 const defaultParams = {
   name: '.main.name',
@@ -69,16 +68,21 @@ const defaultMatch = [
       {
         cmpType: 'Form',
         name: 'value',
-        fields: [
-          validators()
-        ],
+        fields: [validators()],
       },
     ],
   },
 ];
 
+const getIconListMap = () => {
+  return Object.keys(getIconList()).map((name) => ({
+    text: name,
+    value: name,
+  }));
+};
+
 export const withEditTabsConfig = (cb) => {
-  return withEditTabs(cb({ defaultParams }));
+  return withEditTabs(cb({ defaultParams, iconList: getIconListMap() }));
 };
 
 export const withEditTabs = ({

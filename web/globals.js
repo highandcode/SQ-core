@@ -127,6 +127,7 @@ export const GLOBAL_OPTIONS = {
   heroStyles: new GlobalOptions({
     'sq-hero-content--left-aligned': 'sq-hero-content--left-aligned',
     'sq-hero-content--large-background-theme-dark': 'sq-hero-content--large-background-theme-dark',
+    'sq-hero-content--bg-black': 'sq-hero-content--bg-black',
   }),
   heroTemplates: new GlobalOptions({
     'without-image': 'without-image',

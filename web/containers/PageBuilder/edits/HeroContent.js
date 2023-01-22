@@ -1,7 +1,7 @@
 import { GLOBAL_OPTIONS } from '../../../globals';
 import { withEditTabsConfig } from './Common';
 
-export default withEditTabsConfig(({ defaultParams }) => ({
+export default withEditTabsConfig(({ defaultParams, iconList }) => ({
   classNames: GLOBAL_OPTIONS.heroStyles.toArray(),
   enableValidations: false,
   pageData: {
@@ -61,9 +61,10 @@ export default withEditTabsConfig(({ defaultParams }) => ({
           name: 'buttonText',
         },
         {
-          cmpType: 'Input',
+          cmpType: 'Autocomplete',
           label: 'Icon Name',
           name: 'iconName',
+          options: iconList,
         },
         {
           cmpType: 'Autocomplete',

@@ -37,11 +37,16 @@
   &__name {
     background-color: $white;
     top: -8px;
+    color: $sq-color-slate-light;
     position: absolute;
     border-radius: 5px;
     padding: 2px 8px;
     left: 0;
     display: none;
+    text-overflow: ellipsis;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
   }
   &__move {
     position: absolute;
