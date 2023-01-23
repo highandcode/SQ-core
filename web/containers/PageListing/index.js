@@ -53,6 +53,9 @@ class PageListing extends BaseContainer {
           path: row.path /* replace with data.uid */,
         });
         break;
+      case 'preview':
+        utils.redirect.redirectTo(row.path, {mode: 'preview'}, { target: '_blank' });
+        break;
     }
   }
 
