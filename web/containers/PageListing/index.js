@@ -33,7 +33,6 @@ class PageListing extends BaseContainer {
     if (pageData.enableTree !== false) {
       await this.props.raiseAction(loadPageTree({}));
     } else {
-      
       await this.props.raiseAction(loadPagesByPath({}, pageData.getPagesConfig));
     }
     this.props.commonActions.stopLoading();
@@ -50,11 +49,12 @@ class PageListing extends BaseContainer {
     switch (value.action) {
       case 'edit':
         utils.redirect.redirectTo('editPage', {
-          path: row.path /* replace with data.uid */,
+          path: row.path,
+          pageId: row.pageId /* replace with data.uid */,
         });
         break;
       case 'preview':
-        utils.redirect.redirectTo(row.path, {mode: 'preview'}, { target: '_blank' });
+        utils.redirect.redirectTo(row.path, { mode: 'preview' }, { target: '_blank' });
         break;
     }
   }

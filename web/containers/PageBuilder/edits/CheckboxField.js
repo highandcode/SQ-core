@@ -10,6 +10,8 @@ export default withEditTabs({
         params: {
           name: '.main.name',
           className: '.main.className',
+          selectedValue: '.main.selectedValue',
+          defaultValue: '.main.defaultValue',
           text: '.main.text',
           label: '.main.label',
           validators: '.main.validators',

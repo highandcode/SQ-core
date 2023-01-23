@@ -64,6 +64,21 @@ export default () => ({
     },
     {
       cmpType: 'Input',
+      label: 'Default Value',
+      name: 'defaultValue',
+      match: {
+        type: {
+          validators: [
+            {
+              type: 'equals',
+              matchValue: 'required',
+            },
+          ],
+        },
+      },
+    },
+    {
+      cmpType: 'Input',
       label: 'fieldName',
       name: 'fieldName',
       match: {
