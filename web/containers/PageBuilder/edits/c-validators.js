@@ -29,7 +29,7 @@ export default () => ({
   name: 'validators',
   cmpType: 'FormList',
   label: 'Validators',
-  formClassName: 'sq-form--2-cols mb-wide',
+  formClassName: 'sq-form--2-cols',
   fields: [
     {
       cmpType: 'Select',

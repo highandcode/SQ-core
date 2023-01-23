@@ -53,7 +53,7 @@ export default withEditTabsConfig(({ defaultParams, iconList }) => ({
       name: 'links',
       cmpType: 'FormList',
       label: 'Links',
-      formClassName: 'sq-form--2-cols mb-wide',
+      formClassName: 'sq-form--2-cols',
       fields: [
         {
           cmpType: 'Input',

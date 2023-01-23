@@ -34,7 +34,7 @@ export default withEditTabs({
       name: 'options',
       cmpType: 'FormList',
       label: 'Options',
-      formClassName: 'sq-form--2-cols mb-wide',
+      formClassName: 'sq-form--2-cols',
       fields: [
         {
           cmpType: 'Input',

@@ -1,82 +1,93 @@
-import React, { Component } from 'react';
+import React, { Component, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import update from 'immutability-helper';
 import Form from '../Form';
 import IconButton from '../ui/IconButton';
+import { Orderable } from './Orderable';
 import './_form-list.scss';
 
-class FormList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { data: [] };
-    this.addNew = this.addNew.bind(this);
-    this.removeItem = this.removeItem.bind(this);
-    this.valueOnChange = this.valueOnChange.bind(this);
-  }
-  valueOnChange(data, idx) {
-    const { onChange, value = [] } = this.props;
+const FormList = ({
+  className = '',
+  label,
+  fields = [],
+  value = [],
+  formClassName,
+  onChange,
+}) => {
+  const moveCard = (dragIndex, hoverIndex) => {
+    onChange &&
+      onChange({
+        value: update(value, {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, value[dragIndex]],
+          ],
+        }),
+      });
+  };
+  const addNew = () => {
+    onChange &&
+      onChange({
+        value: [...value, {}],
+      });
+  };
+  const valueOnChange = (data, idx) => {
     const itemArr = [...value];
     itemArr[idx] = { ...data.value };
     onChange &&
       onChange({
         value: [...itemArr],
       });
-  }
+  };
 
-  removeItem(idx) {
-    const { onChange, value = [] } = this.props;
+  const removeItem = (idx) => {
     const itemArr = [...value];
     itemArr.splice(idx, 1);
     onChange &&
       onChange({
         value: [...itemArr],
       });
-  }
-
-  addNew() {
-    const { onChange, value = [] } = this.props;
-
-    onChange &&
-      onChange({
-        value: [...value, {}],
-      });
-  }
-
-  render() {
-    const {
-      className = '',
-      label,
-      fields = [],
-      value = [],
-      formClassName,
-    } = this.props;
-    return (
-      <div className={`sq-form-list ${className}`}>
-        <div className="sq-form-list__label mb-wide">{label}</div>
-        {value.map((itemVal, idx) => {
-          return (
-            <div className="sq-form-list__item" key={idx}>
-              <div className="sq-form-list__item-wrap">
-                <Form
-                  className={`pb-none ${formClassName}`}
-                  fields={fields}
-                  value={itemVal}
-                  onChange={(data) => this.valueOnChange(data, idx)}
-                />
-                <IconButton
-                  iconName="Delete"
-                  color="error"
-                  size="small"
-                  onClick={() => this.removeItem(idx)}
-                />
-              </div>
+  };
+  const renderCard = useCallback(
+    (itemVal, idx) => {
+      return (
+        <div className="sq-form-list__item" key={itemVal.value}>
+          <Orderable
+            key={itemVal.value}
+            index={idx}
+            id={itemVal.value}
+            moveCard={moveCard}
+          >
+            <div className="sq-form-list__item-wrap">
+              <Form
+                className={`pb-none ${formClassName}`}
+                fields={fields}
+                value={itemVal}
+                onChange={(data) => valueOnChange(data, idx)}
+              />
+              <IconButton
+                iconName="Delete"
+                color="error"
+                size="small"
+                onClick={() => removeItem(idx)}
+              />
             </div>
-          );
-        })}
-        <IconButton iconName="add" onClick={this.addNew} />
-      </div>
-    );
-  }
-}
+          </Orderable>
+        </div>
+      );
+    },
+    [value]
+  );
+  return (
+    <div className={`sq-form-list ${className}`}>
+      <div className="sq-form-list__label mb-wide">{label}</div>
+      {value.map((itemVal, idx) => {
+        return renderCard(itemVal, idx);
+      })}
+      <IconButton iconName="add" onClick={addNew} />
+    </div>
+  );
+};
 
 FormList.propTypes = {
   fields: PropTypes.array,
