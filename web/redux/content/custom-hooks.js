@@ -14,7 +14,7 @@ customHooks.add('data', {
       }
     }
     return null;
-  },
+  }
 });
 
 export { customHooks };

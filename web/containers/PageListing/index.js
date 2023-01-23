@@ -28,17 +28,19 @@ class PageListing extends BaseContainer {
   }
 
   async refreshPages({ pageNo, pageSize, sort, filter, source } = {}) {
+    const { pageData } = this.props;
     this.props.commonActions.startLoading();
-    await this.props.raiseAction(loadPageTree({}));
+    if (pageData.enableTree !== false) {
+      await this.props.raiseAction(loadPageTree({}));
+    } else {
+      
+      await this.props.raiseAction(loadPagesByPath({}, pageData.getPagesConfig));
+    }
     this.props.commonActions.stopLoading();
   }
 
   onFilterChange(data) {
-    Object.keys(data.value).forEach(
-      (key) =>
-        (data.value[key] == null || data.value[key] == '') &&
-        delete data.value[key]
-    );
+    Object.keys(data.value).forEach((key) => (data.value[key] == null || data.value[key] == '') && delete data.value[key]);
     this.setState({
       currentFilter: data.value,
     });
@@ -50,23 +52,6 @@ class PageListing extends BaseContainer {
         utils.redirect.redirectTo('editPage', {
           path: row.path /* replace with data.uid */,
         });
-        break;
-      case 'activate':
-        await this.props.userActions.reactivateUser(row);
-        await this.refreshPages({
-          filter: { isActive: false, ...this.state.currentFilter },
-          pageSize: 30,
-        });
-        break;
-      case 'deactivate':
-        await this.props.userActions.deactivateUser(row);
-        await this.refreshPages({
-          filter: { isActive: true, ...this.state.currentFilter },
-          pageSize: 30,
-        });
-        break;
-      case 'reset-password':
-        this.props.userActions.resetPassword(row);
         break;
     }
   }
@@ -96,16 +81,11 @@ class PageListing extends BaseContainer {
           />
         </div>
         <div className="sq-v-screen__container">
-          <div className="container-fluid mb-wide">
-            {/* <h4 className="mt-3">{'Users'}</h4> */}
-          </div>
+          <div className="container-fluid mb-wide">{/* <h4 className="mt-3">{'Users'}</h4> */}</div>
           <div className={`container-fluid  sq-v-screen__body-container`}>
             <div className="sq-v-screen-grow sq-page-listing__container">
               <div className="sq-page-listing__left">
-                <PathTree
-                  data={store.admin.contentTree}
-                  onChange={this.onTreeSelect}
-                />
+                <PathTree data={store.admin.contentTree} onChange={this.onTreeSelect} />
               </div>
               <Grid
                 className="sq-basic-grid sq-page-listing__right sq-basic-grid--rounded sq-grid--fixed"
