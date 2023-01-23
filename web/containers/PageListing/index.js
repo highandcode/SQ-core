@@ -66,7 +66,7 @@ class PageListing extends BaseContainer {
   }
 
   render() {
-    const { store } = this.props;
+    const { store, pageData = {} } = this.props;
     const { isLoading } = this.state;
     return (
       <div className="sq-page-listing sq-v-screen sq-v-screen--fixed">
@@ -77,7 +77,7 @@ class PageListing extends BaseContainer {
                 type: 'Button',
                 iconName: 'add',
                 size: 'small',
-                to: 'addNewPage',
+                to: pageData.addNewPage || 'addNewPage',
                 buttonText: 'Add New',
               },
             ].filter((i) => i)}
