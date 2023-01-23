@@ -11,6 +11,7 @@ import CustomProcessor from './custom-processor';
 import CustomModule from './custom-module';
 import * as format from './format';
 import * as object from '../../server/src/utils/object';
+import path from './path';
 import * as mask from './mask';
 import * as number from './number';
 import * as properties from './properties';
@@ -32,6 +33,7 @@ export {
   currency,
   datetime,
   object,
+  path,
   errorMessages,
   cookie,
   CustomModule,

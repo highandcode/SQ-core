@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as utils from '../../utils';
 import { customHooks } from './custom-hooks';
 import { Validator } from '../../utils/validator';
+import path from '../../utils/path';
 import { showNotificationMessage } from '../common';
 const { queryString, apiBridge, object, common, processor } = utils;
 const { query } = queryString;
@@ -130,9 +131,18 @@ const extractUrlInfo = (url, config) => {
   return {};
 };
 
+const clearUrl = (url) => {
+  if (url.indexOf('/index.html') > -1) {
+    url = url.replace('/index.html', '');
+  } else if (url.indexOf('.html') > -1) {
+    url = url.replace('.html', '');
+  }
+  return path.ensureNoSlashAtEnd(url);
+};
+
 export const fetchJsonPath = ({ url, params, headers }) => {
   const mode = window.APP_CONFIG?.siteMode === 'static' ? 'get' : 'post';
-
+  url = clearUrl(url);
   const {
     url: overrideUrl,
     params: overrideParams,
