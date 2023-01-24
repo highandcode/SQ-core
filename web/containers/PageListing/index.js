@@ -33,13 +33,19 @@ class PageListing extends BaseContainer {
     if (pageData.enableTree !== false) {
       await this.props.raiseAction(loadPageTree({}));
     } else {
-      await this.props.raiseAction(loadPagesByPath({}, pageData.getPagesConfig));
+      await this.props.raiseAction(
+        loadPagesByPath({}, pageData.getPagesConfig)
+      );
     }
     this.props.commonActions.stopLoading();
   }
 
   onFilterChange(data) {
-    Object.keys(data.value).forEach((key) => (data.value[key] == null || data.value[key] == '') && delete data.value[key]);
+    Object.keys(data.value).forEach(
+      (key) =>
+        (data.value[key] == null || data.value[key] == '') &&
+        delete data.value[key]
+    );
     this.setState({
       currentFilter: data.value,
     });
@@ -54,7 +60,11 @@ class PageListing extends BaseContainer {
         });
         break;
       case 'preview':
-        utils.redirect.redirectTo(row.path, { mode: 'preview' }, { target: '_blank' });
+        utils.redirect.redirectTo(
+          row.path,
+          { mode: 'preview' },
+          { target: '_blank' }
+        );
         break;
     }
   }
@@ -70,26 +80,30 @@ class PageListing extends BaseContainer {
     const { isLoading } = this.state;
     return (
       <div className="sq-page-listing sq-v-screen sq-v-screen--fixed">
-        <div className="sq-v-screen__sub-header">
-          <Actions
-            actions={[
-              {
-                type: 'Button',
-                iconName: 'add',
-                size: 'small',
-                to: pageData.addNewPage || 'addNewPage',
-                buttonText: 'Add New',
-              },
-            ].filter((i) => i)}
-          />
-        </div>
         <div className="sq-v-screen__container">
-          <div className="container-fluid mb-wide">{/* <h4 className="mt-3">{'Users'}</h4> */}</div>
+          <div className="container-fluid mt-wide mb-wide">
+            <Actions
+              actions={[
+                {
+                  type: 'Button',
+                  iconName: 'add',
+                  size: 'small',
+                  to: pageData.addNewPage || 'addNewPage',
+                  buttonText: 'Add New',
+                },
+              ].filter((i) => i)}
+            />
+          </div>
           <div className={`container-fluid  sq-v-screen__body-container`}>
-            <div className="sq-v-screen-grow sq-page-listing__container">
-              {pageData.enableTree !== false && <div className="sq-page-listing__left">
-                <PathTree data={store.admin.contentTree} onChange={this.onTreeSelect} />
-              </div>}
+            <div className="sq-v-screen-grow mb-wide sq-page-listing__container">
+              {pageData.enableTree !== false && (
+                <div className="sq-page-listing__left">
+                  <PathTree
+                    data={store.admin.contentTree}
+                    onChange={this.onTreeSelect}
+                  />
+                </div>
+              )}
               <Grid
                 className="sq-basic-grid sq-page-listing__right sq-basic-grid--rounded sq-grid--fixed"
                 // loader={<Skeleton styleName={`grid-tran`} rows={8} />}
