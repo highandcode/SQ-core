@@ -112,7 +112,7 @@ class AdminDashboard extends AdminContainer {
               <div className="sq-template__header-text">
                 
                 <div className="sq-template-menu-trigger">
-                  <Icon name="Menu" size="medium" onClick={this.toggleMenu} />
+                  <Icon name="Menu" size="medium" variant='primary' onClick={this.toggleMenu} />
                 </div>
                 <Icon name="logo-wide"  className='sq-template-menu-logo' size="wide" />
                 <div className="sq-template-menu-logo">
