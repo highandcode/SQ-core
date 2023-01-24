@@ -87,9 +87,9 @@ class PageListing extends BaseContainer {
           <div className="container-fluid mb-wide">{/* <h4 className="mt-3">{'Users'}</h4> */}</div>
           <div className={`container-fluid  sq-v-screen__body-container`}>
             <div className="sq-v-screen-grow sq-page-listing__container">
-              <div className="sq-page-listing__left">
+              {pageData.enableTree !== false && <div className="sq-page-listing__left">
                 <PathTree data={store.admin.contentTree} onChange={this.onTreeSelect} />
-              </div>
+              </div>}
               <Grid
                 className="sq-basic-grid sq-page-listing__right sq-basic-grid--rounded sq-grid--fixed"
                 // loader={<Skeleton styleName={`grid-tran`} rows={8} />}
