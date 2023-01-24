@@ -165,3 +165,37 @@
     color: $sq-color-success-dark;
   }
 }
+
+.sq-icon.sq-icon {
+ 
+  &--accent-1 {
+    color: $accent-color-1-base;
+    .sq-icon__text {
+      color: $accent-color-1-top-color;
+    }
+  }
+  &--accent-2 {
+    color: $accent-color-2-base;
+    .sq-icon__text {
+      color: $accent-color-2-top-color;
+    }
+  }
+  &--accent-3 {
+    color: $accent-color-3-base;
+    .sq-icon__text {
+      color: $accent-color-3-top-color;
+    }
+  }
+  &--accent-4 {
+    color: $accent-color-4-base;
+    .sq-icon__text {
+      color: $accent-color-4-top-color;
+    }
+  }
+  &--accent-5 {
+    color: $accent-color-5-base;
+    .sq-icon__text {
+      color: $accent-color-5-top-color;
+    }
+  }
+}

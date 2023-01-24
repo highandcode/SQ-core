@@ -9,6 +9,7 @@ import * as errorMessages from './error-messages';
 import EventManager from './event-manager';
 import CustomProcessor from './custom-processor';
 import CustomModule from './custom-module';
+import accentColors from './accent-colors';
 import * as format from './format';
 import * as object from '../../server/src/utils/object';
 import path from './path';
@@ -44,6 +45,7 @@ export {
   number,
   properties,
   queryString,
+  accentColors,
   redirect,
   timer,
   translate,
