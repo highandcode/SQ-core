@@ -11,6 +11,7 @@ import {
 } from '../../components/root';
 import * as utils from '../../utils';
 import { loadUsers } from '../../redux/user';
+import accentColors from '../../utils/accent-colors';
 import BaseContainer from '../BaseContainer';
 import { GLOBAL_OPTIONS } from '../../globals';
 
@@ -115,8 +116,8 @@ class Users extends BaseContainer {
                       sort: false,
                       component: {
                         textIcon: (row) => row.firstName?.substr(0, 1),
-                        // iconClass: (row) => 'sq-icon--primary',
-                        variant: (row) => (row.active ? 'primary' : 'default'),
+                        iconClass: (row) => 'sq-icon--square',
+                        variant: (row) => (row.active ? accentColors.getColorByChar(row.firstName?.substr(0, 1)) : 'default'),
                       },
                     },
                     {

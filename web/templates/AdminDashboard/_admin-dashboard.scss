@@ -1,11 +1,15 @@
-.app-template--dashboard {
+.admin-app-template--dashboard {
   .sq-template-menu-trigger {
-    display: block;
+    display: inline-block;
     @media (min-width: $screen-sm) {
       display: none;
     }
   }
-  .app-template__left-nav {
+  .sq-template-menu-logo {
+    display: inline-block;
+    padding: 4px;
+  }
+  .admin-app-template__left-nav {
     display: none;
     @media (min-width: $screen-sm) {
       display: block;
@@ -28,6 +32,10 @@
     width: 100%;
     min-height: 100vh;
   }
+  &--100-h {
+    width: 100%;
+    height: 100%;
+  }
 
   &__footer-text {
     text-align: center;
@@ -37,10 +45,16 @@
   }
 }
 
-.app-template {
+.admin-app-template {
   width: 100%;
   display: flex;
+  flex-direction: column;
+  &__main {
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
 
+  }
   &--dashboard {
     .sq-template__sub-header {
       background-color: $sq-color-muted-lighter;
@@ -48,11 +62,14 @@
 
     .sq-template__content {
       position: relative;
+      height: 200px;
+      overflow: auto;
     }
 
     .sq-template__header {
-      padding: 10px;
-
+      padding: 0px;
+      z-index: $z-index-level-mid-1;
+      box-shadow: 2px 2px 5px $sq-color-slate-lightest;
       &-text {
         margin: 0;
       }

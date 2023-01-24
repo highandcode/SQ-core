@@ -104,58 +104,65 @@ class AdminDashboard extends AdminContainer {
     return (
       <>
         <div
-          className={`app-template app-template--dashboard ${
+          className={`admin-app-template admin-app-template--dashboard ${
             templateClasses.root || ''
           }`}
         >
-          
-          <div className="app-template__left-nav">
-            <LeftNavigation
-              onCloseDrawer={this.toggleMenu}
-              openDrawer={this.state.openDrawer}
-              logo={siteMap.siteMap.logo}
-              items={currentUser ? siteMap.siteMap.globalNavigationLoggedIn.navigation : siteMap.siteMap.globalNavigation.navigation}
-              roles={[]}
-              permissions={store.authentication.currentUser?.permissions}
-              className={'sq-left-navigation--compact'}
-              onClick={this.handleNavClick}
-            />
-          </div>
-          <div className="app-template__right-body">
-            <div
-              className={`sq-content-page sq-template sq-template--full-page sq-template--flex-page sq-template--dashobard sq-content-page--top-0`}
-            >
-              <header className={`sq-template__header ${appBarColor}`}>
-                <div className="sq-template__header-text">
-                  <div className="sq-template-menu-trigger">
-                    <Icon name="Menu" size="large" onClick={this.toggleMenu} />
-                  </div>
+          <header className={`sq-template__header ${appBarColor}`}>
+              <div className="sq-template__header-text">
+                
+                <div className="sq-template-menu-trigger">
+                  <Icon name="Menu" size="large" onClick={this.toggleMenu} />
                 </div>
-                {store.authentication.currentUser && <UserMenu user={store.authentication.currentUser} onAction={this.onUserMenuAction} listOfActions={listOfActions} />}
-              </header>
-              <section className="sq-template__sub-header">
-                <BreadCrumb
-                  navigation={
-                    siteMap.siteMap.globalNavigationLoggedIn.navigation
-                  }
-                  breadcrumb={store.content.breadcrumb}
-                  roles={store.authentication.currentUser?.roles}
-                  permissions={store.authentication.currentUser?.permissions}
-                  currentPath={location.pathname}
-                />
-              </section>
-              <div
-                className={`sq-template__content ${
-                  templateClasses.content || ''
-                }`}
-              >
-                <ErrorBoundry>{children}</ErrorBoundry>
+                <Icon name="logo-wide"  className='sq-template-menu-logo' size="wide" />
+                <div className="sq-template-menu-logo">
+                </div>
               </div>
-              <footer className="sq-template__footer">
-                <div className="sq-template__footer-text"></div>
-              </footer>
+              {store.authentication.currentUser && <UserMenu user={store.authentication.currentUser} onAction={this.onUserMenuAction} listOfActions={listOfActions} />}
+          </header>
+          <div className="admin-app-template__main">
+            <div className="admin-app-template__left-nav">
+              <LeftNavigation
+                onCloseDrawer={this.toggleMenu}
+                openDrawer={this.state.openDrawer}
+                logo={siteMap.siteMap.logo}
+                items={currentUser ? siteMap.siteMap.globalNavigationLoggedIn.navigation : siteMap.siteMap.globalNavigation.navigation}
+                roles={[]}
+                permissions={store.authentication.currentUser?.permissions}
+                className={'sq-left-navigation--compact'}
+                onClick={this.handleNavClick}
+              />
+            </div>
+            <div className="admin-app-template__right-body">
+              <div
+                className={`sq-content-page sq-template sq-template--100-h sq-template--flex-page sq-template--dashobard sq-content-page--top-0`}
+              >
+               
+                <section className="sq-template__sub-header">
+                  <BreadCrumb
+                    navigation={
+                      siteMap.siteMap.globalNavigationLoggedIn.navigation
+                    }
+                    breadcrumb={store.content.breadcrumb}
+                    roles={store.authentication.currentUser?.roles}
+                    permissions={store.authentication.currentUser?.permissions}
+                    currentPath={location.pathname}
+                  />
+                </section>
+                <div
+                  className={`sq-template__content ${
+                    templateClasses.content || ''
+                  }`}
+                >
+                  <ErrorBoundry>{children}</ErrorBoundry>
+                </div>
+                <footer className="sq-template__footer">
+                  <div className="sq-template__footer-text"></div>
+                </footer>
+              </div>
             </div>
           </div>
+          
         </div>
       </>
     );

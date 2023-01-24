@@ -105,10 +105,10 @@ const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], role
         transitionDir={'right'}
         title={
           <>
-            <div className="sq-global-left-navigation__logo">
+            {logo && <div className="sq-global-left-navigation__logo">
               {logo.mobileName && <Icon name={logo.mobileName} size="auto" />}
               {logo.mobileImage && <img src={logo.mobileImage} alt={logo.mobileAlt} />}
-            </div>
+            </div>}
           </>
         }
         classes={{
@@ -165,10 +165,10 @@ const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], role
         </Box>
       </Dialog>
       <div className="sq-global-left-navigation sq-global-left-navigation--fixed">
-        <div className="sq-global-left-navigation__logo">
+        {logo && <div className="sq-global-left-navigation__logo">
           {logo.name && <Icon name={logo.name} />}
           {logo.image && <img src={logo.image} alt={logo.alt} />}
-        </div>
+        </div>}
         <div className="sq-global-left-navigation__nav-container">
           {items.map((item, idx) => {
             const isAllowed = hasPermission(item, { permissions, roles });

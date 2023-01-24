@@ -98,7 +98,7 @@ module.exports = {
     logo: {
       text: '',
       imgAlt: 'logo image',
-      name: 'logo',
+      // name: 'logo',
       mobileName: 'logo-wide',
       size: 'dan-wide',
       className: '',
