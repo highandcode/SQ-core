@@ -15,10 +15,13 @@ class FormObject extends Component {
   valueOnChange(data, key) {
     const { onChange, value = {} } = this.props;
     const objVal = {...value};
-    delete objVal[key];
+    if (key !== data.value.key) {
+      delete objVal[key];
+    }
+    objVal[data.value.key] = data.value.value
     onChange &&
       onChange({
-        value: { ...objVal, [data.value.key]: data.value.value},
+        value: objVal,
       });
   }
 
