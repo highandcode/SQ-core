@@ -68,8 +68,9 @@
 
     .sq-template__header {
       padding: 0px;
-      z-index: $z-index-level-mid-1;
+      z-index:  $z-index-level-3;
       box-shadow: 2px 2px 5px $sq-color-slate-lightest;
+      background: $white;
       &-text {
         margin: 0;
       }
@@ -86,7 +87,7 @@
   &__left-nav {
     width: 54px;
     flex: 0 0 54px;
-    z-index: $z-index-level-4;
+    z-index: $z-index-level-2;
   }
 
   &__right-body {
