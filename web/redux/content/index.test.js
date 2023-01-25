@@ -141,6 +141,32 @@ describe('reducer:content', () => {
         },
       });
     });
+    test('should return spreded data from userData matched key', () => {
+      expect(
+        processParams(
+          {
+            newobj: {
+              pace: 'pacer1',
+              fName: 'Deco'
+            },
+            user: {
+              fName: 'John',
+              lName: 'Cena',
+              dept: 'WWE',
+            },
+          },
+          {
+            '...user': '.user',
+            '...newobj': '.newobj',
+          }
+        )
+      ).toMatchObject({
+        lName: 'Cena',
+        dept: 'WWE',
+        pace: 'pacer1',
+        fName: 'Deco'
+      });
+    });
     describe('match validator', () => {
       test('should execute set result of match', () => {
         expect(

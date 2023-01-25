@@ -81,7 +81,7 @@ export const processParams = (
   defaultValue = null,
   state
 ) => {
-  const newObj = {};
+  let newObj = {};
   Object.keys(params).forEach((key) => {
     let value;
     if (
@@ -98,7 +98,11 @@ export const processParams = (
       value = processEachParam(userData, params[key], defaultValue, state);
     }
     if (!common.isNullOrUndefined(value)) {
-      newObj[key] = value;
+      if (key.startsWith('...') && typeof(value) === 'object' && !Array.isArray(value)) {
+        newObj = {...newObj, ...value};
+      } else {
+        newObj[key] = value;
+      }
     }
   });
   return newObj;
