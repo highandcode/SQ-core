@@ -104,6 +104,11 @@ export const GLOBAL_OPTIONS = {
     'Button': 'Button',
     'LinkButton': 'LinkButton',
   }),
+  variants: new GlobalOptions({
+    'contained': 'Contained',
+    'outlined': 'Outlined',
+    'default': 'Default',
+  }),
   pageWrapperClasses: new GlobalOptions({
     'sq-content-page--full-width': 'sq-content-page--full-width',
     'sq-content-page--header-footer-body': 'sq-content-page--header-footer-body',

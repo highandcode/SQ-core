@@ -6,16 +6,7 @@ export default withEditTabsConfig(({ defaultParams }) => ({
   classNames: GLOBAL_OPTIONS.headerStyles.toArray(),
   pageData: {
     items: [
-      {
-        component: 'Button',
-        actionType: 'submit-event',
-        buttonText: 'Save',
-        params: {
-          ...defaultParams,
-          headerTag: '.main.headerTag',
-          subHeader: '.main.subHeader',
-        },
-      },
+    
     ],
   },
   general: [

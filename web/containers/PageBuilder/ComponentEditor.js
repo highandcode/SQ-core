@@ -8,6 +8,8 @@ import Dialog from '../../components/Dialog';
 import './_component-editor.scss';
 import DynamicContent from '../DynamicContent';
 import { Placeholder } from './Placeholder';
+import MoreActions from '../../components/MoreActions';
+import Actions from '../../components/Actions';
 
 let changeIdx = 1;
 class ComponentEditor extends Component {
@@ -62,6 +64,7 @@ class ComponentEditor extends Component {
   }
 
   deleteComponent() {
+    console.log('delete');
     const { onDelete } = this.props;
     onDelete && onDelete();
   }
@@ -77,11 +80,7 @@ class ComponentEditor extends Component {
           [compTypeProp]: data.name,
           ...metaData.sampleData,
           ...data,
-          name: `${value.name}${
-            value.name ? '_' : ''
-          }${data.name?.toLowerCase()}_${
-            value[itemsPropName]?.length + 1 || 1
-          }`,
+          name: `${value.name}${value.name ? '_' : ''}${data.name?.toLowerCase()}_${value[itemsPropName]?.length + 1 || 1}`,
         },
       ],
     };
@@ -131,27 +130,13 @@ class ComponentEditor extends Component {
   }
 
   render() {
-    const {
-      pageData = {},
-      Component,
-      sampleData = {},
-      itemsPropName,
-      name,
-      isStart,
-      isEnd,
-      value,
-      compTypeProp,
-      component,
-      editData,
-    } = this.props;
+    const { pageData = {}, Component, sampleData = {}, itemsPropName, name, isStart, isEnd, value, compTypeProp, component, editData } = this.props;
     const { hasItems, ...rest } = this.props;
     const { [itemsPropName]: items } = value || {};
     const { className = '' } = pageData;
     const { hasPlaceholder, accept, compList } = this.props;
     return (
-      <div
-        className={`sq-component-editor ${className} ${value.className || ''}`}
-      >
+      <div className={`sq-component-editor ${className} ${value.className || ''}`}>
         <Dialog
           classes={{
             dialog: {
@@ -174,51 +159,35 @@ class ComponentEditor extends Component {
             )}
           </div>
         </Dialog>
-        <Tooltip
-          title={`${component}${value.className ? `.${value.className}` : ''}${
-            value.name ? `#${value.name}` : ''
-          }`}
-        >
+        <Tooltip title={`${component}${value.className ? `.${value.className}` : ''}${value.name ? `#${value.name}` : ''}`}>
           <div className="sq-component-editor__name">
             {component}
-            {value.className ? `.${value.className}` : ''}
             {value.name ? `#${value.name}` : ''}
+            {value.className ? `.${value.className}` : ''}
           </div>
         </Tooltip>
         {/* <IconButton className="sq-component-editor__move" iconName={'Move'} /> */}
         <div className="sq-component-editor__actions">
-          {!isStart && (
-            <IconButton
-              size="small"
-              iconSize="small"
-              iconName={'arrow-up'}
-              onClick={this.moveUp}
-            />
-          )}
-          {!isEnd && (
-            <IconButton
-              size="small"
-              iconSize="small"
-              iconName={'arrow-down'}
-              onClick={this.moveDown}
-            />
-          )}
-          <IconButton
-            size="small"
-            iconSize="small"
-            iconName={'Settings'}
-            onClick={this.toggleEditForm}
-          />
-          <IconButton
-            size="small"
-            iconSize="small"
-            iconName={'Delete'}
-            onClick={this.deleteComponent}
+          <Actions
+            actions={[
+              { cmpType: 'IconButton', size: 'small', iconSize: 'small', iconName: 'arrow-up', onClick: this.moveUp, beforeRender: () => !isStart },
+              { cmpType: 'IconButton', size: 'small', iconSize: 'small', iconName: 'arrow-down', onClick: this.moveDown, beforeRender: () => !isEnd },
+              { cmpType: 'IconButton', size: 'small', iconSize: 'small', iconName: 'Settings', onClick: this.toggleEditForm },
+              {
+                cmpType: 'IconButton',
+                size: 'small',
+                iconSize: 'small',
+                iconName: 'Delete',
+                onClick: this.deleteComponent,
+                confirm: {
+                  title: 'Delete?',
+                  content: 'Are you sure you want to delete?',
+                },
+              },
+            ]}
           />
         </div>
-        <div
-          className={`sq-component-editor__container ${value.bodyClassName}`}
-        >
+        <div className={`sq-component-editor__container ${value.bodyClassName}`}>
           <ErrorBoundary>
             {!hasItems && <Component {...value} />}
             {hasItems &&
@@ -248,9 +217,7 @@ class ComponentEditor extends Component {
               })}
           </ErrorBoundary>
         </div>
-        {hasPlaceholder && (
-          <Placeholder accept={accept} onDrop={this.onComponentDrop} />
-        )}
+        {hasPlaceholder && <Placeholder accept={accept} onDrop={this.onComponentDrop} />}
       </div>
     );
   }

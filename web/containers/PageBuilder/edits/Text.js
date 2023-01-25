@@ -4,17 +4,7 @@ export default withEditTabs({
   enableValidations: false,
   pageData: {
     items: [
-      {
-        component: 'Button',
-        actionType: 'submit-event',
-        buttonText: 'Save',
-        params: {
-          text: '.main.text',
-          className: '.main.className',
-          tag: '.main.tag',
-          parentTag: '.main.parentTag',
-        },
-      },
+      
     ],
   },
   general: [

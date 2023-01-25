@@ -47,10 +47,7 @@ const defaultGeneral = ({ classNames = [] } = {}) => [
 const defaultValidations = [validators()];
 
 const defaultParams = {
-  name: '.main.name',
-  className: '.main.className',
-  validators: '.main.validators',
-  match: '.main.match',
+  '...main': '.main',
 };
 
 const defaultMatch = [
@@ -85,18 +82,9 @@ export const withEditTabsConfig = (cb) => {
   return withEditTabs(cb({ defaultParams, iconList: getIconListMap() }));
 };
 
-export const withEditTabs = ({
-  classNames = [],
-  pageData = {},
-  general = [],
-  validations = [],
-  enableValidations = true,
-  actions = [],
-}) => {
+export const withEditTabs = ({ classNames = [], pageData = {}, general = [], validations = [], saveParams = {}, enableValidations = true, actions = [] }) => {
   const finalGeneral = [...defaultGeneral({ classNames }), ...general];
-  const finalValidations = enableValidations
-    ? [...defaultValidations, ...validations]
-    : validations;
+  const finalValidations = enableValidations ? [...defaultValidations, ...validations] : validations;
   const isGeneralTab = finalGeneral && finalGeneral.length !== 0;
   const isValidationsTab = finalValidations && finalValidations.length !== 0;
   const isActionsTab = actions && actions.length !== 0;
@@ -146,12 +134,7 @@ export const withEditTabs = ({
             {
               name: 'editTab',
               cmpType: 'Tabs',
-              options: [
-                ...(isGeneralTab ? [tabs.general] : []),
-                ...(isValidationsTab ? [tabs.validations] : []),
-                ...(isActionsTab ? [tabs.actions] : []),
-                tabs.match,
-              ],
+              options: [...(isGeneralTab ? [tabs.general] : []), ...(isValidationsTab ? [tabs.validations] : []), ...(isActionsTab ? [tabs.actions] : []), tabs.match],
             },
             ...createTabItems(finalGeneral, tabs.general.value),
             ...createTabItems(finalValidations, tabs.validations.value),
@@ -160,6 +143,16 @@ export const withEditTabs = ({
           ],
         },
         ...(pageData.items ? pageData.items : []),
+        {
+          component: 'Button',
+          actionType: 'submit-event',
+          buttonText: 'Save',
+          size: 'medium',
+          params: {
+            '...main': '.main',
+            ...saveParams,
+          },
+        },
       ],
     },
   };

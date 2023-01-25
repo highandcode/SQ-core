@@ -35,6 +35,7 @@ const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics,
       onClick && onClick(action);
       onAction && onAction(dialgAction, action);
       onAnalytics && click && onAnalytics(click);
+      action.onClick && action.onClick(dialgAction, action);
     }
     setTimeout(() => {
       setShowConfirm(false);

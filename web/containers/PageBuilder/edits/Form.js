@@ -2,21 +2,9 @@ import { GLOBAL_OPTIONS } from '../../../globals';
 import { withEditTabs } from './Common';
 
 export default withEditTabs({
-  enableValidations:false,
+  enableValidations: false,
   pageData: {
-    items: [
-      {
-        component: 'Button',
-        actionType: 'submit-event',
-        buttonText: 'Save',
-        params: {
-          name: '.main.name',
-          className: '.main.className',
-        },
-      },
-    ],
+    items: [],
   },
-  general: [
-    
-  ],
+  general: [],
 });

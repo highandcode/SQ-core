@@ -6,19 +6,7 @@ export default withEditTabsConfig(({ defaultParams, iconList }) => ({
   enableValidations: false,
   pageData: {
     items: [
-      {
-        component: 'Button',
-        actionType: 'submit-event',
-        buttonText: 'Save',
-        params: {
-          ...defaultParams,
-          background: '.main.background',
-          headerTag: '.main.headerTag',
-          template: '.main.template',
-          subHeader: '.main.subHeader',
-          links: '.main.links',
-        },
-      },
+      
     ],
   },
   general: [

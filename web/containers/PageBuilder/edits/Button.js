@@ -4,25 +4,9 @@ import { withEditTabs } from './Common';
 export default withEditTabs({
   enableValidations: false,
   enableActions: true,
+  saveParams: {},
   pageData: {
-    items: [
-      {
-        component: 'Button',
-        actionType: 'submit-event',
-        buttonText: 'Save',
-        params: {
-          name: '.main.name',
-          className: '.main.className',
-          buttonText: '.main.buttonText',
-          actionType: '.main.actionType',
-          size: '.main.size',
-          url: '.main.url',
-          method: '.main.method',
-          params: '.main.params',
-          postHook: '.main.postHook',
-        },
-      },
-    ],
+    items: [],
   },
   general: [
     {
@@ -59,6 +43,12 @@ export default withEditTabs({
       display: 'Inline',
       options: GLOBAL_OPTIONS.methodTypes.toArray(),
       label: 'method',
+    },
+    {
+      name: 'variant',
+      cmpType: 'Autocomplete',
+      options: GLOBAL_OPTIONS.variants.toArray(),
+      label: 'variant',
     },
     {
       name: 'params',

@@ -3,18 +3,7 @@ import { withEditTabs } from './Common';
 export default withEditTabs({
   pageData: {
     items: [
-      {
-        component: 'Button',
-        actionType: 'submit-event',
-        buttonText: 'Save',
-        params: {
-          name: '.main.name',
-          className: '.main.className',
-          label: '.main.label',
-          display: '.main.display',
-          options: '.main.options',
-        },
-      },
+     
     ],
   },
   general: [

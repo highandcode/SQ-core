@@ -63,6 +63,7 @@ class PageBuilder extends Component {
     super();
     this.state = {
       enableMenu: true,
+      autoSave: true,
       enableProps: false,
       contentData: {
         pageData: {
@@ -74,6 +75,7 @@ class PageBuilder extends Component {
     this.toggleProps = this.toggleProps.bind(this);
     this.toggleElements = this.toggleElements.bind(this);
     this.toggleQuickPreview = this.toggleQuickPreview.bind(this);
+    this.toggleAutoSave = this.toggleAutoSave.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
     this.onContentDelete = this.onContentDelete.bind(this);
     this.savePageAsDraft = this.savePageAsDraft.bind(this);
@@ -98,11 +100,11 @@ class PageBuilder extends Component {
     });
     this.props.commonActions.stopLoading();
   }
-  async savePageAsDraft() {
+  async savePageAsDraft(autoSave) {
     const { pageData, store } = this.props;
-    this.props.commonActions.startLoading();
-    await this.props.raiseAction(savePageDraft(this.state.contentData, pageData.savePageConfig));
-    this.props.commonActions.stopLoading();
+    !autoSave && this.props.commonActions.startLoading();
+    await this.props.raiseAction(savePageDraft(this.state.contentData, { autoSave: autoSave === true, ...pageData.savePageConfig }));
+    !autoSave && this.props.commonActions.stopLoading();
   }
   componentOnDrop(item) {
     this.setState({
@@ -121,6 +123,7 @@ class PageBuilder extends Component {
         },
       },
     });
+    this.checkAutoSave();
   }
   toggleProps() {
     this.setState({ enableProps: !this.state.enableProps });
@@ -142,6 +145,7 @@ class PageBuilder extends Component {
         pageData: finalData.pageData,
       },
     });
+    this.checkAutoSave();
   }
   onContentChange(data, idx) {
     const finalData = {
@@ -160,6 +164,7 @@ class PageBuilder extends Component {
         pageData: finalData.pageData,
       },
     });
+    this.checkAutoSave();
   }
 
   onContentDelete(idx) {
@@ -176,6 +181,7 @@ class PageBuilder extends Component {
         pageData: finalData.pageData,
       },
     });
+    this.checkAutoSave();
   }
 
   toggleQuickPreview() {
@@ -183,8 +189,13 @@ class PageBuilder extends Component {
       preview: !this.state.preview,
     });
   }
+  toggleAutoSave() {
+    this.setState({
+      autoSave: !this.state.autoSave,
+    });
+  }
   showPreview() {
-    utils.redirect.redirectTo(utils.queryString.query.get().path, {mode: 'preview'}, { target: '_blank' });
+    utils.redirect.redirectTo(utils.queryString.query.get().path, { mode: 'preview' }, { target: '_blank' });
   }
 
   onMoveItemDown(index) {
@@ -206,7 +217,15 @@ class PageBuilder extends Component {
         pageData: finalData.pageData,
       },
     });
+    this.checkAutoSave();
   }
+
+  checkAutoSave() {
+    setTimeout(() => {
+      this.state.autoSave && this.savePageAsDraft(true);
+    }, 200);
+  }
+
   onMoveItemUp(index) {
     const finalData = {
       pageData: {
@@ -226,6 +245,7 @@ class PageBuilder extends Component {
         pageData: finalData.pageData,
       },
     });
+    this.checkAutoSave();
   }
 
   render() {
@@ -235,10 +255,11 @@ class PageBuilder extends Component {
       <div className={`sq-page-builder sq-v-screen sq-v-screen--fixed ${className}`}>
         <div className="sq-v-screen__container">
           <div className="sq-page-builder__top-actions mb-wide">
+            <Switch label="Autosave" value={this.state.autoSave} onChange={this.toggleAutoSave} />
             <Switch label="Quick Preview" value={this.state.preview} onChange={this.toggleQuickPreview} />
-            <Button iconName={'Save'} variant="outlined" buttonText="Save as Draft" onClick={this.savePageAsDraft} />
+            <Button iconName={'Save'} variant="outlined" buttonText="Save" onClick={() => this.savePageAsDraft()} />
             <Button iconName={'Preview'} variant="outlined" buttonText="Full Preview" onClick={this.showPreview} />
-            <Button iconName={'Publish'} buttonText="Publish" />
+            {/* <Button iconName={'Publish'} buttonText="Publish" /> */}
           </div>
           <div className="sq-page-builder__content sq-v-screen-grow">
             <DndProvider backend={HTML5Backend}>

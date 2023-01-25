@@ -1,49 +1,47 @@
-export default {
-  
-    pageData: {
-      items: [
+import { GLOBAL_OPTIONS } from '../../../globals';
+import { withEditTabs } from './Common';
+export default withEditTabs({
+  pageData: {
+    items: [],
+  },
+  general: [
+    {
+      name: 'className',
+      cmpType: 'Input',
+      label: 'className',
+    },
+    {
+      name: 'label',
+      cmpType: 'Input',
+      label: 'Label',
+    },
+    {
+      name: 'textField',
+      cmpType: 'Input',
+      label: 'textField',
+    },
+    {
+      name: 'valueField',
+      cmpType: 'Input',
+      label: 'valueField',
+    },
+    {
+      name: 'options',
+      cmpType: 'FormList',
+      label: 'Options',
+      formClassName: 'sq-form--2-cols',
+      fields: [
         {
-          component: 'Form',
-          name: 'main',
-          fields: [
-         
-            {
-              name: 'label',
-              cmpType: 'Input',
-              label: 'Label',
-            },
-            {
-              name: 'options',
-              cmpType: 'FormList',
-              label: 'Options',
-              formClassName: 'sq-form--2-cols',
-              fields: [
-                {
-                  cmpType: 'Input',
-                  label: 'Value',
-                  name: 'value',
-                },
-                {
-                  cmpType: 'Input',
-                  label: 'Text',
-                  name: 'text',
-                },
-              ],
-            },
-          ],
+          cmpType: 'Input',
+          label: 'Value',
+          name: 'value',
         },
         {
-          component: 'Button',
-          actionType: 'submit-event',
-          buttonText: 'Save',
-          params: {
-            name: '.main.name',
-            className: '.main.className',
-            options: '.main.options',
-            label: '.main.label',
-          },
+          cmpType: 'Input',
+          label: 'Text',
+          name: 'text',
         },
       ],
     },
-  };
-  
+  ],
+});

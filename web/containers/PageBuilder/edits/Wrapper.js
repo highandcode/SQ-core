@@ -4,17 +4,7 @@ import { withEditTabsConfig } from './Common';
 export default withEditTabsConfig(({ defaultParams = {} }) => ({
   enableValidations: false,
   pageData: {
-    items: [
-      {
-        component: 'Button',
-        actionType: 'submit-event',
-        buttonText: 'Save',
-        params: {
-          ...defaultParams,
-          bodyClassName: '.main.bodyClassName',
-        },
-      },
-    ],
+    items: [],
   },
   general: [
     {
