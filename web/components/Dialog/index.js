@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
@@ -31,7 +32,7 @@ const transitionOptions = {
   bottom: TransitionBottom,
 };
 
-const SQDialog = ({ closeButton = true, transitionDir = 'up', classes: overrideClasses = {}, fullScreen = false, open = false, isLoading = false, title, content, children, onClose, actions = [], onAction }) => {
+const SQDialog = ({ closeButton = true, headerTag, transitionDir = 'up', classes: overrideClasses = {}, fullScreen = false, open = false, isLoading = false, title, content, children, onClose, actions = [], onAction }) => {
   const handleClose = () => {
     onClose &&
       onClose(
@@ -48,7 +49,8 @@ const SQDialog = ({ closeButton = true, transitionDir = 'up', classes: overrideC
     <div className={`sq-dialog ${overrideClasses.root || ''}`}>
       <Dialog TransitionComponent={transitionOptions[transitionDir]} classes={overrideClasses.dialog} open={open} fullScreen={fullScreen} onClose={handleClose}>
         <DialogTitle>
-          {title}
+          {headerTag && <Typography variant={headerTag}>{title}</Typography>}
+          {!headerTag && title}
           {closeButton && (
             <IconButton
               edge="start"
