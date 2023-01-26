@@ -11,14 +11,6 @@ import Dialog from '../../components/Dialog';
 
 import './_content.scss';
 
-addUIComp({
-  ...getMap(),
-  Form,
-  Wrapper,
-});
-// addComp({
-//   ...getUIMap(),
-// });
 class Content extends Component {
   constructor() {
     super();
@@ -26,6 +18,14 @@ class Content extends Component {
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onDialogAction = this.onDialogAction.bind(this);
+    addUIComp({
+      ...getMap(),
+      Form,
+      Wrapper,
+    });
+    addComp({
+      ...getUIMap(),
+    });
   }
 
   onChange(value, field, block) {
