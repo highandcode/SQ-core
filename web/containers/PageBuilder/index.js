@@ -192,7 +192,7 @@ class PageBuilder extends Component {
     });
   }
   showPreview() {
-    utils.redirect.redirectTo(utils.queryString.query.get().path, { mode: 'preview' }, { target: '_blank' });
+    utils.redirect.redirectTo(utils.queryString.query.get().path + '.html', { mode: 'preview' }, { target: '_blank' });
   }
 
   onMoveItemDown(index) {
