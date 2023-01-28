@@ -250,6 +250,10 @@ class PageBuilder extends Component {
 
     items.forEach((item) => {
       if (item.component === 'Form') {
+        arryData.push({
+          text: `.${item.name}`,
+          value: `.${item.name}`,
+        });
         item.fields?.forEach((field) => {
           arryData.push({
             text: `.${item.name}.${field.name}`,
