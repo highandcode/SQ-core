@@ -108,6 +108,7 @@ class Contact extends Component {
       name: 'body',
       cmpType: 'RichText',
       label: 'Message',
+      editorStyle: 'basic',
       placeholder: 'Type your message',
       height: 150,
       multiline: true,
