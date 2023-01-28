@@ -16,7 +16,7 @@ const _types = {
 };
 
 const Progress = ({ type = 'default', style = 'full-screen', text = '', color = 'primary', overlay = true, className = '', overlayStyle = 'default' }) => {
-  const CompToRender = _types[type];
+  const CompToRender = _types[type] || _types.default;
   return (
     <div className={`tp-progress ${className} tp-progress--${style}`}>
       <CompToRender className="tp-progress__spinner" color={color} />

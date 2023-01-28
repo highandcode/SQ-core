@@ -60,7 +60,7 @@ const masks = {
       return !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
     },
     unmask: (value) => {
-      return value && value.toString().replace(/[^0-9]/g, '');
+      return value && value.toString().replace(/[^0-9]/g, '').substr(0, 10);
     }
   },
   percentage: {

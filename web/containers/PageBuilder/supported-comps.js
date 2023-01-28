@@ -1,4 +1,5 @@
 import Form from '../../components/Form';
+import Progress from '../../components/Progress';
 import Wrapper from '../../components/Wrapper';
 import { getMap } from '../../components/ui';
 import { ItemTypes } from './ItemTypes';
@@ -16,6 +17,7 @@ import WrapperEdit from './edits/Wrapper';
 import ButtonEdit from './edits/Button';
 import TextEdit from './edits/Text';
 import TabsEdit from './edits/Tabs';
+import ProgressEdit from './edits/Progress';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 const compList = {
@@ -151,6 +153,16 @@ const compList = {
     type: ItemTypes.FORM_ELEMENT,
     editData: TabsEdit,
     sampleData: {},
+  },
+  Progress: {
+    Component: Progress,
+    group: 'Content',
+    type: ItemTypes.COMPONENT,
+    editData: ProgressEdit,
+    sampleData: {
+      className: 'tp-progress--active',
+      overlay: true,
+    },
   },
   Header: {
     Component: getMap().Header,

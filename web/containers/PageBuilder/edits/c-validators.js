@@ -95,6 +95,23 @@ export default () => ({
     {
       cmpType: 'Radio',
       display: 'Inline',
+      label: 'subType',
+      name: 'subType',
+      options: GLOBAL_OPTIONS.compareOperators.toArray(),
+      match: {
+        type: {
+          validators: [
+            {
+              type: 'oneOf',
+              options: [ 'equals'],
+            },
+          ],
+        },
+      },
+    },
+    {
+      cmpType: 'Radio',
+      display: 'Inline',
       label: 'compare',
       name: 'compare',
       options: GLOBAL_OPTIONS.compareOperators.toArray(),
@@ -103,7 +120,7 @@ export default () => ({
           validators: [
             {
               type: 'oneOf',
-              options: ['compareField'],
+              options: [ 'compareField'],
             },
           ],
         },

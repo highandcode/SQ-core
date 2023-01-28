@@ -82,7 +82,23 @@ export const GLOBAL_OPTIONS = {
     outlined: 'Outlined',
     standard: 'Standard',
   }),
+  progressTypes: new GlobalOptions({
+    default: 'default',
+    circle: 'circle',
+    cube: 'cube',
+    round: 'round',
+    ripple: 'ripple',
+  }),
+  progressStyles: new GlobalOptions({
+    'full-screen': 'full-screen',
+  }),
+  maskTypes: new GlobalOptions({
+    phone: 'phone',
+    currency: 'currency',
+    percentage: 'percentage',
+  }),
   compareOperators: new GlobalOptions({
+    'bool': 'bool type equals',
     '=': '= equals',
     '!=': '!= not equals',
   }),
@@ -101,13 +117,13 @@ export const GLOBAL_OPTIONS = {
     'body-container-xl': 'body-container-xl',
   }),
   linkTypes: new GlobalOptions({
-    'Button': 'Button',
-    'LinkButton': 'LinkButton',
+    Button: 'Button',
+    LinkButton: 'LinkButton',
   }),
   variants: new GlobalOptions({
-    'contained': 'Contained',
-    'outlined': 'Outlined',
-    'default': 'Default',
+    contained: 'Contained',
+    outlined: 'Outlined',
+    default: 'Default',
   }),
   pageWrapperClasses: new GlobalOptions({
     'sq-content-page--full-width': 'sq-content-page--full-width',
@@ -117,6 +133,13 @@ export const GLOBAL_OPTIONS = {
     small: 'small',
     medium: 'medium',
     large: 'large',
+  }),
+  colorTypes: new GlobalOptions({
+    primary: 'primary',
+    secondary: 'secondary',
+    success: 'success',
+    info: 'info',
+    error: 'error',
   }),
   radioDisplay: new GlobalOptions({
     Column: 'Column',

@@ -1,4 +1,7 @@
 .sq-component-editor {
+  .tp-progress--active {
+    display: none !important;
+  }
   position: relative;
   padding: 35px 15px;
   @media (min-width: $screen-lg) {

@@ -130,8 +130,8 @@ class ComponentEditor extends Component {
   }
 
   render() {
-    const { pageData = {}, Component, sampleData = {}, fieldsMeta, itemsPropName, name, isStart, isEnd, value, compTypeProp, component, editData } = this.props;
-    const { hasItems, ...rest } = this.props;
+    const { pageData = {}, Component, fieldsMeta, itemsPropName, name, isStart, isEnd, value, compTypeProp, component, editData } = this.props;
+    const { hasItems } = this.props;
     const { [itemsPropName]: items } = value || {};
     const { className = '' } = pageData;
     const { hasPlaceholder, accept, compList } = this.props;
@@ -190,7 +190,11 @@ class ComponentEditor extends Component {
         </div>
         <div className={`sq-component-editor__container ${value.bodyClassName}`}>
           <ErrorBoundary>
-            {!hasItems && <Component {...value} />}
+            {!hasItems && (
+              <ErrorBoundary>
+                <Component {...value} />{' '}
+              </ErrorBoundary>
+            )}
             {hasItems &&
               items &&
               items.map((item, idx) => {

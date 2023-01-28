@@ -3,12 +3,9 @@ import { withEditTabs } from './Common';
 
 export default withEditTabs({
   pageData: {
-    items: [
-      
-    ],
+    items: [],
   },
   general: [
-    
     {
       name: 'label',
       cmpType: 'Input',
@@ -24,6 +21,18 @@ export default withEditTabs({
       cmpType: 'Radio',
       label: 'variant',
       options: GLOBAL_OPTIONS.inputVariant.toArray(),
+    },
+    {
+      name: 'mask',
+      cmpType: 'Form',
+      fields: [
+        {
+          cmpType: 'Autocomplete',
+          name: 'type',
+          label: 'Mask Type',
+          options: GLOBAL_OPTIONS.maskTypes.toArray(),
+        },
+      ],
     },
   ],
 });

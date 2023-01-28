@@ -132,5 +132,35 @@ export default withEditTabs({
       cmpType: 'Input',
       label: 'postHook',
     },
+    {
+      name: 'defaultResponse',
+      cmpType: 'Form',
+      fields: [
+        {
+          cmpType: 'Form',
+          name: 'success',
+          label: 'success',
+          fields: [
+            {
+              name: 'data',
+              cmpType: 'FormObject',
+              label: 'success',
+            },
+          ],
+        },
+        {
+          cmpType: 'Form',
+          nameL: 'success',
+          label: 'error',
+          fields: [
+            {
+              name: 'data',
+              cmpType: 'FormObject',
+              label: 'error',
+            },
+          ],
+        },
+      ],
+    },
   ],
 });
