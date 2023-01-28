@@ -56,6 +56,11 @@ export default withEditTabs({
       label: 'variant',
     },
     {
+      name: 'advanced',
+      cmpType: 'Switch',
+      label: 'Advanced params',
+    },
+    {
       name: 'params',
       cmpType: 'FormObject',
       output: 'object',
@@ -64,7 +69,17 @@ export default withEditTabs({
         fieldsMeta: {
           validators: [
             {
-              type: 'notExists',
+              type: 'or',
+              validations: [
+                {
+                  type: 'notExists',
+                },
+                {
+                  type: 'equals',
+                  fieldName: 'advanced',
+                  matchValue: true,
+                },
+              ],
             },
           ],
         },
@@ -94,7 +109,6 @@ export default withEditTabs({
               ],
             },
           },
-          
         },
         {
           cmpType: 'Input',
@@ -147,6 +161,13 @@ export default withEditTabs({
           validators: [
             {
               type: 'exists',
+            },
+          ],
+        },
+        advanced: {
+          validators: [
+            {
+              type: 'notExists',
             },
           ],
         },
