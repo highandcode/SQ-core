@@ -8,6 +8,7 @@ export default withEditTabs({
   pageData: {
     merge: {
       liveFields: '.fieldsMeta.liveFields',
+      formFields: '.fieldsMeta.formFields',
     },
 
     items: [],
@@ -84,6 +85,30 @@ export default withEditTabs({
           },
           textField: 'name',
           valueField: 'code',
+          match: {
+            formFields: {
+              validators: [
+                {
+                  type: 'exists',
+                },
+              ],
+            },
+          },
+          
+        },
+        {
+          cmpType: 'Input',
+          name: 'key',
+          label: 'Field Name',
+          match: {
+            formFields: {
+              validators: [
+                {
+                  type: 'notExists',
+                },
+              ],
+            },
+          },
         },
         {
           label: 'Value Field',

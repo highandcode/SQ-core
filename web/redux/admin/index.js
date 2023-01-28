@@ -41,12 +41,14 @@ export const getPage =
 export const getFieldsMeta =
   (payload, { url, method = 'post', params, query, hook } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge[method](url || adminConfig.apis.getFieldsMeta, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
-    if (result.status === CONSTANTS.STATUS.SUCCESS) {
-      if (hook) {
-        result.data = await customHooks.execute(hook, result);
+    if (url && method) {
+      const result = await utils.apiBridge[method](url, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
+      if (result.status === CONSTANTS.STATUS.SUCCESS) {
+        if (hook) {
+          result.data = await customHooks.execute(hook, result);
+        }
+        await dispatch(setFieldsMeta(result.data));
       }
-      await dispatch(setFieldsMeta(result.data));
     }
   };
 
