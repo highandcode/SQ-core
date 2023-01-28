@@ -45,7 +45,7 @@ class FormObject extends Component {
   }
 
   render() {
-    const { className = '', label, fields, value = {}, formClassName = 'sq-form--2-cols' } = this.props;
+    const { className = '', label, fields, value = {}, formClassName = 'sq-form--2-cols', ...rest } = this.props;
     return (
       <div className={`sq-form-list ${className}`}>
         <div className="sq-form-list__label mb-wide">{label}</div>
@@ -55,6 +55,7 @@ class FormObject extends Component {
             <div className="sq-form-list__item" key={idx}>
               <div className="sq-form-list__item-wrap">
                 <Form
+                  {...rest}
                   className={`pb-none ${formClassName}`}
                   fields={fields || [
                     {
@@ -70,6 +71,7 @@ class FormObject extends Component {
                   ]}
                   value={itemVal}
                   onChange={(data) => this.valueOnChange(data, itemKey)}
+                  
                 />
                 <IconButton iconName="Delete" color="error" size="small" onClick={() => this.removeItem(itemKey)} />
               </div>

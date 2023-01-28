@@ -42,7 +42,7 @@ class ContentEditor extends Component {
   }
 
   render() {
-    const { pageData = {}, compList = {} } = this.props;
+    const { pageData = {}, compList = {}, fieldsMeta } = this.props;
     const { className = '' } = pageData;
 
     return (
@@ -55,6 +55,7 @@ class ContentEditor extends Component {
                 {/* <Placeholder allowedDropEffect={'any'} plaecHolderStle="line" accept={[ItemTypes.COMPONENT, ItemTypes.FORM]} onDrop={this.componentOnDrop} /> */}
                 <ComponentEditor
                   component={block.component}
+                  fieldsMeta={fieldsMeta}
                   {...block.metaData}
                   isStart={idx === 0}
                   isEnd={idx === pageData.items.length - 1}

@@ -6,6 +6,10 @@ export default withEditTabs({
   enableActions: true,
   saveParams: {},
   pageData: {
+    merge: {
+      liveFields: '.fieldsMeta.liveFields',
+    },
+
     items: [],
   },
   general: [
@@ -55,6 +59,73 @@ export default withEditTabs({
       cmpType: 'FormObject',
       output: 'object',
       label: 'params',
+      match: {
+        fieldsMeta: {
+          validators: [
+            {
+              type: 'notExists',
+            },
+          ],
+        },
+      },
+    },
+    {
+      name: 'params',
+      cmpType: 'FormObject',
+      output: 'object',
+      label: 'params',
+      fields: [
+        {
+          cmpType: 'Autocomplete',
+          name: 'key',
+          label: 'Field Name',
+          inject: {
+            options: 'fieldsMeta.formFields',
+          },
+          textField: 'name',
+          valueField: 'code',
+        },
+        {
+          label: 'Value Field',
+          cmpType: 'Input',
+          name: 'value',
+          match: {
+            liveFields: {
+              validators: [
+                {
+                  type: 'notExists',
+                },
+              ],
+            },
+          },
+        },
+        {
+          label: 'Value Field',
+          cmpType: 'Autocomplete',
+          inject: {
+            options: 'fieldsMeta.liveFields',
+          },
+          name: 'value',
+          match: {
+            liveFields: {
+              validators: [
+                {
+                  type: 'exists',
+                },
+              ],
+            },
+          },
+        },
+      ],
+      match: {
+        fieldsMeta: {
+          validators: [
+            {
+              type: 'exists',
+            },
+          ],
+        },
+      },
     },
     {
       name: 'postHook',

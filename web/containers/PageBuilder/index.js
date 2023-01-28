@@ -9,7 +9,15 @@ import Button from '../../components/ui/Button';
 import Switch from '../../components/ui/Switch';
 import { ComponentList } from './ComponentList';
 import Panel from './Panel';
-import { Placeholder } from './Placeholder';
+import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
+import { getFieldsMeta, getPage, savePageDraft } from '../../redux/admin';
+import ContentEditor from './ContentEditor';
+import './_page-builder.scss';
+import { getSupportedComps, addComponent } from './supported-comps';
+import DynamicContent from '../DynamicContent';
+import * as utils from '../../utils';
+import ErrorBoundry from '../../components/ErrorBoundry';
+import { GLOBAL_OPTIONS } from '../../globals';
 
 import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
 
@@ -45,18 +53,6 @@ export const updateConfig = ({ templates, layouts, containers }) => {
     config.containers = containers;
   }
 };
-
-import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
-import { getPage, savePageDraft } from '../../redux/admin';
-import ContentEditor from './ContentEditor';
-
-import './_page-builder.scss';
-import { ItemTypes } from './ItemTypes';
-import { getSupportedComps, addComponent } from './supported-comps';
-import DynamicContent from '../DynamicContent';
-import * as utils from '../../utils';
-import ErrorBoundry from '../../components/ErrorBoundry';
-import { GLOBAL_OPTIONS } from '../../globals';
 
 class PageBuilder extends Component {
   constructor() {
@@ -95,6 +91,7 @@ class PageBuilder extends Component {
         pageData.getPageConfig
       )
     );
+    await this.props.raiseAction(getFieldsMeta({}, pageData.fieldsMetaConfig));
     this.setState({
       contentData: this.props.store.admin.contentData,
     });
@@ -248,8 +245,33 @@ class PageBuilder extends Component {
     this.checkAutoSave();
   }
 
+  getLiveFields(items = []) {
+    let arryData = [];
+
+    items.forEach((item) => {
+      if (item.component === 'Form') {
+        item.fields?.forEach((field) => {
+          arryData.push({
+            text: `.${item.name}.${field.name}`,
+            value: `.${item.name}.${field.name}`,
+          });
+        });
+      }
+      if (item.items) {
+        arryData = arryData.concat(this.getLiveFields(item.items));
+      }
+    });
+    return arryData;
+  }
+
+  getDrivedProps() {
+    return {
+      liveFields: this.getLiveFields(this.state.contentData?.pageData?.items),
+    };
+  }
+
   render() {
-    const { className = '', pageData } = this.props;
+    const { className = '', pageData, store } = this.props;
     const compList = getSupportedComps();
     return (
       <div className={`sq-page-builder sq-v-screen sq-v-screen--fixed ${className}`}>
@@ -288,7 +310,7 @@ class PageBuilder extends Component {
                   )}
                   {!this.state.preview && (
                     <>
-                      <ContentEditor pageData={this.state.contentData.pageData} compList={compList} onDelete={this.onContentDelete} onChange={this.onContentChange} onMoveItemUp={this.onMoveItemUp} onMoveItemDown={this.onMoveItemDown} onDrop={this.componentOnDrop} />
+                      <ContentEditor fieldsMeta={{ ...this.getDrivedProps(), ...store.admin.fieldsMeta }} pageData={this.state.contentData.pageData} compList={compList} onDelete={this.onContentDelete} onChange={this.onContentChange} onMoveItemUp={this.onMoveItemUp} onMoveItemDown={this.onMoveItemDown} onDrop={this.componentOnDrop} />
                     </>
                   )}
                 </div>

@@ -141,6 +141,7 @@ class Form extends React.Component {
                 {...finalOptions}
                 value={value}
                 row={data}
+                userData={userData}
                 onClick={(e) => {
                   this.onClick(e, field, data);
                 }}

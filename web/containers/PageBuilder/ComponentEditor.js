@@ -130,7 +130,7 @@ class ComponentEditor extends Component {
   }
 
   render() {
-    const { pageData = {}, Component, sampleData = {}, itemsPropName, name, isStart, isEnd, value, compTypeProp, component, editData } = this.props;
+    const { pageData = {}, Component, sampleData = {}, fieldsMeta, itemsPropName, name, isStart, isEnd, value, compTypeProp, component, editData } = this.props;
     const { hasItems, ...rest } = this.props;
     const { [itemsPropName]: items } = value || {};
     const { className = '' } = pageData;
@@ -153,6 +153,7 @@ class ComponentEditor extends Component {
                 pageConfig={editData}
                 initialData={{
                   main: value,
+                  fieldsMeta,
                 }}
                 onSubmit={this.saveFormData}
               />
@@ -199,6 +200,7 @@ class ComponentEditor extends Component {
                   <ErrorBoundary key={idx + changeIdx}>
                     <ComponentEditor
                       parentName={item.name}
+                      fieldsMeta={fieldsMeta}
                       component={item[compTypeProp]}
                       isStart={idx === 0}
                       isEnd={idx === items.length - 1}

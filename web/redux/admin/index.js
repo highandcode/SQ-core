@@ -15,6 +15,9 @@ const admin = createSlice({
     setContentPages: (state, action) => {
       state.contentPages = action.payload;
     },
+    setFieldsMeta: (state, action) => {
+      state.fieldsMeta = action.payload;
+    },
     setContentTree: (state, action) => {
       state.contentTree = action.payload;
     },
@@ -25,9 +28,9 @@ const admin = createSlice({
 });
 
 export const getPage =
-  (payload, { url, params, hook } = {}) =>
+  (payload, { url, method = 'post', params, hook, query } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge.post(url || adminConfig.apis.getPage, params ? processParams(selectUserData(getState()), params, undefined, getState()) : payload);
+    const result = await utils.apiBridge[method](url || adminConfig.apis.getPage, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {
         result.data = await customHooks.execute(hook, result);
@@ -35,11 +38,22 @@ export const getPage =
       await dispatch(setContentPage(result.data));
     }
   };
+export const getFieldsMeta =
+  (payload, { url, method = 'post', params, query, hook } = {}) =>
+  async (dispatch, getState) => {
+    const result = await utils.apiBridge[method](url || adminConfig.apis.getFieldsMeta, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
+    if (result.status === CONSTANTS.STATUS.SUCCESS) {
+      if (hook) {
+        result.data = await customHooks.execute(hook, result);
+      }
+      await dispatch(setFieldsMeta(result.data));
+    }
+  };
 
 export const loadPageTree =
-  (payload, { url, params } = {}) =>
+  (payload, { url, method = 'post', params, query } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge.post(url || adminConfig.apis.getContentTree, params ? processParams(selectUserData(getState()), params, undefined, getState()) : payload);
+    const result = await utils.apiBridge[method](url || adminConfig.apis.getContentTree, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       await dispatch(setContentTree(result.data));
       await dispatch(
@@ -51,9 +65,9 @@ export const loadPageTree =
   };
 
 export const loadPagesByPath =
-  (payload, { url, params, hook } = {}) =>
+  (payload, { url, method = 'post', params, hook, query } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge.post(url || adminConfig.apis.getPageByPath, params ? processParams(selectUserData(getState()), params, undefined, getState()) : payload);
+    const result = await utils.apiBridge[method](url || adminConfig.apis.getPageByPath, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
     console.log('>>>>', hook);
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {
@@ -64,9 +78,9 @@ export const loadPagesByPath =
   };
 
 export const savePageDraft =
-  (payload, { url, params, hook, autoSave } = {}) =>
+  (payload, { url, method = 'patch', params, hook, autoSave, query } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge.patch(url || adminConfig.apis.contentPage, params ? processParams({ ...selectUserData(getState()), ...payload }, params, undefined, getState()) : payload);
+    const result = await utils.apiBridge[method](url || adminConfig.apis.contentPage, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()), ...payload }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       !autoSave &&
         dispatch(
@@ -80,7 +94,10 @@ export const savePageDraft =
       await dispatch(setContentPage(result.data));
     }
   };
+export const selectContentData = (state) => {
+  return state.admin.contentData;
+};
 
-export const { setRoot, setContentPage, setContentTree, setContentPages } = admin.actions;
+export const { setRoot, setContentPage, setContentTree, setContentPages, setFieldsMeta } = admin.actions;
 
 export default admin.reducer;

@@ -8,7 +8,7 @@ import { TextField } from '@mui/material';
 import './auto-complete.scss';
 import { getValue } from '../../../utils/properties';
 
-const SQAutocomplete = ({ row, name, options = [], fixedOptions = [], className = '', disabled, inputClassName = '', value = null, label = '', onChange, onAnalytics, inputVariant = 'outlined', analytics, defaultValue = '', textField = 'text', valueField = 'value', multiple, onAction, error, errorMessage, compProps = {}, ...rest }) => {
+const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], className = '', disabled, inputClassName = '', value = null, label = '', onChange, onAnalytics, inputVariant = 'outlined', analytics, defaultValue = '', textField = 'text', valueField = 'value', multiple, onAction, error, errorMessage, compProps = {}, ...rest }) => {
   const handleChange = (e, value) => {
     onChange &&
       onChange({
@@ -40,7 +40,7 @@ const SQAutocomplete = ({ row, name, options = [], fixedOptions = [], className 
         classes={{
           popper: 'sq-autocomplete__pop-over',
         }}
-        freeSolo={multiple}
+        freeSolo={freeSolo || multiple}
         autoSelect={multiple}
         multiple={multiple}
         options={finalOptions}
