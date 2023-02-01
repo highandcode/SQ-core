@@ -43,9 +43,7 @@ class SiteMapBuilder extends Component {
       enableMenu: true,
       autoSave: true,
       enableProps: false,
-      contentData: {
-
-      },
+      contentData: {},
     };
     this.savePageAsDraft = this.savePageAsDraft.bind(this);
   }
@@ -61,7 +59,6 @@ class SiteMapBuilder extends Component {
         pageData.getPageConfig
       )
     );
-    await this.props.raiseAction(getFieldsMeta({}, pageData.fieldsMetaConfig));
     this.setState({
       contentData: this.props.store.admin.contentData,
     });

@@ -83,6 +83,11 @@ export default {
                 cmpType: 'Input',
               },
               {
+                name: 'launchConfig',
+                label: 'launchConfig',
+                cmpType: 'FormObject',
+              },
+              {
                 name: 'siteMap',
                 cmpType: 'Form',
                 fields: [

@@ -116,13 +116,7 @@ class FormObject extends Component {
                   value={itemVal}
                   onChange={(data) => this.valueOnChange(data, itemKey)}
                 />
-                <IconButton
-                  iconName="Delete"
-                  color="error"
-                  size="small"
-                  onClick={() => this.removeItem(itemKey)}
-                />
-                {isObject && (
+                {!isObject && (
                   <IconButton
                     title={'Convert to object'}
                     iconName="DataObject"
@@ -131,6 +125,12 @@ class FormObject extends Component {
                     onClick={() => this.convertToObj(itemKey)}
                   />
                 )}
+                <IconButton
+                  iconName="Delete"
+                  color="error"
+                  size="small"
+                  onClick={() => this.removeItem(itemKey)}
+                />
               </div>
             </div>
           );

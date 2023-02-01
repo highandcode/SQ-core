@@ -6,12 +6,20 @@
     margin-bottom: 8px;
   }
   .sq-form--object-mode {
+    
     > .sq-form_fields {
       display: flex;
       flex-direction: column;
       width: 100%;
       > .sq-form__field:nth-child(1) {
         position: relative;
+        padding-left: 10px;
+        &:before {
+          content: " ";
+          position: absolute;
+          top: 4px;
+          left: -4px;
+        }
         &:after {
           content: ":";
           position: absolute;
@@ -20,7 +28,9 @@
         }
       }
       > .sq-form__field:nth-child(2) {
-        padding-left: 40px;
+        margin-left: 20px;
+        border-left: solid 1px #e2e2e2;
+        padding-left: 10px;
       }
     }
   }
@@ -30,6 +40,13 @@
       width: 100%;
       > .sq-form__field:nth-child(1) {
         position: relative;
+        padding-left: 10px;
+        &:before {
+          content: " ";
+          position: absolute;
+          top: 4px;
+          left: -4px;
+        }
         &:after {
           content: ":";
           position: absolute;
