@@ -3,6 +3,7 @@ const ApiManager = require('./api-manager');
 const validator = require('./validator');
 const timer = require('./timer');
 const { ValidatorCast } = require('./validator-cast');
+const { GlobalOptions } = require('./global-options');
 const { ParamsValidator } = require('./params-validator');
 
 require('./special-validators')(validator);
@@ -18,6 +19,7 @@ module.exports = {
   path: require('./path'),
   mask: require('./mask'),
   filter: require('./filter'),
+  GlobalOptions,
   validatorCaster: new ValidatorCast(),
   UrlGenerator,
   validator,
