@@ -107,7 +107,6 @@ class DynamicContent extends Component {
 
   async fetchPage(firstTime, dataForPage) {
     const { onAnalytics, transitionSpeed = 300, initialData } = this.props;
-    console.log('initialData', initialData)
     if (initialData) {
       await this.props.contentActions.updateUserData(initialData);
     }

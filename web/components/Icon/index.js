@@ -194,6 +194,7 @@ import {
   GppBad,
   Garage,
   MarkUnreadChatAlt,
+  DataObject,
   Shield,
 } from '@mui/icons-material';
 
@@ -209,6 +210,7 @@ const types = {
     LockOpen,
     DragHandle,
     Description,
+    DataObject,
     AddBox,
     CreateNewFolder,
     Key,

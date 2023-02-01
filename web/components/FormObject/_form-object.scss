@@ -2,10 +2,45 @@
   &__item-wrap {
     display: flex;
   }
+  .sq-form__field {
+    margin-bottom: 8px;
+  }
   .sq-form--object-mode {
     > .sq-form_fields {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      > .sq-form__field:nth-child(1) {
+        position: relative;
+        &:after {
+          content: ":";
+          position: absolute;
+          top: 4px;
+          right: 10px;
+        }
+      }
       > .sq-form__field:nth-child(2) {
         padding-left: 40px;
+      }
+    }
+  }
+  .sq-form--keyval-mode {
+    > .sq-form_fields {
+      display: flex;
+      width: 100%;
+      > .sq-form__field:nth-child(1) {
+        position: relative;
+        &:after {
+          content: ":";
+          position: absolute;
+          top: 4px;
+          right: 10px;
+        }
+        max-width: 150px;
+        min-width: 150px;
+      }
+      > .sq-form__field:nth-child(2) {
+        flex-grow: 1;
       }
     }
   }
