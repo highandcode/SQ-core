@@ -10,8 +10,11 @@ class ContentRepository extends BaseRepository {
     });
   }
 
-  extractPath(origPath) {
+  extractPath(origPath, type) {
     origPath = path.ensureNoSlashAtEnd(origPath);
+    if (type === constants.contentType.keys.SITE_MAP && origPath.substr(origPath.lastIndexOf('/')) !== '/sitemap') {
+      origPath = `${origPath}/sitemap`;
+    }
     const array = origPath.split('/');
     const parentArray = [...array].splice(0, array.length - 1);
     const rootPath = path.ensureNoSlashAtEnd(
@@ -34,7 +37,7 @@ class ContentRepository extends BaseRepository {
   }
 
   async create(data) {
-    const pathVars = this.extractPath(`${data.path.toLowerCase()}`);
+    const pathVars = this.extractPath(`${data.path.toLowerCase()}`, data.type);
     return await this.insert({
       type: constants.contentType.keys.PAGE,
       ...data,

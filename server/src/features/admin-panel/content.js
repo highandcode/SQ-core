@@ -3,11 +3,9 @@ const { path } = require('../../utils');
 
 module.exports = ({ context } = {}) => {
   context.router.post('/content/page', function (req, res) {
+    const paths = context.contentRepo.extractPath(req.body.path, req.body.type);
     context.contentRepo
-      .checkExists(
-        { path: path.ensureNoSlashAtEnd(req.body.path.toLowerCase()) },
-        ['path']
-      )
+      .checkExists({ path: path.ensureNoSlashAtEnd(paths.path) }, ['path'])
       .then(() => {
         context.contentRepo
           .create(req.body)

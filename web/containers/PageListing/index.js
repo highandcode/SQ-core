@@ -54,10 +54,13 @@ class PageListing extends BaseContainer {
   async onGridAction(row, value, column) {
     switch (value.action) {
       case 'edit':
-        utils.redirect.redirectTo('editPage', {
-          path: row.path,
-          pageId: row.pageId /* replace with data.uid */,
-        });
+        utils.redirect.redirectTo(
+          row.type === 'SITE_MAP' ? 'editSiteMap' : 'editPage',
+          {
+            path: row.path,
+            pageId: row.pageId /* replace with data.uid */,
+          }
+        );
         break;
       case 'preview':
         utils.redirect.redirectTo(
@@ -115,7 +118,11 @@ class PageListing extends BaseContainer {
                     className: 'col-icon',
                     sort: false,
                     component: {
-                      name: 'page',
+                      name: (row) => {
+                        return row.type === 'SITE_MAP'
+                          ? 'AccountTree'
+                          : 'Description';
+                      },
                     },
                   },
                   {
@@ -149,6 +156,7 @@ class PageListing extends BaseContainer {
                           action: 'preview',
                           iconName: 'RestartAlt',
                           buttonText: translate('Preview'),
+                          render: (row) => row.type === 'PAGE',
                         },
                         {
                           cmpType: 'LinkButton',

@@ -197,10 +197,10 @@ customHooks.add('admin', {
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       switch (result.data.type) {
         case CONSTANTS.contentType.PAGE:
-          utils.redirect.redirectTo('editPage', { path: result.path });
+          utils.redirect.redirectTo('editPage', { path: result.data.path });
           break;
         case CONSTANTS.contentType.SITE_MAP:
-          utils.redirect.redirectTo('editSiteMap', { path: result.path });
+          utils.redirect.redirectTo('editSiteMap', { path: result.data.path });
           break;
       }
     }

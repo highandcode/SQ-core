@@ -1,5 +1,12 @@
 .sq-form-object {
-    &__item-wrap {
-        display: flex;
+  &__item-wrap {
+    display: flex;
+  }
+  .sq-form--object-mode {
+    > .sq-form_fields {
+      > .sq-form__field:nth-child(2) {
+        padding-left: 40px;
+      }
     }
+  }
 }

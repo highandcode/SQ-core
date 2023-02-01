@@ -6,6 +6,7 @@ import ContentWithSearch from './ContentWithSearch';
 import Documentation from './Documentation';
 import * as DynamicContent from './DynamicContent';
 import * as PageBuilder from './PageBuilder';
+import * as SiteMapBuilder from './SiteMapBuilder';
 import LayoutContent from './LayoutContent';
 import MultiView from './MultiView';
 import TocIndex from './TocIndex';
@@ -22,6 +23,7 @@ export {
   ComponentDemo,
   DynamicContent,
   PageBuilder,
+  SiteMapBuilder,
   ContentWithSearch,
   MultiView,
   ForgotPassword,
@@ -42,6 +44,7 @@ export default {
   ComponentDemo,
   DynamicContent: DynamicContent.default,
   PageBuilder: PageBuilder.default,
+  SiteMapBuilder: SiteMapBuilder.default,
   ContentWithSearch,
   MultiView,
   ForgotPassword,
