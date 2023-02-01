@@ -331,6 +331,16 @@ class PageBuilder extends Component {
                             label: 'Title',
                           },
                           {
+                            name: 'init',
+                            cmpType: 'FormObject',
+                            label: 'init',
+                          },
+                          {
+                            name: 'merge',
+                            cmpType: 'FormObject',
+                            label: 'merge',
+                          },
+                          {
                             name: 'template',
                             cmpType: 'Autocomplete',
                             label: 'Template',

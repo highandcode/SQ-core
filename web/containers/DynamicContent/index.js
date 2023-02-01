@@ -190,7 +190,7 @@ class DynamicContent extends Component {
   }
 
   getValidationResult(field, block, value) {
-    if (field.validators) {
+    if (field?.validators) {
       const allValidators = {};
       block.fields?.forEach((field) => {
         if (field.validators) {
@@ -216,7 +216,7 @@ class DynamicContent extends Component {
 
   onChange(value, field, block) {
     let obj = {};
-    block = field.block ? field.block : block;
+    block = field?.block ? field.block : block;
     if (block && block.name) {
       obj[block.name] = value.value;
     } else {

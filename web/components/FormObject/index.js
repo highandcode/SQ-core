@@ -127,6 +127,7 @@ class FormObject extends Component {
                 )}
                 <IconButton
                   iconName="Delete"
+                  title="Delete"
                   color="error"
                   size="small"
                   onClick={() => this.removeItem(itemKey)}

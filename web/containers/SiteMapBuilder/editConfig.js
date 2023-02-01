@@ -41,6 +41,17 @@ export default {
     },
     items: [
       {
+        name: 'autoSave',
+        component: 'Switch',
+        label: 'Autosave'
+      },
+      {
+        name: 'test',
+        component: 'EditableField',
+        label: 'test',
+        variant: 'outlined'
+      },
+      {
         component: 'Wrapper',
         bodyClassName: 'text-right',
         items: [
@@ -48,7 +59,8 @@ export default {
             component: 'Button',
             actionType: 'submit-event',
             buttonText: 'Save',
-            size: 'medium',
+            variant: 'outlined',
+            size: 'large',
             params: {
               '...main': '.main',
             },
