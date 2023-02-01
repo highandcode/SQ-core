@@ -123,7 +123,8 @@ class Content extends Component {
               isValid = validator.validateAll();
             }
 
-            const Comp = compMap[block.component];
+            const { component, ...restBlock } = block;
+            const Comp = compMap[component];
             block = object.processBlock(block, { userData });
             return Comp && isValid ? (
               <ErrorBoundary key={idx}>
@@ -131,7 +132,7 @@ class Content extends Component {
                   {...rest}
                   value={userData[block.name]}
                   errors={userData[block.name + '_errors']}
-                  {...block}
+                  {...restBlock}
                   onClick={(e, field) => {
                     this.onClick(e, block, field);
                   }}

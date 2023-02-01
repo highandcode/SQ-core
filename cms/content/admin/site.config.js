@@ -26,7 +26,7 @@ module.exports = {
       classes: {
         wrapper: 'container',
       },
-      navigation:[],
+      navigation: [],
       mobileItems: [],
       rightItems: [],
     },
@@ -52,18 +52,21 @@ module.exports = {
               // key: 'serviceRequestSubMenu',
               iconName: 'AddBox',
               href: '/content/admin/portal/pages/create',
-              children: [
-               
-              ],
+              children: [],
             },
             {
               title: 'Edit page',
               // key: 'serviceRequestSubMenu',
               hideInMenu: true,
               href: '/content/admin/portal/pages/edit',
-              children: [
-               
-              ],
+              children: [],
+            },
+            {
+              title: 'Edit SiteMap',
+              // key: 'serviceRequestSubMenu',
+              hideInMenu: true,
+              href: '/content/admin/portal/pages/editmap',
+              children: [],
             },
           ],
         },
@@ -78,9 +81,7 @@ module.exports = {
               // key: 'serviceRequestSubMenu',
               iconName: 'AddBox',
               href: '/content/admin/portal/users/new',
-              children: [
-               
-              ],
+              children: [],
             },
           ],
         },

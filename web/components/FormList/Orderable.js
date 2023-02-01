@@ -65,7 +65,6 @@ export const Orderable = ({ id, children, index, moveCard }) => {
       isDragging: monitor.isDragging(),
     }),
   });
-  console.log(isDragging, index)
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
   return (

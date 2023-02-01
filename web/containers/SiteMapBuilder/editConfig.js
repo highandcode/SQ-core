@@ -42,14 +42,8 @@ export default {
     items: [
       {
         name: 'autoSave',
-        component: 'Switch',
+        component: 'Input',
         label: 'Autosave'
-      },
-      {
-        name: 'test',
-        component: 'EditableField',
-        label: 'test',
-        variant: 'outlined'
       },
       {
         component: 'Wrapper',

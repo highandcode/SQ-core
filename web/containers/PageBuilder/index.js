@@ -381,6 +381,11 @@ class PageBuilder extends Component {
                             label: 'containerTemplate',
                             options: pageData.containers || config.containers,
                           },
+                          {
+                            cmpType: 'FormObject',
+                            name: 'custom',
+                            label: 'custom',
+                          },
                         ]}
                       />
                     </Panel>

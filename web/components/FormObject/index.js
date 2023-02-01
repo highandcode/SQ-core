@@ -104,12 +104,17 @@ class FormObject extends Component {
                       {
                         cmpType: 'EditableField',
                         name: 'key',
-                        label: 'Key',
+                        editProps: {
+                          label: 'Key',
+                        },
                       },
                       {
                         cmpType: isObject ? 'FormObject' : 'EditableField',
                         name: 'value',
                         label: isObject ? '' : 'Value',
+                        editProps: {
+                          label: 'Value',
+                        },
                       },
                     ]
                   }

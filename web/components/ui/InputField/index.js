@@ -133,6 +133,7 @@ class InputField extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     const { focused } = this.state;
     const { errorMessage, className = '', formatter, onAnalytics, onAction, mask = {}, sideAction, impactOn, row, actionType, startAdornment, endAdornment, ...rest } = this.props;
     const finalAction = getValue(this, sideAction, row);
@@ -149,13 +150,13 @@ class InputField extends React.Component {
       <div className={`sq-input-field${focused ? ' sq-input-field--focused' : ''} ${className}`} data-testid={testId}>
         <div className="sq-input-field__container">
           <TextField
+            {...rest}
             className="sq-input-field__input"
             variant="outlined"
             inputProps={{
               "aria-label": rest.label,
               "data-testid": `${testId}_input`
             }}
-            {...rest}
             InputProps={{
               ...finalInputProps,
             }}
