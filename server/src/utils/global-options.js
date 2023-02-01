@@ -49,7 +49,7 @@ class GlobalOptions {
       let { text, key: overrideKey, ...rest } = typeof this.opts[key] === 'string' ? { text: this.opts[key] } : this.opts[key];
       return {
         value: overrideKey || key,
-        text: translate(text || this.getText(key)),
+        text: (text || this.getText(key)),
         ...rest,
       };
     });

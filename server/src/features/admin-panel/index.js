@@ -8,6 +8,8 @@ var router = express.Router();
 var utils = require('../../utils');
 var settings = require('../../settings').getSettings();
 var tokenManager = require('../../tokenManager');
+var contentApi = require('./content');
+var moduleApi = require('./module');
 
 const { logger } = utils;
 
@@ -30,50 +32,12 @@ class AdminPanel {
     var that = this;
     return {
       '/admin': function (bridge) {
-        that.router.post('/content/page', function (req, res) {
-          that.contentRepo
-            .create(req.body)
-            .then((result) => {
-              res.json(new Response(result).json());
-            })
-            .catch((ex) => that.handleError(ex, res));
-        });
-        that.router.patch('/content/page', function (req, res) {
-          that.contentRepo
-            .saveDraft(req.body)
-            .then((result) => {
-              res.json(new Response(result).json());
-            })
-            .catch((ex) => that.handleError(ex, res));
-        });
-        that.router.post('/content/page/get', function (req, res) {
-          that.contentRepo
-            .getByPath(req.body.path)
-            .then((result) => {
-              res.json(new Response(result).json());
-            })
-            .catch((ex) => that.handleError(ex, res));
-        });
-        that.router.post('/content/page/gettree', function (req, res) {
-          that.contentRepo
-            .getAllTreeNodes(req.body.path)
-            .then((result) => {
-              res.json(new Response(result).json());
-            })
-            .catch((ex) => that.handleError(ex, res));
-        });
-        that.router.post('/content/page/getbypath', function (req, res) {
-          that.contentRepo
-            .getAllPages(req.body.parentPath)
-            .then((result) => {
-              res.json(
-                new Response({
-                  pages: result,
-                }).json()
-              );
-            })
-            .catch((ex) => that.handleError(ex, res));
-        });
+        /* content api  */
+        contentApi({ context: that });
+
+        /*module api */
+        moduleApi({ context: that });
+       
         that.router.post('/users/all', function (req, res) {
           that.userRepo
             .getAll()
@@ -85,13 +49,6 @@ class AdminPanel {
               );
             })
             .catch((ex) => that.handleError(ex, res));
-        });
-        that.router.get('/module', function (req, res) {
-          res.send(
-            new Response({
-              moduleName: 'admin',
-            }).success()
-          );
         });
         that.router.get('/user/info', function (req, res) {
           that.userRepo

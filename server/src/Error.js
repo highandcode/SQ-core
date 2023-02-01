@@ -23,7 +23,7 @@ module.exports = {
   duprecord: (errors) => {
     const override = {};
     if (errors) {
-      override.erorrs = errors;
+      override.errors = errors;
     }
     return {
       code: 400,

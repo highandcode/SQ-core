@@ -30,7 +30,24 @@ const admin = createSlice({
 export const getPage =
   (payload, { url, method = 'post', params, hook, query } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge[method](url || adminConfig.apis.getPage, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.getPage,
+      params
+        ? processParams(
+            { ...selectContentData(getState()), ...selectUserData(getState()) },
+            params,
+            undefined,
+            getState()
+          )
+        : payload,
+      undefined,
+      processParams(
+        { ...selectContentData(getState()), ...selectUserData(getState()) },
+        query,
+        undefined,
+        getState()
+      )
+    );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {
         result.data = await customHooks.execute(hook, result);
@@ -42,7 +59,27 @@ export const getFieldsMeta =
   (payload, { url, method = 'post', params, query, hook } = {}) =>
   async (dispatch, getState) => {
     if (url && method) {
-      const result = await utils.apiBridge[method](url, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
+      const result = await utils.apiBridge[method](
+        url,
+        params
+          ? processParams(
+              {
+                ...selectContentData(getState()),
+                ...selectUserData(getState()),
+              },
+              params,
+              undefined,
+              getState()
+            )
+          : payload,
+        undefined,
+        processParams(
+          { ...selectContentData(getState()), ...selectUserData(getState()) },
+          query,
+          undefined,
+          getState()
+        )
+      );
       if (result.status === CONSTANTS.STATUS.SUCCESS) {
         if (hook) {
           result.data = await customHooks.execute(hook, result);
@@ -55,7 +92,24 @@ export const getFieldsMeta =
 export const loadPageTree =
   (payload, { url, method = 'post', params, query } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge[method](url || adminConfig.apis.getContentTree, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.getContentTree,
+      params
+        ? processParams(
+            { ...selectContentData(getState()), ...selectUserData(getState()) },
+            params,
+            undefined,
+            getState()
+          )
+        : payload,
+      undefined,
+      processParams(
+        { ...selectContentData(getState()), ...selectUserData(getState()) },
+        query,
+        undefined,
+        getState()
+      )
+    );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       await dispatch(setContentTree(result.data));
       await dispatch(
@@ -69,7 +123,24 @@ export const loadPageTree =
 export const loadPagesByPath =
   (payload, { url, method = 'post', params, hook, query } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge[method](url || adminConfig.apis.getPageByPath, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.getPageByPath,
+      params
+        ? processParams(
+            { ...selectContentData(getState()), ...selectUserData(getState()) },
+            params,
+            undefined,
+            getState()
+          )
+        : payload,
+      undefined,
+      processParams(
+        { ...selectContentData(getState()), ...selectUserData(getState()) },
+        query,
+        undefined,
+        getState()
+      )
+    );
     console.log('>>>>', hook);
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {
@@ -82,7 +153,28 @@ export const loadPagesByPath =
 export const savePageDraft =
   (payload, { url, method = 'patch', params, hook, autoSave, query } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge[method](url || adminConfig.apis.contentPage, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()), ...payload }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.contentPage,
+      params
+        ? processParams(
+            {
+              ...selectContentData(getState()),
+              ...selectUserData(getState()),
+              ...payload,
+            },
+            params,
+            undefined,
+            getState()
+          )
+        : payload,
+      undefined,
+      processParams(
+        { ...selectContentData(getState()), ...selectUserData(getState()) },
+        query,
+        undefined,
+        getState()
+      )
+    );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       !autoSave &&
         dispatch(
@@ -100,6 +192,28 @@ export const selectContentData = (state) => {
   return state.admin.contentData;
 };
 
-export const { setRoot, setContentPage, setContentTree, setContentPages, setFieldsMeta } = admin.actions;
+customHooks.add('admin', {
+  afterPageCreate: (result, { dispatch }) => {
+    if (result.status === CONSTANTS.STATUS.SUCCESS) {
+      switch (result.data.type) {
+        case CONSTANTS.contentType.PAGE:
+          utils.redirect.redirectTo('editPage', { path: result.path });
+          break;
+        case CONSTANTS.contentType.SITE_MAP:
+          utils.redirect.redirectTo('editSiteMap', { path: result.path });
+          break;
+      }
+    }
+    return result;
+  },
+});
+
+export const {
+  setRoot,
+  setContentPage,
+  setContentTree,
+  setContentPages,
+  setFieldsMeta,
+} = admin.actions;
 
 export default admin.reducer;

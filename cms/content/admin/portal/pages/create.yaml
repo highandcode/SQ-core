@@ -4,6 +4,13 @@ className: sq-page sq-error-page
 contentBodyClass: container-form
 layout: apps/core/layouts/spa
 containerTemplate: AdminDashboard
+reset:
+  type: clearAll
+hook:
+  load:
+    - url: /api/v1/admin/content/meta
+      method: post
+      dataKey:  metaData
 items:
     - component: Form
       className: mt-wide
@@ -11,6 +18,13 @@ items:
       fields:
         - name: title
           label: Title
+          validators:
+            - type: required
+        - name: type
+          label: Type
+          cmpType: Autocomplete
+          inject:
+            options: metaData.contentTypes
           validators:
             - type: required
         - name: path
@@ -29,15 +43,18 @@ items:
       url: /api/v1/admin/content/page
       method: post
       dataKey: createPage
-      defaultResponse:
-        success:
-          data:
-            redirect:
-              to: editPage
-              urlParams:
-                path: .createPage.path
+      postHook: admin.afterPageCreate
+      rootErrorKey: page
+      # defaultResponse:
+      #   success:
+      #     data:
+      #       redirect:
+      #         to: editPage
+      #         urlParams:
+      #           path: .createPage.path
             
       params:
         pageData:
           title: .page.title
         path: .page.path
+        type: .page.type

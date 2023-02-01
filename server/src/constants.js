@@ -1,11 +1,11 @@
-const GlobalOptions = require('./utils/global-options');
+const { GlobalOptions } = require('./utils/global-options');
 module.exports = {
   contentType: new GlobalOptions({
-    PAGE: 'PAGE',
-    SITE_MAP: 'SITE_MAP',
+    PAGE: 'Page',
+    SITE_MAP: 'Site Map',
   }),
   contentStatus: new GlobalOptions({
-    DRAFT: 'DRAFT',
-    PUBLISHED: 'PUBLISHED',
+    DRAFT: 'Draft',
+    PUBLISHED: 'Published',
   }),
 };

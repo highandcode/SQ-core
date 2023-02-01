@@ -6,6 +6,10 @@ export const CONSTANTS = {
     ERROR: 'error',
     OK: 'ok',
   },
+  contentType: {
+    PAGE: 'PAGE',
+    SITE_MAP: 'SITE_MAP',
+  },
 };
 
 export { GlobalOptions };
