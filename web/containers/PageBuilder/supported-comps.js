@@ -18,14 +18,23 @@ import ButtonEdit from './edits/Button';
 import TextEdit from './edits/Text';
 import TabsEdit from './edits/Tabs';
 import ProgressEdit from './edits/Progress';
+import DefaultEdit from './edits/Default';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 const compList = {
+  Default: {
+    group: 'Form Elements',
+    hasPlaceholder: true,
+    type: ItemTypes.CUSTOM,
+    editData: DefaultEdit,
+    sampleData: {},
+  },
   Form: {
     Component: Form,
     group: 'Form',
     hasPlaceholder: true,
     type: ItemTypes.FORM,
+    defaultComp: 'Input',
     itemsPropName: 'fields',
     accept: [ItemTypes.FORM_ELEMENT, ItemTypes.FORM],
     compTypeProp: 'cmpType',

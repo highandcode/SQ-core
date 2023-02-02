@@ -134,7 +134,7 @@ class ComponentEditor extends Component {
     const { hasItems } = this.props;
     const { [itemsPropName]: items } = value || {};
     const { className = '' } = pageData;
-    const { hasPlaceholder, accept, compList } = this.props;
+    const { hasPlaceholder, accept, compList, defaultComp } = this.props;
     return (
       <div className={`sq-component-editor ${className} ${value.className || ''}`}>
         <Dialog
@@ -192,20 +192,21 @@ class ComponentEditor extends Component {
           <ErrorBoundary>
             {!hasItems && (
               <ErrorBoundary>
-                <Component {...value} />{' '}
+                {Component && <Component {...value} />}
+                {!Component && 'Preview not available'}
               </ErrorBoundary>
             )}
             {hasItems &&
               items &&
               items.map((item, idx) => {
-                const Component = compList[item[compTypeProp]];
+                const Component = compList[item[compTypeProp]] || (!item[compTypeProp] && defaultComp ? compList[defaultComp] : compList.Default);
                 const { [compTypeProp]: cmpType, ...restItem } = item;
                 return (
                   <ErrorBoundary key={idx + changeIdx}>
                     <ComponentEditor
                       parentName={item.name}
                       fieldsMeta={fieldsMeta}
-                      component={item[compTypeProp]}
+                      component={item[compTypeProp] || defaultComp}
                       isStart={idx === 0}
                       isEnd={idx === items.length - 1}
                       index={idx}

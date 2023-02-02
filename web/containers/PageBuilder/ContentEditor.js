@@ -49,7 +49,7 @@ class ContentEditor extends Component {
       <div className={`sq-content-editor ${className}`}>
         {pageData.items &&
           pageData.items.map((block, idx) => {
-            const Component = compList[block.component] || {};
+            const Component = compList[block.component] || compList.Default;
             return (
               <ErrorBoundary key={idx}>
                 {/* <Placeholder allowedDropEffect={'any'} plaecHolderStle="line" accept={[ItemTypes.COMPONENT, ItemTypes.FORM]} onDrop={this.componentOnDrop} /> */}
