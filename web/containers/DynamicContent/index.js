@@ -266,7 +266,9 @@ class DynamicContent extends Component {
 
     this.props.contentActions.updateUserData(obj);
     this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
-    onContentChange && onContentChange(processParams(this.props.store.content.userData, contentParams))
+    window.setTimeout(() => {
+      onContentChange && onContentChange(processParams(this.props.store.content.userData, contentParams));
+    }, 300);
   }
 
   hasMatchingGroup(form, group) {

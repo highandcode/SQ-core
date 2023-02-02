@@ -52,20 +52,23 @@ class SiteMapBuilder extends Component {
     this.props.commonActions.stopLoading();
   }
   async savePageAsDraft(data, autoSave) {
+    let parms = {};
+    if (data) {
+      parms.pageData = { ...data };
+    }
     const { pageData, store } = this.props;
     !autoSave && this.props.commonActions.startLoading();
-    await this.props.raiseAction(savePageDraft({ ...this.state.contentData }, { autoSave, ...pageData.savePageConfig }));
+    await this.props.raiseAction(savePageDraft({ ...this.state.contentData, ...parms }, { autoSave, ...pageData.savePageConfig }));
     !autoSave && this.props.commonActions.stopLoading();
   }
   async onContentChange(data) {
     await this.setState({
       contentData: { ...this.state.contentData, pageData: { ...data } },
     });
-    this.state.autoSave && this.savePageAsDraft(data, this.state.autoSave);
+    this.savePageAsDraft(data, this.state.autoSave);
   }
   render() {
     const { className = '', pageData, store } = this.props;
-    console.log;
     return (
       <div className={`sq-sitemap-builder sq-v-screen sq-v-screen--fixed ${className}`}>
         <DndProvider backend={HTML5Backend}>
