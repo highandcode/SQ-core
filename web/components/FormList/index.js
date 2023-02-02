@@ -60,7 +60,7 @@ const FormList = ({
           >
             <div className="sq-form-list__item-wrap">
               <Form
-                className={`pb-none ${formClassName}`}
+                className={`pb-0 ${formClassName}`}
                 fields={fields}
                 value={itemVal}
                 onChange={(data) => valueOnChange(data, idx)}

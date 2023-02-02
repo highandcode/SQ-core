@@ -131,7 +131,7 @@ class FormObject extends Component {
               <div className="sq-form-object__item-wrap">
                 <Form
 
-                  className={`pb-none ${finalClassName}`}
+                  className={`pb-0 ${finalClassName}`}
                   fields={
                     fields || [
                       {

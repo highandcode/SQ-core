@@ -438,9 +438,6 @@ class DynamicContent extends Component {
       case 'submit-event':
         isValid = this.validateForms(block.forms, action.validateGroup);
         if (isValid) {
-          await this.props.contentActions.updateUserData({
-            isSubmitting: true,
-          });
           onSubmit && onSubmit(processParams(this.props.store.content.userData, action.params));
         }
         break;
