@@ -41,11 +41,6 @@ export default {
     },
     items: [
       {
-        name: 'autoSave',
-        component: 'Input',
-        label: 'Autosave'
-      },
-      {
         component: 'Wrapper',
         bodyClassName: 'text-right',
         items: [

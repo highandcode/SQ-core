@@ -133,7 +133,6 @@ class InputField extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { focused } = this.state;
     const { errorMessage, className = '', formatter, onAnalytics, onAction, mask = {}, sideAction, impactOn, row, actionType, startAdornment, endAdornment, ...rest } = this.props;
     const finalAction = getValue(this, sideAction, row);
