@@ -113,7 +113,7 @@ const EditableField = ({
                 {
                   <CmpToEdit
                     {...editProps}
-                    value={changedValue?.value || value}
+                    value={changedValue?.value !== undefined ? changedValue?.value : value}
                     onChange={handleChange}
                     onKeyPress={onKeyPress}
                     onAnalytics={onAnalytics}

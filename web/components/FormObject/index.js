@@ -137,6 +137,7 @@ class FormObject extends Component {
                       {
                         cmpType: isArray ? 'Text' : 'EditableField',
                         name: 'key',
+                        
                         editProps: {
                           label: 'Key',
                           disabled: isArray,
@@ -145,6 +146,7 @@ class FormObject extends Component {
                       {
                         cmpType: isObject ? 'FormObject' : 'EditableField',
                         name: 'value',
+                        editType : typeof(itemVal.value) === 'boolean' ? 'Switch' : 'Input',
                         label: isObject ? '' : 'Value',
                         editProps: {
                           label: 'Value',
