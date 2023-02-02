@@ -141,7 +141,6 @@ export const loadPagesByPath =
         getState()
       )
     );
-    console.log('>>>>', hook);
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {
         result.data = await customHooks.execute(hook, result);

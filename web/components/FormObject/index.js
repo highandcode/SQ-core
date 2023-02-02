@@ -118,7 +118,6 @@ class FormObject extends Component {
   render() {
     const { className = '', label, fields, value = {}, formClassName = 'sq-form--keyval-mode', ...rest } = this.props;
     const isArray = this.isArray(value);
-    console.log('>>>>', value);
     return (
       <div className={`sq-form-object ${className}`}>
         {label && <div className="sq-form-object__label mb-wide">{label}</div>}

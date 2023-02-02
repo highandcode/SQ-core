@@ -17,6 +17,7 @@ import WrapperEdit from './edits/Wrapper';
 import ButtonEdit from './edits/Button';
 import TextEdit from './edits/Text';
 import TabsEdit from './edits/Tabs';
+import TextareaEdit from './edits/Textarea';
 import ProgressEdit from './edits/Progress';
 import DefaultEdit from './edits/Default';
 import { GLOBAL_OPTIONS } from '../../globals';
@@ -199,6 +200,16 @@ const compList = {
     editData: InputEdit,
     sampleData: {
       label: 'Label',
+    },
+  },
+  Textarea: {
+    Component: getMap().Textarea,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: TextareaEdit,
+    sampleData: {
+      label: 'Label',
+      minRows: 3
     },
   },
   Radio: {
