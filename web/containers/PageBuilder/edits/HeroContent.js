@@ -34,7 +34,7 @@ export default withEditTabsConfig(({ defaultParams, iconList }) => ({
     },
     {
       name: 'subHeader',
-      cmpType: 'InputField',
+      cmpType: 'RichText',
       label: 'Sub Header',
     },
     {

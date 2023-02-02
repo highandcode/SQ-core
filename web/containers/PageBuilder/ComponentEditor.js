@@ -193,7 +193,7 @@ class ComponentEditor extends Component {
             {!hasItems && (
               <ErrorBoundary>
                 {Component && <Component {...value} />}
-                {!Component && 'Preview not available'}
+                {!Component && <div className="text-center">Preview not available</div>}
               </ErrorBoundary>
             )}
             {hasItems &&

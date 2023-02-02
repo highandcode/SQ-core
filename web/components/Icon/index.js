@@ -195,6 +195,7 @@ import {
   Garage,
   MarkUnreadChatAlt,
   DataObject,
+  DataArray,
   Shield,
 } from '@mui/icons-material';
 
@@ -211,6 +212,7 @@ const types = {
     DragHandle,
     Description,
     DataObject,
+    DataArray,
     AddBox,
     CreateNewFolder,
     Key,

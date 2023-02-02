@@ -7,43 +7,60 @@ import './_form-object.scss';
 class FormObject extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: [], objMap: {} };
+    this.state = { data: [], objMap: {}, objArray: {} };
     this.addNew = this.addNew.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.convertToObj = this.convertToObj.bind(this);
+    this.convertToArr = this.convertToArr.bind(this);
     this.valueOnChange = this.valueOnChange.bind(this);
   }
-  valueOnChange(data, key) {
+  valueOnChange(data, key, isArray) {
     const { onChange, value = {} } = this.props;
-    const objVal = { ...value };
+    const objVal = isArray ? [...value] : { ...value };
     let oldValue;
-    if (key !== data.value.key) {
+    if (!isArray && key !== data.value.key) {
       oldValue = objVal[key];
       delete objVal[key];
     }
-    objVal[data.value.key] = oldValue || data.value.value;
+    if (!isArray) {
+      objVal[data.value.key] = oldValue || data.value.value;
+    } else {
+      objVal[data.value.key * 1] = oldValue || data.value.value;
+    }
+
+    console.log(objVal);
     onChange &&
       onChange({
         value: objVal,
       });
   }
 
-  removeItem(key) {
+  isObject(val) {
+    return typeof val === 'object';
+  }
+  isArray(val) {
+    return Array.isArray(val) && typeof val === 'object';
+  }
+
+  removeItem(key, isArray) {
     const { onChange, value = {} } = this.props;
-    const objVal = { ...value };
-    delete objVal[key];
+    const objVal = isArray ? [...value] : { ...value };
+    !isArray && delete objVal[key];
+    isArray && objVal.splice(key * 1, 1);
     const newMap = { ...this.state.objMap };
     delete newMap[key];
     this.setState({
       objMap: newMap,
     });
+
+
     onChange &&
       onChange({
         value: objVal,
       });
   }
 
-  convertToObj(key) {
+  convertToObj(key, isArray) {
     const { value = {}, onChange } = this.props;
     this.setState({
       objMap: {
@@ -55,57 +72,75 @@ class FormObject extends Component {
       onChange({
         value: {
           ...value,
-          [key]: {
-            child: value[key],
-          },
+          [key]: isArray
+            ? [value[key]]
+            : {
+                child: value[key],
+              },
+        },
+      });
+  }
+  convertToArr(key, isArray) {
+    const { value = {}, onChange } = this.props;
+    this.setState({
+      objArray: {
+        ...this.state.objArray,
+        [key]: true,
+      },
+    });
+    onChange &&
+      onChange({
+        value: {
+          ...value,
+          [key]: [
+            {
+              child: value[key],
+            },
+          ],
         },
       });
   }
 
-  addNew() {
+  addNew(isArray) {
     const { onChange, value = {}, keyName = 'key' } = this.props;
     let idx = 0;
-    while (value[keyName + idx] || value[keyName + idx] === '') {
-      idx++;
+    if (!isArray) {
+      while (value[keyName + idx] || value[keyName + idx] === '') {
+        idx++;
+      }
     }
     onChange &&
       onChange({
-        value: { ...value, [keyName + idx]: '' },
+        value: isArray ? [...value, {}] : { ...value, [keyName + idx]: '' },
       });
   }
 
   render() {
-    const {
-      className = '',
-      label,
-      fields,
-      value = {},
-      formClassName = 'sq-form--keyval-mode',
-      ...rest
-    } = this.props;
+    const { className = '', label, fields, value = {}, formClassName = 'sq-form--keyval-mode', ...rest } = this.props;
+    const isArray = this.isArray(value);
+    console.log('>>>>', value);
     return (
       <div className={`sq-form-object ${className}`}>
         {label && <div className="sq-form-object__label mb-wide">{label}</div>}
-        {Object.keys(value).map((itemKey, idx) => {
+        {value && Object.keys(value).map((itemKey, idx) => {
           const itemVal = { key: itemKey, value: value[itemKey] };
-          const isObject =
-            this.state.objMap[itemKey] || typeof itemVal.value === 'object';
-          const finalClassName = !isObject
-            ? formClassName
-            : 'sq-form--object-mode';
+          const isObject = this.state.objMap[itemKey] || this.isObject(itemVal.value);
+          const isInternalArray = this.state.objArray[itemKey] || this.isArray(itemVal.value);
+          const finalClassName = !isObject ? formClassName : 'sq-form--object-mode';
           return (
             <div className="sq-form-object__item" key={itemVal.key}>
               <div className="sq-form-object__item-wrap">
                 <Form
-                  {...rest}
+
                   className={`pb-none ${finalClassName}`}
                   fields={
                     fields || [
                       {
-                        cmpType: 'EditableField',
+                        cmpType: isArray ? 'Text' : 'EditableField',
                         name: 'key',
                         editProps: {
                           label: 'Key',
+                          disabled: isArray,
                         },
                       },
                       {
@@ -119,36 +154,23 @@ class FormObject extends Component {
                     ]
                   }
                   value={itemVal}
-                  onChange={(data) => this.valueOnChange(data, itemKey)}
+                  onChange={(data) => this.valueOnChange(data, itemKey, isArray)}
                 />
-                {!isObject && (
-                  <IconButton
-                    title={'Convert to object'}
-                    iconName="DataObject"
-                    color="success"
-                    size="small"
-                    onClick={() => this.convertToObj(itemKey)}
-                  />
-                )}
-                <IconButton
-                  iconName="Delete"
-                  title="Delete"
-                  color="error"
-                  size="small"
-                  onClick={() => this.removeItem(itemKey)}
-                />
+                {!isObject && !isInternalArray && <IconButton title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.convertToObj(itemKey, isArray)} />}
+                {!isObject && !isInternalArray && <IconButton title={'Convert to array'} iconName="DataArray" color="success" size="small" onClick={() => this.convertToArr(itemKey, isArray)} />}
+                <IconButton iconName="Delete" title="Delete" color="error" size="small" onClick={() => this.removeItem(itemKey, isArray)} />
               </div>
             </div>
           );
         })}
-        <IconButton iconName="add" onClick={this.addNew} />
+        <IconButton iconName="add" onClick={() => this.addNew(isArray)} />
       </div>
     );
   }
 }
 
 FormObject.propTypes = {
-  value: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 export default FormObject;

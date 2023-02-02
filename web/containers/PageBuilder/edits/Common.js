@@ -27,12 +27,14 @@ const defaultGeneral = ({ classNames = [] } = {}) => [
     label: 'Field Name',
     validators: [
       {
-        type: 'required',
-      },
-      {
         type: 'fieldName',
       },
     ],
+  },
+  {
+    name: 'inject',
+    cmpType: 'FormObject',
+    label: 'Inject',
   },
   {
     name: 'className',
