@@ -20,12 +20,14 @@ import TabsEdit from './edits/Tabs';
 import TextareaEdit from './edits/Textarea';
 import ProgressEdit from './edits/Progress';
 import DefaultEdit from './edits/Default';
+import ImageEdit from './edits/Image';
+import DateSelectorEdit from './edits/DateSelector';
+import AutocompleteEdit from './edits/Autocomplete';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 const compList = {
   Default: {
     group: 'Form Elements',
-    hasPlaceholder: true,
     type: ItemTypes.CUSTOM,
     editData: DefaultEdit,
     sampleData: {},
@@ -164,6 +166,17 @@ const compList = {
     editData: TabsEdit,
     sampleData: {},
   },
+  DateSelector: {
+    Component: getMap().DateSelector,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: DateSelectorEdit,
+    sampleData: {
+      inputFormat: 'yyyy/MM/dd',
+      outputFormat: 'YYYY/MM/DD',
+      mask: '____/__/__',
+    },
+  },
   Progress: {
     Component: Progress,
     group: 'Content',
@@ -183,6 +196,13 @@ const compList = {
       text: 'text goes here',
       tag: 'h1',
     },
+  },
+  Image: {
+    Component: getMap().Image,
+    group: 'Content',
+    type: ItemTypes.COMPONENT,
+    editData: ImageEdit,
+    sampleData: {},
   },
   Button: {
     Component: getMap().Button,
@@ -209,7 +229,7 @@ const compList = {
     editData: TextareaEdit,
     sampleData: {
       label: 'Label',
-      minRows: 3
+      minRows: 3,
     },
   },
   Radio: {
@@ -235,6 +255,15 @@ const compList = {
     editData: SelectEdit,
     sampleData: {
       label: 'Select',
+    },
+  },
+  Autocomplete: {
+    Component: getMap().Autocomplete,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: AutocompleteEdit,
+    sampleData: {
+      label: 'Autocomplete',
     },
   },
   CheckboxField: {
