@@ -39,23 +39,10 @@ export default {
     init: {
       editTab: tabs.general.value,
     },
+    params: {
+      '...main': '.main',
+    },
     items: [
-      {
-        component: 'Wrapper',
-        bodyClassName: 'text-right',
-        items: [
-          {
-            component: 'Button',
-            actionType: 'submit-event',
-            buttonText: 'Save',
-            variant: 'outlined',
-            size: 'large',
-            params: {
-              '...main': '.main',
-            },
-          },
-        ],
-      },
       {
         component: 'Form',
         name: 'main',

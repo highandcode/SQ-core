@@ -51,6 +51,9 @@
     left: 0;
     .sq-v-screen-grow {
       height: 100px;
+      &.auto {
+        overflow: auto;
+      }
     }
   }
 }

@@ -215,6 +215,7 @@ class DynamicContent extends Component {
   }
 
   onChange(value, field, block) {
+    const { onContentChange, contentParams } = this.props;
     let obj = {};
     block = field?.block ? field.block : block;
     if (block && block.name) {
@@ -265,6 +266,7 @@ class DynamicContent extends Component {
 
     this.props.contentActions.updateUserData(obj);
     this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
+    onContentChange && onContentChange(processParams(this.props.store.content.userData, contentParams))
   }
 
   hasMatchingGroup(form, group) {
@@ -505,7 +507,7 @@ class DynamicContent extends Component {
   }
 
   render() {
-    const { containerTemplate: overrideContainerTemplate, ...allProps } = this.props;
+    const { containerTemplate: overrideContainerTemplate, rootClass = 'row', ...allProps } = this.props;
     const { dataPacket, store } = allProps;
     const userData = {
       ...this.props.store.content.userData,
@@ -524,7 +526,7 @@ class DynamicContent extends Component {
     const loadingState = this.state.isLoading ? `transition transition-page--${loading}` : '';
 
     return (
-      <div className={`dynamic-content row ${rootClassName} ${loadingState} ${classes.root || ''}`}>
+      <div className={`dynamic-content ${rootClass} ${rootClassName} ${loadingState} ${classes.root || ''}`}>
         <Snackbar
           open={store.common.notification.show}
           message={store.common.notification.message}

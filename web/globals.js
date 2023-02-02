@@ -19,6 +19,10 @@ export const GLOBAL_OPTIONS = {
     outlined: 'Outlined',
     standard: 'Standard',
   }),
+  contentType: new GlobalOptions({
+    PAGE: 'Page',
+    SITE_MAP: 'Site Map',
+  }),
   progressTypes: new GlobalOptions({
     default: 'default',
     circle: 'circle',
@@ -35,7 +39,7 @@ export const GLOBAL_OPTIONS = {
     percentage: 'percentage',
   }),
   compareOperators: new GlobalOptions({
-    'bool': 'bool type equals',
+    bool: 'bool type equals',
     '=': '= equals',
     '!=': '!= not equals',
   }),
