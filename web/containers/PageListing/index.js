@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Actions } from '../../components/root';
 import * as utils from '../../utils';
-import { loadPageTree, loadPagesByPath } from '../../redux/admin';
+import { loadPageTree, loadPagesByPath, deletePage } from '../../redux/admin';
 import BaseContainer from '../BaseContainer';
 import { GLOBAL_OPTIONS } from '../../globals';
 
@@ -53,6 +53,14 @@ class PageListing extends BaseContainer {
 
   async onGridAction(row, value, column) {
     switch (value.action) {
+      case 'delete':
+        await this.props.raiseAction(
+          deletePage({
+            uid: row.uid,
+          })
+        );
+        this.refreshPages();
+        break;
       case 'edit':
         utils.redirect.redirectTo(
           row.type === 'SITE_MAP' ? 'editSiteMap' : 'editPage',
@@ -129,7 +137,10 @@ class PageListing extends BaseContainer {
                     name: 'title',
                     headerText: 'Page Title',
                     className: 'col-large',
-                    render: (val, col, row) => row.type === 'SITE_MAP' ? `${row.pageData?.siteMap?.title}` : `${row.pageData?.title}`,
+                    render: (val, col, row) =>
+                      row.type === 'SITE_MAP'
+                        ? `${row.pageData?.siteMap?.title}`
+                        : `${row.pageData?.title}`,
                   },
                   {
                     name: 'path',
@@ -176,6 +187,18 @@ class PageListing extends BaseContainer {
                           buttonText: translate('Publish'),
                           render: (row) => {
                             return row.status === 'DRAFT';
+                          },
+                        },
+                        {
+                          cmpType: 'LinkButton',
+                          iconName: 'Delete',
+                          iconVariant: 'error',
+                          action: 'delete',
+                          buttonText: translate('Delete'),
+                          confirm: {
+                            title: 'Confirm?',
+                            content:
+                              'Are you sure you want to delete this page?',
                           },
                         },
                       ],

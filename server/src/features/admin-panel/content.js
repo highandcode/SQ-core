@@ -32,6 +32,14 @@ module.exports = ({ context } = {}) => {
       })
       .catch((ex) => context.handleError(ex, res));
   });
+  context.router.delete('/content/page', function (req, res) {
+    context.contentRepo
+      .deleteById(req.body.uid)
+      .then((result) => {
+        res.json(new Response(result).json());
+      })
+      .catch((ex) => context.handleError(ex, res));
+  });
   context.router.post('/content/page/get', function (req, res) {
     context.contentRepo
       .getByPath(req.body.path)

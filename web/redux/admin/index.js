@@ -187,6 +187,43 @@ export const savePageDraft =
       await dispatch(setContentPage(result.data));
     }
   };
+export const deletePage =
+  (payload, { url, method = 'delete', params, hook, query } = {}) =>
+  async (dispatch, getState) => {
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.contentPage,
+      params
+        ? processParams(
+            {
+              ...selectContentData(getState()),
+              ...selectUserData(getState()),
+              ...payload,
+            },
+            params,
+            undefined,
+            getState()
+          )
+        : payload,
+      undefined,
+      processParams(
+        { ...selectContentData(getState()), ...selectUserData(getState()) },
+        query,
+        undefined,
+        getState()
+      )
+    );
+    if (result.status === CONSTANTS.STATUS.SUCCESS) {
+      dispatch(
+        showNotificationMessage({
+          message: 'Page deleted successfully',
+        })
+      );
+      if (hook) {
+        result.data = await customHooks.execute(hook, result);
+      }
+      await dispatch(setContentPage(result.data));
+    }
+  };
 export const selectContentData = (state) => {
   return state.admin.contentData;
 };
