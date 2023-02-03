@@ -18,6 +18,14 @@ export const GLOBAL_OPTIONS = {
   inputVariant: new GlobalOptions({
     outlined: 'Outlined',
     standard: 'Standard',
+    filled: 'Filled',
+    default: 'Default',
+  }),
+  alerTypes: new GlobalOptions({
+    info: 'Info',
+    error: 'Error',
+    success: 'Success',
+    warning: 'Warning',
   }),
   contentType: new GlobalOptions({
     PAGE: 'Page',

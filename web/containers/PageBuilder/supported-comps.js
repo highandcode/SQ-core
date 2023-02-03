@@ -23,6 +23,7 @@ import CustomEdit from './edits/Custom';
 import ImageEdit from './edits/Image';
 import DateSelectorEdit from './edits/DateSelector';
 import AutocompleteEdit from './edits/Autocomplete';
+import AlertEdit from './edits/Alert';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 const compList = {
@@ -270,6 +271,25 @@ const compList = {
       label: 'Label',
     },
   },
+  AlertElement: {
+    Component: getMap().Alert,
+    name: 'Alert',
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: AlertEdit,
+    sampleData: {
+      message: 'Sample message',
+    },
+  },
+  Alert: {
+    Component: getMap().Alert,
+    group: 'Content',
+    type: ItemTypes.COMPONENT,
+    editData: AlertEdit,
+    sampleData: {
+      message: 'Sample message',
+    },
+  },
   CheckboxList: {
     Component: getMap().CheckboxList,
     group: 'Form Elements',
@@ -304,6 +324,14 @@ const compList = {
     editData: CustomEdit,
     sampleData: {
       component: 'Custom',
+    },
+  },
+  CustomElement: {
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: CustomEdit,
+    sampleData: {
+      cmpType: 'CustomElement',
     },
   },
   HeroContent: {
