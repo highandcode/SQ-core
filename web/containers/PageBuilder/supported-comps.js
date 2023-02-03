@@ -26,14 +26,7 @@ import AutocompleteEdit from './edits/Autocomplete';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 const compList = {
-  Custom: {
-    group: 'Form Elements',
-    type: ItemTypes.COMPONENT,
-    editData: CustomEdit,
-    sampleData: {
-      component: 'Custom',
-    },
-  },
+ 
   Form: {
     Component: Form,
     group: 'Form',
@@ -304,6 +297,14 @@ const compList = {
       subHeader: 'Sub header',
     },
     editData: HeaderEdit,
+  },
+  Custom: {
+    group: 'Content',
+    type: ItemTypes.FORM,
+    editData: CustomEdit,
+    sampleData: {
+      component: 'Custom',
+    },
   },
   HeroContent: {
     group: 'Content',

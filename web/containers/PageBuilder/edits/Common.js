@@ -124,25 +124,74 @@ export const withEditTabs = ({ classNames = [], pageData = {}, general = [], val
       ...pageData,
       init: {
         ...pageData.init,
+        advanced: false,
+        editTab: firstSelectedTab,
         main: {
-          editTab: firstSelectedTab,
         },
       },
       items: [
         {
+          component: 'Wrapper',
+          bodyClassName: 'text-right',
+          items: [
+            {
+              component: 'Switch',
+              name: 'advanced',
+              label: 'Advanced Mode',
+            },
+          ],
+        },
+        {
+          name: 'editTab',
+          component: 'Tabs',
+          className: 'mb-wide',
+          options: [...(isGeneralTab ? [tabs.general] : []), ...(isValidationsTab ? [tabs.validations] : []), ...(isActionsTab ? [tabs.actions] : []), tabs.match],
+          match: {
+            advanced: {
+              validators: [
+                {
+                  type: 'equals',
+                  matchValue: false,
+                },
+              ],
+            },
+          },
+        },
+        {
+          component: 'FormObject',
+          name: 'main',
+          match: {
+            advanced: {
+              validators: [
+                {
+                  type: 'equals',
+                  matchValue: true,
+                },
+              ],
+            },
+          },
+        },
+        
+        {
           component: 'Form',
           name: 'main',
           fields: [
-            {
-              name: 'editTab',
-              cmpType: 'Tabs',
-              options: [...(isGeneralTab ? [tabs.general] : []), ...(isValidationsTab ? [tabs.validations] : []), ...(isActionsTab ? [tabs.actions] : []), tabs.match],
-            },
+            
             ...createTabItems(finalGeneral, tabs.general.value),
             ...createTabItems(finalValidations, tabs.validations.value),
             ...createTabItems(actions, tabs.actions.value),
             ...createTabItems(defaultMatch, tabs.match.value),
           ],
+          match: {
+            advanced: {
+              validators: [
+                {
+                  type: 'equals',
+                  matchValue: false,
+                },
+              ],
+            },
+          },
         },
         ...(pageData.items ? pageData.items : []),
         {

@@ -157,8 +157,8 @@ class FormObject extends Component {
                   value={itemVal}
                   onChange={(data) => this.valueOnChange(data, itemKey, isArray)}
                 />
-                {!isObject && !isInternalArray && <IconButton title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.convertToObj(itemKey, isArray)} />}
-                {!isObject && !isInternalArray && <IconButton title={'Convert to array'} iconName="DataArray" color="success" size="small" onClick={() => this.convertToArr(itemKey, isArray)} />}
+                {!fields && !isObject && !isInternalArray && <IconButton title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.convertToObj(itemKey, isArray)} />}
+                {!fields && !isObject && !isInternalArray && <IconButton title={'Convert to array'} iconName="DataArray" color="success" size="small" onClick={() => this.convertToArr(itemKey, isArray)} />}
                 <IconButton iconName="Delete" title="Delete" color="error" size="small" onClick={() => this.removeItem(itemKey, isArray)} />
               </div>
             </div>

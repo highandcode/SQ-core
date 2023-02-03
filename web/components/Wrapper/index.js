@@ -9,7 +9,7 @@ const Wrapper = ({ items = [], className = '', bodyClassName = 'row', onClick, o
   const { userData } = rest;
   const map = { ...getMap(), Wrapper };
   const handleChange = (value, field, block) => {
-    var finalBlock = field.block || block;
+    var finalBlock = field?.block || block;
 
     let latestValue = {};
 
