@@ -19,18 +19,20 @@ import TextEdit from './edits/Text';
 import TabsEdit from './edits/Tabs';
 import TextareaEdit from './edits/Textarea';
 import ProgressEdit from './edits/Progress';
-import DefaultEdit from './edits/Default';
+import CustomEdit from './edits/Custom';
 import ImageEdit from './edits/Image';
 import DateSelectorEdit from './edits/DateSelector';
 import AutocompleteEdit from './edits/Autocomplete';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 const compList = {
-  Default: {
+  Custom: {
     group: 'Form Elements',
-    type: ItemTypes.CUSTOM,
-    editData: DefaultEdit,
-    sampleData: {},
+    type: ItemTypes.COMPONENT,
+    editData: CustomEdit,
+    sampleData: {
+      component: 'Custom',
+    },
   },
   Form: {
     Component: Form,

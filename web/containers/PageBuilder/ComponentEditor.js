@@ -199,7 +199,7 @@ class ComponentEditor extends Component {
             {hasItems &&
               items &&
               items.map((item, idx) => {
-                const Component = compList[item[compTypeProp]] || (!item[compTypeProp] && defaultComp ? compList[defaultComp] : compList.Default);
+                const Component = compList[item[compTypeProp]] || (!item[compTypeProp] && defaultComp ? compList[defaultComp] : compList.Custom);
                 const { [compTypeProp]: cmpType, ...restItem } = item;
                 return (
                   <ErrorBoundary key={idx + changeIdx}>
@@ -213,7 +213,7 @@ class ComponentEditor extends Component {
                       itemsPropName={itemsPropName}
                       compList={compList}
                       {...Component}
-                      value={restItem}
+                      value={item}
                       onDelete={() => this.deleteComponentByIdx(idx)}
                       onChange={(data) => this.saveFormElData(data, idx)}
                       onMoveUp={() => this.moveElemUp(idx)}
