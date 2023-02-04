@@ -5,7 +5,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
 import Icon from '../Icon';
-import './data-list.scss';
 
 const DataList = ({ className = '', items = [] }) => {
   return (

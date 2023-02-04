@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Default from './templates/default';
 import WithBackground from './templates/with-bg';
-import './_featured-content.scss';
 
 const templates = {
   default: Default,

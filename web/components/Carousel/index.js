@@ -4,7 +4,6 @@ import Carousel from 'react-material-ui-carousel';
 
 import DefaultTemplate from './templates/default';
 import FullBgTemplate from './templates/full-bg';
-import './carousel.scss';
 
 let templates = {
   default: DefaultTemplate,

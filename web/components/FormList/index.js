@@ -4,7 +4,6 @@ import update from 'immutability-helper';
 import Form from '../Form';
 import IconButton from '../ui/IconButton';
 import { Orderable } from './Orderable';
-import './_form-list.scss';
 
 const FormList = ({
   className = '',

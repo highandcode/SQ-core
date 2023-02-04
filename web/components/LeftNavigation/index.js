@@ -16,7 +16,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Collapse from '@mui/material/Collapse';
 import Divider from '@mui/material/Divider';
 
-import './left-nav.scss';
 
 // const { Dialog, Icon } = root;
 

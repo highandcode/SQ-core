@@ -13,7 +13,6 @@ const _tempaltes = {
   Event
 };
 
-import './_documentation.scss';
 
 class ComponentDemo extends Component {
   constructor() {

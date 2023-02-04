@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Pencil from './pencil-effect';
 
-import './_magic-hero-content.scss';
 
 const templates = {
   pencil: Pencil

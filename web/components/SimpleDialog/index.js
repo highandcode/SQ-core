@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide';
 import Progress from '../Progress';
 import Icon from '../Icon';
-import './dialog.scss';
 
 
 const IconSets = {

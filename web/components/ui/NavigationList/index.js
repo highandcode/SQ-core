@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import LinkButton from '../LinkButton';
 import { getPathName } from '../../../cordova';
-import './_navigation-list.scss';
 
 const extractCatName = (name) => {
   if (name.indexOf('::') > -1) {

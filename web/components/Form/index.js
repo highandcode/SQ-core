@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './form.scss';
 
 import { getMap } from '../ui/index';
 import { Validator } from '../../utils/validator';

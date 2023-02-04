@@ -5,7 +5,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import RoundProgress from './round-progress';
 import CubeProgress from './cube-progress';
 import Ripple from './ripple';
-import './progress.scss';
 
 const _types = {
   default: CircularProgress,

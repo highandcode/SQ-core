@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
 import { getFormatters } from '../../utils/format';
-import './ticker.scss';
 
 const configVals = {
   default: {

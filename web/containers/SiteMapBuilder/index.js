@@ -11,7 +11,6 @@ import Button from '../../components/ui/Button';
 import Switch from '../../components/ui/Switch';
 import * as utils from '../../utils';
 import editData from './editConfig';
-import './_site-map-builder.scss';
 import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
 
 class SiteMapBuilder extends Component {

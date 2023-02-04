@@ -6,7 +6,6 @@ import Button from '../../ui/Button';
 import LinkButton from '../../ui/LinkButton';
 import { redirectTo } from '../../../utils/redirect';
 import useSticky from './useSticky';
-import './_global-navigation.scss';
 import { Fragment } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';

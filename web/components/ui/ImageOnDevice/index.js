@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import './_image-on-device.scss';
 import imageIphone from '../../../assets/img/iPhone.png';
 import imageIphone11 from '../../../assets/img/iPhone-11.png';
 import imageIpad from '../../../assets/img/iPad.png';

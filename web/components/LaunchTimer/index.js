@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Header from '../ui/Header';
 import { utils } from '../../index';
 
-import './launch-timer.scss';
 
 const LabelDisplay = ({ label, value, className = '' }) => {
   return (

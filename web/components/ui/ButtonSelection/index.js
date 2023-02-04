@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
-import './_button-selection.scss';
 
 const ButtonSelection = ({ className = '', label, options = [], textField = 'text', valueField = 'value', value, onChange, variant = 'outlined' }) => {
   const handleClick = (e, option) => {

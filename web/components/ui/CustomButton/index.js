@@ -6,7 +6,6 @@ const templatesObject = {
   default: Default
 };
 
-import './_custom-button.scss';
 
 const CustomButton = ({
   classes,

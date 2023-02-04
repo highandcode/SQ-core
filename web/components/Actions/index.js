@@ -4,7 +4,6 @@ import { getMap } from '../ui/index';
 import Dialog from '../Dialog';
 import { getValue } from '../../utils/properties';
 
-import './actions.scss';
 
 const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics, row, column, beforeRender }) => {
   const compMap = getMap();

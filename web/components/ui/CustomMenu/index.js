@@ -5,7 +5,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '../IconButton';
 
-import './_custom-menu.scss';
 
 export const CustomMenu = ({
   header = 'No header',

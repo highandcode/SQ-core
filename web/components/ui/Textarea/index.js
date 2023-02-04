@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { TextareaAutosize } from '@mui/material';
 
-import './textarea-field.scss';
 
 class TextareaField extends React.Component {
   constructor() {

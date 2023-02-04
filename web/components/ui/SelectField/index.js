@@ -8,7 +8,6 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import StandardInput from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import './select-field.scss';
 import { translate } from '../../../utils/translate';
 import { common, getValue, idFromLabel } from '../../../utils/properties';
 import Icon from '../../Icon';

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
 
-import './_comp-renderer.scss';
 
 class CompRenderer extends Component {
   constructor() {

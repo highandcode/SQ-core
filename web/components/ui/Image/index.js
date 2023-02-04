@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './_image.scss';
 import { resolveImageUrl } from '../../../cordova';
 
 

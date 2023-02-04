@@ -5,7 +5,6 @@ import moment from 'moment';
 import InfiniteCalendar from 'react-infinite-calendar';
 import Icon from '../../Icon';
 import 'react-infinite-calendar/styles.css'; // Make sure to import the default stylesheet
-import './datepicker.scss';
 
 const DatePicker = ({ value, label = '', format = 'MM/DD/YYYY', className = '', onChange, error, errorMessage }) => {
   const [show, setShow] = useState(false);

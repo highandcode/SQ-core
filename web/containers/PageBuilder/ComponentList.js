@@ -1,7 +1,6 @@
 import { useDrag } from 'react-dnd';
 import _ from 'lodash';
 import { ItemTypes } from './ItemTypes.js';
-import './_component-list.scss';
 
 export const Component = ({ type, name, displayText, metaData, onSuccess }) => {
   const [{ opacity }, drag] = useDrag(

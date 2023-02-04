@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Switch from '@mui/material/Switch';
 import common from '../../../utils/common';
-import './_switch.scss';
 
 const SQSwitch = ({
   label,

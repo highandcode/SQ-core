@@ -4,7 +4,6 @@ import _ from 'lodash';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Icon from '../Icon';
-import './bottom-navigation.scss';
 
 class LabelBottomNavigation extends React.Component {
   constructor() {

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { DropzoneArea } from 'react-mui-dropzone';
 
-import './drop-zone-file.scss';
 
 const DropZoneFile = ({
   className = '',

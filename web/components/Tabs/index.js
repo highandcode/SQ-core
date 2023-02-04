@@ -6,7 +6,6 @@ import Tab from '@mui/material/Tab';
 import Icon from '../Icon';
 import { getValue } from '../../utils/properties';
 
-import './tabs.scss';
 
 class SQTabs extends React.Component {
   constructor() {

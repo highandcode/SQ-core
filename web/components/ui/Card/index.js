@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getFormatters } from '../../../utils/format';
-import './card.scss';
 
 function CustomCard({ className = '', header = '', value = '', formatter = {}, cardType = 'primary', onClick }) {
   const { type, ...restFormatter } = formatter;

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import './icon-calendar.scss';
 
 const IconCalendar = ({ className = '', value, yearFormat = 'YY', color = 'default', size = 'normal', row, onClick }) => {
   const day = moment(value).format('DD');

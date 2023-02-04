@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Content from '../Content';
 import NavigationList from '../../components/ui/NavigationList';
-import './_documentation.scss';
 
 class ComponentDemo extends Component {
   constructor() {

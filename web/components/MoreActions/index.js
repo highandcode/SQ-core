@@ -9,7 +9,6 @@ import Dialog from '../Dialog';
 
 import { getValue } from '../../utils/properties';
 
-import './more-actions.scss';
 
 const MoreActions = ({
   actions = [],

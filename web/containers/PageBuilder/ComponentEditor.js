@@ -5,7 +5,6 @@ import Tooltip from '@mui/material/Tooltip';
 import ErrorBoundary from '../../components/ErrorBoundry';
 import IconButton from '../../components/ui/IconButton';
 import Dialog from '../../components/Dialog';
-import './_component-editor.scss';
 import DynamicContent from '../DynamicContent';
 import { Placeholder } from './Placeholder';
 import MoreActions from '../../components/MoreActions';

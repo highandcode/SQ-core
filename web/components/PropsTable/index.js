@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
-import './_props-table.scss';
 
 const PropsTable = ({ props = [], className = '' }) => {
   return (

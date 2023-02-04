@@ -1,7 +1,6 @@
 import { useDrop } from 'react-dnd';
 import Icon from '../../components/Icon/index.js';
 import { ItemTypes } from './ItemTypes.js';
-import './_placeholder.scss';
 
 function selectBackgroundColor(isActive, canDrop) {
   if (isActive) {

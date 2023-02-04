@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
 import { object } from '../../../utils';
 import { resolveImageUrl } from '../../../cordova';
-import './_header.scss';
 
 const Header = ({ eyebrow, header, headerTag = 'h1', bodyTag = 'div', subHeader, className = '', imageUrl, userData }) => {
   const HTag = headerTag;

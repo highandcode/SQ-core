@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Form from '../Form';
 import IconButton from '../ui/IconButton';
-import './_form-object.scss';
 
 class FormObject extends Component {
   constructor(props) {

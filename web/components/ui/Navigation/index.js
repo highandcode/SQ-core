@@ -4,7 +4,6 @@ import { redirectTo } from '../../../utils/redirect';
 import common from '../../../utils/common';
 import AppBar from './AppBar';
 import Drawer from './Drawer';
-import './navigation.scss';
 
 class SQNavigation extends React.Component {
   constructor() {

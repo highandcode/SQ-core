@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import ImageWithSlide from '../ImageWithSlide';
 
-import './_image-with-slide-list.scss';
 import HeroContent from '../HeroContent';
 
 const ImageWithSlideList = ({ items = [], className = '', classes = {}, header, floatHeader = true }) => {

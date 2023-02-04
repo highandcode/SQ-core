@@ -7,7 +7,6 @@ import SpeedDialAction from '@mui/lab/SpeedDialAction';
 
 import { getValue } from '../../utils/properties';
 
-import './speed-dial.scss';
 
 const SQSpeedDial = ({ actions = [], className = '', label = '', onClick, onAction, row, column }) => {
   const [open, setOpen] = useState(false);

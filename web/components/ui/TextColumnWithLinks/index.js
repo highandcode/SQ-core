@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import Default from './default';
-import './_text-column-links.scss';
 
 const templates = {
   default: Default

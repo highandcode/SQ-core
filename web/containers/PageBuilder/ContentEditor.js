@@ -5,7 +5,6 @@ import ComponentEditor from './ComponentEditor';
 import { Placeholder } from './Placeholder';
 import { ItemTypes } from './ItemTypes';
 
-import './_content-editor.scss';
 
 class ContentEditor extends Component {
   constructor() {

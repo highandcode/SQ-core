@@ -6,7 +6,6 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { getValue } from '../../utils/properties';
 import { getMap, addComp } from '../ui';
 import Icon from '../Icon';
-import './_editable-field.scss';
 
 const EditableField = ({
   column,

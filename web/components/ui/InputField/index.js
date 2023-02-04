@@ -4,7 +4,6 @@ import { TextField, InputAdornment } from '@mui/material';
 import { getValue, idFromLabel } from '../../../utils/properties';
 import { getMasks } from '../../../utils/mask';
 import { getValidators } from '../../../utils/validator';
-import './input-field.scss';
 
 class InputField extends React.Component {
   constructor() {

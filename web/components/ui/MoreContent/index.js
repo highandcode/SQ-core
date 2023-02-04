@@ -5,7 +5,6 @@ import Popover from '@mui/material/Popover';
 import Box from '@mui/material/Box';
 import Link from '../Link';
 
-import './more-content.scss';
 
 const MoreContent = ({ linkProps, popoverProps, title, content, ...rest }) => {
   const { analytics = {}, onAnalytics } = rest;

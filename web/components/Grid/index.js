@@ -7,7 +7,6 @@ import GridHeaderRow from './components/GridHeaderRow';
 import ColFilters from './components/GridColumnFilter';
 import Dialog from '../Dialog';
 import Button from '../ui/Button';
-import './grid.scss';
 import { translate } from '../../utils/translate';
 import { getValue } from '../../utils/properties';
 

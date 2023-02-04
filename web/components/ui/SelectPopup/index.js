@@ -6,7 +6,6 @@ import Dialog from '../../Dialog';
 import { getValue } from '../../../utils/properties';
 import ItemList from './ItemList';
 
-import './select-popup.scss';
 class SelectPopup extends React.Component {
   constructor() {
     super();

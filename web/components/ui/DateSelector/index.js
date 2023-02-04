@@ -10,7 +10,6 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TextField } from '@mui/material';
 import { getValue } from '../../../utils/properties';
 import { datetime } from '../../../utils/datetime';
-import './dateselector.scss';
 
 const instanceTypes = {
   DatePicker,

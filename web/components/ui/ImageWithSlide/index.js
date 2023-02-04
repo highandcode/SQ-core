@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import common from '../../../utils/common';
 import ImageOnDevice from '../ImageOnDevice';
 
-import './_image-with-slide.scss';
 
 const imageMap = {
   img: ({ src, ...rest }) => {

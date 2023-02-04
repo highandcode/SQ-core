@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import SoundEffect from '../SoundEffect';
-import './timer.scss';
 function formatTimeLeft(time) {
   // The largest round integer less than or equal to the result of time divided being by 60.
   const minutes = Math.floor(time / 60);

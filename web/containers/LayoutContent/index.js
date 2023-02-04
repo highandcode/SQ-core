@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Content from '../Content';
-import './_layout-content.scss';
 
 class LayoutContent extends Component {
   constructor() {

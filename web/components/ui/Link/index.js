@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../Icon';
 import { redirectTo } from '../../../utils/redirect';
-import './link.scss';
 import { resolveImageUrl } from '../../../cordova';
 
 const Link = ({
