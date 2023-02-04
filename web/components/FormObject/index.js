@@ -117,7 +117,6 @@ class FormObject extends Component {
   render() {
     const { className = '', label, fields, value = {}, formClassName = 'sq-form--keyval-mode', ...rest } = this.props;
     const isArray = this.isArray(value);
-    console.log('>>>>', value);
     return (
       <div className={`sq-form-object ${className}`}>
         {label && <div className="sq-form-object__label mb-wide">{label}</div>}
@@ -131,12 +130,13 @@ class FormObject extends Component {
               <div className="sq-form-object__item-wrap">
                 <Form
 
-                  className={`pb-none ${finalClassName}`}
+                  className={`pb-0 ${finalClassName}`}
                   fields={
                     fields || [
                       {
                         cmpType: isArray ? 'Text' : 'EditableField',
                         name: 'key',
+                        
                         editProps: {
                           label: 'Key',
                           disabled: isArray,
@@ -145,6 +145,7 @@ class FormObject extends Component {
                       {
                         cmpType: isObject ? 'FormObject' : 'EditableField',
                         name: 'value',
+                        editType : typeof(itemVal.value) === 'boolean' ? 'Switch' : 'Input',
                         label: isObject ? '' : 'Value',
                         editProps: {
                           label: 'Value',
@@ -155,8 +156,8 @@ class FormObject extends Component {
                   value={itemVal}
                   onChange={(data) => this.valueOnChange(data, itemKey, isArray)}
                 />
-                {!isObject && !isInternalArray && <IconButton title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.convertToObj(itemKey, isArray)} />}
-                {!isObject && !isInternalArray && <IconButton title={'Convert to array'} iconName="DataArray" color="success" size="small" onClick={() => this.convertToArr(itemKey, isArray)} />}
+                {!fields && !isObject && !isInternalArray && <IconButton title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.convertToObj(itemKey, isArray)} />}
+                {!fields && !isObject && !isInternalArray && <IconButton title={'Convert to array'} iconName="DataArray" color="success" size="small" onClick={() => this.convertToArr(itemKey, isArray)} />}
                 <IconButton iconName="Delete" title="Delete" color="error" size="small" onClick={() => this.removeItem(itemKey, isArray)} />
               </div>
             </div>

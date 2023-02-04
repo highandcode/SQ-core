@@ -2,17 +2,38 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
+import {
+  startLoading,
+  showNotificationMessage,
+  closeNotification,
+  stopLoading,
+  showPopupScreen,
+  showPopup,
+  setError,
+  clearError,
+} from '../../redux/common';
 import { getFieldsMeta, getPage, savePageDraft } from '../../redux/admin';
-import IconButton from '../../components/ui/IconButton';
 import DynamicContent from '../DynamicContent';
 
 import Button from '../../components/ui/Button';
 import Switch from '../../components/ui/Switch';
 import * as utils from '../../utils';
 import editData from './editConfig';
-import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
-
+import {
+  fetchContentPage,
+  postApi,
+  downloadApi,
+  executeHook,
+  updateUserData,
+  updateMetaData,
+  mergeUserData,
+  updateErrorData,
+  resetUserData,
+  customHooks,
+  sendContact,
+  processParams,
+} from '../../redux/content';
+import { getConfig } from '../PageBuilder';
 class SiteMapBuilder extends Component {
   constructor() {
     super();
@@ -51,28 +72,48 @@ class SiteMapBuilder extends Component {
     this.props.commonActions.stopLoading();
   }
   async savePageAsDraft(data, autoSave) {
+    let parms = {};
+    if (data) {
+      parms.pageData = { ...data };
+    }
     const { pageData, store } = this.props;
     !autoSave && this.props.commonActions.startLoading();
-    await this.props.raiseAction(savePageDraft({ ...this.state.contentData }, { autoSave, ...pageData.savePageConfig }));
+    await this.props.raiseAction(
+      savePageDraft(
+        { ...this.state.contentData, ...parms },
+        { autoSave, ...pageData.savePageConfig }
+      )
+    );
     !autoSave && this.props.commonActions.stopLoading();
   }
   async onContentChange(data) {
     await this.setState({
       contentData: { ...this.state.contentData, pageData: { ...data } },
     });
-    this.state.autoSave && this.savePageAsDraft(data, this.state.autoSave);
+    this.savePageAsDraft(data, this.state.autoSave);
   }
   render() {
     const { className = '', pageData, store } = this.props;
-    console.log;
+    const editfinalData = editData(getConfig());
     return (
-      <div className={`sq-sitemap-builder sq-v-screen sq-v-screen--fixed ${className}`}>
+      <div
+        className={`sq-sitemap-builder sq-v-screen sq-v-screen--fixed ${className}`}
+      >
         <DndProvider backend={HTML5Backend}>
           <div className="sq-v-screen__container">
             <div className="sq-sitemap-builder__top-actions text-right mb-wide">
               <div className="container-fluid">
-                <Switch label="Autosave" value={this.state.autoSave} onChange={this.toggleAutoSave} />
-                <Button iconName={'Save'} variant="outlined" buttonText="Save" onClick={() => this.savePageAsDraft()} />
+                <Switch
+                  label="Autosave"
+                  value={this.state.autoSave}
+                  onChange={this.toggleAutoSave}
+                />
+                <Button
+                  iconName={'Save'}
+                  variant="outlined"
+                  buttonText="Save"
+                  onClick={() => this.savePageAsDraft()}
+                />
               </div>
               {/* <Button iconName={'Preview'} variant="outlined" buttonText="Full Preview" onClick={this.showPreview} /> */}
               {/* <Button iconName={'Publish'} buttonText="Publish" /> */}
@@ -81,12 +122,12 @@ class SiteMapBuilder extends Component {
               <div className="container-fluid">
                 {this.state.contentData?.pageData && (
                   <DynamicContent
-                    pageConfig={editData}
+                    pageConfig={editfinalData}
                     rootClass={''}
                     initialData={{
                       main: this.state.contentData.pageData,
                     }}
-                    contentParams={editData.pageData.params}
+                    contentParams={editfinalData.pageData.params}
                     onContentChange={this.onContentChange}
                     onSubmit={this.savePageAsDraft}
                   />
@@ -125,7 +166,8 @@ const mapDispatchToProps = (dispatch) => {
       updateErrorData: (data) => dispatch(updateErrorData(data)),
     },
     commonActions: {
-      showNotificationMessage: (data) => dispatch(showNotificationMessage(data)),
+      showNotificationMessage: (data) =>
+        dispatch(showNotificationMessage(data)),
       closeNotification: (data) => dispatch(closeNotification(data)),
       startLoading: (data) => dispatch(startLoading(data)),
       showPopup: (data) => dispatch(showPopup(data)),

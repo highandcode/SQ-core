@@ -4,6 +4,7 @@ import { withEditTabs } from './Common';
 export default withEditTabs({
   enableValidations: false,
   enableActions: true,
+  classNames: GLOBAL_OPTIONS.formStyles.toArray(),
   saveParams: {},
   pageData: {
     merge: {
@@ -18,12 +19,6 @@ export default withEditTabs({
       name: 'buttonText',
       cmpType: 'Input',
       label: 'buttonText',
-    },
-    {
-      name: 'className',
-      cmpType: 'InputWithOptions',
-      label: 'className',
-      options: GLOBAL_OPTIONS.formStyles.toArray(),
     },
     {
       name: 'size',

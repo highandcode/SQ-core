@@ -9,7 +9,16 @@ import Button from '../../components/ui/Button';
 import Switch from '../../components/ui/Switch';
 import { ComponentList } from './ComponentList';
 import Panel from './Panel';
-import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
+import {
+  startLoading,
+  showNotificationMessage,
+  closeNotification,
+  stopLoading,
+  showPopupScreen,
+  showPopup,
+  setError,
+  clearError,
+} from '../../redux/common';
 import { getFieldsMeta, getPage, savePageDraft } from '../../redux/admin';
 import ContentEditor from './ContentEditor';
 import { getSupportedComps, addComponent } from './supported-comps';
@@ -18,7 +27,20 @@ import * as utils from '../../utils';
 import ErrorBoundry from '../../components/ErrorBoundry';
 import { GLOBAL_OPTIONS } from '../../globals';
 
-import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
+import {
+  fetchContentPage,
+  postApi,
+  downloadApi,
+  executeHook,
+  updateUserData,
+  updateMetaData,
+  mergeUserData,
+  updateErrorData,
+  resetUserData,
+  customHooks,
+  sendContact,
+  processParams,
+} from '../../redux/content';
 
 const config = {
   templates: [
@@ -39,9 +61,17 @@ const config = {
       value: 'Default',
     },
   ],
+  themes: [
+    {
+      text: 'Main',
+      value: 'main',
+    },
+  ],
 };
 
-export const updateConfig = ({ templates, layouts, containers }) => {
+export const getConfig = () => config;
+
+export const updateConfig = ({ templates, layouts, containers, themes }) => {
   if (templates) {
     config.templates = templates;
   }
@@ -50,6 +80,9 @@ export const updateConfig = ({ templates, layouts, containers }) => {
   }
   if (containers) {
     config.containers = containers;
+  }
+  if (themes) {
+    config.themes = themes;
   }
 };
 
@@ -99,7 +132,12 @@ class PageBuilder extends Component {
   async savePageAsDraft(autoSave) {
     const { pageData, store } = this.props;
     !autoSave && this.props.commonActions.startLoading();
-    await this.props.raiseAction(savePageDraft(this.state.contentData, { autoSave: autoSave === true, ...pageData.savePageConfig }));
+    await this.props.raiseAction(
+      savePageDraft(this.state.contentData, {
+        autoSave: autoSave === true,
+        ...pageData.savePageConfig,
+      })
+    );
     !autoSave && this.props.commonActions.stopLoading();
   }
   componentOnDrop(item) {
@@ -112,7 +150,9 @@ class PageBuilder extends Component {
             ...(this.state.contentData.pageData.items || []),
             {
               component: item.name,
-              name: item.name.toLowerCase() + (this.state.contentData.pageData.items?.length || 1),
+              name:
+                item.name.toLowerCase() +
+                (this.state.contentData.pageData.items?.length || 1),
               ...item.metaData.sampleData,
             },
           ],
@@ -191,7 +231,11 @@ class PageBuilder extends Component {
     });
   }
   showPreview() {
-    utils.redirect.redirectTo(utils.queryString.query.get().path + '.html', { mode: 'preview' }, { target: '_blank' });
+    utils.redirect.redirectTo(
+      utils.queryString.query.get().path,
+      { mode: 'preview' },
+      { target: '_blank' }
+    );
   }
 
   onMoveItemDown(index) {
@@ -277,20 +321,50 @@ class PageBuilder extends Component {
     const { className = '', pageData, store } = this.props;
     const compList = getSupportedComps();
     return (
-      <div className={`sq-page-builder sq-v-screen sq-v-screen--fixed ${className}`}>
+      <div
+        className={`sq-page-builder sq-v-screen sq-v-screen--fixed ${className}`}
+      >
         <div className="sq-v-screen__container">
           <div className="sq-page-builder__top-actions mb-wide">
-            <Switch label="Autosave" value={this.state.autoSave} onChange={this.toggleAutoSave} />
-            <Switch label="Quick Preview" value={this.state.preview} onChange={this.toggleQuickPreview} />
-            <Button iconName={'Save'} variant="outlined" buttonText="Save" onClick={() => this.savePageAsDraft()} />
-            <Button iconName={'Preview'} variant="outlined" buttonText="Full Preview" onClick={this.showPreview} />
+            <Switch
+              label="Autosave"
+              value={this.state.autoSave}
+              onChange={this.toggleAutoSave}
+            />
+            <Switch
+              label="Quick Preview"
+              value={this.state.preview}
+              onChange={this.toggleQuickPreview}
+            />
+            <Button
+              iconName={'Save'}
+              variant="outlined"
+              buttonText="Save"
+              onClick={() => this.savePageAsDraft()}
+            />
+            <Button
+              iconName={'Preview'}
+              variant="outlined"
+              buttonText="Full Preview"
+              onClick={this.showPreview}
+            />
             {/* <Button iconName={'Publish'} buttonText="Publish" /> */}
           </div>
           <div className="sq-page-builder__content sq-v-screen-grow">
             <DndProvider backend={HTML5Backend}>
               <div className="sq-page-builder__l-options">
-                <IconButton title="Elements" iconName="code" variant={!this.state.enableMenu ? 'default' : 'primary'} onClick={this.toggleElements} />
-                <IconButton title="Page Properties" iconName="default" variant={!this.state.enableProps ? 'default' : 'primary'} onClick={this.toggleProps} />
+                <IconButton
+                  title="Elements"
+                  iconName="code"
+                  variant={!this.state.enableMenu ? 'default' : 'primary'}
+                  onClick={this.toggleElements}
+                />
+                <IconButton
+                  title="Page Properties"
+                  iconName="default"
+                  variant={!this.state.enableProps ? 'default' : 'primary'}
+                  onClick={this.toggleProps}
+                />
               </div>
               {/* <div className="sq-page-builder__r-options">
               </div> */}
@@ -298,7 +372,11 @@ class PageBuilder extends Component {
               <div className="sq-page-builder__container">
                 <div className="sq-page-builder__left">
                   {this.state.enableMenu && (
-                    <Panel header="Elements" theme="dark" onClose={this.toggleElements}>
+                    <Panel
+                      header="Elements"
+                      theme="dark"
+                      onClose={this.toggleElements}
+                    >
                       <div className="row">
                         <ComponentList compList={compList} />
                       </div>
@@ -313,7 +391,19 @@ class PageBuilder extends Component {
                   )}
                   {!this.state.preview && (
                     <>
-                      <ContentEditor fieldsMeta={{ ...this.getDrivedProps(), ...store.admin.fieldsMeta }} pageData={this.state.contentData.pageData} compList={compList} onDelete={this.onContentDelete} onChange={this.onContentChange} onMoveItemUp={this.onMoveItemUp} onMoveItemDown={this.onMoveItemDown} onDrop={this.componentOnDrop} />
+                      <ContentEditor
+                        fieldsMeta={{
+                          ...this.getDrivedProps(),
+                          ...store.admin.fieldsMeta,
+                        }}
+                        pageData={this.state.contentData.pageData}
+                        compList={compList}
+                        onDelete={this.onContentDelete}
+                        onChange={this.onContentChange}
+                        onMoveItemUp={this.onMoveItemUp}
+                        onMoveItemDown={this.onMoveItemDown}
+                        onDrop={this.componentOnDrop}
+                      />
                     </>
                   )}
                 </div>
@@ -352,6 +442,12 @@ class PageBuilder extends Component {
                             options: pageData.layouts || config.layouts,
                           },
                           {
+                            name: 'theme',
+                            cmpType: 'Autocomplete',
+                            label: 'Theme',
+                            options: pageData.themes || config.themes,
+                          },
+                          {
                             name: 'className',
                             cmpType: 'InputWithOptions',
                             label: 'className',
@@ -361,7 +457,8 @@ class PageBuilder extends Component {
                             name: 'wrapperClassName',
                             cmpType: 'InputWithOptions',
                             label: 'wrapperClassName',
-                            options: GLOBAL_OPTIONS.pageWrapperClasses.toArray(),
+                            options:
+                              GLOBAL_OPTIONS.pageWrapperClasses.toArray(),
                           },
                           {
                             cmpType: 'Autocomplete',
@@ -425,7 +522,8 @@ const mapDispatchToProps = (dispatch) => {
       updateErrorData: (data) => dispatch(updateErrorData(data)),
     },
     commonActions: {
-      showNotificationMessage: (data) => dispatch(showNotificationMessage(data)),
+      showNotificationMessage: (data) =>
+        dispatch(showNotificationMessage(data)),
       closeNotification: (data) => dispatch(closeNotification(data)),
       startLoading: (data) => dispatch(startLoading(data)),
       showPopup: (data) => dispatch(showPopup(data)),

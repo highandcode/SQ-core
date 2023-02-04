@@ -34,7 +34,7 @@ const createTabItems = (data, key) => {
       }))
     : [];
 };
-export default {
+export default ({ themes } = {}) => ({
   pageData: {
     init: {
       editTab: tabs.general.value,
@@ -63,7 +63,7 @@ export default {
                 name: 'theme',
                 label: 'theme',
                 cmpType: 'Autocomplete',
-                options: [{ text: 'basic', value: 'basic' }],
+                options: themes,
               },
               {
                 name: 'appVersion',
@@ -194,4 +194,4 @@ export default {
       },
     ],
   },
-};
+});

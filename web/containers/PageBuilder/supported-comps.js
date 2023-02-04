@@ -17,18 +17,17 @@ import WrapperEdit from './edits/Wrapper';
 import ButtonEdit from './edits/Button';
 import TextEdit from './edits/Text';
 import TabsEdit from './edits/Tabs';
+import TextareaEdit from './edits/Textarea';
 import ProgressEdit from './edits/Progress';
-import DefaultEdit from './edits/Default';
+import CustomEdit from './edits/Custom';
+import ImageEdit from './edits/Image';
+import DateSelectorEdit from './edits/DateSelector';
+import AutocompleteEdit from './edits/Autocomplete';
+import AlertEdit from './edits/Alert';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 const compList = {
-  Default: {
-    group: 'Form Elements',
-    hasPlaceholder: true,
-    type: ItemTypes.CUSTOM,
-    editData: DefaultEdit,
-    sampleData: {},
-  },
+ 
   Form: {
     Component: Form,
     group: 'Form',
@@ -163,6 +162,17 @@ const compList = {
     editData: TabsEdit,
     sampleData: {},
   },
+  DateSelector: {
+    Component: getMap().DateSelector,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: DateSelectorEdit,
+    sampleData: {
+      inputFormat: 'yyyy/MM/dd',
+      outputFormat: 'YYYY/MM/DD',
+      mask: '____/__/__',
+    },
+  },
   Progress: {
     Component: Progress,
     group: 'Content',
@@ -183,6 +193,13 @@ const compList = {
       tag: 'h1',
     },
   },
+  Image: {
+    Component: getMap().Image,
+    group: 'Content',
+    type: ItemTypes.COMPONENT,
+    editData: ImageEdit,
+    sampleData: {},
+  },
   Button: {
     Component: getMap().Button,
     group: 'Actions',
@@ -199,6 +216,16 @@ const compList = {
     editData: InputEdit,
     sampleData: {
       label: 'Label',
+    },
+  },
+  Textarea: {
+    Component: getMap().Textarea,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: TextareaEdit,
+    sampleData: {
+      label: 'Label',
+      minRows: 3,
     },
   },
   Radio: {
@@ -226,6 +253,15 @@ const compList = {
       label: 'Select',
     },
   },
+  Autocomplete: {
+    Component: getMap().Autocomplete,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: AutocompleteEdit,
+    sampleData: {
+      label: 'Autocomplete',
+    },
+  },
   CheckboxField: {
     Component: getMap().CheckboxField,
     group: 'Form Elements',
@@ -233,6 +269,25 @@ const compList = {
     editData: CheckboxEdit,
     sampleData: {
       label: 'Label',
+    },
+  },
+  AlertElement: {
+    Component: getMap().Alert,
+    name: 'Alert',
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: AlertEdit,
+    sampleData: {
+      message: 'Sample message',
+    },
+  },
+  Alert: {
+    Component: getMap().Alert,
+    group: 'Content',
+    type: ItemTypes.COMPONENT,
+    editData: AlertEdit,
+    sampleData: {
+      message: 'Sample message',
     },
   },
   CheckboxList: {
@@ -262,6 +317,22 @@ const compList = {
       subHeader: 'Sub header',
     },
     editData: HeaderEdit,
+  },
+  Custom: {
+    group: 'Content',
+    type: ItemTypes.FORM,
+    editData: CustomEdit,
+    sampleData: {
+      component: 'Custom',
+    },
+  },
+  CustomElement: {
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: CustomEdit,
+    sampleData: {
+      cmpType: 'CustomElement',
+    },
   },
   HeroContent: {
     group: 'Content',

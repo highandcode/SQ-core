@@ -18,6 +18,14 @@ export const GLOBAL_OPTIONS = {
   inputVariant: new GlobalOptions({
     outlined: 'Outlined',
     standard: 'Standard',
+    filled: 'Filled',
+    default: 'Default',
+  }),
+  alerTypes: new GlobalOptions({
+    info: 'Info',
+    error: 'Error',
+    success: 'Success',
+    warning: 'Warning',
   }),
   contentType: new GlobalOptions({
     PAGE: 'Page',
@@ -109,7 +117,7 @@ export const GLOBAL_OPTIONS = {
     'sq-form--3-cols': '3 Columns',
     'sq-form--inline-auto': 'Inline Auto',
     'sq-form--narrow-space': 'Narrow Space',
-    'pb-none': 'No Padding bottom',
+    'pb-0': 'No Padding bottom',
   }),
 
   genericStyles: new GlobalOptions({
@@ -121,7 +129,7 @@ export const GLOBAL_OPTIONS = {
     'mt-none': 'Margin top none',
     'pb-wide': 'Padding bottom wide',
     'pt-wide': 'Padding top wide',
-    'pb-none': 'Padding bottom none',
+    'pb-0': 'Padding bottom none',
     'pt-none': 'Padding top none',
     'pb-jumbo': 'Padding bottom jumbo',
     'pt-jumbo': 'Padding top jumbo',

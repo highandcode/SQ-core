@@ -1,5 +1,5 @@
-import { GLOBAL_OPTIONS } from '../../../globals';
-import { withEditTabs } from './Common';
+// import { GLOBAL_OPTIONS } from '../../../globals';
+// import { withEditTabs } from './Common';
 export default {
   pageData: {
     init: {},

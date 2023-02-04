@@ -149,6 +149,7 @@ class InputField extends React.Component {
         <div className="sq-input-field__container">
           <TextField
             {...rest}
+            component={undefined}
             className="sq-input-field__input"
             variant="outlined"
             inputProps={{

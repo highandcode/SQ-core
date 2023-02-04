@@ -40,14 +40,14 @@ const SelectField = ({
   multiple,
   ...rest
 }) => {
+  const finalOptions = getValue(this, options, row) || [];
   const handleChange = (input) => {
     onChange &&
       onChange({
         value: input.target.value,
-        options,
+        options: finalOptions,
       });
   };
-  const finalOptions = getValue(this, options, row) || [];
   const isValid = _.filter(finalOptions, { [valueField]: value }).length > 0 || value === '';
   const InputToRender =
     InputCollection[inputVariant] || InputCollection.outlined;
