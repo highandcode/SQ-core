@@ -13,7 +13,6 @@ import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, up
 
 import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
 
-import './_dynamic-content.scss';
 
 const _window = window;
 let containers = {

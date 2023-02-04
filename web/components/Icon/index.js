@@ -200,7 +200,6 @@ import {
 } from '@mui/icons-material';
 
 import { getValue } from '../../utils/properties';
-import './icon.scss';
 
 const types = {
   app: {},

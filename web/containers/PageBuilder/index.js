@@ -21,7 +21,6 @@ import {
 } from '../../redux/common';
 import { getFieldsMeta, getPage, savePageDraft } from '../../redux/admin';
 import ContentEditor from './ContentEditor';
-import './_page-builder.scss';
 import { getSupportedComps, addComponent } from './supported-comps';
 import DynamicContent from '../DynamicContent';
 import * as utils from '../../utils';

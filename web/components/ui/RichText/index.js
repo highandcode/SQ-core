@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import './_rich-text.scss';
 
 function getText(html) {
   var divContainer = document.createElement('div');

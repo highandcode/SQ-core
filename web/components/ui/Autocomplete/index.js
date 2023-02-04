@@ -5,7 +5,6 @@ import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import Icon from '../../Icon';
 import { TextField } from '@mui/material';
-import './auto-complete.scss';
 import { getValue } from '../../../utils/properties';
 
 const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], className = '', disabled, inputClassName = '', value = null, label = '', onChange, onAnalytics, inputVariant = 'outlined', analytics, defaultValue = '', textField = 'text', valueField = 'value', multiple, onAction, error, errorMessage, compProps = {}, ...rest }) => {

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Text from '../Text';
 import { formatters } from '../../../utils/format';
 import { getValue, common } from '../../../utils/properties';
-import './_text-fields.scss';
 
 const TextFields = ({ className = '', fields = [], row }) => {
   return (

@@ -5,7 +5,6 @@ import { makeStyles } from '@mui/material/styles';
 import Icon from '../Icon';
 import { getValue } from '../../utils/properties';
 
-import './fab-button.scss';
 
 const SQFloatingActionButton = ({
   className = '',

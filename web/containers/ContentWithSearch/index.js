@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import Content from '../Content';
 import Header from '../../components/ui/Header';
-import './_content-with-search.scss';
 import animateScrollTo from 'animated-scroll-to';
 
 class ContentWithSearch extends Component {

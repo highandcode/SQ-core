@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DataField from '../DataField';
 
-import './_data-field-list.scss';
 
 const DataFieldList = ({
   label,

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SelectField from '../SelectField';
 import Pagination from '@mui/material/Pagination';
-import './_pagination.scss';
 
 function SQPagination({ className = '', disabled = false, defaultPage, count, onChange, value = {}, color = 'primary', defaultPageSize = 30, pageSizeLabel = 'Page size', pageSizeOptions = [], enablePageSize = false }) {
   const handleChange = (event, inputValue) => {

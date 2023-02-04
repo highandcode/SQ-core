@@ -7,7 +7,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import common from '../../../utils/common';
-import './_checkbox-list.scss';
 
 const CheckboxField = ({
   name,

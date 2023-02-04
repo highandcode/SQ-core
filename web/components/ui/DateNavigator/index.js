@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import LinkButton from '../LinkButton';
 import { DateTime } from '../../../utils/datetime';
-import './date-navigator.scss';
 
 const DateNavigator = ({
   minDate,

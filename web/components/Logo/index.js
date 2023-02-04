@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../assets/images/logo-new.png';
 import { ReactComponent as LogoIcon } from '../../assets/svg/logo.svg';
-import './logo.scss';
 
 const Logo = ({ size }) => {
 

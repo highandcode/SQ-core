@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import './card-button.scss';
 
 const CardButton = ({
   eyebrow = '',

@@ -7,7 +7,6 @@ import { Validator } from '../../../utils/validator';
 import { redirectTo } from '../../../utils/redirect';
 import { resolveImageUrl, isApp } from '../../../cordova';
 import apiBridge from '../../../utils/api-bridge';
-import './_footer.scss';
 import { CONSTANTS } from '../../../globals';
 
 class Footer extends Component {

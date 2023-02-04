@@ -15,7 +15,6 @@ import accentColors from '../../utils/accent-colors';
 import BaseContainer from '../BaseContainer';
 import { GLOBAL_OPTIONS } from '../../globals';
 
-import './_users.scss';
 
 // const { Grid, Tabs, Form, Pagination, Link, Dialog, Actions } = root;
 const { formatters } = utils.format;

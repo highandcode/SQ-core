@@ -19,7 +19,6 @@ import Button from '../../components/ui/Button';
 import Switch from '../../components/ui/Switch';
 import * as utils from '../../utils';
 import editData from './editConfig';
-import './_site-map-builder.scss';
 import {
   fetchContentPage,
   postApi,

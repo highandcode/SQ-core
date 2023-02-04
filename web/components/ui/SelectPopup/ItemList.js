@@ -9,7 +9,6 @@ import ListItemText from '@mui/material/ListItemText';
 import InputField from '../InputField';
 import Link from '../Link';
 import Dialog from '../../Dialog';
-import './select-popup.scss';
 import { getValue } from '../../../utils/properties';
 import Icon from '../../Icon';
 

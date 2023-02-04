@@ -10,7 +10,6 @@ import DialogContent from '@mui/material/DialogContent';
 import Slide from '@mui/material/Slide';
 import Progress from '../Progress';
 import Icon from '../Icon';
-import './dialog.scss';
 
 const TransitionUp = React.forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props} />;

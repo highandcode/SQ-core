@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { FileUploader } from 'react-drag-drop-files';
 import Button from '../Button';
 import Tooltip from '@mui/material/Tooltip';
-import './file-uploader.scss';
 import Icon from '../../Icon';
 
 const SQFileUploader = ({

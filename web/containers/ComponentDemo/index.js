@@ -5,7 +5,6 @@ import Header from '../../components/ui/Header';
 import LinkButton from '../../components/ui/LinkButton';
 import NavigationList from '../../components/ui/NavigationList';
 import CodeHighlight from '../../components/ui/CodeHighlight';
-// import './_toc-index.scss';
 class ComponentDemo extends Component {
   constructor() {
     super();

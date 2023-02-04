@@ -9,7 +9,6 @@ import { addComp as addUIComp, getMap as getUIMap } from '../../components/ui';
 import ErrorBoundary from '../../components/ErrorBoundry';
 import Dialog from '../../components/Dialog';
 
-import './_content.scss';
 
 class Content extends Component {
   constructor() {

@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import './_hero-content.scss';
 import Default from './templates/default';
 import WithoutImage from './templates/without-image';
 import WithBackground from './templates/with-background';

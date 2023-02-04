@@ -9,7 +9,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
 import Icon from '../../components/Icon';
-import './_user-menu.scss';
 
 const UserMenu = ({ user, onAction, listOfActions, className }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);

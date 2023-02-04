@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { idFromLabel } from '../../../utils/properties';
 import { Button } from '@mui/material';
 import Icon from '../../Icon';
-import './_button.scss';
 
 const CustomButton = ({
   className = '',

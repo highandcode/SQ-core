@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ReCAPTCHA from 'react-google-recaptcha';
-import './_re-captcha.scss';
 
 class ReCaptcha extends React.Component {
   constructor() {

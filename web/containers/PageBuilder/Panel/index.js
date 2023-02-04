@@ -1,6 +1,5 @@
 import React from 'react';
 import IconButton from '../../../components/ui/IconButton';
-import './_panel.scss';
 const Panel = ({ className, theme = 'default', header, children, onClose }) => {
   return (
     <div className={`sq-c-panel sq-c-panel--${theme} ${className} `}>

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import defaultTemplate from './templates/default';
 import fullBgTemplate from './templates/full-bg';
-import './call-to-action.scss';
 
 const templates = {
   default: defaultTemplate,

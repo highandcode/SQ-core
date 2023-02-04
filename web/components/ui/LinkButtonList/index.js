@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LinkButton from '../LinkButton';
 import Separator from '../Separator';
-import './_link-button-list.scss';
 
 const _map = {
   Separator,

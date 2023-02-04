@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getValue } from '../../utils/properties';
 import { getMap } from '../ui';
-import './grouper.scss';
 
 
 const Grouper = ({ className = '', fields = [], row }) => {

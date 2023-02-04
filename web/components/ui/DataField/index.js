@@ -7,7 +7,6 @@ import TagLabel from '../TagLabel';
 import HTML from '../HTML';
 import Link from '../Link';
 import { processor } from '../../../utils';
-import './_data-field.scss';
 
 const fields = {
   FieldText,

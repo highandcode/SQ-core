@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Icon from '../../Icon';
 import TagLabel from '../TagLabel';
-import './_tag-dropdown.scss';
 
 function TagDropdown({ disabled, value, anchorOrigin = {}, transformOrigin = {}, textField = 'text', valueField = 'value', defaultText = 'Select', options = [], className = '', onChange, ...rest }) {
   const _onChange = (item, popupState) => {

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getValue } from '../../../utils/properties';
 import Icon from '../../Icon';
-import './_tag-label.scss';
 
 const TagLabel = ({
   className = '',

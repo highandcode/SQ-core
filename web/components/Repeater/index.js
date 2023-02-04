@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import './repeater.scss';
 
 const Repeater = ({
   className = '',

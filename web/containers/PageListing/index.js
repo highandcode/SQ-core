@@ -6,7 +6,6 @@ import { loadPageTree, loadPagesByPath, deletePage } from '../../redux/admin';
 import BaseContainer from '../BaseContainer';
 import { GLOBAL_OPTIONS } from '../../globals';
 
-import './_page-listing.scss';
 import PathTree from './PathTree';
 
 // const { Grid, Tabs, Form, Pagination, Link, Dialog, Actions } = root;

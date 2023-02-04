@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import CardButton from '../CardButton';
-import './card-button-list.scss';
 
 const CardButtonList = ({ className = '', options = [], value, valueField = 'value', onChange, errorMessage, onAnalytics }) => {
   const [currentValue, setCurrentValue] = useState(value);

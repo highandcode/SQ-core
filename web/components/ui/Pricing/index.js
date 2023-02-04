@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import './_pricing.scss';
 import Default from './templates/default';
 
 const templates = {

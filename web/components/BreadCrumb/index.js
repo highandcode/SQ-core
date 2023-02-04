@@ -5,7 +5,6 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import LinkButton from '../../components/ui/LinkButton';
 
-import './_bread-crumb.scss';
 
 // const { LinkButton } = root;
 

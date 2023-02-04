@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Icon from '../../Icon';
-import './drop-selection.scss';
 import { translate } from '../../../utils/translate';
 import { getValue } from '../../../utils/properties';
 
