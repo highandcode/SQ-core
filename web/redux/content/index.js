@@ -155,7 +155,7 @@ export const fetchJsonPath = ({ url, params, headers }) => {
   const postFix = !overrideUrl && mode === 'get' ? '/get.json' : '';
 
   const cb = mode === 'get' ? { _cb: window.APP_CONFIG?.appVersion } : {};
-
+  
   return apiBridge[overrideMethod || mode](
     `${overrideUrl || url}${postFix}`,
     { ...cb, ...(overrideParams || params) },

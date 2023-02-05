@@ -1,5 +1,6 @@
 import Form from '../../components/Form';
 import Progress from '../../components/Progress';
+import LaunchTimer from '../../components/LaunchTimer';
 import Wrapper from '../../components/Wrapper';
 import { getMap } from '../../components/ui';
 import { ItemTypes } from './ItemTypes';
@@ -132,6 +133,15 @@ const compList = {
     editData: TextEdit,
     sampleData: {
       text: 'text goes here',
+    },
+  },
+  LaunchTimer: {
+    Component: LaunchTimer,
+    group: 'Content',
+    type: ItemTypes.COMPONENT,
+    editData: TextEdit,
+    sampleData: {
+
     },
   },
   FormText: {
