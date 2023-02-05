@@ -1,4 +1,6 @@
-@import "vendor/index.scss";
+@import "abstract";
+@import "mixins";
+@import "vendor";
 @import "base";
 @import "layout";
 @import "text";
@@ -14,5 +16,5 @@
 @import "popup";
 @import "screen";
 @import "disclaimer";
-@import "core/index.scss";
+@import "core";
 @import "components";
