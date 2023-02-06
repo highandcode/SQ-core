@@ -5,7 +5,9 @@ const _ = require('lodash');
 const utils = require('../../server/src/utils');
 const PageBuilder = require('./builder/page-builder');
 const Response = require('../../server/src/Response');
-const {ContentRepository} = require('../../server/src/repositories/ContentRepository');
+const {
+  ContentRepository,
+} = require('../../server/src/repositories/ContentRepository');
 
 const pkgName = require('../../package.json');
 
@@ -354,8 +356,6 @@ class ContentServer {
         siteConfig.siteMap.errorRedirects &&
           siteConfig.siteMap.errorRedirects[404]
       );
-    } else if (!filePath) {
-      filePath = this.getFilePath('/content/pages/404');
     }
     return filePath;
   }
@@ -364,6 +364,7 @@ class ContentServer {
     const config = this.config;
     siteConfig = siteConfig || config.siteConfig;
     let filePath = '';
+    console.log('waiting', targetPage);
     if (
       siteConfig.siteMap.errorRedirects &&
       siteConfig.siteMap.errorRedirects[targetPage]
@@ -372,9 +373,10 @@ class ContentServer {
         siteConfig.siteMap.errorRedirects &&
           siteConfig.siteMap.errorRedirects[targetPage]
       );
-    } else {
-      filePath = this.getFilePath('/content/pages/comingsoon');
-    }
+    } 
+    // else {
+    //   filePath = this.getFilePath('/content/pages/comingsoon');
+    // }
     return filePath;
   }
   getLaunchEndPage(siteConfig, targetPage = 'launchEnded') {
@@ -389,9 +391,10 @@ class ContentServer {
         siteConfig.siteMap.errorRedirects &&
           siteConfig.siteMap.errorRedirects[targetPage]
       );
-    } else {
-      filePath = this.getFilePath('/content/pages/launchend');
-    }
+    } 
+    // else {
+    //   filePath = this.getFilePath('/content/pages/launchend');
+    // }
     return filePath;
   }
 
@@ -399,21 +402,45 @@ class ContentServer {
     return url.substr(0, url.indexOf('/'));
   }
 
+  generateSiteMapPaths(path) {
+    const arr = path.split('/').filter((i) => !!i);
+    // const root = arr.splice(0, 1);
+    arr.pop();
+    let next = ``;
+    return arr.map((path) => {
+      next = `${next ? `${next}` : ''}/${path}`;
+      return `${next}/sitemap`;
+    });
+  }
+
   async getPageData(path) {
     const config = this.config;
     let status = 200;
     const srcFile = path;
+    let fullPath = `${this.contentFolder}/${srcFile}`;
     const appPath = this.getAppNameFromUrl(srcFile);
-    console.log('appPath:' + appPath);
-    const currentSiteConfig = this.allSiteMaps[appPath] || config.siteConfig;
-    // console.log(currentSiteConfig);
-    const fullPath = `${this.contentFolder}/${srcFile}`;
+    const siteMaps = this.generateSiteMapPaths(fullPath);
+    let currentSiteConfig = this.allSiteMaps[appPath] || config.siteConfig;
+    if (this.contentRepo) {
+      const result = await this.contentRepo.searchSiteMaps(siteMaps);
+      if (result.length > 0) {
+        currentSiteConfig = {
+          ...currentSiteConfig,
+          ...result[0].pageData,
+          siteMap: {
+            ...currentSiteConfig.siteMap,
+            ...result[0].pageData.siteMap,
+          },
+        };
+      }
+    }
     console.log('--serving=' + fullPath);
     let siblingData = {};
     let isLaunchMatch = false;
     let launchMatchKey = '';
     let launchTime = '';
     let launchEnded = '';
+
     if (currentSiteConfig.launchConfig) {
       Object.keys(currentSiteConfig.launchConfig).forEach((lKey) => {
         if (lKey === fullPath || fullPath.match(lKey)) {
@@ -447,9 +474,11 @@ class ContentServer {
         .diffInSeconds(utils.datetime.new());
       if (diffInSeconds > 0) {
         filePath = this.getLaunchWaitPage(currentSiteConfig, pageForWait);
+        fullPath = filePath;
         isFile = true;
       } else if (diffInSecondsEnd < 0) {
         filePath = this.getLaunchEndPage(currentSiteConfig, pageForEnded);
+        fullPath = filePath;
         isFile = true;
       }
     }
@@ -458,6 +487,7 @@ class ContentServer {
     let fileFound = true;
     if (!this.fse.existsSync(filePath)) {
       filePath = this.get404Page(currentSiteConfig, fullPath);
+      fullPath = filePath;
       status = 404;
       fileFound = false;
     } else if (!isLaunchMatch) {
@@ -467,16 +497,22 @@ class ContentServer {
         fullPath
       );
     }
+
     let contents;
     if (this.contentRepo && !fileFound) {
       let test = await this.contentRepo.getByPath(fullPath);
       if (test && !fileFound) {
         status = 200;
         contents = [test.pageData];
+        console.log('served from db=' + fullPath);
       }
     }
     if (!contents) {
-      fileContents = this.fse.readFileSync(`${filePath}`, 'utf8');
+      if (this.fse.existsSync(filePath)) {
+        fileContents = this.fse.readFileSync(`${filePath}`, 'utf8');
+      } else {
+        fileContents = this.fse.readFileSync(this.getFilePath('/content/pages/404'), 'utf8');
+      }
     }
     let currentNode = this.getPageNode(currentSiteConfig.siteMap, filePath);
     if (!currentNode) {
