@@ -10,7 +10,7 @@ import Icon from '../Icon';
 const EditableField = ({
   column,
   row,
-  viewType = 'Text',
+  viewType = 'Default',
   editType = 'Input',
   value,
   classes = {},
@@ -43,7 +43,7 @@ const EditableField = ({
     onChange && onChange(changedValue);
   };
 
-  const CmpToRender = CompMap[viewType] || CompMap.Text;
+  const CmpToRender = CompMap[viewType] || CompMap.Default;
   const CmpToEdit = CompMap[editType] || CompMap.Input;
   return (
     <PopupState variant="popover">
