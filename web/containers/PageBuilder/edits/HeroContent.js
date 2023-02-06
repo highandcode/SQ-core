@@ -62,6 +62,12 @@ export default withEditTabsConfig(({ defaultParams, iconList }) => ({
         },
         {
           cmpType: 'Autocomplete',
+          label: 'variant',
+          name: 'variant',
+          options: GLOBAL_OPTIONS.variants.toArray(),
+        },
+        {
+          cmpType: 'Autocomplete',
           label: 'size',
           name: 'size',
           options: GLOBAL_OPTIONS.buttonSize.toArray(),

@@ -6,7 +6,7 @@
     padding-bottom: 8px;
     @include b4-style();
   }
-  &__sub-header {
+  &__sub-header, &__sub-header p {
     @include b4-style();
     @media (min-width: $screen-sm) {
       @include b3-style();
