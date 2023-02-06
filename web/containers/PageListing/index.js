@@ -51,12 +51,13 @@ class PageListing extends BaseContainer {
   }
 
   async onGridAction(row, value, column) {
+    const { pageData } = this.props;
     switch (value.action) {
       case 'delete':
         await this.props.raiseAction(
           deletePage({
             uid: row.uid,
-          })
+          }, pageData.contentPageConfig)
         );
         this.refreshPages();
         break;
