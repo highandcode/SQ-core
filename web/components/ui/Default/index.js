@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-const Default = ({ className, value }) => {
+const BasiText = ({ className, value }) => {
   return (
-    <div className={`sq-Default ${className}`}>
-      <span>{value}</span>
+    <div className={`sq-default ${className}`}>
+      <span>{value.toString()}</span>
     </div>
   );
 };
-Default.propTypes = {
+BasiText.propTypes = {
   className: PropTypes.string,
   value: PropTypes.any,
   row: PropTypes.object,
@@ -17,4 +17,4 @@ Default.propTypes = {
   parentTag: PropTypes.string,
 };
 
-export default Default;
+export default BasiText;

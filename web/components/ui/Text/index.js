@@ -18,7 +18,7 @@ const Text = ({ tag = 'span', parentTag = 'div', className = '', value, text }) 
 
   return (
     <ParentTag className={`sq-text ${className}`}>
-      <Tag>{value.toString() || text}</Tag>
+      <Tag>{value || text}</Tag>
     </ParentTag>
   );
 };

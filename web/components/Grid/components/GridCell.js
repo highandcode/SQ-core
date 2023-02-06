@@ -57,7 +57,7 @@ const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnal
   };
   const focusedProps = column.beforeRender && column.beforeRender(column, value, row);
   const { cmpType, className = '', component, render, tooltip = {} } = { ...column, ...focusedProps };
-  const CellComponent = CompMap[cmpType] || CompMap.Default;
+  const CellComponent = CompMap[cmpType] || CompMap.Text;
   const { type, ...restFormatter } = formatter;
   let customValue = value;
   if (render) {
