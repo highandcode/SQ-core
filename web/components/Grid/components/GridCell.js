@@ -5,6 +5,7 @@ import InputField from '../../ui/InputField';
 import Grouper from '../../Grouper';
 import Button from '../../ui/Button';
 import Text from '../../ui/Text';
+import Default from '../../ui/Default';
 import Icon from '../../Icon';
 import TextFields from '../../ui/TextFields';
 import LinkButton from '../../ui/LinkButton';
@@ -21,6 +22,7 @@ import { getMap } from '../../ui';
 
 const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnalytics, onBlur, errors, onKeyPress, formatter = {} }) => {
   const CompMap = {
+    Default,
     Text,
     InputField,
     Button,

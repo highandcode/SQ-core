@@ -48,10 +48,12 @@ import IconCalendar from '../IconCalendar';
 import MoreContent from './MoreContent';
 import DropZoneFile from './DropZoneFile';
 import TagDropdown from './TagDropdown';
+import Default from './Default';
 
 let comps = {
   Alert,
   Header,
+  Default,
   Tabs,
   Text,
   DataField,
