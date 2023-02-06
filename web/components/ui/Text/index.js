@@ -15,10 +15,10 @@ const SupportedTags = {
 const Text = ({ tag = 'span', parentTag = 'div', className = '', value, text }) => {
   const Tag = SupportedTags[tag] || SupportedTags.span;
   const ParentTag = SupportedTags[parentTag] || parentTag.div;
-  
+
   return (
     <ParentTag className={`sq-text ${className}`}>
-      <Tag>{value || text}</Tag>
+      <Tag>{value.toString() || text}</Tag>
     </ParentTag>
   );
 };
