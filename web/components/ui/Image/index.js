@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { resolveImageUrl } from '../../../cordova';
 
 
-const Image = ({ className = '', alt, imageUrl, size = 'medium', noImage = '' }) => {
+const Image = ({ className = '', alt, imageUrl, size = 'medium', noImage = '', style }) => {
   return (
-    <div className={`sq-image sq-image--${size} ${className}`}>
+    <div className={`sq-image sq-image--${size} ${className}`} style={style}>
       {imageUrl && <img alt={alt} src={resolveImageUrl(imageUrl)} />}
       {!imageUrl && noImage && <div className="sq-image__no-image">
         {noImage}

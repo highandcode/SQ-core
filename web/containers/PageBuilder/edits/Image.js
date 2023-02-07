@@ -17,5 +17,10 @@ export default withEditTabsConfig(({ defaultParams }) => ({
       cmpType: 'InputField',
       label: 'size',
     },
+    {
+      name: 'style',
+      cmpType: 'FormObject',
+      label: 'style',
+    },
   ],
 }));
