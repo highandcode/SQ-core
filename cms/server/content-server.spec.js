@@ -387,8 +387,8 @@ describe('CMS::ContentServer', function () {
       beforeEach(async () => {
         result = await real_inst.getPageData('crm/launch');
       });
-      it('should return defined page "Coming soon"', () => {
-        expect(result.pageData.title).to.equal('Coming soon');
+      it('should return defined page "Page not found"', () => {
+        expect(result.pageData.title).to.equal('Page not found');
       });
     });
 

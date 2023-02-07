@@ -12,7 +12,10 @@ class ContentRepository extends BaseRepository {
 
   extractPath(origPath, type) {
     origPath = path.ensureNoSlashAtEnd(origPath);
-    if (type === constants.contentType.keys.SITE_MAP && origPath.substr(origPath.lastIndexOf('/')) !== '/sitemap') {
+    if (
+      type === constants.contentType.keys.SITE_MAP &&
+      origPath.substr(origPath.lastIndexOf('/')) !== '/sitemap'
+    ) {
       origPath = `${origPath}/sitemap`;
     }
     const array = origPath.split('/');
@@ -53,6 +56,19 @@ class ContentRepository extends BaseRepository {
     });
     const obj = result.toObject();
     return obj.uid ? obj : null;
+  }
+
+  async searchSiteMaps(paths, type = 'SITE_MAP') {
+    const result = await this.aggregate({
+      match: {
+        path: {
+          $in: paths,
+        },
+        type,
+      },
+      sort: { parentPath: -1 },
+    });
+    return result;
   }
 
   addItemToTree(tree = [], items, fullPath) {
