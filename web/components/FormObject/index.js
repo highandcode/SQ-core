@@ -129,7 +129,8 @@ class FormObject extends Component {
             <div className="sq-form-object__item" key={itemVal.key}>
               <div className="sq-form-object__item-wrap">
                 <Form
-
+                  onAnalytics={rest.onAnalytics}
+                  userData={rest.userData}
                   className={`pb-0 ${finalClassName}`}
                   fields={
                     fields || [

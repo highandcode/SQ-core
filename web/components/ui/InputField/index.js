@@ -148,10 +148,10 @@ class InputField extends React.Component {
       <div className={`sq-input-field${focused ? ' sq-input-field--focused' : ''} ${className}`} data-testid={testId}>
         <div className="sq-input-field__container">
           <TextField
+            variant="outlined"
             {...rest}
             component={undefined}
             className="sq-input-field__input"
-            variant="outlined"
             inputProps={{
               "aria-label": rest.label,
               "data-testid": `${testId}_input`
