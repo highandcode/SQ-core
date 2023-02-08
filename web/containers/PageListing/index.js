@@ -26,14 +26,14 @@ class PageListing extends BaseContainer {
     this.refreshPages();
   }
 
-  async refreshPages({ pageNo, pageSize, sort, filter, source } = {}) {
+  async refreshPages({ parentPath = this.state.parentPath } = {}) {
     const { pageData } = this.props;
     this.props.commonActions.startLoading();
     if (pageData.enableTree !== false) {
       await this.props.raiseAction(loadPageTree({}));
     } else {
       await this.props.raiseAction(
-        loadPagesByPath({}, pageData.getPagesConfig)
+        loadPagesByPath({ parentPath }, pageData.getPagesConfig)
       );
     }
     this.props.commonActions.stopLoading();
@@ -82,6 +82,9 @@ class PageListing extends BaseContainer {
 
   async onTreeSelect(data) {
     this.props.commonActions.startLoading();
+    this.setState({
+      parentPath: data.value,
+    });
     await this.props.raiseAction(loadPagesByPath({ parentPath: data.value }));
     this.props.commonActions.stopLoading();
   }
