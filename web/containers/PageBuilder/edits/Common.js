@@ -125,8 +125,8 @@ export const withEditTabs = ({ classNames = [], pageData = {}, general = [], val
       init: {
         ...pageData.init,
         advanced: false,
-        editTab: firstSelectedTab,
         main: {
+          editTab: firstSelectedTab,
         },
       },
       items: [
@@ -141,22 +141,7 @@ export const withEditTabs = ({ classNames = [], pageData = {}, general = [], val
             },
           ],
         },
-        {
-          name: 'editTab',
-          component: 'Tabs',
-          className: 'mb-wide',
-          options: [...(isGeneralTab ? [tabs.general] : []), ...(isValidationsTab ? [tabs.validations] : []), ...(isActionsTab ? [tabs.actions] : []), tabs.match],
-          match: {
-            advanced: {
-              validators: [
-                {
-                  type: 'equals',
-                  matchValue: false,
-                },
-              ],
-            },
-          },
-        },
+        
         {
           component: 'FormObject',
           name: 'main',
@@ -176,6 +161,22 @@ export const withEditTabs = ({ classNames = [], pageData = {}, general = [], val
           component: 'Form',
           name: 'main',
           fields: [
+            {
+              name: 'editTab',
+              cmpType: 'Tabs',
+              className: 'mb-wide',
+              options: [...(isGeneralTab ? [tabs.general] : []), ...(isValidationsTab ? [tabs.validations] : []), ...(isActionsTab ? [tabs.actions] : []), tabs.match],
+              match: {
+                advanced: {
+                  validators: [
+                    {
+                      type: 'equals',
+                      matchValue: false,
+                    },
+                  ],
+                },
+              },
+            },
             
             ...createTabItems(finalGeneral, tabs.general.value),
             ...createTabItems(finalValidations, tabs.validations.value),
