@@ -7,7 +7,7 @@ import Icon from '../../Icon';
 import { TextField } from '@mui/material';
 import { getValue } from '../../../utils/properties';
 
-const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], className = '', disabled, inputClassName = '', value = null, label = '', onChange, onAnalytics, inputVariant = 'outlined', analytics, defaultValue = '', textField = 'text', valueField = 'value', multiple, onAction, error, errorMessage, compProps = {}, ...rest }) => {
+const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], allowFreeText = false, className = '', disabled, inputClassName = '', value = null, label = '', onChange, onAnalytics, inputVariant = 'outlined', analytics, defaultValue = '', textField = 'text', valueField = 'value', multiple, onAction, error, errorMessage, compProps = {}, ...rest }) => {
   const handleChange = (e, value) => {
     onChange &&
       onChange({
@@ -16,7 +16,18 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
       });
   };
 
+  const handleBlur = () => {
+    if (allowFreeText && inputValue && typeof value === 'string') {
+      onChange &&
+        onChange({
+          value: inputValue,
+          options,
+        });
+    }
+  };
+
   const finalOptions = getValue(this, options, row) || [];
+
   const finalFixedOptions = getValue(this, fixedOptions, row) || [];
   let optionFound;
   if (!multiple) {
@@ -29,6 +40,10 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
       })
       .filter((i) => !!i);
   }
+  if (!optionFound && allowFreeText && value) {
+    finalOptions.push({ [textField]: value, [valueField]: value });
+    optionFound = finalOptions[finalOptions.length - 1];
+  }
 
   const [inputValue, setInputValue] = useState('');
   return (
@@ -39,11 +54,12 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
         classes={{
           popper: 'sq-autocomplete__pop-over',
         }}
+        inputValue={inputValue}
+        onBlur={handleBlur}
         freeSolo={freeSolo || multiple}
         autoSelect={multiple}
         multiple={multiple}
         options={finalOptions}
-        inputValue={inputValue}
         getOptionLabel={(option) => (rest.getOptionLabel ? rest.getOptionLabel(option) : option[textField] || '')}
         onChange={handleChange}
         renderTags={(tagValue, getTagProps) =>
