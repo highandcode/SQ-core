@@ -223,7 +223,7 @@ class ComponentEditor extends Component {
               })}
           </ErrorBoundary>
         </div>
-        {hasPlaceholder && <Placeholder accept={accept} onDrop={this.onComponentDrop} />}
+        {hasPlaceholder && <Placeholder name={value.name} component={component} accept={accept} onDrop={this.onComponentDrop} />}
       </div>
     );
   }
