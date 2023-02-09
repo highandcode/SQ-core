@@ -48,7 +48,9 @@ class Form extends React.Component {
 
   onClick(e, field, data) {
     const { onClick } = this.props;
+    const { onClick: onFieldClick } = field
     onClick && onClick(e, field, data);
+    onFieldClick && onFieldClick(e, field, data);
   }
   onChange(field, selectedValue, data) {
     const { onChange, onFieldChange } = this.props;
