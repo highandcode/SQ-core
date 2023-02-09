@@ -116,74 +116,8 @@ export default ({ themes } = {}) => ({
                   {
                     name: 'children',
                     label: 'children',
-                    cmpType: 'FormList',
+                    cmpType: 'FormObject',
                     label: 'children',
-                    fields: [
-                      {
-                        cmpType: 'Input',
-                        label: 'Title',
-                        name: 'title',
-                      },
-                      {
-                        cmpType: 'Input',
-                        label: 'href',
-                        name: 'href',
-                      },
-                      {
-                        name: 'children',
-                        label: 'children',
-                        cmpType: 'FormList',
-                        label: 'children',
-                        fields: [
-                          {
-                            cmpType: 'Input',
-                            label: 'Title',
-                            name: 'title',
-                          },
-                          {
-                            cmpType: 'Input',
-                            label: 'href',
-                            name: 'href',
-                          },
-                          {
-                            name: 'children',
-                            label: 'children',
-                            cmpType: 'FormList',
-                            label: 'children',
-                            fields: [
-                              {
-                                cmpType: 'Input',
-                                label: 'Title',
-                                name: 'title',
-                              },
-                              {
-                                cmpType: 'Input',
-                                label: 'href',
-                                name: 'href',
-                              },
-                              {
-                                name: 'children',
-                                label: 'children',
-                                cmpType: 'FormList',
-                                label: 'children',
-                                fields: [
-                                  {
-                                    cmpType: 'Input',
-                                    label: 'Title',
-                                    name: 'title',
-                                  },
-                                  {
-                                    cmpType: 'Input',
-                                    label: 'href',
-                                    name: 'href',
-                                  },
-                                ],
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
                   },
                 ],
               },
