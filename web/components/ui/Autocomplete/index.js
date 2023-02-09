@@ -8,6 +8,7 @@ import { TextField } from '@mui/material';
 import { getValue } from '../../../utils/properties';
 
 const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], allowFreeText = false, className = '', disabled, inputClassName = '', value = null, label = '', onChange, onAnalytics, inputVariant = 'outlined', analytics, defaultValue = '', textField = 'text', valueField = 'value', multiple, onAction, error, errorMessage, compProps = {}, ...rest }) => {
+  const [inputValue, setInputValue] = useState('');
   const handleChange = (e, value) => {
     onChange &&
       onChange({
@@ -16,8 +17,10 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
       });
   };
 
+
   const handleBlur = () => {
-    if (allowFreeText && inputValue && typeof value === 'string') {
+    console.log('@@@blur', allowFreeText, inputValue, value);
+    if (allowFreeText && inputValue) {
       onChange &&
         onChange({
           value: inputValue,
@@ -26,8 +29,8 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
     }
   };
 
-  const finalOptions = getValue(this, options, row) || [];
-
+  const output = getValue(this, options, row) || [];
+  let finalOptions = [...output];
   const finalFixedOptions = getValue(this, fixedOptions, row) || [];
   let optionFound;
   if (!multiple) {
@@ -41,11 +44,14 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
       .filter((i) => !!i);
   }
   if (!optionFound && allowFreeText && value) {
-    finalOptions.push({ [textField]: value, [valueField]: value });
-    optionFound = finalOptions[finalOptions.length - 1];
+    finalOptions.push({ [textField]: value,[valueField]: value });
+    if (!optionFound && inputValue === value) {
+      optionFound = finalOptions[finalOptions.length - 1];
+    }
   }
 
-  const [inputValue, setInputValue] = useState('');
+  console.log('@@@@v', inputValue);
+
   return (
     <div className={`sq-autocomplete ${className}`}>
       <Autocomplete
@@ -83,7 +89,7 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
           </Box>
         )}
         value={optionFound || value || (multiple ? [] : null)}
-        onInputChange={(event, newInputValue) => {
+        onInputChange={(event, newInputValue, reason, test) => {
           setInputValue(newInputValue);
         }}
         renderInput={(params) => {
