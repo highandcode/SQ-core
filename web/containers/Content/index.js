@@ -130,8 +130,8 @@ class Content extends Component {
                 <Comp
                   {...rest}
                   value={userData[block.name]}
+                  {...block}
                   errors={userData[block.name + '_errors']}
-                  {...restBlock}
                   onClick={(e, field) => {
                     this.onClick(e, block, field);
                   }}

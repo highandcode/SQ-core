@@ -128,6 +128,9 @@ class DynamicContent extends Component {
     } else {
       pageResponse = dataForPage;
     }
+    if (pageResponse.pageData.updatePageTitle) {
+      window.document.title = pageResponse.pageData.title;
+    }
     if (pageResponse.pageData.reset) {
       await this.props.contentActions.resetUserData(pageResponse.pageData.reset);
     }

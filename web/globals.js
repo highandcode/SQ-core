@@ -150,6 +150,7 @@ export const GLOBAL_OPTIONS = {
     submit: 'submit',
     api: 'api',
     module: 'module',
+    redirect: 'redirect',
   }),
   methodTypes: new GlobalOptions({
     get: 'GET',

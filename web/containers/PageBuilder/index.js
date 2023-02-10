@@ -95,6 +95,7 @@ class PageBuilder extends Component {
       enableProps: false,
       contentData: {
         pageData: {
+          updatePageTitle: false,
           items: [],
         },
       },
@@ -423,6 +424,11 @@ class PageBuilder extends Component {
                             name: 'pageBackground',
                             cmpType: 'ColorPicker',
                             label: 'Page background',
+                          },
+                          {
+                            name: 'updatePageTitle',
+                            cmpType: 'Switch',
+                            label: 'updatePageTitle',
                           },
                           {
                             name: 'init',

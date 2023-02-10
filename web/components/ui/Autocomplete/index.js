@@ -50,8 +50,6 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
     }
   }
 
-  console.log('@@@@v', inputValue);
-
   return (
     <div className={`sq-autocomplete ${className}`}>
       <Autocomplete

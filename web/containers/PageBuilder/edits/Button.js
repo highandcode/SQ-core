@@ -38,6 +38,11 @@ export default withEditTabs({
       label: 'url',
     },
     {
+      name: 'to',
+      cmpType: 'Input',
+      label: 'to',
+    },
+    {
       name: 'method',
       cmpType: 'Radio',
       display: 'Inline',
