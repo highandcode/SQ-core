@@ -124,14 +124,14 @@ class Content extends Component {
 
             const { component, ...restBlock } = block;
             const Comp = compMap[component];
-            block = object.processBlock(block, { userData });
+            block = object.processBlock(restBlock, { userData });
             return Comp && isValid ? (
               <ErrorBoundary key={idx}>
                 <Comp
                   {...rest}
                   value={userData[block.name]}
+                  {...block}
                   errors={userData[block.name + '_errors']}
-                  {...restBlock}
                   onClick={(e, field) => {
                     this.onClick(e, block, field);
                   }}

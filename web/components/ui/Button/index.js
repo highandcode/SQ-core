@@ -22,7 +22,6 @@ const CustomButton = ({
   const { disabled, variant = 'contained', color = 'primary', startIcon, endIcon, disableRipple, disableFocusRipple, href } = rest;
   const { click } = analytics;
   const testId = idFromLabel(buttonText);
-  console.log('@@@@', disabled)
   return (
     <div className={`sq-button ${className} ${size} ${!buttonText && iconName ? 'sq-button--icon-only' : ''}`} data-testid={testId}>
         <Button
