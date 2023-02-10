@@ -16,7 +16,6 @@ const getSystem = () => {
 const initialState = {
   pageData: {},
   userData: {
-    isSubmitting: false,
     ...getSystem(),
   },
   metaData: {},
