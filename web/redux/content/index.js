@@ -16,6 +16,7 @@ const getSystem = () => {
 const initialState = {
   pageData: {},
   userData: {
+    isSubmitting: false,
     ...getSystem(),
   },
   metaData: {},
@@ -233,6 +234,9 @@ export const initApplication = (data) => async (dispatch) => {
   if (data.globals && data.globals.path) {
     const result = await fetchJsonPath({ url: data.globals.path });
     const pageData = result.data.pageData;
+    await dispatch(updateUserData({
+      isSubmitting: false,
+    }))
     await dispatch(
       updateProtectedUserData({
         root: { ...data, ...pageData },

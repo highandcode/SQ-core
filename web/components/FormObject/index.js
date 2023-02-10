@@ -13,7 +13,9 @@ class FormObject extends Component {
     this.convertToObj = this.convertToObj.bind(this);
     this.convertToArr = this.convertToArr.bind(this);
     this.valueOnChange = this.valueOnChange.bind(this);
+    this.changeToArray = this.changeToArray.bind(this);
     this.formOnAction = this.formOnAction.bind(this);
+    this.changeToObject = this.changeToObject.bind(this);
   }
   valueOnChange(data, key, isArray) {
     const { onChange, value = {} } = this.props;
@@ -136,6 +138,21 @@ class FormObject extends Component {
       });
   }
 
+  changeToArray() {
+    const { onChange, value = {} } = this.props;
+    onChange &&
+      onChange({
+        value: [value],
+      });
+  }
+  changeToObject() {
+    const { onChange } = this.props;
+    onChange &&
+      onChange({
+        value: {},
+      });
+  }
+
   addNew(isArray) {
     const { onChange, value = {}, keyName = 'key' } = this.props;
     let idx = 0;
@@ -151,7 +168,7 @@ class FormObject extends Component {
   }
 
   render() {
-    const { className = '', label, fields, value = {}, formClassName = 'sq-form--keyval-mode', ...rest } = this.props;
+    const { className = '', label, fields, value = {}, formClassName = 'sq-form--keyval-mode', type, ...rest } = this.props;
     const isArray = this.isArray(value);
     return (
       <div className={`sq-form-object ${className}`}>
@@ -225,12 +242,15 @@ class FormObject extends Component {
                   {!fields && !isObject && !isInternalArray && <IconButton title={'Convert to array'} iconName="DataArray" color="success" size="small" onClick={() => this.convertToArr(itemKey, isArray)} />}
                   {!fields && !isObject && !isInternalArray && <IconButton title={'Convert to bool'} iconName="Code" color="info" size="small" onClick={() => this.convertToBool(itemKey, isArray)} />}
                   <IconButton iconName="Delete" title="Delete" color="error" size="small" onClick={() => this.removeItem(itemKey, isArray)} />
-
                 </div>
               </div>
             );
           })}
-        <IconButton iconName="add" onClick={() => this.addNew(isArray)} />
+        <div className="sq-form-object__actions">
+          <IconButton iconName="add" onClick={() => this.addNew(isArray)} />
+          {!isArray && <IconButton title={'Convert to array'} iconName="DataArray" color="info" size="small" onClick={() => this.changeToArray()} />}
+          {isArray && <IconButton title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.changeToObject()} />}
+        </div>
       </div>
     );
   }

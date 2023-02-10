@@ -80,7 +80,7 @@ const FormList = ({
   return (
     <div className={`sq-form-list ${className}`}>
       <div className="sq-form-list__label mb-wide">{label}</div>
-      {value.map((itemVal, idx) => {
+      {value && value.map((itemVal, idx) => {
         return renderCard(itemVal, idx);
       })}
       <IconButton iconName="add" onClick={addNew} />
