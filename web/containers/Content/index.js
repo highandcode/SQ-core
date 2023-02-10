@@ -124,7 +124,7 @@ class Content extends Component {
 
             const { component, ...restBlock } = block;
             const Comp = compMap[component];
-            block = object.processBlock(restBlock, { userData });
+            block = object.processBlock(block, { userData });
             return Comp && isValid ? (
               <ErrorBoundary key={idx}>
                 <Comp
