@@ -55,10 +55,7 @@ class PageListing extends BaseContainer {
     switch (value.action) {
       case 'delete':
         await this.props.raiseAction(
-          deletePage({
-            uid: row.uid,
-            pageId: row.pageId,
-          }, pageData.contentPageConfig)
+          deletePage(row, pageData.contentPageConfig)
         );
         this.refreshPages();
         break;
@@ -77,6 +74,13 @@ class PageListing extends BaseContainer {
           { mode: 'preview' },
           { target: '_blank' }
         );
+        break;
+      case 'clone':
+        // utils.redirect.redirectTo(
+        //   row.path,
+        //   { mode: 'preview' },
+        //   { target: '_blank' }
+        // );
         break;
     }
   }
