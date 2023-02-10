@@ -57,6 +57,7 @@ class PageListing extends BaseContainer {
         await this.props.raiseAction(
           deletePage({
             uid: row.uid,
+            pageId: row.pageId,
           }, pageData.contentPageConfig)
         );
         this.refreshPages();

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Form from '../Form';
 import IconButton from '../ui/IconButton';
-import MoreActions from '../MoreActions';
+// import Actions from '../Actions';
 
 class FormObject extends Component {
   constructor(props) {
@@ -151,14 +151,7 @@ class FormObject extends Component {
   }
 
   render() {
-    const {
-      className = '',
-      label,
-      fields,
-      value = {},
-      formClassName = 'sq-form--keyval-mode',
-      ...rest
-    } = this.props;
+    const { className = '', label, fields, value = {}, formClassName = 'sq-form--keyval-mode', ...rest } = this.props;
     const isArray = this.isArray(value);
     return (
       <div className={`sq-form-object ${className}`}>
@@ -166,13 +159,9 @@ class FormObject extends Component {
         {value &&
           Object.keys(value).map((itemKey, idx) => {
             const itemVal = { key: itemKey, value: value[itemKey] };
-            const isObject =
-              this.state.objMap[itemKey] || this.isObject(itemVal.value);
-            const isInternalArray =
-              this.state.objArray[itemKey] || this.isArray(itemVal.value);
-            const finalClassName = !isObject
-              ? formClassName
-              : 'sq-form--object-mode';
+            const isObject = this.state.objMap[itemKey] || this.isObject(itemVal.value);
+            const isInternalArray = this.state.objArray[itemKey] || this.isArray(itemVal.value);
+            const finalClassName = !isObject ? formClassName : 'sq-form--object-mode';
             return (
               <div className="sq-form-object__item" key={itemVal.key}>
                 <div className="sq-form-object__item-wrap">
@@ -194,10 +183,7 @@ class FormObject extends Component {
                         {
                           cmpType: isObject ? 'FormObject' : 'EditableField',
                           name: 'value',
-                          editType:
-                            typeof itemVal.value === 'boolean'
-                              ? 'Switch'
-                              : 'Input',
+                          editType: typeof itemVal.value === 'boolean' ? 'Switch' : 'Input',
                           label: isObject ? '' : 'Value',
                           editProps: {
                             label: 'Value',
@@ -206,11 +192,9 @@ class FormObject extends Component {
                       ]
                     }
                     value={itemVal}
-                    onChange={(data) =>
-                      this.valueOnChange(data, itemKey, isArray)
-                    }
+                    onChange={(data) => this.valueOnChange(data, itemKey, isArray)}
                   />
-                  {!fields && !isObject && !isInternalArray && <MoreActions
+                  {/* {!fields && !isObject && !isInternalArray && <Actions
                     onAction={(data, action) =>
                       this.formOnAction(action, itemKey, isArray)
                     }
@@ -218,35 +202,30 @@ class FormObject extends Component {
                       {
                         iconName: 'DataObject',
                         iconColor: 'primary',
-                        buttonText: 'Convert to object',
+                        // buttonText: 'Convert to object',
                         iconVariant: 'success',
                         actionType: 'object',
                       },
                       {
                         iconName: 'Code',
                         iconColor: 'primary',
-                        buttonText: 'Convert to bool',
+                        // buttonText: 'Convert to bool',
                         iconVariant: 'success',
                         actionType: 'bool',
                       },
                       {
                         iconName: 'DataArray',
-                        buttonText: 'Convert to array',
+                        // buttonText: 'Convert to array',
                         iconVariant: 'info',
                         actionType: 'array',
                       },
                     ]}
-                  />}
-                  {/* {!fields && !isObject && !isInternalArray && <IconButton title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.convertToObj(itemKey, isArray)} />}
-                {!fields && !isObject && !isInternalArray && <IconButton title={'Convert to array'} iconName="DataArray" color="success" size="small" onClick={() => this.convertToArr(itemKey, isArray)} />}
-                 */}
-                  <IconButton
-                    iconName="Delete"
-                    title="Delete"
-                    color="error"
-                    size="small"
-                    onClick={() => this.removeItem(itemKey, isArray)}
-                  />
+                  />} */}
+                  {!fields && !isObject && !isInternalArray && <IconButton title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.convertToObj(itemKey, isArray)} />}
+                  {!fields && !isObject && !isInternalArray && <IconButton title={'Convert to array'} iconName="DataArray" color="success" size="small" onClick={() => this.convertToArr(itemKey, isArray)} />}
+                  {!fields && !isObject && !isInternalArray && <IconButton title={'Convert to bool'} iconName="Code" color="info" size="small" onClick={() => this.convertToBool(itemKey, isArray)} />}
+                  <IconButton iconName="Delete" title="Delete" color="error" size="small" onClick={() => this.removeItem(itemKey, isArray)} />
+
                 </div>
               </div>
             );
