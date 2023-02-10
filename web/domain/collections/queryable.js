@@ -29,7 +29,7 @@ class Queryable {
 
   toArray() {
     return this.rData.map((item) => {
-      return new this.entityType(item);
+      return new this.entityType(item).toJson();
     });
   }
 
@@ -38,9 +38,9 @@ class Queryable {
     this.rData.forEach((item) => {
       obj[item[key]] = item[value];
     });
-    obj.get = (key, overrideDefault) => {
-      return obj[key] || overrideDefault || defaultValue;
-    };
+    // obj.get = (key, overrideDefault) => {
+    //   return obj[key] || overrideDefault || defaultValue;
+    // };
     return obj;
   }
 }

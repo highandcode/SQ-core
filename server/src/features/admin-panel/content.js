@@ -4,11 +4,15 @@ const { path } = require('../../utils');
 module.exports = ({ context } = {}) => {
   context.router.post('/content/page', function (req, res) {
     const paths = context.contentRepo.extractPath(req.body.path, req.body.type);
+    let data = {};
+    if (req.body.importDefault === 'Y' && req.body.type === 'SITE_MAP') {
+      data.pageData = context.config.siteConfig;
+    }
     context.contentRepo
       .checkExists({ path: path.ensureNoSlashAtEnd(paths.path) }, ['path'])
       .then(() => {
         context.contentRepo
-          .create(req.body)
+          .create({...req.body, ...data})
           .then((result) => {
             res.json(new Response(result).json());
           })

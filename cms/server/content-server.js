@@ -404,9 +404,9 @@ class ContentServer {
 
   generateSiteMapPaths(path) {
     const arr = path.split('/').filter((i) => !!i);
-    // const root = arr.splice(0, 1);
+    const root = arr.splice(0, 1);
     arr.pop();
-    let next = ``;
+    let next = `/${root}`;
     return arr.map((path) => {
       next = `${next ? `${next}` : ''}/${path}`;
       return `${next}/sitemap`;

@@ -27,6 +27,15 @@ items:
             options: metaData.contentTypes
           validators:
             - type: required
+        - name: importDefault
+          cmpType: CheckboxField
+          label: Import default site map
+          selectedValue: Y
+          match:
+            type:
+              validators:
+                - type: equals
+                  matchValue: SITE_MAP
         - name: path
           label: Path
           mask:
@@ -58,3 +67,4 @@ items:
           title: .page.title
         path: .page.path
         type: .page.type
+        importDefault: .page.importDefault
