@@ -95,6 +95,7 @@ class PageBuilder extends Component {
       enableProps: false,
       contentData: {
         pageData: {
+          updatePageTitle: false,
           items: [],
         },
       },
@@ -418,6 +419,11 @@ class PageBuilder extends Component {
                             name: 'title',
                             cmpType: 'Input',
                             label: 'Title',
+                          },
+                          {
+                            name: 'updatePageTitle',
+                            cmpType: 'Switch',
+                            label: 'updatePageTitle',
                           },
                           {
                             name: 'init',
