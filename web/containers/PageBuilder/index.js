@@ -420,6 +420,11 @@ class PageBuilder extends Component {
                             label: 'Title',
                           },
                           {
+                            name: 'pageBackground',
+                            cmpType: 'ColorPicker',
+                            label: 'Page background',
+                          },
+                          {
                             name: 'init',
                             cmpType: 'FormObject',
                             label: 'init',

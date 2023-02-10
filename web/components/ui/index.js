@@ -49,6 +49,7 @@ import MoreContent from './MoreContent';
 import DropZoneFile from './DropZoneFile';
 import TagDropdown from './TagDropdown';
 import Default from './Default';
+import ColorPicker from './ColorPicker';
 
 let comps = {
   Alert,
@@ -103,6 +104,7 @@ let comps = {
   TagDropdown,
   IconButton,
   InputWithOptions,
+  ColorPicker,
 };
 
 const getMap = () => {
@@ -111,7 +113,7 @@ const getMap = () => {
 const addComp = (newComps) => {
   comps = {
     ...comps,
-    ...newComps
+    ...newComps,
   };
 };
 export { getMap, addComp };
