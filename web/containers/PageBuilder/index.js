@@ -233,7 +233,7 @@ class PageBuilder extends Component {
   }
   showPreview() {
     utils.redirect.redirectTo(
-      utils.queryString.query.get().path,
+      utils.queryString.query.get().path  + '/index.html',
       { mode: 'preview' },
       { target: '_blank' }
     );
