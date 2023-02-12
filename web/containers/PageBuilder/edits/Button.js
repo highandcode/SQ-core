@@ -179,6 +179,11 @@ export default withEditTabs({
       label: 'postHook',
     },
     {
+      name: 'validateGroup',
+      cmpType: 'Input',
+      label: 'validateGroup',
+    },
+    {
       name: 'defaultResponse',
       cmpType: 'Form',
       fields: [

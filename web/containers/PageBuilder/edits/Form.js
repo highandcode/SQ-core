@@ -4,7 +4,14 @@ import { withEditTabs } from './Common';
 export default withEditTabs({
   enableValidations: false,
   pageData: {
-    items: [],
+    items: [
+      
+    ],
   },
-  general: [],
+  general: [
+    {
+      name: 'group',
+      label: 'Validation Group',
+    },
+  ],
 });
