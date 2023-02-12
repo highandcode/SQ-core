@@ -508,7 +508,7 @@ class DynamicContent extends Component {
   }
 
   render() {
-    const { containerTemplate: overrideContainerTemplate, rootClass = 'row', ...allProps } = this.props;
+    const { containerTemplate: overrideContainerTemplate, rootClass = 'row',  ...allProps } = this.props;
     const { dataPacket, store } = allProps;
     const userData = {
       ...this.props.store.content.userData,
@@ -525,12 +525,8 @@ class DynamicContent extends Component {
     const { out: tranOut = 'out-up', in: tranIn = 'out-in', loading = 'loading' } = transition;
     const classState = this.state.isOut ? `transition transition-page--${tranOut}` : this.state.isIn ? `transition transition-page--${tranIn}` : '';
     const loadingState = this.state.isLoading ? `transition transition-page--${loading}` : '';
-    const styles = {};
-    if (updatedPageData.pageBackground) {
-      styles.background = updatedPageData.pageBackground;
-    }
     return (
-      <div className={`dynamic-content ${rootClass} ${rootClassName} ${loadingState} ${classes.root || ''}`} style={styles}>
+      <div className={`dynamic-content ${rootClass} ${rootClassName} ${loadingState} ${classes.root || ''}`}>
         <Snackbar
           open={store.common.notification.show}
           message={store.common.notification.message}

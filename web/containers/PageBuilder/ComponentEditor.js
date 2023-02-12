@@ -147,6 +147,7 @@ class ComponentEditor extends Component {
             {editData && (
               <DynamicContent
                 pageConfig={editData}
+                keyPressChange={false}
                 initialData={{
                   main: value,
                   fieldsMeta,
