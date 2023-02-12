@@ -10,7 +10,6 @@ import { Placeholder } from './Placeholder';
 import MoreActions from '../../components/MoreActions';
 import Actions from '../../components/Actions';
 
-let changeIdx = 1;
 class ComponentEditor extends Component {
   constructor() {
     super();
@@ -36,7 +35,6 @@ class ComponentEditor extends Component {
   saveFormData(data) {
     const { onChange } = this.props;
     onChange && onChange(data);
-    changeIdx++;
     this.toggleEditForm();
   }
   saveFormElData(data, idx) {
@@ -49,7 +47,6 @@ class ComponentEditor extends Component {
       ...finalData[itemsPropName][idx],
       ...data,
     };
-    changeIdx++;
     onChange && onChange(finalData);
   }
   deleteComponentByIdx(idx) {
@@ -201,7 +198,7 @@ class ComponentEditor extends Component {
                 const Component = compList[item[compTypeProp]] || (!item[compTypeProp] && defaultComp ? compList[defaultComp] : compList.Custom);
                 const { [compTypeProp]: cmpType, ...restItem } = item;
                 return (
-                  <ErrorBoundary key={idx + changeIdx}>
+                  <ErrorBoundary key={idx}>
                     <ComponentEditor
                       parentName={item.name}
                       fieldsMeta={fieldsMeta}
