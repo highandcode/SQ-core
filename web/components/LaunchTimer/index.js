@@ -8,7 +8,7 @@ import { utils } from '../../index';
 const LabelDisplay = ({ label, value, className = '' }) => {
   return (
     <div className={`sq-launch-timer__label-ct ${className}`}>
-      <div className="sq-launch-timer__value">{value}</div>
+      <div className="sq-launch-timer__value">{value >= 0 ? value : '00'}</div>
       <div className="sq-launch-timer__label">
         {label}
         {value > 0 ? 's' : ''}
