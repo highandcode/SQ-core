@@ -52,7 +52,6 @@ class FormObject extends Component {
       objMap: newMap,
     });
 
-
     onChange &&
       onChange({
         value: objVal,
@@ -120,50 +119,52 @@ class FormObject extends Component {
     return (
       <div className={`sq-form-object ${className}`}>
         {label && <div className="sq-form-object__label mb-wide">{label}</div>}
-        {value && Object.keys(value).map((itemKey, idx) => {
-          const itemVal = { key: itemKey, value: value[itemKey] };
-          const isObject = this.state.objMap[itemKey] || this.isObject(itemVal.value);
-          const isInternalArray = this.state.objArray[itemKey] || this.isArray(itemVal.value);
-          const finalClassName = !isObject ? formClassName : 'sq-form--object-mode';
-          return (
-            <div className="sq-form-object__item" key={itemVal.key}>
-              <div className="sq-form-object__item-wrap">
-                <Form
-                  onAnalytics={rest.onAnalytics}
-                  userData={rest.userData}
-                  className={`pb-0 ${finalClassName}`}
-                  fields={
-                    fields || [
-                      {
-                        cmpType: isArray ? 'Text' : 'EditableField',
-                        name: 'key',
-                        
-                        editProps: {
-                          label: 'Key',
-                          disabled: isArray,
+        {value &&
+          Object.keys(value).map((itemKey, idx) => {
+            const itemVal = { key: itemKey, value: value[itemKey] };
+            const isObject = this.state.objMap[itemKey] || this.isObject(itemVal.value);
+            const isInternalArray = this.state.objArray[itemKey] || this.isArray(itemVal.value);
+            const finalClassName = !isObject ? formClassName : 'sq-form--object-mode';
+            return (
+              <div className="sq-form-object__item" key={itemVal.key}>
+                <div className="sq-form-object__item-wrap">
+                  <Form
+                    onAnalytics={rest.onAnalytics}
+                    userData={rest.userData}
+                    className={`pb-0 ${finalClassName}`}
+                    fields={
+                      fields || [
+                        {
+                          cmpType: isArray ? 'Text' : 'EditableField',
+                          name: 'key',
+
+                          editProps: {
+                            label: 'Key',
+                            disabled: isArray,
+                          },
                         },
-                      },
-                      {
-                        cmpType: isObject ? 'FormObject' : 'EditableField',
-                        name: 'value',
-                        editType : typeof(itemVal.value) === 'boolean' ? 'Switch' : 'Input',
-                        label: isObject ? '' : 'Value',
-                        editProps: {
-                          label: 'Value',
+                        {
+                          cmpType: isObject ? 'FormObject' : 'EditableField',
+                          name: 'value',
+                          editType: typeof itemVal.value === 'boolean' ? 'Switch' : 'Input',
+                          label: isObject ? '' : 'Value',
+                          editProps: {
+                            label: 'Value',
+                          },
                         },
-                      },
-                    ]
-                  }
-                  value={itemVal}
-                  onChange={(data) => this.valueOnChange(data, itemKey, isArray)}
-                />
-                {!fields && !isObject && !isInternalArray && <IconButton title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.convertToObj(itemKey, isArray)} />}
-                {!fields && !isObject && !isInternalArray && <IconButton title={'Convert to array'} iconName="DataArray" color="success" size="small" onClick={() => this.convertToArr(itemKey, isArray)} />}
-                <IconButton iconName="Delete" title="Delete" color="error" size="small" onClick={() => this.removeItem(itemKey, isArray)} />
+                      ]
+                    }
+                    value={itemVal}
+                    onChange={(data) => this.valueOnChange(data, itemKey, isArray)}
+                  />
+                  {!fields && !isObject && !isInternalArray && <IconButton iconSize="small" title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.convertToObj(itemKey, isArray)} />}
+                  {!fields && !isObject && !isInternalArray && <IconButton iconSize="small" title={'Convert to array'} iconName="DataArray" color="success" size="small" onClick={() => this.convertToArr(itemKey, isArray)} />}
+                  {!fields && !isObject && !isInternalArray && <IconButton iconSize="small" title={'Convert to bool'} iconName="Code" color="info" size="small" onClick={() => this.convertToBool(itemKey, isArray)} />}
+                  <IconButton iconSize="small" iconName="Delete" title="Delete" color="error" size="small" onClick={() => this.removeItem(itemKey, isArray)} />
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
         <IconButton iconName="add" onClick={() => this.addNew(isArray)} />
       </div>
     );

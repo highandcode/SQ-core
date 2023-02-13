@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './_default.scss';
 
-
-const BasiText = ({ className, value }) => {
+const BasiText = ({ className = '', value }) => {
   return (
     <div className={`sq-default ${className}`}>
-      <span>{value.toString()}</span>
+      {value.toString()}
     </div>
   );
 };

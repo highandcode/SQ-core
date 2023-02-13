@@ -1,15 +1,6 @@
-.sq-text {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin: 0;
-    padding: 0;
-  }
-}
-div.sq-text {
-  display: block;
+.sq-default {
   width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

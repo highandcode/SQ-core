@@ -28,7 +28,6 @@ import AlertEdit from './edits/Alert';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 const compList = {
- 
   Form: {
     Component: Form,
     group: 'Form',
@@ -42,6 +41,7 @@ const compList = {
     editData: FormEdit,
     sampleData: {},
   },
+
   Address: {
     Component: Form,
     name: 'Form',
@@ -140,9 +140,7 @@ const compList = {
     group: 'Content',
     type: ItemTypes.COMPONENT,
     editData: TextEdit,
-    sampleData: {
-
-    },
+    sampleData: {},
   },
   FormText: {
     Component: getMap().Text,
@@ -212,6 +210,24 @@ const compList = {
   },
   Button: {
     Component: getMap().Button,
+    group: 'Actions',
+    type: ItemTypes.COMPONENT,
+    editData: ButtonEdit,
+    sampleData: {
+      buttonText: 'Action',
+    },
+  },
+  Link: {
+    Component: getMap().Link,
+    group: 'Actions',
+    type: ItemTypes.COMPONENT,
+    editData: ButtonEdit,
+    sampleData: {
+      buttonText: 'Action',
+    },
+  },
+  LinkButton: {
+    Component: getMap().LinkButton,
     group: 'Actions',
     type: ItemTypes.COMPONENT,
     editData: ButtonEdit,
@@ -318,6 +334,36 @@ const compList = {
     editData: WrapperEdit,
     itemsPropName: 'items',
     hasItems: true,
+    sampleData: {
+      bodyClassName: 'row',
+    },
+  },
+  '2-ColumnLayout': {
+    Component: Wrapper,
+    name: 'Wrapper',
+    group: 'Layout',
+    accept: [ItemTypes.COMPONENT, ItemTypes.FORM],
+    hasPlaceholder: true,
+    compTypeProp: 'component',
+    editData: WrapperEdit,
+    itemsPropName: 'items',
+    hasItems: true,
+    sampleData: {
+      className: '',
+      bodyClassName: 'row',
+      items: [
+        {
+          component: 'Wrapper',
+          name: 'wrapper1',
+          className: 'col-xs-12 col-md-6',
+        },
+        {
+          component: 'Wrapper',
+          name: 'wrapper2',
+          className: 'col-xs-12 col-md-6',
+        },
+      ],
+    },
   },
   Header: {
     Component: getMap().Header,

@@ -7,25 +7,7 @@ import { getValue } from '../../utils/properties';
 import { getMap, addComp } from '../ui';
 import Icon from '../Icon';
 
-const EditableField = ({
-  column,
-  row,
-  viewType = 'Default',
-  editType = 'Input',
-  value,
-  classes = {},
-  viewProps = {},
-  editProps = {},
-  className = '',
-  onChange,
-  onClick,
-  onAction,
-  onAnalytics,
-  onBlur,
-  onKeyPress,
-  formatter = {},
-  ...rest
-}) => {
+const EditableField = ({ column, row, viewType = 'Default', editType = 'Input', value, classes = {}, viewProps = {}, editProps = {}, className = '', onChange, onClick, onAction, onAnalytics, onBlur, onKeyPress, formatter = {}, ...rest }) => {
   const editableRef = useRef();
   const CompMap = {
     ...getMap(),
@@ -48,96 +30,70 @@ const EditableField = ({
   return (
     <PopupState variant="popover">
       {(popupState) => (
-        <div
-          className={`sq-editable-field ${getValue(this, className, row)}`}
-          onDoubleClick={() => popupState.open()}
-          ref={editableRef}
-        >
+        <div className={`sq-editable-field ${getValue(this, className, row)}`} onDoubleClick={() => popupState.open()} ref={editableRef}>
           <div className="sq-editable-field__cmp">
-            <div>
-              {
-                <CmpToRender
-                  value={value}
-                  {...rest}
-                  row={row}
-                  column={column}
-                  onAnalytics={onAnalytics}
-                />
-              }
-              {
-                <div className="sq-editable-field__edit">
-                  <IconButton {...bindTrigger(popupState)}>
-                    <Icon name="edit" size="xs" />
-                  </IconButton>
-                </div>
-              }
-              <Popover
-                {...bindPopover(popupState)}
-                anchorEl={editableRef.current}
-                classes={{
-                  root: 'sq-editable-field__pop-over-root',
-                }}
-                PaperProps={{
-                  classes: {
-                    root: `sq-editable-field__pop-over ${getValue(
-                      this,
-                      classes.popover,
-                      row
-                    )}`,
+            {<CmpToRender value={value} {...rest} row={row} column={column} onAnalytics={onAnalytics} />}
+            {
+              <div className="sq-editable-field__edit">
+                <IconButton {...bindTrigger(popupState)}>
+                  <Icon name="edit" size="xs" />
+                </IconButton>
+              </div>
+            }
+            <Popover
+              {...bindPopover(popupState)}
+              anchorEl={editableRef.current}
+              classes={{
+                root: 'sq-editable-field__pop-over-root',
+              }}
+              PaperProps={{
+                classes: {
+                  root: `sq-editable-field__pop-over ${getValue(this, classes.popover, row)}`,
+                },
+                elevation: 0,
+                sx: {
+                  overflow: 'visible',
+                  boxShadow: '0px 4px 16px rgba(25, 25, 25, 0.12)',
+                  borderRadius: '8px',
+                  padding: '20px',
+                  mt: 1.5,
+                  '& .MuiAvatar-root': {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
                   },
-                  elevation: 0,
-                  sx: {
-                    overflow: 'visible',
-                    boxShadow: '0px 4px 16px rgba(25, 25, 25, 0.12)',
-                    borderRadius: '8px',
-                    padding: '20px',
-                    mt: 1.5,
-                    '& .MuiAvatar-root': {
-                      width: 32,
-                      height: 32,
-                      ml: -0.5,
-                      mr: 1,
-                    },
-                  },
-                }}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-              >
-                {
-                  <CmpToEdit
-                    {...editProps}
-                    value={changedValue?.value !== undefined ? changedValue?.value : value}
-                    onChange={handleChange}
-                    onKeyPress={onKeyPress}
-                    onAnalytics={onAnalytics}
-                  />
-                }
-                <div className="sq-editable-field__actions">
-                  <IconButton
-                    onClick={() => {
-                      applyChange();
-                      popupState.close();
-                    }}
-                  >
-                    <Icon name="check" color={'success'} />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => {
-                      setChangeValue({ value });
-                      popupState.close();
-                    }}
-                  >
-                    <Icon name="close" color={'error'} />
-                  </IconButton>
-                </div>
-              </Popover>
-            </div>
+                },
+              }}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+            >
+              {<CmpToEdit {...editProps} value={changedValue?.value !== undefined ? changedValue?.value : value} onChange={handleChange} onKeyPress={onKeyPress} onAnalytics={onAnalytics} />}
+              <div className="sq-editable-field__actions">
+                <IconButton
+                  onClick={() => {
+                    applyChange();
+                    popupState.close();
+                  }}
+                >
+                  <Icon name="check" color={'success'} />
+                </IconButton>
+                <IconButton
+                  onClick={() => {
+                    setChangeValue({ value });
+                    popupState.close();
+                  }}
+                >
+                  <Icon name="close" color={'error'} />
+                </IconButton>
+              </div>
+            </Popover>
           </div>
         </div>
       )}
