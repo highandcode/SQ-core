@@ -106,3 +106,7 @@
   @include paragraph-font();
   font-size: $t8-font-size;
 }
+
+strong {
+   @include header-font();
+}

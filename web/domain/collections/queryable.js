@@ -29,7 +29,8 @@ class Queryable {
 
   toArray() {
     return this.rData.map((item) => {
-      return new this.entityType(item).toJson();
+      const fix = new this.entityType(item);
+      return fix.toJson ? fix.toJson() : fix;
     });
   }
 

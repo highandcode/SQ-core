@@ -104,7 +104,7 @@ class Content extends Component {
   }
 
   render() {
-    const { pageData = {}, location, ...rest } = this.props;
+    const { pageData = {}, location, keyPressChange = true, ...rest } = this.props;
     const { userData = {} } = rest;
     const { className = '' } = pageData;
     const compMap = { ...getMap(), ...getUIMap() };
@@ -130,8 +130,8 @@ class Content extends Component {
                 <Comp
                   {...rest}
                   value={userData[block.name]}
+                  {...block}
                   errors={userData[block.name + '_errors']}
-                  {...restBlock}
                   onClick={(e, field) => {
                     this.onClick(e, block, field);
                   }}
@@ -142,7 +142,7 @@ class Content extends Component {
                     this.onAction(value, action, overrideBlock || block);
                   }}
                   onFieldKeyPress={(value, field, data) => {
-                    this.onChange(
+                    keyPressChange && this.onChange(
                       {
                         value: {
                           ...data,

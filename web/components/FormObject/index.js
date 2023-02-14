@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Form from '../Form';
 import IconButton from '../ui/IconButton';
+// import Actions from '../Actions';
 
 class FormObject extends Component {
   constructor(props) {
@@ -12,6 +13,9 @@ class FormObject extends Component {
     this.convertToObj = this.convertToObj.bind(this);
     this.convertToArr = this.convertToArr.bind(this);
     this.valueOnChange = this.valueOnChange.bind(this);
+    this.changeToArray = this.changeToArray.bind(this);
+    this.formOnAction = this.formOnAction.bind(this);
+    this.changeToObject = this.changeToObject.bind(this);
   }
   valueOnChange(data, key, isArray) {
     const { onChange, value = {} } = this.props;
@@ -39,6 +43,20 @@ class FormObject extends Component {
   }
   isArray(val) {
     return Array.isArray(val) && typeof val === 'object';
+  }
+
+  formOnAction(action, key, isArray) {
+    switch (action.actionType) {
+      case 'object':
+        this.convertToObj(key, isArray);
+        break;
+      case 'array':
+        this.convertToArr(key, isArray);
+        break;
+      case 'bool':
+        this.convertToBool(key, isArray);
+        break;
+    }
   }
 
   removeItem(key, isArray) {
@@ -78,6 +96,27 @@ class FormObject extends Component {
         },
       });
   }
+  convertToBool(key, isArray) {
+    const { value = {}, onChange } = this.props;
+    this.setState({
+      objMap: {
+        ...this.state.objMap,
+        [key]: false,
+      },
+      objArray: {
+        ...this.state.objArray,
+        [key]: false,
+      },
+    });
+    onChange &&
+      onChange({
+        value: {
+          ...value,
+          [key]: Boolean(value[key].toString()),
+        },
+      });
+  }
+
   convertToArr(key, isArray) {
     const { value = {}, onChange } = this.props;
     this.setState({
@@ -99,6 +138,21 @@ class FormObject extends Component {
       });
   }
 
+  changeToArray() {
+    const { onChange, value = {} } = this.props;
+    onChange &&
+      onChange({
+        value: [value],
+      });
+  }
+  changeToObject() {
+    const { onChange } = this.props;
+    onChange &&
+      onChange({
+        value: {},
+      });
+  }
+
   addNew(isArray) {
     const { onChange, value = {}, keyName = 'key' } = this.props;
     let idx = 0;
@@ -114,7 +168,7 @@ class FormObject extends Component {
   }
 
   render() {
-    const { className = '', label, fields, value = {}, formClassName = 'sq-form--keyval-mode', ...rest } = this.props;
+    const { className = '', label, fields, value = {}, formClassName = 'sq-form--keyval-mode', type, ...rest } = this.props;
     const isArray = this.isArray(value);
     return (
       <div className={`sq-form-object ${className}`}>
@@ -165,7 +219,11 @@ class FormObject extends Component {
               </div>
             );
           })}
-        <IconButton iconName="add" onClick={() => this.addNew(isArray)} />
+        <div className="sq-form-object__actions">
+          <IconButton iconName="add" onClick={() => this.addNew(isArray)} />
+          {!isArray && <IconButton iconSize="small" title={'Convert to array'} iconName="DataArray" color="info" size="small" onClick={() => this.changeToArray()} />}
+          {isArray && <IconButton iconSize="small" title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.changeToObject()} />}
+        </div>
       </div>
     );
   }

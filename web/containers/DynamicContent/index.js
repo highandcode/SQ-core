@@ -128,6 +128,9 @@ class DynamicContent extends Component {
     } else {
       pageResponse = dataForPage;
     }
+    if (pageResponse.pageData.updatePageTitle) {
+      window.document.title = pageResponse.pageData.title;
+    }
     if (pageResponse.pageData.reset) {
       await this.props.contentActions.resetUserData(pageResponse.pageData.reset);
     }
@@ -505,7 +508,7 @@ class DynamicContent extends Component {
   }
 
   render() {
-    const { containerTemplate: overrideContainerTemplate, rootClass = 'row', ...allProps } = this.props;
+    const { containerTemplate: overrideContainerTemplate, rootClass = 'row',  ...allProps } = this.props;
     const { dataPacket, store } = allProps;
     const userData = {
       ...this.props.store.content.userData,
@@ -522,7 +525,6 @@ class DynamicContent extends Component {
     const { out: tranOut = 'out-up', in: tranIn = 'out-in', loading = 'loading' } = transition;
     const classState = this.state.isOut ? `transition transition-page--${tranOut}` : this.state.isIn ? `transition transition-page--${tranIn}` : '';
     const loadingState = this.state.isLoading ? `transition transition-page--${loading}` : '';
-
     return (
       <div className={`dynamic-content ${rootClass} ${rootClassName} ${loadingState} ${classes.root || ''}`}>
         <Snackbar

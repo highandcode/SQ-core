@@ -45,6 +45,8 @@ items:
             - type: required
               defaultValue: /content/
             - type: path
+            - type: startsWith
+              startsWith: /content/
     - component: Button
       size: large
       buttonText: Create

@@ -1,6 +1,8 @@
 .sq-page-builder {
   padding: 10px;
-
+  .dynamic-content {
+    height: auto;
+  }
   .sq-content-page {
     padding-top: 0 !important;
     margin: unset !important;

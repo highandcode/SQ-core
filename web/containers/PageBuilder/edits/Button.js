@@ -38,6 +38,11 @@ export default withEditTabs({
       label: 'url',
     },
     {
+      name: 'to',
+      cmpType: 'Input',
+      label: 'to',
+    },
+    {
       name: 'method',
       cmpType: 'Radio',
       display: 'Inline',
@@ -172,6 +177,11 @@ export default withEditTabs({
       name: 'postHook',
       cmpType: 'Input',
       label: 'postHook',
+    },
+    {
+      name: 'validateGroup',
+      cmpType: 'Input',
+      label: 'validateGroup',
     },
     {
       name: 'defaultResponse',

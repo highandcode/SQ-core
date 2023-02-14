@@ -203,7 +203,7 @@ export const deletePage =
             undefined,
             getState()
           )
-        : payload,
+        : {uid: payload.uid},
       undefined,
       processParams(
         { ...selectContentData(getState()), ...selectUserData(getState()) },
