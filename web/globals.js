@@ -48,6 +48,8 @@ export const GLOBAL_OPTIONS = {
     percentage: 'percentage',
     appendText: 'appendText',
     titleCase: 'titleCase',
+    upperCase: 'upperCase',
+    lowerCase: 'lowerCase',
     appendViewOnlyText: 'appendViewOnlyText',
   }),
   compareOperators: new GlobalOptions({
