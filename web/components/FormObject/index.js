@@ -220,7 +220,7 @@ class FormObject extends Component {
             );
           })}
         <div className="sq-form-object__actions">
-          <IconButton iconName="add" onClick={() => this.addNew(isArray)} />
+          <IconButton conSize="small" iconName="add" onClick={() => this.addNew(isArray)} />
           {!isArray && <IconButton iconSize="small" title={'Convert to array'} iconName="DataArray" color="info" size="small" onClick={() => this.changeToArray()} />}
           {isArray && <IconButton iconSize="small" title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.changeToObject()} />}
         </div>
