@@ -9,6 +9,7 @@ import Button from '../../components/ui/Button';
 import Switch from '../../components/ui/Switch';
 import { ComponentList } from './ComponentList';
 import Panel from './Panel';
+import { withEditTabsConfig } from './edits/Common';
 import {
   startLoading,
   showNotificationMessage,
@@ -542,4 +543,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageBuilder);
-export { PageBuilder, addComponent };
+export { PageBuilder, addComponent, withEditTabsConfig };

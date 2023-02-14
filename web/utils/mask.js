@@ -19,6 +19,18 @@ const masks = {
       return value.replace(text, '');
     }
   },
+  titleCase: {
+    mask: (value, { input = false }) => {
+      let allArr = value.split(' ');
+      for(let i = 0; i < allArr.length; i++) {
+        allArr[i] = (allArr[i][0] || '')?.toUpperCase() + (allArr[i] || '')?.substr(1);
+      }
+      return allArr.join(' ');
+    },
+    unmask: (value) => {
+      return value;
+    },
+  },
   appendText: {
     mask: (value, { appendAt='start', text = ''} = {}) => {
       return value.indexOf(text) === -1 ? (appendAt === 'start' ? text : '') +  `${value || ''}` + (appendAt === 'end' ? text : '') : value;

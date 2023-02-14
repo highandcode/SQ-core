@@ -43,8 +43,12 @@ export const GLOBAL_OPTIONS = {
   }),
   maskTypes: new GlobalOptions({
     phone: 'phone',
+    number: 'number',
     currency: 'currency',
     percentage: 'percentage',
+    appendText: 'appendText',
+    titleCase: 'titleCase',
+    appendViewOnlyText: 'appendViewOnlyText',
   }),
   compareOperators: new GlobalOptions({
     bool: 'bool type equals',
