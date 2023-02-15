@@ -70,7 +70,7 @@ class PageListing extends BaseContainer {
         break;
       case 'preview':
         utils.redirect.redirectTo(
-          row.path + '/index.html',
+          row.path,
           { mode: 'preview' },
           { target: '_blank' }
         );
