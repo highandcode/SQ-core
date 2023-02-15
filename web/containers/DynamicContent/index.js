@@ -13,7 +13,6 @@ import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, up
 
 import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
 
-
 const _window = window;
 let containers = {
   Default,
@@ -31,6 +30,7 @@ class DynamicContent extends Component {
   constructor() {
     super();
     this.state = {
+      activeTheme: 'main',
       pageData: {},
       page: {
         pageYOffset: _window.pageYOffset,
@@ -171,7 +171,13 @@ class DynamicContent extends Component {
   }
 
   async componentDidUpdate() {
-    const { location = {}, url: overrideUrl } = this.props;
+    const { location = {}, url: overrideUrl, onThemeChange } = this.props;
+    const activeTheme = this.state.activeTheme;
+    const pageDataTheme = this.state.pageData?.pageData?.theme || this.state.pageData?.siteMap?.theme;
+    if (activeTheme && pageDataTheme && activeTheme !== pageDataTheme) {
+      onThemeChange && onThemeChange(pageDataTheme);
+      
+    }
     if (this.state.url != (overrideUrl || location.pathname)) {
       this.setState(
         {
@@ -508,7 +514,7 @@ class DynamicContent extends Component {
   }
 
   render() {
-    const { containerTemplate: overrideContainerTemplate, rootClass = 'row',  ...allProps } = this.props;
+    const { containerTemplate: overrideContainerTemplate, rootClass = 'row', ...allProps } = this.props;
     const { dataPacket, store } = allProps;
     const userData = {
       ...this.props.store.content.userData,
