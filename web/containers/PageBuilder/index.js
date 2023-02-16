@@ -421,11 +421,11 @@ class PageBuilder extends Component {
                             cmpType: 'Input',
                             label: 'Title',
                           },
-                          {
-                            name: 'pageBackground',
-                            cmpType: 'ColorPicker',
-                            label: 'Page background',
-                          },
+                          // {
+                          //   name: 'pageBackground',
+                          //   cmpType: 'ColorPicker',
+                          //   label: 'Page background',
+                          // },
                           {
                             name: 'updatePageTitle',
                             cmpType: 'Switch',
