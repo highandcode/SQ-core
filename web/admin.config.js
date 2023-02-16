@@ -13,6 +13,7 @@ module.exports = {
     getPageByPath: '/api/v1/admin/content/page/getbypath',
     getContentTree: '/api/v1/admin/content/page/gettree',
     contentPage: '/api/v1/admin/content/page',
+    clonePage: '/api/v1/admin/content/page/clone',
   },
   urlMapping: {
     login: '/content/admin/login',

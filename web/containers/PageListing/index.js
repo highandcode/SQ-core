@@ -2,11 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Actions } from '../../components/root';
 import * as utils from '../../utils';
-import { loadPageTree, loadPagesByPath, deletePage } from '../../redux/admin';
+import {
+  loadPageTree,
+  loadPagesByPath,
+  deletePage,
+  clonePage,
+} from '../../redux/admin';
 import BaseContainer from '../BaseContainer';
-import { GLOBAL_OPTIONS } from '../../globals';
+import Dialog from '../../components/Dialog';
+import clonePageConfig from './ClonePage';
+// import { GLOBAL_OPTIONS } from '../../globals';
 
 import PathTree from './PathTree';
+import DynamicContent from '../DynamicContent';
 
 // const { Grid, Tabs, Form, Pagination, Link, Dialog, Actions } = root;
 const { formatters } = utils.format;
@@ -18,6 +26,8 @@ class PageListing extends BaseContainer {
     this.state = {};
     this.onFilterChange = this.onFilterChange.bind(this);
     this.onGridAction = this.onGridAction.bind(this);
+    this.toggleEditForm = this.toggleEditForm.bind(this);
+    this.onCloneFormSubmit = this.onCloneFormSubmit.bind(this);
     this.onTreeSelect = this.onTreeSelect.bind(this);
   }
 
@@ -53,6 +63,12 @@ class PageListing extends BaseContainer {
   async onGridAction(row, value, column) {
     const { pageData } = this.props;
     switch (value.action) {
+      case 'clone':
+        this.setState({
+          openClone: true,
+          cloneFrom: row,
+        });
+        break;
       case 'delete':
         await this.props.raiseAction(
           deletePage(row, pageData.contentPageConfig)
@@ -75,14 +91,20 @@ class PageListing extends BaseContainer {
           { target: '_blank' }
         );
         break;
-      case 'clone':
-        // utils.redirect.redirectTo(
-        //   row.path,
-        //   { mode: 'preview' },
-        //   { target: '_blank' }
-        // );
-        break;
     }
+  }
+  async onCloneFormSubmit(data) {
+    const { pageData } = this.props;
+    await this.props.raiseAction(clonePage(data, pageData.clonePageConfig));
+    this.refreshPages();
+    this.setState({
+      openClone: false,
+    });
+  }
+  async toggleEditForm() {
+    this.setState({
+      openClone: false,
+    });
   }
 
   async onTreeSelect(data) {
@@ -101,6 +123,20 @@ class PageListing extends BaseContainer {
       <div className="sq-page-listing sq-v-screen sq-v-screen--fixed">
         <div className="sq-v-screen__container">
           <div className="container-fluid mt-wide mb-wide">
+            <Dialog
+              open={this.state.openClone}
+              onClose={this.toggleEditForm}
+              title={`Clone page`}
+            >
+              <div className="mt-wide">
+                <DynamicContent
+                  onSubmit={this.onCloneFormSubmit}
+                  pageConfig={clonePageConfig({
+                    formData: this.state.cloneFrom,
+                  })}
+                ></DynamicContent>
+              </div>
+            </Dialog>
             <Actions
               actions={[
                 {
@@ -196,6 +232,13 @@ class PageListing extends BaseContainer {
                           render: (row) => {
                             return row.status === 'DRAFT';
                           },
+                        },
+                        {
+                          cmpType: 'LinkButton',
+                          iconName: 'ContentCopy',
+                          iconVariant: 'info',
+                          action: 'clone',
+                          buttonText: translate('Clone'),
                         },
                         {
                           cmpType: 'LinkButton',

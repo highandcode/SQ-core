@@ -1,5 +1,6 @@
 const BaseRepository = require('../BaseRepository');
 const constants = require('../constants');
+const Error = require('../Error');
 const { datetime, path } = require('../utils');
 
 class ContentRepository extends BaseRepository {
@@ -107,6 +108,7 @@ class ContentRepository extends BaseRepository {
     });
     return tree[0];
   }
+
   async getAllPages(parentPath) {
     const result = await this.find({ parentPath });
     return result.map((i) => i.toObject());
@@ -116,6 +118,22 @@ class ContentRepository extends BaseRepository {
     return await this.update({
       ...data,
     });
+  }
+
+  async copyContent(data) {
+    const pathToCopy = await this.findOne({ path: data.from });
+    const pathVars = this.extractPath(`${data.to.toLowerCase()}`, data.type);
+    if (pathToCopy) {
+      return await this.insert({
+        ...pathToCopy,
+        pageData: {
+          ...pathToCopy.pageData,
+          title: `Copy - ${pathToCopy.pageData?.title}`,
+        },
+        ...pathVars,
+      });
+    }
+    throw Error.notfound();
   }
   async publishPage(data) {
     return await this.update({

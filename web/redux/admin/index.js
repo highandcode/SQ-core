@@ -224,6 +224,43 @@ export const deletePage =
       await dispatch(setContentPage(result.data));
     }
   };
+export const clonePage =
+  (payload, { url, method = 'post', params, hook, query } = {}) =>
+  async (dispatch, getState) => {
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.clonePage,
+      params
+        ? processParams(
+            {
+              ...selectContentData(getState()),
+              ...selectUserData(getState()),
+              ...payload,
+            },
+            params,
+            undefined,
+            getState()
+          )
+        : {from: payload.from, to: payload.to, type: payload.type},
+      undefined,
+      processParams(
+        { ...selectContentData(getState()), ...selectUserData(getState()) },
+        query,
+        undefined,
+        getState()
+      )
+    );
+    if (result.status === CONSTANTS.STATUS.SUCCESS) {
+      dispatch(
+        showNotificationMessage({
+          message: 'Page cloned successfully',
+        })
+      );
+      if (hook) {
+        result.data = await customHooks.execute(hook, result);
+      }
+      await dispatch(setContentPage(result.data));
+    }
+  };
 export const selectContentData = (state) => {
   return state.admin.contentData;
 };

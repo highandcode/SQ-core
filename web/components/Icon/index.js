@@ -5,6 +5,7 @@ import ListIcon from '@mui/icons-material/List';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import HighlightOff from '@mui/icons-material/HighlightOff';
 import Delete from '@mui/icons-material/Delete';
+import ContentCopy from '@mui/icons-material/ContentCopy';
 import Add from '@mui/icons-material/Add';
 import PlayCircleFilled from '@mui/icons-material/PlayCircleFilled';
 import PlayArrow from '@mui/icons-material/PlayArrow';
@@ -221,6 +222,7 @@ const types = {
     AccessAlarms,
     AccessTime,
     AcUnit,
+    ContentCopy,
     AddToQueue,
     AddComment,
     AccountCircle,

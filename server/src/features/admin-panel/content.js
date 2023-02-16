@@ -36,6 +36,14 @@ module.exports = ({ context } = {}) => {
       })
       .catch((ex) => context.handleError(ex, res));
   });
+  context.router.post('/content/page/clone', function (req, res) {
+    context.contentRepo
+      .copyContent(req.body)
+      .then((result) => {
+        res.json(new Response(result).json());
+      })
+      .catch((ex) => context.handleError(ex, res));
+  });
   context.router.delete('/content/page', function (req, res) {
     context.contentRepo
       .deleteById(req.body.uid)
