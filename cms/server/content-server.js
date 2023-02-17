@@ -487,7 +487,6 @@ class ContentServer {
     let fileFound = true;
     if (!this.fse.existsSync(filePath)) {
       filePath = this.get404Page(currentSiteConfig, fullPath);
-      fullPath = filePath;
       status = 404;
       fileFound = false;
     } else if (!isLaunchMatch) {
