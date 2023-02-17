@@ -14,6 +14,7 @@ import DataList from './DataList';
 import FormList from './FormList';
 import FieldText from './ui/FieldText';
 import Dialog from './Dialog';
+import InlineProgress from './InlineProgress';
 import ErrorBoundry from './ErrorBoundry';
 import FloatingActionButton from './FloatingActionButton';
 import Form from './Form';
@@ -137,6 +138,7 @@ export {
   GlobalNavigation,
   Header,
   HeroContent,
+  InlineProgress,
   ImageInfoSlider,
   ImageOnDevice,
   ImageWithSlide,

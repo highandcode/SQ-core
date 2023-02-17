@@ -12,6 +12,7 @@ import Grouper from './Grouper';
 import Wrapper from './Wrapper';
 import CodeHighlight from './ui/CodeHighlight';
 import Progress from './Progress';
+import InlineProgress from './InlineProgress';
 import Form from './Form';
 import FormList from './FormList';
 import FormObject from './FormObject';
@@ -67,6 +68,7 @@ let comps = {
   Progress,
   Form,
   Grid,
+  InlineProgress,
   ImageWithSpotlight,
   FormList,
   FormObject,
