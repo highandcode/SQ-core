@@ -12,7 +12,6 @@ export const CONSTANTS = {
   },
 };
 
-export { GlobalOptions };
 
 export const GLOBAL_OPTIONS = {
   inputVariant: new GlobalOptions({
@@ -171,3 +170,4 @@ export const GLOBAL_OPTIONS = {
     'Miss.': 'Miss',
   }),
 };
+export { GlobalOptions };

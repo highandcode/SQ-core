@@ -732,5 +732,5 @@ export const {
   clearAllUserData,
   updateMetaData,
 } = content.actions;
-export default content.reducer;
 export { customHooks };
+export default content.reducer;
