@@ -92,7 +92,7 @@ export const processParams = (
       const validator = new Validator(params[key].match);
       validator.setValues(userData);
       value = validator.validateAll();
-    } else if (typeof params[key] === 'object' && params[key] !== null) {
+    } else if (typeof params[key] === 'object' && params[key] !== null && !Array.isArray(params[key])) {
       value = processParams(userData, params[key], defaultValue, state);
     } else {
       value = processEachParam(userData, params[key], defaultValue, state);
