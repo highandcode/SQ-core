@@ -76,7 +76,7 @@ class Entity {
     return this;
   }
 
-  toJson() {
+  toJson(setDerived) {
     const objToReturn = {};
     if (this.uid) {
       objToReturn.uid = this.uid;
@@ -85,6 +85,11 @@ class Entity {
     Object.keys(this.entityType.fields).forEach((fieldKey) => {
       objToReturn[fieldKey] = this[fieldKey];
     });
+    if (setDerived && this.entityType.derivedFields) {
+      Object.keys(this.entityType.derivedFields).forEach((fieldKey) => {
+        objToReturn[fieldKey] = this.entityType.derivedFields[fieldKey](this);
+      });
+    }
     let overrides;
     if (typeof this.onBeforeJSON === 'function') {
       overrides = this.onBeforeJSON(objToReturn);

@@ -52,7 +52,7 @@
     padding: 5px;
     line-height: 22px;
     .sq-icon__text, svg {
-      color: $sq-color-white;
+      color: currentColor;
       text-transform: uppercase;
     }
   }
@@ -63,7 +63,6 @@
     align-items: center;
     justify-content: center;
     padding: 5px;
-   
     svg {
       color: $sq-color-white;
     }

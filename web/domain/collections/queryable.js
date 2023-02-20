@@ -27,10 +27,10 @@ class Queryable {
     );
   }
 
-  toArray() {
+  toArray(derived = true) {
     return this.rData.map((item) => {
       const fix = new this.entityType(item);
-      return fix.toJson ? fix.toJson() : fix;
+      return fix.toJson ? fix.toJson(derived) : fix;
     });
   }
 
