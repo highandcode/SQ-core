@@ -203,7 +203,7 @@ export const deletePage =
             undefined,
             getState()
           )
-        : {uid: payload.uid},
+        : { uid: payload.uid },
       undefined,
       processParams(
         { ...selectContentData(getState()), ...selectUserData(getState()) },
@@ -225,7 +225,11 @@ export const deletePage =
     }
   };
 export const clonePage =
-  (payload, { url, method = 'post', params, hook, query } = {}) =>
+  (
+    payload,
+    { url, method = 'post', params, hook, query } = {},
+    { success, error } = {}
+  ) =>
   async (dispatch, getState) => {
     const result = await utils.apiBridge[method](
       url || adminConfig.apis.clonePage,
@@ -240,7 +244,7 @@ export const clonePage =
             undefined,
             getState()
           )
-        : {from: payload.from, to: payload.to, type: payload.type},
+        : { from: payload.from, to: payload.to, type: payload.type },
       undefined,
       processParams(
         { ...selectContentData(getState()), ...selectUserData(getState()) },
@@ -259,6 +263,9 @@ export const clonePage =
         result.data = await customHooks.execute(hook, result);
       }
       await dispatch(setContentPage(result.data));
+      success && success(result);
+    } else {
+      error && error(result);
     }
   };
 export const selectContentData = (state) => {

@@ -8,6 +8,7 @@ import {
   deletePage,
   clonePage,
 } from '../../redux/admin';
+import { updateUserData } from '../../redux/content';
 import BaseContainer from '../BaseContainer';
 import Dialog from '../../components/Dialog';
 import clonePageConfig from './ClonePage';
@@ -95,11 +96,25 @@ class PageListing extends BaseContainer {
   }
   async onCloneFormSubmit(data) {
     const { pageData } = this.props;
-    await this.props.raiseAction(clonePage(data, pageData.clonePageConfig));
-    this.refreshPages();
-    this.setState({
-      openClone: false,
-    });
+    await this.props.raiseAction(
+      clonePage(data, pageData.clonePageConfig, {
+        success: () => {
+          this.refreshPages();
+          this.setState({
+            openClone: false,
+          });
+        },
+        error: (resp) => {
+          if (resp.error?.errors) {
+            this.props.raiseAction(
+              updateUserData({
+                formData_errors: resp.error.errors,
+              })
+            );
+          }
+        },
+      })
+    );
   }
   async toggleEditForm() {
     this.setState({

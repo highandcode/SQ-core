@@ -132,7 +132,7 @@ class BaseRepository {
             if (_.filter(res, (i) => i[filterKey] === filter[filterKey]).length > 0) {
               buildErrors[filterKey] = {
                 error: true,
-                errorMessage: 'Already exists',
+                errorMessage: 'This record already exists',
                 key: 'DUPLICATE_RECORD'
               };
             }

@@ -12,7 +12,7 @@ module.exports = ({ context } = {}) => {
       .checkExists({ path: path.ensureNoSlashAtEnd(paths.path) }, ['path'])
       .then(() => {
         context.contentRepo
-          .create({...req.body, ...data})
+          .create({ ...req.body, ...data })
           .then((result) => {
             res.json(new Response(result).json());
           })
@@ -38,9 +38,14 @@ module.exports = ({ context } = {}) => {
   });
   context.router.post('/content/page/clone', function (req, res) {
     context.contentRepo
-      .copyContent(req.body)
-      .then((result) => {
-        res.json(new Response(result).json());
+      .checkExists({ path: path.ensureNoSlashAtEnd(req.body.to) }, ['to'])
+      .then(() => {
+        context.contentRepo
+          .copyContent(req.body)
+          .then((result) => {
+            res.json(new Response(result).json());
+          })
+          .catch((ex) => context.handleError(ex, res));
       })
       .catch((ex) => context.handleError(ex, res));
   });

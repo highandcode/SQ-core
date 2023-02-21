@@ -2,7 +2,7 @@ module.exports = ({ formData = {}, ...config } = {}) => ({
   pageData: {
     init: {
       formData: {
-        targetPath: '/content/',
+        to: '/content/',
         ...formData,
       },
     },
@@ -18,7 +18,7 @@ module.exports = ({ formData = {}, ...config } = {}) => ({
           },
           {
             cmpType: 'Input',
-            name: 'targetPath',
+            name: 'to',
             label: 'Target path',
             validators: [
               {
@@ -43,7 +43,7 @@ module.exports = ({ formData = {}, ...config } = {}) => ({
         params: {
           '...': '.formData',
           from: '.formData.path',
-          to: '.formData.targetPath',
+          to: '.formData.to',
           type: '.formData.type',
         }
       },
