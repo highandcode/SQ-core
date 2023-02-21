@@ -76,7 +76,7 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
                 </div>
               }
               {...getTagProps({ index })}
-              disabled={finalFixedOptions.indexOf(option) !== -1}
+              disabled={disabled || finalFixedOptions.indexOf(option) !== -1}
             />
           ))
         }

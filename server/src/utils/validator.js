@@ -170,6 +170,19 @@ const _validators = {
     }
     return isValid;
   },
+  arrayLength: (value, options) => {
+    let isValid = true;
+    if (!commons.isNullOrUndefined(options.exact) && value.length !== options.exact) {
+      isValid = false;
+    }
+    if (!commons.isNullOrUndefined(options.min) && value.length < options.min) {
+      isValid = false;
+    }
+    if (!commons.isNullOrUndefined(options.max) && value.length > options.max) {
+      isValid = false;
+    }
+    return isValid;
+  },
   emailphone: (value) => {
     return _validators.email(value) || _validators.phone(value);
   },
@@ -298,6 +311,20 @@ const _messages = {
     }
     if (max) {
       return `Length should be less than ${max} chars`;
+    }
+  },
+  arrayLength: ({ exact, min, max }) => {
+    if (exact) {
+      return `Should be ${exact} item`;
+    }
+    if (min && max) {
+      return `Items should be between ${min} and ${max}`;
+    }
+    if (min) {
+      return `Atleast ${min} ${min > 1 ? 'items' : 'item'} should be selected`;
+    }
+    if (max) {
+      return `Maxinum  ${max} ${min > 1 ? 'items' : 'item'} ${min > 1 ? 'are' : 'is'} allowed`;
     }
   },
   phone: () => `Enter a valid phone number`,

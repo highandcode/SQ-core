@@ -6,6 +6,14 @@ class CustomProcessor {
           return oldValue + ' ' + value;
         },
       },
+      array: {
+        join: (value) => {
+          return Array.isArray(value) ? value.join(',') : value;
+        },
+        extractByKey: (value, { key = 'code' } = {}) => {
+          return Array.isArray(value) ? value.map((i) => i[key]).join(',') : value;
+        },
+      },
       globals: {
         options: (value) => {
           return this.globalOptions[value]?.toArray();

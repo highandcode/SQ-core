@@ -1,4 +1,7 @@
 .sq-page-listing {
+  &__clone {
+    min-width: 500px;
+  }
   &__container {
     display: flex;
   }

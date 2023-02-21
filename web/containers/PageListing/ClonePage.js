@@ -4,6 +4,7 @@ module.exports = ({ formData = {}, ...config } = {}) => ({
       formData: {
         to: '/content/',
         ...formData,
+        ...config.init
       },
     },
     items: [
@@ -24,6 +25,7 @@ module.exports = ({ formData = {}, ...config } = {}) => ({
               {
                 type: 'required',
                 defaultValue: '/content/',
+                ...config.targetPath?.required
               },
               {
                 type: 'path',
@@ -31,6 +33,7 @@ module.exports = ({ formData = {}, ...config } = {}) => ({
               {
                 type: 'startsWith',
                 startsWith: '/content/',
+                ...config.targetPath?.starts
               },
             ],
           },
