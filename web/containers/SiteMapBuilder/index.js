@@ -39,7 +39,7 @@ class SiteMapBuilder extends Component {
     super();
     this.state = {
       enableMenu: true,
-      autoSave: true,
+      autoSave: false,
       enableProps: false,
       contentData: {},
     };
@@ -90,7 +90,7 @@ class SiteMapBuilder extends Component {
     await this.setState({
       contentData: { ...this.state.contentData, pageData: { ...data } },
     });
-    this.savePageAsDraft(data, this.state.autoSave);
+    this.state.autoSave && this.savePageAsDraft(data, this.state.autoSave);
   }
   render() {
     const { className = '', pageData, store } = this.props;

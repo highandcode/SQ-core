@@ -146,10 +146,10 @@ class FormObject extends Component {
       });
   }
   changeToObject() {
-    const { onChange } = this.props;
+    const { onChange, value } = this.props;
     onChange &&
       onChange({
-        value: {},
+        value: Array.isArray(value) ? value[0] : {},
       });
   }
 
