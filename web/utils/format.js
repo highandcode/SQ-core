@@ -1,12 +1,9 @@
-import {
-  setDefaults,
-  getFormatters as _getFormatters,
-  setFormatters as _setFormatters,
-} from '../../server/src/utils/format';
+import { setDefaults, getDefaults, getFormatters as _getFormatters, setFormatters as _setFormatters } from '../../server/src/utils/format';
 import { DateTime } from './datetime';
 import { getSign, get } from './currency';
 
 setDefaults({
+  date: {},
   currency: {
     decimals: 0,
   },
@@ -42,25 +39,25 @@ const formatters = {
       ...rest,
     });
   },
-  dateFull: (value, options = {}) => {
-    return value ? new DateTime(value).toString('MMM, DD YYYY') : '';
+  dateFull: (value, { format = 'MMM, DD YYYY' } = getDefaults().date?.dateFull || {}) => {
+    return value ? new DateTime(value).toString(format) : '';
   },
-  dateForTimezone: (value, { timezone = 'America/New_York', format = 'MMM, DD YYYY hh:mm A zz' } = {}) => {
+  dateForTimezone: (value, { timezone = 'America/New_York', format = 'MMM, DD YYYY hh:mm A zz' } = getDefaults().date?.dateForTimezone || {}) => {
     return value ? new DateTime(value)._date.tz(timezone).format(format) : '';
   },
-  shortDate: (value, { format = 'MM/DD/YY (ddd)' } = {}) => {
+  shortDate: (value, { format = 'MM/DD/YY (ddd)' } = getDefaults().date?.shortDate || {}) => {
     return value ? new DateTime(value).toString(format) : '';
   },
-  dateOnly: (value, { format = 'DD/MM' } = {}) => {
+  dateOnly: (value, { format = 'DD/MM' } = getDefaults().date?.dateOnly || {}) => {
     return value ? new DateTime(value).toString(format) : '';
   },
-  monthYear: (value, options = {}) => {
-    return value ? new DateTime(value).toString('MMM YYYY') : '';
+  monthYear: (value, { format = 'MMM YYYY' } = getDefaults().date?.monthYear || {}) => {
+    return value ? new DateTime(value).toString(format) : '';
   },
-  dateFullTime: (value, options = {}) => {
-    return value ? new DateTime(value).toString('MMM, DD YYYY hh:mm A') : '';
+  dateFullTime: (value, { format = 'MMM, DD YYYY hh:mm A' } = getDefaults().date?.dateFullTime || {}) => {
+    return value ? new DateTime(value).toString(format) : '';
   },
-  time: (value, options = {}) => {
+  time: (value, { format = 'hh:mm A' } = getDefaults().date?.dateFullTime || {}) => {
     return value ? new DateTime(value).toString('hh:mm A') : '';
   },
 };
