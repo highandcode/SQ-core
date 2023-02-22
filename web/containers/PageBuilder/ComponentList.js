@@ -10,9 +10,7 @@ export const Component = ({ type, name, displayText, metaData, onSuccess }) => {
       end(item, monitor) {
         const dropResult = monitor.getDropResult();
         if (item && dropResult) {
-          const isDropAllowed =
-            dropResult.allowedDropEffect === 'any' ||
-            dropResult.allowedDropEffect === dropResult.dropEffect;
+          const isDropAllowed = dropResult.allowedDropEffect === 'any' || dropResult.allowedDropEffect === dropResult.dropEffect;
           if (isDropAllowed) {
             onSuccess && onSuccess(item, dropResult);
           }
@@ -25,24 +23,29 @@ export const Component = ({ type, name, displayText, metaData, onSuccess }) => {
     [name]
   );
   return (
-    <div
-      className={`sq-component-list__item sq-component-list__item--${opacity}`}
-      ref={drag}
-    >
+    <div className={`sq-component-list__item sq-component-list__item--${opacity}`} ref={drag}>
       {displayText}
     </div>
   );
 };
 
-export const ComponentList = ({ onDrop, compList = {} }) => {
+export const ComponentList = ({ onDrop, compList = {}, filter }) => {
+  console.log('>>>', filter);
   const grouped = _.groupBy(
-    Object.keys(compList).map((key) => {
-      return {
-        name: key,
-        displayText: key,
-        ...compList[key],
-      };
-    }),
+    Object.keys(compList)
+      .map((key) => {
+        return {
+          name: key,
+          displayText: key,
+          ...compList[key],
+        };
+      })
+      .filter((item) => {
+        if (filter) {
+          return filter.indexOf(item.group) > -1;
+        }
+        return true;
+      }),
     'group'
   );
   return (

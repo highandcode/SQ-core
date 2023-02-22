@@ -380,7 +380,7 @@ class PageBuilder extends Component {
                       onClose={this.toggleElements}
                     >
                       <div className="row">
-                        <ComponentList compList={compList} />
+                        <ComponentList compList={compList} filter={pageData.compListFilter} />
                       </div>
                     </Panel>
                   )}
