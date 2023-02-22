@@ -223,6 +223,7 @@ function setDefaults(overrides) {
     }
   });
 }
+const getDefaults = () => _defaultsValues;
 
 module.exports = {
   formatters,
@@ -234,5 +235,6 @@ module.exports = {
     };
   },
   setDefaults,
+  getDefaults,
   config: {}
 };
