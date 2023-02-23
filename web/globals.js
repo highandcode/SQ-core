@@ -94,6 +94,7 @@ export const GLOBAL_OPTIONS = {
     success: 'success',
     info: 'info',
     error: 'error',
+    warning: 'warning',
   }),
   radioDisplay: new GlobalOptions({
     Column: 'Column',

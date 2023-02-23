@@ -81,7 +81,7 @@ const getIconListMap = () => {
 };
 
 export const withEditTabsConfig = (cb) => {
-  return withEditTabs(cb({ defaultParams, iconList: getIconListMap() }));
+  return withEditTabs(cb({ defaultParams, iconList: getIconListMap(), colorTypes: GLOBAL_OPTIONS.colorTypes.toArray() }));
 };
 
 export const withEditTabs = ({ classNames = [], pageData = {}, general = [], validations = [], saveParams = {}, enableValidations = true, actions = [] }) => {
