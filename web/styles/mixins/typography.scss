@@ -20,6 +20,10 @@
   font-family: $paragraph-font-family;
   font-weight: normal;
 }
+@mixin paragraph-med-font() {
+  font-family: $paragraph-med-font-family;
+  font-weight: normal;
+}
 
 @mixin text-font() {
   font-family: $text-font-family;
@@ -104,6 +108,42 @@
 }
 @mixin b8-style {
   @include paragraph-font();
+  font-size: $t8-font-size;
+}
+
+@mixin b1-med-style {
+  @include paragraph-med-font();
+  font-size: $t1-font-size;
+}
+@mixin b2-med-style {
+  @include paragraph-med-font();
+  font-size: $t2-font-size;
+}
+
+@mixin b3-med-style {
+  @include paragraph-med-font();
+  font-size: $t3-font-size;
+}
+@mixin b4-med-style {
+  @include paragraph-med-font();
+  font-size: $t4-font-size;
+}
+
+@mixin b5-med-style {
+  @include paragraph-med-font();
+  font-size: $t5-font-size;
+}
+
+@mixin b6-med-style {
+  @include paragraph-med-font();
+  font-size: $t6-font-size;
+}
+@mixin b7-med-style {
+  @include paragraph-med-font();
+  font-size: $t7-font-size;
+}
+@mixin b8-med-style {
+  @include paragraph-med-font();
   font-size: $t8-font-size;
 }
 
