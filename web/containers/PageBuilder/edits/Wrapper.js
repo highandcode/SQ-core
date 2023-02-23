@@ -12,5 +12,10 @@ export default withEditTabsConfig(({ defaultParams = {} }) => ({
       cmpType: 'Input',
       label: 'bodyClassName',
     },
+    {
+      name: 'bodyContainerClassName',
+      cmpType: 'Input',
+      label: 'bodyContainerClassName',
+    },
   ],
 }));

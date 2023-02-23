@@ -5,7 +5,7 @@ import { Validator } from '../../utils/validator';
 import { object } from '../../utils';
 import ErrorBoundary from '../ErrorBoundry';
 
-const Wrapper = ({ items = [], className = '', bodyClassName = 'row', onClick, onAction, onChange, onFieldKeyPress, ...rest }) => {
+const Wrapper = ({ items = [], className = '', bodyContainerClassName = 'container-fluid', bodyClassName = 'row', onClick, onAction, onChange, onFieldKeyPress, ...rest }) => {
   const { userData } = rest;
   const map = { ...getMap(), Wrapper };
   const handleChange = (value, field, block) => {
@@ -56,7 +56,7 @@ const Wrapper = ({ items = [], className = '', bodyClassName = 'row', onClick, o
 
   return (
     <div className={`sq-wrapper ${className}`}>
-      <div className="container-fluid">
+      <div className={`${bodyContainerClassName}`}>
         <div className={`sq-wrapper__body ${bodyClassName}`}>
           {items.map((item, idx) => {
             const newItem = object.processBlock(item, { userData });

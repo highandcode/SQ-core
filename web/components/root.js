@@ -86,6 +86,7 @@ import Textarea from './ui/Textarea';
 import TextColumnWithLinks from './ui/TextColumnWithLinks';
 import TextFields from './ui/TextFields';
 import EditableField from './EditableField';
+import Wrapper from './Wrapper';
 
 export const editor = {
   setEditorOptions
@@ -93,6 +94,7 @@ export const editor = {
 
 export {
   Actions,
+  Wrapper,
   Alert,
   BottomNavigation,
   CallToAction,
