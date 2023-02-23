@@ -235,7 +235,7 @@ class PageBuilder extends Component {
   showPreview() {
     utils.redirect.redirectTo(
       utils.queryString.query.get().path,
-      { mode: 'preview' },
+      {  },
       { target: '_blank' }
     );
   }

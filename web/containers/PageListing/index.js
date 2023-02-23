@@ -78,7 +78,7 @@ class PageListing extends BaseContainer {
         });
         break;
       case 'preview':
-        utils.redirect.redirectTo(row.path, { mode: 'preview' }, { target: '_blank' });
+        utils.redirect.redirectTo(row.path, {}, { target: '_blank' });
         break;
     }
   }
