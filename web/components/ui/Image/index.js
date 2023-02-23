@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { resolveImageUrl } from '../../../cordova';
+import Icon from '../../Icon';
 
 
 const Image = ({ className = '', alt, imageUrl, size = 'medium', noImage = '', style }) => {
@@ -10,6 +11,7 @@ const Image = ({ className = '', alt, imageUrl, size = 'medium', noImage = '', s
       {!imageUrl && noImage && <div className="sq-image__no-image">
         {noImage}
       </div>}
+      {!imageUrl && !noImage && <Icon className="sq-image__no-image" name="HideImage" size='large' variant='default' />}
     </div>
   );
 };
