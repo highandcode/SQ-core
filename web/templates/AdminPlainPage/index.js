@@ -13,12 +13,6 @@ class AdminPlainPage extends BaseContainer {
   render() {
     const { children, pageData = {}, data = {}, store } = this.props;
     const { metaData = {}, siteMap = {} } = data;
-    // let props = {};
-    // if (!store.authentication?.currentUser) {
-    //   props = { ...siteMap.globalNavigation };
-    // } else {
-    //   props = { ...siteMap.globalNavigationLoggedIn };
-    // }
     return (
       <div className={`sq-admin-plain ${pageData.className || ''}`}>
         <div
