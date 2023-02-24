@@ -15,4 +15,6 @@
 @import "screen";
 @import "disclaimer";
 @import "core";
-@import "components";
+@import "./application/components";
+@import "./application/templates";
+@import "./application/containers";
