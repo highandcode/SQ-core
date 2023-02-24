@@ -126,7 +126,7 @@ class AdminDashboard extends AdminContainer {
                 onCloseDrawer={this.toggleMenu}
                 openDrawer={this.state.openDrawer}
                 logo={siteMap.logo}
-                items={currentUser ? siteMap.globalNavigationLoggedIn.navigation : siteMap.globalNavigation.navigation}
+                items={currentUser ? siteMap.siteMap.globalNavigationLoggedIn.navigation : siteMap.siteMap.globalNavigation.navigation}
                 roles={[]}
                 permissions={store.authentication.currentUser?.permissions}
                 className={'sq-left-navigation--compact'}
