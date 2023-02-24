@@ -19,7 +19,8 @@
 }
 
 .app-view {
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   padding-top: 57px;
   @media screen and (min-width: $screen-sm) {
     padding-top: 64px;
@@ -64,7 +65,8 @@
     min-width: 400px;
   }
   max-width: 500px;
-  margin: 0 auto;
+  margin-left: 0 auto;
+  margin-right: 0 auto;
   &--xs {
     max-width: 320px;
   }
@@ -86,7 +88,8 @@
 .container-med {
   padding: 20px 0 0 0;
   max-width: 920px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 .container-full {
   padding: 20px 0 0 0;
@@ -94,17 +97,20 @@
 
 .container-max {
   max-width: 1280px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
 }
 .container-wide {
   max-width: 1440px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
 }
 .container-ultrawide {
   max-width: 1740px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
 }
 
@@ -139,14 +145,22 @@
 
 .body-container-small {
   max-width: 470px !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .body-container-med {
   max-width: 750px !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 .body-container-lg {
   max-width: 920px !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 .body-container-xl {
   max-width: 1120px !important;
+  margin-left: auto;
+  margin-right: auto;
 }

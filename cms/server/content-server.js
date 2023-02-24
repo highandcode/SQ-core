@@ -271,7 +271,7 @@ class ContentServer {
     const data = await this.getPageData(path);
     return Promise.resolve({
       pageData: data.pageData,
-      siteMap: data.siteConfig,
+      siteMap: data.siteConfig.siteMap,
       metaData: data.merged,
     });
   }

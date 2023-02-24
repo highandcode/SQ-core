@@ -14,9 +14,9 @@ class Homepage extends BaseContainer {
     const { metaData = {}, siteMap = {} } = data;
     let props = {};
     if (!store.authentication?.currentUser) {
-      props = { ...siteMap.siteMap.globalNavigation };
+      props = { ...siteMap.globalNavigation };
     } else {
-      props = { ...siteMap.siteMap.globalNavigationLoggedIn };
+      props = { ...siteMap.globalNavigationLoggedIn };
     }
     return (
       <div
@@ -26,7 +26,7 @@ class Homepage extends BaseContainer {
       >
         <header>
           <GlobalNavigation
-            logo={siteMap.siteMap.logo}
+            logo={siteMap.logo}
             items={metaData.navigation}
             {...props}
           />
@@ -34,9 +34,9 @@ class Homepage extends BaseContainer {
         {children}
         <footer>
           <Footer
-            logo={siteMap.siteMap.logo}
+            logo={siteMap.logo}
             items={metaData.navigation}
-            {...siteMap.siteMap.globalFooter}
+            {...siteMap.globalFooter}
           />
         </footer>
       </div>

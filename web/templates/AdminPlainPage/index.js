@@ -15,9 +15,9 @@ class AdminPlainPage extends BaseContainer {
     const { metaData = {}, siteMap = {} } = data;
     // let props = {};
     // if (!store.authentication?.currentUser) {
-    //   props = { ...siteMap.siteMap.globalNavigation };
+    //   props = { ...siteMap.globalNavigation };
     // } else {
-    //   props = { ...siteMap.siteMap.globalNavigationLoggedIn };
+    //   props = { ...siteMap.globalNavigationLoggedIn };
     // }
     return (
       <div className={`sq-admin-plain ${pageData.className || ''}`}>

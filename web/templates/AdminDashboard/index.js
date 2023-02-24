@@ -125,8 +125,8 @@ class AdminDashboard extends AdminContainer {
               <LeftNavigation
                 onCloseDrawer={this.toggleMenu}
                 openDrawer={this.state.openDrawer}
-                logo={siteMap.siteMap.logo}
-                items={currentUser ? siteMap.siteMap.globalNavigationLoggedIn.navigation : siteMap.siteMap.globalNavigation.navigation}
+                logo={siteMap.logo}
+                items={currentUser ? siteMap.globalNavigationLoggedIn.navigation : siteMap.globalNavigation.navigation}
                 roles={[]}
                 permissions={store.authentication.currentUser?.permissions}
                 className={'sq-left-navigation--compact'}
@@ -141,7 +141,7 @@ class AdminDashboard extends AdminContainer {
                 <section className="sq-template__sub-header">
                   <BreadCrumb
                     navigation={
-                      siteMap.siteMap.globalNavigationLoggedIn.navigation
+                      siteMap.globalNavigationLoggedIn.navigation
                     }
                     breadcrumb={store.content.breadcrumb}
                     roles={store.authentication.currentUser?.roles}
