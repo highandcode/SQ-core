@@ -22,6 +22,11 @@ export default withEditTabsConfig(({ defaultParams, iconList }) => ({
       options: GLOBAL_OPTIONS.headerTags.toArray(),
     },
     {
+      name: 'templateClassName',
+      cmpType: 'InputField',
+      label: 'templateClassName',
+    },
+    {
       name: 'background',
       cmpType: 'Input',
       label: 'background',

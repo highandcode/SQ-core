@@ -5,53 +5,53 @@ $sides: (
   b: 'bottom',
 );
 .m-none {
-  margin: 0;
+  margin: 0 !important;
 }
 @each $initial, $side in $sides {
   .m#{$initial}-narrow {
-    margin-#{$side}: 10px;
+    margin-#{$side}: 10px !important;
   }
 
   .m#{$initial}-wide {
-    margin-#{$side}: 20px;
+    margin-#{$side}: 20px !important;
   }
 
   .m#{$initial}-none {
-    margin-#{$side}: 0;
+    margin-#{$side}: 0 !important;
   }
 
   .m#{$initial}-xtrawide {
-    margin-#{$side}: 40px;
+    margin-#{$side}: 40px !important;
   }
 
   .m#{$initial}-jumbo {
-    margin-#{$side}: 60px;
+    margin-#{$side}: 60px !important;
   }
 }
 
 .p-none {
-  padding: 0;
+  padding: 0 !important;
 }
 
 @each $initial, $side in $sides {
   .p#{$initial}-narrow {
-    padding-#{$side}: 10px;
+    padding-#{$side}: 10px !important;
   }
 
   .p#{$initial}-wide {
-    padding-#{$side}: 20px;
+    padding-#{$side}: 20px !important;
   }
 
   .p#{$initial}-none {
-    padding-#{$side}: 0;
+    padding-#{$side}: 0 !important;
   }
 
   .p#{$initial}-xtrawide {
-    padding-#{$side}: 40px;
+    padding-#{$side}: 40px !important;
   }
 
   .p#{$initial}-jumbo {
-    padding-#{$side}: 60px;
+    padding-#{$side}: 60px !important;
   }
 }
 
