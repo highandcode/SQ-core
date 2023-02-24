@@ -111,6 +111,9 @@ export const GLOBAL_OPTIONS = {
     'sq-hero-content--left-aligned': 'sq-hero-content--left-aligned',
     'sq-hero-content--large-background-theme-dark': 'sq-hero-content--large-background-theme-dark',
     'sq-hero-content--bg-black': 'sq-hero-content--bg-black',
+    'sq-hero-content--bg-gray': 'sq-hero-content--bg-gray',
+    'sq-hero-content--dark': 'sq-hero-content--dark',
+    'sq-hero-content--dark-secondary': 'sq-hero-content--dark-secondary',
   }),
   heroTemplates: new GlobalOptions({
     'without-image': 'without-image',
