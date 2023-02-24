@@ -19,6 +19,8 @@ import * as root from './components/root';
 import * as components from './components';
 import * as ui from './components/ui';
 
+import './styles/index.scss';
+
 containers.DynamicContent.registerContainers({
   ...containers.default,
 });
