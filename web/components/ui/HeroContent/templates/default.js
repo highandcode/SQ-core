@@ -12,6 +12,7 @@ const compMap = {
 
 const HeroTemplateDefault = ({
   name = '',
+  className = '',
   image = {},
   eyebrow,
   header,
@@ -35,7 +36,7 @@ const HeroTemplateDefault = ({
     imageUrl = imageNewUrl;
   }
   return (
-    <div className={`sq-hero-content--default ${name}`}>
+    <div className={`sq-hero-content--default ${name} ${className}`}>
       <div className={`sq-hero-content__root ${common.toStringBlank(classes.root)}`}>
         <div className="sq-hero-content__wrapper">
           <div className="sq-hero-content__content-col">

@@ -151,7 +151,7 @@ export const fetchJsonPath = ({ url, params, headers }) => {
     url: overrideUrl,
     params: overrideParams,
     method: overrideMethod,
-  } = extractUrlInfo(url, window.APP_CONFIG?.siteMap?.dynamicContentConfig);
+  } = extractUrlInfo(url, window.APP_CONFIG?.siteMap?.siteMap?.dynamicContentConfig);
   const postFix = !overrideUrl && mode === 'get' ? '/get.json' : '';
 
   const cb = mode === 'get' ? { _cb: window.APP_CONFIG?.appVersion } : {};

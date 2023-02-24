@@ -173,7 +173,7 @@ class DynamicContent extends Component {
   async componentDidUpdate() {
     const { location = {}, url: overrideUrl, onThemeChange } = this.props;
     const activeTheme = this.state.activeTheme;
-    const pageDataTheme = this.state.pageData?.pageData?.theme || this.state.pageData?.siteMap?.theme;
+    const pageDataTheme = this.state.pageData?.pageData?.theme || this.state.pageData?.siteMap?.siteMap?.theme;
     if (activeTheme && pageDataTheme && activeTheme !== pageDataTheme) {
       onThemeChange && onThemeChange(pageDataTheme);
       
