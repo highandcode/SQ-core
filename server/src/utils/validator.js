@@ -358,6 +358,7 @@ class Validator {
 
   clearValues() {
     this.values = {};
+    this.errors = {};
     return this;
   }
 
