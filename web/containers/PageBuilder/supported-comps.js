@@ -21,6 +21,7 @@ import TabsEdit from './edits/Tabs';
 import TextareaEdit from './edits/Textarea';
 import ProgressEdit from './edits/Progress';
 import CustomEdit from './edits/Custom';
+import HTMLEdit from './edits/HTML';
 import ImageEdit from './edits/Image';
 import DateSelectorEdit from './edits/DateSelector';
 import AutocompleteEdit from './edits/Autocomplete';
@@ -398,6 +399,12 @@ const compList = {
       subHeader: 'sub header goes here',
     },
     editData: HeroContentEdit,
+  },
+  HTML: {
+    group: 'Content',
+    Component: getMap().HTML,
+    sampleData: {},
+    editData: HTMLEdit,
   },
 };
 

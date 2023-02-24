@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import HtmlParser from 'react-html-parser';
 import PropTypes from 'prop-types';
 
-const HTML = ({ className = '', value = '', onAction }) => {
+const HTML = ({ className = '', value = '', html = '', onAction }) => {
   const container = useRef();
   const handleClick = (e) => {
     let targetToCheck = e.target;
@@ -29,7 +29,7 @@ const HTML = ({ className = '', value = '', onAction }) => {
   return (
     <div className={`sq-html ${className}`} data-html-root="root">
       <div className="sq-html__container" ref={container}>
-        <div className="sq-html__html">{HtmlParser(value)}</div>
+        <div className="sq-html__html">{HtmlParser(html || value)}</div>
       </div>
     </div>
   );
