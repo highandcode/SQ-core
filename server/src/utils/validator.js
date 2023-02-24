@@ -19,7 +19,7 @@ const _validators = {
   },
   path: (value) => {
     return _validators.regex(value, {
-      regex: /^[a-zA-Z_0-9/]*$/,
+      regex: /^[a-zA-Z_0-9\-/]*$/,
     });
   },
   oneOf: (value, { options = [] } = {}) => {
