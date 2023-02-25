@@ -5,9 +5,7 @@ export default withEditTabsConfig(({ defaultParams }) => ({
   enableValidations: false,
   classNames: GLOBAL_OPTIONS.headerStyles.toArray(),
   pageData: {
-    items: [
-    
-    ],
+    items: [],
   },
   general: [
     {
@@ -25,6 +23,7 @@ export default withEditTabsConfig(({ defaultParams }) => ({
       name: 'subHeader',
       cmpType: 'RichText',
       label: 'Sub Header',
+      editorStyle: 'full',
     },
   ],
 }));

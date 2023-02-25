@@ -9,9 +9,8 @@ function getText(html) {
 
 let configOptions = {
   full: {
-    plugins: 'lists code link table fullscreen',
-    toolbar:
-      'undo redo | styleselect | bold italic underline strikethrough | link superscript subscript | numlist bullist | alignleft aligncenter alignright alignjustify | outdent indent | table | lists code fullscreen',
+    plugins: 'code link lists table fullscreen image media',
+    toolbar: 'undo redo image media | styleselect | bold italic underline strikethrough |link superscript subscript | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | code fullscreen',
   },
   default: {
     plugins: 'lists code link table fullscreen',

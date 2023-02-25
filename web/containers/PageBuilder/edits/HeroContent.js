@@ -41,6 +41,7 @@ export default withEditTabsConfig(({ defaultParams, iconList }) => ({
       name: 'subHeader',
       cmpType: 'RichText',
       label: 'Sub Header',
+      editorStyle: 'full',
     },
     {
       name: 'links',
