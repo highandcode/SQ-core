@@ -1,6 +1,6 @@
 {
   "name": "qubejs-core",
-  "version": "2.5.6",
+  "version": "2.5.7",
   "scripts": {
     "client:test": "node scripts/test.js --no-watch",
     "client:test:watch": "node scripts/test.js",
