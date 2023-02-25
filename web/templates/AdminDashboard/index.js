@@ -141,7 +141,7 @@ class AdminDashboard extends AdminContainer {
                 <section className="sq-template__sub-header">
                   <BreadCrumb
                     navigation={
-                      siteMap.globalNavigationLoggedIn.navigation
+                      siteMap.siteMap.globalNavigationLoggedIn.navigation
                     }
                     breadcrumb={store.content.breadcrumb}
                     roles={store.authentication.currentUser?.roles}
