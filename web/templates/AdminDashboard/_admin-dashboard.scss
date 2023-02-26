@@ -8,6 +8,9 @@
   .sq-template-menu-logo {
     display: inline-block;
     padding: 4px;
+    &-img {
+      height: 40px;
+    }
   }
   .admin-app-template__left-nav {
     display: none;

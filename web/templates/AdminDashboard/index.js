@@ -101,6 +101,7 @@ class AdminDashboard extends AdminContainer {
       },
     ].filter((i) => !!i);
     const { currentUser } = this.props.store.authentication;
+    const logo = siteMap.siteMap.logo;
     return (
       <>
         <div
@@ -114,7 +115,8 @@ class AdminDashboard extends AdminContainer {
                 <div className="sq-template-menu-trigger">
                   <Icon name="Menu" size="medium" variant='primary' onClick={this.toggleMenu} />
                 </div>
-                <Icon name="logo-wide"  className='sq-template-menu-logo' size="wide" />
+                {logo.name && <Icon name="logo-wide"  className='sq-template-menu-logo' size="wide" />}
+                {logo.topImage && <img className='sq-template-menu-logo-img' src={logo.topImage} alt={logo.topImageAlt} />}
                 <div className="sq-template-menu-logo">
                 </div>
               </div>
@@ -123,9 +125,9 @@ class AdminDashboard extends AdminContainer {
           <div className="admin-app-template__main">
             <div className="admin-app-template__left-nav">
               <LeftNavigation
+                logo={logo}
                 onCloseDrawer={this.toggleMenu}
                 openDrawer={this.state.openDrawer}
-                logo={siteMap.logo}
                 items={currentUser ? siteMap.siteMap.globalNavigationLoggedIn.navigation : siteMap.siteMap.globalNavigation.navigation}
                 roles={[]}
                 permissions={store.authentication.currentUser?.permissions}
