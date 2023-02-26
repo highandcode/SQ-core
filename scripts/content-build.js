@@ -104,7 +104,7 @@ class StaticContentBuilder {
   buildEnvConfig(target) {
     const buildAppConfig = {
       ...this.serverConfig.appConfig,
-      siteMap: this.serverConfig.siteConfig.siteMap,
+      siteMap: this.serverConfig.siteConfig,
       siteMode: 'static',
     };
     const envFolder = `${target}/env`;
