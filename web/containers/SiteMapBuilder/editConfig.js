@@ -93,6 +93,11 @@ export default ({ themes } = {}) => ({
                     label: 'errorRedirects',
                   },
                   {
+                    name: 'defaultRedirect',
+                    cmpType: 'FormObject',
+                    label: 'defaultRedirect',
+                  },
+                  {
                     name: 'globalNavigation',
                     cmpType: 'FormObject',
                     label: 'globalNavigation',
