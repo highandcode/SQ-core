@@ -9,7 +9,7 @@ import * as SiteMapBuilder from './SiteMapBuilder';
 import LayoutContent from './LayoutContent';
 import MultiView from './MultiView';
 import TocIndex from './TocIndex';
-import Users from './Users';
+import UsersList from './UsersList';
 import PageListing from './PageListing';
 
 import templates from '../templates';
@@ -26,7 +26,7 @@ export {
   ContentWithLeftNavigation,
   Content,
   TocIndex,
-  Users,
+  UsersList,
   PageListing,
 };
 
@@ -42,7 +42,7 @@ export default {
   ContentWithLeftNavigation,
   Content,
   TocIndex,
-  Users,
+  UsersList,
   PageListing,
   ...templates,
 };

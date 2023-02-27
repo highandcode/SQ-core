@@ -4,7 +4,7 @@ contentBodyClass: container-fluid container-ultrawide
 layout: apps/core/layouts/spa
 bodyClassName: 
 containerTemplate: AdminDashboard
-container: Users
+container: UsersList
 fieldMapping:
   emailId:
     name: email

@@ -13,7 +13,7 @@ import {
   deactivateUser,
   resetPassword,
 } from '../../redux/authentication';
-import './_users.scss';
+import './_users-list.scss';
 
 const { formatters } = utils.format;
 const { translate } = utils.translate;
