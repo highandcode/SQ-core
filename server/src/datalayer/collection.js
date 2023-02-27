@@ -23,6 +23,14 @@ class MongoDocumentCollection {
     });
   }
 
+  count(criteria) {
+    return this.model.find(criteria).count();
+  } 
+  
+  mFind(criteria) {
+    return this.model.find(criteria);
+  } 
+
   aggregate(criteria) {
     return this.model.aggregate(criteria).then((list) => {
       return list;

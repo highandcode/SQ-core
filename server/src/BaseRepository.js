@@ -5,7 +5,12 @@ const errors = require('./Error');
 const datetime = require('./utils/datetime');
 
 class BaseRepository {
-  constructor({ entityType = BaseEntity, collectionEntity = BaseEntityCollection, db, collection }) {
+  constructor({
+    entityType = BaseEntity,
+    collectionEntity = BaseEntityCollection,
+    db,
+    collection,
+  }) {
     this._entityType = entityType;
     this._collectionEntity = collectionEntity;
     this._db = db;
@@ -48,7 +53,9 @@ class BaseRepository {
   deleteMany(filter) {
     return new Promise(async (resolve, reject) => {
       if (filter) {
-        const result = await this._db.collections[this._collection].deleteMany(filter).catch(reject);
+        const result = await this._db.collections[this._collection]
+          .deleteMany(filter)
+          .catch(reject);
         resolve(result);
       } else {
         reject(errors.invalidopr());
@@ -63,7 +70,9 @@ class BaseRepository {
         records = await this.find({ _id: uid, ...filter }).catch(reject);
       }
       if (!filter || !records || (records && records.length > 0)) {
-        const result = await this._db.collections[this._collection].deleteOne({ _id: uid }).catch(reject);
+        const result = await this._db.collections[this._collection]
+          .deleteOne({ _id: uid })
+          .catch(reject);
         resolve(result);
       } else {
         reject(errors.invalidopr());
@@ -129,11 +138,14 @@ class BaseRepository {
         let buildErrors = {};
         if (res.length > 0) {
           errorKeys.forEach((filterKey) => {
-            if (_.filter(res, (i) => i[filterKey] === filter[filterKey]).length > 0) {
+            if (
+              _.filter(res, (i) => i[filterKey] === filter[filterKey]).length >
+              0
+            ) {
               buildErrors[filterKey] = {
                 error: true,
                 errorMessage: 'This record already exists',
-                key: 'DUPLICATE_RECORD'
+                key: 'DUPLICATE_RECORD',
               };
             }
           });
@@ -158,6 +170,38 @@ class BaseRepository {
     });
   }
 
+  mFind(filter, fields, options) {
+    return this._db.collections[this._collection].mFind(
+      filter,
+      fields,
+      options
+    );
+  }
+  count(filter) {
+    return this._db.collections[this._collection].count(filter);
+  }
+
+  async search(
+    payload,
+    { sortBy = 'createdOn', sortDir = 'ASC', pageSize = 25, pageNo = 1 } = {}
+  ) {
+    pageSize = pageSize * 1;
+    pageNo = pageNo * 1;
+    let count = await this.count(payload);
+    let res = await this.mFind(payload)
+      .limit(pageSize)
+      .skip(pageSize * (pageNo - 1))
+      .sort(`${sortDir === 'DESC' ? '-' : ''}${sortBy}`);
+
+    return {
+      totalItems: count,
+      totalPages: Math.ceil(count / pageSize),
+      itemsPerPage: pageSize,
+      currentPage: pageNo,
+      data: res,
+    };
+  }
+
   aggregate({ match, sort, addFields, group, lookup }) {
     const filter = [];
     if (sort) {
@@ -171,12 +215,12 @@ class BaseRepository {
     }
     if (group) {
       filter.push({
-        $group: group
+        $group: group,
       });
     }
     if (lookup) {
       filter.push({
-        $lookup: lookup
+        $lookup: lookup,
       });
     }
     return new Promise((resolve, reject) => {

@@ -8,6 +8,7 @@ module.exports = {
   apis: {
     userInfo: '/api/v1/admin/user/info',
     getUsers: '/api/v1/admin/users/all',
+    searchUsers: '/api/v1/admin/users/search',
     getPage: '/api/v1/admin/content/page/get',
     getFieldsMeta: '/api/v1/admin/content/page/getfieldsmeta',
     getPageByPath: '/api/v1/admin/content/page/getbypath',

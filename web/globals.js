@@ -20,6 +20,11 @@ export const GLOBAL_OPTIONS = {
     filled: 'Filled',
     default: 'Default',
   }),
+  userTabs: new GlobalOptions({
+    ALL_USERS: "All Users",
+    ACTIVE_USERS: "Active Users",
+    INACTIVE_USERS: "Inactive Users"
+  }),
   alerTypes: new GlobalOptions({
     info: 'Info',
     error: 'Error',
@@ -29,6 +34,11 @@ export const GLOBAL_OPTIONS = {
   contentType: new GlobalOptions({
     PAGE: 'Page',
     SITE_MAP: 'Site Map',
+  }),
+  noOfResultsDropdown: new GlobalOptions({
+    25: 25,
+    50: 50,
+    100: 100
   }),
   progressTypes: new GlobalOptions({
     default: 'default',

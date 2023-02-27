@@ -12,6 +12,22 @@
   &-grow {
     flex-grow: 1;
   }
+  &__top-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    @media (min-width: $screen-sm) {
+      flex-wrap: nowrap;
+    }
+    > div:nth-child(1) {
+      flex-basis: 400px;
+    }
+    > div:nth-child(2) {
+      flex-basis: auto;
+      flex-grow: 1;
+    }
+
+  }
   &__pagination-bar {
     display: flex;
     flex-direction: column;

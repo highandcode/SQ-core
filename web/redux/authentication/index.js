@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { updateUserData, updateProtectedUserData, customHooks } from '../content';
+import {
+  updateUserData,
+  updateProtectedUserData,
+  customHooks,
+} from '../content';
 import { CONSTANTS } from '../../globals';
 import * as utils from '../../utils';
 import adminConfig from '../../admin.config';
@@ -14,6 +18,12 @@ const authentication = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.currentUser = action.payload;
+    },
+    setUsers: (state, action) => {
+      state.users = action.payload;
+    },
+    setUserPagination: (state, action) => {
+      state.usersPagination = action.payload;
     },
     setPreference: (state, action) => {
       state.currentUserPreference = action.payload;
@@ -48,7 +58,10 @@ customHooks.add('authentication', {
 export const loadUserProfile = () => async (dispatch) => {
   // console.log(getState().content.userData);
   const response = await utils.apiBridge.get(adminConfig.apis.userInfo, {});
-  if (response.status !== CONSTANTS.STATUS.SUCCESS && utils.cookie.get('qjs-token')) {
+  if (
+    response.status !== CONSTANTS.STATUS.SUCCESS &&
+    utils.cookie.get('qjs-token')
+  ) {
     utils.cookie.remove('qjs-token');
     await dispatch(
       showNotificationMessage({
@@ -89,6 +102,36 @@ export const clearUser = () => (dispatch) => {
   }, 200);
 };
 
-export const { setUser, setPreference } = authentication.actions;
+export const loadRoles = () => (dispatch) => {};
+export const hasPermission = (permission, state) =>
+  state?.authentication?.currentUser?.allPermissions?.indexOf(permission) > -1;
+export const loadUsers = (payload) => async (dispatch) => {
+  const response = await utils.apiBridge.post(
+    adminConfig.apis.searchUsers,
+    { ...payload.body },
+    {},
+    payload.query
+  );
+  const pagination = {
+    total: response.data?.totalItems,
+    pageSize: response.data.pageSize,
+    currentPage: response.data.currentPage,
+    isLast: response.data.last,
+    totalPages: response.data.totalPages,
+  };
+  if (response.status === CONSTANTS.STATUS.SUCCESS) {
+    const data = {
+      [payload.source]: response.data.data,
+    };
+    await dispatch(setUsers(response.data.data));
+    await dispatch(setUserPagination(pagination));
+  }
+};
+export const reactivateUser = () => (dispatch) => {};
+export const deactivateUser = () => (dispatch) => {};
+export const resetPassword = () => (dispatch) => {};
+
+export const { setUser, setUsers, setUserPagination, setPreference } =
+  authentication.actions;
 
 export default authentication.reducer;

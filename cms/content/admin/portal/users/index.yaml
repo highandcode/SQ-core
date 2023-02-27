@@ -5,3 +5,9 @@ layout: apps/core/layouts/spa
 bodyClassName: 
 containerTemplate: AdminDashboard
 container: Users
+fieldMapping:
+  emailId:
+    name: email
+  contactNumber:
+    name: phone
+  
