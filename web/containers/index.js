@@ -1,5 +1,4 @@
 import ComponentDemo from './ComponentDemo';
-import Contact from './Contact';
 import Content from './Content';
 import ContentWithLeftNavigation from './ContentWithLeftNavigation';
 import ContentWithSearch from './ContentWithSearch';
@@ -25,7 +24,6 @@ export {
   Documentation,
   LayoutContent,
   ContentWithLeftNavigation,
-  Contact,
   Content,
   TocIndex,
   Users,
@@ -42,7 +40,6 @@ export default {
   Documentation,
   LayoutContent,
   ContentWithLeftNavigation,
-  Contact,
   Content,
   TocIndex,
   Users,
