@@ -133,7 +133,7 @@ class InputField extends React.Component {
 
   render() {
     const { focused } = this.state;
-    const { errorMessage, className = '', formatter, onAnalytics, onAction, mask = {}, sideAction, impactOn, row, actionType, startAdornment, endAdornment, ...rest } = this.props;
+    const { errorMessage, className = '', formatter, onAnalytics, onAction, mask = {}, sideAction, impactOn, row, actionType, startAdornment, endAdornment, userData, ...rest } = this.props;
     const finalAction = getValue(this, sideAction, row);
     let formattedValue = this.applyMask(this.state.value);
     const testId = idFromLabel(rest.label);
