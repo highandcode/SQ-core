@@ -18,11 +18,29 @@ module.exports = ({ context } = {}) => {
     context.userRepo
       .search(req.body, req.query)
       .then((result) => {
-        res.json(
-          new Response(result).json()
-        );
+        res.json(new Response(result).json());
       })
       .catch((ex) => context.handleError(ex, res));
+  });
+  context.router.get('/users/role', function (req, res) {
+    res.json(
+      new Response([
+        {
+          name: 'Admin',
+          code: 'ADMIN',
+        },
+        {
+          name: 'Client',
+          code: 'CLIENT',
+        },
+      ]).json()
+    );
+    // context.userRepo
+    //   .search(req.body, req.query)
+    //   .then((result) => {
+
+    //   })
+    //   .catch((ex) => context.handleError(ex, res));
   });
   context.router.get('/user/info', function (req, res) {
     context.userRepo

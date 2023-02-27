@@ -196,7 +196,7 @@ class BaseRepository {
     return {
       totalItems: count,
       totalPages: Math.ceil(count / pageSize),
-      itemsPerPage: pageSize,
+      pageSize,
       currentPage: pageNo,
       data: res,
     };

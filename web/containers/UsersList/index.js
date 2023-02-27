@@ -488,7 +488,7 @@ class Users extends BaseContainer {
             <div className="sq-auth-users__pagination-bar mb-wide">
               {store.authentication.usersPagination?.total > 0 && (
                 <Pagination
-                  className="ml-3"
+                  className="j-content-fl-end ml-3"
                   enablePageSize={true}
                   count={store.authentication?.usersPagination.totalPages}
                   disabled={isLoading}
