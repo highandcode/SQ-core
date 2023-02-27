@@ -101,6 +101,7 @@ module.exports = {
       imgAlt: 'logo image',
       // name: 'logo',
       mobileName: 'logo-wide',
+      topName: 'logo-wide',
       size: 'dan-wide',
       className: '',
       variant: 'primary',
