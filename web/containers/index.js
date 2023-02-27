@@ -13,10 +13,6 @@ import TocIndex from './TocIndex';
 import Users from './Users';
 import PageListing from './PageListing';
 
-import ForgotPassword from './ForgotPassword';
-import Login from './Login';
-import Register from './Register';
-import ResetPassword from './ResetPassword';
 import templates from '../templates';
 
 export {
@@ -26,16 +22,12 @@ export {
   SiteMapBuilder,
   ContentWithSearch,
   MultiView,
-  ForgotPassword,
-  ResetPassword,
   Documentation,
   LayoutContent,
   ContentWithLeftNavigation,
   Contact,
   Content,
   TocIndex,
-  Login,
-  Register,
   Users,
   PageListing,
 };
@@ -47,16 +39,12 @@ export default {
   SiteMapBuilder: SiteMapBuilder.default,
   ContentWithSearch,
   MultiView,
-  ForgotPassword,
-  ResetPassword,
   Documentation,
   LayoutContent,
   ContentWithLeftNavigation,
   Contact,
   Content,
   TocIndex,
-  Login,
-  Register,
   Users,
   PageListing,
   ...templates,
