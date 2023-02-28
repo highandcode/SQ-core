@@ -45,6 +45,7 @@ import CodeHighlight from './ui/CodeHighlight';
 import CompRenderer from './ui/CompRenderer';
 import CustomButton from './ui/CustomButton';
 import DateNavigator from './ui/DateNavigator';
+import Breadcrumb from './BreadCrumb';
 import DatePicker from './ui/DatePicker';
 import DateSelector from './ui/DateSelector';
 import DropSelection from './ui/DropSelection';
@@ -89,7 +90,7 @@ import EditableField from './EditableField';
 import Wrapper from './Wrapper';
 
 export const editor = {
-  setEditorOptions
+  setEditorOptions,
 };
 
 export {
@@ -183,4 +184,5 @@ export {
   EditableField,
   ImageWithSpotlight,
   FormList,
+  Breadcrumb,
 };

@@ -82,6 +82,7 @@ class Users extends BaseContainer {
 
   async componentDidMount() {
     const params = utils.queryString.query.get();
+    const { pageData } = this.props;
     if (params.status) {
       await this.setState({
         currentFilter: {
@@ -90,15 +91,19 @@ class Users extends BaseContainer {
         },
       });
     }
-    await this.props.userActions.loadUsers({
-      query: { pageSize: defaultPageSize },
-      source: this.state?.currentTab,
-    });
+    await this.props.userActions.loadUsers(
+      {
+        query: { pageSize: defaultPageSize },
+        source: this.state?.currentTab,
+      },
+      pageData?.apiConfig?.getUsers
+    );
     await this.refreshUsers({ filter: { isActive: true } });
-    await this.props.userActions.loadRoles({ userType: 'INTERNAL' });
+    await this.props.userActions.loadRoles({ userType: 'INTERNAL' }, pageData?.apiConfig?.getRoles);
   }
 
   async refreshUsers({ pageNo, pageSize, sort, filter, source } = {}) {
+    const { pageData } = this.props;
     pageSize =
       pageSize ||
       defaultPageSize ||
@@ -122,7 +127,7 @@ class Users extends BaseContainer {
         pageSize: pageSize,
         pageNo: pageNo,
       },
-    });
+    }, pageData?.apiConfig?.getUsers);
     this.props.commonActions.stopLoading();
   }
 
@@ -468,7 +473,7 @@ class Users extends BaseContainer {
                   },
                   {
                     name: 'roleCode',
-                    cmpType: 'Select',
+                    cmpType: 'Autocomplete',
                     label: translate('Roles'),
                     ...fieldMapping.roleCode,
                     options: this.props.store.authentication.roles?.ALL_ROLES,
@@ -525,7 +530,7 @@ class Users extends BaseContainer {
                         textIcon: (row) => row.firstName.substr(0, 1),
                         iconClass: (row) => 'sq-icon--square',
                         variant: (row) =>
-                          row.isActive
+                          row.active
                             ? utils.accentColors.getColorByChar(
                                 row.firstName?.substr(0, 1)
                               )
@@ -620,7 +625,7 @@ class Users extends BaseContainer {
                             disabled: !editUserPerm,
                             buttonText: translate('Deactivate'),
                             render: (row) => {
-                              return row.isActive;
+                              return row.active;
                             },
                           },
                           {
@@ -631,7 +636,7 @@ class Users extends BaseContainer {
                             disabled: !createUserPerm,
                             buttonText: translate('Re-Activate'),
                             render: (row) => {
-                              return !row.isActive;
+                              return !row.active;
                             },
                           },
                         ],
@@ -661,11 +666,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     userActions: {
-      loadUsers: (data) => dispatch(loadUsers(data)),
-      deactivateUser: (data) => dispatch(deactivateUser(data)),
-      reactivateUser: (data) => dispatch(reactivateUser(data)),
-      resetPassword: (data) => dispatch(resetPassword(data)),
-      loadRoles: (data) => dispatch(loadRoles(data)),
+      loadUsers: (data, config) => dispatch(loadUsers(data, config)),
+      deactivateUser: (data, config) => dispatch(deactivateUser(data, config)),
+      reactivateUser: (data, config) => dispatch(reactivateUser(data, config)),
+      resetPassword: (data, config) => dispatch(resetPassword(data, config)),
+      loadRoles: (data, config) => dispatch(loadRoles(data, config)),
     },
   };
 };

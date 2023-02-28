@@ -18,7 +18,7 @@ module.exports = function(conn) {
       type: Date,
       default: Date.now
     },
-    isActive: {
+    active: {
       type: Boolean,
       default: true
     }

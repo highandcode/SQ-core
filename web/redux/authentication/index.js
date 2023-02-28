@@ -115,45 +115,52 @@ export const clearUser = () => (dispatch) => {
   }, 200);
 };
 
-export const loadRoles = () => async (dispatch) => {
-  const response = await utils.apiBridge.get(adminConfig.apis.userRoles, {});
-  if (response.status === CONSTANTS.STATUS.SUCCESS) {
-    dispatch(
-      setRoles({
-        [GLOBAL_OPTIONS.roleTabs.keys.ALL_ROLES]: response.data,
-      })
+export const loadRoles =
+  (payload = {}, { url } = {}) =>
+  async (dispatch) => {
+    const response = await utils.apiBridge.get(
+      url || adminConfig.apis.userRoles,
+      payload
     );
-  }
-};
+    if (response.status === CONSTANTS.STATUS.SUCCESS) {
+      dispatch(
+        setRoles({
+          [GLOBAL_OPTIONS.roleTabs.keys.ALL_ROLES]: response.data,
+        })
+      );
+    }
+  };
 export const hasPermission = (permission, state) =>
   state?.authentication?.currentUser?.allPermissions?.indexOf(permission) > -1;
-export const loadUsers = (payload) => async (dispatch) => {
-  const response = await utils.apiBridge.post(
-    adminConfig.apis.searchUsers,
-    { ...payload.body },
-    {},
-    payload.query
-  );
-  const pagination = {
-    total: response.data?.totalItems,
-    pageSize: response.data.pageSize,
-    currentPage: response.data.currentPage,
-    isLast: response.data.last,
-    totalPages: response.data.totalPages,
-  };
-  if (response.status === CONSTANTS.STATUS.SUCCESS) {
-    const data = {
-      [payload.source]: response.data.data,
+export const loadUsers =
+  (payload, { url } = {}) =>
+  async (dispatch) => {
+    const response = await utils.apiBridge.post(
+      url || adminConfig.apis.searchUsers,
+      { ...payload.body },
+      {},
+      payload.query
+    );
+    const pagination = {
+      total: response.data?.totalItems,
+      pageSize: response.data.pageSize,
+      currentPage: response.data.currentPage,
+      isLast: response.data.last,
+      totalPages: response.data.totalPages,
     };
-    await dispatch(setUsers(response.data.data));
-    await dispatch(setUserPagination(pagination));
-  }
-};
+    if (response.status === CONSTANTS.STATUS.SUCCESS) {
+      const data = {
+        [payload.source]: response.data.data,
+      };
+      await dispatch(setUsers(response.data.data));
+      await dispatch(setUserPagination(pagination));
+    }
+  };
 export const reactivateUser = () => (dispatch) => {};
 export const deactivateUser = () => (dispatch) => {};
 export const resetPassword = () => (dispatch) => {};
 
-export const { setUser, setUsers, setUserPagination, setPreference } =
+export const { setUser, setRoles, setUsers, setUserPagination, setPreference } =
   authentication.actions;
 
 export default authentication.reducer;

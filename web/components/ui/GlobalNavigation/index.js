@@ -16,7 +16,9 @@ const renderSubNav = (item, isHover, callback) => {
     item.children &&
     item.children.length > 0 && (
       <>
-        {iconName && <Icon className="sq-global-navigation__list-icon" name={iconName} />}
+        {iconName && (
+          <Icon className="sq-global-navigation__list-icon" name={iconName} />
+        )}
         <ul className="sq-global-navigation__item-list">
           {item.children.map((child, idx) => {
             return (
@@ -25,7 +27,11 @@ const renderSubNav = (item, isHover, callback) => {
                   onClick={(e) => {
                     if (e.defaultPrevented) return; // Exits here if event has been handled
                     e.preventDefault();
-                    redirectTo(child.href, { ...child.params }, { ...child.options });
+                    redirectTo(
+                      child.href,
+                      { ...child.params },
+                      { ...child.options }
+                    );
                     callback && callback();
                   }}
                   href={child.href}
@@ -42,12 +48,21 @@ const renderSubNav = (item, isHover, callback) => {
   );
 };
 
-const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, rightItems, mobileItems, onAnalytics, navPosition = 'sticky' }) => {
+const GlobalNavigation = ({
+  items,
+  classes = {},
+  className = '',
+  logo = {},
+  rightItems,
+  mobileItems,
+  onAnalytics,
+  navPosition = 'sticky',
+}) => {
   const [open, setOpen] = useState(false);
   const [height, setHeight] = useState(0);
   const fillerEl = useRef(false);
   const [currentItemHover, setCurrentHover] = useState(null);
-  const { isSticky, element } = navPosition === 'sticky' ? useSticky() : {};
+  const { isSticky, element } = useSticky();
   useEffect(() => {
     if (navPosition === 'sticky') {
       setHeight(element.current.getBoundingClientRect().height);
@@ -61,14 +76,24 @@ const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, righ
   const finalFixed = navPosition === 'fixed';
   return (
     <Fragment>
-      {finalSticky && <div className="sq-global-navigation-filler" style={{ height: height }} ref={fillerEl}></div>}
+      {finalSticky && (
+        <div
+          className="sq-global-navigation-filler"
+          style={{ height: height }}
+          ref={fillerEl}
+        ></div>
+      )}
       <nav
-        className={`sq-global-navigation ${className} ${finalFixed ? 'sq-global-navigation--fixed' : ''} ${finalSticky ? 'sq-global-navigation--sticky' : ''} ${
+        className={`sq-global-navigation ${className} ${
+          finalFixed ? 'sq-global-navigation--fixed' : ''
+        } ${finalSticky ? 'sq-global-navigation--sticky' : ''} ${
           open ? 'sq-global-navigation--open' : ''
         }`}
         ref={element}
       >
-        <div className={`sq-global-navigation__wrapper ${classes.wrapper || ''}`}>
+        <div
+          className={`sq-global-navigation__wrapper ${classes.wrapper || ''}`}
+        >
           <a
             className={`sq-global-navigation__brand ${logo.className}`}
             onClick={(e) => {
@@ -78,8 +103,21 @@ const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, righ
               setOpen(false);
             }}
           >
-            {logo.name && <Icon name={logo.name} svg={logo.svg} variant={logo.variant} size={`${logo.size || 'large'}`} />}
-            {logo.img && <img className={`${logo.size || ''}`} src={`${resolveImageUrl(logo.img)}`} alt={logo.imgAlt} />}
+            {logo.name && (
+              <Icon
+                name={logo.name}
+                svg={logo.svg}
+                variant={logo.variant}
+                size={`${logo.size || 'large'}`}
+              />
+            )}
+            {logo.img && (
+              <img
+                className={`${logo.size || ''}`}
+                src={`${resolveImageUrl(logo.img)}`}
+                alt={logo.imgAlt}
+              />
+            )}
             <div className="sq-global-navigation__brand-text">{logo.text}</div>
           </a>
           <ul className="sq-global-navigation__nav sq-global-navigation__nav--left">
@@ -99,21 +137,27 @@ const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, righ
                 ) : null;
               })}
           </ul>
-          {items && items.length > 0 && <button
-            className="sq-global-navigation__toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            onClick={toggleMenu}
+          {items && items.length > 0 && (
+            <button
+              className="sq-global-navigation__toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              onClick={toggleMenu}
+            >
+              <span className={`sq-global-navigation__icon ${logo.className}`}>
+                <Icon name="list" variant={logo.variant} size="large" />
+              </span>
+            </button>
+          )}
+          <div
+            className={`sq-global-navigation__container${
+              open ? ' sq-global-navigation__container--open' : ''
+            }`}
           >
-            <span className={`sq-global-navigation__icon ${logo.className}`}>
-              <Icon name="list" variant={logo.variant} size="large" />
-            </span>
-          </button>}
-          <div className={`sq-global-navigation__container${open ? ' sq-global-navigation__container--open' : ''}`}>
             <ul className="sq-global-navigation__nav">
               {items &&
                 items.map((linkItem, idx) => {
@@ -121,7 +165,9 @@ const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, righ
                   return (
                     <li
                       key={idx}
-                      className={`sq-global-navigation__item ${isHover ? 'sq-global-navigation__item--hover' : ''}`}
+                      className={`sq-global-navigation__item ${
+                        isHover ? 'sq-global-navigation__item--hover' : ''
+                      }`}
                       onMouseOver={() => {
                         setCurrentHover(linkItem, { ...linkItem.params });
                       }}
@@ -134,7 +180,11 @@ const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, righ
                           onClick={(e) => {
                             if (e.defaultPrevented) return; // Exits here if event has been handled
                             e.preventDefault();
-                            redirectTo(linkItem.href, linkItem.params, linkItem.options);
+                            redirectTo(
+                              linkItem.href,
+                              linkItem.params,
+                              linkItem.options
+                            );
                             setOpen(false);
                           }}
                           className="sq-global-navigation__link"
@@ -179,7 +229,7 @@ const GlobalNavigation = ({ items, classes = {}, className = '', logo = {}, righ
 GlobalNavigation.propTypes = {
   className: PropTypes.string,
   logo: PropTypes.object,
-  items: PropTypes.array
+  items: PropTypes.array,
 };
 
 export default GlobalNavigation;

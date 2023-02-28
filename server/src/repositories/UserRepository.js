@@ -205,7 +205,7 @@ class UserRepository extends BaseRepository {
             phoneVerified: false,
             password: hashedPassword,
             forceChangePassword: !!userObj.forceChangePassword,
-            isActive: false,
+            active: false,
           };
           const insertedUser = await this.insert(user);
 
