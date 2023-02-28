@@ -1,6 +1,20 @@
 const Response = require('../../Response');
 var tokenManager = require('../../tokenManager');
 var settings = require('../../settings').getSettings();
+const permissions = [
+  {
+    roleCode: 'admin',
+    tenantCode: 'Team2',
+    permission: [
+      {
+        code: 'editUser',
+      },
+      {
+        code: 'createUser',
+      },
+    ],
+  },
+];
 module.exports = ({ context } = {}) => {
   context.router.post('/users/all', function (req, res) {
     context.userRepo
@@ -50,6 +64,14 @@ module.exports = ({ context } = {}) => {
       })
       .catch((ex) => context.handleError(ex, res));
   });
+  context.router.patch('/user', function (req, res) {
+    context.userRepo
+      .update(req.body)
+      .then((validResponse) => {
+        res.json(new Response(validResponse).json());
+      })
+      .catch((ex) => context.handleError(ex, res));
+  });
   context.router.get('/user/info', function (req, res) {
     context.userRepo
       .getUserById(req.session.userData.uid)
@@ -62,11 +84,12 @@ module.exports = ({ context } = {}) => {
                 userInfo: {
                   firstName: user.firstName,
                   lastName: user.lastName,
-                  roles: user.roles,
+                  roleCode: user.roleCode,
                   email: user.email,
                   uid: user.uid,
                   phone: user.phone,
                 },
+                permissions,
                 preference: preference.toObject(),
               }).json()
             );
@@ -80,6 +103,7 @@ module.exports = ({ context } = {}) => {
       .then((validResponse) => {
         if (validResponse.loginStatus === 'ok') {
           const user = validResponse.user;
+          console.log(user)
           req.session.userData = user;
           var infoToStore = context.userRepo.info(user);
           var token = tokenManager.encrypt(infoToStore);
@@ -92,6 +116,7 @@ module.exports = ({ context } = {}) => {
           res.json(
             new Response({
               userInfo: infoToStore,
+              permissions,
               token: token,
             }).json()
           );

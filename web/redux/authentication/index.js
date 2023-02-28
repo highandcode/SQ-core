@@ -4,7 +4,7 @@ import {
   updateProtectedUserData,
   customHooks,
 } from '../content';
-import { CONSTANTS } from '../../globals';
+import { GLOBAL_OPTIONS, CONSTANTS } from '../../globals';
 import * as utils from '../../utils';
 import adminConfig from '../../admin.config';
 import { showNotificationMessage } from '../common';
@@ -21,6 +21,9 @@ const authentication = createSlice({
     },
     setUsers: (state, action) => {
       state.users = action.payload;
+    },
+    setRoles: (state, action) => {
+      state.roles = action.payload;
     },
     setUserPagination: (state, action) => {
       state.usersPagination = action.payload;
@@ -77,6 +80,16 @@ export const loadUserProfile = () => async (dispatch) => {
       })
     );
   } else if (response.status === CONSTANTS.STATUS.SUCCESS) {
+    response.data.userInfo.roles = response.data.permissions
+      ? _.uniq(response.data.permissions.map((a) => a.roleCode))
+      : [];
+    response.data.userInfo.allPermissions = response.data.permissions
+      ? response.data.permissions
+          .reduce((a, b) => {
+            return a.concat(b.permission);
+          }, [])
+          .map((a) => a.code)
+      : [];
     await dispatch(setUser(response.data.userInfo));
     await dispatch(setPreference(response.data.preference));
     await dispatch(
@@ -102,7 +115,16 @@ export const clearUser = () => (dispatch) => {
   }, 200);
 };
 
-export const loadRoles = () => (dispatch) => {};
+export const loadRoles = () => async (dispatch) => {
+  const response = await utils.apiBridge.get(adminConfig.apis.userRoles, {});
+  if (response.status === CONSTANTS.STATUS.SUCCESS) {
+    dispatch(
+      setRoles({
+        [GLOBAL_OPTIONS.roleTabs.keys.ALL_ROLES]: response.data,
+      })
+    );
+  }
+};
 export const hasPermission = (permission, state) =>
   state?.authentication?.currentUser?.allPermissions?.indexOf(permission) > -1;
 export const loadUsers = (payload) => async (dispatch) => {

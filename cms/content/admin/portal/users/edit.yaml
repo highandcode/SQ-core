@@ -1,17 +1,17 @@
 title: Users
 template: apps/core/templates/page
-layout: apps/crm/layouts/page-spa
+layout: apps/qubejs/layouts/page-spa
 containerTemplate: AdminDashboard
 contentBodyClass: container container-form
 hook:
   load:
     - method: post
-      url: /api/v1/user/search
+      url: /api/v1/admin/users/search
       dataKey: resultUser
       params:
-        emailId: .query.userId
+        email: .query.userId
     - method: get
-      url: /api/v1/role
+      url: /api/v1/admin/users/role
       params:
         userType: INTERNAL
       dataKey: roles
@@ -80,6 +80,8 @@ items:
       - cmpType: Input
         size: auto-form
         name: contactNumber
+        mask:
+          type: phone
         label: Phone
         validators:
           - type: required
@@ -106,12 +108,12 @@ items:
     buttonText: Save
     size: large
     actionType: submit
-    url: /api/v1/user
+    url: /api/v1/admin/user
     method: patch
     defaultResponse:
       success:
         data:
-          redirect: users
+          redirect: usersList
         notification:
           message: User updated successfully
           type: success
@@ -120,6 +122,7 @@ items:
           message: User updated failed
           type: error
     params:
+      uid: .query.uid
       firstName: .user.firstName
       lastName: .user.lastName
       email: .user.emailId

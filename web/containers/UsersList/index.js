@@ -24,7 +24,7 @@ class Users extends BaseContainer {
   constructor() {
     super();
     this.state = {
-      currentTab: GLOBAL_OPTIONS.userTabs.keys.isActive_USERS,
+      currentTab: GLOBAL_OPTIONS.userTabs.keys.ACTIVE_USERS,
       showFilters: false,
       currentFilter: {},
       currentSort: {
@@ -225,16 +225,14 @@ class Users extends BaseContainer {
       this.refreshUsers({
         filter: { isActive: true, ...this.state.currentFilter },
         source: source,
-        pageSize: defaultPageSize,
       });
     } else if (data.value === 'INACTIVE_USERS') {
       this.refreshUsers({
         filter: { isActive: false, ...this.state.currentFilter },
         source: source,
-        pageSize: defaultPageSize,
       });
     } else {
-      this.refreshUsers({ source: source, pageSize: defaultPageSize });
+      this.refreshUsers({ source: source });
     }
   }
 
@@ -254,12 +252,10 @@ class Users extends BaseContainer {
     let pageNo = data.value.currentPage;
     if (this.state.currentTab === 'ACTIVE_USERS') {
       await this.refreshUsers({
-        filter: { ...this.state.currentFilter, isActive: true },
         pageNo: pageNo,
       });
     } else if (this.state.currentTab === 'INACTIVE_USERS') {
       await this.refreshUsers({
-        filter: { ...this.state.currentFilter, isActive: false },
         pageNo: pageNo,
       });
     } else {
@@ -270,25 +266,27 @@ class Users extends BaseContainer {
   }
 
   async onGridAction(row, value, column) {
-    const { currentPage } = this.props.store.authentication?.usersPagination;
+    const { currentPage, pageSize } =
+      this.props.store.authentication?.usersPagination;
     switch (value.action) {
       case 'edit':
         utils.redirect.redirectTo('editUser', {
-          userId: row.emailId /* replace with data.uid */,
+          userId: row.email || row.emailId /* replace with data.uid */,
+          uid: row.uid /* replace with data.uid */,
         });
         break;
       case 'activate':
         await this.props.userActions.reactivateUser(row);
         await this.refreshUsers({
           filter: { isActive: false, ...this.state.currentFilter },
-          pageSize: 30,
+          pageSize: pageSize,
         });
         break;
       case 'deactivate':
         await this.props.userActions.deactivateUser(row);
         await this.refreshUsers({
           filter: { isActive: true, ...this.state.currentFilter },
-          pageSize: 30,
+          pageSize: pageSize,
         });
         break;
       case 'reset-password':
@@ -525,7 +523,7 @@ class Users extends BaseContainer {
                       sort: false,
                       component: {
                         textIcon: (row) => row.firstName.substr(0, 1),
-                        // iconClass: (row) => 'sq-icon--primary',
+                        iconClass: (row) => 'sq-icon--square',
                         variant: (row) =>
                           row.isActive
                             ? utils.accentColors.getColorByChar(

@@ -7,6 +7,7 @@ module.exports = {
   },
   apis: {
     userInfo: '/api/v1/admin/user/info',
+    userRoles: '/api/v1/admin/users/role',
     getUsers: '/api/v1/admin/users/all',
     searchUsers: '/api/v1/admin/users/search',
     getPage: '/api/v1/admin/content/page/get',

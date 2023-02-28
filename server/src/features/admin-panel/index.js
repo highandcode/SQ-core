@@ -200,7 +200,7 @@ const middleware = () => {
     }
 
     if (!isPublic && isFeatureAdmin && tokenValidated) {
-      if (req.session.userData.roles?.indexOf('admin') > -1) {
+      if (req.session.userData.roleCode === 'ADMIN') {
         if (Object.keys(validations).length > 0) {
           logger.log('Admin Middleware:url parameter validations failed:');
           res.status(400).send(

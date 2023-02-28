@@ -12,7 +12,6 @@ export const CONSTANTS = {
   },
 };
 
-
 export const GLOBAL_OPTIONS = {
   inputVariant: new GlobalOptions({
     outlined: 'Outlined',
@@ -21,9 +20,12 @@ export const GLOBAL_OPTIONS = {
     default: 'Default',
   }),
   userTabs: new GlobalOptions({
-    ALL_USERS: "All Users",
-    ACTIVE_USERS: "Active Users",
-    INACTIVE_USERS: "Inactive Users"
+    ALL_USERS: 'All Users',
+    ACTIVE_USERS: 'Active Users',
+    INACTIVE_USERS: 'Inactive Users',
+  }),
+  roleTabs: new GlobalOptions({
+    ALL_ROLES: 'All Roles',
   }),
   alerTypes: new GlobalOptions({
     info: 'Info',
@@ -38,7 +40,7 @@ export const GLOBAL_OPTIONS = {
   noOfResultsDropdown: new GlobalOptions({
     25: 25,
     50: 50,
-    100: 100
+    100: 100,
   }),
   progressTypes: new GlobalOptions({
     default: 'default',
@@ -91,7 +93,8 @@ export const GLOBAL_OPTIONS = {
   }),
   pageWrapperClasses: new GlobalOptions({
     'sq-content-page--full-width': 'sq-content-page--full-width',
-    'sq-content-page--header-footer-body': 'sq-content-page--header-footer-body',
+    'sq-content-page--header-footer-body':
+      'sq-content-page--header-footer-body',
   }),
   buttonSize: new GlobalOptions({
     small: 'small',
@@ -119,7 +122,8 @@ export const GLOBAL_OPTIONS = {
   }),
   heroStyles: new GlobalOptions({
     'sq-hero-content--left-aligned': 'sq-hero-content--left-aligned',
-    'sq-hero-content--large-background-theme-dark': 'sq-hero-content--large-background-theme-dark',
+    'sq-hero-content--large-background-theme-dark':
+      'sq-hero-content--large-background-theme-dark',
     'sq-hero-content--bg-black': 'sq-hero-content--bg-black',
     'sq-hero-content--bg-gray': 'sq-hero-content--bg-gray',
     'sq-hero-content--dark': 'sq-hero-content--dark',

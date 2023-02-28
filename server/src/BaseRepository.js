@@ -170,6 +170,15 @@ class BaseRepository {
     });
   }
 
+  convertToBasicList(data) {
+    return data.map((res) => {
+      return {
+        ...res._doc,
+        uid: res._doc._id,
+      };
+    });
+  }
+
   mFind(filter, fields, options) {
     return this._db.collections[this._collection].mFind(
       filter,
@@ -191,7 +200,8 @@ class BaseRepository {
     let res = await this.mFind(payload)
       .limit(pageSize)
       .skip(pageSize * (pageNo - 1))
-      .sort(`${sortDir === 'DESC' ? '-' : ''}${sortBy}`);
+      .sort(`${sortDir === 'DESC' ? '-' : ''}${sortBy}`)
+      .then(this.convertToBasicList);
 
     return {
       totalItems: count,

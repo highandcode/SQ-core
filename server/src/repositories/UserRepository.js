@@ -120,18 +120,15 @@ class UserRepository extends BaseRepository {
   }
 
   validate(userName, password) {
-    console.log(userName);
     return new Promise((resolve, reject) => {
       this.find({
         $or: [{ email: utils.filter.ignoreCase(userName) }],
       }).then(async (users) => {
-        console.log(users);
         if (!users || users.length === 0) {
           reject(errors.invalidcred());
         } else {
           var result = this.bcrypt.compareSync(password, users[0].password);
           if (result === true) {
-            console.log(users[0].active);
             if (users[0].active === false) {
               reject(errors.inactive());
             } else if (
@@ -173,7 +170,8 @@ class UserRepository extends BaseRepository {
           var result = await this.update({
             firstName: user.firstName,
             lastName: user.lastName,
-            roles: user.roles,
+            roleCode: user.roleCode,
+            phone: user.phone,
             uid: users[0].uid,
           });
           resolve(result.toObject());
@@ -239,7 +237,7 @@ class UserRepository extends BaseRepository {
     return {
       firstName: user.firstName,
       lastName: user.lastName,
-      roles: user.roles,
+      roleCode: user.roleCode,
       email: user.email,
       uid: user.uid,
     };
