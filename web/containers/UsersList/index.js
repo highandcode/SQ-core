@@ -390,7 +390,7 @@ class Users extends BaseContainer {
                     type: 'Button',
                     iconName: 'add',
                     size: 'medium',
-                    to: 'addnewuser',
+                    to: 'createNewUser',
                     buttonText: 'Add New',
                   },
                   {
