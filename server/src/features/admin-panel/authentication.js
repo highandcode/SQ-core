@@ -42,6 +42,14 @@ module.exports = ({ context } = {}) => {
     //   })
     //   .catch((ex) => context.handleError(ex, res));
   });
+  context.router.post('/user', function (req, res) {
+    context.userRepo
+      .insertUser(req.body)
+      .then((validResponse) => {
+        res.json(new Response(validResponse).json());
+      })
+      .catch((ex) => context.handleError(ex, res));
+  });
   context.router.get('/user/info', function (req, res) {
     context.userRepo
       .getUserById(req.session.userData.uid)

@@ -91,7 +91,18 @@ items:
     inject:
       disabled: isSubmitting
     method: post
-    postHook: user.createUser
+    rootErrorKey: user
+    defaultResponse:
+      success:
+        data:
+          redirect: usersList
+        notification:
+          message: User added successfully
+      error:
+        notification:
+          message: User added failed
+          type: error
+          
     params:
       firstName: .user.firstName
       lastName: .user.lastName

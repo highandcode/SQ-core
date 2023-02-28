@@ -5,9 +5,10 @@ module.exports = function(conn) {
     lastName: String,
     email: String,
     phone: String,
-    userRole: String,
+    roleCode: String,
     password: String,
     emailVerified: Boolean,
+    forceChangePassword: Boolean,
     phoneVerified: Boolean,
     createdOn: {
       type: Date,

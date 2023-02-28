@@ -189,6 +189,11 @@ class UserRepository extends BaseRepository {
       this.find({
         $or: [{ email: utils.filter.ignoreCase(userObj.email) }],
       }).then(async (users) => {
+        if (!userObj.password) {
+          userObj.password = utils.number.getRandomS6();
+          userObj.forceChangePassword = true;
+        }
+
         var hashedPassword = this.bcrypt.hashSync(userObj.password, 10);
         if (!users || users.length === 0) {
           user = {
@@ -197,17 +202,17 @@ class UserRepository extends BaseRepository {
             userId: userObj.email,
             email: userObj.email,
             phone: userObj.phone,
-            roles: ['client'],
+            roleCode: userObj.roleCode,
             emailVerified: false,
             phoneVerified: false,
             password: hashedPassword,
-            active: false,
+            forceChangePassword: !!userObj.forceChangePassword,
+            isActive: false,
           };
           const insertedUser = await this.insert(user);
 
           // this.mailRepo.sendEmail('welcome', user.email, {
           //   ...user,
-          //   verifyLinkUrl: this.urlRepo.createEmailVerifyLink(insertedUser.uid),
           // });
           resolve({
             ...insertedUser.toObject(),

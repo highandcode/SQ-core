@@ -10,4 +10,6 @@ fieldMapping:
     name: email
   contactNumber:
     name: phone
+  roleName:
+    name: roleCode
   
