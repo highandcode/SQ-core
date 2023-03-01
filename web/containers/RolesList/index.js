@@ -116,6 +116,7 @@ class Roles extends BaseContainer {
     pageNo = pageNo || 1;
     let sortBy = (sort || this.state.currentSort).sortColumn;
     let sortDir = (sort || this.state.currentSort).sortOrder;
+    this.props.commonActions.startLoading();
     await this.props.raiseAction(
       showAllRoles(
         {
@@ -131,6 +132,7 @@ class Roles extends BaseContainer {
         pageData?.apiConfig?.searchRoles
       )
     );
+    this.props.commonActions.stopLoading();
   }
 
   async handlePageChange(data) {
@@ -228,22 +230,21 @@ class Roles extends BaseContainer {
         ];
     return (
       <div className="sq-user-roles sq-v-screen sq-v-screen--fixed">
-        <div className="sq-v-screen__sub-header">
-          <Actions actions={actions} />
-        </div>
         <div className="sq-v-screen__container ">
           <div className="container-fluid">
-            <h2 className="mb-0 mt-4">
-              {'Manage Roles'}{' '}
-              {!isLoading &&
-                store.authentication?.roles?.ALL_ROLES &&
-                `(${store.authentication.roles.ALL_ROLES.length})`}
-            </h2>
-            <div
-              className={'re-categories__pagination-bar-add-project mb-wide'}
-            >
+            <div className="sq-v-screen__top-header mt-wide">
+              <h2>
+                {'Manage Roles'}
+                {!isLoading &&
+                  store.authentication?.roles?.ALL_ROLES &&
+                  `(${store.authentication.roles.ALL_ROLES.length})`}
+              </h2>
+              <Actions actions={actions} />
+            </div>
+            <div className='mt-wide'>
               {store.authentication?.allRoles?.ALL_ROLES && (
                 <Pagination
+                  className='j-content-fl-end'
                   onChange={this.handlePageChange}
                   count={store.authentication?.allRolesPage?.totalPages}
                   value={store.authentication?.allRolesPage}
@@ -323,8 +324,8 @@ class Roles extends BaseContainer {
                       customize: false,
                       component: {
                         textIcon: (row) => row.name?.substr(0, 1),
-                        iconClass: (row) => 'sq-icon--primary',
-                        variant: 'primary',
+                        variant: (row) => `${utils.accentColors.getColorByChar(row.name?.substr(0, 1))}`,
+                        className: 'sq-icon--square',
                       },
                     },
                     {
@@ -417,8 +418,8 @@ class Roles extends BaseContainer {
                       customize: false,
                       component: {
                         textIcon: (row) => row.name?.substr(0, 1),
-                        iconClass: (row) => 'sq-icon--primary',
-                        variant: 'primary',
+                        variant: (row) => `${utils.accentColors.getColorByChar(row.name?.substr(0, 1))}`,
+                        className: 'sq-icon--square',
                       },
                     },
                     {

@@ -19,12 +19,16 @@
     @media (min-width: $screen-sm) {
       flex-wrap: nowrap;
     }
-    > div:nth-child(1) {
+    > :nth-child(1) {
       flex-basis: 400px;
+      flex-grow: 1;
+      flex-shrink: 0;
     }
-    > div:nth-child(2) {
+    > :nth-child(2) {
       flex-basis: auto;
       flex-grow: 1;
+      display: flex;
+      justify-content: flex-end;
     }
 
   }

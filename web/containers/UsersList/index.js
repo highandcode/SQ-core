@@ -496,7 +496,7 @@ class Users extends BaseContainer {
               onChange={this.handleTabChange}
               value={this.state.currentTab}
             />
-            <div className="sq-auth-users__pagination-bar mb-wide">
+            <div className="mb-wide">
               {store.authentication.usersPagination?.total > 0 && (
                 <Pagination
                   className="j-content-fl-end ml-3"
