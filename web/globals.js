@@ -27,11 +27,28 @@ export const GLOBAL_OPTIONS = {
   roleTabs: new GlobalOptions({
     ALL_ROLES: 'All Roles',
   }),
+  roleType: new GlobalOptions({
+    INTERNAL: 'Internal',
+    EXTERNAL: 'External',
+  }),
   alerTypes: new GlobalOptions({
     info: 'Info',
     error: 'Error',
     success: 'Success',
     warning: 'Warning',
+  }),
+  permissionTypes: new GlobalOptions({
+    PERMISSIONS: {
+      text: 'Permissions',
+      key: 'permission',
+    },
+    LEFT_NAVIGATION: {
+      text: 'Left Navigation',
+      key: 'navigation',
+    },
+    ASSIGN_USERS: {
+      text: 'Assign Users',
+    },
   }),
   contentType: new GlobalOptions({
     PAGE: 'Page',

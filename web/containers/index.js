@@ -11,6 +11,7 @@ import MultiView from './MultiView';
 import TocIndex from './TocIndex';
 import UsersList from './UsersList';
 import RolesList from './RolesList';
+import RoleDetails from './RoleDetails';
 import PageListing from './PageListing';
 
 import templates from '../templates';
@@ -46,5 +47,6 @@ export default {
   UsersList,
   PageListing,
   RolesList,
+  RoleDetails,
   ...templates,
 };

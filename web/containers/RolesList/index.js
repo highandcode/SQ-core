@@ -177,7 +177,7 @@ class Roles extends BaseContainer {
         utils.redirect.redirectTo('assignRole', { code: row.code });
         break;
       case 'delete':
-        await this.props.raiseAction(removeRole(row.code));
+        await this.props.raiseAction(removeRole(row, pageData?.apiConfig?.userRole));
         this.props.raiseAction(loadRoles({}, pageData?.apiConfig?.getRoles));
     }
   }
