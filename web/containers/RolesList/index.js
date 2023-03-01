@@ -177,7 +177,9 @@ class Roles extends BaseContainer {
         utils.redirect.redirectTo('assignRole', { code: row.code });
         break;
       case 'delete':
-        await this.props.raiseAction(removeRole(row, pageData?.apiConfig?.userRole));
+        await this.props.raiseAction(
+          removeRole(row, pageData?.apiConfig?.userRole)
+        );
         this.props.raiseAction(loadRoles({}, pageData?.apiConfig?.getRoles));
     }
   }
@@ -241,10 +243,10 @@ class Roles extends BaseContainer {
               </h2>
               <Actions actions={actions} />
             </div>
-            <div className='mt-wide'>
+            <div className="mt-wide">
               {store.authentication?.allRoles?.ALL_ROLES && (
                 <Pagination
-                  className='j-content-fl-end'
+                  className="j-content-fl-end"
                   onChange={this.handlePageChange}
                   count={store.authentication?.allRolesPage?.totalPages}
                   value={store.authentication?.allRolesPage}
@@ -324,7 +326,10 @@ class Roles extends BaseContainer {
                       customize: false,
                       component: {
                         textIcon: (row) => row.name?.substr(0, 1),
-                        variant: (row) => `${utils.accentColors.getColorByChar(row.name?.substr(0, 1))}`,
+                        variant: (row) =>
+                          `${utils.accentColors.getColorByChar(
+                            row.name?.substr(0, 1)
+                          )}`,
                         className: 'sq-icon--square',
                       },
                     },
@@ -418,7 +423,10 @@ class Roles extends BaseContainer {
                       customize: false,
                       component: {
                         textIcon: (row) => row.name?.substr(0, 1),
-                        variant: (row) => `${utils.accentColors.getColorByChar(row.name?.substr(0, 1))}`,
+                        variant: (row) =>
+                          `${utils.accentColors.getColorByChar(
+                            row.name?.substr(0, 1)
+                          )}`,
                         className: 'sq-icon--square',
                       },
                     },

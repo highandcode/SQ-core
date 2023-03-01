@@ -87,6 +87,7 @@ import Textarea from './ui/Textarea';
 import TextColumnWithLinks from './ui/TextColumnWithLinks';
 import TextFields from './ui/TextFields';
 import EditableField from './EditableField';
+import GlobalNavigationV2 from './ui/GlobalNavigationV2';
 import Wrapper from './Wrapper';
 import Skeleton from './Skeleton';
 
@@ -97,6 +98,7 @@ export const editor = {
 export {
   Actions,
   Wrapper,
+  GlobalNavigationV2,
   Alert,
   BottomNavigation,
   CallToAction,

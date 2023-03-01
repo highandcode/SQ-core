@@ -2,7 +2,7 @@ title: Sign up
 template: apps/core/templates/page
 layout: apps/core/layouts/spa
 containerTemplate: AdminPlainPage
-templateClassName: form-with-white
+templateClassName: 
 inject:
   rootClassName: .moduleData.moduleName 
 contentBodyClass: container container-form

@@ -281,6 +281,7 @@ class Users extends BaseContainer {
   async onGridAction(row, value, column) {
     const { currentPage, pageSize } =
       this.props.store.authentication?.usersPagination;
+    const { pageData } = this.props;
     switch (value.action) {
       case 'edit':
         utils.redirect.redirectTo('editUser', {
@@ -289,21 +290,30 @@ class Users extends BaseContainer {
         });
         break;
       case 'activate':
-        await this.props.userActions.reactivateUser(row);
+        await this.props.userActions.reactivateUser(
+          row,
+          pageData?.apiConfig?.activateUser
+        );
         await this.refreshUsers({
           filter: { isActive: false, ...this.state.currentFilter },
           pageSize: pageSize,
         });
         break;
       case 'deactivate':
-        await this.props.userActions.deactivateUser(row);
+        await this.props.userActions.deactivateUser(
+          row,
+          pageData?.apiConfig?.deActivateUser
+        );
         await this.refreshUsers({
           filter: { isActive: true, ...this.state.currentFilter },
           pageSize: pageSize,
         });
         break;
       case 'reset-password':
-        this.props.userActions.resetPassword(row);
+        this.props.userActions.resetPassword(
+          row,
+          pageData?.apiConfig?.resetPassword
+        );
         break;
     }
   }
@@ -624,10 +634,12 @@ class Users extends BaseContainer {
                           {
                             cmpType: 'LinkButton',
                             iconName: 'deactivate',
-                            // confirm: {
-                            //   title: translate('Confirm'),
-                            //   content: translate('Are you sure you want to deactivate this user?'),
-                            // },
+                            confirm: {
+                              title: translate('Confirm'),
+                              content: translate(
+                                'Are you sure you want to deactivate this user?'
+                              ),
+                            },
                             iconVariant: 'error',
                             action: 'deactivate',
                             disabled: !editUserPerm,

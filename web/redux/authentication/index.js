@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  processParams,
+  selectUserData,
   updateUserData,
   updateProtectedUserData,
   customHooks,
@@ -391,39 +393,46 @@ export const getPermissionsByRole =
     }
   };
 
-export const deactivateUser = (payload) => async (dispatch, getState) => {
-  const response = await utils.apiBridge.patch(
-    adminConfig.apis.deactivateUser(payload.emailId)
-  );
-  if (response.status === CONSTANTS.STATUS.SUCCESS) {
-    await dispatch(
-      showNotificationMessage({
-        message: 'User deactivate successfully',
-        type: 'success',
-      })
+export const deactivateUser =
+  (payload, config = {}) =>
+  async (dispatch, getState) => {
+    const { url } = processParams({...selectUserData(getState()), ...payload}, config)
+    const response = await utils.apiBridge.patch(
+      url || `${adminConfig.apis.user}/${payload.emailId}/deactivate`
     );
-    await dispatch(loadUsers());
-  }
-};
+    if (response.status === CONSTANTS.STATUS.SUCCESS) {
+      await dispatch(
+        showNotificationMessage({
+          message: 'User deactivate successfully',
+          type: 'success',
+        })
+      );
+      await dispatch(loadUsers());
+    }
+  };
 
-export const reactivateUser = (payload) => async (dispatch) => {
-  const response = await utils.apiBridge.patch(
-    adminConfig.apis.activateUser(payload.emailId)
-  );
-  if (response.status === CONSTANTS.STATUS.SUCCESS) {
-    await dispatch(
-      showNotificationMessage({
-        message: 'User activate successfully',
-        type: 'success',
-      })
+export const reactivateUser =
+  (payload, config = {}) =>
+  async (dispatch, getState) => {
+    const { url } = processParams({...selectUserData(getState()), ...payload}, config)
+    const response = await utils.apiBridge.patch(
+      url || `${adminConfig.apis.user}/${payload.emailId}/activate`
     );
-    await dispatch(loadUsers());
-  }
-};
+    if (response.status === CONSTANTS.STATUS.SUCCESS) {
+      await dispatch(
+        showNotificationMessage({
+          message: 'User activate successfully',
+          type: 'success',
+        })
+      );
+      await dispatch(loadUsers());
+    }
+  };
 
-export const resetPassword = (payload) => async (dispatch) => {
+export const resetPassword = (payload, config = {}) => async (dispatch, getState) => {
+  const { url } = processParams({...selectUserData(getState()), ...payload}, config)
   const response = await utils.apiBridge.patch(
-    adminConfig.apis.resetPassword(payload.emailId)
+    url || `${adminConfig.apis.user}/${payload.emailId}/resetPassword`
   );
   if (response.status === CONSTANTS.STATUS.SUCCESS) {
     await dispatch(

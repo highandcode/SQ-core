@@ -2,7 +2,7 @@ title: Login
 template: apps/core/templates/page
 layout: apps/core/layouts/spa
 containerTemplate: AdminPlainPage
-templateClassName: form-with-white
+templateClassName: 
 contentBodyClass: container container-form
 inject:
   rootClassName: .moduleData.moduleName

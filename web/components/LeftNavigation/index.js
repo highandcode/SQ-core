@@ -19,7 +19,7 @@ import Divider from '@mui/material/Divider';
 
 // const { Dialog, Icon } = root;
 
-const hasActive = (nav, naviagateChild = true) => {
+export const hasActive = (nav, naviagateChild = true) => {
   let isActive = false;
   if (nav.href === window.location.pathname) {
     return true;
@@ -30,7 +30,7 @@ const hasActive = (nav, naviagateChild = true) => {
   return isActive;
 };
 
-const hasMatchingRoles = (roles, userRoles) => {
+export const hasMatchingRoles = (roles, userRoles) => {
   let hasRole = roles ? false : true;
   if (roles && userRoles.length > 0) {
     if (roles.indexOf(userRoles[0]) > -1) {
@@ -40,7 +40,7 @@ const hasMatchingRoles = (roles, userRoles) => {
   return hasRole;
 };
 
-const hasPermission = (item, options, children = true) => {
+export const hasPermission = (item, options, children = true) => {
   let result = false;
   if (!item.hideInMenu && (options.permissions.indexOf(item.key) > -1 || !item.key) && (hasMatchingRoles(item.roles, options.roles) || !item.roles)) {
     return true;
@@ -55,7 +55,7 @@ const hasPermission = (item, options, children = true) => {
   return result;
 };
 
-const checkChildren = (children, path) => {
+export const checkChildren = (children, path) => {
   let isActive = false;
   children.forEach((child) => {
     if (!isActive && child.children?.length > 0) {

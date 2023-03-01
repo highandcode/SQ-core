@@ -6,6 +6,7 @@ module.exports = {
     protected: ['content/admin/(?!(login|register|forgotpassword)$).*$'],
   },
   apis: {
+    user: '/api/v1/admin/user',
     userInfo: '/api/v1/admin/user/info',
     userRoles: '/api/v1/admin/role',
     searchRole: '/api/v1/admin/role/search',

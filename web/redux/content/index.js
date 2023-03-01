@@ -92,14 +92,22 @@ export const processParams = (
       const validator = new Validator(params[key].match);
       validator.setValues(userData);
       value = validator.validateAll();
-    } else if (typeof params[key] === 'object' && params[key] !== null && !Array.isArray(params[key])) {
+    } else if (
+      typeof params[key] === 'object' &&
+      params[key] !== null &&
+      !Array.isArray(params[key])
+    ) {
       value = processParams(userData, params[key], defaultValue, state);
     } else {
       value = processEachParam(userData, params[key], defaultValue, state);
     }
     if (!common.isNullOrUndefined(value)) {
-      if (key.startsWith('...') && typeof(value) === 'object' && !Array.isArray(value)) {
-        newObj = {...newObj, ...value};
+      if (
+        key.startsWith('...') &&
+        typeof value === 'object' &&
+        !Array.isArray(value)
+      ) {
+        newObj = { ...newObj, ...value };
       } else {
         newObj[key] = value;
       }
@@ -151,11 +159,14 @@ export const fetchJsonPath = ({ url, params, headers }) => {
     url: overrideUrl,
     params: overrideParams,
     method: overrideMethod,
-  } = extractUrlInfo(url, window.APP_CONFIG?.siteMap?.siteMap?.dynamicContentConfig);
+  } = extractUrlInfo(
+    url,
+    window.APP_CONFIG?.siteMap?.siteMap?.dynamicContentConfig
+  );
   const postFix = !overrideUrl && mode === 'get' ? '/get.json' : '';
 
   const cb = mode === 'get' ? { _cb: window.APP_CONFIG?.appVersion } : {};
-  
+
   return apiBridge[overrideMethod || mode](
     `${overrideUrl || url}${postFix}`,
     { ...cb, ...(overrideParams || params) },
@@ -233,9 +244,11 @@ export const initApplication = (data) => async (dispatch) => {
   if (data.globals && data.globals.path) {
     const result = await fetchJsonPath({ url: data.globals.path });
     const pageData = result.data.pageData;
-    await dispatch(updateUserData({
-      isSubmitting: false,
-    }))
+    await dispatch(
+      updateUserData({
+        isSubmitting: false,
+      })
+    );
     await dispatch(
       updateProtectedUserData({
         root: { ...data, ...pageData },
