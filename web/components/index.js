@@ -10,6 +10,7 @@ import List from './ui/List';
 import Button from './ui/Button';
 import Grouper from './Grouper';
 import Wrapper from './Wrapper';
+import Skeleton from './Skeleton';
 import CodeHighlight from './ui/CodeHighlight';
 import Progress from './Progress';
 import InlineProgress from './InlineProgress';
@@ -72,6 +73,7 @@ let comps = {
   ImageWithSpotlight,
   FormList,
   FormObject,
+  Skeleton,
 };
 
 const getMap = () => {

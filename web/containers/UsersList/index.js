@@ -99,7 +99,10 @@ class Users extends BaseContainer {
       pageData?.apiConfig?.getUsers
     );
     await this.refreshUsers({ filter: { isActive: true } });
-    await this.props.userActions.loadRoles({ userType: 'INTERNAL' }, pageData?.apiConfig?.getRoles);
+    await this.props.userActions.loadRoles(
+      { userType: 'INTERNAL' },
+      pageData?.apiConfig?.getRoles
+    );
   }
 
   async refreshUsers({ pageNo, pageSize, sort, filter, source } = {}) {
@@ -118,16 +121,19 @@ class Users extends BaseContainer {
       source = this.state.currentTab;
     }
     this.props.commonActions.startLoading();
-    await this.props.userActions.loadUsers({
-      body: filter || this.state.currentFilter,
-      source,
-      query: {
-        sortBy: sortBy,
-        sortDir: sortDir?.toUpperCase(),
-        pageSize: pageSize,
-        pageNo: pageNo,
+    await this.props.userActions.loadUsers(
+      {
+        body: filter || this.state.currentFilter,
+        source,
+        query: {
+          sortBy: sortBy,
+          sortDir: sortDir?.toUpperCase(),
+          pageSize: pageSize,
+          pageNo: pageNo,
+        },
       },
-    }, pageData?.apiConfig?.getUsers);
+      pageData?.apiConfig?.getUsers
+    );
     this.props.commonActions.stopLoading();
   }
 
@@ -230,14 +236,16 @@ class Users extends BaseContainer {
       this.refreshUsers({
         filter: { isActive: true, ...this.state.currentFilter },
         source: source,
+        pageNo: 1,
       });
     } else if (data.value === 'INACTIVE_USERS') {
       this.refreshUsers({
         filter: { isActive: false, ...this.state.currentFilter },
         source: source,
+        pageNo: 1,
       });
     } else {
-      this.refreshUsers({ source: source });
+      this.refreshUsers({ source: source, pageNo: 1 });
     }
   }
 

@@ -103,7 +103,6 @@ module.exports = ({ context } = {}) => {
       .then((validResponse) => {
         if (validResponse.loginStatus === 'ok') {
           const user = validResponse.user;
-          console.log(user)
           req.session.userData = user;
           var infoToStore = context.userRepo.info(user);
           var token = tokenManager.encrypt(infoToStore);

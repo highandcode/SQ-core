@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import SelectField from '../SelectField';
 import Pagination from '@mui/material/Pagination';
 
-function SQPagination({ className = '', disabled = false, defaultPage, count, onChange, value = {}, color = 'primary', defaultPageSize = 30, pageSizeLabel = 'Page size', pageSizeOptions = [], enablePageSize = false }) {
+function SQPagination({ className = '', disabled = false, defaultPage, count, onChange, value = {}, color = 'primary', pageSize = 25, pageSizeLabel = 'Page size', pageSizeOptions = [], enablePageSize = false }) {
   const handleChange = (event, inputValue) => {
     if (value.currentPage !== inputValue) {
       onChange &&
         onChange({
           value: {
-            pageSize: defaultPageSize,
+            pageSize,
             ...value,
             currentPage: inputValue,
           },
@@ -35,7 +35,7 @@ function SQPagination({ className = '', disabled = false, defaultPage, count, on
         <SelectField
           className="sq-pagination__page-size"
           label={pageSizeLabel}
-          value={String(value.pageSize)}
+          value={String(value.pageSize || pageSize)}
           disabled={disabled}
           options={pageSizeOptions}
           onChange={({ value }) => {
@@ -52,7 +52,6 @@ SQPagination.propTypes = {
   className: PropTypes.string,
   value: PropTypes.object,
   onChange: PropTypes.func,
-  color: PropTypes.oneOf(['primary', 'info', 'success', 'warning', 'error']),
 };
 
 export default SQPagination;

@@ -1,9 +1,9 @@
 .sq-text-fields {
   width: 100%;
   .header {
-    @include b4-style();
+    @include b5-style();
     @media (min-width: $screen-sm) {
-      @include b3-style();
+      @include b4-style();
     }
   }
   .sub-header {

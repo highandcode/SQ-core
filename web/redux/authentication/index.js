@@ -22,6 +22,12 @@ const authentication = createSlice({
     setUsers: (state, action) => {
       state.users = action.payload;
     },
+    setAllRoles: (state, action) => {
+      state.allRoles = action.payload;
+    },
+    setAllRolesPages: (state, action) => {
+      state.allRolesPages = action.payload;
+    },
     setRoles: (state, action) => {
       state.roles = action.payload;
     },
@@ -130,6 +136,53 @@ export const loadRoles =
       );
     }
   };
+
+export const showAllRoles = (payload, { url }) => async (dispatch) => {
+  const response = await utils.apiBridge.post(
+    url || adminConfig.apis.searchRole,
+    { ...payload.body },
+    {},
+    payload.query
+  );
+  if (response.status === CONSTANTS.STATUS.SUCCESS) {
+    const data = {
+      [GLOBAL_OPTIONS.roleTabs.keys.ALL_ROLES]: response.data,
+    };
+    const pageData = {
+      total: response.data?.totalItems,
+      pageSize: response.data.pageSize,
+      currentPage: response.data.currentPage,
+      isLast: response.data.last,
+      totalPages: response.data.totalPages,
+    };
+    await dispatch(setAllRoles(data));
+    await dispatch(setAllRolesPages(pageData));
+  }
+};
+
+export const removeUserToRole = (payload, {url} = {}) => async (dispatch) => {
+  const response = await utils.apiBridge.delete(url || adminConfig.apis.roleMapping, payload);
+  if (response.status === CONSTANTS.STATUS.SUCCESS) {
+    await dispatch(
+      showNotificationMessage({
+        message: 'User removed successfully',
+        type: 'success',
+      })
+    );
+  }
+};
+
+export const removeRole = (payload, {url} = {}) => async (dispatch) => {
+  const response = await utils.apiBridge.delete(url || adminConfig.apis.userRoles, payload);
+  if (response.status === CONSTANTS.STATUS.SUCCESS) {
+    await dispatch(
+      showNotificationMessage({
+        message: 'Role removed successfully',
+        type: 'success',
+      })
+    );
+  }
+};
 export const hasPermission = (permission, state) =>
   state?.authentication?.currentUser?.allPermissions?.indexOf(permission) > -1;
 export const loadUsers =
@@ -160,7 +213,7 @@ export const reactivateUser = () => (dispatch) => {};
 export const deactivateUser = () => (dispatch) => {};
 export const resetPassword = () => (dispatch) => {};
 
-export const { setUser, setRoles, setUsers, setUserPagination, setPreference } =
+export const { setUser, setRoles, setUsers, setUserPagination, setPreference, setAllRoles, setAllRolesPages } =
   authentication.actions;
 
 export default authentication.reducer;

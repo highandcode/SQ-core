@@ -88,6 +88,7 @@ import TextColumnWithLinks from './ui/TextColumnWithLinks';
 import TextFields from './ui/TextFields';
 import EditableField from './EditableField';
 import Wrapper from './Wrapper';
+import Skeleton from './Skeleton';
 
 export const editor = {
   setEditorOptions,
@@ -105,6 +106,7 @@ export {
   DataList,
   Image,
   Dialog,
+  Skeleton,
   ErrorBoundry,
   FloatingActionButton,
   Form,
