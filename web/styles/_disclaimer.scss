@@ -8,4 +8,12 @@
     color: $sq-color-slate;
     @include b5-style();
   }
+  &--sm {
+    color: $sq-color-slate;
+    @include b6-style();
+  }
+  &--black {
+    color: $black;
+    @include b6-style();
+  }
 }
