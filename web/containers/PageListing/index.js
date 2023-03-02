@@ -177,7 +177,7 @@ class PageListing extends BaseContainer {
                     name: 'title',
                     headerText: 'Page Title',
                     className: 'col-large',
-                    render: (val, col, row) => (row.type === 'SITE_MAP' ? `${row.pageData?.siteMap?.title}` : `${row.pageData?.title}`),
+                    render: (val, col, row) => row.name || (row.type === 'SITE_MAP' ? `${row.pageData?.siteMap?.title}` : `${row.pageData?.title}`),
                   },
                   {
                     name: 'path',

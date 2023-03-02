@@ -188,28 +188,14 @@ export default withEditTabs({
       cmpType: 'Form',
       fields: [
         {
-          cmpType: 'Form',
+          cmpType: 'FormObject',
           name: 'success',
           label: 'success',
-          fields: [
-            {
-              name: 'data',
-              cmpType: 'FormObject',
-              label: 'success',
-            },
-          ],
         },
         {
-          cmpType: 'Form',
+          cmpType: 'FormObject',
           nameL: 'success',
           label: 'error',
-          fields: [
-            {
-              name: 'data',
-              cmpType: 'FormObject',
-              label: 'error',
-            },
-          ],
         },
       ],
     },

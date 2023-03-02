@@ -3,8 +3,9 @@ module.exports = ({ formData = {}, ...config } = {}) => ({
     init: {
       formData: {
         to: '/content/',
+        name: formData.name || formData.pageData?.title,
         ...formData,
-        ...config.init
+        ...config.init,
       },
     },
     items: [
@@ -12,6 +13,11 @@ module.exports = ({ formData = {}, ...config } = {}) => ({
         component: 'Form',
         name: 'formData',
         fields: [
+          {
+            cmpType: 'Input',
+            name: 'name',
+            label: 'Name',
+          },
           {
             cmpType: 'DataField',
             name: 'path',
@@ -25,7 +31,7 @@ module.exports = ({ formData = {}, ...config } = {}) => ({
               {
                 type: 'required',
                 defaultValue: '/content/',
-                ...config.targetPath?.required
+                ...config.targetPath?.required,
               },
               {
                 type: 'path',
@@ -33,7 +39,7 @@ module.exports = ({ formData = {}, ...config } = {}) => ({
               {
                 type: 'startsWith',
                 startsWith: '/content/',
-                ...config.targetPath?.starts
+                ...config.targetPath?.starts,
               },
             ],
           },
@@ -45,10 +51,11 @@ module.exports = ({ formData = {}, ...config } = {}) => ({
         buttonText: 'Clone',
         params: {
           '...': '.formData',
+          name: '.formData.name',
           from: '.formData.path',
           to: '.formData.to',
           type: '.formData.type',
-        }
+        },
       },
     ],
   },

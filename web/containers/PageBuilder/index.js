@@ -437,6 +437,11 @@ class PageBuilder extends Component {
                             label: 'init',
                           },
                           {
+                            name: 'hook',
+                            cmpType: 'FormObject',
+                            label: 'hook',
+                          },
+                          {
                             name: 'merge',
                             cmpType: 'FormObject',
                             label: 'merge',
