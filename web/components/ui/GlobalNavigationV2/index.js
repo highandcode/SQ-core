@@ -100,7 +100,39 @@ const GlobalNavigationV2 = ({
           >
 
             <div className="sq-global-navigation-v2__nav">
-              
+            {items &&
+                items.map((linkItem, idx) => {
+                  const isHover = false;
+                  return (
+                    <div
+                      key={idx}
+                      className={`sq-global-navigation-v2__item ${
+                        isHover ? 'sq-global-navigation-v2__item--hover' : ''
+                      }`}
+                     
+                    >
+                      <div className="sq-global-navigation-v2__item-wrapper">
+                        <a
+                          onClick={(e) => {
+                            if (e.defaultPrevented) return; // Exits here if event has been handled
+                            e.preventDefault();
+                            redirectTo(
+                              linkItem.href,
+                              linkItem.params,
+                              linkItem.options
+                            );
+                            setOpen(false);
+                          }}
+                          href={linkItem.href}
+                          className="sq-global-navigation-v2__item-text"
+                        >
+                          {linkItem.title}
+                        </a>
+                        
+                      </div>
+                    </div>
+                  );
+                })}
             </div>
             <div className="sq-global-navigation-v2__nav-right">
 

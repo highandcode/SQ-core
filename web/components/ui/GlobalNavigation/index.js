@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { resolveImageUrl } from '../../../cordova';
 import Icon from '../../Icon';
 import Button from '../../ui/Button';
 import LinkButton from '../../ui/LinkButton';
+import Dialog from '../../Dialog';
 import { redirectTo } from '../../../utils/redirect';
 import useSticky from './useSticky';
-import { Fragment } from 'react';
-import { useRef } from 'react';
-import { useEffect } from 'react';
-
-const renderSubNav = (item, isHover, callback) => {
+import { hasPermission, hasActive } from '../../LeftNavigation';
+import LeftDrawer from '../../LeftNavigation/LeftDrawer';
+const renderSubNav = (item, isHover, callback, options) => {
   let iconName = !isHover ? 'expand' : 'collapse';
   return (
     item.children &&
@@ -21,9 +20,24 @@ const renderSubNav = (item, isHover, callback) => {
         )}
         <ul className="sq-global-navigation__item-list">
           {item.children.map((child, idx) => {
+            const isAllowed = hasPermission(child, options, false);
+            if (!isAllowed) {
+              return;
+            }
             return (
               <li key={idx} className="sq-global-navigation__list-item">
-                <a
+                <LinkButton
+                  buttonText={child.title}
+                  className="sq-global-navigation__link"
+                  {...child}
+                  to={child.href}
+                  urlParams={child.params}
+                  {...child.options}
+                  onClick={(e) => {
+                    callback && callback();
+                  }}
+                />
+                {/* <a
                   onClick={(e) => {
                     if (e.defaultPrevented) return; // Exits here if event has been handled
                     e.preventDefault();
@@ -38,7 +52,7 @@ const renderSubNav = (item, isHover, callback) => {
                   className="sq-global-navigation__link"
                 >
                   {child.title}
-                </a>
+                </a> */}
               </li>
             );
           })}
@@ -57,6 +71,9 @@ const GlobalNavigation = ({
   mobileItems,
   onAnalytics,
   navPosition = 'sticky',
+  placeHolderspace = false,
+  permissions = [],
+  roles = [],
 }) => {
   const [open, setOpen] = useState(false);
   const [height, setHeight] = useState(0);
@@ -64,9 +81,7 @@ const GlobalNavigation = ({
   const [currentItemHover, setCurrentHover] = useState(null);
   const { isSticky, element } = useSticky();
   useEffect(() => {
-    if (navPosition === 'sticky') {
-      setHeight(element.current.getBoundingClientRect().height);
-    }
+    setHeight(element.current.getBoundingClientRect().height);
   });
   const toggleMenu = () => {
     setOpen(!open);
@@ -76,13 +91,43 @@ const GlobalNavigation = ({
   const finalFixed = navPosition === 'fixed';
   return (
     <Fragment>
-      {finalSticky && (
+      {(finalSticky || placeHolderspace) && (
         <div
           className="sq-global-navigation-filler"
           style={{ height: height }}
           ref={fillerEl}
         ></div>
       )}
+      <Dialog
+        transitionDir={'right'}
+        title={
+          <>
+            {logo && (
+              <div className="sq-global-navigation__brand">
+                {logo.mobileName && <Icon name={logo.mobileName} size="auto" />}
+                {logo.mobileImage && (
+                  <img src={logo.mobileImage} alt={logo.mobileAlt} />
+                )}
+              </div>
+            )}
+          </>
+        }
+        classes={{
+          dialog: {
+            root: 'sq-dialog--fixed-menu-left',
+          },
+        }}
+        open={open}
+        onClose={toggleMenu}
+      >
+        <LeftDrawer
+          items={items}
+          permissions={permissions}
+          rightItems={rightItems}
+          roles={roles}
+          logo={logo}
+        />
+      </Dialog>
       <nav
         className={`sq-global-navigation ${className} ${
           finalFixed ? 'sq-global-navigation--fixed' : ''
@@ -94,6 +139,22 @@ const GlobalNavigation = ({
         <div
           className={`sq-global-navigation__wrapper ${classes.wrapper || ''}`}
         >
+          {items && items.length > 0 && (
+            <button
+              className="sq-global-navigation__toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              onClick={toggleMenu}
+            >
+              <span className={`sq-global-navigation__icon ${logo.className}`}>
+                <Icon name="list" variant={logo.variant} size="large" />
+              </span>
+            </button>
+          )}
           <a
             className={`sq-global-navigation__brand ${logo.className}`}
             onClick={(e) => {
@@ -137,36 +198,29 @@ const GlobalNavigation = ({
                 ) : null;
               })}
           </ul>
-          {items && items.length > 0 && (
-            <button
-              className="sq-global-navigation__toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarNav"
-              aria-controls="navbarNav"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              onClick={toggleMenu}
-            >
-              <span className={`sq-global-navigation__icon ${logo.className}`}>
-                <Icon name="list" variant={logo.variant} size="large" />
-              </span>
-            </button>
-          )}
           <div
-            className={`sq-global-navigation__container${
-              open ? ' sq-global-navigation__container--open' : ''
-            }`}
+            className={`sq-global-navigation__container`}
           >
             <ul className="sq-global-navigation__nav">
               {items &&
                 items.map((linkItem, idx) => {
                   const isHover = linkItem === currentItemHover;
+                  const isActive = hasActive(linkItem);
+                  const isAllowed = hasPermission(linkItem, {
+                    permissions,
+                    roles,
+                  });
+                  if (!isAllowed) {
+                    return;
+                  }
+
                   return (
                     <li
                       key={idx}
                       className={`sq-global-navigation__item ${
                         isHover ? 'sq-global-navigation__item--hover' : ''
+                      } ${
+                        isActive ? 'sq-global-navigation__item--active' : ''
                       }`}
                       onMouseOver={() => {
                         setCurrentHover(linkItem, { ...linkItem.params });
@@ -176,27 +230,27 @@ const GlobalNavigation = ({
                       }}
                     >
                       <div className="sq-global-navigation__item-wrapper">
-                        <a
+                        <LinkButton
+                          buttonText={linkItem.title}
+                          className="sq-global-navigation__link"
+                          {...linkItem}
+                          iconName={undefined}
+                          to={linkItem.href}
+                          urlParams={linkItem.params}
+                          {...linkItem.options}
                           onClick={(e) => {
-                            if (e.defaultPrevented) return; // Exits here if event has been handled
-                            e.preventDefault();
-                            redirectTo(
-                              linkItem.href,
-                              linkItem.params,
-                              linkItem.options
-                            );
                             setOpen(false);
                           }}
-                          className="sq-global-navigation__link"
-                          href={linkItem.href}
-                          className="sq-global-navigation__item-text"
-                        >
-                          {linkItem.title}
-                        </a>
-                        {renderSubNav(linkItem, isHover, () => {
-                          setCurrentHover(null);
-                          setOpen(false);
-                        })}
+                        />
+                        {renderSubNav(
+                          linkItem,
+                          isHover,
+                          () => {
+                            setCurrentHover(null);
+                            setOpen(false);
+                          },
+                          { permissions, roles }
+                        )}
                       </div>
                     </li>
                   );

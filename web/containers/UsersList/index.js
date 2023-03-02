@@ -91,13 +91,6 @@ class Users extends BaseContainer {
         },
       });
     }
-    await this.props.userActions.loadUsers(
-      {
-        query: { pageSize: defaultPageSize },
-        source: this.state?.currentTab,
-      },
-      pageData?.apiConfig?.getUsers
-    );
     await this.refreshUsers({ filter: { isActive: true } });
     await this.props.userActions.loadRoles(
       { userType: 'INTERNAL' },
@@ -117,13 +110,17 @@ class Users extends BaseContainer {
       1;
     let sortBy = (sort || this.state.currentSort).sortColumn;
     let sortDir = (sort || this.state.currentSort).sortOrder;
+    const extra = {};
     if (!source) {
       source = this.state.currentTab;
+    }
+    if (source === GLOBAL_OPTIONS.userTabs.keys.ALL_USERS) {
+      extra.isActive = undefined;
     }
     this.props.commonActions.startLoading();
     await this.props.userActions.loadUsers(
       {
-        body: filter || this.state.currentFilter,
+        body: {...(filter || this.state.currentFilter), ...extra},
         source,
         query: {
           sortBy: sortBy,
@@ -355,7 +352,7 @@ class Users extends BaseContainer {
           });
         } else {
           await this.refreshUsers({
-            currentPage: currentPage,
+            pageNo: pageNo,
           });
         }
         break;

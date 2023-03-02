@@ -63,6 +63,9 @@ $sq-global-navigation-nav-color: $black;
       display: none;
     }
   }
+  &__nav {
+    display: flex;
+  }
   &__brand {
     img {
       height: 40px;

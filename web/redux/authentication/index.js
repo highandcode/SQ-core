@@ -407,7 +407,6 @@ export const deactivateUser =
           type: 'success',
         })
       );
-      await dispatch(loadUsers());
     }
   };
 
@@ -425,7 +424,6 @@ export const reactivateUser =
           type: 'success',
         })
       );
-      await dispatch(loadUsers());
     }
   };
 

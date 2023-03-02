@@ -119,7 +119,7 @@ const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], role
         onClose={handleDialogClose}
       >
         <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-          <nav aria-label="main mailbox folders">
+          <nav>
             <List>
               {items.map((item, idx) => {
                 const isAllowed = hasPermission(item, { permissions, roles });
