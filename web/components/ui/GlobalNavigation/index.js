@@ -9,6 +9,7 @@ import { redirectTo } from '../../../utils/redirect';
 import useSticky from './useSticky';
 import { hasPermission, hasActive } from '../../LeftNavigation';
 import LeftDrawer from '../../LeftNavigation/LeftDrawer';
+import UserMenu from './UserMenu';
 const renderSubNav = (item, isHover, callback, options) => {
   let iconName = !isHover ? 'expand' : 'collapse';
   return (
@@ -74,6 +75,7 @@ const GlobalNavigation = ({
   placeHolderspace = false,
   permissions = [],
   roles = [],
+  user,
 }) => {
   const [open, setOpen] = useState(false);
   const [height, setHeight] = useState(0);
@@ -86,6 +88,9 @@ const GlobalNavigation = ({
   const toggleMenu = () => {
     setOpen(!open);
   };
+  const handleAction = (item) => {
+    redirectTo(item.href || item.to, { ...item.params }, { ...item.options });
+  }
   const linksComps = { Button, LinkButton };
   const finalSticky = navPosition === 'sticky' && isSticky;
   const finalFixed = navPosition === 'fixed';
@@ -124,6 +129,10 @@ const GlobalNavigation = ({
           items={items}
           permissions={permissions}
           rightItems={rightItems}
+          onClick={(item) => {
+            handleAction(item);
+            setOpen(false);
+          }}
           roles={roles}
           logo={logo}
         />
@@ -198,9 +207,7 @@ const GlobalNavigation = ({
                 ) : null;
               })}
           </ul>
-          <div
-            className={`sq-global-navigation__container`}
-          >
+          <div className={`sq-global-navigation__container`}>
             <ul className="sq-global-navigation__nav">
               {items &&
                 items.map((linkItem, idx) => {
@@ -257,21 +264,7 @@ const GlobalNavigation = ({
                 })}
             </ul>
             <ul className="sq-global-navigation__nav sq-global-navigation__nav--right">
-              {rightItems &&
-                rightItems.map((ritem, idx) => {
-                  let Comp = linksComps.LinkButton;
-                  return (
-                    <li key={idx}>
-                      <Comp
-                        {...ritem}
-                        onAnalytics={onAnalytics}
-                        onClick={() => {
-                          setOpen(false);
-                        }}
-                      />
-                    </li>
-                  );
-                })}
+              {user && <UserMenu listOfActions={rightItems} user={user} onAction={handleAction} />}
             </ul>
           </div>
         </div>

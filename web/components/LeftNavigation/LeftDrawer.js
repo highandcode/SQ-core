@@ -24,7 +24,6 @@ const linksComps = {
   LinkButton,
 };
 const LeftDrawer = ({
-  logo = {},
   items = [],
   onClick,
   permissions = [],
@@ -32,7 +31,7 @@ const LeftDrawer = ({
   openDrawer = false,
   onCloseDrawer,
   rightItems = [],
-  onAnalytics
+  onAnalytics,
 }) => {
   const [openItems, setOpenItems] = React.useState({});
 
@@ -42,8 +41,8 @@ const LeftDrawer = ({
   };
 
   const handleItemClick = (item) => {
+    console.log('>>>>', item);
     onClick && onClick(item);
-    handleClose();
     openDrawer && handleDialogClose();
   };
 
@@ -53,7 +52,6 @@ const LeftDrawer = ({
         <nav>
           <List>
             {items.map((item, idx) => {
-              console.log('@@@', item);
               const isAllowed = hasPermission(item, { permissions, roles });
               if (!isAllowed) {
                 return undefined;
@@ -66,6 +64,8 @@ const LeftDrawer = ({
                   <ListItem disablePadding>
                     <ListItemButton
                       onClick={() => {
+                        (!item.children || item.children?.length === 0) &&
+                          handleItemClick(item);
                         setOpenItems({
                           ...openItems,
                           [idx]: !(isOpen || openItems[idx]),
@@ -121,9 +121,7 @@ const LeftDrawer = ({
                   <Comp
                     {...ritem}
                     onAnalytics={onAnalytics}
-                    onClick={() => {
-                      setOpen(false);
-                    }}
+                    onClick={handleItemClick}
                   />
                 </div>
               );
