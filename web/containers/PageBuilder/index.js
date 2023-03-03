@@ -411,7 +411,7 @@ class PageBuilder extends Component {
                 </div>
                 <div className="sq-page-builder__right">
                   {this.state.enableProps && (
-                    <Panel header="Page Properties" onClose={this.toggleProps}>
+                    <Panel header="Page Properties" enableFullScreen={true} onClose={this.toggleProps}>
                       <Form
                         value={this.state.contentData.pageData}
                         onChange={this.formOnChange}
