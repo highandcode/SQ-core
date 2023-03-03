@@ -56,7 +56,7 @@ const UserMenu = ({ user, onAction, listOfActions, className }) => {
             },
           },
         }}
-        transformOrigin={{ horizontal: 'left', vertical: 'top' }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <div className="sq-user-menu__header">
