@@ -194,6 +194,9 @@ const GlobalNavigation = ({
             {mobileItems &&
               mobileItems.map((ritem, idx) => {
                 let Comp = linksComps.LinkButton;
+                if (ritem === 'UserMenu') {
+                  return <UserMenu key={idx} listOfActions={rightItems} user={user} onAction={handleAction} />
+                }
                 return idx === 0 ? (
                   <li key={idx}>
                     <Comp
@@ -265,6 +268,21 @@ const GlobalNavigation = ({
             </ul>
             <ul className="sq-global-navigation__nav sq-global-navigation__nav--right">
               {user && <UserMenu listOfActions={rightItems} user={user} onAction={handleAction} />}
+              {!user && rightItems &&
+                rightItems.map((ritem, idx) => {
+                  let Comp = linksComps.LinkButton;
+                  return (
+                    <li key={idx}>
+                      <Comp
+                        {...ritem}
+                        onAnalytics={onAnalytics}
+                        onClick={() => {
+                          setOpen(false);
+                        }}
+                      />
+                    </li>
+                  );
+                })}
             </ul>
           </div>
         </div>

@@ -1,10 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { root } from 'qubejs-core/web';
-import Dialog from '../Dialog';
-import Icon from '../Icon';
-import LinkButton from '../ui/LinkButton';
-import Button from '../ui/Button';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -12,11 +7,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Collapse from '@mui/material/Collapse';
+import { Divider } from '@mui/material';
+import Icon from '../Icon';
+import LinkButton from '../ui/LinkButton';
+import Button from '../ui/Button';
 import {
   hasPermission,
   hasActive,
-  hasMatchingRoles,
-  checkChildren,
 } from './index';
 
 const linksComps = {
@@ -112,20 +109,26 @@ const LeftDrawer = ({
                 </React.Fragment>
               );
             })}
+            {rightItems &&
+              rightItems.map((ritem, idx) => {
+                let Comp = linksComps.LinkButton;
+                if (ritem === 'divider') {
+                  return <Divider />;
+                }
+                return (
+                  <ListItem disablePadding key={idx}>
+                    <ListItemButton onClick={handleItemClick}>
+                      <ListItemText>
+                        <Comp
+                          {...ritem}
+                          onAnalytics={onAnalytics}
+                        />
+                      </ListItemText>
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
           </List>
-          {rightItems &&
-            rightItems.map((ritem, idx) => {
-              let Comp = linksComps.LinkButton;
-              return (
-                <div key={idx}>
-                  <Comp
-                    {...ritem}
-                    onAnalytics={onAnalytics}
-                    onClick={handleItemClick}
-                  />
-                </div>
-              );
-            })}
         </nav>
       </Box>
     </>
