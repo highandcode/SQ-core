@@ -1,9 +1,9 @@
 const fs = require('fs-extra');
 const path = require('path');
-const { ArgsReader } = require('qubejs-core/scripts');
+// const ArgsReader = require('./args-reader');
 const paths = require('../config/paths');
-var packageJson = require('../package.json');
-var args = new ArgsReader().get();
+// var packageJson = require('../package.json');
+// var args = new ArgsReader().get();
 
 function copyFolderRecursiveSync(source, target = '.scss', preFix, ignore = ['node_modules', 'coverage', '.storybook', '.nyc_output', 'package-lock.json'], createFolder = true) {
   if (!fs.existsSync(source)) {
