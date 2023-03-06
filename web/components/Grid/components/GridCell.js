@@ -20,7 +20,7 @@ import { getFormatters } from '../../../utils/format';
 import { getValue } from '../../../utils/properties';
 import { getMap } from '../../ui';
 
-const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnalytics, onBlur, errors, onKeyPress, formatter = {} }) => {
+const GridCell = ({ column = {}, row, value, onChange, style, onClick, onAction, onAnalytics, onBlur, errors, onKeyPress, formatter = {} }) => {
   const CompMap = {
     Default,
     Text,
@@ -68,7 +68,7 @@ const GridCell = ({ column = {}, row, value, onChange, onClick, onAction, onAnal
   const { title, ...tooltipProps } = tooltip;
   const finalValTitle = getValue(this, title, row);
   return (
-    <div className={`sq-grid__data-cell ${getValue(this, className, row)}`} role="grid-cell">
+    <div className={`sq-grid__data-cell ${getValue(this, className, row)}`} role="grid-cell" style={style}>
       {finalValTitle && <Tooltip disableFocusListener disableTouchListener title={finalValTitle} {...tooltipProps}>
         <span>
           <CellComponent {...errors} {...component} value={newValue} row={row} column={column} onClick={_onClick} onChange={_onChange} onAnalytics={onAnalytics} onAction={_onAction} onKeyPress={_onKeyPress} onBlur={_Blur} />

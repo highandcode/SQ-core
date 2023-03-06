@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import GridCell from './GridCell';
 import { object } from '../../../utils';
 
-const Row = ({ columns = [], spacer = false, data = {}, onMouseOver, onMouseOut, onRowClick, onRowChange, onFieldBlur, onFieldClick, onFieldAction, onColumnChange, onChildRowRender, onAnalytics, className, wrapperClassName, errors = {} }) => {
+const Row = ({ columns = [],  dynamicWidth, spacer = false, data = {}, onMouseOver, onMouseOut, onRowClick, onRowChange, onFieldBlur, onFieldClick, onFieldAction, onColumnChange, onChildRowRender, onAnalytics, className, wrapperClassName, errors = {} }) => {
   const _onChange = (column, value) => {
     onColumnChange && onColumnChange(column, value, data);
     onRowChange &&
@@ -45,6 +45,7 @@ const Row = ({ columns = [], spacer = false, data = {}, onMouseOver, onMouseOut,
                 <GridCell
                   key={index}
                   column={column}
+                  style={dynamicWidth && dynamicWidth[column.name]}
                   {...column}
                   row={data}
                   errors={errors[column.name]}
