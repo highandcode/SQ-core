@@ -526,7 +526,7 @@ class Users extends BaseContainer {
               {
                 <Grid
                   onColFilterChange={this.onColFilterSelection}
-                  className="sq-basic-grid sq-grid--fixed"
+                  className="sq-basic-grid sq-grid--fixed sq-basic-grid--rounded"
                   sortColumn={this.state.currentSort.sortColumn}
                   sortOrder={this.state.currentSort.sortOrder}
                   enableSort={true}
