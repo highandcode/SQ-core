@@ -45,6 +45,7 @@ class Grid extends React.Component {
     this.onRightBody_Scroll = this.onRightBody_Scroll.bind(this);
     this.handleColSelChange = this.handleColSelChange.bind(this);
     this.onColumReorder = this.onColumReorder.bind(this);
+    this.onColResize = this.onColResize.bind(this);
   }
   onLeftBody_Scroll(e) {
     this.bodyRef.current.scrollTop = this.fixedLBodyRef.current.scrollTop;
@@ -211,13 +212,19 @@ class Grid extends React.Component {
     onSort && onSort(data, column);
   }
 
+  onColResize(width) {
+    this.setState({
+      dynamicWidth: width,
+    });
+  }
+
   renderHeader(columns, spacer) {
-    const { sortColumn, sortOrder, enableSort = false } = this.props;
+    const { allowResizeCols, sortColumn, sortOrder, enableSort = false } = this.props;
     let scrollbarWidth = 0;
     if (this.bodyRef?.current) {
       scrollbarWidth = this.bodyRef.current.offsetWidth - this.bodyRef.current.clientWidth;
     }
-    return <GridHeaderRow spacer={spacer} columns={columns} sortColumn={sortColumn} sortOrder={sortOrder} enableSort={enableSort} spacerWidth={scrollbarWidth} onSort={this.handleSort} />;
+    return <GridHeaderRow allowResizeCols={allowResizeCols} onColResize={this.onColResize} spacer={spacer} columns={columns} sortColumn={sortColumn} sortOrder={sortOrder} enableSort={enableSort} spacerWidth={scrollbarWidth} onSort={this.handleSort} />;
   }
 
   renderData(columns, data, rowConfig, spacer, disableLoader) {
@@ -317,6 +324,7 @@ class Grid extends React.Component {
         key={`${index}${this.state.updatedIndex}`}
         columns={columns}
         spacer={spacer}
+        dynamicWidth={this.state.dynamicWidth}
         className={`${finalClassName} ${this.hasActionClickRow() && this.state.hoverIndex === index ? 'hover' : ''}`}
         wrapperClassName={finalWrapperClassName}
         data={data}
