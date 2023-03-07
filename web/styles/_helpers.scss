@@ -87,3 +87,47 @@ $sides: (
 .w-auto {
   width: auto;
 }
+
+
+.divider-top {
+  border-top: solid 1px $sq-color-gray-lighter;
+  &.primary {
+    border-top: solid 1px $sq-color-primary-lighter;
+  }
+  &.secondary {
+    border-top: solid 1px $sq-color-secondary-lighter;
+  }
+  &.success {
+    border-top: solid 1px $sq-color-success-lighter;
+  }
+  &.error {
+    border-top: solid 1px $sq-color-error-lighter;
+  }
+  &.warning {
+    border-top: solid 1px $sq-color-warning-lighter;
+  }
+  &.info {
+    border-top: solid 1px $sq-color-info-lighter;
+  }
+}
+.divider-bottom {
+  border-bottom: solid 1px $sq-color-gray-lighter;
+  &.primary {
+    border-bottom: solid 1px $sq-color-primary-lighter;
+  }
+  &.secondary {
+    border-bottom: solid 1px $sq-color-secondary-lighter;
+  }
+  &.success {
+    border-bottom: solid 1px $sq-color-success-lighter;
+  }
+  &.error {
+    border-bottom: solid 1px $sq-color-error-lighter;
+  }
+  &.warning {
+    border-bottom: solid 1px $sq-color-warning-lighter;
+  }
+  &.info {
+    border-bottom: solid 1px $sq-color-info-lighter;
+  }
+}
