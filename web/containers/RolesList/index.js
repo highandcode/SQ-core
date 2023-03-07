@@ -314,7 +314,7 @@ class Roles extends BaseContainer {
                   enableSort={true}
                   onSort={this.handleOnSort}
                   onRowClick={this.onRowClick}
-                  className="sq-basic-grid sq-grid--fixed sq-basic-grid--rounded pt-wide"
+                  className="sq-basic-grid sq-grid--fixed sq-basic-grid--rounded sq-basic-grid"
                   loader={<Skeleton styleName={`grid-tran`} rows={5} />}
                   onAction={this.onGridAction}
                   columns={[
@@ -411,7 +411,7 @@ class Roles extends BaseContainer {
                   enableSort={true}
                   onSort={this.handleOnSort}
                   onRowClick={this.onRowClick}
-                  className="re-grid re-grid--default sq-grid--fixed"
+                  className="sq-basic-grid sq-basic-grid--default sq-basic-grid--rounded sq-grid--fixed pt-wide"
                   loader={<Skeleton styleName={`grid-tran`} rows={5} />}
                   onAction={this.onGridAction}
                   columns={[

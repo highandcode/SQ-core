@@ -267,7 +267,7 @@ class RoleDetails extends BaseContainer {
                 </div>
               )}
               <Grid
-                className="re-grid re-grid--default pt-wide"
+                className="sq-basic-grid sq-basic-grid--default sq-basic-grid--rounded pt-wide"
                 columns={[
                   {
                     name: 'icon',

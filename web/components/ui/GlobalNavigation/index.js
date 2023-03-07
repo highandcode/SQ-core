@@ -160,7 +160,7 @@ const GlobalNavigation = ({
               onClick={toggleMenu}
             >
               <span className={`sq-global-navigation__icon ${logo.className}`}>
-                <Icon name="list" variant={logo.variant} size="large" />
+                <Icon name="Menu" variant={logo.variant} size="large" />
               </span>
             </button>
           )}

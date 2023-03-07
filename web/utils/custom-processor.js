@@ -1,5 +1,4 @@
 const object = require('../../server/src/utils/object');
-
 class CustomProcessor {
   constructor() {
     this.processor = {
@@ -26,6 +25,13 @@ class CustomProcessor {
           return Array.isArray(value)
             ? value.map((i) => i[key]).join(',')
             : value;
+        },
+        extractDataArray: (result) => {
+          if (result.status === CONSTANTS.STATUS.SUCCESS) {
+            return {
+              pages: result.data.data,
+            };
+          }
         },
       },
       globals: {
