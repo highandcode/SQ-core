@@ -277,6 +277,15 @@
       max-height: 300px;
     }
   }
+  &--full-width {
+     .sq-hero-content__content-col {
+      flex-basis: 100%;
+    }
+    .sq-hero-content__content-image {
+      flex-grow: 1;
+      flex-basis: 100%;
+    }
+  }
   &--dark {
     background: $sq-color-primary-darker;
     color: $sq-color-muted-lightest;
