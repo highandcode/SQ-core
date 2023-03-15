@@ -1,31 +1,9 @@
 import { getValidators } from '../../../utils/validator';
 import _ from 'lodash';
 import { GLOBAL_OPTIONS } from '../../../globals';
-const allowedValidators = [
-  'required',
-  'equals',
-  'email',
-  'phone',
-  'internationalphone',
-  'fieldName',
-  'path',
-  'requiredArray',
-  'exists',
-  'notExists',
-  'digits',
-  'strongPassword',
-  'length',
-  'compareField',
-  'number',
-  'emailphone',
-  'emailinternationalphone',
-  'date',
-  'password',
-  'postalCN',
-  'regex',
-];
+const allowedValidators = ['required', 'equals', 'email', 'or', 'phone', 'internationalphone', 'fieldName', 'path', 'requiredArray', 'exists', 'notExists', 'digits', 'strongPassword', 'length', 'compareField', 'number', 'emailphone', 'emailinternationalphone', 'date', 'password', 'postalCN', 'regex'];
 
-export default () => ({
+const validatorExport = (inner) => ({
   name: 'validators',
   cmpType: 'FormList',
   label: 'Validators',
@@ -37,15 +15,26 @@ export default () => ({
       name: 'type',
       options: () =>
         _.sortBy(
-          _.filter(
-            Object.keys(getValidators()),
-            (item) => allowedValidators.indexOf(item) > -1
-          ).map((item) => ({
+          _.filter(Object.keys(getValidators()), (item) => allowedValidators.indexOf(item) > -1).map((item) => ({
             text: item,
             value: item,
           })),
           'text'
         ),
+    },
+    {
+      ...(!inner ? validatorExport(true) : {}),
+      name: 'validations',
+      match: {
+        type: {
+          validators: [
+            {
+              type: 'equals',
+              matchValue: 'or',
+            },
+          ],
+        },
+      },
     },
     {
       cmpType: 'Input',
@@ -103,7 +92,7 @@ export default () => ({
           validators: [
             {
               type: 'oneOf',
-              options: [ 'equals'],
+              options: ['equals'],
             },
           ],
         },
@@ -120,7 +109,7 @@ export default () => ({
           validators: [
             {
               type: 'oneOf',
-              options: [ 'compareField'],
+              options: ['compareField'],
             },
           ],
         },
@@ -150,7 +139,7 @@ export default () => ({
           validators: [
             {
               type: 'oneOf',
-              options: ['date','length'],
+              options: ['date', 'length'],
             },
           ],
         },
@@ -165,7 +154,7 @@ export default () => ({
           validators: [
             {
               type: 'oneOf',
-              options: ['date','length'],
+              options: ['date', 'length'],
             },
           ],
         },
@@ -213,3 +202,4 @@ export default () => ({
     },
   ],
 });
+export default validatorExport;

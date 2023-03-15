@@ -7,7 +7,7 @@ import IconButton from '../ui/IconButton';
 class FormObject extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: [], objMap: {}, objArray: {} };
+    this.state = { data: [], objMap: {}, objArray: {}, fullScreen: false };
     this.addNew = this.addNew.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.convertToObj = this.convertToObj.bind(this);
@@ -16,6 +16,7 @@ class FormObject extends Component {
     this.changeToArray = this.changeToArray.bind(this);
     this.formOnAction = this.formOnAction.bind(this);
     this.changeToObject = this.changeToObject.bind(this);
+    this.toggleFullScreen = this.toggleFullScreen.bind(this);
   }
   valueOnChange(data, key, isArray) {
     const { onChange, value = {} } = this.props;
@@ -167,11 +168,17 @@ class FormObject extends Component {
       });
   }
 
+  toggleFullScreen() {
+    this.setState({
+      fullScreen: !this.state.fullScreen,
+    });
+  }
+
   render() {
     const { className = '', label, fields, value = {}, formClassName = 'sq-form--keyval-mode', type, ...rest } = this.props;
     const isArray = this.isArray(value);
     return (
-      <div className={`sq-form-object ${className}`}>
+      <div className={`sq-form-object ${className} ${this.state.fullScreen ? 'sq-form-object--full-screen' : ''}`}>
         {label && <div className="sq-form-object__label mb-wide">{label}</div>}
         {value &&
           Object.keys(value).map((itemKey, idx) => {
@@ -221,6 +228,7 @@ class FormObject extends Component {
           })}
         <div className="sq-form-object__actions">
           <IconButton iconSize="small" iconName="add" onClick={() => this.addNew(isArray)} />
+          <IconButton iconSize="small" iconName={this.state.fullScreen ? 'FullscreenExit' : 'Fullscreen'} onClick={this.toggleFullScreen} />
           {!isArray && <IconButton iconSize="small" title={'Convert to array'} iconName="DataArray" color="info" size="small" onClick={() => this.changeToArray()} />}
           {isArray && <IconButton iconSize="small" title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.changeToObject()} />}
         </div>

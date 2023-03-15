@@ -67,4 +67,14 @@
       }
     }
   }
+  &--full-screen {
+    position: fixed;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: $z-index-level-topest;
+    background-color: white;
+  }
 }
