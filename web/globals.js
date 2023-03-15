@@ -144,6 +144,7 @@ export const GLOBAL_OPTIONS = {
     'sq-hero-content--bg-black': 'sq-hero-content--bg-black',
     'sq-hero-content--bg-gray': 'sq-hero-content--bg-gray',
     'sq-hero-content--dark': 'sq-hero-content--dark',
+    'sq-hero-content--full-width': 'sq-hero-content--full-width',
     'sq-hero-content--dark-secondary': 'sq-hero-content--dark-secondary',
   }),
   heroTemplates: new GlobalOptions({
