@@ -38,7 +38,6 @@ const LeftDrawer = ({
   };
 
   const handleItemClick = (item) => {
-    console.log('>>>>', item);
     onClick && onClick(item);
     openDrawer && handleDialogClose();
   };
