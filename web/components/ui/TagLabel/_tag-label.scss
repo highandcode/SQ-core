@@ -70,6 +70,37 @@
       background-color: $sq-color-error-lightest;
     }
   }
+  &--filled-dark {
+    
+    &.primary {
+      color: $white;
+      background-color: $sq-color-primary;
+    }
+    &.secondary {
+      color: $white;
+      background-color: $sq-color-secondary;
+    }
+    &.success {
+      color: $white;
+      background-color: $sq-color-success;
+    }
+    &.info {
+      color: $white;
+      background-color: $sq-color-info;
+    }
+    &.warning {
+      color: $white;
+      background-color: $sq-color-warning;
+    }
+    &.disabled {
+      color: $white;
+      background-color: $sq-color-gray;
+    }
+    &.error {
+      color: $white;
+      background-color: $sq-color-error;
+    }
+  }
   &--outlined {
     &.primary {
       color: $sq-color-primary-darkest;

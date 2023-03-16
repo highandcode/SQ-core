@@ -19,7 +19,7 @@ const Progress = ({ type = 'default', style = 'full-screen', text = '', color = 
   return (
     <div className={`tp-progress ${className} tp-progress--${style}`}>
       <CompToRender className="tp-progress__spinner" color={color} />
-      {overlay && <div className={`tp-progress__overlay ${overlayStyle}`}></div>}
+      {overlay && style !== 'static' && <div className={`tp-progress__overlay ${overlayStyle}`}></div>}
       {text && <div className="tp-progress__text">{text}</div>}
     </div>
   );
