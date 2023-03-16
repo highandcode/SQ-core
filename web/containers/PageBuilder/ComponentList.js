@@ -30,7 +30,6 @@ export const Component = ({ type, name, displayText, metaData, onSuccess }) => {
 };
 
 export const ComponentList = ({ onDrop, compList = {}, filter }) => {
-  console.log('>>>', filter);
   const grouped = _.groupBy(
     Object.keys(compList)
       .map((key) => {
