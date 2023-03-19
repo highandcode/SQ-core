@@ -2,7 +2,13 @@
   font-size: $t1-font-size;
   
 }
-
+@mixin ellipsis () {
+  width: 100%;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 @mixin style2-header() {
   font-size: $t2-font-size;
 }
