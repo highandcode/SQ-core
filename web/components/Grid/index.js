@@ -171,34 +171,34 @@ class Grid extends React.Component {
           <div className={`sq-grid__left-fixed ${this.state.hasLeftScrolled > 0 ? 'has-scrolled' : ''}`}>
             {this.hasData() && fixedLeftColumns.length > 0 && showHeader && (
               <div className="sq-grid__header" ref={this.fixedHeaderRef}>
-                {!this.isLoading() && this.renderHeader(fixedLeftColumns)}
+                {!this.isLoading() && this.renderHeader('lfix', fixedLeftColumns)}
               </div>
             )}
             <div className="sq-grid__body" ref={this.fixedLBodyRef}>
-              {this.hasData() && !this.isLoading() && fixedLeftColumns.length > 0 && <div className="sq-grid-body__wrapper">{this.renderData(fixedLeftColumns, data, rowConfig, undefined, true)}</div>}
+              {this.hasData() && !this.isLoading() && fixedLeftColumns.length > 0 && <div className="sq-grid-body__wrapper">{this.renderData('lfix', fixedLeftColumns, data, rowConfig, undefined, true)}</div>}
             </div>
           </div>
           <div className="sq-grid__center">
             {this.hasData() && showHeader && (
               <div className="sq-grid__header" ref={this.headerRef}>
-                {!this.isLoading() && this.renderHeader(otherColumns, true)}
+                {!this.isLoading() && this.renderHeader('center', otherColumns, true)}
               </div>
             )}
             <div className="sq-grid__body" ref={this.bodyRef}>
               {this.isLoading() && this.renderLoadingView()}
               <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
-                {!this.isLoading() && this.renderData(otherColumns, data, rowConfig, true)}
+                {!this.isLoading() && this.renderData('center', otherColumns, data, rowConfig, true)}
               </div>
             </div>
           </div>
           <div className={`sq-grid__right-fixed`}>
             {this.hasData() && fixedRightColumns.length > 0 && showHeader && (
               <div className="sq-grid__header" ref={this.fixedRHeaderRef}>
-                {!this.isLoading() && this.renderHeader(fixedRightColumns)}
+                {!this.isLoading() && this.renderHeader('rfix', fixedRightColumns)}
               </div>
             )}
             <div className="sq-grid__body" ref={this.fixedRBodyRef}>
-              {this.hasData() && fixedRightColumns.length > 0 && <div className="sq-grid-body__wrapper">{!this.isLoading() && this.renderData(fixedRightColumns, data, rowConfig, undefined, true)}</div>}
+              {this.hasData() && fixedRightColumns.length > 0 && <div className="sq-grid-body__wrapper">{!this.isLoading() && this.renderData('rfix', fixedRightColumns, data, rowConfig, undefined, true)}</div>}
             </div>
           </div>
         </div>
@@ -212,27 +212,30 @@ class Grid extends React.Component {
     onSort && onSort(data, column);
   }
 
-  onColResize(width) {
+  onColResize(width, name) {
     this.setState({
-      dynamicWidth: width,
+      dynamicWidth: {
+        ...this.state.dynamicWidth,
+        [name]: width,
+      },
     });
   }
 
-  renderHeader(columns, spacer) {
+  renderHeader(name, columns, spacer) {
     const { allowResizeCols, sortColumn, sortOrder, enableSort = false } = this.props;
     let scrollbarWidth = 0;
     if (this.bodyRef?.current) {
       scrollbarWidth = this.bodyRef.current.offsetWidth - this.bodyRef.current.clientWidth;
     }
-    return <GridHeaderRow allowResizeCols={allowResizeCols} onColResize={this.onColResize} spacer={spacer} columns={columns} sortColumn={sortColumn} sortOrder={sortOrder} enableSort={enableSort} spacerWidth={scrollbarWidth} onSort={this.handleSort} />;
+    return <GridHeaderRow allowResizeCols={allowResizeCols} onColResize={(w) => this.onColResize(w, name)} spacer={spacer} columns={columns} sortColumn={sortColumn} sortOrder={sortOrder} enableSort={enableSort} spacerWidth={scrollbarWidth} onSort={this.handleSort} />;
   }
 
-  renderData(columns, data, rowConfig, spacer, disableLoader) {
+  renderData(name, columns, data, rowConfig, spacer, disableLoader) {
     if (!this.hasData()) {
       return this.renderNoDataView();
     } else if (this.hasData()) {
       return data.map((rowData, index) => {
-        return this.renderRow(columns, rowData, rowConfig, index, spacer);
+        return this.renderRow(name, columns, rowData, rowConfig, index, spacer);
       });
     }
   }
@@ -303,7 +306,7 @@ class Grid extends React.Component {
     const { onAction } = this.props;
     onAction && onAction(row, action, column);
   }
-  renderRow(columns, data, rowConfig = {}, index, spacer) {
+  renderRow(name, columns, data, rowConfig = {}, index, spacer) {
     const { rowType, className = '', wrapperClassName = '' } = rowConfig;
     const RowComp = RowTypes[rowType] || RowTypes.GridRow;
     const finalClassName = getValue(this, className, data, columns);
@@ -324,7 +327,7 @@ class Grid extends React.Component {
         key={`${index}${this.state.updatedIndex}`}
         columns={columns}
         spacer={spacer}
-        dynamicWidth={this.state.dynamicWidth}
+        dynamicWidth={this.state.dynamicWidth && this.state.dynamicWidth[name]}
         className={`${finalClassName} ${this.hasActionClickRow() && this.state.hoverIndex === index ? 'hover' : ''}`}
         wrapperClassName={finalWrapperClassName}
         data={data}
