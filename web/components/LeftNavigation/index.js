@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 // import { root } from 'qubejs-core/web';
 import Dialog from '../Dialog';
 import Icon from '../Icon';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Tooltip from '@mui/material/Tooltip';
@@ -13,9 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Collapse from '@mui/material/Collapse';
 import Divider from '@mui/material/Divider';
-
+import LeftDrawer from './LeftDrawer';
 
 // const { Dialog, Icon } = root;
 
@@ -68,7 +64,7 @@ export const checkChildren = (children, path) => {
   return isActive;
 };
 
-const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], roles = [], openDrawer = false, onCloseDrawer }) => {
+const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], roles = [], rightItems, openDrawer = false, onCloseDrawer }) => {
   const [openItems, setOpenItems] = React.useState({});
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [menuItems, setMenuItems] = React.useState([]);
@@ -118,54 +114,11 @@ const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], role
         open={openDrawer}
         onClose={handleDialogClose}
       >
-        <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-          <nav>
-            <List>
-              {items.map((item, idx) => {
-                const isAllowed = hasPermission(item, { permissions, roles });
-                if (!isAllowed) {
-                  return undefined;
-                }
-                const isActive = hasActive(item);
-                const isOpen = openItems[idx] !== undefined ? openItems[idx] : isActive;
-                return (
-                  <React.Fragment key={idx}>
-                    <ListItem disablePadding>
-                      <ListItemButton
-                        onClick={() => {
-                          setOpenItems({
-                            ...openItems,
-                            [idx]: !(isOpen || openItems[idx]),
-                          });
-                        }}
-                      >
-                        <ListItemIcon>
-                          <Icon name={item.iconName} />
-                        </ListItemIcon>
-                        <ListItemText primary={item.header} />
-                        {item.children?.length > 0 ? isOpen ? <Icon name="arrow-up" /> : <Icon name="arrow-down" /> : undefined}
-                      </ListItemButton>
-                    </ListItem>
-                    {item.children?.length > 0 && (
-                      <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                          {renderListItem(item, idx, handleItemClick, { permissions, roles }, false)}
-                          {item.children.map((subItem, subIdx) => {
-                            return renderListItem(subItem, subIdx, handleItemClick, { permissions, roles }, false);
-                          })}
-                        </List>
-                      </Collapse>
-                    )}
-                  </React.Fragment>
-                );
-              })}
-            </List>
-          </nav>
-        </Box>
+        <LeftDrawer items={items} rightItems={rightItems} permissions={permissions} onClick={handleItemClick} />
       </Dialog>
       <div className="sq-global-left-navigation">
         {logo && <div className="sq-global-left-navigation__logo">
-          {logo.name && <Icon name={logo.name} />}
+          {logo.leftName && <Icon name={logo.leftName} />}
           {logo.image && <img src={logo.image} alt={logo.alt} />}
         </div>}
         <div className="sq-global-left-navigation__nav-container">
