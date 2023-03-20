@@ -165,7 +165,7 @@ const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], role
       </Dialog>
       <div className="sq-global-left-navigation">
         {logo && <div className="sq-global-left-navigation__logo">
-          {logo.name && <Icon name={logo.name} />}
+          {logo.leftName && <Icon name={logo.leftName} />}
           {logo.image && <img src={logo.image} alt={logo.alt} />}
         </div>}
         <div className="sq-global-left-navigation__nav-container">

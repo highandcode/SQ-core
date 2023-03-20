@@ -27,6 +27,7 @@ import ImageInfoSlider from './ui/ImageInfoSlider';
 import IconSelector from './IconSelector';
 import LabelValue from './LabelValue';
 import MoreActions from './MoreActions';
+import LeftNavigation from './LeftNavigation';
 import Notification from './Notification';
 import Progress from './Progress';
 import Repeater from './Repeater';
@@ -46,6 +47,7 @@ import CompRenderer from './ui/CompRenderer';
 import CustomButton from './ui/CustomButton';
 import DateNavigator from './ui/DateNavigator';
 import Breadcrumb from './BreadCrumb';
+import UserMenu from './UserMenu';
 import DatePicker from './ui/DatePicker';
 import DateSelector from './ui/DateSelector';
 import DropSelection from './ui/DropSelection';
@@ -181,6 +183,7 @@ export {
   TextFields,
   DataField,
   DataFieldList,
+  LeftNavigation,
   HTML,
   FileUploader,
   DropZoneFile,
@@ -189,4 +192,5 @@ export {
   ImageWithSpotlight,
   FormList,
   Breadcrumb,
+  UserMenu,
 };
