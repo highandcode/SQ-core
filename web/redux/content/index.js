@@ -227,14 +227,14 @@ export const updateErrorData = (data) => (dispatch) => {
   dispatch(updateUserData(errors));
 };
 
-export const checkAndPostApi = (data) => async (dispatch) => {
+export const checkAndPostApi = (data, pageData) => async (dispatch) => {
   const result = [];
   if (Array.isArray(data)) {
     data.forEach((item) => {
-      result.push(dispatch(postApi(item)));
+      result.push(dispatch(postApi(item, pageData)));
     });
   } else {
-    result.push(dispatch(postApi(data)));
+    result.push(dispatch(postApi(data, pageData)));
   }
   return Promise.all(result);
 };
@@ -339,7 +339,7 @@ export const executeHook = (payload) => async (dispatch, getState) => {
   return response;
 };
 
-export const postApi = (payload) => async (dispatch, getState) => {
+export const postApi = (payload, pageResponse) => async (dispatch, getState) => {
   if (payload.match) {
     const validator = new Validator(payload.match);
     validator.setValues(selectUserData(getState()));
@@ -485,14 +485,20 @@ export const postApi = (payload) => async (dispatch, getState) => {
   } else if (response.status === 'error') {
     await dispatch(updateErrorData(response.error));
   }
+  if (payload.runInit) {
+    dispatch(mergeUserData(pageResponse?.pageData?.init));
+  }
+  if (payload.runMerge) {
+    dispatch(mergeUserData(pageResponse?.pageData?.merge));
+  }
   if (payload.after) {
-    dispatch(checkAndPostApi(payload.after));
+    dispatch(checkAndPostApi(payload.after, pageResponse));
   }
 
   return response;
 };
 
-export const downloadApi = (payload) => async (dispatch, getState) => {
+export const downloadApi = (payload, pageResponse) => async (dispatch, getState) => {
   if (payload.match) {
     const validator = new Validator(payload.match);
     validator.setValues(selectUserData(getState()));
@@ -657,8 +663,14 @@ export const downloadApi = (payload) => async (dispatch, getState) => {
   } else if (response.status === 'error') {
     await dispatch(updateErrorData(response.error));
   }
+  if (payload.runInit) {
+    dispatch(mergeUserData(pageResponse?.pageData?.init));
+  }
+  if (payload.runMerge) {
+    dispatch(mergeUserData(pageResponse?.pageData?.merge));
+  }
   if (payload.after) {
-    dispatch(checkAndPostApi(payload.after));
+    dispatch(checkAndPostApi(payload.after, pageResponse));
   }
   return response;
 };

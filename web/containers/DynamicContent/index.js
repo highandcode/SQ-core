@@ -93,7 +93,7 @@ class DynamicContent extends Component {
   }
 
   postApi(data) {
-    return this.props.contentActions.postApi(data);
+    return this.props.contentActions.postApi(data, this.state.pageData);
   }
 
   async refreshPage(forceLoad) {
@@ -357,7 +357,7 @@ class DynamicContent extends Component {
         await this.props.contentActions.updateUserData({
           isSubmitting: true,
         });
-        result = await this.props.contentActions.downloadApi(action);
+        result = await this.props.contentActions.downloadApi(action, this.state.pageData);
         await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
         await this.props.contentActions.updateUserData({
           isSubmitting: false,
@@ -376,7 +376,7 @@ class DynamicContent extends Component {
         await this.props.contentActions.updateUserData({
           isSubmitting: true,
         });
-        result = await this.props.contentActions.postApi(action);
+        result = await this.props.contentActions.postApi(action, this.state.pageData);
         await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
         await this.props.contentActions.updateUserData({
           isSubmitting: false,
@@ -421,7 +421,7 @@ class DynamicContent extends Component {
           await this.props.contentActions.updateUserData({
             isSubmitting: true,
           });
-          result = await this.props.contentActions.postApi(action);
+          result = await this.props.contentActions.postApi(action, this.state.pageData);
           await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
           await this.props.contentActions.updateUserData({
             isSubmitting: false,
@@ -436,7 +436,7 @@ class DynamicContent extends Component {
           await this.props.contentActions.updateUserData({
             isSubmitting: true,
           });
-          result = await this.props.contentActions.postApi(action);
+          result = await this.props.contentActions.postApi(action, this.state.pageData);
           await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
           await this.props.contentActions.updateUserData({
             isSubmitting: false,
@@ -575,8 +575,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     contentActions: {
-      postApi: (data) => dispatch(postApi(data)),
-      downloadApi: (data) => dispatch(downloadApi(data)),
+      postApi: (data, pageData) => dispatch(postApi(data, pageData)),
+      downloadApi: (data, pageData) => dispatch(downloadApi(data, pageData)),
       updateMetaData: (data) => dispatch(updateMetaData(data)),
       executeHook: (data) => dispatch(executeHook(data)),
       fetchContentPage: (data) => dispatch(fetchContentPage(data)),

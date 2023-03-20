@@ -75,7 +75,7 @@ class PageListing extends BaseContainer {
         utils.redirect.redirectTo(row.type === 'SITE_MAP' ? pageData.editSiteMap || 'editSiteMap' : pageData.editPage || 'editPage', {
           path: row.path,
           pageId: row.pageId /* replace with data.uid */,
-        });
+        }, { target: '_blank' });
         break;
       case 'preview':
         utils.redirect.redirectTo(row.path, {}, { target: '_blank' });
