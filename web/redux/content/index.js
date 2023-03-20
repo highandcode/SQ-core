@@ -181,9 +181,9 @@ export const fetchContentPage = createAsyncThunk(
 
     let response = await fetchJsonPath({ url: fullUrl });
     if (response.error) {
-      if (window.APP_CONFIG?.siteMap?.errorRedirects[response.code]) {
+      if (window.APP_CONFIG?.siteMap.siteMap?.errorRedirects[response.code]) {
         response = await fetchJsonPath({
-          url: window.APP_CONFIG?.siteMap?.errorRedirects[response.code],
+          url: window.APP_CONFIG?.siteMap.siteMap?.errorRedirects[response.code],
         });
       }
     }
