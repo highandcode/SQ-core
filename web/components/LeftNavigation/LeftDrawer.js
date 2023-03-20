@@ -11,25 +11,13 @@ import { Divider } from '@mui/material';
 import Icon from '../Icon';
 import LinkButton from '../ui/LinkButton';
 import Button from '../ui/Button';
-import {
-  hasPermission,
-  hasActive,
-} from './index';
+import { hasPermission, hasActive } from './index';
 
 const linksComps = {
   Button,
   LinkButton,
 };
-const LeftDrawer = ({
-  items = [],
-  onClick,
-  permissions = [],
-  roles = [],
-  openDrawer = false,
-  onCloseDrawer,
-  rightItems = [],
-  onAnalytics,
-}) => {
+const LeftDrawer = ({ items = [], onClick, permissions = [], roles = [], openDrawer = false, onCloseDrawer, rightItems = [], onAnalytics }) => {
   const [openItems, setOpenItems] = React.useState({});
 
   const handleDialogClose = () => {
@@ -53,15 +41,13 @@ const LeftDrawer = ({
                 return undefined;
               }
               const isActive = hasActive(item);
-              const isOpen =
-                openItems[idx] !== undefined ? openItems[idx] : isActive;
+              const isOpen = openItems[idx] !== undefined ? openItems[idx] : isActive;
               return (
                 <React.Fragment key={idx}>
                   <ListItem disablePadding>
                     <ListItemButton
                       onClick={() => {
-                        (!item.children || item.children?.length === 0) &&
-                          handleItemClick(item);
+                        (!item.children || item.children?.length === 0) && handleItemClick(item);
                         setOpenItems({
                           ...openItems,
                           [idx]: !(isOpen || openItems[idx]),
@@ -74,33 +60,22 @@ const LeftDrawer = ({
                         </ListItemIcon>
                       )}
                       <ListItemText primary={item.header || item.title} />
-                      {item.children?.length > 0 ? (
-                        isOpen ? (
-                          <Icon name="arrow-up" />
-                        ) : (
-                          <Icon name="arrow-down" />
-                        )
-                      ) : undefined}
+                      {item.children?.length > 0 ? isOpen ? <Icon name="arrow-up" /> : <Icon name="arrow-down" /> : undefined}
                     </ListItemButton>
                   </ListItem>
                   {item.children?.length > 0 && (
-                    <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                      <List component="div" disablePadding>
-                        {renderListItem(
-                          item,
-                          idx,
-                          handleItemClick,
-                          { permissions, roles },
-                          false
-                        )}
+                    <Collapse
+                      in={isOpen}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <List
+                        component="div"
+                        disablePadding
+                      >
+                        {renderListItem(item, idx, handleItemClick, { permissions, roles }, false)}
                         {item.children.map((subItem, subIdx) => {
-                          return renderListItem(
-                            subItem,
-                            subIdx,
-                            handleItemClick,
-                            { permissions, roles },
-                            false
-                          );
+                          return renderListItem(subItem, subIdx, handleItemClick, { permissions, roles }, false);
                         })}
                       </List>
                     </Collapse>
@@ -115,8 +90,11 @@ const LeftDrawer = ({
                   return <Divider />;
                 }
                 return (
-                  <ListItem disablePadding key={idx}>
-                    <ListItemButton onClick={handleItemClick}>
+                  <ListItem
+                    disablePadding
+                    key={idx}
+                  >
+                    <ListItemButton onClick={() => handleItemClick(ritem)}>
                       <ListItemText>
                         <Comp
                           {...ritem}
