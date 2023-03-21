@@ -19,7 +19,6 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
 
 
   const handleBlur = () => {
-    console.log('@@@blur', allowFreeText, inputValue, value);
     if (allowFreeText && inputValue) {
       onChange &&
         onChange({
@@ -60,7 +59,7 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
         }}
         inputValue={inputValue}
         onBlur={handleBlur}
-        freeSolo={freeSolo || multiple}
+        freeSolo={freeSolo}
         autoSelect={multiple}
         multiple={multiple}
         options={finalOptions}
