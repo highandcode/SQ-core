@@ -44,7 +44,7 @@ export const hasPermission = (item, options, children = true) => {
 
   children &&
     item?.children?.forEach((childItem) => {
-      if (!item.hideInMenu && options.permissions.indexOf(childItem.key) > -1 && (hasMatchingRoles(item.roles, options.roles) || !item.roles)) {
+      if (!childItem.hideInMenu && options.permissions.indexOf(childItem.key) > -1 && (hasMatchingRoles(item.roles, options.roles) || !item.roles)) {
         result = true;
       }
     });
