@@ -31,7 +31,7 @@ const UserMenu = ({ user, onAction, listOfActions, className }) => {
       <Tooltip title={`${user?.firstName} ${user?.lastName}`}>
         <IconButton onClick={handleClick} className={className}>
           <Avatar sx={{ width: 32, height: 32 }}>
-            {user?.firstName.substr(0, 1).toUpperCase()}
+            {user?.firstName ? user?.firstName.substr(0, 1).toUpperCase() : 'U'}
           </Avatar>
         </IconButton>
       </Tooltip>
