@@ -153,6 +153,8 @@ $screen-md: 1024px!default;
 $screen-lg: 1280px!default;
 $screen-xlg: 1440px!default;
 
+$screen-max: $screen-lg;
+
 // Typography
 
 $sq-text-color: $gray-base!default;
