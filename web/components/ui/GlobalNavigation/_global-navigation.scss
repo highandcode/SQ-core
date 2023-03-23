@@ -127,7 +127,7 @@ $sq-global-navigation-nav-color: $black;
       color: $sq-global-navigation-nav-color;
     }
     &--active {
-      .sq-link {
+      .sq-global-navigation__item-wrapper > .sq-link {
         color: $link-hover-color;
       }
     }
