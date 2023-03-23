@@ -4,6 +4,8 @@ import { FileUploader } from 'react-drag-drop-files';
 import Button from '../Button';
 import Tooltip from '@mui/material/Tooltip';
 import Icon from '../../Icon';
+import Alert from '../../Alert';
+import Progress from '../../Progress';
 
 const SQFileUploader = ({
   className = '',
@@ -28,10 +30,18 @@ const SQFileUploader = ({
   clearButtonText = 'Clear',
   uploadOnChange = false,
   onChange,
+  uploadSuccessMessage,
+  uploadFailedMessage,
+  successMessageType = 'info',
+  enableLoader = false,
+  errorMessageType = 'warning',
   value,
   ...rest
 }) => {
   const [file, setFile] = useState([]);
+  const [sucessCalled, setSuccessCalled] = useState(false);
+  const [progress, setProgress] = useState(false);
+  const [failedCalled, setFailedCalled] = useState(false);
   const handleChange = async (filenew) => {
     const takeOne = multiple ? filenew : [filenew];
     let listToBeAdded = [].filter.call(takeOne, (i) => file.filter((d)=>d.name === i.name).length === 0);  
@@ -52,15 +62,23 @@ const SQFileUploader = ({
       onChange({
         value: data,
       });
+    setSuccessCalled(true);
+    setProgress(false);
+    setFailedCalled(false);
   };
   const failed = () => {
     onChange &&
       onChange({
         value: null,
       });
+    setSuccessCalled(false);
+    setFailedCalled(true);
+    setProgress(false);
+
   };
 
   const handleAction = (obj) => {
+    setProgress(true);
     onAction &&
       onAction({}, {
         ...rest,
@@ -78,7 +96,7 @@ const SQFileUploader = ({
 
   return (
     <div className={`sq-file-uploader ${className}`}>
-      <Tooltip title={fileTypes.join(', ').toLowerCase()}>
+      {<Tooltip title={fileTypes.join(', ').toLowerCase()}>
         <span>
           <FileUploader
             disabled={disabled}
@@ -90,7 +108,8 @@ const SQFileUploader = ({
             types={fileTypes}
           />
         </span>
-      </Tooltip>
+      </Tooltip>}
+      {enableLoader && progress && <Progress className='tp-progress--active' style='default' />}
       {file && (
         <div className="sq-file-uploader__list">
           {file.map((file) => {
@@ -127,6 +146,8 @@ const SQFileUploader = ({
         onClick={handleClear}
         buttonText={clearButtonText}
       />}
+      {uploadSuccessMessage && sucessCalled && <Alert type={successMessageType} message={uploadSuccessMessage} />}
+      {uploadFailedMessage && failedCalled && <Alert type={errorMessageType} message={uploadFailedMessage} />}
     </div>
   );
 };

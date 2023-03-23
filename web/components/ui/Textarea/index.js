@@ -74,7 +74,7 @@ class TextareaField extends React.Component {
 
   render() {
     const { focused } = this.state;
-    const { errorMessage, label, className = '', formatter, ...rest } = this.props;
+    const { errorMessage, label, className = '', formatter, rows = 3, ...rest } = this.props;
     let formatteedValue = this.state.value;
     return (
       <div className={`sq-textarea-field${focused ? ' sq-textarea-field--focused' : ''} ${className}`}>
@@ -82,6 +82,7 @@ class TextareaField extends React.Component {
         <TextareaAutosize
           className="sq-textarea-field__textarea"
           variant="outlined"
+          minRows={rows}
           {...rest}
           error={rest.error}
           value={formatteedValue}

@@ -498,6 +498,109 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
   return response;
 };
 
+export const uploadApi = (payload, pageResponse) => async (dispatch, getState) => {
+  if (payload.match) {
+    const validator = new Validator(payload.match);
+    validator.setValues(selectUserData(getState()));
+    if (!validator.validateAll()) {
+      return;
+    }
+  }
+  if (payload.preCall) {
+    await dispatch(
+      mergeUserData({
+        ...payload.preCall,
+      })
+    );
+  }
+  let response = { status: 'success', data: {} };
+  if (payload.preHook) {
+    response = await customHooks.execute(payload.preHook, response, {
+      state: getState(),
+      payload,
+      data: {
+        params: processParams(getState().content.userData, payload.params, undefined, getState()),
+        headers: processParams(getState().content.userData, payload.headers, undefined, getState()),
+        query: processParams(getState().content.userData, payload.query, undefined, getState()),
+      },
+      userData: getState().content.userData,
+      dispatch,
+      getState,
+    });
+  }
+  if (payload.url) {
+    let paramToProcess = { method: payload.method, url: payload.url };
+    paramToProcess = processParams(getState().content.userData, paramToProcess, undefined, getState());
+    let formData = new FormData();
+    payload.data.files.forEach((file) => {
+      formData.append('file', file);
+    });
+    response = await utils.apiBridge.rawPost(paramToProcess.url, formData, processParams(getState().content.userData, payload.headers, undefined, getState()), { fileName: payload.data.files.map((i)=>i.name), ...processParams(getState().content.userData, payload.params, undefined, getState()) });
+  }
+
+  if (payload.postHook) {
+    response = await customHooks.execute(payload.postHook, response, {
+      state: getState(),
+      payload,
+      data: {
+        params: processParams(getState().content.userData, payload.params, undefined, getState()),
+        headers: processParams(getState().content.userData, payload.headers, undefined, getState()),
+        query: processParams(getState().content.userData, payload.query, undefined, getState()),
+      },
+      userData: getState().content.userData,
+      dispatch,
+      getState,
+    });
+  }
+
+  response = object.extendData(payload.defaultResponse && (payload.defaultResponse[response.status] || payload.defaultResponse.error), response);
+
+  const { notification } = response || {};
+  if (notification) {
+    await dispatch(showNotificationMessage(notification));
+  }
+
+  if (payload.postCall) {
+    await dispatch(
+      mergeUserData({
+        ...payload.postCall,
+      })
+    );
+  }
+  if (response.status === 'success') {
+    const data = payload.dataKey ? { [payload.dataKey]: response.data } : response.data;
+    payload.success && payload.success(response.data);
+    if (payload.saveType === 'protected') {
+      await dispatch(
+        updateProtectedUserData({
+          ...data,
+        })
+      );
+    } else {
+      await dispatch(
+        updateUserData({
+          ...data,
+          lastError: {},
+        })
+      );
+    }
+  } else if (response.status === 'error') {
+    payload.failed && payload.failed(response.error);
+    await dispatch(updateErrorData(response.error));
+  }
+  if (payload.runInit) {
+    dispatch(mergeUserData(pageResponse?.pageData?.init));
+  }
+  if (payload.runMerge) {
+    dispatch(mergeUserData(pageResponse?.pageData?.merge));
+  }
+  if (payload.after) {
+    dispatch(checkAndPostApi(payload.after, pageResponse));
+  }
+
+  return response;
+};
+
 export const downloadApi = (payload, pageResponse) => async (dispatch, getState) => {
   if (payload.match) {
     const validator = new Validator(payload.match);

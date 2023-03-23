@@ -9,7 +9,12 @@ class QueryString {
     var str = '';
     if (this.isObject) {
       Object.keys(this.input).forEach((key) => {
-        if (typeof this.input[key] !== 'undefined') {
+        if (Array.isArray(this.input[key])) {
+          this.input[key].forEach((itemVal) => {
+            str +=
+            (str ? '&' : '') + key + '=' + encodeURIComponent(itemVal);
+          })
+        } else if (typeof this.input[key] !== 'undefined') {
           str +=
             (str ? '&' : '') + key + '=' + encodeURIComponent(this.input[key]);
         }

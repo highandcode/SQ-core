@@ -9,7 +9,7 @@ import Default from './Default';
 import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
 import { events } from '../../utils/app-events';
-import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
+import { fetchContentPage, uploadApi, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
 
 import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
 
@@ -353,6 +353,25 @@ class DynamicContent extends Component {
     let result;
     let isValid = true;
     switch (action.actionType) {
+      case 'file-upload':
+        await this.props.contentActions.updateUserData({
+          isUploadingFile: true,
+        });
+        result = await this.props.contentActions.uploadApi(action, this.state.pageData);
+        await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
+        await this.props.contentActions.updateUserData({
+          isUploadingFile: false,
+        });
+        if (result.status === 'success') {
+          const data = action.dataKey ? { [action.dataKey]: result.data } : result.data;
+          await this.props.contentActions.updateUserData({
+            ...data,
+            lastError: {},
+          });
+        }
+        this.checkForInlineErrors(result, action);
+        this.validateResults(result);
+        break;
       case 'download-doc':
         await this.props.contentActions.updateUserData({
           isSubmitting: true,
@@ -577,6 +596,7 @@ const mapDispatchToProps = (dispatch) => {
     contentActions: {
       postApi: (data, pageData) => dispatch(postApi(data, pageData)),
       downloadApi: (data, pageData) => dispatch(downloadApi(data, pageData)),
+      uploadApi: (data, pageData) => dispatch(uploadApi(data, pageData)),
       updateMetaData: (data) => dispatch(updateMetaData(data)),
       executeHook: (data) => dispatch(executeHook(data)),
       fetchContentPage: (data) => dispatch(fetchContentPage(data)),

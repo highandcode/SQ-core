@@ -5,6 +5,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Icon from '../Icon';
 import { getValue } from '../../utils/properties';
+import { Validator } from '../../utils/validator';
 
 
 class SQTabs extends React.Component {
@@ -45,7 +46,7 @@ class SQTabs extends React.Component {
   }
 
   render() {
-    const { options = [], className = '', textField = 'text', valueField = 'value', iconOnly = false, row } = this.props;
+    const { options = [], className = '', textField = 'text', valueField = 'value', iconOnly = false, row, userData } = this.props;
     const finalOptions = getValue(this, options, row);
     return (
       <div className={`sq-tabs ${className}`}>
@@ -56,10 +57,24 @@ class SQTabs extends React.Component {
           className={'sq-tabs__root'}
         >
           {finalOptions && finalOptions.map((tab, idx) => {
-            const { [textField]: text, [valueField]: value, className, iconName, icon: iconConfig = {}, ...rest } = tab;
+            const { [textField]: text, [valueField]: value, className, iconName, icon: iconConfig = {}, disabled, match, ...rest } = tab;
             const { ...icon } = iconConfig;
+            let finalDisabled = disabled;
+            if (typeof (disabled) === 'object' && disabled.match) {
+              const validator = new Validator(disabled.match);
+              validator.setValues({ ...userData, ...tab });
+              finalDisabled = validator.validateAll();
+            }
+            let isRender = true;
+            if (typeof (match) === 'object' && match) {
+              const validator = new Validator(match);
+              validator.setValues({ ...userData, ...tab });
+              isRender = validator.validateAll();
+            }
             const IconToRender = iconName && <Icon name={iconName} variant="normal" {...icon} />;
-            return <Tab key={'tab' + idx} value={value} arial-label={text} label={!iconOnly ? text : ''} icon={IconToRender} className={className} />;
+            if (isRender) {
+              return <Tab key={'tab' + idx} value={value} arial-label={text} label={!iconOnly ? text : ''} icon={IconToRender} className={className} disabled={finalDisabled} {...rest} />;
+            }
           })}
         </Tabs>
       </div>
