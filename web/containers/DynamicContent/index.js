@@ -540,14 +540,15 @@ class DynamicContent extends Component {
       ...dataPacket,
       contentPage: true,
     };
+    const { root = {} } = userData;
     const { pageData = {}, metaData } = this.state.pageData;
-    const dynamicParams = processParams(userData, pageData.inject || {});
+    const dynamicParams = processParams(userData, {...root.merge, ...pageData.inject} || {});
     const { classes = {}, ...restDynamic } = dynamicParams;
     const updatedPageData = { ...pageData, ...restDynamic };
     const { container, containerTemplate, contentBodyClass = '', rootClassName = '', transition = {} } = updatedPageData;
     const ContentTemplateContainer = containers[overrideContainerTemplate || containerTemplate] || containers.Default;
     const ContentContainer = containers[container] || DefaultContent;
-    const { out: tranOut = 'out-up', in: tranIn = 'out-in', loading = 'loading' } = transition;
+    const { out: tranOut = 'out-up', in: tranIn = 'out-in', loading = 'loading', loadingColor = 'primary' } = transition;
     const classState = this.state.isOut ? `transition transition-page--${tranOut}` : this.state.isIn ? `transition transition-page--${tranIn}` : '';
     const loadingState = this.state.isLoading ? `transition transition-page--${loading}` : '';
     return (
@@ -569,7 +570,7 @@ class DynamicContent extends Component {
             <ContentContainer {...allProps} pageData={updatedPageData} metaData={metaData} data={this.state.pageData} userData={userData} pageState={this.state.page} onChange={this.onChange} onAction={this.onAction} />
           </div>
         </ContentTemplateContainer>
-        {this.state.isLoading && <Progress className={`${classes.progress || ''}`} style={'fixed'} overlayStyle="full" />}
+        {this.state.isLoading && <Progress color={loadingColor} className={`${classes.progress || ''}`} style={'fixed'} overlayStyle="full" />}
       </div>
     );
   }
