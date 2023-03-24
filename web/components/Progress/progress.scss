@@ -9,6 +9,13 @@
   &--active {
     display: block !important;
   }
+  &--full-screen {
+    .tp-progress__overlay {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+    }
+  }
   &--fixed {
     position: fixed;
     .tp-progress__spinner {

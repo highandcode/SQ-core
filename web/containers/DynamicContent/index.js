@@ -305,6 +305,18 @@ class DynamicContent extends Component {
     let fullValid = true;
     let allErros = {};
     let validators = {};
+    let blockMatch = true;
+    if (block.match && !block.forceValidate) {
+      const valid = new Validator(block.match);
+      valid.setValues({
+        ...this.getUpdatedUserData(),
+        ...value[block.name],
+      });
+      blockMatch = valid.validateAll();
+    }
+    if (!blockMatch) {
+      return true;
+    }
     block.fields?.forEach((item) => {
       let hasMatch = true;
       if (item.match) {
