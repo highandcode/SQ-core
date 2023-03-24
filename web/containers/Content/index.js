@@ -9,7 +9,6 @@ import { addComp as addUIComp, getMap as getUIMap } from '../../components/ui';
 import ErrorBoundary from '../../components/ErrorBoundry';
 import Dialog from '../../components/Dialog';
 
-
 class Content extends Component {
   constructor() {
     super();
@@ -29,9 +28,10 @@ class Content extends Component {
 
   onChange(value, field, block) {
     const { onChange } = this.props;
+    const { checkForAction = true } = value || {};
     let allForms = this.getForms(this.props.pageData.items);
     onChange && onChange(value, field, { ...block, forms: allForms });
-    if (value.checkForAction === false) {
+    if (checkForAction === true) {
       this.checkForAction(value, { ...block, forms: allForms }, field);
     }
   }
@@ -106,7 +106,12 @@ class Content extends Component {
   }
 
   render() {
-    const { pageData = {}, location, keyPressChange = true, ...rest } = this.props;
+    const {
+      pageData = {},
+      location,
+      keyPressChange = true,
+      ...rest
+    } = this.props;
     const { userData = {} } = rest;
     const { className = '' } = pageData;
     const compMap = { ...getMap(), ...getUIMap() };
@@ -144,16 +149,17 @@ class Content extends Component {
                     this.onAction(value, action, overrideBlock || block);
                   }}
                   onFieldKeyPress={(value, field, data) => {
-                    keyPressChange && this.onChange(
-                      {
-                        value: {
-                          ...data,
-                          [field.name]: value.value,
+                    keyPressChange &&
+                      this.onChange(
+                        {
+                          value: {
+                            ...data,
+                            [field.name]: value.value,
+                          },
                         },
-                      },
-                      field,
-                      block
-                    );
+                        field,
+                        block
+                      );
                   }}
                 />
               </ErrorBoundary>
