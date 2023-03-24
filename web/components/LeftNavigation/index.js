@@ -36,15 +36,15 @@ export const hasMatchingRoles = (roles, userRoles) => {
   return hasRole;
 };
 
-export const hasPermission = (item, options, children = true) => {
+export const hasPermission = (item, options = {}, children = true) => {
   let result = false;
-  if (!item.hideInMenu && (options.permissions.indexOf(item.key) > -1 || !item.key) && (hasMatchingRoles(item.roles, options.roles) || !item.roles)) {
+  if (!item.hideInMenu && (options?.permissions?.indexOf(item.key) > -1 || !item.key) && (hasMatchingRoles(item.roles, options.roles) || !item.roles)) {
     return true;
   }
 
   children &&
     item?.children?.forEach((childItem) => {
-      if (!childItem.hideInMenu && options.permissions.indexOf(childItem.key) > -1 && (hasMatchingRoles(item.roles, options.roles) || !item.roles)) {
+      if (!childItem.hideInMenu && options?.permissions?.indexOf(childItem.key) > -1 && (hasMatchingRoles(item.roles, options.roles) || !item.roles)) {
         result = true;
       }
     });

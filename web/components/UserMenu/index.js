@@ -9,8 +9,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
 import Icon from '../../components/Icon';
+import { hasPermission } from '../LeftNavigation';
 
-const UserMenu = ({ user, onAction, listOfActions, className }) => {
+const UserMenu = ({ user, onAction, listOfActions, buttonClassName = '', className = '', permissions }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const open = Boolean(anchorEl);
@@ -27,11 +28,11 @@ const UserMenu = ({ user, onAction, listOfActions, className }) => {
   };
 
   return (
-    <div className="sq-user-menu">
+    <div className={`sq-user-menu ${className}`}>
       <Tooltip title={`${user?.firstName} ${user?.lastName}`}>
-        <IconButton onClick={handleClick} className={className}>
+        <IconButton onClick={handleClick} className={buttonClassName}>
           <Avatar sx={{ width: 32, height: 32 }}>
-            {user?.firstName ? user?.firstName.substr(0, 1).toUpperCase() : 'U'}
+            {user?.firstName ? user?.firstName?.substr(0, 1).toUpperCase() : 'U'}
           </Avatar>
         </IconButton>
       </Tooltip>
@@ -68,6 +69,10 @@ const UserMenu = ({ user, onAction, listOfActions, className }) => {
         {listOfActions.map((action, key) => {
           if (action === 'divider') {
             return <Divider key={key} />;
+          }
+          const isAllowed = hasPermission(action, {permissions});
+          if (!isAllowed) {
+            return;
           }
           return (
             <MenuItem key={key} onClick={(e) => handleItemClick(e, action)}>

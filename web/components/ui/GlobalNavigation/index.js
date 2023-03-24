@@ -9,7 +9,8 @@ import { redirectTo } from '../../../utils/redirect';
 import useSticky from './useSticky';
 import { hasPermission, hasActive } from '../../LeftNavigation';
 import LeftDrawer from '../../LeftNavigation/LeftDrawer';
-import UserMenu from './UserMenu';
+import UserMenu from '../../UserMenu';
+
 const renderSubNav = (item, isHover, callback, options) => {
   let iconName = !isHover ? 'expand' : 'collapse';
   return (
@@ -195,7 +196,7 @@ const GlobalNavigation = ({
               mobileItems.map((ritem, idx) => {
                 let Comp = linksComps.LinkButton;
                 if (ritem === 'UserMenu') {
-                  return <UserMenu key={idx} listOfActions={rightItems} user={user} onAction={handleAction} />
+                  return <UserMenu key={idx} listOfActions={rightItems} user={user} onAction={handleAction} permissions={permissions} />
                 }
                 return idx === 0 ? (
                   <li key={idx}>
@@ -267,7 +268,7 @@ const GlobalNavigation = ({
                 })}
             </ul>
             <ul className="sq-global-navigation__nav sq-global-navigation__nav--right">
-              {user && <UserMenu listOfActions={rightItems} user={user} onAction={handleAction} />}
+              {user && <UserMenu listOfActions={rightItems} user={user} onAction={handleAction} permissions={permissions} />}
               {!user && rightItems &&
                 rightItems.map((ritem, idx) => {
                   let Comp = linksComps.LinkButton;
