@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Icon from '../../components/Icon';
 import { hasPermission } from '../LeftNavigation';
 
-const UserMenu = ({ user, onAction, listOfActions, className, permissions }) => {
+const UserMenu = ({ user, onAction, listOfActions, buttonClassName = '', className = '', permissions }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const open = Boolean(anchorEl);
@@ -28,11 +28,11 @@ const UserMenu = ({ user, onAction, listOfActions, className, permissions }) => 
   };
 
   return (
-    <div className="sq-user-menu">
+    <div className={`sq-user-menu ${className}`}>
       <Tooltip title={`${user?.firstName} ${user?.lastName}`}>
-        <IconButton onClick={handleClick} className={className}>
+        <IconButton onClick={handleClick} className={buttonClassName}>
           <Avatar sx={{ width: 32, height: 32 }}>
-            {user?.firstName ? user?.firstName.substr(0, 1).toUpperCase() : 'U'}
+            {user?.firstName ? user?.firstName?.substr(0, 1).toUpperCase() : 'U'}
           </Avatar>
         </IconButton>
       </Tooltip>
