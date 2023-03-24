@@ -89,6 +89,10 @@ const LeftDrawer = ({ items = [], onClick, permissions = [], roles = [], openDra
                 if (ritem === 'divider') {
                   return <Divider />;
                 }
+                const isAllowed = hasPermission(ritem, { permissions });
+                if (!isAllowed) {
+                  return;
+                }
                 return (
                   <ListItem
                     disablePadding

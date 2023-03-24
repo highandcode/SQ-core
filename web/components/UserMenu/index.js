@@ -9,8 +9,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
 import Icon from '../../components/Icon';
+import { hasPermission } from '../LeftNavigation';
 
-const UserMenu = ({ user, onAction, listOfActions, className }) => {
+const UserMenu = ({ user, onAction, listOfActions, className, permissions }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const open = Boolean(anchorEl);
@@ -68,6 +69,10 @@ const UserMenu = ({ user, onAction, listOfActions, className }) => {
         {listOfActions.map((action, key) => {
           if (action === 'divider') {
             return <Divider key={key} />;
+          }
+          const isAllowed = hasPermission(action, {permissions});
+          if (!isAllowed) {
+            return;
           }
           return (
             <MenuItem key={key} onClick={(e) => handleItemClick(e, action)}>
