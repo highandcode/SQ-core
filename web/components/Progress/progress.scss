@@ -7,7 +7,7 @@
   height: 100%;
   z-index: $z-index-level-topest;
   &--active {
-    display: block!important;
+    display: block !important;
   }
   &--fixed {
     position: fixed;
@@ -16,6 +16,11 @@
     }
     .tp-progress__text {
       position: fixed;
+    }
+    .tp-progress__overlay {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
     }
   }
   &--inline-content {

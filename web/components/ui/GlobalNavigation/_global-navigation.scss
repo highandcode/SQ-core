@@ -1,5 +1,8 @@
-$sq-global-navigation-sub-navbg: $sq-color-slate-darkest;
-$sq-global-navigation-nav-color: $black;
+$sq-global-navigation-sub-navbg: $sq-color-slate-darkest !default;
+$sq-global-navigation-sub-item-navbg-hover: $sq-color-muted-lightest !default;
+$sq-global-navigation-nav-color: $black !default;
+$sq-global-navigation-sub-navcolor: $sq-color-muted-lighter !default;
+$sq-global-navigation-sub-navcolor-hover:$sq-color-slate-darkest !default;
 
 .sq-global-navigation {
   width: 100%;
@@ -142,9 +145,10 @@ $sq-global-navigation-nav-color: $black;
     display: none;
     list-style: none;
     padding: 10px 10px 0 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     margin: 0;
-    width: 100%;
+    border-top: solid 5px $sq-color-secondary-dark;
+    width: auto;
     @media (min-width: $screen-md) {
       background-color: $sq-global-navigation-sub-navbg;
       padding: 10px 0;
@@ -158,11 +162,14 @@ $sq-global-navigation-nav-color: $black;
       a {
         padding: 10px 20px;
         @include b5-style();
-        color: $sq-color-muted;
+        white-space: nowrap;
+        color: $sq-global-navigation-sub-navcolor;
       }
       &:hover {
-        background-color: #e2e2e2;
-        color: $sq-color-primary-lightest;
+        background-color: $sq-global-navigation-sub-item-navbg-hover;
+        a {
+          color: $sq-global-navigation-sub-navcolor-hover;
+        }
       }
       &:last-child {
         border-bottom: none;
