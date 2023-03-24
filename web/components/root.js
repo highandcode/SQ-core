@@ -92,6 +92,7 @@ import EditableField from './EditableField';
 import GlobalNavigationV2 from './ui/GlobalNavigationV2';
 import Wrapper from './Wrapper';
 import Skeleton from './Skeleton';
+import NavTabs from './NavTabs';
 
 export const editor = {
   setEditorOptions,
@@ -193,4 +194,5 @@ export {
   FormList,
   Breadcrumb,
   UserMenu,
+  NavTabs,
 };

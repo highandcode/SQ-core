@@ -34,6 +34,7 @@ import LaunchTimer from './LaunchTimer';
 import Carousel from './Carousel';
 import ImageWithSpotlight from './ImageWithSpotlight';
 import PropsTable from './PropsTable';
+import NavTabs from './NavTabs';
 import ReCaptcha from './ui/ReCaptcha';
 
 let comps = {
@@ -74,6 +75,7 @@ let comps = {
   FormList,
   FormObject,
   Skeleton,
+  NavTabs,
 };
 
 const getMap = () => {

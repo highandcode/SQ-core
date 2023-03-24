@@ -61,6 +61,7 @@ const SQFileUploader = ({
     onChange &&
       onChange({
         value: data,
+        checkForAction: false,
       });
     setSuccessCalled(true);
     setProgress(false);
@@ -70,6 +71,7 @@ const SQFileUploader = ({
     onChange &&
       onChange({
         value: null,
+        checkForAction: false,
       });
     setSuccessCalled(false);
     setFailedCalled(true);
@@ -146,8 +148,8 @@ const SQFileUploader = ({
         onClick={handleClear}
         buttonText={clearButtonText}
       />}
-      {uploadSuccessMessage && sucessCalled && <Alert type={successMessageType} message={uploadSuccessMessage} />}
-      {uploadFailedMessage && failedCalled && <Alert type={errorMessageType} message={uploadFailedMessage} />}
+      {uploadSuccessMessage && !progress && sucessCalled && <Alert type={successMessageType} message={uploadSuccessMessage} />}
+      {uploadFailedMessage && !progress && failedCalled && <Alert type={errorMessageType} message={uploadFailedMessage} />}
     </div>
   );
 };

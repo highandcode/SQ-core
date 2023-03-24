@@ -46,12 +46,12 @@ class SQTabs extends React.Component {
   }
 
   render() {
-    const { options = [], className = '', textField = 'text', valueField = 'value', iconOnly = false, row, userData } = this.props;
+    const { options = [], className = '', indicatorColor = 'primary', textField = 'text', valueField = 'value', iconOnly = false, row, userData } = this.props;
     const finalOptions = getValue(this, options, row);
     return (
       <div className={`sq-tabs ${className}`}>
         <Tabs
-          indicatorColor="primary"
+          indicatorColor={indicatorColor}
           value={this.state.value || (finalOptions[0] && finalOptions[0].value)}
           onChange={this.handleChange}
           className={'sq-tabs__root'}

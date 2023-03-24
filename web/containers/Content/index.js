@@ -31,7 +31,9 @@ class Content extends Component {
     const { onChange } = this.props;
     let allForms = this.getForms(this.props.pageData.items);
     onChange && onChange(value, field, { ...block, forms: allForms });
-    this.checkForAction(value, { ...block, forms: allForms }, field);
+    if (value.checkForAction === false) {
+      this.checkForAction(value, { ...block, forms: allForms }, field);
+    }
   }
 
   onAction(value, action, block) {
