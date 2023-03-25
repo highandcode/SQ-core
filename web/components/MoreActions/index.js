@@ -9,7 +9,6 @@ import Dialog from '../Dialog';
 
 import { getValue } from '../../utils/properties';
 
-
 const MoreActions = ({
   actions = [],
   className = '',
@@ -20,7 +19,7 @@ const MoreActions = ({
   beforeRender,
   onAnalytics,
 }) => {
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [confirmAction, setConfirmAction] = useState(null);
   const handleOnClick = (event, action) => {
     const { analytics = {} } = action;
     const { click } = analytics;
@@ -30,7 +29,7 @@ const MoreActions = ({
     }
     setAnchorEl(null);
     if (action.confirm) {
-      setShowConfirm(true);
+      setConfirmAction(action);
       return;
     }
     onClick && onClick(action);
@@ -48,7 +47,7 @@ const MoreActions = ({
       onAnalytics && click && onAnalytics(click);
     }
     setTimeout(() => {
-      setShowConfirm(false);
+      setConfirmAction(null);
       handleClose();
     });
   };
@@ -134,33 +133,33 @@ const MoreActions = ({
                 </ListItemIcon>
               )}
               {action.buttonText}
-              {action.confirm && (
-                <Dialog
-                  title={action.confirm.title}
-                  content={action.confirm.content}
-                  classes={{
-                    body: 'sq-dialog__content-body--confirm',
-                  }}
-                  closeButton={false}
-                  open={showConfirm}
-                  onAction={(data, dialogAction) => handleAction(dialogAction, action)}
-                  actions={[
-                    {
-                      buttonText: 'Yes',
-                      action: 'ok',
-                    },
-                    {
-                      buttonText: 'Cancel',
-                      variant: 'outlined',
-                      action: 'cancel',
-                    },
-                  ]}
-                />
-              )}
             </MenuItem>
           );
         })}
       </Menu>
+      {confirmAction?.confirm && (
+        <Dialog
+          title={confirmAction.confirm.title}
+          content={confirmAction.confirm.content}
+          classes={{
+            body: 'sq-dialog__content-body--confirm',
+          }}
+          closeButton={false}
+          open={confirmAction}
+          onAction={(data, dialogAction) => handleAction(dialogAction, confirmAction)}
+          actions={[
+            {
+              buttonText: 'Yes',
+              action: 'ok',
+            },
+            {
+              buttonText: 'Cancel',
+              variant: 'outlined',
+              action: 'cancel',
+            },
+          ]}
+        />
+      )}
     </div>
   );
 };

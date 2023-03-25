@@ -11,6 +11,7 @@ import {
   loadUsers,
   reactivateUser,
   deactivateUser,
+  deleteUser,
   resetPassword,
 } from '../../redux/authentication';
 import './_users-list.scss';
@@ -151,57 +152,7 @@ class Users extends BaseContainer {
       this.updateColumnUI();
     });
   }
-  async createColumnUI() {
-    let columnsUI = this.state.editColumnData;
-    columnsUI.push({
-      name: 'actions',
-      className: 'col-actions',
-      customize: false,
-      sort: false,
-      cmpType: 'MoreActions',
-      component: {
-        actions: [
-          {
-            cmpType: 'LinkButton',
-            action: 'edit',
-            disabled: !hasPermission('editContact', this.props.store),
-            iconName: 'edit',
-            buttonText: translate('Edit'),
-          },
-          {
-            cmpType: 'LinkButton',
-            action: 'reset-password',
-            disabled: !hasPermission('editContact', this.props.store),
-            iconName: 'RestartAlt',
-            buttonText: translate('Reset Password'),
-          },
-          {
-            cmpType: 'LinkButton',
-            iconName: 'deactivate',
-            iconVariant: 'error',
-            action: 'deactivate',
-            disabled: !hasPermission('editContact', this.props.store),
-            buttonText: translate('Deactivate'),
-            render: (row) => {
-              return row.isActive;
-            },
-          },
-          {
-            cmpType: 'LinkButton',
-            iconName: 'active',
-            iconVariant: 'success',
-            action: 'activate',
-            disabled: !hasPermission('editContact', this.props.store),
-            buttonText: translate('Re-Activate'),
-            render: (row) => {
-              return !row.isActive;
-            },
-          },
-        ],
-      },
-    });
-    await this.setState({ gridColumnUI: columnsUI, initialColumns: columnsUI });
-  }
+
   async updateColumnUI() {
     const columnsUI = (this.state.editColumnData || []).map((col) => {
       if (col.name !== 'projectCode') {
@@ -306,6 +257,16 @@ class Users extends BaseContainer {
           pageSize: pageSize,
         });
         break;
+      case 'delete':
+        await this.props.userActions.deleteUser(
+          row,
+          pageData?.apiConfig?.deleteUser
+        );
+        await this.refreshUsers({
+          filter: { isActive: true, ...this.state.currentFilter },
+          pageSize: pageSize,
+        });
+        break;
       case 'reset-password':
         this.props.userActions.resetPassword(
           row,
@@ -385,6 +346,7 @@ class Users extends BaseContainer {
     const { isLoading } = this.state;
     const createUserPerm = hasPermission('createUser', store);
     const editUserPerm = hasPermission('editUser', store);
+    const deleteUserPerm = hasPermission('deleteUser', store);
     const { Grid, Tabs, Form, Pagination, Link, Dialog, Actions, Skeleton } =
       getMap();
     const { fieldMapping = {} } = pageData;
@@ -647,6 +609,23 @@ class Users extends BaseContainer {
                           },
                           {
                             cmpType: 'LinkButton',
+                            iconName: 'Delete',
+                            confirm: {
+                              title: translate('Confirm'),
+                              content: translate(
+                                'Are you sure you want to delete this user?'
+                              ),
+                            },
+                            iconVariant: 'error',
+                            action: 'delete',
+                            disabled: !deleteUserPerm,
+                            buttonText: translate('Delete'),
+                            render: (row) => {
+                              return row.active && deleteUserPerm;
+                            },
+                          },
+                          {
+                            cmpType: 'LinkButton',
                             iconName: 'active',
                             iconVariant: 'success',
                             action: 'activate',
@@ -685,6 +664,7 @@ const mapDispatchToProps = (dispatch) => {
     userActions: {
       loadUsers: (data, config) => dispatch(loadUsers(data, config)),
       deactivateUser: (data, config) => dispatch(deactivateUser(data, config)),
+      deleteUser: (data, config) => dispatch(deleteUser(data, config)),
       reactivateUser: (data, config) => dispatch(reactivateUser(data, config)),
       resetPassword: (data, config) => dispatch(resetPassword(data, config)),
       loadRoles: (data, config) => dispatch(loadRoles(data, config)),

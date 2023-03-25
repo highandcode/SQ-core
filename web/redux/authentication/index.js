@@ -409,6 +409,22 @@ export const deactivateUser =
       );
     }
   };
+export const deleteUser =
+  (payload, config = {}) =>
+  async (dispatch, getState) => {
+    const { url } = processParams({...selectUserData(getState()), ...payload}, config)
+    const response = await utils.apiBridge.delete(
+      url || `${adminConfig.apis.user}/${payload.emailId}/delete`
+    );
+    if (response.status === CONSTANTS.STATUS.SUCCESS) {
+      await dispatch(
+        showNotificationMessage({
+          message: 'User deleted successfully',
+          type: 'success',
+        })
+      );
+    }
+  };
 
 export const reactivateUser =
   (payload, config = {}) =>
