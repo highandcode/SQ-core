@@ -26,6 +26,7 @@ const SQFileUploader = ({
   clearAll = false,
   onAction,
   errorMessage,
+  label,
   uploadButtonText = 'Upload',
   clearButtonText = 'Clear',
   uploadOnChange = false,
@@ -98,6 +99,7 @@ const SQFileUploader = ({
 
   return (
     <div className={`sq-file-uploader ${className}`}>
+      {label && <label className='sq-file-uploader__label'>{label}</label>}
       {<Tooltip title={fileTypes.join(', ').toLowerCase()}>
         <span>
           <FileUploader

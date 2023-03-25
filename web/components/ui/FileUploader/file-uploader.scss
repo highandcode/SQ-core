@@ -1,5 +1,8 @@
 .sq-file-uploader {
   position: relative;
+  &__label {
+    margin-bottom: 4px;
+  }
   > span {
     > label {
       display: flex;
