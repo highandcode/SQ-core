@@ -847,6 +847,121 @@ describe('DynamicContent', () => {
     });
   });
 
+  describe('Form validation with .match ', () => {
+    let mockProps;
+    let _container;
+    const pageResponse = {
+      pageData: {
+        items: [
+          {
+            component: 'Form',
+            name: 'contact',
+            fields: [
+              {
+                cmpType: 'Input',
+                name: 'name',
+                label: 'Name G1',
+                validators: [
+                  {
+                    type: 'required',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            component: 'Form',
+            name: 'address',
+            fields: [
+              {
+                cmpType: 'Input',
+                name: 'line1',
+                label: 'Name G2',
+                validators: [
+                  {
+                    type: 'required',
+                  },
+                ],
+              },
+              {
+                cmpType: 'Input',
+                name: 'country',
+                label: 'Country G2',
+                validators: [
+                  {
+                    type: 'required',
+                  },
+                ],
+              },
+            ],
+            forceValidate: true,
+            match: {
+              test: {
+                validators: [
+                  {
+                    type: 'equals',
+                    matchValue: 'NOTOK',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            component: 'Button',
+            buttonText: 'Submit',
+            actionType: 'submit',
+          },
+        ],
+      },
+    };
+    beforeEach(async () => {
+      mockProps = {
+        location: fake.location.create({
+          pathname: '/content/en',
+        }),
+        contentActions: fake.contentActions.create({
+          fetchContentPage: {
+            data: pageResponse,
+          },
+        }),
+        store: fake.store.create({
+          userData: {
+            contact: {
+              name: 'global name 1',
+            },
+            address: {
+              line1: 'global name 2',
+            },
+            test: 'OK',
+          },
+        }),
+      };
+      jest.useFakeTimers();
+      await act(() => {
+        const { container } = render(<DynamicContent {...mockProps} />);
+        jest.advanceTimersByTime(2000);
+        _container = container;
+      });
+    });
+
+    test('should not render form field if not matched', async () => {
+      expect(() => getByTestId('country_g2_input')).toThrow();
+    });
+    test('should call to postApi() and consider only matched fields', async () => {
+      await act(() => {
+        fireEvent.click(screen.getByTestId('submit_button'));
+      });
+      expect(mockProps.contentActions.postApi).not.toHaveBeenCalledWith(
+        {
+          actionType: 'submit',
+          buttonText: 'Submit',
+          component: 'Button',
+        },
+        pageResponse
+      );
+    });
+  });
+
   describe('Parsing errors from results ', () => {
     let mockProps;
     let _container;
