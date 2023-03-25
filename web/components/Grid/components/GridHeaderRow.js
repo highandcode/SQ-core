@@ -9,7 +9,7 @@ const GridHeaderRow = ({ allowResizeCols = true, columns = [], spacer = false, o
   const [startX, setStartX] = useState();
   const dragHandler = useCallback(
     (e, col) => {
-      let w = startX ? Math.round(startX.w + (e.clientX - startX.x)) : 0;
+      let w = startX && e.clientX ? Math.round(startX.w + (e.clientX - startX.x)) : 0;
       if (w > 0 && (!width[col.name] || (width[col.name] && width[col.name] && w !== width[col.name].width))) {
         console.log(w);
         const newWi = {
@@ -29,10 +29,13 @@ const GridHeaderRow = ({ allowResizeCols = true, columns = [], spacer = false, o
   );
 
   const onDragStart = (e) => {
-    setStartX({
+      setStartX({
       x: e.clientX,
       w: e.currentTarget.parentElement.getBoundingClientRect().width,
     });
+  };
+  const onDragEnd = (e) => {
+      setStartX(null);
   };
 
   const handleClick = (e, column) => {
@@ -76,7 +79,7 @@ const GridHeaderRow = ({ allowResizeCols = true, columns = [], spacer = false, o
                 </div>
                 {isColSortEnabled && <Icon variant={`${hasSortColumn ? 'black' : 'muted-light'}`} className="sq-grid__cell-sort" name={sortOrderIconName} />}
               </div>
-              {allowResizeCols && <div className="sq-grid__header-row-cell-resizer" onMouseDown={onDragStart} draggable onDrag={(e) => dragHandler(e, column)}></div>}
+              {allowResizeCols && <div className="sq-grid__header-row-cell-resizer" onMouseUp={onDragEnd} onMouseDown={onDragStart} draggable onDrag={(e) => dragHandler(e, column)}></div>}
             </div>
           );
         })}
