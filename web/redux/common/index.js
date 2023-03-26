@@ -6,7 +6,6 @@ const initialState = {
   notification: {},
   popup: {},
   popupScreen: {},
-  popupScreen: {},
 };
 const common = createSlice({
   name: 'common',
