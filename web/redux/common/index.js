@@ -40,6 +40,7 @@ const common = createSlice({
       state.popup.show = true;
     },
     closePopup: (state) => {
+      state.popup = {};
       state.popup.show = false;
     },
     setPopupScreen: (state, action) => {
@@ -51,6 +52,7 @@ const common = createSlice({
       state.popupScreen.show = true;
     },
     closePopupScreen: (state) => {
+      state.popupScreen = {};
       state.popupScreen.show = false;
     },
     setCloseNotification: (state) => {

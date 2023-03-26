@@ -496,8 +496,8 @@ class DynamicContent extends Component {
         break;
       case 'close-popup-screen':
         await this.props.commonActions.closePopupScreen();
+        events.emit('onPopupScreenCloseAction', action);
         break;
-
       case 'redirect':
         redirectTo(action.to, processParams(this.props.store.content.userData, action.params), action.options);
         break;
