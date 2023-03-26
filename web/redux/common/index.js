@@ -44,9 +44,11 @@ const common = createSlice({
       state.popup.show = false;
     },
     setPopupScreen: (state, action) => {
-      state.popupScreen.name = action.payload.name;
-      state.popupScreen.title = action.payload.title;
-      state.popupScreen.style = action.payload.style;
+      const { name, title, dialogProps = {}, ...props } = action.payload;
+      state.popupScreen.name = name;
+      state.popupScreen.title = title;
+      state.popupScreen.dialogProps = dialogProps;
+      state.popupScreen.props = props;
       state.popupScreen.show = true;
     },
     closePopupScreen: (state) => {
@@ -81,7 +83,6 @@ export const showNotificationMessage =
     await dispatch(setNotificationTimeout(null));
     await dispatch(setNotification(payload));
     const nextTimeout = setTimeout(() => {
-
       dispatch(closeNotification());
       payload.callback && payload.callback();
     }, timeout);

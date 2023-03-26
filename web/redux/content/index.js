@@ -482,8 +482,14 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
         })
       );
     }
+    if (payload?.finally?.successAction) {
+      payload.nextAction && payload.nextAction(payload?.finally?.successAction);
+    }
   } else if (response.status === 'error') {
     await dispatch(updateErrorData(response.error));
+    if (payload.action?.finally?.errorAction) {
+      payload.nextAction && payload.nextAction(payload.action?.finally?.errorAction);
+    }
   }
   if (payload.runInit) {
     dispatch(mergeUserData(pageResponse?.pageData?.init));

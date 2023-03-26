@@ -11,7 +11,7 @@ import { Validator } from '../../utils/validator';
 import { events } from '../../utils/app-events';
 import { fetchContentPage, uploadApi, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
 
-import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
+import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, closePopupScreen, closePopup, showPopup, setError, clearError } from '../../redux/common';
 
 const _window = window;
 let containers = {
@@ -352,6 +352,7 @@ class DynamicContent extends Component {
     const { onSubmit } = this.props;
     let result;
     let isValid = true;
+    action.nextAction = (action) => this.onAction(value, action, block); 
     switch (action.actionType) {
       case 'file-upload':
         await this.props.contentActions.updateUserData({
@@ -485,11 +486,18 @@ class DynamicContent extends Component {
           ...processParams(this.props.store.content.userData, action.params),
         });
         break;
+      case 'close-popup':
+        await this.props.commonActions.closePopup();
+        break;  
       case 'popup-screen':
         await this.props.commonActions.showPopupScreen({
           ...processParams(this.props.store.content.userData, action.params),
         });
         break;
+      case 'close-popup-screen':
+        await this.props.commonActions.closePopupScreen();
+        break;
+
       case 'redirect':
         redirectTo(action.to, processParams(this.props.store.content.userData, action.params), action.options);
         break;
@@ -570,7 +578,8 @@ class DynamicContent extends Component {
             <ContentContainer {...allProps} pageData={updatedPageData} metaData={metaData} data={this.state.pageData} userData={userData} pageState={this.state.page} onChange={this.onChange} onAction={this.onAction} />
           </div>
         </ContentTemplateContainer>
-        {this.state.isLoading && <Progress color={loadingColor} className={`${classes.progress || ''}`} style={'fixed'} overlayStyle="full" />}
+        {!store.common.popupScreen?.show && this.state.isLoading && <Progress color={loadingColor} className={`${classes.progress || ''}`} style={'fixed'} overlayStyle="full" />}
+        {store.common.popupScreen?.show && this.state.isLoading && <Progress color={loadingColor} className={`${classes.progress || ''}`} style={'screen'} />}
       </div>
     );
   }
@@ -616,6 +625,8 @@ const mapDispatchToProps = (dispatch) => {
       setError: (data) => dispatch(setError(data)),
       clearError: (data) => dispatch(clearError(data)),
       showPopupScreen: (data) => dispatch(showPopupScreen(data)),
+      closePopup: () => dispatch(closePopup()),
+      closePopupScreen: () => dispatch(closePopupScreen()),
     },
     raiseAction: dispatch,
   };
