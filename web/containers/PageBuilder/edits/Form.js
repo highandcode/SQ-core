@@ -13,5 +13,12 @@ export default withEditTabs({
       name: 'group',
       label: 'Validation Group',
     },
+    {
+      name: 'forceValidate',
+      label: 'forceValidate',
+      cmpType: 'CheckboxField',
+      selectedValue: true,
+      defaultValue: false,
+    },
   ],
 });

@@ -176,7 +176,6 @@ class DynamicContent extends Component {
     const pageDataTheme = this.state.pageData?.pageData?.theme || this.state.pageData?.siteMap?.siteMap?.theme;
     if (activeTheme && pageDataTheme && activeTheme !== pageDataTheme) {
       onThemeChange && onThemeChange(pageDataTheme);
-      
     }
     if (this.state.url != (overrideUrl || location.pathname)) {
       this.setState(
@@ -305,6 +304,18 @@ class DynamicContent extends Component {
     let fullValid = true;
     let allErros = {};
     let validators = {};
+    if (block.match) {
+      let blockMatch = true;
+      const valid = new Validator(block.match);
+      valid.setValues({
+        ...this.getUpdatedUserData(),
+        ...value[block.name],
+      });
+      blockMatch = valid.validateAll();
+      if (!blockMatch && !block.forceValidate) {
+        return { isValid: true, errors: {} };
+      }
+    }
     block.fields?.forEach((item) => {
       let hasMatch = true;
       if (item.match) {
@@ -550,7 +561,7 @@ class DynamicContent extends Component {
     };
     const { root = {} } = userData;
     const { pageData = {}, metaData } = this.state.pageData;
-    const dynamicParams = processParams(userData, {...root.merge, ...pageData.inject} || {});
+    const dynamicParams = processParams(userData, { ...root.merge, ...pageData.inject } || {});
     const { classes = {}, ...restDynamic } = dynamicParams;
     const updatedPageData = { ...pageData, ...restDynamic };
     const { container, containerTemplate, contentBodyClass = '', rootClassName = '', transition = {} } = updatedPageData;
