@@ -20,7 +20,6 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
 
 
   const handleBlur = () => {
-    console.log('@@@blur', allowFreeText, inputValue, value);
     if (allowFreeText && inputValue) {
       onChange &&
         onChange({
