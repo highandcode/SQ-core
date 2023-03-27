@@ -7,7 +7,7 @@ import Icon from '../../Icon';
 import { TextField } from '@mui/material';
 import { getValue } from '../../../utils/properties';
 
-const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], allowFreeText = false, className = '', disabled, inputClassName = '', value = null, label = '', onChange, onAnalytics, inputVariant = 'outlined', analytics, defaultValue = '', textField = 'text', valueField = 'value', multiple, onAction, error, errorMessage, compProps = {}, ...rest }) => {
+const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], allowFreeText = false, className = '', disabled, inputClassName = '', value = null, label = '', onChange, onAnalytics, inputVariant = 'outlined', analytics, defaultValue = '', textField = 'text', valueField = 'value', multiple, onAction, error, errorMessage, compProps = {}, minTypeLength =3, ...rest }) => {
   value = !value && multiple ? [] : value;
   const [inputValue, setInputValue] = useState('');
   const handleChange = (e, value) => {
@@ -15,6 +15,7 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
       onChange({
         value: multiple ? [...fixedOptions.map((i) => i[valueField]), ...value.filter((option) => fixedOptions.indexOf(option) === -1).map((i) => i[valueField])] : value && value[valueField],
         options,
+        checkForAction: !rest.typeAction,
       });
   };
 
@@ -25,7 +26,8 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
         onChange({
           value: inputValue,
           options,
-        });
+          checkForAction: !rest.typeAction,
+      });
     }
   };
 
@@ -88,6 +90,10 @@ const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], 
         )}
         value={optionFound || value || (multiple ? [] : null)}
         onInputChange={(event, newInputValue, reason, test) => {
+          if (rest.typeAction && newInputValue?.length >= minTypeLength) {
+            onAction && onAction({}, {actionType: 'user-store', params: {currentText: newInputValue}})
+            reason !== 'reset' && rest.typeAction && onAction && onAction({ value: newInputValue }, rest.typeAction);
+          }
           setInputValue(newInputValue);
         }}
         renderInput={(params) => {

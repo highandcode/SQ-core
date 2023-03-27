@@ -3,7 +3,7 @@ import * as appEvents from './app-events';
 import browser from './browser';
 
 import common from './common';
-import currency from './currency';
+import * as currency from './currency';
 import * as datetime from './datetime';
 import * as errorMessages from './error-messages';
 import EventManager from './event-manager';

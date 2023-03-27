@@ -97,6 +97,25 @@ const masks = {
       );
     },
   },
+  INphone: {
+    mask: (value) => {
+      value = isNullOrUndefined(value) ? '' : value.toString();
+      const x = value.replace(/\D/g, '').match(/(\d{0,4})(\d{0,6})/);
+      if (!x) {
+        return value;
+      }
+      return `${!x[2] ? x[1] : + x[1] + ' - ' + x[2]}`;
+    },
+    unmask: (value) => {
+      return (
+        value &&
+        value
+          .toString()
+          .replace(/[^0-9]/g, '')
+          .substr(0, 10)
+      );
+    },
+  },
   percentage: {
     mask: (value, { input = false } = {}) => {
       if (!input) {
