@@ -136,6 +136,9 @@ class DynamicContent extends Component {
     if (pageResponse.pageData.reset) {
       await this.props.contentActions.resetUserData(pageResponse.pageData.reset);
     }
+    if (initialData) {
+      await this.props.contentActions.updateUserData(initialData);
+    }
     await this.props.contentActions.updateMetaData({
       url: this.state.url,
       data: {
@@ -501,7 +504,7 @@ class DynamicContent extends Component {
         break;
       case 'close-popup':
         await this.props.commonActions.closePopup();
-        events.emit('onPopupCloseAction', action);
+        payload.eventEmit !== false && events.emit('onPopupCloseAction', action);
         break;  
       case 'popup-screen':
         await this.props.commonActions.showPopupScreen({
@@ -510,7 +513,7 @@ class DynamicContent extends Component {
         break;
       case 'close-popup-screen':
         await this.props.commonActions.closePopupScreen();
-        events.emit('onPopupScreenCloseAction', action);
+        payload.eventEmit !== false && events.emit('onPopupScreenCloseAction', action);
         break;
       case 'redirect':
         redirectTo(action.to, processParams(this.props.store.content.userData, action.params), action.options);
