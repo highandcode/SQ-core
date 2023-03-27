@@ -4,6 +4,7 @@ import { customHooks } from './custom-hooks';
 import { Validator } from '../../utils/validator';
 import path from '../../utils/path';
 import { showNotificationMessage } from '../common';
+import { events } from '../../utils/app-events';
 const { queryString, apiBridge, object, common, processor } = utils;
 const { query } = queryString;
 
@@ -483,12 +484,12 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
       );
     }
     if (payload?.finally?.successAction) {
-      payload.nextAction && payload.nextAction(payload?.finally?.successAction);
+      events.emit('dynammicContent.onAction', {}, payload?.finally?.successAction, {});
     }
   } else if (response.status === 'error') {
     await dispatch(updateErrorData(response.error));
     if (payload.action?.finally?.errorAction) {
-      payload.nextAction && payload.nextAction(payload.action?.finally?.errorAction);
+      events.emit('dynammicContent.onAction', {}, payload?.finally?.errorAction, {});
     }
   }
   if (payload.runInit) {

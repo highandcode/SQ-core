@@ -53,12 +53,14 @@ class DynamicContent extends Component {
       }
     );
     events.subscribe('refreshPage', this.onRefresh);
+    events.subscribe('dynammicContent.onAction', this.onAction);
   }
 
   async componentWillUnmount() {
     window.removeEventListener('scroll', this.handlePageScroll);
     window.removeEventListener('resize', this.handlePageScroll);
     events.unsubscribe('refreshPage', this.onRefresh);
+    events.unsubscribe('dynammicContent.onAction', this.onAction);
   }
 
   async onRefresh() {
@@ -363,7 +365,7 @@ class DynamicContent extends Component {
     const { onSubmit } = this.props;
     let result;
     let isValid = true;
-    action.nextAction = (action) => this.onAction(value, action, block); 
+    // action.nextAction = (action) => this.onAction(value, action, block); 
     switch (action.actionType) {
       case 'file-upload':
         await this.props.contentActions.updateUserData({
