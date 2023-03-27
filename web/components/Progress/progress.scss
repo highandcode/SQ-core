@@ -85,6 +85,20 @@
       height: 100vh;
     }
   }
+  &--full-screen {
+    position: fixed;
+    .tp-progress__spinner {
+      position: fixed;
+    }
+    .tp-progress__text {
+      position: fixed;
+    }
+    .tp-progress__overlay {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+    }
+  }
   &--inline-content {
     position: relative;
     min-height: 400px;
