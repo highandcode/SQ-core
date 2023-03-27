@@ -125,7 +125,7 @@ class Grid extends React.Component {
   }
 
   render() {
-    const { columns = [], editColumnPane = {}, showColSelection = false, data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default' } = this.props;
+    const { columns = [], editColumnPane = {}, showColSelection = false, addSpacer = true, data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default' } = this.props;
     const actionsClassName = this.hasActionClickRow() ? 'sq-grid--has-action' : '';
     const finalColumns = columns
       .sort((a, b) => {
@@ -181,13 +181,13 @@ class Grid extends React.Component {
           <div className="sq-grid__center">
             {this.hasData() && showHeader && (
               <div className="sq-grid__header" ref={this.headerRef}>
-                {!this.isLoading() && this.renderHeader('center', otherColumns, true)}
+                {!this.isLoading() && this.renderHeader('center', otherColumns, addSpacer)}
               </div>
             )}
             <div className="sq-grid__body" ref={this.bodyRef}>
               {this.isLoading() && this.renderLoadingView()}
               <div className="sq-grid-body__wrapper" ref={this.bodyWrapperRef}>
-                {!this.isLoading() && this.renderData('center', otherColumns, data, rowConfig, true)}
+                {!this.isLoading() && this.renderData('center', otherColumns, data, rowConfig, addSpacer)}
               </div>
             </div>
           </div>

@@ -501,6 +501,7 @@ class DynamicContent extends Component {
         break;
       case 'close-popup':
         await this.props.commonActions.closePopup();
+        events.emit('onPopupCloseAction', action);
         break;  
       case 'popup-screen':
         await this.props.commonActions.showPopupScreen({
