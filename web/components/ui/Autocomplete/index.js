@@ -8,6 +8,7 @@ import { TextField } from '@mui/material';
 import { getValue } from '../../../utils/properties';
 
 const SQAutocomplete = ({ row, name, options = [], freeSolo, fixedOptions = [], allowFreeText = false, className = '', disabled, inputClassName = '', value = null, label = '', onChange, onAnalytics, inputVariant = 'outlined', analytics, defaultValue = '', textField = 'text', valueField = 'value', multiple, onAction, error, errorMessage, compProps = {}, ...rest }) => {
+  value = !value && multiple ? [] : value;
   const [inputValue, setInputValue] = useState('');
   const handleChange = (e, value) => {
     onChange &&
