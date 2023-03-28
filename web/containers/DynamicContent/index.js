@@ -504,7 +504,7 @@ class DynamicContent extends Component {
         break;
       case 'close-popup':
         await this.props.commonActions.closePopup();
-        payload.eventEmit !== false && events.emit('onPopupCloseAction', action);
+        action.eventEmit !== false && events.emit('onPopupCloseAction', action);
         break;  
       case 'popup-screen':
         await this.props.commonActions.showPopupScreen({
@@ -513,7 +513,7 @@ class DynamicContent extends Component {
         break;
       case 'close-popup-screen':
         await this.props.commonActions.closePopupScreen();
-        payload.eventEmit !== false && events.emit('onPopupScreenCloseAction', action);
+        action.eventEmit !== false && events.emit('onPopupScreenCloseAction', action);
         break;
       case 'redirect':
         redirectTo(action.to, processParams(this.props.store.content.userData, action.params), action.options);
