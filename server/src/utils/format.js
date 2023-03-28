@@ -212,7 +212,6 @@ let formatters = {
 };
 
 function setDefaults(overrides) {
-  console.log('>>>>', _defaultsValues);
   Object.keys(overrides).forEach((key) => {
     if (typeof overrides[key] === 'object') {
       _defaultsValues[key] = {
