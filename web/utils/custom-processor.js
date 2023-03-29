@@ -3,6 +3,17 @@ const common = require('../../server/src/utils/common');
 class CustomProcessor {
   constructor() {
     this.processor = {
+      compare: {
+        equals: (value, { matchValue = '' } = {}) => {
+          return value === matchValue;
+        },
+        notEquals: (value, { matchValue = '' } = {}) => {
+          return value !== matchValue;
+        },
+        exists: (value) => {
+          return !!value;
+        },
+      },
       dataType: {
         string: (value) => {
           return !common.isNullOrUndefined(value) ? value.toString() : value;

@@ -5,6 +5,7 @@ import ListIcon from '@mui/icons-material/List';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import HighlightOff from '@mui/icons-material/HighlightOff';
 import Delete from '@mui/icons-material/Delete';
+import Replay from '@mui/icons-material/Replay';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import Add from '@mui/icons-material/Add';
 import PlayCircleFilled from '@mui/icons-material/PlayCircleFilled';
@@ -376,6 +377,7 @@ const types = {
     food: LocalDIning,
     notification: Notifications,
     download: Download,
+    Replay,
     dashboard: DashboardIcon,
     help: HelpIcon,
     Label,
