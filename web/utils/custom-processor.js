@@ -1,19 +1,41 @@
 const object = require('../../server/src/utils/object');
+const common = require('../../server/src/utils/common');
 class CustomProcessor {
   constructor() {
     this.processor = {
+      compare: {
+        equals: (value, { matchValue = '' } = {}) => {
+          return value === matchValue;
+        },
+        notEquals: (value, { matchValue = '' } = {}) => {
+          return value !== matchValue;
+        },
+        exists: (value) => {
+          return !!value;
+        },
+      },
+      dataType: {
+        string: (value) => {
+          return !common.isNullOrUndefined(value) ? value.toString() : value;
+        },
+        number: (value) => {
+          return !common.isNullOrUndefined(value) ? value * 1 : value;
+        },
+      },
       common: {
         addClassName: (value, { oldValue = '' } = {}) => {
           return oldValue + ' ' + value;
         },
         join: (value, { fields }, { userData }) => {
           const arr = fields?.split('+');
-          const values = arr?.map((val) => {
-            if (val.charAt(0) === '.') {
-              return object.getDataFromKey(userData, val.substr(1));
-            }
-            return val;
-          }).join('');
+          const values = arr
+            ?.map((val) => {
+              if (val.charAt(0) === '.') {
+                return object.getDataFromKey(userData, val.substr(1));
+              }
+              return val;
+            })
+            .join('');
           return values;
         },
       },

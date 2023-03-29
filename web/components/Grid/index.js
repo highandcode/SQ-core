@@ -59,6 +59,7 @@ class Grid extends React.Component {
   onBody_Scroll(e) {
     this.headerRef.current.scrollLeft = this.bodyRef.current.scrollLeft;
     this.fixedLBodyRef.current.scrollTop = this.bodyRef.current.scrollTop;
+    this.fixedRBodyRef.current.scrollTop = this.bodyRef.current.scrollTop;
     if (!(this.bodyRef.current.scrollLeft > 0 && this.state.hasLeftScrolled === true)) {
       if (!(this.bodyRef.current.scrollLeft === 0 && this.state.hasLeftScrolled === false)) {
         this.setState({
