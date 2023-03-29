@@ -209,7 +209,7 @@
     overflow: hidden;
   }
   &__left-fixed {
-    z-index: $z-index-level-4;
+    z-index: $z-index-level-2;
     &.has-scrolled {
       box-shadow: 4px -5px 14px -2px rgb(229 229 229 / 50%);
     }
@@ -227,7 +227,7 @@
     }
   }
   &__right-fixed {
-    z-index: $z-index-level-2ndtopest;
+    z-index: $z-index-level-2;
     box-shadow: -4px -5px 14px -2px rgb(229 229 229 / 50%);
     &.has-scrolled-end {
       box-shadow: none;
@@ -371,6 +371,9 @@
       min-width: 120px;
       flex-grow: 0;
       flex-shrink: 0;
+      &.sq-grid__data-cell {
+        padding: 5px 5px;
+      }
     }
   }
   &--rounded {
