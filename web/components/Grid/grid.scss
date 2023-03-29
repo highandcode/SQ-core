@@ -314,10 +314,22 @@
       flex-grow: 0;
       justify-content: flex-start;
     }
+    .col-small-grow {
+      flex-basis: 100px;
+      min-width: 100px;
+      flex-grow: 1;
+      justify-content: flex-start;
+    }
     .col-medium {
       flex-basis: 170px;
       min-width: 170px;
       flex-grow: 0;
+      justify-content: flex-start;
+    }
+    .col-medium-grow {
+      flex-basis: 170px;
+      min-width: 170px;
+      flex-grow: 1;
       justify-content: flex-start;
     }
     .col-large {
@@ -356,7 +368,7 @@
     }
     .col-actions-medium {
       flex-basis: 120px;
-      min-width: 90px;
+      min-width: 120px;
       flex-grow: 0;
       flex-shrink: 0;
     }

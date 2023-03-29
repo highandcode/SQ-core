@@ -63,6 +63,16 @@
       flex-direction: row;
     }
   }
+  &--fixed-width {
+    position: relative;
+    > div {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+    }
+  }
   &--fixed {
     position: absolute;
     width: 100%;
