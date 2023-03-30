@@ -73,6 +73,12 @@
       width: 100%;
     }
   }
+  &--fixed-width-auto-height {
+    position: relative;
+    > div {
+      width: calc(100vw - 30px);
+    }
+  }
   &--fixed {
     position: absolute;
     width: 100%;

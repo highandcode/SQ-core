@@ -116,10 +116,28 @@ const mapSkeleton = (style, rows = 1) => {
           </div>
         </>
       );
+    case 'details':
+      return (
+        <>
+          <div className="row">
+            <div className="col-xs-12 mb-wide col-md-8">
+              <Skeleton height={50} />
+            </div>
+            <div className="col-xs-12 mb-wide col-md-4">
+              <Skeleton height={50} />
+            </div>
+            <div className="col-xs-12 mb-wide">
+              <Skeleton height={50} />
+            </div>
+          </div>
+        </>
+      );
     default:
       return (
         <>
-          <Skeleton />
+          <div className="container-fluid">
+            <Skeleton height={50} />
+          </div>
         </>
       );
   }
