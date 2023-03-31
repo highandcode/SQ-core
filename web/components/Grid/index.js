@@ -183,7 +183,7 @@ class Grid extends React.Component {
           </DndProvider>
         </Dialog>
         <div className="sq-grid__top-bar">
-          <ButtonSelection options={this.viewOptions} value={this.state.viewType} onChange={this.onViewTypeChange} />
+          {this.hasData() && <ButtonSelection options={this.viewOptions} value={this.state.viewType} onChange={this.onViewTypeChange} />}
         </div>
         <div className="sq-grid__root">
           <div className={`sq-grid__left-fixed ${this.state.hasLeftScrolled > 0 ? 'has-scrolled' : ''}`}>
