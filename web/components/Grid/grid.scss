@@ -269,8 +269,11 @@
 
   &--view-compact {
     &.sq-grid {
-      .sq-grid__row {
+      .sq-grid__data-row {
         min-height: 40px !important;
+      }
+      .sq-grid__header-row-cell-wrapper {
+        padding: 3px 4px !important;
       }
       .sq-grid__data-cell {
         padding: 0 4px !important;
@@ -284,11 +287,12 @@
   }
   &--view-comfort {
     &.sq-grid {
-      .sq-grid__row {
+      
+      .sq-grid__data-row {
         min-height: 80px !important;
       }
       .sq-grid__data-cell {
-        padding: 8px 10px !important;
+        padding: 8px 20px !important;
       }
     }
   }
