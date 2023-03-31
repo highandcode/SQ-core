@@ -11,6 +11,9 @@ import Add from '@mui/icons-material/Add';
 import PlayCircleFilled from '@mui/icons-material/PlayCircleFilled';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import VideogameAsset from '@mui/icons-material/VideogameAsset';
+import CalendarViewDay from '@mui/icons-material/CalendarViewDay';
+import ViewDay from '@mui/icons-material/ViewDay';
+import ViewHeadline from '@mui/icons-material/ViewHeadline';
 import OpenWith from '@mui/icons-material/OpenWith';
 import MonetizationOn from '@mui/icons-material/MonetizationOn';
 import DragHandle from '@mui/icons-material/DragHandle';
@@ -342,6 +345,9 @@ const types = {
     location: Room,
     eventnote: EventNote,
     gamesport: VideogameAsset,
+    CalendarViewDay,
+    ViewHeadline,
+    ViewDay,
     trackchanges: TrackChanges,
     message: Message,
     theaters: Theaters,

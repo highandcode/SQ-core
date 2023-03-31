@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import Icon from '../../Icon';
 
 const ButtonSelection = ({ className = '', label, options = [], textField = 'text', valueField = 'value', value, onChange, variant = 'outlined' }) => {
   const handleClick = (e, option) => {
@@ -13,9 +15,9 @@ const ButtonSelection = ({ className = '', label, options = [], textField = 'tex
         });
     } else {
       onChange &&
-      onChange({
-        value: undefined,
-      });
+        onChange({
+          value: undefined,
+        });
     }
   };
 
@@ -26,11 +28,21 @@ const ButtonSelection = ({ className = '', label, options = [], textField = 'tex
         <ButtonGroup variant={variant} aria-label={label}>
           {options.map((item, idx) => {
             const selectedProsp = {};
-            if (item.value === value) {
+            const isSelected = item.value === value;
+            if (isSelected) {
               selectedProsp.variant = 'contained';
             }
-            return (
-              <Button key={idx} {...selectedProsp} {...item} aria-label={item[textField]} onClick={(e) => handleClick(e, item)}>
+            const { title, ...restItem } = item;
+            return title ? (
+              <Tooltip title={title}>
+                <Button key={idx} {...selectedProsp} {...restItem} aria-label={item[textField]} onClick={(e) => handleClick(e, item)}>
+                  {item.iconName && <Icon variant={isSelected ? 'white' : 'primary'} name={item.iconName} size="xs" />}
+                  {item[textField]}
+                </Button>
+              </Tooltip>
+            ) : (
+              <Button key={idx} {...selectedProsp} {...restItem} aria-label={item[textField]} onClick={(e) => handleClick(e, item)}>
+                {item.iconName && <Icon variant={isSelected ? 'white' : 'primary'} name={item.iconName} size="xs" />}
                 {item[textField]}
               </Button>
             );

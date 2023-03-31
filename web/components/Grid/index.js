@@ -5,6 +5,7 @@ import { DndProvider } from 'react-dnd';
 import GridRow from './components/GridRow';
 import GridHeaderRow from './components/GridHeaderRow';
 import ColFilters from './components/GridColumnFilter';
+import ButtonSelection from '../ui/ButtonSelection';
 import Dialog from '../Dialog';
 import Button from '../ui/Button';
 import { translate } from '../../utils/translate';
@@ -18,12 +19,18 @@ class Grid extends React.Component {
   constructor() {
     super();
     this.state = {
+      viewType: 'default',
       updatedIndex: 0,
       data: [],
       validated: false,
       total: {},
       hasLeftScrolled: false,
     };
+    this.viewOptions = [
+      { value: 'compact', iconName: 'ViewHeadline', title: 'Compact' },
+      { value: 'default', iconName: 'CalendarViewDay', title: 'Default' },
+      { value: 'comfort', iconName: 'ViewDay', title: 'Comfort' },
+    ];
     this.headerRef = React.createRef();
     this.bodyRef = React.createRef();
     this.fixedHeaderRef = React.createRef();
@@ -45,6 +52,7 @@ class Grid extends React.Component {
     this.onRightBody_Scroll = this.onRightBody_Scroll.bind(this);
     this.handleColSelChange = this.handleColSelChange.bind(this);
     this.onColumReorder = this.onColumReorder.bind(this);
+    this.onViewTypeChange = this.onViewTypeChange.bind(this);
     this.onColResize = this.onColResize.bind(this);
   }
   onLeftBody_Scroll(e) {
@@ -67,6 +75,12 @@ class Grid extends React.Component {
         });
       }
     }
+  }
+
+  onViewTypeChange(data) {
+    this.setState({
+      viewType: data.value || 'default',
+    });
   }
 
   componentDidMount() {
@@ -139,7 +153,7 @@ class Grid extends React.Component {
     const fixedRightColumns = finalColumns.filter((i) => i.fixed === true && i.direction === 'right');
     const otherColumns = finalColumns.filter((i) => !i.fixed);
     return (
-      <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle}`}>
+      <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle} sq-grid--view-${this.state.viewType}`}>
         <Dialog
           open={showColSelection}
           transitionDir="left"
@@ -168,6 +182,9 @@ class Grid extends React.Component {
             <ColFilters colOrder={this.state.colOrder} onColumReorder={this.onColumReorder} columns={columns} value={this.state.tempColSelection || this.props.selectedColumns || columns.map((i) => i.name)} onChange={this.handleColSelChange} />
           </DndProvider>
         </Dialog>
+        <div className="sq-grid__top-bar">
+          <ButtonSelection options={this.viewOptions} value={this.state.viewType} onChange={this.onViewTypeChange} />
+        </div>
         <div className="sq-grid__root">
           <div className={`sq-grid__left-fixed ${this.state.hasLeftScrolled > 0 ? 'has-scrolled' : ''}`}>
             {this.hasData() && fixedLeftColumns.length > 0 && showHeader && (
