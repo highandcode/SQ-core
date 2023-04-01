@@ -411,6 +411,15 @@
         padding: 5px 5px;
       }
     }
+    .col-actions-large {
+      flex-basis: 140px;
+      min-width: 140px;
+      flex-grow: 0;
+      flex-shrink: 0;
+      &.sq-grid__data-cell {
+        padding: 5px 5px;
+      }
+    }
   }
   &--rounded {
     .sq-grid__root {
