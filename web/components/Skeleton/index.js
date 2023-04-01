@@ -10,9 +10,19 @@ const mapSkeleton = (style, rows = 1) => {
         <>
           {Array.from({ length: rows }).map((it, idx) => {
             return (
-              <div key={idx} className="item">
-                <Skeleton variant="square" className="icon" animation="wave" />
-                <Skeleton className="text" animation="wave" />
+              <div
+                key={idx}
+                className="item"
+              >
+                <Skeleton
+                  variant="square"
+                  className="icon"
+                  animation="wave"
+                />
+                <Skeleton
+                  className="text"
+                  animation="wave"
+                />
               </div>
             );
           })}
@@ -23,10 +33,23 @@ const mapSkeleton = (style, rows = 1) => {
         <>
           {Array.from({ length: rows }).map((it, idx) => {
             return (
-              <div key={idx} className="row">
-                <Skeleton variant="circle" className="icon" animation="wave" />
-                <Skeleton className="text" animation="wave" />
-                <Skeleton className="amount" animation="wave" />
+              <div
+                key={idx}
+                className="row"
+              >
+                <Skeleton
+                  variant="circle"
+                  className="icon"
+                  animation="wave"
+                />
+                <Skeleton
+                  className="text"
+                  animation="wave"
+                />
+                <Skeleton
+                  className="amount"
+                  animation="wave"
+                />
               </div>
             );
           })}
@@ -37,8 +60,15 @@ const mapSkeleton = (style, rows = 1) => {
         <div className="sq-skelton--ticket container-fluid">
           {Array.from({ length: rows }).map((it, idx) => {
             return (
-              <div key={idx} className="row">
-                <Skeleton variant="rect" height={80} width={'100%'} />
+              <div
+                key={idx}
+                className="row"
+              >
+                <Skeleton
+                  variant="rect"
+                  height={80}
+                  width={'100%'}
+                />
               </div>
             );
           })}
@@ -47,27 +77,49 @@ const mapSkeleton = (style, rows = 1) => {
     case 'balance':
       return (
         <>
-          <Skeleton className="text" width={250} animation="wave" />
+          <Skeleton
+            className="text"
+            width={250}
+            animation="wave"
+          />
           <h1>
-            <Skeleton variant="rect" width={400} />
+            <Skeleton
+              variant="rect"
+              width={400}
+            />
           </h1>
-          <Skeleton className="text" width={150} animation="wave" />
+          <Skeleton
+            className="text"
+            width={150}
+            animation="wave"
+          />
         </>
       );
     case 'stat-chart':
       return (
         <>
-          <Skeleton variant="rect" height={300} />
+          <Skeleton
+            variant="rect"
+            height={300}
+          />
         </>
       );
     case 'amount-stat':
       return (
         <>
           <div className="top">
-            <Skeleton className="eyebrow" width={100} animation="wave" />
+            <Skeleton
+              className="eyebrow"
+              width={100}
+              animation="wave"
+            />
           </div>
           <div className="data">
-            <Skeleton className="percentage" width={70} animation="wave" />
+            <Skeleton
+              className="percentage"
+              width={70}
+              animation="wave"
+            />
             <Skeleton
               className="amount"
               variant="rect"
@@ -81,10 +133,26 @@ const mapSkeleton = (style, rows = 1) => {
       return (
         <>
           <div className="left">
-            <Skeleton className="eyebrow" width={200} animation="wave" />
-            <Skeleton className="eyebrow" width={200} animation="wave" />
-            <Skeleton className="eyebrow" width={200} animation="wave" />
-            <Skeleton className="eyebrow" width={200} animation="wave" />
+            <Skeleton
+              className="eyebrow"
+              width={200}
+              animation="wave"
+            />
+            <Skeleton
+              className="eyebrow"
+              width={200}
+              animation="wave"
+            />
+            <Skeleton
+              className="eyebrow"
+              width={200}
+              animation="wave"
+            />
+            <Skeleton
+              className="eyebrow"
+              width={200}
+              animation="wave"
+            />
           </div>
           <div className="right">
             <div className="permission-item">
@@ -94,11 +162,31 @@ const mapSkeleton = (style, rows = 1) => {
                 animation="wave"
                 width={200}
               />
-              <Skeleton className="percentage" width={70} animation="wave" />
-              <Skeleton className="percentage" width={70} animation="wave" />
-              <Skeleton className="percentage" width={70} animation="wave" />
-              <Skeleton className="percentage" width={70} animation="wave" />
-              <Skeleton className="percentage" width={70} animation="wave" />
+              <Skeleton
+                className="percentage"
+                width={70}
+                animation="wave"
+              />
+              <Skeleton
+                className="percentage"
+                width={70}
+                animation="wave"
+              />
+              <Skeleton
+                className="percentage"
+                width={70}
+                animation="wave"
+              />
+              <Skeleton
+                className="percentage"
+                width={70}
+                animation="wave"
+              />
+              <Skeleton
+                className="percentage"
+                width={70}
+                animation="wave"
+              />
             </div>
             <div className="permission-item">
               <Skeleton
@@ -107,11 +195,31 @@ const mapSkeleton = (style, rows = 1) => {
                 animation="wave"
                 width={200}
               />
-              <Skeleton className="percentage" width={70} animation="wave" />
-              <Skeleton className="percentage" width={70} animation="wave" />
-              <Skeleton className="percentage" width={70} animation="wave" />
-              <Skeleton className="percentage" width={70} animation="wave" />
-              <Skeleton className="percentage" width={70} animation="wave" />
+              <Skeleton
+                className="percentage"
+                width={70}
+                animation="wave"
+              />
+              <Skeleton
+                className="percentage"
+                width={70}
+                animation="wave"
+              />
+              <Skeleton
+                className="percentage"
+                width={70}
+                animation="wave"
+              />
+              <Skeleton
+                className="percentage"
+                width={70}
+                animation="wave"
+              />
+              <Skeleton
+                className="percentage"
+                width={70}
+                animation="wave"
+              />
             </div>
           </div>
         </>
@@ -120,14 +228,21 @@ const mapSkeleton = (style, rows = 1) => {
       return (
         <>
           <div className="row">
-            <div className="col-xs-12 mb-wide col-md-8">
-              <Skeleton height={50} />
+            <div className="col-xs-12 col-md-8">
+              <Skeleton height={150} />
             </div>
-            <div className="col-xs-12 mb-wide col-md-4">
-              <Skeleton height={50} />
+            <div className="col-xs-12 col-md-4">
+              <Skeleton height={150} />
             </div>
-            <div className="col-xs-12 mb-wide">
-              <Skeleton height={50} />
+          </div>
+          <div className="row">
+            <div className="col">
+              <Skeleton height={250} />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <Skeleton height={250} />
             </div>
           </div>
         </>
@@ -144,11 +259,7 @@ const mapSkeleton = (style, rows = 1) => {
 };
 
 const SQSkeleton = ({ styleName = 'default', rows }) => {
-  return (
-    <div className={`sq-skeleton  sq-skeleton--${styleName}`}>
-      {mapSkeleton(styleName, rows)}
-    </div>
-  );
+  return <div className={`sq-skeleton  sq-skeleton--${styleName}`}>{mapSkeleton(styleName, rows)}</div>;
 };
 
 SQSkeleton.propTypes = {
