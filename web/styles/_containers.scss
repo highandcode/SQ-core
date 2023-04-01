@@ -96,13 +96,13 @@
 }
 
 .container-max {
-  max-width: 1280px;
+  max-width: $screen-max;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
 }
 .container-wide {
-  max-width: 1440px;
+  max-width: $screen-xlg;
   margin-left: auto;
   margin-right: auto;
   width: 100%;

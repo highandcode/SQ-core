@@ -76,7 +76,8 @@
   &--fixed-width-auto-height {
     position: relative;
     > div {
-      width: calc(100vw - 30px);
+      width: 100%;
+      max-width: $screen-max;
     }
   }
   &--fixed {
