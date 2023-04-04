@@ -92,9 +92,9 @@ customHooks.add('authentication', {
     dispatch(loadUserProfile());
   },
 });
-export const loadUserProfile = () => async (dispatch) => {
+export const loadUserProfile = (userProfile) => async (dispatch) => {
   // console.log(getState().content.userData);
-  const response = await utils.apiBridge.get(adminConfig.apis.userInfo, {});
+  const response = await utils.apiBridge[userProfile?.method || 'get'](userProfile?.url || adminConfig.apis.userInfo, {});
   if (
     response.status !== CONSTANTS.STATUS.SUCCESS &&
     utils.cookie.get('qjs-token')
@@ -307,7 +307,7 @@ export const addUserToRole =
   };
 
 export const savePermissionMapping =
-  (payload, { url } = {}) =>
+  (payload, { url, userProfile } = {}) =>
   async (dispatch, getState) => {
     const response = await utils.apiBridge.post(
       url || adminConfig.apis.savePermissionByRole,
@@ -320,7 +320,7 @@ export const savePermissionMapping =
           type: 'success',
         })
       );
-      await dispatch(loadUserProfile());
+      await dispatch(loadUserProfile(userProfile));
       utils.redirect.redirectTo('viewRoles');
     } else {
       await dispatch(

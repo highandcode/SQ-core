@@ -504,7 +504,7 @@ class Users extends BaseContainer {
                       className: 'col-icon',
                       sort: false,
                       component: {
-                        textIcon: (row) => row.firstName.substr(0, 1),
+                        textIcon: (row) => row.firstName?.substr(0, 1),
                         iconClass: (row) => 'sq-icon--square',
                         variant: (row) =>
                           row.active

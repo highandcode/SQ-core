@@ -113,7 +113,7 @@ class RoleDetails extends BaseContainer {
         roleCode: this.state.roleCode,
         permissionCode: _.uniq(allPerms),
       },
-      pageData?.apiConfig?.permissionMapping
+      {...pageData?.apiConfig?.permissionMapping, userProfile: pageData?.apiConfig?.userProfile}
     );
   }
 

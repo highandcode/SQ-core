@@ -65,6 +65,7 @@ items:
         validators:
           - type: required
           - type: phone
+ 
       - cmpType: Select
         name: role
         label: Role
@@ -104,6 +105,7 @@ items:
           type: error
           
     params:
+      password: .user.password
       firstName: .user.firstName
       lastName: .user.lastName
       email: .user.email
