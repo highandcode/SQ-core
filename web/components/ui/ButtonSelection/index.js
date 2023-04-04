@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import Icon from '../../Icon';
 
-const ButtonSelection = ({ className = '', label, options = [], textField = 'text', valueField = 'value', value, onChange, variant = 'outlined' }) => {
+const ButtonSelection = ({ className = '', label, options = [], defaultValue, textField = 'text', valueField = 'value', value, onChange, variant = 'outlined' }) => {
   const handleClick = (e, option) => {
     if (option[valueField] !== value) {
       onChange &&
@@ -16,7 +16,7 @@ const ButtonSelection = ({ className = '', label, options = [], textField = 'tex
     } else {
       onChange &&
         onChange({
-          value: undefined,
+          value: defaultValue || undefined,
         });
     }
   };
