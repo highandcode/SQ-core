@@ -37,7 +37,7 @@ var object = {
   },
   processBlock: function (block, options = {}) {
     const { userData } = options;
-    Object.keys(block).forEach((keyForBlock) => {
+    !common.isNullOrUndefined(block) && Object.keys(block).forEach((keyForBlock) => {
       if (Array.isArray(block[keyForBlock])) {
         block[keyForBlock].forEach((item) => {
           object.processBlock(item, { userData });
@@ -50,7 +50,7 @@ var object = {
         object.processBlock(item, { userData });
       }
     });
-    if (block.inject) {
+    if (block?.inject) {
       Object.keys(block.inject).forEach((key) => {
         const keyDynoData = object.getDataFromKey(userData, key);
         if (typeof block.inject[key] === 'object' && block.inject[key] !== null && block.inject[key].match) {
