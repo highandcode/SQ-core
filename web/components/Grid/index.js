@@ -19,7 +19,6 @@ class Grid extends React.Component {
   constructor() {
     super();
     this.state = {
-      viewType,
       updatedIndex: 0,
       data: [],
       validated: false,
