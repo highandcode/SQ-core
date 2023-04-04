@@ -19,7 +19,7 @@ class Grid extends React.Component {
   constructor() {
     super();
     this.state = {
-      viewType: 'default',
+      viewType,
       updatedIndex: 0,
       data: [],
       validated: false,
@@ -78,8 +78,9 @@ class Grid extends React.Component {
   }
 
   onViewTypeChange(data) {
+    const { viewType = 'default' } = this.props;
     this.setState({
-      viewType: data.value || 'default',
+      viewType: data.value || viewType,
     });
   }
 
@@ -140,7 +141,7 @@ class Grid extends React.Component {
   }
 
   render() {
-    const { columns = [], editColumnPane = {}, showColSelection = false, addSpacer = true, data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default' } = this.props;
+    const { columns = [], editColumnPane = {}, showColSelection = false, addSpacer = true, data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default', viewType = 'default' } = this.props;
     const actionsClassName = this.hasActionClickRow() ? 'sq-grid--has-action' : '';
     const finalColumns = columns
       .sort((a, b) => {
@@ -153,7 +154,7 @@ class Grid extends React.Component {
     const fixedRightColumns = finalColumns.filter((i) => i.fixed === true && i.direction === 'right');
     const otherColumns = finalColumns.filter((i) => !i.fixed);
     return (
-      <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle} sq-grid--view-${this.state.viewType}`}>
+      <div className={`sq-grid ${className} ${actionsClassName} sq-grid--${gridStyle} sq-grid--view-${this.state.viewType || viewType}`}>
         <Dialog
           open={showColSelection}
           transitionDir="left"
