@@ -1,4 +1,5 @@
 import BaseChart from './Base';
+import common from '../../../utils/common';
 
 class LineChart extends BaseChart {
   constructor(el, options = {}) {
@@ -6,15 +7,15 @@ class LineChart extends BaseChart {
       el,
       {
         chart: options,
-        chartType: 'LineChart'
+        chartType: 'LineChart',
       },
       {
         margin: {
           top: 20,
           bottom: 90,
           left: 60,
-          right: 20
-        }
+          right: 20,
+        },
       }
     );
   }
@@ -30,7 +31,8 @@ class LineChart extends BaseChart {
   hideAllFocus() {
     const { series } = this.config;
     this.focus.main.style('display', 'none');
-    series.forEach((ser) => {});
+    const tooltip = d3.select(this.element).select('.sq-chart-d-tooltip');
+    tooltip.style('opacity', '0');
   }
 
   showAllFocus() {
@@ -44,12 +46,12 @@ class LineChart extends BaseChart {
     const vis = this;
     const element = this.element;
     var { xValue, margin, series = [], colorSet, yAxis = {}, xAxis = {}, tooltip = {}, legendLabelWidth = 100 } = this.config;
-    const { type: xAxisDataType} = xAxis;
+    const { type: xAxisDataType } = xAxis;
     const { format: yAxisFormatter } = yAxis;
     const { formatter: tooltipFormatter = (v) => v } = tooltip;
     var { width, height, innerWidth, innerHeight } = this.getWidth();
     vis.t = d3.transition().duration(1000);
-    vis.x = d3.scaleTime().range([0, innerWidth]);
+    vis.x = d3.scaleUtc().range([0, innerWidth]);
     vis.y = d3.scaleLinear().range([innerHeight, 0]);
     vis.data = vis.data.map((item) => {
       return {
@@ -80,6 +82,7 @@ class LineChart extends BaseChart {
     vis.focus = {};
     vis.focus.main = vis.g.append('g').attr('class', `focus`).style('display', 'none');
     vis.focus.main.append('line').attr('class', 'x-hover-line hover-line').attr('y1', 0).attr('y2', innerHeight);
+
     series.forEach((ser) => {
       vis.focus[ser.name] = vis.focus.main.append('g').attr('class', `circle-data ${ser.name}`);
       vis.focus[ser.name].append('circle').attr('r', 7.5).attr('class', `sq-line-chart-circle`).style('stroke', ser.color);
@@ -103,11 +106,15 @@ class LineChart extends BaseChart {
       const d = x0 - d0[xValue] > d1[xValue] - x0 ? d1 : d0;
       vis.focus.main.attr('transform', `translate(${vis.x(d[xValue])},0 )`);
       vis.focus.main.select('.x-hover-line').attr('y2', innerHeight);
-
+      const tooltip = d3.select(vis.element).select('.sq-chart-d-tooltip');
+      tooltip.html(tooltipFormatter(e, d, series));
+      tooltip.style('left', `${vis.x(d[xValue])}px`);
+      tooltip.style('opacity', `1`);
+      tooltip.style('top', `0px`);
       series.forEach((ser) => {
         vis.focus[ser.name].select('circle').attr('cy', vis.y(d[ser.yValue]));
         vis.focus[ser.name].select('text').attr('y', vis.y(d[ser.yValue]));
-        vis.focus[ser.name].select('text').text(tooltipFormatter(d[ser.yValue], d));
+        vis.focus[ser.name].select('text').html(tooltipFormatter(d[ser.yValue], d));
       });
     }
 
@@ -153,17 +160,17 @@ class LineChart extends BaseChart {
     // Path generator
     // Update our line path
     series.forEach((ser) => {
+
       vis.line = d3
         .line()
+        // .curve(d3.curveLinear)
         .x((d) => {
-          // console.log('@@@x', vis.x(d[xValue]));
-          return vis.x(d[xValue]);
+          return !common.isNullOrUndefined(d[xValue]) ? vis.x(d[xValue]) : null;
         })
         .y((d) => {
-          // console.log('@@@y', vis.y(d[ser.yValue]));
-          return vis.y(d[ser.yValue]);
+          return !common.isNullOrUndefined(d[ser.yValue]) ? vis.y(d[ser.yValue]) : null;
         });
-      vis.g.select(`.line.${ser.name}`).attr('stroke', ser.color).transition(vis.t).attr('d', vis.line(vis.data));
+      vis.g.select(`.line.${ser.name}`).attr('stroke', ser.color).attr('d', vis.line(vis.data));
     });
   }
 
@@ -190,6 +197,7 @@ class LineChart extends BaseChart {
       vis.g.append('path').attr('class', `line ${ser.name}`).attr('fill', 'none').attr('stroke', 'grey').attr('stroke-width', strokeWidth);
     });
     this.legend = g.append('g').attr('class', 'sq-chart-legend');
+    this.tooltipEl = d3.select(element).append('div').attr('class', 'sq-chart-d-tooltip');
     // axis generators
     vis.xAxisCall = d3.axisBottom();
     vis.yAxisCall = d3.axisLeft().ticks(6);

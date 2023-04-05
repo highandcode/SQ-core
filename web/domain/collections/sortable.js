@@ -1,7 +1,7 @@
 import Queryable from './queryable';
 
 class Sortable {
-  constructor(data = [], { entityType }) {
+  constructor(data = [], { entityType = function () { return this; } } = {}) {
     this.rData = data;
     this.entityType = entityType;
     this._sortOrder = [];
@@ -10,7 +10,7 @@ class Sortable {
   sortOrder(field, order = 'asc') {
     this._sortOrder.push({
       field,
-      order
+      order,
     });
     return this;
   }
