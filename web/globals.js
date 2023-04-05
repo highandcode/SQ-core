@@ -110,8 +110,7 @@ export const GLOBAL_OPTIONS = {
   }),
   pageWrapperClasses: new GlobalOptions({
     'sq-content-page--full-width': 'sq-content-page--full-width',
-    'sq-content-page--header-footer-body':
-      'sq-content-page--header-footer-body',
+    'sq-content-page--header-footer-body': 'sq-content-page--header-footer-body',
   }),
   buttonSize: new GlobalOptions({
     small: 'small',
@@ -139,8 +138,7 @@ export const GLOBAL_OPTIONS = {
   }),
   heroStyles: new GlobalOptions({
     'sq-hero-content--left-aligned': 'sq-hero-content--left-aligned',
-    'sq-hero-content--large-background-theme-dark':
-      'sq-hero-content--large-background-theme-dark',
+    'sq-hero-content--large-background-theme-dark': 'sq-hero-content--large-background-theme-dark',
     'sq-hero-content--bg-black': 'sq-hero-content--bg-black',
     'sq-hero-content--bg-gray': 'sq-hero-content--bg-gray',
     'sq-hero-content--dark': 'sq-hero-content--dark',

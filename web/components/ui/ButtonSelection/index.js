@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import Icon from '../../Icon';
 
-const ButtonSelection = ({ className = '', label, options = [], defaultValue, textField = 'text', valueField = 'value', value, onChange, variant = 'outlined' }) => {
+const ButtonSelection = ({ className = '', label, options = [], defaultValue, textField = 'text', valueField = 'value', disabled, value, onChange, variant = 'outlined' }) => {
   const handleClick = (e, option) => {
     if (option[valueField] !== value) {
       onChange &&
@@ -25,7 +25,7 @@ const ButtonSelection = ({ className = '', label, options = [], defaultValue, te
     <div className={`sq-button-selection ${className}`}>
       <div className="sq-button-selection__container">
         {label && <div className="sq-button-selection__label">{label}</div>}
-        <ButtonGroup variant={variant} aria-label={label}>
+        <ButtonGroup variant={variant} aria-label={label} disabled={disabled}>
           {options.map((item, idx) => {
             const selectedProsp = {};
             const isSelected = item.value === value;
