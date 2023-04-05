@@ -1,4 +1,5 @@
 import BaseChart from './Base';
+import common from '../../../utils/common';
 
 class LineChart extends BaseChart {
   constructor(el, options = {}) {
@@ -164,10 +165,10 @@ class LineChart extends BaseChart {
         .line()
         // .curve(d3.curveLinear)
         .x((d) => {
-          return vis.x(d[xValue]);
+          return !common.isNullOrUndefined(d[xValue]) ? vis.x(d[xValue]) : null;
         })
         .y((d) => {
-          return vis.y(d[ser.yValue]);
+          return !common.isNullOrUndefined(d[ser.yValue]) ? vis.y(d[ser.yValue]) : null;
         });
       vis.g.select(`.line.${ser.name}`).attr('stroke', ser.color).attr('d', vis.line(vis.data));
     });
