@@ -1,4 +1,10 @@
 .sq-form-object {
+  position: relative;
+  &__float-full {
+    position: absolute;
+    top: 0;
+    left: -30px;
+  }
   &__item-wrap {
     display: flex;
   }
@@ -7,6 +13,10 @@
   }
   .sq-form__field {
     margin-bottom: 8px;
+  }
+  &__top-actions {
+    display: flex;
+    align-items: center;
   }
   .sq-form--object-mode {
     
@@ -76,5 +86,8 @@
     top: 0;
     z-index: $z-index-level-topest;
     background-color: white;
+    .sq-form-object__float-full {
+      position: static;
+    }
   }
 }

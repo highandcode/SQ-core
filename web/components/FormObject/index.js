@@ -178,7 +178,10 @@ class FormObject extends Component {
     const isArray = this.isArray(value);
     return (
       <div className={`sq-form-object ${className} ${this.state.fullScreen ? 'sq-form-object--full-screen' : ''}`}>
-        {label && <div className="sq-form-object__label mb-wide">{label}</div>}
+        <div className="sq-form-object__top-actions mb-1">
+          {label && <div className="sq-form-object__label">{label}</div>}
+          <IconButton className={label ? '' : 'sq-form-object__float-full'} iconSize="small" iconName={this.state.fullScreen ? 'FullscreenExit' : 'Fullscreen'} onClick={this.toggleFullScreen} />
+        </div>
         {value &&
           Object.keys(value).map((itemKey, idx) => {
             const itemVal = { key: itemKey, value: value[itemKey] };
@@ -227,7 +230,6 @@ class FormObject extends Component {
           })}
         <div className="sq-form-object__actions">
           <IconButton iconSize="small" iconName="add" onClick={() => this.addNew(isArray)} />
-          <IconButton iconSize="small" iconName={this.state.fullScreen ? 'FullscreenExit' : 'Fullscreen'} onClick={this.toggleFullScreen} />
           {!isArray && <IconButton iconSize="small" title={'Convert to array'} iconName="DataArray" color="info" size="small" onClick={() => this.changeToArray()} />}
           {isArray && <IconButton iconSize="small" title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.changeToObject()} />}
         </div>
