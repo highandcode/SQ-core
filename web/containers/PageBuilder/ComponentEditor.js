@@ -60,7 +60,6 @@ class ComponentEditor extends Component {
   }
 
   deleteComponent() {
-    console.log('delete');
     const { onDelete } = this.props;
     onDelete && onDelete();
   }

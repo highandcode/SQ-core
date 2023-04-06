@@ -32,7 +32,6 @@ class FormObject extends Component {
       objVal[data.value.key * 1] = oldValue || data.value.value;
     }
 
-    console.log(objVal);
     onChange &&
       onChange({
         value: objVal,

@@ -208,7 +208,6 @@ export const sendContact = createAsyncThunk(
 );
 
 export const updateErrorData = (data) => (dispatch) => {
-  console.log('error data', data);
   const errors = {
     lastError: {},
   };
