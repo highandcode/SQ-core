@@ -76,7 +76,10 @@ class CustomProcessor {
           if (options) {
             const filterOpt = options.filter((i) => i[valueField] === value);
             if (filterOpt.length > 0) {
-              return filterOpt[0][textField];
+              return {
+                text: filterOpt[0][textField],
+                value: filterOpt[0][valueField],
+              };
             }
           }
           if (this.globalOptions[optionsName]) {
