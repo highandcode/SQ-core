@@ -31,7 +31,7 @@ const DataField = ({
   const RenderText = fields[fieldType] || fields.Text;
   let otherProps = {};
   if (optionsName) {
-    otherProps = processor.execute('globals.getOption', value, { optionsName });
+    otherProps = processor.execute('globals.getOption', value, { optionsName, ...rest });
   }
   return (
     <div className={`sq-data-field ${className} sq-data-field--${size}`}>
