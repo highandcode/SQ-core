@@ -1,6 +1,10 @@
 .sq-placeholder-drop {
  
-  
+  &__hover-text {
+    border-radius: 5px;
+    text-align: center;
+    @include b6-style();
+  }
 
   &-style-box {
     padding: 20px;
@@ -21,16 +25,25 @@
   }
   &-style-line {
     padding: 5px;
-    border-top: solid 2px transparent;
     .sq-placeholder-drop__content {
       display: none;
     }
+    .sq-placeholder-drop__hover-text {
+      display: none;
+    }
     &.sq-placeholder-drop--active {
-      background-color: $sq-color-info-lighter;
-      border-top: solid 2px $sq-color-info-light;
+      .sq-placeholder-drop__hover-text {
+        border-top: solid 5px $sq-color-info-light;
+        display: block;
+        background-color: $sq-color-info-lighter;
+      }
     }
     &.sq-placeholder-drop--can-drop {
-      // border-top: solid 2px $sq-color-slate-lightest;
+      .sq-placeholder-drop__hover-text {
+        border-top: solid 5px $sq-color-warning-light;
+        display: block;
+        background-color: $sq-color-warning-lighter;
+      }
     }
     &.sq-placeholder-drop--default {
       

@@ -64,21 +64,36 @@ class ComponentEditor extends Component {
     onDelete && onDelete();
   }
 
-  onComponentDrop(dataComp) {
+  onComponentDrop(dataComp, idx) {
     const { metaData, ...data } = dataComp;
     const { onChange, itemsPropName, compTypeProp, value } = this.props;
-    const finalData = {
-      ...value,
-      [itemsPropName]: [
-        ...((value && value[itemsPropName]) || []),
-        {
-          [compTypeProp]: data.name,
-          ...metaData.sampleData,
-          ...data,
-          name: `${value.name}${value.name ? '_' : ''}${data.name?.toLowerCase()}_${value[itemsPropName]?.length + 1 || 1}`,
-        },
-      ],
-    };
+    let finalData;
+    if (idx !== undefined) {
+      const itemArra = [...((value && value[itemsPropName]) || [])];
+      itemArra.splice(idx, 0, {
+        [compTypeProp]: data.name,
+        ...metaData.sampleData,
+        ...data,
+        name: `${value.name}${value.name ? '_' : ''}${data.name?.toLowerCase()}_${value[itemsPropName]?.length + 1 || 1}`,
+      });
+      finalData = {
+        ...value,
+        [itemsPropName]: itemArra,
+      };
+    } else {
+      finalData = {
+        ...value,
+        [itemsPropName]: [
+          ...((value && value[itemsPropName]) || []),
+          {
+            [compTypeProp]: data.name,
+            ...metaData.sampleData,
+            ...data,
+            name: `${value.name}${value.name ? '_' : ''}${data.name?.toLowerCase()}_${value[itemsPropName]?.length + 1 || 1}`,
+          },
+        ],
+      };
+    }
 
     onChange && onChange(finalData);
   }
@@ -125,11 +140,12 @@ class ComponentEditor extends Component {
   }
 
   render() {
-    const { pageData = {}, Component, fieldsMeta, itemsPropName, name, isStart, isEnd, value, compTypeProp, component, editData } = this.props;
+    const { pageData = {}, Component, fieldsMeta, idx, itemsPropName, name, isStart, isEnd, value, compTypeProp, component, editData } = this.props;
     const { hasItems } = this.props;
     const { [itemsPropName]: items } = value || {};
     const { className = '' } = pageData;
     const { hasPlaceholder, accept, compList, defaultComp } = this.props;
+    const identifier = `${component}${value.className ? `.${value.className}` : ''}${value.name ? `#${value.name}` : ''}`;
     return (
       <div className={`sq-component-editor ${className} ${value.className || ''}`}>
         <Dialog
@@ -156,7 +172,7 @@ class ComponentEditor extends Component {
             )}
           </div>
         </Dialog>
-        <Tooltip title={`${component}${value.className ? `.${value.className}` : ''}${value.name ? `#${value.name}` : ''}`}>
+        <Tooltip title={identifier}>
           <div className="sq-component-editor__name">
             {component}
             {value.name ? `#${value.name}` : ''}
@@ -184,11 +200,13 @@ class ComponentEditor extends Component {
             ]}
           />
         </div>
+        {<Placeholder hoverText={identifier} plaecHolderStyle="line" name={value.name} component={component} accept={accept} onDrop={(d) => this.onComponentDrop(d, idx)} />}
         <div className={`sq-component-editor__container ${value.bodyClassName}`}>
           <ErrorBoundary>
             {!hasItems && (
               <ErrorBoundary>
                 {Component && <Component {...value} />}
+                123 {accept}
                 {!Component && <div className="text-center">Preview not available</div>}
               </ErrorBoundary>
             )}
@@ -200,8 +218,10 @@ class ComponentEditor extends Component {
                 return (
                   <ErrorBoundary key={idx}>
                     <ComponentEditor
+                      idx={idx}
                       parentName={item.name}
                       fieldsMeta={fieldsMeta}
+                      accept={accept}
                       component={item[compTypeProp] || defaultComp}
                       isStart={idx === 0}
                       isEnd={idx === items.length - 1}
@@ -220,7 +240,7 @@ class ComponentEditor extends Component {
               })}
           </ErrorBoundary>
         </div>
-        {hasPlaceholder && <Placeholder name={value.name} component={component} accept={accept} onDrop={this.onComponentDrop} />}
+        {hasPlaceholder && <Placeholder hoverText={identifier} plaecHolderStyle='line' name={value.name} component={component} accept={accept} onDrop={this.onComponentDrop} />}
       </div>
     );
   }
