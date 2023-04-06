@@ -26,12 +26,13 @@ const DataField = ({
   defaultText = '--',
   fieldType = '',
   optionsName,
+  options,
   ...rest
 }) => {
   const RenderText = fields[fieldType] || fields.Text;
   let otherProps = {};
-  if (optionsName) {
-    otherProps = processor.execute('globals.getOption', value, { optionsName, ...rest });
+  if (optionsName || options) {
+    otherProps = processor.execute('globals.getOption', value, { optionsName, options, ...rest });
   }
   return (
     <div className={`sq-data-field ${className} sq-data-field--${size}`}>
