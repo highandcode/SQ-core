@@ -548,12 +548,12 @@ class DynamicContent extends Component {
     if (result && typeof result.data?.redirect === 'string') {
       redirectTo(result.data?.redirect);
     } else if (result && result.data?.redirect?.to) {
-      redirectTo(result.data?.redirect.to, processParams(this.props.store.content.userData, result.data?.redirect.urlParams));
+      redirectTo(result.data?.redirect.to, processParams(this.props.store.content.userData, result.data?.redirect.urlParams), result.data?.redirect?.options);
     }
     if (result && typeof result.error?.redirect === 'string') {
       redirectTo(result.error?.redirect);
     } else if (result && result.error?.redirect?.to) {
-      redirectTo(result.error?.redirect.to, processParams(this.props.store.content.userData, result.error?.redirect.urlParams));
+      redirectTo(result.error?.redirect.to, processParams(this.props.store.content.userData, result.error?.redirect.urlParams), result.error?.redirect?.options);
     }
   }
 
