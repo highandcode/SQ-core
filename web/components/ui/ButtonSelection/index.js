@@ -26,7 +26,7 @@ const ButtonSelection = ({ className = '', label, options = [], defaultValue, te
       <div className="sq-button-selection__container">
         {label && <div className="sq-button-selection__label">{label}</div>}
         <ButtonGroup variant={variant} aria-label={label} disabled={disabled}>
-          {options.map((item, idx) => {
+          {options?.map && options.map((item, idx) => {
             const selectedProsp = {};
             const isSelected = item.value === value;
             if (isSelected) {
