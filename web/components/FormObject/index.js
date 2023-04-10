@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Form from '../Form';
 import IconButton from '../ui/IconButton';
 import Dialog from '../Dialog';
-// import Actions from '../Actions';
+import Alert from '../Alert';
 
 class FormObject extends Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class FormObject extends Component {
     this.changeToObject = this.changeToObject.bind(this);
     this.toggleFullScreen = this.toggleFullScreen.bind(this);
     this.replaceFromText = this.replaceFromText.bind(this);
+    this.onFormTextChange = this.onFormTextChange.bind(this);
   }
   valueOnChange(data, key, isArray) {
     const { onChange, value = {} } = this.props;
@@ -168,21 +169,23 @@ class FormObject extends Component {
         value: isArray ? [...value, {}] : { ...value, [keyName + idx]: '' },
       });
   }
+
+  onFormTextChange(data) {
+    this.setState({
+      currentTxt: {
+        currentError: '',
+        text: data.value?.text,
+      },
+    });
+  }
   replaceFromText() {
     this.setState({
       openText: true,
+      currentError: '',
+      currentTxt: {
+        text: JSON.stringify(this.props.value || {}),
+      },
     });
-    // const { onChange, value = {}, keyName = 'key' } = this.props;
-    // let idx = 0;
-    // if (!isArray) {
-    //   while (value[keyName + idx] || value[keyName + idx] === '') {
-    //     idx++;
-    //   }
-    // }
-    // onChange &&
-    //   onChange({
-    //     value: isArray ? [...value, {}] : { ...value, [keyName + idx]: '' },
-    //   });
   }
 
   toggleFullScreen() {
@@ -191,14 +194,31 @@ class FormObject extends Component {
     });
   }
 
-  handleAction(dialogAction) {
+  handleAction(data, dialogAction) {
+    const { onChange } = this.props;
     switch (dialogAction.action) {
       case 'cancel':
         this.setState({
-          openText: true,
+          openText: false,
         });
         break;
       case 'ok':
+        try {
+          let obj = JSON.parse(this.state.currentTxt.text);
+          let isArray = Array.isArray(obj);
+          onChange &&
+            onChange({
+              value: isArray ? [...obj] : { ...obj },
+            });
+          this.setState({
+            openText: false,
+          })
+        } catch (ex) {
+          this.setState({
+            currentError: 'JSON parse failed',
+          });
+        }
+        
         break;
     }
   }
@@ -215,7 +235,7 @@ class FormObject extends Component {
           }}
           closeButton={true}
           open={this.state.openText}
-          onAction={(data, dialogAction) => this.handleAction(dialogAction)}
+          onAction={(data, dialogAction) => this.handleAction(data, dialogAction)}
           onClose={() => this.setState({ openText: false })}
           actions={[
             {
@@ -230,14 +250,19 @@ class FormObject extends Component {
           ]}
         >
           <Form
+            className={'pb-none'}
             fields={[
               {
                 name: 'text',
                 cmpType: 'Textarea',
                 label: 'Text Data',
+                minRows: 30,
               },
             ]}
+            value={this.state.currentTxt}
+            onChange={this.onFormTextChange}
           />
+          {this.state.currentError && <Alert message={this.state.currentError} type="warning" />}
         </Dialog>
         <div className="sq-form-object__top-actions mb-1">
           {label && <div className="sq-form-object__label">{label}</div>}
