@@ -97,9 +97,7 @@
       }
       &-text {
         width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        @include text-ellipsis($lines: 1);
       }
       &.sort-enable {
         .sq-grid__header-row-cell-wrapper {
@@ -278,9 +276,7 @@
       .sq-grid__data-cell {
         padding: 0 4px !important;
         .sq-text {
-          white-space: nowrap!important;
-          overflow: hidden!important;
-          text-overflow: ellipsis!important;
+          @include text-ellipsis($lines: 1);
         }
       }
     }
@@ -293,6 +289,9 @@
       }
       .sq-grid__data-cell {
         padding: 8px 20px !important;
+        .sq-text {
+          @include text-ellipsis($lines: 3);
+        }
       }
     }
   }
@@ -339,9 +338,7 @@
       justify-content: flex-start;
       overflow: hidden;
       .sq-text {
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+        @include text-ellipsis($lines: 1);
       }
     }
     .col-small {
