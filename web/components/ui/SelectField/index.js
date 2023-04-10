@@ -63,6 +63,10 @@ const SelectField = ({
         <Select
           id={name}
           MenuProps={{
+            autoFocus: false,
+            disableAutoFocusItem: true,
+            disableEnforceFocus: true,
+            disableAutoFocus: true,
             classes: {
               root: 'sq-select-field__pop-over'
             }
