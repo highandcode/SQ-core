@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Form from '../Form';
 import IconButton from '../ui/IconButton';
+import Dialog from '../Dialog';
 // import Actions from '../Actions';
 
 class FormObject extends Component {
@@ -17,6 +18,7 @@ class FormObject extends Component {
     this.formOnAction = this.formOnAction.bind(this);
     this.changeToObject = this.changeToObject.bind(this);
     this.toggleFullScreen = this.toggleFullScreen.bind(this);
+    this.replaceFromText = this.replaceFromText.bind(this);
   }
   valueOnChange(data, key, isArray) {
     const { onChange, value = {} } = this.props;
@@ -166,6 +168,22 @@ class FormObject extends Component {
         value: isArray ? [...value, {}] : { ...value, [keyName + idx]: '' },
       });
   }
+  replaceFromText() {
+    this.setState({
+      openText: true,
+    });
+    // const { onChange, value = {}, keyName = 'key' } = this.props;
+    // let idx = 0;
+    // if (!isArray) {
+    //   while (value[keyName + idx] || value[keyName + idx] === '') {
+    //     idx++;
+    //   }
+    // }
+    // onChange &&
+    //   onChange({
+    //     value: isArray ? [...value, {}] : { ...value, [keyName + idx]: '' },
+    //   });
+  }
 
   toggleFullScreen() {
     this.setState({
@@ -173,11 +191,54 @@ class FormObject extends Component {
     });
   }
 
+  handleAction(dialogAction) {
+    switch (dialogAction.action) {
+      case 'cancel':
+        this.setState({
+          openText: true,
+        });
+        break;
+      case 'ok':
+        break;
+    }
+  }
+
   render() {
     const { className = '', label, fields, value = {}, formClassName = 'sq-form--keyval-mode', type, ...rest } = this.props;
     const isArray = this.isArray(value);
     return (
       <div className={`sq-form-object ${className} ${this.state.fullScreen ? 'sq-form-object--full-screen' : ''}`}>
+        <Dialog
+          title={'Replace with Text Data'}
+          classes={{
+            body: 'sq-dialog__content-body--standard',
+          }}
+          closeButton={true}
+          open={this.state.openText}
+          onAction={(data, dialogAction) => this.handleAction(dialogAction)}
+          onClose={() => this.setState({ openText: false })}
+          actions={[
+            {
+              buttonText: 'Save',
+              action: 'ok',
+            },
+            {
+              buttonText: 'Cancel',
+              variant: 'outlined',
+              action: 'cancel',
+            },
+          ]}
+        >
+          <Form
+            fields={[
+              {
+                name: 'text',
+                cmpType: 'Textarea',
+                label: 'Text Data',
+              },
+            ]}
+          />
+        </Dialog>
         <div className="sq-form-object__top-actions mb-1">
           {label && <div className="sq-form-object__label">{label}</div>}
           <IconButton className={label ? '' : 'sq-form-object__float-full'} iconSize="small" iconName={this.state.fullScreen ? 'FullscreenExit' : 'Fullscreen'} onClick={this.toggleFullScreen} />
@@ -229,7 +290,8 @@ class FormObject extends Component {
             );
           })}
         <div className="sq-form-object__actions">
-          <IconButton iconSize="small" iconName="add" onClick={() => this.addNew(isArray)} />
+          <IconButton iconSize="small" iconName="add" title={'Add'} onClick={() => this.addNew(isArray)} />
+          <IconButton iconSize="small" iconName="code" title={'Replace with Text'} onClick={this.replaceFromText} />
           {!isArray && <IconButton iconSize="small" title={'Convert to array'} iconName="DataArray" color="info" size="small" onClick={() => this.changeToArray()} />}
           {isArray && <IconButton iconSize="small" title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.changeToObject()} />}
         </div>
