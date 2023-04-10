@@ -62,7 +62,10 @@
     .sq-template__sub-header {
       background-color: $sq-color-muted-lighter;
     }
-
+    .sq-v-screen__sub-header {
+      position: static;
+      width: 100%;
+    }
     .sq-template__content {
       position: relative;
       height: 200px;
