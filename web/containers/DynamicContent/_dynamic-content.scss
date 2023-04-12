@@ -84,7 +84,7 @@
   min-height: 100%;
   &__body {
     min-height: 100%;
-    float: left;
+    display: inline-block;
     width: 100%;
   }
   .tp-progress {
