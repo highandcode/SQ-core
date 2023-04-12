@@ -8,12 +8,14 @@ import Delete from '@mui/icons-material/Delete';
 import Replay from '@mui/icons-material/Replay';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import Add from '@mui/icons-material/Add';
+import Remove from '@mui/icons-material/Remove';
 import PlayCircleFilled from '@mui/icons-material/PlayCircleFilled';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import VideogameAsset from '@mui/icons-material/VideogameAsset';
 import CalendarViewDay from '@mui/icons-material/CalendarViewDay';
 import ViewDay from '@mui/icons-material/ViewDay';
 import ViewHeadline from '@mui/icons-material/ViewHeadline';
+import RemoveCircleOutline from '@mui/icons-material/RemoveCircleOutline';
 import OpenWith from '@mui/icons-material/OpenWith';
 import MonetizationOn from '@mui/icons-material/MonetizationOn';
 import DragHandle from '@mui/icons-material/DragHandle';
@@ -216,6 +218,7 @@ const types = {
   app: {},
   system: {
     'add-circle-outline': AddCircleOutline,
+    'remove-circle-outline': RemoveCircleOutline,
     'add-circle': AddCircle,
     Restore,
     LockOpen,
@@ -396,6 +399,7 @@ const types = {
     list: ListIcon,
     AccountTree,
     add: Add,
+    remove: Remove,
     transactions: Receipt,
     expenses: MonetizationOn,
     money: Money,

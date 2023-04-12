@@ -8,7 +8,7 @@ import Alert from '../Alert';
 class FormObject extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: [], objMap: {}, objArray: {}, fullScreen: false };
+    this.state = { data: [], objMap: {}, objArray: {}, fullScreen: false, expandItems: {} };
     this.addNew = this.addNew.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.convertToObj = this.convertToObj.bind(this);
@@ -20,6 +20,7 @@ class FormObject extends Component {
     this.toggleFullScreen = this.toggleFullScreen.bind(this);
     this.replaceFromText = this.replaceFromText.bind(this);
     this.onFormTextChange = this.onFormTextChange.bind(this);
+    this.expandItem = this.expandItem.bind(this);
   }
   valueOnChange(data, key, isArray) {
     const { onChange, value = {} } = this.props;
@@ -223,6 +224,15 @@ class FormObject extends Component {
     }
   }
 
+  expandItem(itemKey) {
+    this.setState({
+      expandItems: {
+        ...this.state.expandItems,
+        [itemKey]: !this.state.expandItems[itemKey],
+      }
+    });
+  }
+
   render() {
     const { className = '', label, fields, value = {}, formClassName = 'sq-form--keyval-mode', type, ...rest } = this.props;
     const isArray = this.isArray(value);
@@ -277,6 +287,8 @@ class FormObject extends Component {
             return (
               <div className="sq-form-object__item" key={itemVal.key}>
                 <div className="sq-form-object__item-wrap">
+                  {isObject && !this.state.expandItems[itemKey] && <IconButton className='sq-form-object__expand-collapse' iconSize="small" iconName="add-circle-outline" title="Expand" color="info" size="small" onClick={() => this.expandItem(itemKey, isArray)} />}
+                  {isObject && this.state.expandItems[itemKey] && <IconButton className='sq-form-object__expand-collapse' iconSize="small" iconName="remove-circle-outline" title="Collapse" color="info" size="small" onClick={() => this.expandItem(itemKey, isArray)} />}
                   <Form
                     onAnalytics={rest.onAnalytics}
                     userData={rest.userData}
@@ -292,7 +304,7 @@ class FormObject extends Component {
                             disabled: isArray,
                           },
                         },
-                        {
+                        this.state.expandItems[itemKey] ? {
                           cmpType: isObject ? 'FormObject' : 'EditableField',
                           name: 'value',
                           editType: typeof itemVal.value === 'boolean' ? 'Switch' : 'Input',
@@ -300,8 +312,8 @@ class FormObject extends Component {
                           editProps: {
                             label: 'Value',
                           },
-                        },
-                      ]
+                        } : undefined,
+                      ].filter(i => !!i )
                     }
                     value={itemVal}
                     onChange={(data) => this.valueOnChange(data, itemKey, isArray)}

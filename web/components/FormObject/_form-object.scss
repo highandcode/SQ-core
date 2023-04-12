@@ -1,5 +1,8 @@
 .sq-form-object {
   position: relative;
+  &__expand-collapse {
+    margin-top: 4px;
+  }
   &__float-full {
     position: absolute;
     top: 0;
