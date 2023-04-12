@@ -25,7 +25,38 @@ const breakpoints = {
       return true;
     }
     return false;
-  }
+  },
 };
 
-export default { breakpoints };
+const scriptManager = {
+  insertDynamicScript: (dScript, target = 'head') => {
+    const str =dScript;
+    // Create an element outside the document to parse the string with
+    const head = document.createElement("head");
+    // Parse the string
+    head.innerHTML = str;
+    // Copy those nodes to the real `head`, duplicating script elements so
+    // they get processed
+    let node = head.firstChild;
+    while (node) {
+      const next = node.nextSibling;
+      if (node.tagName === "SCRIPT") {
+        // Just appending this element wouldn't run it, we have to make a fresh copy
+        const newNode = document.createElement("script");
+        if (node.src) {
+          newNode.src = node.src;
+        }
+        while (node.firstChild) {
+          // Note we have to clone these nodes
+          newNode.appendChild(node.firstChild.cloneNode(true));
+          node.removeChild(node.firstChild);
+        }
+        node = newNode;
+      }
+      document[target].appendChild(node);
+      node = next;
+    }
+  },
+};
+
+export default { breakpoints, scriptManager };

@@ -421,6 +421,11 @@ class PageBuilder extends Component {
                             cmpType: 'Input',
                             label: 'Title',
                           },
+                          {
+                            name: 'headScript',
+                            cmpType: 'Textarea',
+                            label: 'Dynamic Script',
+                          },
                           // {
                           //   name: 'pageBackground',
                           //   cmpType: 'ColorPicker',

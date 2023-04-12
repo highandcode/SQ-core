@@ -485,10 +485,16 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
     if (payload?.finally?.successAction) {
       events.emit('dynammicContent.onAction', {}, payload?.finally?.successAction, {});
     }
+    if (payload.successAfterScript) {
+      utils.browser.scriptManager.insertDynamicScript(payload.successAfterScript, 'body')
+    }
   } else if (response.status === 'error') {
     await dispatch(updateErrorData(response.error));
     if (payload.action?.finally?.errorAction) {
       events.emit('dynammicContent.onAction', {}, payload?.finally?.errorAction, {});
+    }
+    if (payload.errorAfterScript) {
+      utils.browser.scriptManager.insertDynamicScript(payload.errorAfterScript, 'body')
     }
   }
   if (payload.runInit) {
