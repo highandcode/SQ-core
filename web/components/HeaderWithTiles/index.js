@@ -11,7 +11,7 @@ const SQHeaderwithTiles = ({ header, data = [], className = 'mt-5 mb-5' }) => {
           return (
             <div className="sq-header-with-tiles__item">
               <div className="sq-header-with-tiles__item-cnt">
-                <div className="sq-header-with-tiles__top">
+                <div className="sq-header-with-tiles__top mb-wide">
                   <div className="sq-header-with-tiles__item-header">
                     {dataItem.header}
                   </div>
