@@ -2,7 +2,6 @@ title: Users
 template: apps/core/templates/page
 contentBodyClass: container-fluid container-ultrawide
 layout: apps/core/layouts/spa
-bodyClassName: 
 containerTemplate: AdminDashboard
 container: UsersList
 fieldMapping:
