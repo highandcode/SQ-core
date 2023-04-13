@@ -8,7 +8,7 @@ import Alert from '../Alert';
 class FormObject extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: [], objMap: {}, objArray: {}, fullScreen: false };
+    this.state = { expandFull: true, data: [], objMap: {}, objArray: {}, fullScreen: false, expandItems: {} };
     this.addNew = this.addNew.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.convertToObj = this.convertToObj.bind(this);
@@ -20,6 +20,7 @@ class FormObject extends Component {
     this.toggleFullScreen = this.toggleFullScreen.bind(this);
     this.replaceFromText = this.replaceFromText.bind(this);
     this.onFormTextChange = this.onFormTextChange.bind(this);
+    this.expandItem = this.expandItem.bind(this);
   }
   valueOnChange(data, key, isArray) {
     const { onChange, value = {} } = this.props;
@@ -164,6 +165,9 @@ class FormObject extends Component {
         idx++;
       }
     }
+    this.setState({
+      expandFull: true,
+    });
     onChange &&
       onChange({
         value: isArray ? [...value, {}] : { ...value, [keyName + idx]: '' },
@@ -183,7 +187,7 @@ class FormObject extends Component {
       openText: true,
       currentError: '',
       currentTxt: {
-        text: JSON.stringify(this.props.value || {}),
+        text: JSON.stringify(this.props.value || {}, null, 4),
       },
     });
   }
@@ -221,6 +225,15 @@ class FormObject extends Component {
         
         break;
     }
+  }
+
+  expandItem(itemKey) {
+    this.setState({
+      expandItems: {
+        ...this.state.expandItems,
+        [itemKey]: !this.state.expandItems[itemKey],
+      }
+    });
   }
 
   render() {
@@ -265,10 +278,12 @@ class FormObject extends Component {
           {this.state.currentError && <Alert message={this.state.currentError} type="warning" />}
         </Dialog>
         <div className="sq-form-object__top-actions mb-1">
+          {!this.state.expandFull && label && <IconButton className='sq-form-object__expand-collapse' iconSize="small" iconName="add-circle-outline" title="Expand" color="warning" size="small" onClick={() => this.setState({ expandFull: true})} />}
+          {this.state.expandFull && label && <IconButton className='sq-form-object__expand-collapse' iconSize="small" iconName="remove-circle-outline" title="Collapse" color="warning" size="small" onClick={() => this.setState({ expandFull: false})} />}
           {label && <div className="sq-form-object__label">{label}</div>}
           <IconButton className={label ? '' : 'sq-form-object__float-full'} iconSize="small" iconName={this.state.fullScreen ? 'FullscreenExit' : 'Fullscreen'} onClick={this.toggleFullScreen} />
         </div>
-        {value &&
+        {this.state.expandFull && value &&
           Object.keys(value).map((itemKey, idx) => {
             const itemVal = { key: itemKey, value: value[itemKey] };
             const isObject = this.state.objMap[itemKey] || this.isObject(itemVal.value);
@@ -277,6 +292,8 @@ class FormObject extends Component {
             return (
               <div className="sq-form-object__item" key={itemVal.key}>
                 <div className="sq-form-object__item-wrap">
+                  {isObject && !this.state.expandItems[itemKey] && <IconButton className='sq-form-object__expand-collapse' iconSize="small" iconName="add-circle-outline" title="Expand" color="info" size="small" onClick={() => this.expandItem(itemKey, isArray)} />}
+                  {isObject && this.state.expandItems[itemKey] && <IconButton className='sq-form-object__expand-collapse' iconSize="small" iconName="remove-circle-outline" title="Collapse" color="info" size="small" onClick={() => this.expandItem(itemKey, isArray)} />}
                   <Form
                     onAnalytics={rest.onAnalytics}
                     userData={rest.userData}
@@ -292,7 +309,7 @@ class FormObject extends Component {
                             disabled: isArray,
                           },
                         },
-                        {
+                        (!isObject && this.state.expandFull) || this.state.expandItems[itemKey] ? {
                           cmpType: isObject ? 'FormObject' : 'EditableField',
                           name: 'value',
                           editType: typeof itemVal.value === 'boolean' ? 'Switch' : 'Input',
@@ -300,8 +317,8 @@ class FormObject extends Component {
                           editProps: {
                             label: 'Value',
                           },
-                        },
-                      ]
+                        } : undefined,
+                      ].filter(i => !!i )
                     }
                     value={itemVal}
                     onChange={(data) => this.valueOnChange(data, itemKey, isArray)}

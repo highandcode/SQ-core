@@ -45,7 +45,7 @@ export const redirectTo = (screen, params = {}, { target = '', ...options } = {}
     });
     if (url) {
       if (target === '_top') {
-        window.top.href = url + query;
+        window.top.location.href = url + query;
       } else if (target === '_blank') {
         window.open(url + query);
       } else {
@@ -57,7 +57,7 @@ export const redirectTo = (screen, params = {}, { target = '', ...options } = {}
     } else if (matchedRegex) {
       const processEdUrl = screen.replace(new RegExp(matchedRegex, 'g'), urlMapping[matchedRegex].target);
       if (target === '_top') {
-        window.top.href = processEdUrl + query;
+        window.top.location.href = processEdUrl + query;
       } else if (target === '_blank') {
         window.open(processEdUrl + query);
       } else {
@@ -68,7 +68,7 @@ export const redirectTo = (screen, params = {}, { target = '', ...options } = {}
       }
     } else {
       if (target === '_top') {
-        window.top.href = screen + query;
+        window.top.location.href = screen + query;
       } else if (target === '_blank') {
         window.open(screen + query);
       } else {

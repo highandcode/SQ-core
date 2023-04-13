@@ -9,6 +9,8 @@ import Pagination from './ui/Pagination';
 import DataFieldList from './ui/DataFieldList';
 import FileUploader from './ui/FileUploader';
 import ImageWithSpotlight from './ImageWithSpotlight';
+import TextWithImageTiles from './TextWithImageTiles';
+import HeaderWithTiles from './HeaderWithTiles';
 import * as Chart from './Chart';
 import DataList from './DataList';
 import FormList from './FormList';
@@ -195,4 +197,6 @@ export {
   Breadcrumb,
   UserMenu,
   NavTabs,
+  TextWithImageTiles,
+  HeaderWithTiles,
 };

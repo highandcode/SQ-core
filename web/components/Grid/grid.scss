@@ -276,6 +276,7 @@
       .sq-grid__data-cell {
         padding: 0 4px !important;
         .sq-text {
+          display: block;
           @include text-ellipsis($lines: 1);
         }
       }

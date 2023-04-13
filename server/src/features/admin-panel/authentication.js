@@ -12,6 +12,24 @@ const permissions = [
       {
         code: 'createUser',
       },
+      {
+        code: 'deleteUser',
+      },
+      {
+        code: 'listUsers'
+      },
+      {
+        code: 'listRoles'
+      },
+      {
+        code: 'listRoles'
+      },
+      {
+        code: 'listDynamic'
+      },
+      {
+        code: 'dataImport'
+      },
     ],
   },
 ];

@@ -270,7 +270,7 @@ export const initApplication = (data) => async (dispatch) => {
       })
     );
   }
-
+  events.emit('application.config.onLoad', data);
   return response;
 };
 

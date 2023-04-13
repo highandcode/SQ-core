@@ -15,8 +15,8 @@ class BaseContainer extends Component {
         });
     }
   }
+  
   componentDidMount() {
-    this.props.raiseAction(initApplication(config));
   }
 
   trackEvent({ eventName, category, section, action, label }) {

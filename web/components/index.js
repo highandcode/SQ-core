@@ -8,6 +8,8 @@ import Pricing from './ui/Pricing';
 import Icon from './Icon';
 import List from './ui/List';
 import Button from './ui/Button';
+import TextWithImageTiles from './TextWithImageTiles';
+import HeaderWithTiles from './HeaderWithTiles';
 import Grouper from './Grouper';
 import Wrapper from './Wrapper';
 import Skeleton from './Skeleton';
@@ -76,6 +78,8 @@ let comps = {
   FormObject,
   Skeleton,
   NavTabs,
+  TextWithImageTiles,
+  HeaderWithTiles,
 };
 
 const getMap = () => {

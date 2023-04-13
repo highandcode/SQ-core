@@ -18,6 +18,8 @@ import * as containers from './containers';
 import * as root from './components/root';
 import * as components from './components';
 import * as ui from './components/ui';
+import adminConifg from './admin.config';
+
 
 import './styles/index.scss';
 
@@ -25,6 +27,9 @@ containers.DynamicContent.registerContainers({
   ...containers.default,
 });
 
+export const config = {
+  adminConifg,
+};
 /* export module */
 export {
   containers,

@@ -1,4 +1,3 @@
-import { translate } from '../web/utils/translate';
 import { GlobalOptions } from '../server/src/utils/global-options';
 export const CONSTANTS = {
   STATUS: {
