@@ -1,12 +1,36 @@
 .sq-form-object {
+  position: relative;
+  &__expand-collapse {
+    position: absolute;
+    left: 0;
+    top: 6px;
+  }
+  &__float-full {
+    position: absolute;
+    top: 0;
+    left: -30px;
+  }
+  &__label {
+    padding-left: 24px;
+  }
+  &__item {
+    padding-left: 15px;
+    position: relative;
+    margin-left: 8px;
+  }
   &__item-wrap {
     display: flex;
   }
   &__actions {
     display: flex;
+    padding-left: 15px;
   }
   .sq-form__field {
     margin-bottom: 8px;
+  }
+  &__top-actions {
+    display: flex;
+    align-items: center;
   }
   .sq-form--object-mode {
     
@@ -16,7 +40,10 @@
       width: 100%;
       > .sq-form__field:nth-child(1) {
         position: relative;
-        padding-left: 10px;
+        margin-left: 10px;
+        > .sq-text {
+          margin-top: 10px;
+        }
         &:before {
           content: " ";
           position: absolute;
@@ -76,5 +103,8 @@
     top: 0;
     z-index: $z-index-level-topest;
     background-color: white;
+    .sq-form-object__float-full {
+      position: static;
+    }
   }
 }

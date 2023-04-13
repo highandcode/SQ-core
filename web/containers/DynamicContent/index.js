@@ -6,6 +6,7 @@ import Progress from '../../components/Progress';
 import Snackbar from '../../components/Snackbar';
 import DefaultContent from '../Content';
 import Default from './Default';
+import browser from '../../utils/browser';
 import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
 import { events } from '../../utils/app-events';
@@ -132,6 +133,9 @@ class DynamicContent extends Component {
     }
     if (pageResponse.pageData.updatePageTitle) {
       window.document.title = pageResponse.pageData.title;
+    }
+    if (pageResponse.pageData.headScript) {
+      browser.scriptManager.insertDynamicScript(pageResponse.pageData.headScript);
     }
     if (pageResponse.pageData.reset) {
       await this.props.contentActions.resetUserData(pageResponse.pageData.reset);
@@ -548,12 +552,12 @@ class DynamicContent extends Component {
     if (result && typeof result.data?.redirect === 'string') {
       redirectTo(result.data?.redirect);
     } else if (result && result.data?.redirect?.to) {
-      redirectTo(result.data?.redirect.to, processParams(this.props.store.content.userData, result.data?.redirect.urlParams));
+      redirectTo(result.data?.redirect.to, processParams(this.props.store.content.userData, result.data?.redirect.urlParams), result.data?.redirect?.options);
     }
     if (result && typeof result.error?.redirect === 'string') {
       redirectTo(result.error?.redirect);
     } else if (result && result.error?.redirect?.to) {
-      redirectTo(result.error?.redirect.to, processParams(this.props.store.content.userData, result.error?.redirect.urlParams));
+      redirectTo(result.error?.redirect.to, processParams(this.props.store.content.userData, result.error?.redirect.urlParams), result.error?.redirect?.options);
     }
   }
 

@@ -172,14 +172,16 @@ const _validators = {
   },
   arrayLength: (value, options) => {
     let isValid = true;
-    if (!commons.isNullOrUndefined(options.exact) && value.length !== options.exact) {
-      isValid = false;
-    }
-    if (!commons.isNullOrUndefined(options.min) && value.length < options.min) {
-      isValid = false;
-    }
-    if (!commons.isNullOrUndefined(options.max) && value.length > options.max) {
-      isValid = false;
+    if (value) {
+      if (!commons.isNullOrUndefined(options.exact) && value?.length !== options.exact) {
+        isValid = false;
+      }
+      if (!commons.isNullOrUndefined(options.min) && value?.length < options.min) {
+        isValid = false;
+      }
+      if (!commons.isNullOrUndefined(options.max) && value?.length > options.max) {
+        isValid = false;
+      }
     }
     return isValid;
   },
