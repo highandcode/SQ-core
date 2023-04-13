@@ -184,7 +184,7 @@ class FormObject extends Component {
       openText: true,
       currentError: '',
       currentTxt: {
-        text: JSON.stringify(this.props.value || {}),
+        text: JSON.stringify(this.props.value || {}, null, 4),
       },
     });
   }
