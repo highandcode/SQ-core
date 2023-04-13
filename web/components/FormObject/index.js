@@ -165,6 +165,9 @@ class FormObject extends Component {
         idx++;
       }
     }
+    this.setState({
+      expandFull: true,
+    });
     onChange &&
       onChange({
         value: isArray ? [...value, {}] : { ...value, [keyName + idx]: '' },
@@ -306,7 +309,7 @@ class FormObject extends Component {
                             disabled: isArray,
                           },
                         },
-                        !isObject || this.state.expandItems[itemKey] ? {
+                        (!isObject && this.state.expandFull) || this.state.expandItems[itemKey] ? {
                           cmpType: isObject ? 'FormObject' : 'EditableField',
                           name: 'value',
                           editType: typeof itemVal.value === 'boolean' ? 'Switch' : 'Input',
