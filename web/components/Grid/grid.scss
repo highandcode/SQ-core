@@ -57,11 +57,22 @@
   &__loading-data {
     padding-top: 20px;
   }
+  &__switch-views {
+    display: flex;
+    justify-content: flex-start;
+  }
+  &__pagination-view {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+  }
   &__top-bar {
     margin-bottom: 3px;
     display: flex;
     padding: 0 3px;
     justify-content: flex-end;
+    align-items: flex-end;
+    gap: 15px;
     width: 100%;
   }
   &__header-row {

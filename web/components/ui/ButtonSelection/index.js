@@ -36,13 +36,13 @@ const ButtonSelection = ({ className = '', label, options = [], defaultValue, te
             return title ? (
               <Tooltip title={title}>
                 <Button key={idx} {...selectedProsp} {...restItem} aria-label={item[textField]} onClick={(e) => handleClick(e, item)}>
-                  {item.iconName && <Icon variant={isSelected ? 'white' : 'primary'} name={item.iconName} size="xs" />}
+                  {item.iconName && <Icon variant={isSelected ? 'white' : disabled ? 'default' : 'primary'} name={item.iconName} size="xs" />}
                   {item[textField]}
                 </Button>
               </Tooltip>
             ) : (
               <Button key={idx} {...selectedProsp} {...restItem} aria-label={item[textField]} onClick={(e) => handleClick(e, item)}>
-                {item.iconName && <Icon variant={isSelected ? 'white' : 'primary'} name={item.iconName} size="xs" />}
+                {item.iconName && <Icon variant={isSelected ? 'white' :  disabled ? 'default' : 'primary'} name={item.iconName} size="xs" />}
                 {item[textField]}
               </Button>
             );
