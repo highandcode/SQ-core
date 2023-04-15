@@ -23,6 +23,10 @@ export const GLOBAL_OPTIONS = {
     ACTIVE_USERS: 'Active Users',
     INACTIVE_USERS: 'Inactive Users',
   }),
+  mediaGalleryTabs: new GlobalOptions({
+    ALL_MEDIA: 'All Media',
+    UPLOAD_MEDIA: 'Upload Media',
+  }),
   roleTabs: new GlobalOptions({
     ALL_ROLES: 'All Roles',
   }),

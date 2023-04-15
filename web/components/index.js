@@ -4,6 +4,7 @@ import Alert from './Alert';
 import LinkButton from './ui/LinkButton';
 import HeroContent from './ui/HeroContent';
 import FeaturedContent from './ui/FeaturedContent';
+import Dialog from './Dialog';
 import Pricing from './ui/Pricing';
 import Icon from './Icon';
 import List from './ui/List';
@@ -14,6 +15,8 @@ import Grouper from './Grouper';
 import Wrapper from './Wrapper';
 import Skeleton from './Skeleton';
 import CodeHighlight from './ui/CodeHighlight';
+import ImageCardList from './ImageCardList';
+import ImageCard from './ImageCard';
 import Progress from './Progress';
 import InlineProgress from './InlineProgress';
 import Form from './Form';
@@ -80,6 +83,9 @@ let comps = {
   NavTabs,
   TextWithImageTiles,
   HeaderWithTiles,
+  ImageCard,
+  ImageCardList,
+  Dialog,
 };
 
 const getMap = () => {

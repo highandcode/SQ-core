@@ -27,6 +27,7 @@ containers.DynamicContent.registerContainers({
   ...containers.default,
 });
 
+
 export const config = {
   adminConifg,
 };

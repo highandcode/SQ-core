@@ -13,6 +13,7 @@ import UsersList from './UsersList';
 import RolesList from './RolesList';
 import RoleDetails from './RoleDetails';
 import PageListing from './PageListing';
+import MediaGallery from './MediaGallery';
 
 import templates from '../templates';
 
@@ -30,6 +31,7 @@ export {
   TocIndex,
   UsersList,
   PageListing,
+  MediaGallery,
 };
 
 export default {
@@ -48,5 +50,6 @@ export default {
   PageListing,
   RolesList,
   RoleDetails,
+  MediaGallery,
   ...templates,
 };
