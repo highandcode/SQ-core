@@ -49,6 +49,7 @@ import MoreContent from './MoreContent';
 import DropZoneFile from './DropZoneFile';
 import TagDropdown from './TagDropdown';
 import Default from './Default';
+import CustomButton from './CustomButton';
 // import ColorPicker from './ColorPicker';
 
 let comps = {
@@ -104,6 +105,7 @@ let comps = {
   TagDropdown,
   IconButton,
   InputWithOptions,
+  CustomButton,
   // ColorPicker,
 };
 

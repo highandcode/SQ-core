@@ -3,10 +3,21 @@ import PropTypes from 'prop-types';
 import './_media-gallery.scss';
 import { getMap } from '../../components/ui';
 import { GLOBAL_OPTIONS } from '../../globals';
-import { loadMedia, uploadMedia, copyMediaLink, deleteLink } from '../../redux/admin';
+import {
+  loadMedia,
+  uploadMedia,
+  copyMediaLink,
+  deleteLink,
+} from '../../redux/admin';
 import { startLoading, stopLoading } from '../../redux/common';
 
-const MediaGallery = ({ pageData, className = '', appStore, raiseAction }) => {
+const MediaGallery = ({
+  pageData,
+  className = '',
+  appStore,
+  raiseAction,
+  onAction,
+}) => {
   useEffect(() => {
     loadImages();
   }, []);
@@ -31,7 +42,7 @@ const MediaGallery = ({ pageData, className = '', appStore, raiseAction }) => {
   const handlePageChange = (data) => {
     loadImages({ pageNo: data.value.currentPage });
   };
-  const handleAction = async(item, action) => {
+  const handleAction = async (item, action) => {
     switch (action.actionType) {
       case 'copy-link':
         raiseAction(copyMediaLink(item.url));
@@ -42,6 +53,8 @@ const MediaGallery = ({ pageData, className = '', appStore, raiseAction }) => {
         loadImages({ pageNo: appStore.admin?.mediaPage.currentPage });
         raiseAction(stopLoading());
         break;
+      default:
+        onAction && onAction(item, action);
     }
   };
   const handleFormChange = (data) => {
@@ -73,11 +86,13 @@ const MediaGallery = ({ pageData, className = '', appStore, raiseAction }) => {
             buttonText={pageData.addMediaText || 'Add Media'}
             onClick={handleAddNewClick}
           />
-          {appStore.admin?.mediaPage && <Pagination
-            onChange={handlePageChange}
-            count={totalPages}
-            value={appStore.admin?.mediaPage}
-          />}
+          {appStore.admin?.mediaPage && (
+            <Pagination
+              onChange={handlePageChange}
+              count={totalPages}
+              value={appStore.admin?.mediaPage}
+            />
+          )}
         </div>
         <div className="sq-media-gallery__list">
           <div className="sq-v-screen-grow container-fluid">

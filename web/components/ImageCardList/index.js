@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ImageCard from '../ImageCard';
-import Button from '../../components/ui/Button';
-import Pagination from '../../components/ui/Pagination';
+import {getMap} from '../../components/ui';
 import { getValue } from '../../utils/properties';
 import './_image-card-list.scss';
 
@@ -36,7 +35,7 @@ function ImageCardList({
   onAction,
 }) {
   const [finalMode, setMode] = useState(mode);
-
+  const { Button } = getMap();
   return (
     <div
       className={`sq-image-card-list ${className} sq-image-card-list--style-${finalMode}`}

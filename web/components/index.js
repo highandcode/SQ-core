@@ -38,6 +38,8 @@ import ImageWithSlideList from './ui/ImageWithSlideList';
 import LaunchTimer from './LaunchTimer';
 import Carousel from './Carousel';
 import ImageWithSpotlight from './ImageWithSpotlight';
+import Actions from './Actions';
+import MoreActions from './MoreActions';
 import PropsTable from './PropsTable';
 import NavTabs from './NavTabs';
 import ReCaptcha from './ui/ReCaptcha';
@@ -86,6 +88,8 @@ let comps = {
   ImageCard,
   ImageCardList,
   Dialog,
+  Actions,
+  MoreActions,
 };
 
 const getMap = () => {

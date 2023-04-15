@@ -347,7 +347,7 @@ class Users extends React.Component {
     const createUserPerm = hasPermission('createUser', store);
     const editUserPerm = hasPermission('editUser', store);
     const deleteUserPerm = hasPermission('deleteUser', store);
-    const { Grid, Tabs, Form, Pagination, Link, Dialog, Actions, Skeleton } = ui.getMap();
+    const { Grid, Tabs, Form, Pagination, Dialog, Actions, Skeleton } = ui.getMap();
     const { fieldMapping = {} } = pageData;
     // console.log('@@@@userstore', store);
     return (
