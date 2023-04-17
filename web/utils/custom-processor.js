@@ -21,6 +21,12 @@ class CustomProcessor {
         number: (value) => {
           return !common.isNullOrUndefined(value) ? value * 1 : value;
         },
+        forceArray: (value) => {
+          if (value && Array.isArray(value)) {
+            return value;
+          }
+          return [];
+        },
       },
       common: {
         addClassName: (value, { oldValue = '' } = {}) => {
