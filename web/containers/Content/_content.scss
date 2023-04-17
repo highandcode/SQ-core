@@ -17,10 +17,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 100vh;
+    min-height: 300px;
     .sq-content-page__body-wrapper, .dynamic-content__body {
       flex-grow: 1;
       position: relative;
     }
+    
   }
 }
