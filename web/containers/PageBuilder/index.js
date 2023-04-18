@@ -38,9 +38,7 @@ import {
   mergeUserData,
   updateErrorData,
   resetUserData,
-  customHooks,
   sendContact,
-  processParams,
 } from '../../redux/content';
 
 const config = {
@@ -112,27 +110,36 @@ class PageBuilder extends Component {
     this.formOnChange = this.formOnChange.bind(this);
     this.onMoveItemDown = this.onMoveItemDown.bind(this);
     this.onMoveItemUp = this.onMoveItemUp.bind(this);
+    this.savePageAsNew = this.savePageAsNew.bind(this);
   }
 
   async componentDidMount() {
     const { pageData, store } = this.props;
     this.props.commonActions.startLoading();
-    await this.props.raiseAction(
-      getPage(
-        {
-          path: utils.queryString.query.get().path,
-        },
-        pageData.getPageConfig
-      )
-    );
-    await this.props.raiseAction(getFieldsMeta({}, pageData.fieldsMetaConfig));
+    if (utils.queryString.query.get().path) {
+      await this.props.raiseAction(
+        getPage(
+          {
+            path: utils.queryString.query.get().path,
+          },
+          pageData.getPageConfig
+        )
+      );
+    }
+    pageData.fieldsMetaConfig && await this.props.raiseAction(getFieldsMeta({}, pageData.fieldsMetaConfig));
     this.setState({
       contentData: this.props.store.admin.contentData,
     });
     this.props.commonActions.stopLoading();
   }
+  async savePageAsNew() {
+    const { pageData } = this.props;
+    pageData.createPopupScreen && this.props.commonActions.showPopupScreen({
+      ...pageData.createPopupScreen,
+    });
+  }
   async savePageAsDraft(autoSave) {
-    const { pageData, store } = this.props;
+    const { pageData } = this.props;
     !autoSave && this.props.commonActions.startLoading();
     await this.props.raiseAction(
       savePageDraft(this.state.contentData, {
@@ -328,28 +335,35 @@ class PageBuilder extends Component {
       >
         <div className="sq-v-screen__container">
           <div className="sq-page-builder__top-actions mb-wide">
-            <Switch
+            {utils.queryString.query.get().path && <Switch
               label="Autosave"
               value={this.state.autoSave}
               onChange={this.toggleAutoSave}
-            />
+            />}
             <Switch
               label="Quick Preview"
               value={this.state.preview}
               onChange={this.toggleQuickPreview}
             />
-            <Button
+            {!utils.queryString.query.get().path && <Button
+              iconName={'Save'}
+              variant="outlined"
+              buttonText="Create"
+              onClick={() => this.savePageAsNew()}
+            />}
+            {utils.queryString.query.get().path && <Button
               iconName={'Save'}
               variant="outlined"
               buttonText="Save"
               onClick={() => this.savePageAsDraft()}
-            />
-            <Button
+            />}
+            {<Button
               iconName={'Preview'}
               variant="outlined"
+              disabled={!utils.queryString.query.get().path}
               buttonText="Full Preview"
               onClick={this.showPreview}
-            />
+            />}
             {/* <Button iconName={'Publish'} buttonText="Publish" /> */}
           </div>
           <div className="sq-page-builder__content sq-v-screen-grow">
