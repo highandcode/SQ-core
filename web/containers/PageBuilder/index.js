@@ -136,6 +136,12 @@ class PageBuilder extends Component {
     const { pageData } = this.props;
     pageData.createPopupScreen && this.props.commonActions.showPopupScreen({
       ...pageData.createPopupScreen,
+      initialData: {
+        current: {
+          ...this.state.contentData,
+          ...pageData.createPopupScreen?.initialData,
+        }
+      }
     });
   }
   async savePageAsDraft(autoSave) {
@@ -348,7 +354,7 @@ class PageBuilder extends Component {
             {!utils.queryString.query.get().path && <Button
               iconName={'Save'}
               variant="outlined"
-              buttonText="Create"
+              buttonText="Save"
               onClick={() => this.savePageAsNew()}
             />}
             {utils.queryString.query.get().path && <Button
