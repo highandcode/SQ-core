@@ -821,6 +821,13 @@ const content = createSlice({
         ...getSystem(),
       };
     },
+    clearWithFilter: (state, action) => {
+      let data = {};
+      state.userData = {
+        ...state.protectedData,
+        ...getSystem(),
+      };
+    },
     updateUserData: (state, action) => {
       state.userData = {
         ...state.userData,
@@ -863,6 +870,12 @@ export const resetUserData = (payload) => (dispatch, getState) => {
     case 'clearAll':
       dispatch(content.actions.clearAllUserData());
       break;
+    case 'keys':
+      dispatch(content.actions.clearWithFilter({ keys: payload.keys }));
+      break;
+    case 'except':
+      dispatch(content.actions.clearWithFilter({ except: payload.except }));
+      break;
   }
 };
 
@@ -870,6 +883,7 @@ export const {
   updateProtectedUserData,
   updateUserData,
   clearAllUserData,
+  clearWithFilter,
   updateMetaData,
 } = content.actions;
 export { customHooks };
