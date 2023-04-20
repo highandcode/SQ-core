@@ -16,6 +16,10 @@ const hasPermission = (item, permissions) => {
   return result;
 };
 
+const pathWithParamMatch = (itemHref, path) => {
+  
+};
+
 const findNode = (data, path, permissions, parents = []) => {
   let returnItems = [];
   data.forEach((item) => {
@@ -28,6 +32,7 @@ const findNode = (data, path, permissions, parents = []) => {
       returnItems = newList.concat(returnItems);
     }
     if (item.href?.toString().indexOf('/:') > -1) {
+      console.log()
       console.log('@@@pike', item, path);
     }
     if (item.href?.toString().toLowerCase() === path?.toString().toLowerCase()) {
