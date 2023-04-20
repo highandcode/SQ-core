@@ -1,4 +1,4 @@
-import { useDrag } from 'react-dnd';
+import React, { useDrag } from 'react-dnd';
 import _ from 'lodash';
 import { ItemTypes } from './ItemTypes.js';
 
