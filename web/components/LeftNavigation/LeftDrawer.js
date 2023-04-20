@@ -42,12 +42,13 @@ const LeftDrawer = ({ items = [], onClick, permissions = [], roles = [], openDra
               }
               const isActive = hasActive(item);
               const isOpen = openItems[idx] !== undefined ? openItems[idx] : isActive;
+              const children = item.children?.filter(i => !i.hideInMenu);
               return (
                 <React.Fragment key={idx}>
                   <ListItem disablePadding>
                     <ListItemButton
                       onClick={() => {
-                        (!item.children || item.children?.length === 0) && handleItemClick(item);
+                        (!children || children?.length === 0) && handleItemClick(item);
                         setOpenItems({
                           ...openItems,
                           [idx]: !(isOpen || openItems[idx]),
@@ -60,10 +61,10 @@ const LeftDrawer = ({ items = [], onClick, permissions = [], roles = [], openDra
                         </ListItemIcon>
                       )}
                       <ListItemText primary={item.header || item.title} />
-                      {item.children?.length > 0 ? isOpen ? <Icon name="arrow-up" /> : <Icon name="arrow-down" /> : undefined}
+                      {children?.length > 0 ? isOpen ? <Icon name="arrow-up" /> : <Icon name="arrow-down" /> : undefined}
                     </ListItemButton>
                   </ListItem>
-                  {item.children?.length > 0 && (
+                  {children?.length > 0 && (
                     <Collapse
                       in={isOpen}
                       timeout="auto"

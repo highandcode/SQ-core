@@ -1,4 +1,4 @@
-import { useDrop } from 'react-dnd';
+import React, { useDrop } from 'react-dnd';
 import Icon from '../../components/Icon/index.js';
 import { ItemTypes } from './ItemTypes.js';
 
