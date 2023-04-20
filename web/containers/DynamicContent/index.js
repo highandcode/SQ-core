@@ -573,7 +573,7 @@ class DynamicContent extends Component {
   }
 
   render() {
-    const { containerTemplate: overrideContainerTemplate, rootClass = 'row', ...allProps } = this.props;
+    const { containerTemplate: overrideContainerTemplate, mode = 'actual', rootClass = 'row', ...allProps } = this.props;
     const { dataPacket, store } = allProps;
     const userData = {
       ...this.props.store.content.userData,
@@ -589,7 +589,7 @@ class DynamicContent extends Component {
     const { classes = {}, ...restDynamic } = dynamicParams;
     const updatedPageData = { ...pageData, ...restDynamic };
     const { container, containerTemplate, contentBodyClass = '', rootClassName = '', transition = {} } = updatedPageData;
-    const ContentTemplateContainer = containers[overrideContainerTemplate || containerTemplate] || containers.Default;
+    const ContentTemplateContainer = mode === 'actual' ? containers[overrideContainerTemplate || containerTemplate] || containers.Default : containers.Default;
     const ContentContainer = containers[container] || DefaultContent;
     const { out: tranOut = 'out-up', in: tranIn = 'out-in', loading = 'loading', loadingColor = 'primary' } = transition;
     const classState = this.state.isOut ? `transition transition-page--${tranOut}` : this.state.isIn ? `transition transition-page--${tranIn}` : '';

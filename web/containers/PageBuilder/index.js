@@ -92,6 +92,7 @@ class PageBuilder extends Component {
       enableMenu: true,
       autoSave: !!utils.queryString.query.get().path,
       enableProps: false,
+      pageFetched: false,
       contentData: {
         pageData: {
           updatePageTitle: false,
@@ -113,7 +114,13 @@ class PageBuilder extends Component {
     this.savePageAsNew = this.savePageAsNew.bind(this);
   }
 
-  async componentDidMount() {
+  async componentDidUpdate() {
+    if (!this.state.pageFetched && utils.queryString.query.get().path) {
+      this.checkPageLoad();
+    }
+  }
+
+  async checkPageLoad() {
     const { pageData, store } = this.props;
     this.props.commonActions.startLoading();
     if (utils.queryString.query.get().path) {
@@ -125,6 +132,10 @@ class PageBuilder extends Component {
           pageData.getPageConfig
         )
       );
+      this.setState({
+        pageFetched: true,
+        autoSave: true,
+      });
     } else {
       await this.props.raiseAction(createPage());
     }
@@ -133,6 +144,10 @@ class PageBuilder extends Component {
       contentData: this.props.store.admin.contentData,
     });
     this.props.commonActions.stopLoading();
+  }
+
+  async componentDidMount() {
+    this.checkPageLoad();
   }
   async savePageAsNew() {
     const { pageData } = this.props;
@@ -410,7 +425,7 @@ class PageBuilder extends Component {
                 <div className="sq-page-builder__center">
                   {this.state.preview && (
                     <ErrorBoundry>
-                      <DynamicContent pageConfig={this.state.contentData} />
+                      <DynamicContent mode="preview" pageConfig={this.state.contentData} />
                     </ErrorBoundry>
                   )}
                   {!this.state.preview && (
