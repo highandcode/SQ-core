@@ -27,6 +27,9 @@ const findNode = (data, path, permissions, parents = []) => {
     if (newList?.length > 0) {
       returnItems = newList.concat(returnItems);
     }
+    if (item.href?.toString().indexOf('/:') > -1) {
+      console.log('@@@pike', item, path);
+    }
     if (item.href?.toString().toLowerCase() === path?.toString().toLowerCase()) {
       if (parents) {
         parents.forEach((parent) => {

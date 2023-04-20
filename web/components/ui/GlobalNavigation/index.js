@@ -15,7 +15,7 @@ const renderSubNav = (item, isHover, callback, options) => {
   let iconName = !isHover ? 'expand' : 'collapse';
   return (
     item.children &&
-    item.children.length > 0 && (
+    item.children.filter((i) => !i.hideInMenu).length > 0 && (
       <>
         {iconName && (
           <Icon className="sq-global-navigation__list-icon" name={iconName} />
