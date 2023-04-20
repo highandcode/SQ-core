@@ -23,7 +23,6 @@ const pathWithParamMatch = (itemHref, path) => {
   let matched = true;
   if (leftHref.length === rightHref.length) {
     rightHref.forEach((urlPart, idx) => {
-      console.log(leftHref[idx], urlPart);
       if (leftHref[idx].startsWith(':')) {
         params[leftHref[idx].substr(1)] = urlPart;
       } else if (urlPart !== leftHref[idx]) {
@@ -116,12 +115,12 @@ const BreadCrumb = ({ navigation, currentPath, permissions = [], breadcrumb, use
       <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
         {finalData.map((item) => {
           const finalUserData = { ...userData, ...urlForParams, ...utils.queryString.query.get() };
-          const dynamicText = item.dynamicTextField ? utils.object.getDataFromKey(finalUserData, item.dynamicTextField) : undefined;
-          const finalParams = processParams(finalUserData, item.urlParams, undefined, appStore);
+          const finalItem = processParams(finalUserData, item, undefined, appStore);
+          const finalParams = finalItem.urlParams;
           if (item.cmpType === 'Link') {
-            return <LinkButton key={item.href} buttonText={dynamicText || item.title} to={item.href} urlParams={finalParams}></LinkButton>;
+            return <LinkButton key={item.href} buttonText={finalItem?.dynamicTextField || item.title} to={item.href} urlParams={finalParams}></LinkButton>;
           }
-          return <Typography key={item.href}>{dynamicText || item.title}</Typography>;
+          return <Typography key={item.href}>{finalItem?.dynamicTextField || item.title}</Typography>;
         })}
       </Breadcrumbs>
     </div>

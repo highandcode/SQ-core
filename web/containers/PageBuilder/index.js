@@ -20,7 +20,7 @@ import {
   setError,
   clearError,
 } from '../../redux/common';
-import { getFieldsMeta, getPage, savePageDraft } from '../../redux/admin';
+import { getFieldsMeta, createPage, getPage, savePageDraft } from '../../redux/admin';
 import ContentEditor from './ContentEditor';
 import { getSupportedComps, addComponent } from './supported-comps';
 import DynamicContent from '../DynamicContent';
@@ -90,7 +90,7 @@ class PageBuilder extends Component {
     super();
     this.state = {
       enableMenu: true,
-      autoSave: true,
+      autoSave: !!utils.queryString.query.get().path,
       enableProps: false,
       contentData: {
         pageData: {
@@ -125,6 +125,8 @@ class PageBuilder extends Component {
           pageData.getPageConfig
         )
       );
+    } else {
+      await this.props.raiseAction(createPage());
     }
     pageData.fieldsMetaConfig && await this.props.raiseAction(getFieldsMeta({}, pageData.fieldsMetaConfig));
     this.setState({
@@ -524,6 +526,7 @@ class PageBuilder extends Component {
                             name: 'custom',
                             label: 'custom',
                           },
+                          ...pageData.customProps,
                         ]}
                       />
                     </Panel>

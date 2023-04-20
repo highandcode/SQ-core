@@ -42,7 +42,12 @@ const admin = createSlice({
 export const getPage =
   (payload, { url, method = 'post', params, hook, query } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge[method](url || adminConfig.apis.getPage, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.getPage,
+      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload,
+      undefined,
+      processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
+    );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {
         result.data = await customHooks.execute(hook, result);
@@ -53,13 +58,7 @@ export const getPage =
 export const createPage =
   (payload, { url, method = 'post', params, hook, query } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge[method](url || adminConfig.apis.contentPage, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
-    if (result.status === CONSTANTS.STATUS.SUCCESS) {
-      if (hook) {
-        result.data = await customHooks.execute(hook, result);
-      }
-      await dispatch(setContentPage(result.data));
-    }
+    await dispatch(setContentPage(initialState.contentData));
   };
 export const getFieldsMeta =
   (payload, { url, method = 'post', params, query, hook } = {}) =>
@@ -93,7 +92,12 @@ export const getFieldsMeta =
 export const loadPageTree =
   (payload, { url, method = 'post', params, query } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge[method](url || adminConfig.apis.getContentTree, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.getContentTree,
+      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload,
+      undefined,
+      processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
+    );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       await dispatch(setContentTree(result.data));
       await dispatch(
@@ -107,7 +111,12 @@ export const loadPageTree =
 export const loadPagesByPath =
   (payload, { url, method = 'post', params, hook, query } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge[method](url || adminConfig.apis.getPageByPath, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.getPageByPath,
+      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload,
+      undefined,
+      processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
+    );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {
         result.data = await customHooks.execute(hook, result);
@@ -220,7 +229,12 @@ export const uploadMedia =
 export const loadMedia =
   ({ body, query } = {}, { url, method = 'post', params, hook } = {}) =>
   async (dispatch, getState) => {
-    const result = await utils.apiBridge[method](url || adminConfig.apis.searchMedia, params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : body, undefined, processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()));
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.searchMedia,
+      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : body,
+      undefined,
+      processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
+    );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {
         result.data = await customHooks.execute(hook, result);

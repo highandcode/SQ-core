@@ -10,6 +10,7 @@ import browser from '../../utils/browser';
 import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
 import { events } from '../../utils/app-events';
+import { query } from '../../utils/query-string';
 import { fetchContentPage, uploadApi, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
 
 import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, closePopupScreen, closePopup, showPopup, setError, clearError } from '../../redux/common';
@@ -41,6 +42,7 @@ class DynamicContent extends Component {
     this.onChange = this.onChange.bind(this);
     this.onAction = this.onAction.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
+    this.onAfterRedirect = this.onAfterRedirect.bind(this);
   }
 
   async componentDidMount() {
@@ -54,14 +56,20 @@ class DynamicContent extends Component {
       }
     );
     events.subscribe('refreshPage', this.onRefresh);
+    events.subscribe('afterRedirect', this.onAfterRedirect);
     events.subscribe('dynammicContent.onAction', this.onAction);
   }
-
+  
   async componentWillUnmount() {
     window.removeEventListener('scroll', this.handlePageScroll);
     window.removeEventListener('resize', this.handlePageScroll);
+    events.unsubscribe('afterRedirect', this.onAfterRedirect);
     events.unsubscribe('refreshPage', this.onRefresh);
     events.unsubscribe('dynammicContent.onAction', this.onAction);
+  }
+
+  onAfterRedirect() {
+    this.props.raiseAction(updateUserData({}));
   }
 
   async onRefresh() {
@@ -202,6 +210,9 @@ class DynamicContent extends Component {
     const { userData } = this.props.store.content;
     return {
       ...userData,
+      query: {
+        ...query.get(),
+      },
     };
   }
 
@@ -566,6 +577,9 @@ class DynamicContent extends Component {
     const { dataPacket, store } = allProps;
     const userData = {
       ...this.props.store.content.userData,
+      query: {
+        ...query.get(),
+      },
       ...dataPacket,
       contentPage: true,
     };

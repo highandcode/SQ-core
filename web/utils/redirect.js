@@ -76,4 +76,7 @@ export const redirectTo = (screen, params = {}, { target = '', ...options } = {}
       }
     }
   }
+  setTimeout(() => {
+    events.emit('afterRedirect', screen, params, { target, ...options });
+  }, 120);
 };
