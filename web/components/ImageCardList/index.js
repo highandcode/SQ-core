@@ -103,6 +103,7 @@ function ImageCardList({
                 iconColor={iconColor}
                 disabledImage={disabledImage}
                 disabledIcon={disabledIcon}
+                row={item}
                 mode={finalMode}
                 header={fTitle}
                 tagLabel={tagValue}

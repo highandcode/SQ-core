@@ -23,6 +23,10 @@ export const GLOBAL_OPTIONS = {
     ACTIVE_USERS: 'Active Users',
     INACTIVE_USERS: 'Inactive Users',
   }),
+  mediaStatus: new GlobalOptions({
+    DRAFT: 'Draft',
+    PUBILSHED: 'Published',
+  }),
   mediaGalleryTabs: new GlobalOptions({
     ALL_MEDIA: 'All Media',
     UPLOAD_MEDIA: 'Upload Media',

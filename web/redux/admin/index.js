@@ -145,6 +145,7 @@ export const deleteLink =
             {
               ...selectContentData(getState()),
               ...selectUserData(getState()),
+              ...payload,
             },
             params,
             undefined,
@@ -159,6 +160,38 @@ export const deleteLink =
       await dispatch(
         showNotificationMessage({
           message: 'Media link has been deleted.',
+          type: 'success',
+        })
+      );
+      return;
+    }
+  };
+
+export const updateMedia =
+  (payload, { url, params, method = 'patch', hook } = {}) =>
+  async (dispatch, getState) => {
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.updateMedia,
+      params
+        ? processParams(
+            {
+              ...selectContentData(getState()),
+              ...selectUserData(getState()),
+              ...payload,
+            },
+            params,
+            undefined,
+            getState()
+          )
+        : payload
+    );
+    if (result.status === CONSTANTS.STATUS.SUCCESS) {
+      if (hook) {
+        result.data = await customHooks.execute(hook, result);
+      }
+      await dispatch(
+        showNotificationMessage({
+          message: 'Media updated successfully.',
           type: 'success',
         })
       );
@@ -231,7 +264,7 @@ export const loadMedia =
   async (dispatch, getState) => {
     const result = await utils.apiBridge[method](
       url || adminConfig.apis.searchMedia,
-      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : body,
+      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()), ...body }, params, undefined, getState()) : body,
       undefined,
       processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
     );

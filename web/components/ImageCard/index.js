@@ -13,6 +13,7 @@ import './_image-card.scss';
 function ImageCard({
   header,
   mode,
+  row,
   iconName,
   iconColor = 'primary',
   tagSize,
@@ -48,6 +49,7 @@ function ImageCard({
           <div className="sq-image-card__overlay"></div>
           <Actions
             className="sq-image-card__actions sq-actions--vertical"
+            row={row}
             actions={actions}
             onAction={onAction}
           />
@@ -82,6 +84,7 @@ function ImageCard({
           </div>
           <MoreActions
             className="sq-image-card__more-actions"
+            row={row}
             actions={actions}
             onAction={onAction}
           />

@@ -67,14 +67,13 @@ $sides: (
   display: inline-block;
 }
 
-.flb-d {
-  display: flex;
+.fl-grow {
+  flex-grow: 1;
 }
-
-.flb-a-center {
+.fl-a-center {
   align-items: center;
 }
-.flb-d-column {
+.fl-d-column {
   flex-direction: column;
 }
 
@@ -82,6 +81,9 @@ $sides: (
   display: flex;
 }
 .j-content-fl-end {
+  justify-content: flex-end;
+}
+.j-content-fl-start {
   justify-content: flex-end;
 }
 .w-auto {
