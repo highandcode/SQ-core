@@ -4,9 +4,8 @@ import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import LinkButton from '../../components/ui/LinkButton';
-import { utils, reducers } from 'qubejs-core/web';
-
-const { processParams } = reducers.content;
+import { query } from '../../utils/query-string';
+import { processParams } from '../../redux/content';
 
 const hasPermission = (item, permissions) => {
   let result = false;
@@ -114,7 +113,7 @@ const BreadCrumb = ({ navigation, currentPath, permissions = [], breadcrumb, use
     <div className="sq-bread-crumbs">
       <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
         {finalData.map((item) => {
-          const finalUserData = { ...userData, ...urlForParams, ...utils.queryString.query.get() };
+          const finalUserData = { ...userData, ...urlForParams, ...query.get() };
           const finalItem = processParams(finalUserData, item, undefined, appStore);
           const finalParams = finalItem.urlParams;
           if (item.cmpType === 'Link') {
