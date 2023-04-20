@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 const style = {
   border: '1px dashed #e2e2e2',
