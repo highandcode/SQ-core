@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import LinkButton from '../../components/ui/LinkButton';
+import { utils, reducers } from 'qubejs-core/web';
 
-
-// const { LinkButton } = root;
+const { processParams } = reducers.content;
 
 const hasPermission = (item, permissions) => {
   let result = false;
@@ -17,7 +17,27 @@ const hasPermission = (item, permissions) => {
 };
 
 const pathWithParamMatch = (itemHref, path) => {
-  
+  const leftHref = itemHref.split('/');
+  const rightHref = path.split('/');
+  const params = {};
+  let matched = true;
+  if (leftHref.length === rightHref.length) {
+    rightHref.forEach((urlPart, idx) => {
+      console.log(leftHref[idx], urlPart);
+      if (leftHref[idx].startsWith(':')) {
+        params[leftHref[idx].substr(1)] = urlPart;
+      } else if (urlPart !== leftHref[idx]) {
+        matched = false;
+      }
+    });
+  } else {
+    matched = false;
+  }
+
+  return {
+    matched,
+    params,
+  };
 };
 
 const findNode = (data, path, permissions, parents = []) => {
@@ -31,11 +51,11 @@ const findNode = (data, path, permissions, parents = []) => {
     if (newList?.length > 0) {
       returnItems = newList.concat(returnItems);
     }
+    let paramMatcher;
     if (item.href?.toString().indexOf('/:') > -1) {
-      console.log()
-      console.log('@@@pike', item, path);
+      paramMatcher = pathWithParamMatch(item.href, path);
     }
-    if (item.href?.toString().toLowerCase() === path?.toString().toLowerCase()) {
+    if (item.href?.toString().toLowerCase() === path?.toString().toLowerCase() || (paramMatcher && paramMatcher.matched)) {
       if (parents) {
         parents.forEach((parent) => {
           if (parent.href && hasPermission(parent, permissions)) {
@@ -63,7 +83,7 @@ const findNode = (data, path, permissions, parents = []) => {
   return returnItems;
 };
 
-const BreadCrumb = ({ navigation, currentPath, permissions = [], breadcrumb }) => {
+const BreadCrumb = ({ navigation, currentPath, permissions = [], breadcrumb, userData, appStore }) => {
   if (breadcrumb && breadcrumb.root) {
     currentPath = breadcrumb.root;
   }
@@ -81,14 +101,27 @@ const BreadCrumb = ({ navigation, currentPath, permissions = [], breadcrumb }) =
   if (breadcrumb?.items) {
     finalData = finalData.concat(breadcrumb.items);
   }
+  let urlForParams = {};
+  finalData.forEach((item)=> {
+    const result = pathWithParamMatch(item.href, currentPath);
+    if (result.params) {
+      urlForParams = {
+        ...urlForParams,
+        ...result.params,
+      };
+    }
+  });
   return (
     <div className="sq-bread-crumbs">
       <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
         {finalData.map((item) => {
+          const finalUserData = { ...userData, ...urlForParams, ...utils.queryString.query.get() };
+          const dynamicText = item.dynamicTextField ? utils.object.getDataFromKey(finalUserData, item.dynamicTextField) : undefined;
+          const finalParams = processParams(finalUserData, item.urlParams, undefined, appStore);
           if (item.cmpType === 'Link') {
-            return <LinkButton key={item.href} buttonText={item.title} to={item.href} urlParams={item.urlParams}></LinkButton>;
+            return <LinkButton key={item.href} buttonText={dynamicText || item.title} to={item.href} urlParams={finalParams}></LinkButton>;
           }
-          return <Typography key={item.href}>{item.title}</Typography>;
+          return <Typography key={item.href}>{dynamicText || item.title}</Typography>;
         })}
       </Breadcrumbs>
     </div>

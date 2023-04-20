@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../Icon';
 import { redirectTo } from '../../../utils/redirect';
+import { QueryString } from '../../../utils/query-string';
 import { resolveImageUrl } from '../../../cordova';
 
 const Link = ({
@@ -24,10 +25,10 @@ const Link = ({
 }) => {
   const { target, analytics = {}, onAnalytics } = rest;
   const { click } = analytics;
-  const urlFinal = to || href || '#';
+  const urlFinal = (to || href || '#') + (urlParams ? new QueryString(urlParams).toString() : '');
   return (
     <a
-      href={to || href || '#'}
+      href={urlFinal}
       onClick={(e) => {
         if (urlFinal || urlFinal === '#') {
           e.preventDefault();
