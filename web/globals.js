@@ -18,6 +18,12 @@ export const GLOBAL_OPTIONS = {
     filled: 'Filled',
     default: 'Default',
   }),
+  editorStyle: new GlobalOptions({
+    full: 'full',
+    compact: 'compact',
+    default: 'default',
+    basic: 'basic',
+  }),
   userTabs: new GlobalOptions({
     ALL_USERS: 'All Users',
     ACTIVE_USERS: 'Active Users',
