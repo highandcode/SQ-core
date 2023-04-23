@@ -541,7 +541,7 @@ class PageBuilder extends Component {
                             name: 'custom',
                             label: 'custom',
                           },
-                          ...pageData.customProps,
+                          ...(pageData.customProps || []),
                         ]}
                       />
                     </Panel>
