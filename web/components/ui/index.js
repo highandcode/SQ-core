@@ -6,6 +6,7 @@ import HeroContent from './HeroContent';
 import FeaturedContent from './FeaturedContent';
 import Input from './InputField';
 import FileUploader from './FileUploader';
+import ImageUploader from './ImageUploader';
 import Link from './Link';
 import Text from './Text';
 import HTML from './HTML';
@@ -99,6 +100,7 @@ let comps = {
   FieldText,
   HTML,
   FileUploader,
+  ImageUploader,
   DropZoneFile,
   BasicRTE,
   ButtonSelection,
