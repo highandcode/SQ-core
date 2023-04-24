@@ -31,7 +31,7 @@ export const GLOBAL_OPTIONS = {
   }),
   mediaStatus: new GlobalOptions({
     DRAFT: 'Draft',
-    PUBILSHED: 'Published',
+    PUBLISHED: 'Published',
   }),
   mediaGalleryTabs: new GlobalOptions({
     ALL_MEDIA: 'All Media',
