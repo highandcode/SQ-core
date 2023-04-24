@@ -31,7 +31,6 @@ function ImageCard({
   const styles =
     imageUrl && !disabledImage ? { backgroundImage: `url(${imageUrl})` } : {};
   const { Icon, Actions, TagLabel, MoreActions } = getMap();
-  console.log(Icon, Actions, TagLabel, MoreActions);
   return (
     <div
       className={`sq-image-card ${className} sq-image-card--style-${mode} sq-image-card--t-style-${tileStyle}`}

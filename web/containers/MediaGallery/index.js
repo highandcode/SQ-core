@@ -35,7 +35,7 @@ const MediaGallery = ({ pageData, className = '', appStore, raiseAction, onActio
   const handleAction = async (item, action) => {
     switch (action.actionType) {
       case 'copy-link':
-        raiseAction(copyMediaLink(item.url));
+        raiseAction(copyMediaLink(item.filePath));
         break;
       case 'remove':
         raiseAction(startLoading());
@@ -127,6 +127,7 @@ const MediaGallery = ({ pageData, className = '', appStore, raiseAction, onActio
               imageUrlField={pageData.fields?.imageUrlField || 'url'}
               titleField={pageData.fields?.imageTitleField || 'fileName'}
               data={appStore.admin?.media}
+              tagColor={'info'}
               tagFieldName={'status'}
               loader={
                 <Skeleton
