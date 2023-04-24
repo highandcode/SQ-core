@@ -9,9 +9,9 @@ const SQTextWithImageTiles = ({ header, data = [], className = 'mt-5 mb-5' }) =>
         {header}
       </div>
       <div className="sq-text-with-image-tiles__container">
-        {data?.map((dataItem) => {
+        {data?.map((dataItem, idx) => {
           return (
-            <div className="sq-text-with-image-tiles__item">
+            <div key={idx} className="sq-text-with-image-tiles__item">
               <div className="sq-text-with-image-tiles__item-cnt">
                 {dataItem.imageUrl && (
                   <div className="sq-text-with-image-tiles__img">
