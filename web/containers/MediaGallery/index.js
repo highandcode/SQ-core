@@ -7,6 +7,7 @@ import { loadMedia, uploadMedia, updateMedia, copyMediaLink, deleteLink } from '
 import { startLoading, stopLoading } from '../../redux/common';
 
 const MediaGallery = ({ pageData, className = '', appStore, raiseAction, onAction }) => {
+  const { allowedFileTypes = ['JPG', 'JPEG', 'PNG', 'mp4', 'gif'] } = pageData;
   useEffect(() => {
     loadImages();
   }, []);
@@ -199,7 +200,7 @@ const MediaGallery = ({ pageData, className = '', appStore, raiseAction, onActio
                 actionType: 'module',
                 name: 'files',
                 multiple: false,
-                fileTypes: ['JPG', 'JPEG', 'PNG', 'mp4', 'gif'],
+                fileTypes: allowedFileTypes,
                 ...pageData.uploadConfig,
               },
               {
