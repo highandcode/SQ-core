@@ -6,22 +6,12 @@ import Tooltip from '@mui/material/Tooltip';
 import Icon from '../../Icon';
 import Alert from '../../Alert';
 import Progress from '../../Progress';
+import Input from '../InputField';
 
 const SQFileUploader = ({
   className = '',
   disabled,
-  fileTypes = [
-    'JPG',
-    'PNG',
-    'GIF',
-    'PDF',
-    'JPEG',
-    'DOC',
-    'DOCX',
-    'PPT',
-    'PPTX',
-    'RTF',
-  ],
+  fileTypes = ['JPG', 'PNG', 'GIF', 'PDF', 'JPEG', 'DOC', 'DOCX', 'PPT', 'PPTX', 'RTF'],
   multiple = true,
   clearAll = false,
   onAction,
@@ -40,22 +30,33 @@ const SQFileUploader = ({
   ...rest
 }) => {
   const [file, setFile] = useState([]);
+  const [fileNames, setFileNames] = useState([]);
   const [sucessCalled, setSuccessCalled] = useState(false);
   const [progress, setProgress] = useState(false);
   const [failedCalled, setFailedCalled] = useState(false);
   const handleChange = async (filenew) => {
     const takeOne = multiple ? filenew : [filenew];
-    let listToBeAdded = [].filter.call(takeOne, (i) => file.filter((d)=>d.name === i.name).length === 0);  
+    let listToBeAdded = [].filter.call(takeOne, (i) => file.filter((d) => d.name === i.name).length === 0);
     if (listToBeAdded.length > 0) {
-      const newFiles = [...(multiple ? file : []), ...(listToBeAdded)];
+      const newFiles = [...(multiple ? file : []), ...listToBeAdded];
       await setFile(newFiles);
-      uploadOnChange && handleAction({files: newFiles});
+      const newFileNames = [
+        ...fileNames,
+        ...listToBeAdded.map((i) => ({
+          name: i.name,
+        })),
+      ];
+      console.log(newFileNames);
+      await setFileNames(newFileNames);
+      uploadOnChange && handleAction({ files: newFiles });
     }
   };
   const handleDelete = (filenew) => {
     const idx = file.indexOf(filenew);
     file.splice(idx, 1);
+    fileNames.splice(idx, 1);
     setFile([...file]);
+    setFileNames([...fileNames]);
   };
 
   const success = (data) => {
@@ -77,20 +78,29 @@ const SQFileUploader = ({
     setSuccessCalled(false);
     setFailedCalled(true);
     setProgress(false);
+  };
 
+  const handleFileChange = (data, file, idx) => {
+    const newFileNames = [...fileNames];
+    newFileNames[idx] = { name: data.value };
+    setFileNames(newFileNames);
   };
 
   const handleAction = (obj) => {
     setProgress(true);
     onAction &&
-      onAction({}, {
-        ...rest,
-        success,
-        failed,
-        data: {
-          files: (obj && obj.files) || file,
-        },
-      });
+      onAction(
+        {},
+        {
+          ...rest,
+          success,
+          failed,
+          data: {
+            files: (obj && obj.files) || file,
+            fileNames,
+          },
+        }
+      );
     setFile([]);
   };
   const handleClear = () => {
@@ -99,24 +109,31 @@ const SQFileUploader = ({
 
   return (
     <div className={`sq-file-uploader ${className}`}>
-      {label && <label className='sq-file-uploader__label'>{label}</label>}
-      {<Tooltip title={fileTypes.join(', ').toLowerCase()}>
-        <span>
-          <FileUploader
-            disabled={disabled}
-            multiple={multiple}
-            fileOrFiles={file.length ? null : file}
-            className="sq-file-uploader__file"
-            handleChange={handleChange}
-            name="file"
-            types={fileTypes}
-          />
-        </span>
-      </Tooltip>}
-      {enableLoader && progress && <Progress className='tp-progress--active' style='default' />}
+      {label && <label className="sq-file-uploader__label">{label}</label>}
+      {
+        <Tooltip title={fileTypes.join(', ').toLowerCase()}>
+          <span>
+            <FileUploader
+              disabled={disabled}
+              multiple={multiple}
+              fileOrFiles={file.length ? null : file}
+              className="sq-file-uploader__file"
+              handleChange={handleChange}
+              name="file"
+              types={fileTypes}
+            />
+          </span>
+        </Tooltip>
+      }
+      {enableLoader && progress && (
+        <Progress
+          className="tp-progress--active"
+          style="default"
+        />
+      )}
       {file && (
         <div className="sq-file-uploader__list">
-          {file.map((file) => {
+          {file.map((file, idx) => {
             return (
               <div
                 key={file.name}
@@ -124,13 +141,29 @@ const SQFileUploader = ({
                 className="sq-file-uploader__file-item"
               >
                 <div className="sq-file-uploader__file-icon">
-                  <Icon name="file" size="small" />
+                  <Icon
+                    name="file"
+                    size="small"
+                  />
                 </div>
-                <div className="sq-file-uploader__file-name">
-                  {file.name}
+                <div className="sq-file-uploader__file-name pt-2">
+                  <Input
+                    helperText={file.name}
+                    label="Name"
+                    type="text"
+                    value={fileNames[idx]?.name}
+                    onKeyPress={(data) => handleFileChange(data, file, idx)}
+                  />
                 </div>
-                <div className="sq-file-uploader__file-delete" onClick={() => handleDelete(file)}>
-                  <Icon name="close"  size='small' variant='error' />
+                <div
+                  className="sq-file-uploader__file-delete"
+                  onClick={() => handleDelete(file)}
+                >
+                  <Icon
+                    name="close"
+                    size="small"
+                    variant="error"
+                  />
                 </div>
               </div>
             );
@@ -138,20 +171,34 @@ const SQFileUploader = ({
         </div>
       )}
       {errorMessage && <div className="sq-error">{errorMessage}</div>}
-      {!uploadOnChange && <Button
-        disabled={file.length === 0}
-        variant="outlined"
-        onClick={handleAction}
-        buttonText={uploadButtonText}
-      />}
-      {clearAll && <Button
-        disabled={file.length === 0}
-        variant="outlined"
-        onClick={handleClear}
-        buttonText={clearButtonText}
-      />}
-      {uploadSuccessMessage && !progress && sucessCalled && <Alert type={successMessageType} message={uploadSuccessMessage} />}
-      {uploadFailedMessage && !progress && failedCalled && <Alert type={errorMessageType} message={uploadFailedMessage} />}
+      {!uploadOnChange && (
+        <Button
+          disabled={file.length === 0}
+          variant="outlined"
+          onClick={handleAction}
+          buttonText={uploadButtonText}
+        />
+      )}
+      {clearAll && (
+        <Button
+          disabled={file.length === 0}
+          variant="outlined"
+          onClick={handleClear}
+          buttonText={clearButtonText}
+        />
+      )}
+      {uploadSuccessMessage && !progress && sucessCalled && (
+        <Alert
+          type={successMessageType}
+          message={uploadSuccessMessage}
+        />
+      )}
+      {uploadFailedMessage && !progress && failedCalled && (
+        <Alert
+          type={errorMessageType}
+          message={uploadFailedMessage}
+        />
+      )}
     </div>
   );
 };

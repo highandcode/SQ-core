@@ -210,7 +210,7 @@ export const uploadMedia =
       });
       response.status = 'success';
       response.data = {};
-      const fileName = payload.data.files[0].name.split(' ').join('_');
+      const fileName = (payload.data.fileNames || payload.data.files).map((i)=>i.name);
       const contentType = {
         contentType: 'VIDEO',
         status: 'DRAFT',
@@ -245,7 +245,7 @@ export const uploadMedia =
         }
         dispatch(
           showNotificationMessage({
-            message: 'Uploaded file successfyully',
+            message: 'Uploaded media successfully',
           })
         );
         payload.success(result.data.files);
