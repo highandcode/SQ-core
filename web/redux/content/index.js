@@ -511,6 +511,7 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
 };
 
 export const uploadApi = (payload, pageResponse) => async (dispatch, getState) => {
+  console.log(payload);
   if (payload.match) {
     const validator = new Validator(payload.match);
     validator.setValues(selectUserData(getState()));
@@ -547,7 +548,7 @@ export const uploadApi = (payload, pageResponse) => async (dispatch, getState) =
     payload.data.files.forEach((file) => {
       formData.append('file', file);
     });
-    response = await utils.apiBridge.rawPost(paramToProcess.url, formData, processParams(getState().content.userData, payload.headers, undefined, getState()), { fileName: payload.data.files.map((i)=>i.name), ...processParams(getState().content.userData, payload.params, undefined, getState()) });
+    response = await utils.apiBridge.rawPost(paramToProcess.url, formData, processParams(getState().content.userData, payload.headers, undefined, getState()), { fileName: (payload.data.fileNames || payload.data.files).map((i)=>i.name), ...processParams(getState().content.userData, payload.params, undefined, getState()) });
   }
 
   if (payload.postHook) {

@@ -7,6 +7,7 @@ import { loadMedia, uploadMedia, updateMedia, copyMediaLink, deleteLink } from '
 import { startLoading, stopLoading } from '../../redux/common';
 
 const MediaGallery = ({ pageData, className = '', appStore, raiseAction, onAction }) => {
+  const { allowedFileTypes = ['JPG', 'JPEG', 'PNG', 'mp4', 'gif'] } = pageData;
   useEffect(() => {
     loadImages();
   }, []);
@@ -149,7 +150,6 @@ const MediaGallery = ({ pageData, className = '', appStore, raiseAction, onActio
                   iconSize: 'small',
                   className: 'sq-button--block',
                   beforeRender: (action, col, row) => {
-                    console.log(action, col, row);
                     return !row.status || row.status === 'DRAFT';
                   },
                   buttonText: 'Publish',
@@ -200,7 +200,7 @@ const MediaGallery = ({ pageData, className = '', appStore, raiseAction, onActio
                 actionType: 'module',
                 name: 'files',
                 multiple: false,
-                fileTypes: ['JPG', 'JPEG', 'PNG', 'mp4', 'gif'],
+                fileTypes: allowedFileTypes,
                 ...pageData.uploadConfig,
               },
               {
