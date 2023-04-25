@@ -149,7 +149,6 @@ const MediaGallery = ({ pageData, className = '', appStore, raiseAction, onActio
                   iconSize: 'small',
                   className: 'sq-button--block',
                   beforeRender: (action, col, row) => {
-                    console.log(action, col, row);
                     return !row.status || row.status === 'DRAFT';
                   },
                   buttonText: 'Publish',
