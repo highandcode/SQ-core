@@ -32,17 +32,17 @@ const ButtonSelection = ({ className = '', label, options = [], defaultValue, te
             if (isSelected) {
               selectedProsp.variant = 'contained';
             }
-            const { title, ...restItem } = item;
+            const { title, iconName, ...restItem } = item;
             return title ? (
-              <Tooltip title={title}>
+              <Tooltip title={title} key={idx}>
                 <Button key={idx} {...selectedProsp} {...restItem} aria-label={item[textField]} onClick={(e) => handleClick(e, item)}>
-                  {item.iconName && <Icon variant={isSelected ? 'white' : disabled ? 'default' : 'primary'} name={item.iconName} size="xs" />}
+                  {iconName && <Icon variant={isSelected ? 'white' : disabled ? 'default' : 'primary'} name={iconName} size="xs" />}
                   {item[textField]}
                 </Button>
               </Tooltip>
             ) : (
               <Button key={idx} {...selectedProsp} {...restItem} aria-label={item[textField]} onClick={(e) => handleClick(e, item)}>
-                {item.iconName && <Icon variant={isSelected ? 'white' :  disabled ? 'default' : 'primary'} name={item.iconName} size="xs" />}
+                {iconName && <Icon variant={isSelected ? 'white' :  disabled ? 'default' : 'primary'} name={iconName} size="xs" />}
                 {item[textField]}
               </Button>
             );

@@ -7,6 +7,7 @@ import { ItemTypes } from './ItemTypes';
 
 import HeaderEdit from './edits/Header';
 import HeroContentEdit from './edits/HeroContent';
+import RichTextEdit from './edits/RichText';
 import InputEdit from './edits/Input';
 import ReCaptchaEdit from './edits/ReCaptcha';
 import SelectEdit from './edits/Select';
@@ -125,6 +126,15 @@ const compList = {
     editData: InputEdit,
     sampleData: {
       label: 'Label',
+    },
+  },
+  RichText: {
+    Component: getMap().RichText,
+    group: 'Form Elements',
+    type: ItemTypes.FORM_ELEMENT,
+    editData: RichTextEdit,
+    sampleData: {
+      label: 'Rich Label',
     },
   },
   Text: {

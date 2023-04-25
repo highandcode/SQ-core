@@ -7,9 +7,9 @@ const SQHeaderwithTiles = ({ header, data = [], className = 'mt-5 mb-5' }) => {
     <div className={`sq-header-with-tiles ${className}`}>
       <div className="sq-header-with-tiles__header">{header}</div>
       <div className="sq-header-with-tiles__container">
-        {data?.map((dataItem) => {
+        {data?.map((dataItem, idx) => {
           return (
-            <div className="sq-header-with-tiles__item">
+            <div key={idx} className="sq-header-with-tiles__item">
               <div className="sq-header-with-tiles__item-cnt">
                 <div className="sq-header-with-tiles__top mb-wide">
                   <div className="sq-header-with-tiles__item-header">

@@ -380,7 +380,7 @@ class DynamicContent extends Component {
   }
 
   async onAction(value, action, block) {
-    const { onSubmit } = this.props;
+    const { onSubmit, onCancel } = this.props;
     let result;
     let isValid = true;
     // action.nextAction = (action) => this.onAction(value, action, block); 
@@ -501,6 +501,9 @@ class DynamicContent extends Component {
         if (isValid) {
           onSubmit && onSubmit(processParams(this.props.store.content.userData, action.params));
         }
+        break;
+      case 'cancel-event':
+        onCancel && onCancel(processParams(this.props.store.content.userData, action.params));
         break;
       case 'user-store':
         await this.props.contentActions.mergeUserData({

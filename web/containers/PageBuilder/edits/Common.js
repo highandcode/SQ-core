@@ -205,6 +205,13 @@ export const withEditTabs = ({ classNames = [], pageData = {}, general = [], val
             ...saveParams,
           },
         },
+        {
+          component: 'Button',
+          actionType: 'cancel-event',
+          buttonText: 'Cancel',
+          variant: 'outlined',
+          size: 'medium'
+        },
       ],
     },
   };

@@ -213,6 +213,7 @@ export const uploadMedia =
       const fileName = payload.data.files[0].name.split(' ').join('_');
       const contentType = {
         contentType: 'VIDEO',
+        status: 'DRAFT',
       };
       if (!fileName.includes('.mp4')) {
         delete contentType['contentType'];

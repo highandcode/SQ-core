@@ -31,8 +31,12 @@ const transitionOptions = {
   bottom: TransitionBottom,
 };
 
-const SQDialog = ({ closeButton = true, hideBackdrop = false, headerTag, transitionDir = 'up', classes: overrideClasses = {}, fullScreen = false, open = false, isLoading = false, title, content, children, onClose, actions = [], onAction }) => {
-  const handleClose = () => {
+const SQDialog = ({ closeButton = true, hideBackdrop = false, backDropClick = true, disableEscapeKeyDown, headerTag, transitionDir = 'up', classes: overrideClasses = {}, fullScreen = false, open = false, isLoading = false, title, content, children, onClose, actions = [], onAction }) => {
+  const handleClose = (e, reason) => {
+    if (reason === 'backdropClick' && backDropClick === false) {
+      e.stopPropagation();
+      return false;
+    }
     onClose &&
       onClose(
         {
@@ -46,7 +50,7 @@ const SQDialog = ({ closeButton = true, hideBackdrop = false, headerTag, transit
   };
   return (
     <div className={`sq-dialog ${overrideClasses.root || ''}`}>
-      <Dialog hideBackdrop={hideBackdrop} TransitionComponent={transitionOptions[transitionDir]} classes={overrideClasses.dialog} open={open} fullScreen={fullScreen} onClose={handleClose}>
+      <Dialog hideBackdrop={hideBackdrop} disableEscapeKeyDown={disableEscapeKeyDown} TransitionComponent={transitionOptions[transitionDir]} classes={overrideClasses.dialog} open={open} fullScreen={fullScreen} onClose={handleClose}>
         <DialogTitle>
           {headerTag && <Typography variant={headerTag}>{title}</Typography>}
           {!headerTag && title}

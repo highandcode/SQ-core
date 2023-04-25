@@ -20,8 +20,6 @@ function ImageCardList({
   titleField = 'name',
   tagLabel,
   tagColor,
-  iconColor,
-  pagination,
   title,
   iconName,
   imageUrl,
