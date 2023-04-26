@@ -52,7 +52,7 @@ LinkButton.propTypes = {
   type: PropTypes.string,
   iconSize: PropTypes.string,
   color: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.any,
   iconName: PropTypes.string,
   className: PropTypes.string,
   buttonText: PropTypes.string,
