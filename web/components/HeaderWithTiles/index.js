@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './_header-with-tiles.scss';
 
-const SQHeaderwithTiles = ({ header, data = [], className = 'mt-5 mb-5' }) => {
+const SQHeaderwithTiles = ({ header, data = [], className = 'mt-5 mb-5', styleName = 'default' }) => {
   return (
-    <div className={`sq-header-with-tiles ${className}`}>
+    <div className={`sq-header-with-tiles ${className} sq-header-with-tiles--style-${styleName}`}>
       <div className="sq-header-with-tiles__header">{header}</div>
       <div className="sq-header-with-tiles__container">
         {data?.map((dataItem, idx) => {
@@ -38,6 +38,7 @@ const SQHeaderwithTiles = ({ header, data = [], className = 'mt-5 mb-5' }) => {
 
 SQHeaderwithTiles.propTypes = {
   data: PropTypes.array,
+  styleName: PropTypes.string,
 };
 
 export default SQHeaderwithTiles;

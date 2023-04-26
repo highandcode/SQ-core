@@ -30,7 +30,7 @@
     min-height: 200px;
     border: solid 1px $sq-color-slate-lightest;
     box-shadow: 0px 10px 10px #00000029;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 20px;
     @media (min-width: $screen-md) {
       margin-right: 15px;
@@ -69,6 +69,17 @@
   &__text {
     text-align: left;
     @include b5-style();
+  }
+
+  &--style-top-header {
+    display: flex;
+    flex-direction: column;
+    .sq-header-with-tiles__header {
+      flex-basis: auto;
+    }
+    .sq-header-with-tiles__container {
+      margin: 0 0 0 15px;
+    }
   }
   
 }
