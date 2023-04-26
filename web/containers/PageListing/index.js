@@ -36,7 +36,7 @@ class PageListing extends BaseContainer {
     const { pageData } = this.props;
     this.props.commonActions.startLoading();
     if (pageData.enableTree !== false) {
-      await this.props.raiseAction(loadPageTree({}));
+      await this.props.raiseAction(loadPageTree({},  pageData.getPageTreeConfig));
     } else {
       await this.props.raiseAction(loadPagesByPath({ parentPath }, pageData.getPagesConfig));
     }
@@ -111,11 +111,12 @@ class PageListing extends BaseContainer {
   }
 
   async onTreeSelect(data) {
+    const { pageData } = this.props;
     this.props.commonActions.startLoading();
     this.setState({
       parentPath: data.value,
     });
-    await this.props.raiseAction(loadPagesByPath({ parentPath: data.value }));
+    await this.props.raiseAction(loadPagesByPath({ parentPath: data.value }, pageData.getPagesConfig));
     this.props.commonActions.stopLoading();
   }
 

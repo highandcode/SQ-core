@@ -100,11 +100,6 @@ export const loadPageTree =
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       await dispatch(setContentTree(result.data));
-      await dispatch(
-        loadPagesByPath({
-          parentPath: result.data.path,
-        })
-      );
     }
   };
 
