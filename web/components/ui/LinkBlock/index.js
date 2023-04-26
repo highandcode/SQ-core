@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from '../Link';
 
-const LinkBlock = ({ ...rest }) => {
+const LinkBlock = ({ className, ...rest }) => {
   return (
-    <div className="sq-link-block">
+    <div className={`sq-link-block ${className}`}>
       <Link size={'large'} {...rest} />
     </div>
   );

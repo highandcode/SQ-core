@@ -29,7 +29,7 @@ class PageListing extends BaseContainer {
 
   async componentDidMount() {
     const { pageData, store } = this.props;
-    const params = utils.queryString.query.get();
+    this.props.commonActions.startLoading();
     await this.props.raiseAction(loadPageTree({}, pageData.getPageTreeConfig));
     await this.setState({
       parentPath: store.admin.contentTree?.path,
