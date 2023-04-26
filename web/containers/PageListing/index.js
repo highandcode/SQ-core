@@ -33,10 +33,14 @@ class PageListing extends BaseContainer {
   }
 
   async refreshPages({ parentPath = this.state.parentPath } = {}) {
-    const { pageData } = this.props;
+    const { pageData, store } = this.props;
     this.props.commonActions.startLoading();
     if (pageData.enableTree !== false) {
       await this.props.raiseAction(loadPageTree({},  pageData.getPageTreeConfig));
+      this.setState({
+        parentPath: store.admin.contentTree?.path,
+      });
+      await this.props.raiseAction(loadPagesByPath({ parentPath: store.admin.contentTree?.path }, pageData.getPagesConfig));
     } else {
       await this.props.raiseAction(loadPagesByPath({ parentPath }, pageData.getPagesConfig));
     }
@@ -155,7 +159,7 @@ class PageListing extends BaseContainer {
             <div className="sq-v-screen-grow mb-wide sq-page-listing__container">
               {pageData.enableTree !== false && (
                 <div className="sq-page-listing__left">
-                  <PathTree data={store.admin.contentTree} onChange={this.onTreeSelect} />
+                  <PathTree data={store.admin.contentTree} onChange={this.onTreeSelect} value={this.state.parentPath} />
                 </div>
               )}
               <Grid
