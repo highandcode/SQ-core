@@ -30,21 +30,19 @@ class PageListing extends BaseContainer {
   async componentDidMount() {
     const { pageData, store } = this.props;
     this.props.commonActions.startLoading();
-    await this.props.raiseAction(loadPageTree({}, pageData.getPageTreeConfig));
-    await this.setState({
-      parentPath: store.admin.contentTree?.path,
-    });
+    if (pageData.enableTree !== false) {
+      await this.props.raiseAction(loadPageTree({}, pageData.getPageTreeConfig));
+      await this.setState({
+        parentPath: store.admin.contentTree?.path,
+      });
+    }
     this.refreshPages();
   }
 
   async refreshPages({ parentPath = this.state.parentPath } = {}) {
     const { pageData, store } = this.props;
     this.props.commonActions.startLoading();
-    if (pageData.enableTree !== false) {
       await this.props.raiseAction(loadPagesByPath({ parentPath }, pageData.getPagesConfig));
-    } else {
-      await this.props.raiseAction(loadPagesByPath({ parentPath }, pageData.getPagesConfig));
-    }
     this.props.commonActions.stopLoading();
   }
 
