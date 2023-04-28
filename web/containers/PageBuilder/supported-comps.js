@@ -2,11 +2,15 @@ import Form from '../../components/Form';
 import Progress from '../../components/Progress';
 import LaunchTimer from '../../components/LaunchTimer';
 import Wrapper from '../../components/Wrapper';
+import TextColumnWithLinks from '../../components/ui/TextColumnWithLinks';
 import { getMap } from '../../components/ui';
 import { ItemTypes } from './ItemTypes';
 
 import HeaderEdit from './edits/Header';
 import HeroContentEdit from './edits/HeroContent';
+import ImageWithSlideEdit from './edits/ImageWithSlide';
+import FeaturedContentEdit from './edits/FeaturedContent';
+import TextColumnWithLinksEdit from './edits/TextColumnWithLinks';
 import RichTextEdit from './edits/RichText';
 import InputEdit from './edits/Input';
 import ReCaptchaEdit from './edits/ReCaptcha';
@@ -409,6 +413,29 @@ const compList = {
       subHeader: 'sub header goes here',
     },
     editData: HeroContentEdit,
+  },
+  ImageWithSlide: {
+    group: 'Content',
+    Component: getMap().ImageWithSlide,
+    sampleData: {
+      eyebrow: 'eybrow',
+      header: 'Header',
+    },
+    editData: ImageWithSlideEdit,
+  },
+  FeaturedContent: {
+    group: 'Content',
+    Component: getMap().FeaturedContent,
+    sampleData: {
+    },
+    editData: FeaturedContentEdit,
+  },
+  TextColumnWithLinks: {
+    group: 'Content',
+    Component: TextColumnWithLinks,
+    sampleData: {
+    },
+    editData: TextColumnWithLinksEdit,
   },
   HTML: {
     group: 'Content',
