@@ -393,7 +393,6 @@ class Validator {
     let errorKey = '';
     let errorMessage = '';
     let extraParams = {};
-    console.log(this.values, field);
     if (_object) {
       const fieldVal = _object.getDataFromKey(this.values, field, null);
       if (fieldVal) {
