@@ -2,6 +2,11 @@ const commons = require('./common');
 const moment = require('moment');
 const _ = require('lodash');
 
+let _object;
+const setObject = (obj) => {
+  _object = obj;
+};
+
 const _validators = {
   required: (value, { required, defaultValue }, fields) => {
     if (required && required(fields) === false) {
@@ -388,6 +393,13 @@ class Validator {
     let errorKey = '';
     let errorMessage = '';
     let extraParams = {};
+    console.log(this.values, field);
+    if (_object) {
+      const fieldVal = _object.getDataFromKey(this.values, field, null);
+      if (fieldVal) {
+        this.setValue(field, fieldVal);
+      }
+    }
     if (this.validators[field] && this.validators[field].validators) {
       Array.isArray(this.validators[field].validators) &&
         this.validators[field].validators.forEach(({ type, message, key: vErrorKey, ...rest }) => {
@@ -486,6 +498,7 @@ const addMessage = (name, message) => {
 };
 
 module.exports = {
+  setObject,
   Validator,
   // validators: _validators,
   addValidator,
