@@ -48,10 +48,10 @@ export const loadTemplates =
     if (response.status === CONSTANTS.STATUS.SUCCESS) {
       const pagination = {
         total: response.data?.totalItems,
-        pageSize: response.data.pageSize,
-        currentPage: response.data.currentPage,
-        isLast: response.data.last,
-        totalPages: response.data.totalPages,
+        pageSize: response.data?.pageSize,
+        currentPage: response.data?.currentPage,
+        isLast: response.data?.last,
+        totalPages: response.data?.totalPages,
       };
       await dispatch(setTemplates(response.data.data));
       await dispatch(setTemplatesPagination(pagination));

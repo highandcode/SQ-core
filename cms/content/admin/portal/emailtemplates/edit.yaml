@@ -20,7 +20,7 @@ merge:
   currentError: .lastError.key
   currentErrorMessage: .lastError.errorMessage
 items:
-  - component: Progress
+  - component: ProgressisActive
     className: tp-progress--active
     overlay: true
     match:

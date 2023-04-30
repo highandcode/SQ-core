@@ -63,7 +63,6 @@ class EmailTemplateList extends React.Component {
       },
     };
     this.tabs = GLOBAL_OPTIONS.userTabs.toArray();
-    this.handleTabChange = this.handleTabChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
     this.onFilterToggle = this.onFilterToggle.bind(this);
@@ -86,10 +85,6 @@ class EmailTemplateList extends React.Component {
       });
     }
     await this.refreshTemplates({ filter: { active: true } });
-    await this.props.emailActions.loadRoles(
-      { userType: 'INTERNAL' },
-      pageData?.apiConfig?.getRoles
-    );
   }
 
   async refreshTemplates({ pageNo, pageSize, sort, filter, source } = {}) {
@@ -105,16 +100,15 @@ class EmailTemplateList extends React.Component {
     let sortBy = (sort || this.state.currentSort).sortColumn;
     let sortDir = (sort || this.state.currentSort).sortOrder;
     const extra = {};
-    if (!source) {
-      source = this.state.currentTab;
-    }
-    if (source === GLOBAL_OPTIONS.userTabs.keys.ALL_USERS) {
-      extra.isActive = undefined;
-    }
+
     this.props.commonActions.startLoading();
     await this.props.emailActions.loadTemplates(
       {
-        body: { ...(filter || this.state.currentFilter), ...extra },
+        body: {
+          active: true,
+          ...(filter || this.state.currentFilter),
+          ...extra,
+        },
         source,
         query: {
           sortBy: sortBy,
@@ -158,28 +152,6 @@ class EmailTemplateList extends React.Component {
     });
   }
 
-  handleTabChange(data) {
-    this.setState({
-      currentTab: data.value,
-    });
-    let source = data.value;
-    if (data.value === 'ACTIVE_USERS') {
-      this.refreshTemplates({
-        filter: { isActive: true, ...this.state.currentFilter },
-        source: source,
-        pageNo: 1,
-      });
-    } else if (data.value === 'INACTIVE_USERS') {
-      this.refreshTemplates({
-        filter: { isActive: false, ...this.state.currentFilter },
-        source: source,
-        pageNo: 1,
-      });
-    } else {
-      this.refreshTemplates({ source: source, pageNo: 1 });
-    }
-  }
-
   onFilterChange(data) {
     Object.keys(data.value).forEach(
       (key) =>
@@ -192,21 +164,10 @@ class EmailTemplateList extends React.Component {
   }
 
   async handlePageChange(data) {
-    const { currentPage } = this.props.store.emailtemplate?.templatesPagination;
     let pageNo = data.value.currentPage;
-    if (this.state.currentTab === 'ACTIVE_USERS') {
-      await this.refreshTemplates({
-        pageNo: pageNo,
-      });
-    } else if (this.state.currentTab === 'INACTIVE_USERS') {
-      await this.refreshTemplates({
-        pageNo: pageNo,
-      });
-    } else {
-      await this.refreshTemplates({
-        pageNo: pageNo,
-      });
-    }
+    await this.refreshTemplates({
+      pageNo: pageNo,
+    });
   }
 
   async onGridAction(row, value, column) {
@@ -225,7 +186,7 @@ class EmailTemplateList extends React.Component {
           pageData?.apiConfig?.deleteUser
         );
         await this.refreshTemplates({
-          filter: { isActive: true, ...this.state.currentFilter },
+          filter: { active: true, ...this.state.currentFilter },
           pageSize: pageSize,
         });
         break;
@@ -259,12 +220,12 @@ class EmailTemplateList extends React.Component {
       case 'applyfilter':
         if (this.state.currentTab === 'ACTIVE_USERS') {
           await this.refreshTemplates({
-            filter: { ...this.state.currentFilter, isActive: true },
+            filter: { ...this.state.currentFilter, active: true },
             currentPage: currentPage,
           });
         } else if (this.state.currentTab === 'INACTIVE_USERS') {
           await this.refreshTemplates({
-            filter: { ...this.state.currentFilter, isActive: false },
+            filter: { ...this.state.currentFilter, active: false },
             currentPage: currentPage,
           });
         } else {
@@ -282,12 +243,12 @@ class EmailTemplateList extends React.Component {
     });
     if (this.state.currentTab === 'ACTIVE_USERS') {
       await this.refreshTemplates({
-        filter: { ...this.state.currentFilter, isActive: true },
+        filter: { ...this.state.currentFilter, active: true },
         sort: data,
       });
     } else if (this.state.currentTab === 'INACTIVE_USERS') {
       await this.refreshTemplates({
-        filter: { ...this.state.currentFilter, isActive: false },
+        filter: { ...this.state.currentFilter, active: false },
         sort: data,
       });
     } else {
@@ -407,28 +368,25 @@ class EmailTemplateList extends React.Component {
                 ]}
               />
             </Dialog>
-            <div className="mb-wide">
-              {store.emailtemplate.templatesPagination?.total > 0 && (
-                <Pagination
-                  className="j-content-fl-end ml-3"
-                  enablePageSize={true}
-                  count={store.emailtemplate?.templatesPagination.totalPages}
-                  disabled={isLoading}
-                  pageSizeOptions={GLOBAL_OPTIONS.noOfResultsDropdown.toArray()}
-                  value={store.emailtemplate?.templatesPagination}
-                  onChange={(data) => {
-                    let pageNo = data.value.currentPage;
-                    let pageSize = data.value.pageSize;
-                    if (!isLoading) {
-                      this.refreshTemplates({ pageNo, pageSize });
-                    }
-                  }}
-                />
-              )}
-            </div>
             <div className="sq-v-screen-grow">
               {
                 <Grid
+                  paginationProps={{
+                    className: 'j-content-fl-end ml-3',
+                    enablePageSize: true,
+                    count: store.emailtemplate?.templatesPagination?.totalPages,
+                    value: store.emailtemplate?.templatesPagination,
+                    disabled: isLoading,
+                    pageSizeOptions:
+                      GLOBAL_OPTIONS.noOfResultsDropdown.toArray(),
+                    onChange: (data) => {
+                      let pageNo = data.value.currentPage;
+                      let pageSize = data.value.pageSize;
+                      if (!isLoading) {
+                        this.refreshTemplates({ pageNo, pageSize });
+                      }
+                    },
+                  }}
                   onColFilterChange={this.onColFilterSelection}
                   className="sq-basic-grid sq-grid--fixed sq-basic-grid--rounded"
                   sortColumn={this.state.currentSort.sortColumn}
