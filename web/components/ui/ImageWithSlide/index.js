@@ -11,7 +11,7 @@ const imageMap = {
   ImageOnDevice
 };
 
-const ImageWithSlide = ({ image = {}, align = 'left', className = '', classes = {}, eyebrow, header, headerTag = 'h2' }) => {
+const ImageWithSlide = ({ image = {}, align = 'left', className = '', classes = {}, eyebrow, header, headerTag = 'h2', bgColor = '#e2e2e2' }) => {
   const HTag = headerTag;
   const { cmpType: imageType = 'img', imageUrl, ...restImage } = image;
   const ImageRender = imageMap[imageType] || imageMap.img;
@@ -22,7 +22,7 @@ const ImageWithSlide = ({ image = {}, align = 'left', className = '', classes = 
           <ImageRender src={imageUrl} {...restImage} />
         </div>
         <div className={`sq-image-with-slide__panel ${common.toStringBlank(classes.panel)}`}>
-          <div className={`sq-image-with-slide__panel-inner  ${common.toStringBlank(classes.innerPanel)}`}>
+          <div className={`sq-image-with-slide__panel-inner  ${common.toStringBlank(classes.innerPanel)}`} style={{backgroundColor: bgColor}} >
             <div className="sq-image-with-slide__eyebrow mb-narrow">{eyebrow}</div>
             <HTag className="sq-image-with-slide__header">{header}</HTag>
           </div>

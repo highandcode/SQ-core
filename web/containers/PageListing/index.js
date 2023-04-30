@@ -28,18 +28,21 @@ class PageListing extends BaseContainer {
   }
 
   async componentDidMount() {
-    const params = utils.queryString.query.get();
+    const { pageData, store } = this.props;
+    this.props.commonActions.startLoading();
+    if (pageData.enableTree !== false) {
+      await this.props.raiseAction(loadPageTree({}, pageData.getPageTreeConfig));
+      await this.setState({
+        parentPath: store.admin.contentTree?.path,
+      });
+    }
     this.refreshPages();
   }
 
   async refreshPages({ parentPath = this.state.parentPath } = {}) {
-    const { pageData } = this.props;
+    const { pageData, store } = this.props;
     this.props.commonActions.startLoading();
-    if (pageData.enableTree !== false) {
-      await this.props.raiseAction(loadPageTree({},  pageData.getPageTreeConfig));
-    } else {
       await this.props.raiseAction(loadPagesByPath({ parentPath }, pageData.getPagesConfig));
-    }
     this.props.commonActions.stopLoading();
   }
 
@@ -68,14 +71,19 @@ class PageListing extends BaseContainer {
         });
         break;
       case 'delete':
+        this.props.commonActions.startLoading();
         await this.props.raiseAction(deletePage(row, pageData.contentPageConfig));
         this.refreshPages();
         break;
       case 'edit':
-        utils.redirect.redirectTo(row.type === 'SITE_MAP' ? pageData.editSiteMap || 'editSiteMap' : pageData.editPage || 'editPage', {
-          path: row.path,
-          pageId: row.pageId /* replace with data.uid */,
-        }, { target: '_blank' });
+        utils.redirect.redirectTo(
+          row.type === 'SITE_MAP' ? pageData.editSiteMap || 'editSiteMap' : pageData.editPage || 'editPage',
+          {
+            path: row.path,
+            pageId: row.pageId /* replace with data.uid */,
+          },
+          { target: '_blank' }
+        );
         break;
       case 'preview':
         utils.redirect.redirectTo(row.path, {}, { target: '_blank' });
@@ -84,6 +92,7 @@ class PageListing extends BaseContainer {
   }
   async onCloneFormSubmit(data) {
     const { pageData } = this.props;
+    this.props.commonActions.startLoading();
     await this.props.raiseAction(
       clonePage(data, pageData.clonePageConfig, {
         success: () => {
@@ -93,6 +102,7 @@ class PageListing extends BaseContainer {
           });
         },
         error: (resp) => {
+          this.props.commonActions.stopLoading();
           if (resp.error?.errors) {
             this.props.raiseAction(
               updateUserData({
@@ -127,7 +137,11 @@ class PageListing extends BaseContainer {
       <div className="sq-page-listing sq-v-screen sq-v-screen--fixed">
         <div className="sq-v-screen__container">
           <div className="container-fluid mt-wide mb-wide">
-            <Dialog open={this.state.openClone} onClose={this.toggleEditForm} title={`Clone page`}>
+            <Dialog
+              open={this.state.openClone}
+              onClose={this.toggleEditForm}
+              title={`Clone page`}
+            >
               <div className="mt-wide">
                 <DynamicContent
                   className={`sq-page-listing__clone`}
@@ -155,7 +169,11 @@ class PageListing extends BaseContainer {
             <div className="sq-v-screen-grow mb-wide sq-page-listing__container">
               {pageData.enableTree !== false && (
                 <div className="sq-page-listing__left">
-                  <PathTree data={store.admin.contentTree} onChange={this.onTreeSelect} />
+                  <PathTree
+                    data={store.admin.contentTree}
+                    onChange={this.onTreeSelect}
+                    value={this.state.parentPath}
+                  />
                 </div>
               )}
               <Grid

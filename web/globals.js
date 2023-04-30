@@ -18,6 +18,10 @@ export const GLOBAL_OPTIONS = {
     filled: 'Filled',
     default: 'Default',
   }),
+  featureContentTemplates: new GlobalOptions({
+    default: 'Default',
+    'with-bg': 'With Background',
+  }),
   editorStyle: new GlobalOptions({
     full: 'full',
     compact: 'compact',
@@ -158,13 +162,18 @@ export const GLOBAL_OPTIONS = {
   }),
   heroStyles: new GlobalOptions({
     'sq-hero-content--left-aligned': 'sq-hero-content--left-aligned',
-    'sq-hero-content--large-background-theme-dark':
-      'sq-hero-content--large-background-theme-dark',
+    'sq-hero-content--right-aligned': 'sq-hero-content--right-aligned',
+    'sq-hero-content--center-aligned': 'sq-hero-content--center-aligned',
+    'sq-hero-content--large-background-theme-dark': 'sq-hero-content--large-background-theme-dark',
     'sq-hero-content--bg-black': 'sq-hero-content--bg-black',
     'sq-hero-content--bg-gray': 'sq-hero-content--bg-gray',
     'sq-hero-content--dark': 'sq-hero-content--dark',
     'sq-hero-content--full-width': 'sq-hero-content--full-width',
     'sq-hero-content--dark-secondary': 'sq-hero-content--dark-secondary',
+  }),
+  imageAlign: new GlobalOptions({
+    'left': 'left',
+    'right': 'right',
   }),
   heroTemplates: new GlobalOptions({
     'without-image': 'without-image',

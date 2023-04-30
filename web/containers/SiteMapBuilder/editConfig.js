@@ -16,7 +16,7 @@ const tabs = {
     value: 'match',
   },
 };
-const createTabItems = (data, key) => {
+const createTabItems = (data, key, extraMatch = {}) => {
   return data && key && data.length !== 0
     ? data.map((item = {}) => ({
         ...item,
@@ -30,6 +30,7 @@ const createTabItems = (data, key) => {
               },
             ],
           },
+          ...extraMatch,
         },
       }))
     : [];
@@ -38,11 +39,39 @@ export default ({ themes } = {}) => ({
   pageData: {
     init: {
       editTab: tabs.general.value,
+      advanceParams: 'N',
     },
     params: {
       '...main': '.main',
     },
     items: [
+      {
+        component: 'Wrapper',
+        bodyClassName: 'd-flex j-content-fl-end',
+        items: [
+          {
+            component: 'Switch',
+            name: 'advanceParams',
+            label: 'Advanced',
+            selectedValue: 'Y',
+            defaultValue: 'N',
+          },
+        ],
+      },
+      {
+        component: 'FormObject',
+        name: 'main',
+        match: {
+          advanceParams: {
+            validators: [
+              {
+                type: 'equals',
+                matchValue: 'Y',
+              },
+            ],
+          },
+        },
+      },
       {
         component: 'Form',
         name: 'main',
@@ -51,6 +80,16 @@ export default ({ themes } = {}) => ({
             name: 'editTab',
             cmpType: 'Tabs',
             options: [tabs.general],
+            match: {
+              advanceParams: {
+                validators: [
+                  {
+                    type: 'equals',
+                    matchValue: 'N',
+                  },
+                ],
+              },
+            },
           },
           ...createTabItems(
             [
@@ -127,7 +166,17 @@ export default ({ themes } = {}) => ({
                 ],
               },
             ],
-            tabs.general.value
+            tabs.general.value,
+            {
+              advanceParams: {
+                validators: [
+                  {
+                    type: 'equals',
+                    matchValue: 'N',
+                  },
+                ],
+              },
+            }
           ),
         ],
       },

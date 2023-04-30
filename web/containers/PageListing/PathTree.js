@@ -4,24 +4,28 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 
-export default function PathTree({ data = [], onChange }) {
+export default function PathTree({ value, data = [], onChange }) {
   const handleChange = (data, val) => {
-    onChange &&
-      onChange({
-        value: val,
-      });
+    if (val !== value) {
+      onChange &&
+        onChange({
+          value: val,
+        });
+    }
   };
   const renderTree = (nodes) => (
-    <TreeItem key={nodes.path} nodeId={nodes.path} label={nodes.name}>
-      {Array.isArray(nodes.children)
-        ? nodes.children.map((node) => renderTree(node))
-        : null}
+    <TreeItem
+      key={nodes.path}
+      nodeId={nodes.path}
+      label={nodes.name}
+    >
+      {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
     </TreeItem>
   );
 
   return (
     <TreeView
-      className='sq-path-tree'
+      className="sq-path-tree"
       aria-label="rich object"
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpanded={['root']}
