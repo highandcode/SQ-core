@@ -33,6 +33,12 @@ export const GLOBAL_OPTIONS = {
     DRAFT: 'Draft',
     PUBLISHED: 'Published',
   }),
+  emailStatus: new GlobalOptions({
+    DRAFT: 'Draft',
+    PUBLISHED: 'Published',
+    DEPRICATED: 'Depricated',
+    ARCHIVED: 'Archived',
+  }),
   mediaGalleryTabs: new GlobalOptions({
     ALL_MEDIA: 'All Media',
     UPLOAD_MEDIA: 'Upload Media',
@@ -123,7 +129,8 @@ export const GLOBAL_OPTIONS = {
   }),
   pageWrapperClasses: new GlobalOptions({
     'sq-content-page--full-width': 'sq-content-page--full-width',
-    'sq-content-page--header-footer-body': 'sq-content-page--header-footer-body',
+    'sq-content-page--header-footer-body':
+      'sq-content-page--header-footer-body',
   }),
   buttonSize: new GlobalOptions({
     small: 'small',
@@ -151,7 +158,8 @@ export const GLOBAL_OPTIONS = {
   }),
   heroStyles: new GlobalOptions({
     'sq-hero-content--left-aligned': 'sq-hero-content--left-aligned',
-    'sq-hero-content--large-background-theme-dark': 'sq-hero-content--large-background-theme-dark',
+    'sq-hero-content--large-background-theme-dark':
+      'sq-hero-content--large-background-theme-dark',
     'sq-hero-content--bg-black': 'sq-hero-content--bg-black',
     'sq-hero-content--bg-gray': 'sq-hero-content--bg-gray',
     'sq-hero-content--dark': 'sq-hero-content--dark',

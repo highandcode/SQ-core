@@ -8,8 +8,10 @@
     }
   }
   &__label {
-    @include b4-style();
-    margin-right: 8px;
+    @include b6-style();
+    display: block;
+    margin-bottom: 8px;
+    color: $sq-color-slate-dark;
     text-align: left;
     width: 100%;
     @media (min-width: $screen-sm) {
