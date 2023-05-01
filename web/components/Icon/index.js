@@ -134,6 +134,7 @@ import {
   CalendarMonth,
   ExitToApp,
   Notifications,
+  Computer,
   SettingsApplications,
   Article,
   CloudUpload,
