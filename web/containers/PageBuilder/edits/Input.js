@@ -17,6 +17,11 @@ export default withEditTabs({
       label: 'className',
     },
     {
+      name: 'helperText',
+      cmpType: 'Input',
+      label: 'helperText',
+    },
+    {
       name: 'variant',
       cmpType: 'Radio',
       label: 'variant',
