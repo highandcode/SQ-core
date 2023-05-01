@@ -121,6 +121,8 @@ import {
   Accessibility,
   ContactMail,
   ContactPage,
+  OndemandVideo,
+  Airplay,
   PlayCircleOutline,
   QueuePlayNext,
   ArrowDropUp,
