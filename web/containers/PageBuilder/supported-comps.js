@@ -8,6 +8,7 @@ import { ItemTypes } from './ItemTypes';
 
 import HeaderEdit from './edits/Header';
 import HeroContentEdit from './edits/HeroContent';
+import LaunchTimerEdit from './edits/LaunchTimer';
 import ImageWithSlideEdit from './edits/ImageWithSlide';
 import FeaturedContentEdit from './edits/FeaturedContent';
 import TextColumnWithLinksEdit from './edits/TextColumnWithLinks';
@@ -153,9 +154,9 @@ const compList = {
   LaunchTimer: {
     Component: LaunchTimer,
     group: 'Content',
-    type: ItemTypes.COMPONENT,
-    editData: TextEdit,
     sampleData: {},
+    type: ItemTypes.COMPONENT,
+    editData: LaunchTimerEdit,
   },
   FormText: {
     Component: getMap().Text,
@@ -427,6 +428,23 @@ const compList = {
     group: 'Content',
     Component: getMap().FeaturedContent,
     sampleData: {
+      items: [
+        {
+          icon: 'call',
+          title: 'Header 1',
+          description: 'Sub header 1',
+        },
+        {
+          icon: 'location',
+          title: 'Header 2',
+          description: 'Sub header 2',
+        },
+        {
+          icon: 'home',
+          title: 'Header 3',
+          description: 'Sub header 3',
+        },
+      ],
     },
     editData: FeaturedContentEdit,
   },
@@ -434,6 +452,23 @@ const compList = {
     group: 'Content',
     Component: TextColumnWithLinks,
     sampleData: {
+      items: [
+        {
+          iconName: 'call',
+          header: 'Header 1',
+          subHeader: 'Sub header 1',
+        },
+        {
+          iconName: 'location',
+          header: 'Header 2',
+          subHeader: 'Sub header 2',
+        },
+        {
+          iconName: 'home',
+          header: 'Header 3',
+          subHeader: 'Sub header 3',
+        },
+      ],
     },
     editData: TextColumnWithLinksEdit,
   },

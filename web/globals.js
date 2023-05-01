@@ -28,6 +28,13 @@ export const GLOBAL_OPTIONS = {
     default: 'default',
     basic: 'basic',
   }),
+  datePickerInstanceType: new GlobalOptions({
+    DatePicker: 'DatePicker',
+    TimePicker: 'TimePicker',
+    DateTimePicker: 'DateTimePicker',
+    DesktopDatePicker: 'DesktopDatePicker',
+    MobileDatePicker: 'MobileDatePicker',
+  }),
   userTabs: new GlobalOptions({
     ALL_USERS: 'All Users',
     ACTIVE_USERS: 'Active Users',
