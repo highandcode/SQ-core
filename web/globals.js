@@ -171,6 +171,14 @@ export const GLOBAL_OPTIONS = {
     'sq-hero-content--full-width': 'sq-hero-content--full-width',
     'sq-hero-content--dark-secondary': 'sq-hero-content--dark-secondary',
   }),
+  imageBlockWithTextStyles: new GlobalOptions({
+    'bg-black': 'bg-black',
+    'bg-gray': 'bg-gray',
+  }),
+  imageWithHeaderBody: new GlobalOptions({
+    'bordered': 'bordered',
+    'shadow': 'shadow',
+  }),
   imageAlign: new GlobalOptions({
     'left': 'left',
     'right': 'right',

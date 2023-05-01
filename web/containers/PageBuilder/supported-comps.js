@@ -9,6 +9,8 @@ import { ItemTypes } from './ItemTypes';
 import HeaderEdit from './edits/Header';
 import HeroContentEdit from './edits/HeroContent';
 import ContactUsInfoEdit from './edits/ContactUsInfo';
+import ImageBlockWithTextEdit from './edits/ImageBlockWithText';
+import ImageWithHeaderBodyEdit from './edits/ImageWithHeaderBody';
 import TeamEdit from './edits/Team';
 import ImageWithSlideEdit from './edits/ImageWithSlide';
 import FeaturedContentEdit from './edits/FeaturedContent';
@@ -373,11 +375,53 @@ const compList = {
           component: 'Wrapper',
           name: 'wrapper1',
           className: 'col-xs-12 col-md-6',
+          bodyContainerClassName: '',
+          bodyClassName: '',
         },
         {
           component: 'Wrapper',
+          bodyContainerClassName: '',
           name: 'wrapper2',
+          bodyClassName: '',
           className: 'col-xs-12 col-md-6',
+        },
+      ],
+    },
+  },
+  '3-ColumnLayout': {
+    Component: Wrapper,
+    name: 'Wrapper',
+    group: 'Layout',
+    accept: [ItemTypes.COMPONENT, ItemTypes.FORM],
+    hasPlaceholder: true,
+    compTypeProp: 'component',
+    editData: WrapperEdit,
+    itemsPropName: 'items',
+    hasItems: true,
+    sampleData: {
+      className: '',
+      bodyClassName: 'row',
+      items: [
+        {
+          component: 'Wrapper',
+          name: 'wrapper1',
+          className: 'col-xs-12 col-md-4',
+          bodyContainerClassName: '',
+          bodyClassName: '',
+        },
+        {
+          component: 'Wrapper',
+          bodyContainerClassName: '',
+          name: 'wrapper2',
+          bodyClassName: '',
+          className: 'col-xs-12 col-md-4',
+        },
+        {
+          component: 'Wrapper',
+          bodyContainerClassName: '',
+          name: 'wrapper2',
+          bodyClassName: '',
+          className: 'col-xs-12 col-md-4',
         },
       ],
     },
@@ -497,6 +541,27 @@ const compList = {
       ],
     },
     editData: TeamEdit,
+  },
+  ImageBlockWithText: {
+    group: 'Content',
+    Component: getMap().ImageBlockWithText,
+    sampleData: {
+      header: 'Meet the team',
+      subHeader: 'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
+      imageUrl: 'https://st.depositphotos.com/2309453/3447/i/600/depositphotos_34479387-stock-photo-group-of-young-business-people.jpg'
+    },
+    editData: ImageBlockWithTextEdit,
+  },
+  ImageWithHeaderBody: {
+    group: 'Content',
+    Component: getMap().ImageWithHeaderBody,
+    sampleData: {
+      header: 'Mission',
+      styleName: 'shadow',
+      subHeader: 'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
+      imageUrl: 'https://w7.pngwing.com/pngs/691/585/png-transparent-computer-icons-business-mission-company-text-people-thumbnail.png'
+    },
+    editData: ImageWithHeaderBodyEdit,
   },
   HTML: {
     group: 'Content',
