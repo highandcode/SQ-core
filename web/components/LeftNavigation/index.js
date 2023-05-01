@@ -12,16 +12,23 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import LeftDrawer from './LeftDrawer';
+import { Validator } from '../../utils/validator';
 
 // const { Dialog, Icon } = root;
 
-export const hasActive = (nav, naviagateChild = true) => {
+export const hasActive = (nav, naviagateChild = true, userData) => {
   let isActive = false;
-  if (nav.href === window.location.pathname) {
+  let isValidMatch = true;
+  if (nav.match) {
+    const valid = new Validator(nav.match);
+    valid.setValues(userData);
+    isValidMatch = valid.validateAll();
+  }
+  if (isValidMatch && nav.href === window.location.pathname) {
     return true;
   }
   if (naviagateChild && nav.children) {
-    isActive = checkChildren(nav.children, window.location.pathname);
+    isActive = checkChildren(nav.children, window.location.pathname, userData);
   }
   return isActive;
 };
@@ -51,20 +58,26 @@ export const hasPermission = (item, options = {}, children = true) => {
   return result;
 };
 
-export const checkChildren = (children, path) => {
+export const checkChildren = (children, path, userData) => {
   let isActive = false;
   children.forEach((child) => {
     if (!isActive && child.children?.length > 0) {
-      isActive = checkChildren(child.children, path);
+      isActive = checkChildren(child.children, path, userData);
     }
-    if (!isActive && child.href === path) {
+    let isValidMatch = true;
+    if (child.match) {
+      const valid = new Validator(child.match);
+      valid.setValues(userData);
+      isValidMatch = valid.validateAll();
+    }
+    if (isValidMatch && !isActive && child.href === path) {
       isActive = true;
     }
   });
   return isActive;
 };
 
-const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], roles = [], rightItems, openDrawer = false, onCloseDrawer }) => {
+const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], roles = [], rightItems, openDrawer = false, onCloseDrawer, userData = {} }) => {
   const [openItems, setOpenItems] = React.useState({});
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [menuItems, setMenuItems] = React.useState([]);
@@ -128,7 +141,7 @@ const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], role
               return undefined;
             }
             return (
-              <div key={idx} className={`sq-global-left-navigation__nav-item ${hasActive(item) ? 'active' : ''}`}>
+              <div key={idx} className={`sq-global-left-navigation__nav-item ${hasActive(item, userData) ? 'active' : ''}`}>
                 <Tooltip key={idx} title={item.tooltip || item.title}>
                   <IconButton size='small' onClick={(e) => handleClick(e, item)}>
                     <Icon name={item.iconName} />
