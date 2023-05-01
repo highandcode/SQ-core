@@ -182,6 +182,9 @@ export const GLOBAL_OPTIONS = {
     'bg-black': 'bg-black',
     'bg-gray': 'bg-gray',
   }),
+  imageBlockWithTextCss: new GlobalOptions({
+    'sq-image-block-with-text--left-aligned': 'sq-image-block-with-text--left-aligned',
+  }),
   imageWithHeaderBody: new GlobalOptions({
     'bordered': 'bordered',
     'shadow': 'shadow',

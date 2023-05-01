@@ -115,6 +115,14 @@ import {
   Label,
   Close,
   Search,
+  Laptop,
+  WifiTethering,
+  SmartDisplay,
+  Accessibility,
+  ContactMail,
+  ContactPage,
+  PlayCircleOutline,
+  QueuePlayNext,
   ArrowDropUp,
   ArrowRight,
   ArrowLeft,
@@ -210,6 +218,7 @@ import {
   DataObject,
   DataArray,
   Shield,
+  Tv,
 } from '@mui/icons-material';
 
 import { getValue } from '../../utils/properties';
@@ -222,9 +231,21 @@ const types = {
     'add-circle': AddCircle,
     Restore,
     LockOpen,
+    PlayCircleOutline,
+    Tv,
+    QueuePlayNext,
     DragHandle,
     Description,
     DataObject,
+    Computer,
+    Laptop,
+    WifiTethering,
+    SmartDisplay,
+    Accessibility,
+    ContactMail,
+    ContactPage,
+    OndemandVideo,
+    Airplay,
     DataArray,
     AddBox,
     CreateNewFolder,
@@ -439,39 +460,21 @@ const list = () => {
     ...types.app,
   };
 };
-const Icon = ({
-  className = '',
-  img,
-  textIcon,
-  name,
-  variant = 'default',
-  color,
-  size = 'normal',
-  iconClass = '',
-  row,
-  svg,
-  onClick,
-}) => {
+const Icon = ({ className = '', img, textIcon, name, variant = 'default', color, size = 'normal', iconClass = '', row, svg, onClick }) => {
   const finalName = getValue(this, name, row);
   const finalIconClass = getValue(this, iconClass, row);
   const finalColor = getValue(this, color, row);
   const finalVariant = getValue(this, variant, row);
-  const IconToRender =
-    list()[finalName] ||
-    (textIcon ? undefined : !img ? list().NoIcon : undefined);
+  const IconToRender = list()[finalName] || (textIcon ? undefined : !img ? list().NoIcon : undefined);
   return (
     <div
-      className={`sq-icon ${finalIconClass} ${
-        !finalName && textIcon ? 'sq-icon--text-icon' : ''
-      } sq-icon--${finalVariant} ${
+      className={`sq-icon ${finalIconClass} ${!finalName && textIcon ? 'sq-icon--text-icon' : ''} sq-icon--${finalVariant} ${
         finalColor ? `sq-icon--${finalColor}` : ''
       } sq-icon--${size} ${className}`}
       data-icon-name={finalName}
       onClick={onClick}
     >
-      {!finalName && textIcon && (
-        <span className="sq-icon__text">{getValue(this, textIcon, row)}</span>
-      )}
+      {!finalName && textIcon && <span className="sq-icon__text">{getValue(this, textIcon, row)}</span>}
       {svg || (IconToRender && <IconToRender />)}
       {img && <img src={img} />}
     </div>
