@@ -1,0 +1,33 @@
+.sq-image-block-with-text {
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > div {
+      flex-basis: 50%;
+      flex-shrink: 0;
+      height: 400px;
+      display: flex;
+      align-items: center;
+    }
+    
+  }
+  &__image {
+   background-size: cover;
+  }
+  &__text {
+    padding: 50px;
+  }
+
+  &--style-bg-black {
+    .sq-image-block-with-text__text {
+      background-color: black;
+      color: $white;
+    }
+  }
+  &--style-bg-gray {
+    .sq-image-block-with-text__text {
+      background-color: $sq-color-slate-lighter;
+    }
+  }
+}
