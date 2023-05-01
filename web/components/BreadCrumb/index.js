@@ -5,6 +5,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import LinkButton from '../../components/ui/LinkButton';
 import { query } from '../../utils/query-string';
+import { Validator } from '../../utils/validator';
 import { processParams } from '../../redux/content';
 
 const hasPermission = (item, permissions) => {
@@ -14,7 +15,6 @@ const hasPermission = (item, permissions) => {
   }
   return result;
 };
-
 const pathWithParamMatch = (itemHref, path) => {
   const leftHref = itemHref.split('/');
   const rightHref = path.split('/');
@@ -38,22 +38,28 @@ const pathWithParamMatch = (itemHref, path) => {
   };
 };
 
-const findNode = (data, path, permissions, parents = []) => {
+const findNode = (data, path, permissions, parents = [], userData) => {
   let returnItems = [];
   data.forEach((item) => {
     let newList;
     if (item.children) {
       parents.push(item);
-      newList = findNode(item.children, path, permissions, parents);
+      newList = findNode(item.children, path, permissions, parents, userData);
     }
     if (newList?.length > 0) {
       returnItems = newList.concat(returnItems);
+    }
+    let isValid = true;
+    if (item.match) {
+      const valid = new Validator(item.match);
+      valid.setValues(userData);
+      isValid = valid.validateAll();
     }
     let paramMatcher;
     if (item.href?.toString().indexOf('/:') > -1) {
       paramMatcher = pathWithParamMatch(item.href, path);
     }
-    if (item.href?.toString().toLowerCase() === path?.toString().toLowerCase() || (paramMatcher && paramMatcher.matched)) {
+    if (isValid && (item.href?.toString().toLowerCase() === path?.toString().toLowerCase() || (paramMatcher && paramMatcher.matched))) {
       if (parents) {
         parents.forEach((parent) => {
           if (parent.href && hasPermission(parent, permissions)) {
@@ -85,7 +91,7 @@ const BreadCrumb = ({ navigation, currentPath, permissions = [], breadcrumb, use
   if (breadcrumb && breadcrumb.root) {
     currentPath = breadcrumb.root;
   }
-  let finalData = findNode(navigation, currentPath, permissions);
+  let finalData = findNode(navigation, currentPath, permissions, undefined, userData);
 
   finalData = finalData.map((dataItem) => {
     const override = breadcrumb?.map[dataItem.href] || null;
@@ -100,7 +106,7 @@ const BreadCrumb = ({ navigation, currentPath, permissions = [], breadcrumb, use
     finalData = finalData.concat(breadcrumb.items);
   }
   let urlForParams = {};
-  finalData.forEach((item)=> {
+  finalData.forEach((item) => {
     const result = pathWithParamMatch(item.href, currentPath);
     if (result.params) {
       urlForParams = {
@@ -117,9 +123,9 @@ const BreadCrumb = ({ navigation, currentPath, permissions = [], breadcrumb, use
           const finalItem = processParams(finalUserData, item, undefined, appStore);
           const finalParams = finalItem.urlParams;
           if (item.cmpType === 'Link') {
-            return <LinkButton key={item.href} buttonText={finalItem?.dynamicTextField || item.title} to={item.href} urlParams={finalParams}></LinkButton>;
+            return <LinkButton key={finalItem.href} buttonText={finalItem.title} to={finalItem.href} urlParams={finalParams}></LinkButton>;
           }
-          return <Typography key={item.href}>{finalItem?.dynamicTextField || item.title}</Typography>;
+          return <Typography key={item.href}>{item.title}</Typography>;
         })}
       </Breadcrumbs>
     </div>
@@ -128,6 +134,8 @@ const BreadCrumb = ({ navigation, currentPath, permissions = [], breadcrumb, use
 
 BreadCrumb.propTypes = {
   navigation: PropTypes.array,
+  userData: PropTypes.object,
+  appStore: PropTypes.object,
   breadcrumb: PropTypes.array,
   permissions: PropTypes.array,
   onClick: PropTypes.func,
