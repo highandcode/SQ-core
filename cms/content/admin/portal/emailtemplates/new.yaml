@@ -35,7 +35,7 @@ items:
   - component: Wrapper
     items:
       - component: Wrapper
-        className: col-xs-12 col-md-4
+        className: col-xs-12 col-md-4 order-2 order-md-1
         items:
           - component: Form
             name: template
@@ -43,6 +43,10 @@ items:
             fields:
               - name: name
                 label: Template Name
+                validators:
+                  - type: required
+              - name: fromName
+                label: Fromm Name
                 validators:
                   - type: required
               - name: from
@@ -63,7 +67,7 @@ items:
                 validators:
                   - type: required
       - component: Wrapper
-        className: col-xs-12 col-md-8
+        className: col-xs-12 col-md-8 order-1 order-md-2
         items:
           - component: Form
             name: email
@@ -96,7 +100,7 @@ items:
     inject:
       disabled: isSubmitting
     method: post
-    rootErrorKey: email
+    rootErrorKey: template
     defaultResponse:
       success:
         data:

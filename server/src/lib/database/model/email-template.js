@@ -3,6 +3,7 @@ module.exports = (conn) => {
       'EmailTemplate',
       {
         name: String,
+        fromName: String,
         from: String,
         subject: String,
         body: String,

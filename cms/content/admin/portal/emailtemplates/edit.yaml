@@ -15,6 +15,17 @@ hook:
 init:
   drop_options:
     emailStatus: ::globals.options::emailStatus
+  template:
+    fromName: .result.fromName
+    name: .result.name
+    from: .result.from
+    emailCC: .result.emailCC
+    emailBCC: .result.emailBCC
+    status: .result.status
+  email:
+    subject: .result.subject
+    body: .result.body
+
 
 merge:
   currentError: .lastError.key
@@ -30,12 +41,12 @@ items:
             matchValue: true
   - component: Header
     className: mt-wide mb-xtrawide
-    header: Add New Template
+    header: Edit Template
     headerTag: h3
   - component: Wrapper
     items:
       - component: Wrapper
-        className: col-xs-12 col-md-4
+        className: col-xs-12 col-md-4 order-2 order-md-1
         items:
           - component: Form
             name: template
@@ -43,6 +54,10 @@ items:
             fields:
               - name: name
                 label: Template Name
+                validators:
+                  - type: required
+              - name: fromName
+                label: From Name
                 validators:
                   - type: required
               - name: from
@@ -63,7 +78,7 @@ items:
                 validators:
                   - type: required
       - component: Wrapper
-        className: col-xs-12 col-md-8
+        className: col-xs-12 col-md-8 order-1 order-md-2
         items:
           - component: Form
             name: email
@@ -95,8 +110,8 @@ items:
     url:  /api/v1/admin/emailtemplate
     inject:
       disabled: isSubmitting
-    method: post
-    rootErrorKey: email
+    method: patch
+    rootErrorKey: template
     defaultResponse:
       success:
         data:
@@ -109,6 +124,7 @@ items:
           type: error
           
     params:
+      uid: .query.uid
       '...email': .email
       '...template': .template
   - component: Button
@@ -117,3 +133,15 @@ items:
     variant: outlined
     actionType: redirect
     to: emailTemplatelList
+  - component: Button
+    buttonText: Send Test Email
+    actionType: popup-screen
+    url: true
+    params:
+      title: Send Test Email
+      url: /content/admin/portal/emailtemplates/test
+      current: .result
+    variant: outlined
+    size: large
+    inject:
+      disabled: isSubmitting

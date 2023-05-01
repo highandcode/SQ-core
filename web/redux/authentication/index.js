@@ -227,7 +227,6 @@ export const removeRole =
     }
   };
 export const hasPermission = (permission, state) => {
-  console.log(permission, state.authentication?.currentUser)
   return (
     state?.authentication?.currentUser?.allPermissions?.indexOf(permission) > -1
   );

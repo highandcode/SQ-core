@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ui } from '../../index';
 import * as utils from '../../utils';
-import BaseContainer from '../BaseContainer';
+// import BaseContainer from '../BaseContainer';
 import { GLOBAL_OPTIONS } from '../../globals';
 import { hasPermission } from '../../redux/authentication';
 import { loadTemplates } from '../../redux/emailtemplate';
@@ -218,21 +218,10 @@ class EmailTemplateList extends React.Component {
         });
         break;
       case 'applyfilter':
-        if (this.state.currentTab === 'ACTIVE_USERS') {
-          await this.refreshTemplates({
-            filter: { ...this.state.currentFilter, active: true },
-            currentPage: currentPage,
-          });
-        } else if (this.state.currentTab === 'INACTIVE_USERS') {
-          await this.refreshTemplates({
-            filter: { ...this.state.currentFilter, active: false },
-            currentPage: currentPage,
-          });
-        } else {
-          await this.refreshTemplates({
-            pageNo: pageNo,
-          });
-        }
+        await this.refreshTemplates({
+          filter: { ...this.state.currentFilter },
+          currentPage: currentPage,
+        });
         break;
     }
   }
@@ -241,21 +230,10 @@ class EmailTemplateList extends React.Component {
     await this.setState({
       currentSort: data,
     });
-    if (this.state.currentTab === 'ACTIVE_USERS') {
-      await this.refreshTemplates({
-        filter: { ...this.state.currentFilter, active: true },
-        sort: data,
-      });
-    } else if (this.state.currentTab === 'INACTIVE_USERS') {
-      await this.refreshTemplates({
-        filter: { ...this.state.currentFilter, active: false },
-        sort: data,
-      });
-    } else {
-      await this.refreshTemplates({
-        sort: data,
-      });
-    }
+    await this.refreshTemplates({
+      filter: { ...this.state.currentFilter },
+      sort: data,
+    });
   }
 
   render() {
@@ -264,12 +242,12 @@ class EmailTemplateList extends React.Component {
     const createUserPerm = hasPermission('emailTemplate', store);
     const editUserPerm = hasPermission('emailTemplate', store);
     const deleteUserPerm = hasPermission('emailTemplate', store);
-    const { Grid, Tabs, Form, Pagination, Dialog, Actions, Skeleton } =
+    const { Grid, ButtonSelection, Form, Dialog, Actions, Skeleton } =
       ui.getMap();
     const { fieldMapping = {} } = pageData;
     // console.log('@@@@userstore', store);
     return (
-      <div className="sq-auth-users sq-v-screen sq-v-screen--fixed">
+      <div className="sq-email-template-list sq-v-screen sq-v-screen--fixed">
         <div className="sq-v-screen__container">
           <div className="container-fluid">
             <div className="sq-v-screen__top-header mt-wide">
@@ -313,7 +291,7 @@ class EmailTemplateList extends React.Component {
           </div>
           <div
             className={`sq-v-screen__body-container ${
-              this.state.showFilter ? 'sq-auth-users__container-filter' : ''
+              this.state.showFilter ? 'sq-email-template-list__container-filter' : ''
             }`}
           >
             <Dialog
@@ -419,7 +397,7 @@ class EmailTemplateList extends React.Component {
                       name: 'name',
                       cmpType: 'TextFields',
                       headerText: 'Template Name',
-                      className: 'sq-auth-users-screen--col-default',
+                      className: 'sq-email-template-list-screen--col-default',
                       component: {
                         fields: [
                           {
@@ -436,13 +414,13 @@ class EmailTemplateList extends React.Component {
                     },
                     {
                       name: 'subject',
-                      className: 'sq-auth-users-screen--col-small',
+                      className: 'sq-email-template-list-screen--col-small',
                       headerText: 'Subject',
                       ...fieldMapping.subject,
                     },
                     {
                       name: 'from',
-                      className: 'sq-auth-users-screen--col-title',
+                      className: 'sq-email-template-list-screen--col-title',
                       headerText: 'From Email ID',
                       tooltip: {
                         title: (row) => row.from,
@@ -473,7 +451,7 @@ class EmailTemplateList extends React.Component {
                             confirm: {
                               title: translate('Confirm'),
                               content: translate(
-                                'Are you sure you want to delete this user?'
+                                'Are you sure you want to delete this template?'
                               ),
                             },
                             iconVariant: 'error',
