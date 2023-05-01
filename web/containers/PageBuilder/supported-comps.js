@@ -8,6 +8,8 @@ import { ItemTypes } from './ItemTypes';
 
 import HeaderEdit from './edits/Header';
 import HeroContentEdit from './edits/HeroContent';
+import ContactUsInfoEdit from './edits/ContactUsInfo';
+import TeamEdit from './edits/Team';
 import ImageWithSlideEdit from './edits/ImageWithSlide';
 import FeaturedContentEdit from './edits/FeaturedContent';
 import TextColumnWithLinksEdit from './edits/TextColumnWithLinks';
@@ -426,16 +428,75 @@ const compList = {
   FeaturedContent: {
     group: 'Content',
     Component: getMap().FeaturedContent,
-    sampleData: {
-    },
+    sampleData: {},
     editData: FeaturedContentEdit,
   },
   TextColumnWithLinks: {
     group: 'Content',
     Component: TextColumnWithLinks,
-    sampleData: {
-    },
+    sampleData: {},
     editData: TextColumnWithLinksEdit,
+  },
+  ContactUsInfo: {
+    group: 'Content',
+    Component: getMap().ContactUsInfo,
+    sampleData: {
+      items: [
+        {
+          iconName: 'call',
+          iconColor: 'error',
+          header: 'Call',
+          subHeader: '+12 21299222',
+          iconSize: 'xxl',
+        },
+        {
+          iconName: 'email-outline',
+          iconColor: 'error',
+          iconSize: 'xxl',
+          header: 'Mail',
+          subHeader: 'info@s.com',
+        },
+        {
+          iconName: 'share',
+          iconColor: 'info',
+          iconSize: 'xxl',
+          header: 'Connect with us',
+          subHeader: '',
+          links: [
+            {
+              iconName: 'facebook',
+              to: 'http://link.com',
+              iconColor: 'info',
+            },
+          ],
+        },
+      ],
+    },
+    editData: ContactUsInfoEdit,
+  },
+  Team: {
+    group: 'Content',
+    Component: getMap().Team,
+    sampleData: {
+      header: 'Meet the team',
+      items: [
+        {
+          profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          header: 'John Peter',
+          designation: 'Software Engineer',
+          subHeader:
+            'Officia nulla elit do eu pariatur in esse amet. Ex est fugiat pariatur veniam laboris occaecat ad reprehenderit consequat nisi tempor do do ea. Proident non nostrud elit irure incididunt ea in eu qui incididunt pariatur reprehenderit eiusmod. Adipisicing elit voluptate adipisicing voluptate aliqua nisi sit.',
+        },
+        {
+          profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          header: 'John Peter',
+          designation: 'Software Engineer',
+          subHeader:
+            'Officia nulla elit do eu pariatur in esse amet. Ex est fugiat pariatur veniam laboris occaecat ad reprehenderit consequat nisi tempor do do ea. Proident non nostrud elit irure incididunt ea in eu qui incididunt pariatur reprehenderit eiusmod. Adipisicing elit voluptate adipisicing voluptate aliqua nisi sit.',
+        },
+      ],
+    },
+    editData: TeamEdit,
   },
   HTML: {
     group: 'Content',
