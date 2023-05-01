@@ -1,27 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
-import { object } from '../../../../utils';
+import { object, validator } from '../../../../utils';
 import { getMap } from '../../index';
 import { resolveImageUrl } from '../../../../cordova';
 
-const TemplateWithBackground = ({
-  background,
-  eyebrow,
-  header,
-  headerTag = 'h1',
-  bodyTag = 'p',
-  subHeader,
-  links = [],
-  onAnalytics,
-  classes = {},
-  userData
-}) => {
+const TemplateWithBackground = ({ background, eyebrow, header, headerTag = 'h1', bodyTag = 'p', subHeader, links = [], onAnalytics, classes = {}, userData }) => {
   const HTag = headerTag;
   const BTag = bodyTag;
   const componentMap = getMap();
   return (
-    <div className="sq-hero-content--with-background" style={{ backgroundImage: `url(${resolveImageUrl(background)})` }}>
+    <div
+      className="sq-hero-content--with-background"
+      style={{ backgroundImage: `url(${resolveImageUrl(background)})` }}
+    >
       <div className={`sq-hero-content__root ${classes.root}`}>
         <div className="sq-hero-content__wrapper">
           {eyebrow && <div className={`sq-hero-content__eyebrow`}>{ReactHtmlParser(object.processMessage(eyebrow, userData))}</div>}
@@ -31,7 +23,19 @@ const TemplateWithBackground = ({
             <div className="sq-hero-content__links-container">
               {links.map((link, idx) => {
                 const CompRender = componentMap.LinkButton;
-                return <CompRender onAnalytics={onAnalytics} key={idx} {...link} />;
+                let isValid = true;
+                if (link.match) {
+                  const validr = new validator.Validator(link.match);
+                  validr.setValues(userData);
+                  isValid = validr.validateAll();
+                }
+                return isValid ? (
+                  <CompRender
+                    onAnalytics={onAnalytics}
+                    key={idx}
+                    {...link}
+                  />
+                ) : undefined;
               })}
             </div>
           )}
@@ -44,7 +48,7 @@ const TemplateWithBackground = ({
 TemplateWithBackground.propTypes = {
   className: PropTypes.string,
   header: PropTypes.string,
-  subHeader: PropTypes.string
+  subHeader: PropTypes.string,
 };
 
 export default TemplateWithBackground;

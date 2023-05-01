@@ -51,6 +51,10 @@ import DropZoneFile from './DropZoneFile';
 import TagDropdown from './TagDropdown';
 import Default from './Default';
 import CustomButton from './CustomButton';
+import ContactUsInfo from './ContactUsInfo';
+import Team from './Team';
+import ImageBlockWithText from './ImageBlockWIthText';
+import ImageWithHeaderBody from './ImageWithHeaderBody';
 // import ColorPicker from './ColorPicker';
 
 let comps = {
@@ -108,6 +112,10 @@ let comps = {
   IconButton,
   InputWithOptions,
   CustomButton,
+  ContactUsInfo,
+  Team,
+  ImageBlockWithText,
+  ImageWithHeaderBody,
   // ColorPicker,
 };
 

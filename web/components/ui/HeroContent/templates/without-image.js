@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
 import ImageOnDevice from '../../ImageOnDevice';
-import { common, object } from '../../../../utils';
+import { common, object, validator } from '../../../../utils';
 import { getMap } from '../../index';
 
 const compMap = {
@@ -58,14 +58,20 @@ const TemplateDefault = ({
               <div className={`sq-hero-content__links-container ${common.toStringBlank(classes.links)}`}>
                 {links.map((link, idx) => {
                   const CompRender = componentMap[link.cmpType] || componentMap.LinkButton;
-                  return (
+                  let isValid = true;
+                  if (link.match) {
+                    const validr = new validator.Validator(link.match);
+                    validr.setValues(userData);
+                    isValid = validr.validateAll();
+                  }
+                  return isValid ? (
                     <CompRender
                       className={`sq-hero-content__link ${common.toStringBlank(classes.link)}`}
                       onAnalytics={onAnalytics}
                       key={idx}
                       {...link}
                     />
-                  );
+                  ) : undefined;
                 })}
               </div>
             )}
@@ -73,14 +79,20 @@ const TemplateDefault = ({
               <div className={`sq-hero-content__links2-container ${common.toStringBlank(classes.links2)}`}>
                 {links2.map((link, idx) => {
                   const CompRender = componentMap[link.cmpType] || componentMap.LinkButton;
-                  return (
+                  let isValid = true;
+                  if (link.match) {
+                    const validr = new validator.Validator(link.match);
+                    validr.setValues(userData);
+                    isValid = validr.validateAll();
+                  }
+                  return isValid ? (
                     <CompRender
                       className={`sq-hero-content__link ${common.toStringBlank(classes.link)}`}
                       onAnalytics={onAnalytics}
                       key={idx}
                       {...link}
                     />
-                  );
+                  ) : undefined;
                 })}
               </div>
             )}
