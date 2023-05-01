@@ -49,12 +49,15 @@ class MailRepository {
     if (bcc) {
       message.bcc = bcc;
     }
+    return this.sendEmailMessage(message);
+  }
 
+  sendEmailMessage(message) {
     if (message && this.config.email.enabled) {
       return this.send(message);
     }
     if (this.config.email.loggerEnabled && this.config.email.loggerPath) {
-      const dirPath = `${this.config.email.loggerPath}/${to}`;
+      const dirPath = `${this.config.email.loggerPath}/${message.to}`;
       if (!fs.existsSync(this.config.email.loggerPath)) {
         fs.mkdirSync(this.config.email.loggerPath);
       }

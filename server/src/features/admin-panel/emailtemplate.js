@@ -12,7 +12,7 @@ module.exports = ({ context } = {}) => {
   });
   context.router.post('/emailtemplate/get', function (req, res) {
     context.emailTemplateRepo
-      .findOne(req.body)
+      .findById(req.body)
       .then((result) => {
         res.json(new Response(result).json());
       })
@@ -20,9 +20,48 @@ module.exports = ({ context } = {}) => {
   });
   context.router.post('/emailtemplate', function (req, res) {
     context.emailTemplateRepo
-      .create(req.body)
+      .checkExists(
+        {
+          name: req.body.name,
+          active: true,
+        },
+        ['name']
+      )
+      .then(() => {
+        context.emailTemplateRepo
+          .create(req.body)
+          .then((result) => {
+            res.json(new Response(result).json());
+          })
+          .catch((ex) => context.handleError(ex, res));
+      })
+      .catch((ex) => context.handleError(ex, res));
+  });
+  context.router.post('/emailtemplate/test', function (req, res) {
+    context.emailTemplateRepo
+      .sendEmail(req.body.templateName, req.body.data, req.body.to)
       .then((result) => {
         res.json(new Response(result).json());
+      })
+      .catch((ex) => context.handleError(ex, res));
+  });
+  context.router.patch('/emailtemplate', function (req, res) {
+    context.emailTemplateRepo
+      .checkExists(
+        {
+          name: req.body.name,
+          _id: { $ne: req.body.uid },
+          active: true,
+        },
+        ['name']
+      )
+      .then(() => {
+        context.emailTemplateRepo
+          .update(req.body)
+          .then((result) => {
+            res.json(new Response(result).json());
+          })
+          .catch((ex) => context.handleError(ex, res));
       })
       .catch((ex) => context.handleError(ex, res));
   });

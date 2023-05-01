@@ -49,6 +49,16 @@ class BaseRepository {
         .catch(reject);
     });
   }
+  findById({ uid, ...filter}) {
+    return new Promise((resolve, reject) => {
+      this._db.collections[this._collection]
+        .findOne({_id: uid, ...filter})
+        .then((data) => {
+          resolve(new this._entityType(data || {}));
+        })
+        .catch(reject);
+    });
+  }
 
   deleteMany(filter) {
     return new Promise(async (resolve, reject) => {
