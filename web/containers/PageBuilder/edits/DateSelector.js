@@ -21,6 +21,12 @@ export default withEditTabs({
       label: 'outputFormat',
     },
     {
+      name: 'instanceType',
+      cmpType: 'Autocomplete',
+      label: 'instanceType',
+      options: GLOBAL_OPTIONS.datePickerInstanceType.toArray(),
+    },
+    {
       name: 'mask',
       cmpType: 'Input',
       label: 'mask',

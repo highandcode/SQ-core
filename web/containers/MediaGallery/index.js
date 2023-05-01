@@ -124,7 +124,6 @@ const MediaGallery = ({ pageData, className = '', appStore, raiseAction, onActio
         <div className="sq-media-gallery__list">
           <div className="sq-v-screen-grow container-fluid">
             <ImageCardList
-              paginationValue={appStore.admin?.mediaPage}
               imageUrlField={pageData.fields?.imageUrlField || 'url'}
               titleField={pageData.fields?.imageTitleField || 'fileName'}
               data={appStore.admin?.media}

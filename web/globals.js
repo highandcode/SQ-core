@@ -18,11 +18,22 @@ export const GLOBAL_OPTIONS = {
     filled: 'Filled',
     default: 'Default',
   }),
+  featureContentTemplates: new GlobalOptions({
+    default: 'Default',
+    'with-bg': 'With Background',
+  }),
   editorStyle: new GlobalOptions({
     full: 'full',
     compact: 'compact',
     default: 'default',
     basic: 'basic',
+  }),
+  datePickerInstanceType: new GlobalOptions({
+    DatePicker: 'DatePicker',
+    TimePicker: 'TimePicker',
+    DateTimePicker: 'DateTimePicker',
+    DesktopDatePicker: 'DesktopDatePicker',
+    MobileDatePicker: 'MobileDatePicker',
   }),
   userTabs: new GlobalOptions({
     ALL_USERS: 'All Users',
@@ -32,6 +43,12 @@ export const GLOBAL_OPTIONS = {
   mediaStatus: new GlobalOptions({
     DRAFT: 'Draft',
     PUBLISHED: 'Published',
+  }),
+  emailStatus: new GlobalOptions({
+    DRAFT: 'Draft',
+    PUBLISHED: 'Published',
+    DEPRICATED: 'Depricated',
+    ARCHIVED: 'Archived',
   }),
   mediaGalleryTabs: new GlobalOptions({
     ALL_MEDIA: 'All Media',
@@ -123,7 +140,8 @@ export const GLOBAL_OPTIONS = {
   }),
   pageWrapperClasses: new GlobalOptions({
     'sq-content-page--full-width': 'sq-content-page--full-width',
-    'sq-content-page--header-footer-body': 'sq-content-page--header-footer-body',
+    'sq-content-page--header-footer-body':
+      'sq-content-page--header-footer-body',
   }),
   buttonSize: new GlobalOptions({
     small: 'small',
@@ -151,12 +169,29 @@ export const GLOBAL_OPTIONS = {
   }),
   heroStyles: new GlobalOptions({
     'sq-hero-content--left-aligned': 'sq-hero-content--left-aligned',
+    'sq-hero-content--right-aligned': 'sq-hero-content--right-aligned',
+    'sq-hero-content--center-aligned': 'sq-hero-content--center-aligned',
     'sq-hero-content--large-background-theme-dark': 'sq-hero-content--large-background-theme-dark',
     'sq-hero-content--bg-black': 'sq-hero-content--bg-black',
     'sq-hero-content--bg-gray': 'sq-hero-content--bg-gray',
     'sq-hero-content--dark': 'sq-hero-content--dark',
     'sq-hero-content--full-width': 'sq-hero-content--full-width',
     'sq-hero-content--dark-secondary': 'sq-hero-content--dark-secondary',
+  }),
+  imageBlockWithTextStyles: new GlobalOptions({
+    'bg-black': 'bg-black',
+    'bg-gray': 'bg-gray',
+  }),
+  imageBlockWithTextCss: new GlobalOptions({
+    'sq-image-block-with-text--left-aligned': 'sq-image-block-with-text--left-aligned',
+  }),
+  imageWithHeaderBody: new GlobalOptions({
+    'bordered': 'bordered',
+    'shadow': 'shadow',
+  }),
+  imageAlign: new GlobalOptions({
+    'left': 'left',
+    'right': 'right',
   }),
   heroTemplates: new GlobalOptions({
     'without-image': 'without-image',

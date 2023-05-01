@@ -13,6 +13,9 @@ const permissions = [
         code: 'createUser',
       },
       {
+        code: 'emailTemplate',
+      },
+      {
         code: 'deleteUser',
       },
       {

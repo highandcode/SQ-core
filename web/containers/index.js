@@ -14,6 +14,7 @@ import RolesList from './RolesList';
 import RoleDetails from './RoleDetails';
 import PageListing from './PageListing';
 import MediaGallery from './MediaGallery';
+import EmailTemplateList from './EmailTemplateList';
 
 import templates from '../templates';
 
@@ -32,6 +33,7 @@ export {
   UsersList,
   PageListing,
   MediaGallery,
+  EmailTemplateList,
 };
 
 export default {
@@ -50,6 +52,7 @@ export default {
   PageListing,
   RolesList,
   RoleDetails,
+  EmailTemplateList,
   MediaGallery,
   ...templates,
 };

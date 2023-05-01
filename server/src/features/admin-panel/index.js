@@ -2,6 +2,7 @@ const { ContentRepository } = require('../../repositories/ContentRepository');
 const UserRepository = require('../../repositories/UserRepository');
 const UserSessionRepository = require('../../repositories/UserSessionRepository');
 const UserPreferenceRepository = require('../../repositories/UserPreferenceRepository');
+const EmailTemplateRepository = require('../../repositories/EmailTemplateRepository');
 const Response = require('../../Response');
 var express = require('express');
 var router = express.Router();
@@ -10,6 +11,7 @@ var settings = require('../../settings').getSettings();
 var tokenManager = require('../../tokenManager');
 var contentApi = require('./content');
 var moduleApi = require('./module');
+var emailtemplateApi = require('./emailtemplate');
 const authenticationApi = require('./authentication');
 
 const { logger } = utils;
@@ -22,6 +24,7 @@ class AdminPanel {
     this.userRepo = new UserRepository(config);
     this.userSessionRepo = new UserSessionRepository(config);
     this.userPrefRepo = new UserPreferenceRepository(config);
+    this.emailTemplateRepo = new EmailTemplateRepository(config);
   }
 
   handleError(ex, res) {
@@ -39,93 +42,12 @@ class AdminPanel {
         /*module api */
         moduleApi({ context: that });
 
+        /* authentication */
         authenticationApi({ context: that });
-        // that.router.post('/users/all', function (req, res) {
-        //   that.userRepo
-        //     .getAll()
-        //     .then((result) => {
-        //       res.json(
-        //         new Response({
-        //           users: result,
-        //         }).json()
-        //       );
-        //     })
-        //     .catch((ex) => that.handleError(ex, res));
-        // });
-        // that.router.get('/user/info', function (req, res) {
-        //   that.userRepo
-        //     .getUserById(req.session.userData.uid)
-        //     .then(function (user) {
-        //       that.userPrefRepo
-        //         .getByUser(req.session.userData.uid)
-        //         .then(function (preference) {
-        //           res.json(
-        //             new Response({
-        //               userInfo: {
-        //                 firstName: user.firstName,
-        //                 lastName: user.lastName,
-        //                 roles: user.roles,
-        //                 email: user.email,
-        //                 uid: user.uid,
-        //                 phone: user.phone,
-        //               },
-        //               preference: preference.toObject(),
-        //             }).json()
-        //           );
-        //         });
-        //     })
-        //     .catch((ex) => that.handleError(ex, res));
-        // });
-        // that.router.post('/login', function (req, res) {
-        //   that.userRepo
-        //     .validate(req.body.email, req.body.password)
-        //     .then((validResponse) => {
-        //       if (validResponse.loginStatus === 'ok') {
-        //         const user = validResponse.user;
-        //         req.session.userData = user;
-        //         var infoToStore = that.userRepo.info(user);
-        //         var token = tokenManager.encrypt(infoToStore);
-        //         res.cookie(settings.cookie.tokenKey, token, {
-        //           maxAge: settings.cookie.maxAge,
-        //         });
-        //         res.cookie(settings.cookie.checkLoginKey, 'true', {
-        //           maxAge: settings.cookie.maxAge,
-        //         });
-        //         res.json(
-        //           new Response({
-        //             userInfo: infoToStore,
-        //             token: token,
-        //           }).json()
-        //         );
-        //       } else if (validResponse.loginStatus === 'otp') {
-        //         req.session.tempUser = validResponse.user;
-        //         req.session.tempUserId = validResponse.user.uid;
-        //         that.otpRepo
-        //           .generate(validResponse.source, validResponse.user.uid)
-        //           .then((response) => {
-        //             res.json(
-        //               new Response({
-        //                 loginStatus: validResponse.loginStatus,
-        //                 source: validResponse.source,
-        //                 requestId: response.requestId,
-        //                 email: response.email,
-        //                 phone: response.phone,
-        //               }).json()
-        //             );
-        //           })
-        //           .catch((ex) => that.handleError(ex, res));
-        //       }
-        //     })
-        //     .catch((ex) => that.handleError(ex, res));
-        // });
-        // that.router.post('/signup', function (req, res) {
-        //   that.userRepo
-        //     .insertUser(req.body)
-        //     .then((validResponse) => {
-        //       res.json(new Response(validResponse).json());
-        //     })
-        //     .catch((ex) => that.handleError(ex, res));
-        // });
+        
+        /* email template */
+        emailtemplateApi({ context: that });
+
         return router;
       },
     };
