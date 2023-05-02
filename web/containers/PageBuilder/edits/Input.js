@@ -12,9 +12,9 @@ export default withEditTabs({
       label: 'Label',
     },
     {
-      name: 'className',
+      name: 'helperText',
       cmpType: 'Input',
-      label: 'className',
+      label: 'helperText',
     },
     {
       name: 'variant',

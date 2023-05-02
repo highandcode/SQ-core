@@ -107,8 +107,8 @@ const BreadCrumb = ({ navigation, currentPath, permissions = [], breadcrumb, use
   }
   let urlForParams = {};
   finalData.forEach((item) => {
-    const result = pathWithParamMatch(item.href, currentPath);
-    if (result.params) {
+    const result = item.href && pathWithParamMatch(item.href, currentPath);
+    if (result?.params) {
       urlForParams = {
         ...urlForParams,
         ...result.params,

@@ -1,7 +1,7 @@
 import { GLOBAL_OPTIONS } from '../../../globals';
 import { withEditTabsConfig } from './Common';
 
-export default withEditTabsConfig(({ defaultParams, iconList }) => ({
+export default withEditTabsConfig(({ defaultParams, iconList, iconColorTypes }) => ({
   enableValidations: false,
   pageData: {
     items: [],
@@ -33,7 +33,7 @@ export default withEditTabsConfig(({ defaultParams, iconList }) => ({
         {
           cmpType: 'Autocomplete',
           label: 'Icon color',
-          options: GLOBAL_OPTIONS.colorTypes.toArray(),
+          options: iconColorTypes,
           name: 'iconColor',
         },
         {

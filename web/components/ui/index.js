@@ -55,6 +55,9 @@ import ContactUsInfo from './ContactUsInfo';
 import Team from './Team';
 import ImageBlockWithText from './ImageBlockWIthText';
 import ImageWithHeaderBody from './ImageWithHeaderBody';
+import GetInTouch from './GetInTouch';
+import UsefulLinks from './UsefulLinks';
+import Disclaimer from './Disclaimer';
 // import ColorPicker from './ColorPicker';
 
 let comps = {
@@ -116,6 +119,9 @@ let comps = {
   Team,
   ImageBlockWithText,
   ImageWithHeaderBody,
+  GetInTouch,
+  UsefulLinks,
+  Disclaimer,
   // ColorPicker,
 };
 
