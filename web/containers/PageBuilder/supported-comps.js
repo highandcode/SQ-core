@@ -15,6 +15,7 @@ import ImageWithHeaderBodyEdit from './edits/ImageWithHeaderBody';
 import TeamEdit from './edits/Team';
 import ImageWithSlideEdit from './edits/ImageWithSlide';
 import UsefulLinksEdit from './edits/UsefulLinks';
+import DisclaimerEdit from './edits/Disclaimer';
 import FeaturedContentEdit from './edits/FeaturedContent';
 import TextColumnWithLinksEdit from './edits/TextColumnWithLinks';
 import GetInTouchEdit from './edits/GetInTouch';
@@ -489,6 +490,14 @@ const compList = {
       ],
     },
     editData: UsefulLinksEdit,
+  },
+  Disclaimer: {
+    group: 'Content',
+    Component: getMap().Disclaimer,
+    sampleData: {
+      text: 'Reprehenderit minim non id dolor fugiat amet. Esse ea aliquip eu ex duis id et reprehenderit sint non elit cillum fugiat. Quis cupidatat adipisicing magna tempor occaecat minim. Culpa duis deserunt laboris ad voluptate laboris est laboris duis nostrud. Mollit incididunt esse Lorem pariatur dolor nulla ea aute sit sunt occaecat.'
+    },
+    editData: DisclaimerEdit,
   },
   FeaturedContent: {
     group: 'Content',

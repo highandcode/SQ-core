@@ -44,6 +44,11 @@ export const GLOBAL_OPTIONS = {
     DRAFT: 'Draft',
     PUBLISHED: 'Published',
   }),
+  dislcaimerStyles: new GlobalOptions({
+    'sq-disclaimer--bg-gray': 'sq-disclaimer--bg-gray',
+    'sq-disclaimer--bg-black': 'sq-disclaimer--bg-black',
+    'sq-disclaimer--top-border': 'sq-disclaimer--top-border',
+  }),
   emailStatus: new GlobalOptions({
     DRAFT: 'Draft',
     PUBLISHED: 'Published',

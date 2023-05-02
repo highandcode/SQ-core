@@ -1,12 +1,13 @@
 import { GLOBAL_OPTIONS } from '../../../globals';
 import { withEditTabsConfig } from './Common';
 
-export default withEditTabsConfig(({ defaultParams, iconList }) => ({
+export default withEditTabsConfig(({ defaultParams, iconList, iconColorTypes }) => ({
   pageData: {
     items: [],
   },
   general: [
     { name: 'header', label: 'Header' },
+    { name: 'bgColor', label: 'Background Color', helperText: 'Use only dark colors' },
     { name: 'footerText', cmpType: 'RichText', label: 'Footer Text' },
     {
       name: 'info',
@@ -27,7 +28,7 @@ export default withEditTabsConfig(({ defaultParams, iconList }) => ({
         {
           name: 'iconColor',
           cmpType: 'Autocomplete',
-          options: GLOBAL_OPTIONS.iconColorTypes.toArray(),
+          options: iconColorTypes,
           label: 'iconColor',
         },
         {

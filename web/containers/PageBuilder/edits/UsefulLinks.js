@@ -1,4 +1,3 @@
-import { GLOBAL_OPTIONS } from '../../../globals';
 import { withEditTabsConfig } from './Common';
 
 export default withEditTabsConfig(({ defaultParams, iconList, iconColorTypes }) => ({
