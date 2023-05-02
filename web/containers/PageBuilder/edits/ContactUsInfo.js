@@ -38,7 +38,7 @@ export default withEditTabsConfig(({ defaultParams, iconList }) => ({
         {
           cmpType: 'Autocomplete',
           label: 'Icon color',
-          options: GLOBAL_OPTIONS.colorTypes.toArray(),
+          options: GLOBAL_OPTIONS.iconColorTypes.toArray(),
           name: 'iconColor',
         },
         {

@@ -14,8 +14,10 @@ import ImageBlockWithTextEdit from './edits/ImageBlockWithText';
 import ImageWithHeaderBodyEdit from './edits/ImageWithHeaderBody';
 import TeamEdit from './edits/Team';
 import ImageWithSlideEdit from './edits/ImageWithSlide';
+import UsefulLinksEdit from './edits/UsefulLinks';
 import FeaturedContentEdit from './edits/FeaturedContent';
 import TextColumnWithLinksEdit from './edits/TextColumnWithLinks';
+import GetInTouchEdit from './edits/GetInTouch';
 import RichTextEdit from './edits/RichText';
 import InputEdit from './edits/Input';
 import ReCaptchaEdit from './edits/ReCaptcha';
@@ -467,8 +469,26 @@ const compList = {
     sampleData: {
       eyebrow: 'eybrow',
       header: 'Header',
+      image: {
+        src: 'https://st.depositphotos.com/2309453/3447/i/600/depositphotos_34479387-stock-photo-group-of-young-business-people.jpg',
+      },
     },
     editData: ImageWithSlideEdit,
+  },
+  UsefulLinks: {
+    group: 'Content',
+    Component: getMap().UsefulLinks,
+    sampleData: {
+      header: 'Header goes here',
+      links: [
+        {
+          iconName: 'star',
+          text: 'Learn more about',
+          to: '/content/new',
+        },
+      ],
+    },
+    editData: UsefulLinksEdit,
   },
   FeaturedContent: {
     group: 'Content',
@@ -555,6 +575,36 @@ const compList = {
     },
     editData: ContactUsInfoEdit,
   },
+
+  GetInTouch: {
+    group: 'Content',
+    Component: getMap().GetInTouch,
+    sampleData: {
+      header: 'Get in touch',
+      info: [
+        {
+          iconName: 'ap-message',
+          text: 'email@danielscorp.com',
+          href: 'mailto:email@danielscorp.com',
+        },
+        {
+          iconName: 'ap-phone-call',
+          href: 'call:101111111',
+          text: '101.111.111',
+        },
+        {
+          iconName: 'ap-entertainment',
+          text: 'www.domain.com',
+          href: 'www.domain.com',
+          target: '_blank',
+        },
+      ],
+      footerText:
+        'Laborum ex duis ut labore eiusmod amet fugiat. Qui ullamco exercitation eu sint laborum. Magna aliquip adipisicing laborum anim anim id dolore ea tempor. Do cupidatat velit exercitation cupidatat magna anim. Nisi nulla est ad duis consectetur officia incididunt nostrud enim veniam incididunt veniam labore eu. Non minim deserunt laborum ullamco esse fugiat mollit deserunt consectetur velit dolore exercitation pariatur. Ex elit sunt occaecat cupidatat cillum elit aliqua veniam cupidatat nulla adipisicing.',
+    },
+    editData: GetInTouchEdit,
+  },
+
   Team: {
     group: 'Content',
     Component: getMap().Team,
@@ -584,8 +634,9 @@ const compList = {
     Component: getMap().ImageBlockWithText,
     sampleData: {
       header: 'Meet the team',
-      subHeader: 'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
-      imageUrl: 'https://st.depositphotos.com/2309453/3447/i/600/depositphotos_34479387-stock-photo-group-of-young-business-people.jpg'
+      subHeader:
+        'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
+      imageUrl: 'https://st.depositphotos.com/2309453/3447/i/600/depositphotos_34479387-stock-photo-group-of-young-business-people.jpg',
     },
     editData: ImageBlockWithTextEdit,
   },
@@ -595,8 +646,9 @@ const compList = {
     sampleData: {
       header: 'Mission',
       styleName: 'shadow',
-      subHeader: 'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
-      imageUrl: 'https://w7.pngwing.com/pngs/691/585/png-transparent-computer-icons-business-mission-company-text-people-thumbnail.png'
+      subHeader:
+        'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
+      imageUrl: 'https://w7.pngwing.com/pngs/691/585/png-transparent-computer-icons-business-mission-company-text-people-thumbnail.png',
     },
     editData: ImageWithHeaderBodyEdit,
   },
