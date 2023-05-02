@@ -76,6 +76,10 @@ items:
                   options: drop_options.emailStatus
                 validators:
                   - type: required
+              - cmpType: Alert
+                type: info
+                className: mb-wide
+                message: Save template before sending test email
       - component: Wrapper
         className: col-xs-12 col-md-8 order-1 order-md-2
         items:
@@ -113,13 +117,11 @@ items:
     rootErrorKey: template
     defaultResponse:
       success:
-        data:
-          redirect: emailTemplatelList
         notification:
-          message: Email Template created successfully
+          message: Email Template saved successfully
       error:
         notification:
-          message: Email Template creation failed
+          message: Email Template save failed
           type: error
           
     params:

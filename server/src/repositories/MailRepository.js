@@ -41,8 +41,8 @@ class MailRepository {
     }
     const fromEmail = message.from || from || this.config.email.defaultFrom;
     const _fromName = message.fromName || fromName || this.config.email.defaultFromName;
-    message.to = to;
     message.from = `${_fromName} <${fromEmail}>`;
+    message.to = to;
     if (cc) {
       message.cc = cc;
     }
@@ -53,6 +53,9 @@ class MailRepository {
   }
 
   sendEmailMessage(message) {
+    const fromEmail = message.from || this.config.email.defaultFrom;
+    const _fromName = message.fromName || this.config.email.defaultFromName;
+    message.from = `${_fromName} <${fromEmail}>`;
     if (message && this.config.email.enabled) {
       return this.send(message);
     }

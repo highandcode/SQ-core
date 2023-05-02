@@ -22,7 +22,7 @@ class EmailTemplateRepository extends BaseRepository {
   }
 
   async sendEmail(template, data, to) {
-    const outputTemplate = this.findOne({ name: template, active: true });
+    const outputTemplate = await this.findOne({ name: template, active: true });
     if (outputTemplate) {
       let message = {};
       message.subject = helpers.processBody(outputTemplate.subject, data);
