@@ -53,9 +53,8 @@ items:
             className: add-new-user mt-wide 
             fields:
               - name: name
+                cmpType: DataField
                 label: Template Name
-                validators:
-                  - type: required
               - name: fromName
                 label: From Name
                 validators:
