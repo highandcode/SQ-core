@@ -361,6 +361,21 @@ const compList = {
       bodyClassName: 'row',
     },
   },
+  'Center-Layout': {
+    Component: Wrapper,
+    name: 'Wrapper',
+    group: 'Layout',
+    accept: [ItemTypes.COMPONENT, ItemTypes.FORM],
+    hasPlaceholder: true,
+    compTypeProp: 'component',
+    editData: WrapperEdit,
+    itemsPropName: 'items',
+    hasItems: true,
+    sampleData: {
+      bodyClassName: 'text-center',
+      bodyContainerClassName: '',
+    },
+  },
   '2-ColumnLayout': {
     Component: Wrapper,
     name: 'Wrapper',
@@ -459,8 +474,8 @@ const compList = {
     group: 'Content',
     Component: getMap().HeroContent,
     sampleData: {
-      header: 'Hero header',
-      subHeader: 'sub header goes here',
+      header: 'Awesome header content',
+      subHeader: 'Reprehenderit laborum in ut enim Lorem minim ea ex dolore eiusmod id consequat pariatur amet. Id Lorem id et elit.',
     },
     editData: HeroContentEdit,
   },
@@ -555,16 +570,16 @@ const compList = {
         {
           iconName: 'call',
           iconColor: 'error',
-          header: 'Call',
-          subHeader: '+12 21299222',
+          header: 'Call us',
+          subHeader: '+91 21292 19222',
           iconSize: 'xxl',
         },
         {
           iconName: 'email-outline',
           iconColor: 'error',
           iconSize: 'xxl',
-          header: 'Mail',
-          subHeader: 'info@s.com',
+          header: 'Mail us',
+          subHeader: 'info@example.com',
         },
         {
           iconName: 'share',
@@ -575,8 +590,13 @@ const compList = {
           links: [
             {
               iconName: 'facebook',
-              to: 'http://link.com',
+              to: 'http://example.com',
               iconColor: 'info',
+            },
+            {
+              iconName: 'instagram',
+              to: 'http://insta.com',
+              iconColor: 'red',
             },
           ],
         },
@@ -592,17 +612,17 @@ const compList = {
       header: 'Get in touch',
       info: [
         {
-          iconName: 'ap-message',
-          text: 'email@danielscorp.com',
-          href: 'mailto:email@danielscorp.com',
+          iconName: 'message',
+          text: 'email@example.com',
+          href: 'mailto:email@example.com',
         },
         {
-          iconName: 'ap-phone-call',
+          iconName: 'call',
           href: 'call:101111111',
           text: '101.111.111',
         },
         {
-          iconName: 'ap-entertainment',
+          iconName: 'Computer',
           text: 'www.domain.com',
           href: 'www.domain.com',
           target: '_blank',
@@ -664,7 +684,9 @@ const compList = {
   HTML: {
     group: 'Content',
     Component: getMap().HTML,
-    sampleData: {},
+    sampleData: {
+      html: '<p>Here put your html </p>'
+    },
     editData: HTMLEdit,
   },
 };

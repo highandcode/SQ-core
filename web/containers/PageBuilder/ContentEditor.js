@@ -30,9 +30,9 @@ class ContentEditor extends Component {
     const { onMoveItemDown } = this.props;
     onMoveItemDown && onMoveItemDown(idx);
   }
-  componentOnDrop(item, atIdx) {
+  componentOnDrop(item, evt, atIdx) {
     const { onDrop } = this.props;
-    onDrop && onDrop(item, atIdx);
+    onDrop && onDrop(item, evt, atIdx);
   }
 
   handleMoveUp(idx) {
@@ -51,7 +51,7 @@ class ContentEditor extends Component {
             const Component = compList[block.component] || compList.Custom;
             return (
               <ErrorBoundary key={idx}>
-                {/* <Placeholder allowedDropEffect={'any'} plaecHolderStle="line" accept={[ItemTypes.COMPONENT, ItemTypes.FORM]} onDrop={this.componentOnDrop} /> */}
+                <Placeholder allowedDropEffect={'any'} hoverText={'root'} plaecHolderStyle="line" accept={[ItemTypes.COMPONENT, ItemTypes.FORM]} onDrop={(item, e) => this.componentOnDrop(item, e, idx)} />
                 <ComponentEditor
                   component={block.component}
                   fieldsMeta={fieldsMeta}
@@ -66,11 +66,10 @@ class ContentEditor extends Component {
                   onMoveUp={() => this.handleMoveUp(idx)}
                   onMoveDown={() => this.handleMoveDown(idx)}
                 />
-                {/* <Placeholder allowedDropEffect={'any'} plaecHolderStle="line" accept={[ItemTypes.COMPONENT, ItemTypes.FORM]} onDrop={this.componentOnDrop} /> */}
               </ErrorBoundary>
             );
           })}
-        <Placeholder allowedDropEffect={'any'} accept={[ItemTypes.COMPONENT, ItemTypes.FORM]} onDrop={this.componentOnDrop} />
+        <Placeholder allowedDropEffect={'any'} hoverText={'root'} plaecHolderStyle={pageData.items?.length > 0 ? 'line' : undefined} accept={[ItemTypes.COMPONENT, ItemTypes.FORM]} onDrop={this.componentOnDrop} />
       </div>
     );
   }

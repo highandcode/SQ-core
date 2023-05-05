@@ -36,7 +36,7 @@ export const Placeholder = ({ component, name, allowedDropEffect, onDrop, accept
   return (
     <div className={`sq-placeholder-drop ${backgroundCSS} sq-placeholder-drop-style-${plaecHolderStyle}`} ref={drop} style={{}}>
       <div className="sq-placeholder-drop__hover-text">
-        {hoverText}
+        {plaecHolderStyle === 'line' ? hoverText : ''}
       </div>
       <div className="sq-placeholder-drop__content">
         <Icon name="Move" variant={'extra1'} />

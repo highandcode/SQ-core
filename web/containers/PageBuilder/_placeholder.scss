@@ -1,7 +1,6 @@
 .sq-placeholder-drop {
- 
+  position: relative;
   &__hover-text {
-    border-radius: 5px;
     text-align: center;
     @include b6-style();
   }
@@ -12,19 +11,19 @@
     text-align: center;
     &.sq-placeholder-drop--active {
       background-color: $sq-color-success-lightest;
-      border: 2px dashed $sq-color-success-light;
+      border: solid 2px $sq-color-success-light;
     }
     &.sq-placeholder-drop--can-drop {
       background-color: $sq-color-warning-lightest;
-      border: 2px dashed $sq-color-warning-light;
+      border: solid 2px $sq-color-warning-light;
     }
     &.sq-placeholder-drop--default {
-      border: 2px dashed $sq-color-extra1-light;
+      border: solid 2px $sq-color-extra1-light;
       background-color: $sq-color-extra1-lighter;
     }
   }
   &-style-line {
-    padding: 5px;
+    padding: 0px;
     .sq-placeholder-drop__content {
       display: none;
     }
@@ -32,21 +31,34 @@
       display: none;
     }
     &.sq-placeholder-drop--active {
+      display: block;
+      border: solid 2px $sq-color-info-light;
       .sq-placeholder-drop__hover-text {
-        border-top: solid 5px $sq-color-info-light;
         display: block;
         background-color: $sq-color-info-lighter;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 50%;
+        top: 1px;
       }
     }
     &.sq-placeholder-drop--can-drop {
+      display: block;
+      border: solid 2px $sq-color-warning-light;
       .sq-placeholder-drop__hover-text {
-        border-top: solid 5px $sq-color-warning-light;
         display: block;
         background-color: $sq-color-warning-lighter;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 50%;
+        top: 1px;
       }
     }
     &.sq-placeholder-drop--default {
-      
     }
   }
 }

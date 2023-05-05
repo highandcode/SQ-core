@@ -12,7 +12,7 @@ const TemplateDefault = ({ items, itemClassName }) => {
             <div key={idx} className={`sq-fc-template sq-fc-default-item ${itemClassName}`}>
               <div className="sq-fc-default-item__wrapper">
                 <div className="sq-fc-default-item__icon">
-                  {item.icon && <Icon className="sq-icon--outline-icon" variant={item.iconColor || 'secondary'} name={item.icon} size={item.iconSize || "large"} />}
+                  {item.icon && <Icon variant={item.iconColor || 'secondary'} name={item.icon} size={item.iconSize || "large"} />}
                 </div>
                 <h1 className="sq-fc-default-item__title">{item.title}</h1>
                 <div className="sq-fc-default-item__description">{item.description}</div>
