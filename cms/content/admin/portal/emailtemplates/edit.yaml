@@ -19,8 +19,8 @@ init:
     fromName: .result.fromName
     name: .result.name
     from: .result.from
-    emailCC: .result.emailCC
-    emailBCC: .result.emailBCC
+    emailCc: .result.emailCc
+    emailBcc: .result.emailBcc
     status: .result.status
   email:
     subject: .result.subject
@@ -65,8 +65,10 @@ items:
                   - type: required
                   - type: email
               - name: emailCc
+                cmpType: AutoCompleteValue
                 label: CC
-              - name: emailBCc
+              - name: emailBcc
+                cmpType: AutoCompleteValue
                 label: BCC
             
               - cmpType: ButtonSelection

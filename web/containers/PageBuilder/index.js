@@ -371,6 +371,7 @@ class PageBuilder extends Component {
             {!utils.queryString.query.get().path && <Button
               iconName={'Save'}
               variant="outlined"
+              disabled={!pageData.createPopupScreen}
               buttonText="Save"
               onClick={() => this.savePageAsNew()}
             />}

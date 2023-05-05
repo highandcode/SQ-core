@@ -24,11 +24,11 @@ npm install qubejs-core
 ```
 ## Available Modules
 
-At present, we officially aim to support give 3 modules
+At present, we officially aim to support 3 modules
 
 - Web (React)
-- CMS Server
-- Vannila JS
+- CMS Server (Node.js)
+- Vannila JS (Plain JS)
 
 ## CMS Server
 
