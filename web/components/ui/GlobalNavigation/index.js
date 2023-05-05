@@ -15,7 +15,7 @@ const renderSubNav = (item, isHover, callback, options) => {
   let iconName = !isHover ? 'expand' : 'collapse';
   return (
     item.children &&
-    item.children.length > 0 && (
+    item.children.filter((i) =>  !i.hideInMenu && hasPermission(i, options, false)).length > 0 && (
       <>
         {iconName && (
           <Icon className="sq-global-navigation__list-icon" name={iconName} />
@@ -39,22 +39,6 @@ const renderSubNav = (item, isHover, callback, options) => {
                     callback && callback();
                   }}
                 />
-                {/* <a
-                  onClick={(e) => {
-                    if (e.defaultPrevented) return; // Exits here if event has been handled
-                    e.preventDefault();
-                    redirectTo(
-                      child.href,
-                      { ...child.params },
-                      { ...child.options }
-                    );
-                    callback && callback();
-                  }}
-                  href={child.href}
-                  className="sq-global-navigation__link"
-                >
-                  {child.title}
-                </a> */}
               </li>
             );
           })}

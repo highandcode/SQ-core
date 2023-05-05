@@ -28,7 +28,7 @@ function SQPagination({ className = '', disabled = false, defaultPage, count, on
         });
     }
   };
-
+  console.log(value);
   return (
     <div className={`sq-pagination ${className}`}>
       {enablePageSize && (

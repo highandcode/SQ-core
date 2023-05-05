@@ -6,9 +6,11 @@ import Progress from '../../components/Progress';
 import Snackbar from '../../components/Snackbar';
 import DefaultContent from '../Content';
 import Default from './Default';
+import browser from '../../utils/browser';
 import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
 import { events } from '../../utils/app-events';
+import { query } from '../../utils/query-string';
 import { fetchContentPage, uploadApi, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
 
 import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, closePopupScreen, closePopup, showPopup, setError, clearError } from '../../redux/common';
@@ -40,6 +42,7 @@ class DynamicContent extends Component {
     this.onChange = this.onChange.bind(this);
     this.onAction = this.onAction.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
+    this.onAfterRedirect = this.onAfterRedirect.bind(this);
   }
 
   async componentDidMount() {
@@ -53,14 +56,20 @@ class DynamicContent extends Component {
       }
     );
     events.subscribe('refreshPage', this.onRefresh);
+    events.subscribe('afterRedirect', this.onAfterRedirect);
     events.subscribe('dynammicContent.onAction', this.onAction);
   }
-
+  
   async componentWillUnmount() {
     window.removeEventListener('scroll', this.handlePageScroll);
     window.removeEventListener('resize', this.handlePageScroll);
+    events.unsubscribe('afterRedirect', this.onAfterRedirect);
     events.unsubscribe('refreshPage', this.onRefresh);
     events.unsubscribe('dynammicContent.onAction', this.onAction);
+  }
+
+  onAfterRedirect() {
+    this.props.raiseAction(updateUserData({}));
   }
 
   async onRefresh() {
@@ -133,6 +142,9 @@ class DynamicContent extends Component {
     if (pageResponse.pageData.updatePageTitle) {
       window.document.title = pageResponse.pageData.title;
     }
+    if (pageResponse.pageData.headScript) {
+      browser.scriptManager.insertDynamicScript(pageResponse.pageData.headScript);
+    }
     if (pageResponse.pageData.reset) {
       await this.props.contentActions.resetUserData(pageResponse.pageData.reset);
     }
@@ -198,6 +210,9 @@ class DynamicContent extends Component {
     const { userData } = this.props.store.content;
     return {
       ...userData,
+      query: {
+        ...query.get(),
+      },
     };
   }
 
@@ -365,7 +380,7 @@ class DynamicContent extends Component {
   }
 
   async onAction(value, action, block) {
-    const { onSubmit } = this.props;
+    const { onSubmit, onCancel } = this.props;
     let result;
     let isValid = true;
     // action.nextAction = (action) => this.onAction(value, action, block); 
@@ -487,6 +502,9 @@ class DynamicContent extends Component {
           onSubmit && onSubmit(processParams(this.props.store.content.userData, action.params));
         }
         break;
+      case 'cancel-event':
+        onCancel && onCancel(processParams(this.props.store.content.userData, action.params));
+        break;
       case 'user-store':
         await this.props.contentActions.mergeUserData({
           ...processParams(this.props.store.content.userData, action.params),
@@ -548,20 +566,23 @@ class DynamicContent extends Component {
     if (result && typeof result.data?.redirect === 'string') {
       redirectTo(result.data?.redirect);
     } else if (result && result.data?.redirect?.to) {
-      redirectTo(result.data?.redirect.to, processParams(this.props.store.content.userData, result.data?.redirect.urlParams));
+      redirectTo(result.data?.redirect.to, processParams(this.props.store.content.userData, result.data?.redirect.urlParams), result.data?.redirect?.options);
     }
     if (result && typeof result.error?.redirect === 'string') {
       redirectTo(result.error?.redirect);
     } else if (result && result.error?.redirect?.to) {
-      redirectTo(result.error?.redirect.to, processParams(this.props.store.content.userData, result.error?.redirect.urlParams));
+      redirectTo(result.error?.redirect.to, processParams(this.props.store.content.userData, result.error?.redirect.urlParams), result.error?.redirect?.options);
     }
   }
 
   render() {
-    const { containerTemplate: overrideContainerTemplate, rootClass = 'row', ...allProps } = this.props;
+    const { containerTemplate: overrideContainerTemplate, mode = 'actual', rootClass = 'row', ...allProps } = this.props;
     const { dataPacket, store } = allProps;
     const userData = {
       ...this.props.store.content.userData,
+      query: {
+        ...query.get(),
+      },
       ...dataPacket,
       contentPage: true,
     };
@@ -571,7 +592,7 @@ class DynamicContent extends Component {
     const { classes = {}, ...restDynamic } = dynamicParams;
     const updatedPageData = { ...pageData, ...restDynamic };
     const { container, containerTemplate, contentBodyClass = '', rootClassName = '', transition = {} } = updatedPageData;
-    const ContentTemplateContainer = containers[overrideContainerTemplate || containerTemplate] || containers.Default;
+    const ContentTemplateContainer = mode === 'actual' ? containers[overrideContainerTemplate || containerTemplate] || containers.Default : containers.Default;
     const ContentContainer = containers[container] || DefaultContent;
     const { out: tranOut = 'out-up', in: tranIn = 'out-in', loading = 'loading', loadingColor = 'primary' } = transition;
     const classState = this.state.isOut ? `transition transition-page--${tranOut}` : this.state.isIn ? `transition transition-page--${tranIn}` : '';

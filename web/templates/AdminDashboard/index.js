@@ -65,7 +65,7 @@ class AdminDashboard extends AdminContainer {
   }
 
   render() {
-    const { children, appBarColor = 'default', location } = this.props;
+    const { children, appBarColor = 'default', location, userData } = this.props;
     const { data = {}, store } = this.props;
     const { pageData = {}, metaData = {}, siteMap = {} } = data;
     const { templateClasses = {} } = pageData;
@@ -145,6 +145,8 @@ class AdminDashboard extends AdminContainer {
                     navigation={
                       siteMap.siteMap.globalNavigationLoggedIn.navigation
                     }
+                    userData={userData}
+                    appStore={store}
                     breadcrumb={store.content.breadcrumb}
                     roles={store.authentication.currentUser?.roles}
                     permissions={store.authentication.currentUser?.permissions}

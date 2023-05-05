@@ -4,11 +4,23 @@ import { CONSTANTS } from '../../globals';
 import * as utils from '../../utils';
 import { showNotificationMessage, startLoading } from '../common';
 import { processParams, selectUserData, customHooks } from '../content';
-const initialState = {};
+const initialState = {
+  contentData: {
+    pageData: {
+      title: 'Untitled Page',
+    },
+  },
+};
 const admin = createSlice({
   name: 'admin',
   initialState,
   reducers: {
+    setMedia: (state, action) => {
+      state.media = action.payload;
+    },
+    setMediaPage: (state, action) => {
+      state.mediaPage = action.payload;
+    },
     setContentPage: (state, action) => {
       state.contentData = action.payload;
     },
@@ -32,21 +44,9 @@ export const getPage =
   async (dispatch, getState) => {
     const result = await utils.apiBridge[method](
       url || adminConfig.apis.getPage,
-      params
-        ? processParams(
-            { ...selectContentData(getState()), ...selectUserData(getState()) },
-            params,
-            undefined,
-            getState()
-          )
-        : payload,
+      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload,
       undefined,
-      processParams(
-        { ...selectContentData(getState()), ...selectUserData(getState()) },
-        query,
-        undefined,
-        getState()
-      )
+      processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {
@@ -54,6 +54,11 @@ export const getPage =
       }
       await dispatch(setContentPage(result.data));
     }
+  };
+export const createPage =
+  (payload, { url, method = 'post', params, hook, query } = {}) =>
+  async (dispatch, getState) => {
+    await dispatch(setContentPage(initialState.contentData));
   };
 export const getFieldsMeta =
   (payload, { url, method = 'post', params, query, hook } = {}) =>
@@ -73,12 +78,7 @@ export const getFieldsMeta =
             )
           : payload,
         undefined,
-        processParams(
-          { ...selectContentData(getState()), ...selectUserData(getState()) },
-          query,
-          undefined,
-          getState()
-        )
+        processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
       );
       if (result.status === CONSTANTS.STATUS.SUCCESS) {
         if (hook) {
@@ -94,29 +94,12 @@ export const loadPageTree =
   async (dispatch, getState) => {
     const result = await utils.apiBridge[method](
       url || adminConfig.apis.getContentTree,
-      params
-        ? processParams(
-            { ...selectContentData(getState()), ...selectUserData(getState()) },
-            params,
-            undefined,
-            getState()
-          )
-        : payload,
+      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload,
       undefined,
-      processParams(
-        { ...selectContentData(getState()), ...selectUserData(getState()) },
-        query,
-        undefined,
-        getState()
-      )
+      processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       await dispatch(setContentTree(result.data));
-      await dispatch(
-        loadPagesByPath({
-          parentPath: result.data.path,
-        })
-      );
     }
   };
 
@@ -125,27 +108,175 @@ export const loadPagesByPath =
   async (dispatch, getState) => {
     const result = await utils.apiBridge[method](
       url || adminConfig.apis.getPageByPath,
-      params
-        ? processParams(
-            { ...selectContentData(getState()), ...selectUserData(getState()) },
-            params,
-            undefined,
-            getState()
-          )
-        : payload,
+      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload,
       undefined,
-      processParams(
-        { ...selectContentData(getState()), ...selectUserData(getState()) },
-        query,
-        undefined,
-        getState()
-      )
+      processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {
         result.data = await customHooks.execute(hook, result);
       }
       await dispatch(setContentPages(result.data.pages));
+    }
+  };
+
+export const copyMediaLink = (payload) => async (dispatch, getState) => {
+  navigator.clipboard.writeText(payload);
+  dispatch(
+    showNotificationMessage({
+      message: 'Media link has been copied.',
+      type: 'success',
+    })
+  );
+};
+
+export const deleteLink =
+  (payload, { url, params, method = 'delete', hook } = {}) =>
+  async (dispatch, getState) => {
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.deleteMedia,
+      params
+        ? processParams(
+            {
+              ...selectContentData(getState()),
+              ...selectUserData(getState()),
+              ...payload,
+            },
+            params,
+            undefined,
+            getState()
+          )
+        : payload
+    );
+    if (result.status === CONSTANTS.STATUS.SUCCESS) {
+      if (hook) {
+        result.data = await customHooks.execute(hook, result);
+      }
+      await dispatch(
+        showNotificationMessage({
+          message: 'Media link has been deleted.',
+          type: 'success',
+        })
+      );
+      return;
+    }
+  };
+
+export const updateMedia =
+  (payload, { url, params, method = 'patch', hook } = {}) =>
+  async (dispatch, getState) => {
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.updateMedia,
+      params
+        ? processParams(
+            {
+              ...selectContentData(getState()),
+              ...selectUserData(getState()),
+              ...payload,
+            },
+            params,
+            undefined,
+            getState()
+          )
+        : payload
+    );
+    if (result.status === CONSTANTS.STATUS.SUCCESS) {
+      if (hook) {
+        result.data = await customHooks.execute(hook, result);
+      }
+      await dispatch(
+        showNotificationMessage({
+          message: 'Media updated successfully.',
+          type: 'success',
+        })
+      );
+      return;
+    }
+  };
+
+export const uploadMedia =
+  (payload, { url, params, hook } = {}) =>
+  async (dispatch, getState) => {
+    let response = {};
+    if (payload.data) {
+      const formData = new FormData();
+      payload.data.files.forEach((file) => {
+        formData.append('file', file);
+      });
+      response.status = 'success';
+      response.data = {};
+      const fileName = (payload.data.fileNames || payload.data.files).map((i)=>i.name);
+      const contentType = {
+        contentType: 'VIDEO',
+        status: 'DRAFT',
+      };
+      if (!fileName.includes('.mp4')) {
+        delete contentType['contentType'];
+      }
+      const result = await utils.apiBridge.rawPost(
+        url || adminConfig.apis.uploadMedia,
+        formData,
+        {},
+        {
+          fileName: fileName,
+          ...(params
+            ? processParams(
+                {
+                  ...selectContentData(getState()),
+                  ...selectUserData(getState()),
+                },
+                params,
+                undefined,
+                getState()
+              )
+            : {}),
+          ...contentType,
+        }
+      );
+
+      if (result.status === CONSTANTS.STATUS.SUCCESS) {
+        if (hook) {
+          result.data = await customHooks.execute(hook, result);
+        }
+        dispatch(
+          showNotificationMessage({
+            message: 'Uploaded media successfully',
+          })
+        );
+        payload.success(result.data.files);
+      } else {
+        dispatch(
+          showNotificationMessage({
+            message: 'Upload media failed',
+            type: 'error',
+          })
+        );
+      }
+    }
+  };
+
+export const loadMedia =
+  ({ body, query } = {}, { url, method = 'post', params, hook } = {}) =>
+  async (dispatch, getState) => {
+    const result = await utils.apiBridge[method](
+      url || adminConfig.apis.searchMedia,
+      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()), ...body }, params, undefined, getState()) : body,
+      undefined,
+      processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
+    );
+    if (result.status === CONSTANTS.STATUS.SUCCESS) {
+      if (hook) {
+        result.data = await customHooks.execute(hook, result);
+      }
+      const pageData = {
+        pageSize: result.data.pageSize,
+        currentPage: result.data.currentPage,
+        isFirst: result.data.first,
+        isLast: result.data.last,
+        totalPages: result.data.totalPages,
+      };
+      await dispatch(setMedia(result.data.data));
+      await dispatch(setMediaPage(pageData));
     }
   };
 
@@ -167,12 +298,7 @@ export const savePageDraft =
           )
         : payload,
       undefined,
-      processParams(
-        { ...selectContentData(getState()), ...selectUserData(getState()) },
-        query,
-        undefined,
-        getState()
-      )
+      processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       !autoSave &&
@@ -205,12 +331,7 @@ export const deletePage =
           )
         : { uid: payload.uid },
       undefined,
-      processParams(
-        { ...selectContentData(getState()), ...selectUserData(getState()) },
-        query,
-        undefined,
-        getState()
-      )
+      processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       dispatch(
@@ -225,11 +346,7 @@ export const deletePage =
     }
   };
 export const clonePage =
-  (
-    payload,
-    { url, method = 'post', params, hook, query } = {},
-    { success, error } = {}
-  ) =>
+  (payload, { url, method = 'post', params, hook, query } = {}, { success, error } = {}) =>
   async (dispatch, getState) => {
     const result = await utils.apiBridge[method](
       url || adminConfig.apis.clonePage,
@@ -246,12 +363,7 @@ export const clonePage =
           )
         : { from: payload.from, to: payload.to, type: payload.type },
       undefined,
-      processParams(
-        { ...selectContentData(getState()), ...selectUserData(getState()) },
-        query,
-        undefined,
-        getState()
-      )
+      processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       dispatch(
@@ -288,12 +400,6 @@ customHooks.add('admin', {
   },
 });
 
-export const {
-  setRoot,
-  setContentPage,
-  setContentTree,
-  setContentPages,
-  setFieldsMeta,
-} = admin.actions;
+export const { setRoot, setContentPage, setContentTree, setContentPages, setFieldsMeta, setMedia, setMediaPage } = admin.actions;
 
 export default admin.reducer;

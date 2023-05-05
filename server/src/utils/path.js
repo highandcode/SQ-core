@@ -27,4 +27,8 @@ module.exports = {
     }
     return path;
   },
+  convertTextToPath: (text = '') => {
+    const finalText = text?.toString().replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s\s+/g, ' ').replace(new RegExp(' ', 'g'), '-').toLowerCase() || '';
+    return finalText;
+  },
 };

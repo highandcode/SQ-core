@@ -94,7 +94,10 @@ customHooks.add('authentication', {
 });
 export const loadUserProfile = (userProfile) => async (dispatch) => {
   // console.log(getState().content.userData);
-  const response = await utils.apiBridge[userProfile?.method || 'get'](userProfile?.url || adminConfig.apis.userInfo, {});
+  const response = await utils.apiBridge[userProfile?.method || 'get'](
+    userProfile?.url || adminConfig.apis.userInfo,
+    {}
+  );
   if (
     response.status !== CONSTANTS.STATUS.SUCCESS &&
     utils.cookie.get('qjs-token')
@@ -223,8 +226,11 @@ export const removeRole =
       );
     }
   };
-export const hasPermission = (permission, state) =>
-  state?.authentication?.currentUser?.allPermissions?.indexOf(permission) > -1;
+export const hasPermission = (permission, state) => {
+  return (
+    state?.authentication?.currentUser?.allPermissions?.indexOf(permission) > -1
+  );
+};
 const populateFullName = (data) => {
   return data.map((i) => {
     return {
@@ -396,7 +402,10 @@ export const getPermissionsByRole =
 export const deactivateUser =
   (payload, config = {}) =>
   async (dispatch, getState) => {
-    const { url } = processParams({...selectUserData(getState()), ...payload}, config)
+    const { url } = processParams(
+      { ...selectUserData(getState()), ...payload },
+      config
+    );
     const response = await utils.apiBridge.patch(
       url || `${adminConfig.apis.user}/${payload.emailId}/deactivate`
     );
@@ -412,7 +421,10 @@ export const deactivateUser =
 export const deleteUser =
   (payload, config = {}) =>
   async (dispatch, getState) => {
-    const { url } = processParams({...selectUserData(getState()), ...payload}, config)
+    const { url } = processParams(
+      { ...selectUserData(getState()), ...payload },
+      config
+    );
     const response = await utils.apiBridge.delete(
       url || `${adminConfig.apis.user}/${payload.emailId}/delete`
     );
@@ -429,7 +441,10 @@ export const deleteUser =
 export const reactivateUser =
   (payload, config = {}) =>
   async (dispatch, getState) => {
-    const { url } = processParams({...selectUserData(getState()), ...payload}, config)
+    const { url } = processParams(
+      { ...selectUserData(getState()), ...payload },
+      config
+    );
     const response = await utils.apiBridge.patch(
       url || `${adminConfig.apis.user}/${payload.emailId}/activate`
     );
@@ -443,20 +458,25 @@ export const reactivateUser =
     }
   };
 
-export const resetPassword = (payload, config = {}) => async (dispatch, getState) => {
-  const { url } = processParams({...selectUserData(getState()), ...payload}, config)
-  const response = await utils.apiBridge.patch(
-    url || `${adminConfig.apis.user}/${payload.emailId}/resetPassword`
-  );
-  if (response.status === CONSTANTS.STATUS.SUCCESS) {
-    await dispatch(
-      showNotificationMessage({
-        message: 'Password reset completed successfully.',
-        type: 'success',
-      })
+export const resetPassword =
+  (payload, config = {}) =>
+  async (dispatch, getState) => {
+    const { url } = processParams(
+      { ...selectUserData(getState()), ...payload },
+      config
     );
-  }
-};
+    const response = await utils.apiBridge.patch(
+      url || `${adminConfig.apis.user}/${payload.emailId}/resetPassword`
+    );
+    if (response.status === CONSTANTS.STATUS.SUCCESS) {
+      await dispatch(
+        showNotificationMessage({
+          message: 'Password reset completed successfully.',
+          type: 'success',
+        })
+      );
+    }
+  };
 
 export const {
   setUser,

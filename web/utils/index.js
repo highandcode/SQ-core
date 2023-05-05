@@ -23,7 +23,7 @@ import string from './string';
 import cookie from './cookie-manager';
 import * as translate from './translate';
 import * as validator from './validator';
-
+validator.setObject(object);
 const processor = new CustomProcessor();
 require('../../server/src/utils/special-validators')(validator);
 export {

@@ -111,7 +111,7 @@ const SQAutocomplete = ({
           tagValue.map((option, index) => (
             <Chip
               label={
-                <div className="sq-autocomplete__chip flb-d flb-a-center ">
+                <div className="sq-autocomplete__chip d-fl fl-a-center ">
                   {option.iconName && (
                     <Icon
                       size={'xs'}

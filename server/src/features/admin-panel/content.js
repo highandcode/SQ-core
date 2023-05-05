@@ -85,4 +85,14 @@ module.exports = ({ context } = {}) => {
       })
       .catch((ex) => context.handleError(ex, res));
   });
+  context.router.post('/content/emailtemplates/search', function (req, res) {
+    context.emailTemplateRepo
+      .searchAll(req.body)
+      .then((result) => {
+        res.json(
+          new Response(result).json()
+        );
+      })
+      .catch((ex) => context.handleError(ex, res));
+  });
 };

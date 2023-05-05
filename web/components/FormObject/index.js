@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Form from '../Form';
 import IconButton from '../ui/IconButton';
-// import Actions from '../Actions';
+import Dialog from '../Dialog';
+import Alert from '../Alert';
 
 class FormObject extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: [], objMap: {}, objArray: {}, fullScreen: false };
+    this.state = { expandFull: true, data: [], objMap: {}, objArray: {}, fullScreen: false, expandItems: {} };
     this.addNew = this.addNew.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.convertToObj = this.convertToObj.bind(this);
@@ -17,6 +18,9 @@ class FormObject extends Component {
     this.formOnAction = this.formOnAction.bind(this);
     this.changeToObject = this.changeToObject.bind(this);
     this.toggleFullScreen = this.toggleFullScreen.bind(this);
+    this.replaceFromText = this.replaceFromText.bind(this);
+    this.onFormTextChange = this.onFormTextChange.bind(this);
+    this.expandItem = this.expandItem.bind(this);
   }
   valueOnChange(data, key, isArray) {
     const { onChange, value = {} } = this.props;
@@ -161,10 +165,31 @@ class FormObject extends Component {
         idx++;
       }
     }
+    this.setState({
+      expandFull: true,
+    });
     onChange &&
       onChange({
         value: isArray ? [...value, {}] : { ...value, [keyName + idx]: '' },
       });
+  }
+
+  onFormTextChange(data) {
+    this.setState({
+      currentTxt: {
+        currentError: '',
+        text: data.value?.text,
+      },
+    });
+  }
+  replaceFromText() {
+    this.setState({
+      openText: true,
+      currentError: '',
+      currentTxt: {
+        text: JSON.stringify(this.props.value || {}, null, 4),
+      },
+    });
   }
 
   toggleFullScreen() {
@@ -173,16 +198,92 @@ class FormObject extends Component {
     });
   }
 
+  handleAction(data, dialogAction) {
+    const { onChange } = this.props;
+    switch (dialogAction.action) {
+      case 'cancel':
+        this.setState({
+          openText: false,
+        });
+        break;
+      case 'ok':
+        try {
+          let obj = JSON.parse(this.state.currentTxt.text);
+          let isArray = Array.isArray(obj);
+          onChange &&
+            onChange({
+              value: isArray ? [...obj] : { ...obj },
+            });
+          this.setState({
+            openText: false,
+          })
+        } catch (ex) {
+          this.setState({
+            currentError: 'JSON parse failed',
+          });
+        }
+        
+        break;
+    }
+  }
+
+  expandItem(itemKey) {
+    this.setState({
+      expandItems: {
+        ...this.state.expandItems,
+        [itemKey]: !this.state.expandItems[itemKey],
+      }
+    });
+  }
+
   render() {
     const { className = '', label, fields, value = {}, formClassName = 'sq-form--keyval-mode', type, ...rest } = this.props;
     const isArray = this.isArray(value);
     return (
       <div className={`sq-form-object ${className} ${this.state.fullScreen ? 'sq-form-object--full-screen' : ''}`}>
+        <Dialog
+          title={'Replace with Text Data'}
+          classes={{
+            body: 'sq-dialog__content-body--standard',
+          }}
+          closeButton={true}
+          open={this.state.openText}
+          onAction={(data, dialogAction) => this.handleAction(data, dialogAction)}
+          onClose={() => this.setState({ openText: false })}
+          actions={[
+            {
+              buttonText: 'Save',
+              action: 'ok',
+            },
+            {
+              buttonText: 'Cancel',
+              variant: 'outlined',
+              action: 'cancel',
+            },
+          ]}
+        >
+          <Form
+            className={'pb-none'}
+            fields={[
+              {
+                name: 'text',
+                cmpType: 'Textarea',
+                label: 'Text Data',
+                minRows: 30,
+              },
+            ]}
+            value={this.state.currentTxt}
+            onChange={this.onFormTextChange}
+          />
+          {this.state.currentError && <Alert message={this.state.currentError} type="warning" />}
+        </Dialog>
         <div className="sq-form-object__top-actions mb-1">
+          {!this.state.expandFull && label && <IconButton className='sq-form-object__expand-collapse' iconSize="small" iconName="add-circle-outline" title="Expand" color="warning" size="small" onClick={() => this.setState({ expandFull: true})} />}
+          {this.state.expandFull && label && <IconButton className='sq-form-object__expand-collapse' iconSize="small" iconName="remove-circle-outline" title="Collapse" color="warning" size="small" onClick={() => this.setState({ expandFull: false})} />}
           {label && <div className="sq-form-object__label">{label}</div>}
           <IconButton className={label ? '' : 'sq-form-object__float-full'} iconSize="small" iconName={this.state.fullScreen ? 'FullscreenExit' : 'Fullscreen'} onClick={this.toggleFullScreen} />
         </div>
-        {value &&
+        {this.state.expandFull && value &&
           Object.keys(value).map((itemKey, idx) => {
             const itemVal = { key: itemKey, value: value[itemKey] };
             const isObject = this.state.objMap[itemKey] || this.isObject(itemVal.value);
@@ -191,6 +292,8 @@ class FormObject extends Component {
             return (
               <div className="sq-form-object__item" key={itemVal.key}>
                 <div className="sq-form-object__item-wrap">
+                  {isObject && !this.state.expandItems[itemKey] && <IconButton className='sq-form-object__expand-collapse' iconSize="small" iconName="add-circle-outline" title="Expand" color="info" size="small" onClick={() => this.expandItem(itemKey, isArray)} />}
+                  {isObject && this.state.expandItems[itemKey] && <IconButton className='sq-form-object__expand-collapse' iconSize="small" iconName="remove-circle-outline" title="Collapse" color="info" size="small" onClick={() => this.expandItem(itemKey, isArray)} />}
                   <Form
                     onAnalytics={rest.onAnalytics}
                     userData={rest.userData}
@@ -206,7 +309,7 @@ class FormObject extends Component {
                             disabled: isArray,
                           },
                         },
-                        {
+                        (!isObject && this.state.expandFull) || this.state.expandItems[itemKey] ? {
                           cmpType: isObject ? 'FormObject' : 'EditableField',
                           name: 'value',
                           editType: typeof itemVal.value === 'boolean' ? 'Switch' : 'Input',
@@ -214,8 +317,8 @@ class FormObject extends Component {
                           editProps: {
                             label: 'Value',
                           },
-                        },
-                      ]
+                        } : undefined,
+                      ].filter(i => !!i )
                     }
                     value={itemVal}
                     onChange={(data) => this.valueOnChange(data, itemKey, isArray)}
@@ -229,7 +332,8 @@ class FormObject extends Component {
             );
           })}
         <div className="sq-form-object__actions">
-          <IconButton iconSize="small" iconName="add" onClick={() => this.addNew(isArray)} />
+          <IconButton iconSize="small" iconName="add" title={'Add'} onClick={() => this.addNew(isArray)} />
+          <IconButton iconSize="small" iconName="code" title={'Replace with Text'} onClick={this.replaceFromText} />
           {!isArray && <IconButton iconSize="small" title={'Convert to array'} iconName="DataArray" color="info" size="small" onClick={() => this.changeToArray()} />}
           {isArray && <IconButton iconSize="small" title={'Convert to object'} iconName="DataObject" color="success" size="small" onClick={() => this.changeToObject()} />}
         </div>

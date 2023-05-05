@@ -4,14 +4,19 @@ import Alert from './Alert';
 import LinkButton from './ui/LinkButton';
 import HeroContent from './ui/HeroContent';
 import FeaturedContent from './ui/FeaturedContent';
+import Dialog from './Dialog';
 import Pricing from './ui/Pricing';
 import Icon from './Icon';
 import List from './ui/List';
 import Button from './ui/Button';
+import TextWithImageTiles from './TextWithImageTiles';
+import HeaderWithTiles from './HeaderWithTiles';
 import Grouper from './Grouper';
 import Wrapper from './Wrapper';
 import Skeleton from './Skeleton';
 import CodeHighlight from './ui/CodeHighlight';
+import ImageCardList from './ImageCardList';
+import ImageCard from './ImageCard';
 import Progress from './Progress';
 import InlineProgress from './InlineProgress';
 import Form from './Form';
@@ -33,6 +38,8 @@ import ImageWithSlideList from './ui/ImageWithSlideList';
 import LaunchTimer from './LaunchTimer';
 import Carousel from './Carousel';
 import ImageWithSpotlight from './ImageWithSpotlight';
+import Actions from './Actions';
+import MoreActions from './MoreActions';
 import PropsTable from './PropsTable';
 import NavTabs from './NavTabs';
 import ReCaptcha from './ui/ReCaptcha';
@@ -76,6 +83,13 @@ let comps = {
   FormObject,
   Skeleton,
   NavTabs,
+  TextWithImageTiles,
+  HeaderWithTiles,
+  ImageCard,
+  ImageCardList,
+  Dialog,
+  Actions,
+  MoreActions,
 };
 
 const getMap = () => {

@@ -8,12 +8,14 @@ import Delete from '@mui/icons-material/Delete';
 import Replay from '@mui/icons-material/Replay';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import Add from '@mui/icons-material/Add';
+import Remove from '@mui/icons-material/Remove';
 import PlayCircleFilled from '@mui/icons-material/PlayCircleFilled';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import VideogameAsset from '@mui/icons-material/VideogameAsset';
 import CalendarViewDay from '@mui/icons-material/CalendarViewDay';
 import ViewDay from '@mui/icons-material/ViewDay';
 import ViewHeadline from '@mui/icons-material/ViewHeadline';
+import RemoveCircleOutline from '@mui/icons-material/RemoveCircleOutline';
 import OpenWith from '@mui/icons-material/OpenWith';
 import MonetizationOn from '@mui/icons-material/MonetizationOn';
 import DragHandle from '@mui/icons-material/DragHandle';
@@ -113,6 +115,16 @@ import {
   Label,
   Close,
   Search,
+  Laptop,
+  WifiTethering,
+  SmartDisplay,
+  Accessibility,
+  ContactMail,
+  ContactPage,
+  OndemandVideo,
+  Airplay,
+  PlayCircleOutline,
+  QueuePlayNext,
   ArrowDropUp,
   ArrowRight,
   ArrowLeft,
@@ -124,6 +136,7 @@ import {
   CalendarMonth,
   ExitToApp,
   Notifications,
+  Computer,
   SettingsApplications,
   Article,
   CloudUpload,
@@ -208,6 +221,7 @@ import {
   DataObject,
   DataArray,
   Shield,
+  Tv,
 } from '@mui/icons-material';
 
 import { getValue } from '../../utils/properties';
@@ -216,12 +230,25 @@ const types = {
   app: {},
   system: {
     'add-circle-outline': AddCircleOutline,
+    'remove-circle-outline': RemoveCircleOutline,
     'add-circle': AddCircle,
     Restore,
     LockOpen,
+    PlayCircleOutline,
+    Tv,
+    QueuePlayNext,
     DragHandle,
     Description,
     DataObject,
+    Computer,
+    Laptop,
+    WifiTethering,
+    SmartDisplay,
+    Accessibility,
+    ContactMail,
+    ContactPage,
+    OndemandVideo,
+    Airplay,
     DataArray,
     AddBox,
     CreateNewFolder,
@@ -396,6 +423,7 @@ const types = {
     list: ListIcon,
     AccountTree,
     add: Add,
+    remove: Remove,
     transactions: Receipt,
     expenses: MonetizationOn,
     money: Money,
@@ -435,39 +463,21 @@ const list = () => {
     ...types.app,
   };
 };
-const Icon = ({
-  className = '',
-  img,
-  textIcon,
-  name,
-  variant = 'default',
-  color,
-  size = 'normal',
-  iconClass = '',
-  row,
-  svg,
-  onClick,
-}) => {
+const Icon = ({ className = '', img, textIcon, name, variant = 'default', color, size = 'normal', iconClass = '', row, svg, onClick }) => {
   const finalName = getValue(this, name, row);
   const finalIconClass = getValue(this, iconClass, row);
   const finalColor = getValue(this, color, row);
   const finalVariant = getValue(this, variant, row);
-  const IconToRender =
-    list()[finalName] ||
-    (textIcon ? undefined : !img ? list().NoIcon : undefined);
+  const IconToRender = list()[finalName] || (textIcon ? undefined : !img ? list().NoIcon : undefined);
   return (
     <div
-      className={`sq-icon ${finalIconClass} ${
-        !finalName && textIcon ? 'sq-icon--text-icon' : ''
-      } sq-icon--${finalVariant} ${
+      className={`sq-icon ${finalIconClass} ${!finalName && textIcon ? 'sq-icon--text-icon' : ''} sq-icon--${finalVariant} ${
         finalColor ? `sq-icon--${finalColor}` : ''
       } sq-icon--${size} ${className}`}
       data-icon-name={finalName}
       onClick={onClick}
     >
-      {!finalName && textIcon && (
-        <span className="sq-icon__text">{getValue(this, textIcon, row)}</span>
-      )}
+      {!finalName && textIcon && <span className="sq-icon__text">{getValue(this, textIcon, row)}</span>}
       {svg || (IconToRender && <IconToRender />)}
       {img && <img src={img} />}
     </div>

@@ -16,6 +16,7 @@ class ComponentEditor extends Component {
     this.state = { openSettings: false };
     this.toggleEditForm = this.toggleEditForm.bind(this);
     this.saveFormData = this.saveFormData.bind(this);
+    this.cancelChanges = this.cancelChanges.bind(this);
     this.saveFormElData = this.saveFormElData.bind(this);
     this.onComponentDrop = this.onComponentDrop.bind(this);
     this.deleteComponentByIdx = this.deleteComponentByIdx.bind(this);
@@ -32,6 +33,9 @@ class ComponentEditor extends Component {
     });
   }
 
+  cancelChanges() {
+    this.toggleEditForm();
+  }
   saveFormData(data) {
     const { onChange } = this.props;
     onChange && onChange(data);
@@ -154,6 +158,8 @@ class ComponentEditor extends Component {
               root: 'sq-dialog--fixed-right',
             },
           }}
+          backDropClick={false}
+          disableEscapeKeyDown
           onClose={this.toggleEditForm}
           title={`${component} Configuration`}
           open={this.state.openSettings}
@@ -168,6 +174,7 @@ class ComponentEditor extends Component {
                   fieldsMeta,
                 }}
                 onSubmit={this.saveFormData}
+                onCancel={this.cancelChanges}
               />
             )}
           </div>

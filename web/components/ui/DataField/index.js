@@ -44,7 +44,7 @@ const DataField = ({
       <label className="sq-data-field__label">{labelIcon && <Icon name={labelIcon} size={labelIconSize} variant={'normal'} />}{label}</label>
       <div className="sq-data-field__container">
         <div className="sq-data-field__value">
-          <RenderText {...otherProps} value={otherProps.text || newValue || defaultText} size={iconSize} {...rest} />
+          <RenderText {...otherProps} value={otherProps?.text || newValue || defaultText} size={iconSize} {...rest} />
         </div>
       </div>
     </div>

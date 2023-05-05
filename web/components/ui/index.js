@@ -6,6 +6,7 @@ import HeroContent from './HeroContent';
 import FeaturedContent from './FeaturedContent';
 import Input from './InputField';
 import FileUploader from './FileUploader';
+import ImageUploader from './ImageUploader';
 import Link from './Link';
 import Text from './Text';
 import HTML from './HTML';
@@ -49,6 +50,15 @@ import MoreContent from './MoreContent';
 import DropZoneFile from './DropZoneFile';
 import TagDropdown from './TagDropdown';
 import Default from './Default';
+import CustomButton from './CustomButton';
+import ContactUsInfo from './ContactUsInfo';
+import Team from './Team';
+import ImageBlockWithText from './ImageBlockWIthText';
+import ImageWithHeaderBody from './ImageWithHeaderBody';
+import GetInTouch from './GetInTouch';
+import UsefulLinks from './UsefulLinks';
+import Disclaimer from './Disclaimer';
+import AutoCompleteValue from './AutoCompleteValue';
 // import ColorPicker from './ColorPicker';
 
 let comps = {
@@ -98,12 +108,22 @@ let comps = {
   FieldText,
   HTML,
   FileUploader,
+  ImageUploader,
   DropZoneFile,
   BasicRTE,
   ButtonSelection,
   TagDropdown,
   IconButton,
   InputWithOptions,
+  CustomButton,
+  ContactUsInfo,
+  Team,
+  ImageBlockWithText,
+  ImageWithHeaderBody,
+  GetInTouch,
+  UsefulLinks,
+  Disclaimer,
+  AutoCompleteValue,
   // ColorPicker,
 };
 

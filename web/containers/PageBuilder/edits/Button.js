@@ -199,5 +199,15 @@ export default withEditTabs({
         },
       ],
     },
+    {
+      name: 'successAfterScript',
+      cmpType: 'Textarea',
+      label: 'successAfterScript',
+    },
+    {
+      name: 'errorAfterScript',
+      cmpType: 'Textarea',
+      label: 'errorAfterScript',
+    },
   ],
 });

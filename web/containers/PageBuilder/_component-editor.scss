@@ -1,6 +1,12 @@
 .sq-component-editor {
-  .tp-progress--active {
+  .tp-progress--full-screen .tp-progress__spinner {
+    position: absolute !important;
+  }
+  .tp-progress__overlay {
     display: none !important;
+  }
+  .tp-progress {
+    position: static !important;
   }
   position: relative;
   padding: 35px 15px;

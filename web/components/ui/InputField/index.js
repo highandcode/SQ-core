@@ -54,23 +54,25 @@ class InputField extends React.Component {
   }
 
   applyMask(value = '') {
-    const { mask = {} } = this.props;
+    const { mask = {}, userData } = this.props;
     const { type, ...rest } = mask;
     return getMasks()[type]
       ? getMasks()[type].mask(value, {
           input: this.state.focused,
-          ...rest
+          ...rest,
+          userData,
         })
       : value;
   }
 
   removeMask(value = '') {
-    const { mask = {} } = this.props;
+    const { mask = {}, userData } = this.props;
     const { type, ...rest } = mask;
     return getMasks()[type]
       ? getMasks()[type].unmask(value, {
           input: this.state.focused,
-          ...rest
+          ...rest,
+          userData,
         })
       : value;
   }
@@ -166,7 +168,6 @@ class InputField extends React.Component {
             onKeyDown={this.handleOnKeyDown}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
-           
           />
           {finalAction && <div className="sq-input-field__side-actions">{finalAction}</div>}
         </div>

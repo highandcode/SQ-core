@@ -8,6 +8,14 @@
       min-height: auto;
       min-width: auto;
     }
+    &--as-content {
+      min-height: 0;
+      min-width: 0;
+    }
+    &--standard {
+      min-height: 450px;
+      min-width: 450px;
+    }
     &--confirm {
       min-height: auto;
       padding: 10px 0 32px 0;

@@ -41,20 +41,26 @@ class MailRepository {
     }
     const fromEmail = message.from || from || this.config.email.defaultFrom;
     const _fromName = message.fromName || fromName || this.config.email.defaultFromName;
-    message.to = to;
     message.from = `${_fromName} <${fromEmail}>`;
+    message.to = to;
     if (cc) {
       message.cc = cc;
     }
     if (bcc) {
       message.bcc = bcc;
     }
+    return this.sendEmailMessage(message);
+  }
 
+  sendEmailMessage(message) {
+    const fromEmail = message.from || this.config.email.defaultFrom;
+    const _fromName = message.fromName || this.config.email.defaultFromName;
+    message.from = `${_fromName} <${fromEmail}>`;
     if (message && this.config.email.enabled) {
       return this.send(message);
     }
     if (this.config.email.loggerEnabled && this.config.email.loggerPath) {
-      const dirPath = `${this.config.email.loggerPath}/${to}`;
+      const dirPath = `${this.config.email.loggerPath}/${message.to}`;
       if (!fs.existsSync(this.config.email.loggerPath)) {
         fs.mkdirSync(this.config.email.loggerPath);
       }

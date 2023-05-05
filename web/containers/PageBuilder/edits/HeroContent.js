@@ -27,6 +27,11 @@ export default withEditTabsConfig(({ defaultParams, iconList }) => ({
       label: 'templateClassName',
     },
     {
+      name: 'imageUrl',
+      cmpType: 'InputField',
+      label: 'imageUrl',
+    },
+    {
       name: 'background',
       cmpType: 'Input',
       label: 'background',

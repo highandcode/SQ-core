@@ -97,6 +97,27 @@ module.exports = {
                 },
               ],
             },
+            {
+              title: 'Email Templates',
+              iconName: 'people',
+              href: '/content/admin/portal/emailtemplates',
+              children: [
+                {
+                  title: 'Create new',
+                  // key: 'serviceRequestSubMenu',
+                  iconName: 'AddBox',
+                  href: '/content/admin/portal/emailtemplates/new',
+                  children: [],
+                },
+                {
+                  title: 'Edit Template',
+                  // key: 'serviceRequestSubMenu',
+                  hideInMenu: true,
+                  href: '/content/admin/portal/emailtemplates/edit',
+                  children: [],
+                },
+              ],
+            },
           ],
         },
       ],

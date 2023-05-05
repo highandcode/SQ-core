@@ -57,11 +57,22 @@
   &__loading-data {
     padding-top: 20px;
   }
+  &__switch-views {
+    display: flex;
+    justify-content: flex-start;
+  }
+  &__pagination-view {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+  }
   &__top-bar {
     margin-bottom: 3px;
     display: flex;
     padding: 0 3px;
     justify-content: flex-end;
+    align-items: flex-end;
+    gap: 15px;
     width: 100%;
   }
   &__header-row {
@@ -75,6 +86,7 @@
       font-size: 10px;
       text-transform: uppercase;
       overflow: hidden;
+      @include text-ellipsis($lines: 1);
       &--spacer {
         flex-basis: 20px !important;
         min-width: 20px !important;
@@ -97,9 +109,6 @@
       }
       &-text {
         width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
       }
       &.sort-enable {
         .sq-grid__header-row-cell-wrapper {
@@ -267,6 +276,18 @@
     }
   }
 
+  
+
+  &--view-default {
+    &.sq-grid {
+      .sq-grid__data-cell {
+        .sq-text {
+          display: block;
+          @include text-ellipsis($lines: 2);
+        }
+      }
+    }
+  }
   &--view-compact {
     &.sq-grid {
       .sq-grid__data-row {
@@ -278,21 +299,22 @@
       .sq-grid__data-cell {
         padding: 0 4px !important;
         .sq-text {
-          white-space: nowrap!important;
-          overflow: hidden!important;
-          text-overflow: ellipsis!important;
+          display: block;
+          @include text-ellipsis($lines: 1);
         }
       }
     }
   }
   &--view-comfort {
     &.sq-grid {
-      
       .sq-grid__data-row {
         min-height: 80px !important;
       }
       .sq-grid__data-cell {
         padding: 8px 20px !important;
+        .sq-text {
+          @include text-ellipsis($lines: 3);
+        }
       }
     }
   }
@@ -338,11 +360,6 @@
       flex-grow: 0;
       justify-content: flex-start;
       overflow: hidden;
-      .sq-text {
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-      }
     }
     .col-small {
       flex-basis: 100px;

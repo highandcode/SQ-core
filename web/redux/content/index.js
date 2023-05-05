@@ -270,7 +270,7 @@ export const initApplication = (data) => async (dispatch) => {
       })
     );
   }
-
+  events.emit('application.config.onLoad', data);
   return response;
 };
 
@@ -485,10 +485,16 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
     if (payload?.finally?.successAction) {
       events.emit('dynammicContent.onAction', {}, payload?.finally?.successAction, {});
     }
+    if (payload.successAfterScript) {
+      utils.browser.scriptManager.insertDynamicScript(payload.successAfterScript, 'body')
+    }
   } else if (response.status === 'error') {
     await dispatch(updateErrorData(response.error));
     if (payload.action?.finally?.errorAction) {
       events.emit('dynammicContent.onAction', {}, payload?.finally?.errorAction, {});
+    }
+    if (payload.errorAfterScript) {
+      utils.browser.scriptManager.insertDynamicScript(payload.errorAfterScript, 'body')
     }
   }
   if (payload.runInit) {
@@ -505,6 +511,7 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
 };
 
 export const uploadApi = (payload, pageResponse) => async (dispatch, getState) => {
+  console.log(payload);
   if (payload.match) {
     const validator = new Validator(payload.match);
     validator.setValues(selectUserData(getState()));
@@ -541,7 +548,7 @@ export const uploadApi = (payload, pageResponse) => async (dispatch, getState) =
     payload.data.files.forEach((file) => {
       formData.append('file', file);
     });
-    response = await utils.apiBridge.rawPost(paramToProcess.url, formData, processParams(getState().content.userData, payload.headers, undefined, getState()), { fileName: payload.data.files.map((i)=>i.name), ...processParams(getState().content.userData, payload.params, undefined, getState()) });
+    response = await utils.apiBridge.rawPost(paramToProcess.url, formData, processParams(getState().content.userData, payload.headers, undefined, getState()), { fileName: (payload.data.fileNames || payload.data.files).map((i)=>i.name), ...processParams(getState().content.userData, payload.params, undefined, getState()) });
   }
 
   if (payload.postHook) {
@@ -815,6 +822,13 @@ const content = createSlice({
         ...getSystem(),
       };
     },
+    clearWithFilter: (state, action) => {
+      let data = {};
+      state.userData = {
+        ...state.protectedData,
+        ...getSystem(),
+      };
+    },
     updateUserData: (state, action) => {
       state.userData = {
         ...state.userData,
@@ -857,6 +871,12 @@ export const resetUserData = (payload) => (dispatch, getState) => {
     case 'clearAll':
       dispatch(content.actions.clearAllUserData());
       break;
+    case 'keys':
+      dispatch(content.actions.clearWithFilter({ keys: payload.keys }));
+      break;
+    case 'except':
+      dispatch(content.actions.clearWithFilter({ except: payload.except }));
+      break;
   }
 };
 
@@ -864,6 +884,7 @@ export const {
   updateProtectedUserData,
   updateUserData,
   clearAllUserData,
+  clearWithFilter,
   updateMetaData,
 } = content.actions;
 export { customHooks };

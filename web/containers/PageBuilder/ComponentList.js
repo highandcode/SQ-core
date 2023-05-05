@@ -1,3 +1,4 @@
+import React from 'react';
 import { useDrag } from 'react-dnd';
 import _ from 'lodash';
 import { ItemTypes } from './ItemTypes.js';
@@ -39,6 +40,7 @@ export const ComponentList = ({ onDrop, compList = {}, filter }) => {
           ...compList[key],
         };
       })
+      .sort((a, b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
       .filter((item) => {
         if (filter) {
           return filter.indexOf(item.group) > -1;
@@ -49,7 +51,7 @@ export const ComponentList = ({ onDrop, compList = {}, filter }) => {
   );
   return (
     <div className="sq-component-list">
-      {Object.keys(grouped).map((group, idx) => {
+      {Object.keys(grouped).sort((a,b)=> a > b ? 1 : a < b ? -1 : 0).map((group, idx) => {
         return (
           <div className="sq-component-list__group-wrapper" key={group}>
             <div className="sq-component-list__group">{group}</div>

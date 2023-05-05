@@ -9,9 +9,11 @@
     width: 250px;
     padding-right: 16px;
     overflow: auto;
+    flex-shrink: 0;
   }
   &__right {
     flex-grow: 1;
+    width: 100%;
   }
 }
 

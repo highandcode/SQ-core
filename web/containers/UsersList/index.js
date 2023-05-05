@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getMap } from '../../components/ui';
+import { ui } from '../../index';
 import * as utils from '../../utils';
 import BaseContainer from '../BaseContainer';
 import { GLOBAL_OPTIONS } from '../../globals';
@@ -21,7 +21,7 @@ const { translate } = utils.translate;
 const { DateTime } = utils.datetime;
 const defaultPageSize = GLOBAL_OPTIONS.noOfResultsDropdown.toArray()[0]?.value;
 
-class Users extends BaseContainer {
+class Users extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -347,8 +347,7 @@ class Users extends BaseContainer {
     const createUserPerm = hasPermission('createUser', store);
     const editUserPerm = hasPermission('editUser', store);
     const deleteUserPerm = hasPermission('deleteUser', store);
-    const { Grid, Tabs, Form, Pagination, Link, Dialog, Actions, Skeleton } =
-      getMap();
+    const { Grid, Tabs, Form, Pagination, Dialog, Actions, Skeleton } = ui.getMap();
     const { fieldMapping = {} } = pageData;
     // console.log('@@@@userstore', store);
     return (
