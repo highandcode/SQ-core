@@ -58,6 +58,7 @@ import ImageWithHeaderBody from './ImageWithHeaderBody';
 import GetInTouch from './GetInTouch';
 import UsefulLinks from './UsefulLinks';
 import Disclaimer from './Disclaimer';
+import AutoCompleteValue from './AutoCompleteValue';
 // import ColorPicker from './ColorPicker';
 
 let comps = {
@@ -122,6 +123,7 @@ let comps = {
   GetInTouch,
   UsefulLinks,
   Disclaimer,
+  AutoCompleteValue,
   // ColorPicker,
 };
 

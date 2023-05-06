@@ -172,22 +172,30 @@ class PageBuilder extends Component {
     );
     !autoSave && this.props.commonActions.stopLoading();
   }
-  componentOnDrop(item) {
+  componentOnDrop(item, e, idx) {
+    let newItems = [
+      ...(this.state.contentData.pageData.items || []),
+      {
+        component: item.name,
+        name:
+          item.name.toLowerCase() +
+          (this.state.contentData.pageData.items?.length || 1),
+        ...item.metaData.sampleData,
+      },
+    ];
+    const dragIndex = newItems.length - 1;
+    console.log(item, idx, newItems);
     this.setState({
       contentData: {
         ...this.state.contentData,
         pageData: {
           ...this.state.contentData.pageData,
-          items: [
-            ...(this.state.contentData.pageData.items || []),
-            {
-              component: item.name,
-              name:
-                item.name.toLowerCase() +
-                (this.state.contentData.pageData.items?.length || 1),
-              ...item.metaData.sampleData,
-            },
-          ],
+          items: idx !== undefined ? update(newItems, {
+            $splice: [
+              [dragIndex, 1],
+              [idx, 0, newItems[dragIndex]],
+            ],
+          }) : newItems,
         },
       },
     });
@@ -371,6 +379,7 @@ class PageBuilder extends Component {
             {!utils.queryString.query.get().path && <Button
               iconName={'Save'}
               variant="outlined"
+              disabled={!pageData.createPopupScreen}
               buttonText="Save"
               onClick={() => this.savePageAsNew()}
             />}

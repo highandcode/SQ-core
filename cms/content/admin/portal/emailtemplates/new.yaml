@@ -55,8 +55,10 @@ items:
                   - type: required
                   - type: email
               - name: emailCc
+                cmpType: AutoCompleteValue
                 label: CC
-              - name: emailBCc
+              - name: emailBcc
+                cmpType: AutoCompleteValue
                 label: BCC
             
               - cmpType: ButtonSelection

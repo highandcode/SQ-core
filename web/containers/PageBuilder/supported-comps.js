@@ -2,6 +2,7 @@ import Form from '../../components/Form';
 import Progress from '../../components/Progress';
 import LaunchTimer from '../../components/LaunchTimer';
 import Wrapper from '../../components/Wrapper';
+import ImageWithSpotlight from '../../components/ImageWithSpotlight';
 import TextColumnWithLinks from '../../components/ui/TextColumnWithLinks';
 import { getMap } from '../../components/ui';
 import { ItemTypes } from './ItemTypes';
@@ -10,6 +11,7 @@ import HeaderEdit from './edits/Header';
 import HeroContentEdit from './edits/HeroContent';
 import LaunchTimerEdit from './edits/LaunchTimer';
 import ContactUsInfoEdit from './edits/ContactUsInfo';
+import ImageWithSpotlightEdit from './edits/ImageWithSpotlight';
 import ImageBlockWithTextEdit from './edits/ImageBlockWithText';
 import ImageWithHeaderBodyEdit from './edits/ImageWithHeaderBody';
 import TeamEdit from './edits/Team';
@@ -361,6 +363,21 @@ const compList = {
       bodyClassName: 'row',
     },
   },
+  'Center-Layout': {
+    Component: Wrapper,
+    name: 'Wrapper',
+    group: 'Layout',
+    accept: [ItemTypes.COMPONENT, ItemTypes.FORM],
+    hasPlaceholder: true,
+    compTypeProp: 'component',
+    editData: WrapperEdit,
+    itemsPropName: 'items',
+    hasItems: true,
+    sampleData: {
+      bodyClassName: 'text-center',
+      bodyContainerClassName: '',
+    },
+  },
   '2-ColumnLayout': {
     Component: Wrapper,
     name: 'Wrapper',
@@ -423,7 +440,7 @@ const compList = {
         {
           component: 'Wrapper',
           bodyContainerClassName: '',
-          name: 'wrapper2',
+          name: 'wrapper3',
           bodyClassName: '',
           className: 'col-xs-12 col-md-4',
         },
@@ -459,8 +476,8 @@ const compList = {
     group: 'Content',
     Component: getMap().HeroContent,
     sampleData: {
-      header: 'Hero header',
-      subHeader: 'sub header goes here',
+      header: 'Awesome header content',
+      subHeader: 'Reprehenderit laborum in ut enim Lorem minim ea ex dolore eiusmod id consequat pariatur amet. Id Lorem id et elit.',
     },
     editData: HeroContentEdit,
   },
@@ -495,7 +512,7 @@ const compList = {
     group: 'Content',
     Component: getMap().Disclaimer,
     sampleData: {
-      text: 'Reprehenderit minim non id dolor fugiat amet. Esse ea aliquip eu ex duis id et reprehenderit sint non elit cillum fugiat. Quis cupidatat adipisicing magna tempor occaecat minim. Culpa duis deserunt laboris ad voluptate laboris est laboris duis nostrud. Mollit incididunt esse Lorem pariatur dolor nulla ea aute sit sunt occaecat.'
+      text: 'Reprehenderit minim non id dolor fugiat amet. Esse ea aliquip eu ex duis id et reprehenderit sint non elit cillum fugiat. Quis cupidatat adipisicing magna tempor occaecat minim. Culpa duis deserunt laboris ad voluptate laboris est laboris duis nostrud. Mollit incididunt esse Lorem pariatur dolor nulla ea aute sit sunt occaecat.',
     },
     editData: DisclaimerEdit,
   },
@@ -503,21 +520,22 @@ const compList = {
     group: 'Content',
     Component: getMap().FeaturedContent,
     sampleData: {
+      className: 'text-center',
       items: [
         {
           icon: 'call',
-          title: 'Header 1',
-          description: 'Sub header 1',
+          title: 'ALL BRANDS',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
         },
         {
-          icon: 'location',
-          title: 'Header 2',
-          description: 'Sub header 2',
+          icon: 'message',
+          title: 'FREE SUPPORT',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
         },
         {
-          icon: 'home',
-          title: 'Header 3',
-          description: 'Sub header 3',
+          icon: 'creditcard',
+          title: 'AFFORDABLE',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
         },
       ],
     },
@@ -531,7 +549,7 @@ const compList = {
         {
           iconName: 'call',
           header: 'Header 1',
-          subHeader: 'Sub header 1',
+          subHeader: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
         },
         {
           iconName: 'location',
@@ -555,16 +573,16 @@ const compList = {
         {
           iconName: 'call',
           iconColor: 'error',
-          header: 'Call',
-          subHeader: '+12 21299222',
+          header: 'Call us',
+          subHeader: '+91 21292 19222',
           iconSize: 'xxl',
         },
         {
           iconName: 'email-outline',
           iconColor: 'error',
           iconSize: 'xxl',
-          header: 'Mail',
-          subHeader: 'info@s.com',
+          header: 'Mail us',
+          subHeader: 'info@example.com',
         },
         {
           iconName: 'share',
@@ -575,8 +593,13 @@ const compList = {
           links: [
             {
               iconName: 'facebook',
-              to: 'http://link.com',
+              to: 'http://example.com',
               iconColor: 'info',
+            },
+            {
+              iconName: 'instagram',
+              to: 'http://insta.com',
+              iconColor: 'red',
             },
           ],
         },
@@ -592,17 +615,17 @@ const compList = {
       header: 'Get in touch',
       info: [
         {
-          iconName: 'ap-message',
-          text: 'email@danielscorp.com',
-          href: 'mailto:email@danielscorp.com',
+          iconName: 'message',
+          text: 'email@example.com',
+          href: 'mailto:email@example.com',
         },
         {
-          iconName: 'ap-phone-call',
+          iconName: 'call',
           href: 'call:101111111',
           text: '101.111.111',
         },
         {
-          iconName: 'ap-entertainment',
+          iconName: 'Computer',
           text: 'www.domain.com',
           href: 'www.domain.com',
           target: '_blank',
@@ -661,10 +684,39 @@ const compList = {
     },
     editData: ImageWithHeaderBodyEdit,
   },
+  ImageWithSpotlight: {
+    group: 'Content',
+    Component: ImageWithSpotlight,
+    sampleData: {
+      header: 'Grow with us',
+      bgImageUrl: 'https://img.freepik.com/free-photo/new-york-city-central-park-panorama_649448-89.jpg?w=2000&t=st=1683292030~exp=1683292630~hmac=b87b9d4a48fea6a2b3ed84f236b7f9213fc24948ed32023d554ff3e9c31d4315',
+      actions: [
+        {
+          buttonText: 'Blogs',
+          iconName: 'list',
+          color: 'success',
+        },
+        {
+          buttonText: 'Contact us',
+          color: 'warning',
+          iconName: 'call',
+        },
+        {
+          buttonText: 'Support',
+          iconName: 'person',
+          color: 'error',
+
+        },
+      ],
+    },
+    editData: ImageWithSpotlightEdit,
+  },
   HTML: {
     group: 'Content',
     Component: getMap().HTML,
-    sampleData: {},
+    sampleData: {
+      html: '<p>Here pu<span style="background-color: rgb(236, 202, 250);">t your ht</span>ml</p>',
+    },
     editData: HTMLEdit,
   },
 };

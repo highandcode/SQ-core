@@ -13,7 +13,7 @@ import Actions from '../../components/Actions';
 class ComponentEditor extends Component {
   constructor() {
     super();
-    this.state = { openSettings: false };
+    this.state = { openSettings: false, active: false };
     this.toggleEditForm = this.toggleEditForm.bind(this);
     this.saveFormData = this.saveFormData.bind(this);
     this.cancelChanges = this.cancelChanges.bind(this);
@@ -68,21 +68,50 @@ class ComponentEditor extends Component {
     onDelete && onDelete();
   }
 
-  onComponentDrop(dataComp) {
+  getName(name, items) {
+    let idx = 1;
+    let loop = 0;
+    let fname = name.toLowerCase();
+    while (items && loop < items.length) {
+      if (items.filter((i) => i.name === `${fname}${idx}`).length > 0) {
+        idx++;
+      } else {
+        break;
+      }
+    }
+    return `${fname}${idx}`;
+  }
+
+  onComponentDrop(dataComp, evt, idx) {
     const { metaData, ...data } = dataComp;
     const { onChange, itemsPropName, compTypeProp, value } = this.props;
-    const finalData = {
-      ...value,
-      [itemsPropName]: [
-        ...((value && value[itemsPropName]) || []),
-        {
-          [compTypeProp]: data.name,
-          ...metaData.sampleData,
-          ...data,
-          name: `${value.name}${value.name ? '_' : ''}${data.name?.toLowerCase()}_${value[itemsPropName]?.length + 1 || 1}`,
-        },
-      ],
-    };
+    let finalData;
+    if (idx !== undefined) {
+      const itemArra = [...((value && value[itemsPropName]) || [])];
+      itemArra.splice(idx, 0, {
+        [compTypeProp]: data.name,
+        ...metaData.sampleData,
+        ...data,
+        name: this.getName(data.name, value[itemsPropName]), // `${value.name}${value.name ? '_' : ''}${data.name?.toLowerCase()}_${value[itemsPropName]?.length + 1 || 1}`,
+      });
+      finalData = {
+        ...value,
+        [itemsPropName]: itemArra,
+      };
+    } else {
+      finalData = {
+        ...value,
+        [itemsPropName]: [
+          ...((value && value[itemsPropName]) || []),
+          {
+            [compTypeProp]: data.name,
+            ...metaData.sampleData,
+            ...data,
+            name: this.getName(data.name, value[itemsPropName]), //`${value.name}${value.name ? '_' : ''}${data.name?.toLowerCase()}_${value[itemsPropName]?.length + 1 || 1}`,
+          },
+        ],
+      };
+    }
 
     onChange && onChange(finalData);
   }
@@ -127,15 +156,29 @@ class ComponentEditor extends Component {
     };
     onChange && onChange(finalData);
   }
+  // TODO:
+  // onMouseEnter(e) {
+  //   e.stopPropagation();
+  //   e.preventDefault();
+  //   this.setState({ active: true });
+  // }
+  // onMouseLeave(e) {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   this.setState({ active: false });
+  // }
 
   render() {
-    const { pageData = {}, Component, fieldsMeta, itemsPropName, name, isStart, isEnd, value, compTypeProp, component, editData } = this.props;
+    const { pageData = {}, Component, fieldsMeta, idx, itemsPropName, name, isStart, isEnd, value, compTypeProp, component, editData } = this.props;
     const { hasItems } = this.props;
     const { [itemsPropName]: items } = value || {};
     const { className = '' } = pageData;
     const { hasPlaceholder, accept, compList, defaultComp } = this.props;
+    const identifier = `${component}${value.className ? `.${value.className}` : ''}${value.name ? `#${value.name}` : ''}`;
     return (
-      <div className={`sq-component-editor ${className} ${value.className || ''}`}>
+      <div
+        className={`sq-component-editor ${className} ${this.state.active ? 'active' : ''} ${value.className || ''}`}
+      >
         <Dialog
           classes={{
             dialog: {
@@ -163,7 +206,7 @@ class ComponentEditor extends Component {
             )}
           </div>
         </Dialog>
-        <Tooltip title={`${component}${value.className ? `.${value.className}` : ''}${value.name ? `#${value.name}` : ''}`}>
+        <Tooltip title={identifier}>
           <div className="sq-component-editor__name">
             {component}
             {value.name ? `#${value.name}` : ''}
@@ -206,9 +249,21 @@ class ComponentEditor extends Component {
                 const { [compTypeProp]: cmpType, ...restItem } = item;
                 return (
                   <ErrorBoundary key={idx}>
+                    {hasPlaceholder && (
+                      <Placeholder
+                        xhoverText={identifier}
+                        plaecHolderStyle="line"
+                        name={value.name}
+                        component={component}
+                        accept={accept}
+                        onDrop={(d, evt) => this.onComponentDrop(d, evt, idx)}
+                      />
+                    )}
                     <ComponentEditor
+                      idx={idx}
                       parentName={item.name}
                       fieldsMeta={fieldsMeta}
+                      accept={accept}
                       component={item[compTypeProp] || defaultComp}
                       isStart={idx === 0}
                       isEnd={idx === items.length - 1}
@@ -227,7 +282,9 @@ class ComponentEditor extends Component {
               })}
           </ErrorBoundary>
         </div>
-        {hasPlaceholder && <Placeholder name={value.name} component={component} accept={accept} onDrop={this.onComponentDrop} />}
+        {hasPlaceholder && (
+          <Placeholder hoverText={identifier} plaecHolderStyle={(!items || items?.length === 0) ? undefined : 'line'} name={value.name} component={component} accept={accept} onDrop={this.onComponentDrop} />
+        )}
       </div>
     );
   }

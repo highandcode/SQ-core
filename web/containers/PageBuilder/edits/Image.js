@@ -2,6 +2,7 @@ import { GLOBAL_OPTIONS } from '../../../globals';
 import { withEditTabsConfig } from './Common';
 
 export default withEditTabsConfig(({ defaultParams }) => ({
+  classNames: GLOBAL_OPTIONS.imageStyles.toArray(),
   enableValidations: false,
   pageData: {
     items: [],

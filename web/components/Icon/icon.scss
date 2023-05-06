@@ -42,6 +42,17 @@
       color: $sq-color-primary;
     }
   }
+  &--bg-big {
+    background-color: $sq-color-gray-lightest;
+    border-radius: 50%;
+    padding: 25px;
+    align-items: center;
+    justify-content: center;
+    box-sizing: content-box;
+    &.sq-icon--text-icon .sq-icon__text {
+      color: $sq-color-primary;
+    }
+  }
   &--outline-icon {
     border:solid 1px currentColor;
     border-radius: 50%;

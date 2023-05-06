@@ -6,6 +6,7 @@
   &-default {
     display: flex;
     flex-wrap: wrap;
+
     @media (min-width: $screen-sm) {
       flex-wrap: nowrap;
     }
@@ -19,8 +20,23 @@
       &__icon {
         margin-bottom: $spacing-x2;
       }
+      &__title {
+        @include t5-style();
+        margin-bottom: 16px;
+      }
+      &__line {
+        border-top: solid 5px  $sq-color-primary;
+        width: 40px;
+        margin: 0 auto 16px auto;
+      }
       &__links {
         margin-top: $spacing-x2;
+      }
+      &:hover {
+        .sq-fc-default-item__icon .sq-icon {
+          background-color: $sq-color-primary;
+          color: white;
+        }
       }
     }
   }

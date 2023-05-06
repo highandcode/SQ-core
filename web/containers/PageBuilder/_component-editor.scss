@@ -1,17 +1,23 @@
 .sq-component-editor {
-  .tp-progress--active {
+
+  .tp-progress--full-screen .tp-progress__spinner {
+    position: absolute !important;
+  }
+  .tp-progress__overlay {
     display: none !important;
   }
-  position: relative;
-  padding: 35px 15px;
-  @media (min-width: $screen-lg) {
-    padding: 35px ;
+  .tp-progress {
+    position: static !important;
   }
-  border: 2px dashed transparent;
+  position: relative;
+  padding: 38px 15px;
+  @media (min-width: $screen-lg) {
+    padding: 38px;
+  }
+  border: 1px dashed transparent;
   background-color: white;
   &:hover {
-    border: 2px dashed $sq-color-slate-light;
-    background-color: $sq-color-extra1-lightest;
+    border: 1px solid $sq-color-primary-light;
     > .sq-component-editor__actions {
       visibility: visible;
     }
@@ -22,29 +28,36 @@
       display: block;
     }
   }
+  // &.hover {
+  //   border: 1px solid $sq-color-primary-lighter;
+  // }
   &__name-text {
     // @include t6-style();
   }
   &__actions {
     position: absolute;
-    top: -16px;
+    top: -36px;
     right: 8px;
     padding: 4px;
     background-color: white;
     z-index: $z-index-level-1;
-    border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     visibility: hidden;
     display: flex;
-    box-shadow: 2px 2px 5px #e2e2e2;
+    border: solid 1px $sq-color-primary-lighter;
+    // box-shadow: 2px 2px 5px #e2e2e2;
   }
   &__name {
     background-color: $white;
-    top: -8px;
+    top: 2px;
     color: $sq-color-slate-light;
+    @include b7-style();
     position: absolute;
     border-radius: 5px;
     padding: 2px 8px;
-    left: 0;
+    max-width: 50%;
+    left: 2px;
     display: none;
     text-overflow: ellipsis;
     max-width: 300px;

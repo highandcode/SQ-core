@@ -19,8 +19,8 @@ init:
     fromName: .result.fromName
     name: .result.name
     from: .result.from
-    emailCC: .result.emailCC
-    emailBCC: .result.emailBCC
+    emailCc: .result.emailCc
+    emailBcc: .result.emailBcc
     status: .result.status
   email:
     subject: .result.subject
@@ -53,9 +53,8 @@ items:
             className: add-new-user mt-wide 
             fields:
               - name: name
+                cmpType: DataField
                 label: Template Name
-                validators:
-                  - type: required
               - name: fromName
                 label: From Name
                 validators:
@@ -66,8 +65,10 @@ items:
                   - type: required
                   - type: email
               - name: emailCc
+                cmpType: AutoCompleteValue
                 label: CC
-              - name: emailBCc
+              - name: emailBcc
+                cmpType: AutoCompleteValue
                 label: BCC
             
               - cmpType: ButtonSelection
@@ -77,6 +78,10 @@ items:
                   options: drop_options.emailStatus
                 validators:
                   - type: required
+              - cmpType: Alert
+                type: info
+                className: mb-wide
+                message: Save template before sending test email
       - component: Wrapper
         className: col-xs-12 col-md-8 order-1 order-md-2
         items:
@@ -114,13 +119,11 @@ items:
     rootErrorKey: template
     defaultResponse:
       success:
-        data:
-          redirect: emailTemplatelList
         notification:
-          message: Email Template created successfully
+          message: Email Template saved successfully
       error:
         notification:
-          message: Email Template creation failed
+          message: Email Template save failed
           type: error
           
     params:
