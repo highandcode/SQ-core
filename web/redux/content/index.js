@@ -332,7 +332,6 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
   let finalObj = {};
   if (payload.defaultResponse && payload.defaultResponse[response.status]) {
     if (Array.isArray(payload.defaultResponse[response.status])) {
-      console.log(payload.defaultResponse)
       let isValid = false;
       payload.defaultResponse[response.status].forEach((item) => {
         if (item.match && !isValid) {
