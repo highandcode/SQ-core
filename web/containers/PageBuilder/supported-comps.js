@@ -440,7 +440,7 @@ const compList = {
         {
           component: 'Wrapper',
           bodyContainerClassName: '',
-          name: 'wrapper2',
+          name: 'wrapper3',
           bodyClassName: '',
           className: 'col-xs-12 col-md-4',
         },
