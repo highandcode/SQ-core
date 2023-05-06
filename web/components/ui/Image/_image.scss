@@ -1,5 +1,7 @@
 .sq-image {
   width: 100%;
+  min-width: 42px;
+  min-height: 42px;
   position: relative;
   display: inline-block;
   align-items: center;
@@ -16,6 +18,9 @@
   }
   &--auto-full {
     height: 100%;
+  }
+  &--inline-auto {
+    width: auto;
   }
   &__no-image {
     position: absolute;
