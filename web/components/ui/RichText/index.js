@@ -68,6 +68,10 @@ class RichTextField extends React.Component {
       });
   }
 
+  componentWillUnmount() {
+    this.editor &&  this.editor.remove();
+  }
+
   componentDidMount() {
     const { onInit, onSetup } = this.props;
     if (this.props.value) {
