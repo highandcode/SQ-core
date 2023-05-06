@@ -379,7 +379,19 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
       );
     }
     if (payload?.finally?.successAction) {
-      events.emit('dynammicContent.onAction', {}, payload?.finally?.successAction, {});
+      if (Array.isArray(payload?.finally?.successAction)) {
+        payload?.finally?.successAction.forEach((actionItem) => {
+          let isValid = true;
+          if (actionItem.match) {
+            const vldtr = new Validator(actionItem.match);
+            vldtr.setValues(getState().content.userData)
+            isValid = vldtr.validateAll();
+          }
+          isValid && events.emit('dynammicContent.onAction', {}, actionItem, {});
+        })
+      } else {
+        events.emit('dynammicContent.onAction', {}, payload?.finally?.successAction, {});
+      }
     }
     if (payload.successAfterScript) {
       utils.browser.scriptManager.insertDynamicScript(payload.successAfterScript, 'body');
@@ -387,7 +399,19 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
   } else if (response.status === 'error') {
     await dispatch(updateErrorData(response.error));
     if (payload.action?.finally?.errorAction) {
-      events.emit('dynammicContent.onAction', {}, payload?.finally?.errorAction, {});
+      if (Array.isArray(payload.action.finally.errorAction)) {
+        payload?.finally?.errorAction.forEach((actionItem) => {
+          let isValid = true;
+          if (actionItem.match) {
+            const vldtr = new Validator(actionItem.match);
+            vldtr.setValues(getState().content.userData);
+            isValid = vldtr.validateAll();
+          }
+          isValid && events.emit('dynammicContent.onAction', {}, actionItem, {});
+        });
+      } else {
+        events.emit('dynammicContent.onAction', {}, payload?.finally?.errorAction, {});
+      }
     }
     if (payload.errorAfterScript) {
       utils.browser.scriptManager.insertDynamicScript(payload.errorAfterScript, 'body');
