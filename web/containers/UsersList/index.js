@@ -93,10 +93,12 @@ class Users extends React.Component {
       });
     }
     await this.refreshUsers({ filter: { isActive: true } });
-    await this.props.userActions.loadRoles(
-      { userType: 'INTERNAL' },
-      pageData?.apiConfig?.getRoles
-    );
+    if (pageData?.apiConfig?.getRoles) {
+      await this.props.userActions.loadRoles(
+        { userType: 'INTERNAL' },
+        pageData?.apiConfig?.getRoles
+      );
+    }
   }
 
   async refreshUsers({ pageNo, pageSize, sort, filter, source } = {}) {

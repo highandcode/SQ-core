@@ -8,6 +8,7 @@ import Input from './InputField';
 import FileUploader from './FileUploader';
 import ImageUploader from './ImageUploader';
 import Link from './Link';
+import Pricing from './Pricing';
 import Text from './Text';
 import HTML from './HTML';
 import FieldText from './FieldText';
@@ -124,6 +125,7 @@ let comps = {
   UsefulLinks,
   Disclaimer,
   AutoCompleteValue,
+  Pricing,
   // ColorPicker,
 };
 

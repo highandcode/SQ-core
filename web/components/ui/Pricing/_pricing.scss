@@ -1,10 +1,10 @@
 .sq-pricing {
   padding: 58px 0;
   &__plan {
-    background-color:$sq-color-gray-lighter;
     padding: 20px;
     border-radius: 5px;
     color: $sq-color-primary-darker;
+    box-shadow: 2px 10px 10px $sq-color-muted-light;
   }
   &__featues-list {
     list-style-type: none;
@@ -18,17 +18,29 @@
     padding: 20px;
   }
   &__feature-item {
-    padding: 0px 0;
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    .sq-icon {
+      flex-basis: 32px;
+      flex-shrink: 0;
+    }
     &-text {
       margin-left: 10px;
     }
   }
   &__actions {
     margin-bottom: 50px;
-    color:$sq-color-gray-lightest;
+    color: $sq-color-gray-lightest;
   }
   &--default {
-    padding: 0 50px;
+    padding: 0;
+    .sq-pricing__plan-header {
+      background-color: $sq-color-primary-darker;
+      padding: 20px;
+      margin-left: -40px;
+      color: white;
+    }
     .sq-pricing__header {
       text-align: center;
     }

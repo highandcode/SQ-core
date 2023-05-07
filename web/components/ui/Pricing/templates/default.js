@@ -8,16 +8,16 @@ const renderPricingPlan = (data, onAnalytics) => {
   const { LinkButton } = getMap();
   return (
     <div className="sq-pricing__plan">
-      <div className="sq-pricing__icon">{<Icon name={data.icon} color={data.iconVarant} variant="outline-icon" />}</div>
-      <h2>{data.header}</h2>
-      <h3>{data.price}</h3>
+      <div className="sq-pricing__icon">{<Icon name={data.icon} color={data.iconVarant} variant="bg-big" />}</div>
+      <h2 className='sq-pricing__plan-header'>{data.header}</h2>
+      <h3 className='sq-pricing__plan-price'>{data.price}</h3>
       <ul className="sq-pricing__featues-list">
         {data.features &&
           data.features.map((dataItem, idx) => {
             return (
               <>
                 <div key={idx} className={`sq-pricing__feature-item ${dataItem.className}`}>
-                  <Icon name={dataItem.icon} variant="none" />
+                  <Icon name={dataItem.icon} size='small' variant={dataItem.iconColor || 'none'} />
                   <span className="sq-pricing__feature-item-text">{dataItem.text}</span>
                 </div>
               </>
@@ -48,7 +48,7 @@ const TemplateDefault = ({ eyebrow, icon, header, headerTag = 'h1', bodyTag = 'p
         {icon && <Icon name={icon} />}
         {eyebrow && <div className={`sq-pricing__eyebrow`}>{ReactHtmlParser(eyebrow)}</div>}
         {header && <HTag className={`sq-pricing__header`}>{ReactHtmlParser(header)}</HTag>}
-        {subHeader && <BTag className={`sq-pricing__sub-header`}>{ReactHtmlParser(subHeader)}</BTag>}
+        {subHeader && <BTag className={`sq-pricing__sub-header mb-wide`}>{ReactHtmlParser(subHeader)}</BTag>}
         {items && (
           <div className="container-fluid sq-pricing__links-container">
             <div className="row">

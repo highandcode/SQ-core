@@ -3,6 +3,7 @@ import Progress from '../../components/Progress';
 import LaunchTimer from '../../components/LaunchTimer';
 import Wrapper from '../../components/Wrapper';
 import ImageWithSpotlight from '../../components/ImageWithSpotlight';
+// import Pricing from '../../components/ui/Pricing';
 import TextColumnWithLinks from '../../components/ui/TextColumnWithLinks';
 import { getMap } from '../../components/ui';
 import { ItemTypes } from './ItemTypes';
@@ -10,6 +11,7 @@ import { ItemTypes } from './ItemTypes';
 import HeaderEdit from './edits/Header';
 import HeroContentEdit from './edits/HeroContent';
 import LaunchTimerEdit from './edits/LaunchTimer';
+import PricingEdit from './edits/Pricing';
 import ContactUsInfoEdit from './edits/ContactUsInfo';
 import ImageWithSpotlightEdit from './edits/ImageWithSpotlight';
 import ImageBlockWithTextEdit from './edits/ImageBlockWithText';
@@ -481,6 +483,107 @@ const compList = {
     },
     editData: HeroContentEdit,
   },
+  Pricing: {
+    group: 'Content',
+    Component: getMap().Pricing,
+    sampleData: {
+      header: 'Pricing Plan',
+      subHeader: 'Choose your own plan',
+      items: [
+        {
+          header: 'Basic',
+          price: 'USD $25',
+          features: [
+            {
+              icon: 'CheckCircleOutline',
+              text: 'Ut pariatur',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'aliqua commodo elit mollit ullamco. ',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'Eiusmod ut dolor reprehenderit reprehenderit',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: ' tempor mollit et deserunt labore. Occaecat ',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'elit ea consectetur minim do officia',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'qui cillum minim veniam ea nostrud irure sit',
+            },
+          ],
+        },
+        {
+          header: 'Professional',
+          price: 'USD $50',
+          features: [
+            {
+              icon: 'CheckCircleOutline',
+              text: 'Ut pariatur',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'aliqua commodo elit mollit ullamco. ',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'Eiusmod ut dolor reprehenderit reprehenderit',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: ' tempor mollit et deserunt labore. Occaecat ',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'elit ea consectetur minim do officia',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'qui cillum minim veniam ea nostrud irure sit',
+            },
+          ],
+        },
+        {
+          header: 'Enterprise',
+          price: 'USD $599',
+          features: [
+            {
+              icon: 'CheckCircleOutline',
+              text: 'Ut pariatur',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'aliqua commodo elit mollit ullamco. ',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'Eiusmod ut dolor reprehenderit reprehenderit',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: ' tempor mollit et deserunt labore. Occaecat ',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'elit ea consectetur minim do officia',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'qui cillum minim veniam ea nostrud irure sit',
+            },
+          ],
+        },
+      ],
+    },
+    editData: PricingEdit,
+  },
   ImageWithSlide: {
     group: 'Content',
     Component: getMap().ImageWithSlide,
@@ -525,17 +628,20 @@ const compList = {
         {
           icon: 'call',
           title: 'ALL BRANDS',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
         },
         {
           icon: 'message',
           title: 'FREE SUPPORT',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
         },
         {
           icon: 'creditcard',
           title: 'AFFORDABLE',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
         },
       ],
     },
@@ -549,7 +655,8 @@ const compList = {
         {
           iconName: 'call',
           header: 'Header 1',
-          subHeader: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
+          subHeader:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
         },
         {
           iconName: 'location',
@@ -689,7 +796,8 @@ const compList = {
     Component: ImageWithSpotlight,
     sampleData: {
       header: 'Grow with us',
-      bgImageUrl: 'https://img.freepik.com/free-photo/new-york-city-central-park-panorama_649448-89.jpg?w=2000&t=st=1683292030~exp=1683292630~hmac=b87b9d4a48fea6a2b3ed84f236b7f9213fc24948ed32023d554ff3e9c31d4315',
+      bgImageUrl:
+        'https://img.freepik.com/free-photo/new-york-city-central-park-panorama_649448-89.jpg?w=2000&t=st=1683292030~exp=1683292630~hmac=b87b9d4a48fea6a2b3ed84f236b7f9213fc24948ed32023d554ff3e9c31d4315',
       actions: [
         {
           buttonText: 'Blogs',
@@ -705,7 +813,6 @@ const compList = {
           buttonText: 'Support',
           iconName: 'person',
           color: 'error',
-
         },
       ],
     },
