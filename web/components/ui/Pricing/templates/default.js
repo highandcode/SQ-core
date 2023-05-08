@@ -11,6 +11,7 @@ const renderPricingPlan = (data, onAnalytics) => {
       <div className="sq-pricing__icon">{<Icon name={data.icon} color={data.iconVarant} variant="bg-big" />}</div>
       <h2 className='sq-pricing__plan-header'>{data.header}</h2>
       <h3 className='sq-pricing__plan-price'>{data.price}</h3>
+      <div className='sq-pricing__plan-last-price'>{data.lastPrice}</div>
       <ul className="sq-pricing__featues-list">
         {data.features &&
           data.features.map((dataItem, idx) => {

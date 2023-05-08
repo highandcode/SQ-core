@@ -5,6 +5,7 @@
     border-radius: 5px;
     color: $sq-color-primary-darker;
     box-shadow: 2px 10px 10px $sq-color-muted-light;
+    height: 100%;
   }
   &__featues-list {
     list-style-type: none;
@@ -17,10 +18,16 @@
   &__icon {
     padding: 20px;
   }
+  &__plan-last-price {
+    color: $sq-color-muted;
+    text-decoration: line-through;
+  }
   &__feature-item {
     padding: 0px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    height: 35px;
+    margin-bottom: 4px;
     .sq-icon {
       flex-basis: 32px;
       flex-shrink: 0;
@@ -33,6 +40,7 @@
     margin-bottom: 50px;
     color: $sq-color-gray-lightest;
   }
+
   &--default {
     padding: 0;
     .sq-pricing__plan-header {

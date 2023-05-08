@@ -48,6 +48,8 @@ export default withEditTabsConfig(({ defaultParams, iconList, iconColorTypes }) 
           cmpType: 'Input',
           name: 'iconVariant',
           label: 'iconVariant',
+          name: 'lastPrice',
+          label: 'lastPrice',
         },
         {
           name: 'features',
