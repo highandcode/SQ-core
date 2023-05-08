@@ -7,10 +7,10 @@ import { getMap } from '../../index';
 const renderPricingPlan = (data, onAnalytics) => {
   const { LinkButton } = getMap();
   return (
-    <div className="sq-pricing__plan">
+    <div className={`sq-pricing__plan ${data.color}`}>
       <div className="sq-pricing__icon">{<Icon name={data.icon} color={data.iconVarant} variant="bg-big" />}</div>
       <h2 className='sq-pricing__plan-header'>{data.header}</h2>
-      <h3 className='sq-pricing__plan-price'>{data.price}</h3>
+      <h1 className='sq-pricing__plan-price'>{data.price}</h1>
       <div className='sq-pricing__plan-last-price'>{data.lastPrice}</div>
       <ul className="sq-pricing__featues-list">
         {data.features &&
@@ -30,7 +30,7 @@ const renderPricingPlan = (data, onAnalytics) => {
           data.actions.map((dataItem, idx) => {
             return (
               <>
-                <LinkButton key={idx} {...dataItem} onAnalytics={onAnalytics} />
+                <LinkButton key={idx} size='large' {...dataItem} color="inherit" onAnalytics={onAnalytics} />
               </>
             );
           })}

@@ -479,8 +479,7 @@ const compList = {
     Component: getMap().HeroContent,
     sampleData: {
       header: 'Awesome header content',
-      subHeader:
-        'Reprehenderit laborum in ut enim Lorem minim ea ex dolore eiusmod id consequat pariatur amet. Id Lorem id et elit.',
+      subHeader: 'Reprehenderit laborum in ut enim Lorem minim ea ex dolore eiusmod id consequat pariatur amet. Id Lorem id et elit.',
     },
     editData: HeroContentEdit,
   },
@@ -490,12 +489,40 @@ const compList = {
     sampleData: {
       header: 'Pricing Plan',
       subHeader: 'Choose your own plan',
+      features: [
+        {
+          icon: 'person',
+          text: 'Users',
+        },
+        {
+          icon: 'Computer',
+          text: 'Websites ',
+        },
+        {
+          icon: 'CheckCircleOutline',
+          text: 'Dynamic Editing',
+        },
+        {
+          icon: 'Cloud',
+          text: 'Taken changes',
+        },
+        {
+          icon: 'Donwload',
+          text: 'Future updates',
+        },
+        {
+          icon: 'CheckCircleOutline',
+          text: 'Parking',
+        },
+      ],
+      
       items: [
         {
           header: 'Basic',
           price: 'USD $25',
           icon: 'calendar',
           lastPrice: 'USD $49',
+          color: 'primary',
           features: [
             {
               icon: 'CheckCircleOutline',
@@ -534,6 +561,7 @@ const compList = {
           header: 'Professional',
           price: 'USD $50',
           icon: 'calendar',
+          color: 'success',
           features: [
             {
               icon: 'CheckCircleOutline',
@@ -560,10 +588,18 @@ const compList = {
               text: 'qui cillum minim veniam ea nostrud irure sit',
             },
           ],
+          actions: [
+            {
+              buttonText: 'Contact us',
+              type: 'Button',
+              variant: 'outlined',
+            },
+          ],
         },
         {
           header: 'Enterprise',
           price: 'USD $599',
+          color: 'info',
           icon: 'calendar',
           features: [
             {
@@ -589,6 +625,13 @@ const compList = {
             {
               icon: 'CheckCircleOutline',
               text: 'qui cillum minim veniam ea nostrud irure sit',
+            },
+          ],
+          actions: [
+            {
+              buttonText: 'Contact us',
+              type: 'Button',
+              variant: 'outlined',
             },
           ],
         },
@@ -714,11 +757,13 @@ const compList = {
               iconName: 'facebook',
               to: 'http://example.com',
               iconColor: 'info',
+              target: '_blank',
             },
             {
               iconName: 'instagram',
               to: 'http://insta.com',
               iconColor: 'red',
+              target: '_blank',
             },
           ],
         },
@@ -763,16 +808,14 @@ const compList = {
       header: 'Meet the team',
       items: [
         {
-          profilePic:
-            'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
           header: 'John Peter',
           designation: 'Software Engineer',
           subHeader:
             'Officia nulla elit do eu pariatur in esse amet. Ex est fugiat pariatur veniam laboris occaecat ad reprehenderit consequat nisi tempor do do ea. Proident non nostrud elit irure incididunt ea in eu qui incididunt pariatur reprehenderit eiusmod. Adipisicing elit voluptate adipisicing voluptate aliqua nisi sit.',
         },
         {
-          profilePic:
-            'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
           header: 'John Peter',
           designation: 'Software Engineer',
           subHeader:
@@ -789,8 +832,7 @@ const compList = {
       header: 'Meet the team',
       subHeader:
         'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
-      imageUrl:
-        'https://st.depositphotos.com/2309453/3447/i/600/depositphotos_34479387-stock-photo-group-of-young-business-people.jpg',
+      imageUrl: 'https://st.depositphotos.com/2309453/3447/i/600/depositphotos_34479387-stock-photo-group-of-young-business-people.jpg',
     },
     editData: ImageBlockWithTextEdit,
   },
@@ -802,8 +844,7 @@ const compList = {
       styleName: 'shadow',
       subHeader:
         'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
-      imageUrl:
-        'https://w7.pngwing.com/pngs/691/585/png-transparent-computer-icons-business-mission-company-text-people-thumbnail.png',
+      imageUrl: 'https://w7.pngwing.com/pngs/691/585/png-transparent-computer-icons-business-mission-company-text-people-thumbnail.png',
     },
     editData: ImageWithHeaderBodyEdit,
   },

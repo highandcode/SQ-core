@@ -23,6 +23,12 @@ export default withEditTabs({
       options: GLOBAL_OPTIONS.inputVariant.toArray(),
     },
     {
+      name: 'type',
+      cmpType: 'CheckboxField',
+      text: 'Password',
+      selectedValue: 'password',
+    },
+    {
       name: 'mask',
       cmpType: 'Form',
       fields: [

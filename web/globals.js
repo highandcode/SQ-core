@@ -18,6 +18,10 @@ export const GLOBAL_OPTIONS = {
     filled: 'Filled',
     default: 'Default',
   }),
+  pricingTemplates: new GlobalOptions({
+    default: 'default',
+    'box-style': 'box-style',
+  }),
   featureContentTemplates: new GlobalOptions({
     default: 'Default',
     'with-bg': 'With Background',
@@ -159,6 +163,7 @@ export const GLOBAL_OPTIONS = {
     large: 'large',
   }),
   colorTypes: new GlobalOptions({
+    inherit: 'inherit',
     primary: 'primary',
     secondary: 'secondary',
     success: 'success',
@@ -167,6 +172,7 @@ export const GLOBAL_OPTIONS = {
     warning: 'warning',
   }),
   iconColorTypes: new GlobalOptions({
+    inherit: 'inherit',
     primary: 'primary',
     secondary: 'secondary',
     success: 'success',

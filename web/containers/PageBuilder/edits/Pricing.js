@@ -1,7 +1,7 @@
 import { GLOBAL_OPTIONS } from '../../../globals';
 import { withEditTabsConfig } from './Common';
 
-export default withEditTabsConfig(({ defaultParams, iconList, iconColorTypes }) => ({
+export default withEditTabsConfig(({ defaultParams, iconList, iconColorTypes, colorTypes }) => ({
   enableValidations: false,
   pageData: {
     items: [],
@@ -17,6 +17,13 @@ export default withEditTabsConfig(({ defaultParams, iconList, iconColorTypes }) 
       name: 'eyebrow',
       label: 'eyebrow',
     },
+    
+    {
+      name: 'template',
+      cmpType: 'Autocomplete',
+      label: 'template',
+      options: GLOBAL_OPTIONS.pricingTemplates.toArray(),
+    },
     {
       name: 'header',
       label: 'header',
@@ -24,6 +31,11 @@ export default withEditTabsConfig(({ defaultParams, iconList, iconColorTypes }) 
     {
       name: 'subHeader',
       label: 'subHeader',
+    },
+    {
+      name: 'features',
+      label: 'feature',
+      cmpType: 'FormObject',
     },
     {
       name: 'items',
@@ -37,6 +49,11 @@ export default withEditTabsConfig(({ defaultParams, iconList, iconColorTypes }) 
         {
           name: 'price',
           label: 'price',
+        },
+        {
+          name: 'Autocomplete',
+          label: 'color',
+          options: colorTypes,
         },
         {
           cmpType: 'Autocomplete',
