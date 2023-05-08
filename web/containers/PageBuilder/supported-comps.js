@@ -479,7 +479,8 @@ const compList = {
     Component: getMap().HeroContent,
     sampleData: {
       header: 'Awesome header content',
-      subHeader: 'Reprehenderit laborum in ut enim Lorem minim ea ex dolore eiusmod id consequat pariatur amet. Id Lorem id et elit.',
+      subHeader:
+        'Reprehenderit laborum in ut enim Lorem minim ea ex dolore eiusmod id consequat pariatur amet. Id Lorem id et elit.',
     },
     editData: HeroContentEdit,
   },
@@ -493,6 +494,7 @@ const compList = {
         {
           header: 'Basic',
           price: 'USD $25',
+          lastPrice: 'USD $49',
           features: [
             {
               icon: 'CheckCircleOutline',
@@ -517,6 +519,13 @@ const compList = {
             {
               icon: 'CheckCircleOutline',
               text: 'qui cillum minim veniam ea nostrud irure sit',
+            },
+          ],
+          actions: [
+            {
+              buttonText: 'Contact us',
+              type: 'Button',
+              variant: 'outlined',
             },
           ],
         },
@@ -751,14 +760,16 @@ const compList = {
       header: 'Meet the team',
       items: [
         {
-          profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          profilePic:
+            'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
           header: 'John Peter',
           designation: 'Software Engineer',
           subHeader:
             'Officia nulla elit do eu pariatur in esse amet. Ex est fugiat pariatur veniam laboris occaecat ad reprehenderit consequat nisi tempor do do ea. Proident non nostrud elit irure incididunt ea in eu qui incididunt pariatur reprehenderit eiusmod. Adipisicing elit voluptate adipisicing voluptate aliqua nisi sit.',
         },
         {
-          profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          profilePic:
+            'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
           header: 'John Peter',
           designation: 'Software Engineer',
           subHeader:
@@ -775,7 +786,8 @@ const compList = {
       header: 'Meet the team',
       subHeader:
         'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
-      imageUrl: 'https://st.depositphotos.com/2309453/3447/i/600/depositphotos_34479387-stock-photo-group-of-young-business-people.jpg',
+      imageUrl:
+        'https://st.depositphotos.com/2309453/3447/i/600/depositphotos_34479387-stock-photo-group-of-young-business-people.jpg',
     },
     editData: ImageBlockWithTextEdit,
   },
@@ -787,7 +799,8 @@ const compList = {
       styleName: 'shadow',
       subHeader:
         'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
-      imageUrl: 'https://w7.pngwing.com/pngs/691/585/png-transparent-computer-icons-business-mission-company-text-people-thumbnail.png',
+      imageUrl:
+        'https://w7.pngwing.com/pngs/691/585/png-transparent-computer-icons-business-mission-company-text-people-thumbnail.png',
     },
     editData: ImageWithHeaderBodyEdit,
   },

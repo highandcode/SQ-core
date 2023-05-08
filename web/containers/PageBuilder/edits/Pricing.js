@@ -39,6 +39,10 @@ export default withEditTabsConfig(({ defaultParams, iconList, iconColorTypes }) 
           label: 'price',
         },
         {
+          name: 'lastPrice',
+          label: 'lastPrice',
+        },
+        {
           name: 'features',
           cmpType: 'FormList',
           fields: [
