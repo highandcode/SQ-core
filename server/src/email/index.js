@@ -1,9 +1,7 @@
 const { importFile } = require('./import-html');
 const helpers = require('./helpers');
 
-let allTemplates = {
-  contactus: require('./contactus')
-};
+let allTemplates = {};
 module.exports = {
   templates: () => {
     return allTemplates;
@@ -11,9 +9,9 @@ module.exports = {
   set: (newTemplates) => {
     allTemplates = {
       ...allTemplates,
-      ...newTemplates
+      ...newTemplates,
     };
   },
   helpers,
-  importFile
+  importFile,
 };
