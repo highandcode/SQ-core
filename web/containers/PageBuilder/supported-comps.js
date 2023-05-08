@@ -493,6 +493,7 @@ const compList = {
         {
           header: 'Basic',
           price: 'USD $25',
+          icon: 'calendar',
           features: [
             {
               icon: 'CheckCircleOutline',
@@ -523,6 +524,7 @@ const compList = {
         {
           header: 'Professional',
           price: 'USD $50',
+          icon: 'calendar',
           features: [
             {
               icon: 'CheckCircleOutline',
@@ -553,6 +555,7 @@ const compList = {
         {
           header: 'Enterprise',
           price: 'USD $599',
+          icon: 'calendar',
           features: [
             {
               icon: 'CheckCircleOutline',

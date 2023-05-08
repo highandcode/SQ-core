@@ -39,26 +39,19 @@ export default withEditTabsConfig(({ defaultParams, iconList, iconColorTypes }) 
           label: 'price',
         },
         {
+          cmpType: 'Autocomplete',
+          name: 'icon',
+          label: 'icon',
+          options: iconList,
+        },
+        {
+          cmpType: 'Input',
+          name: 'iconVariant',
+          label: 'iconVariant',
+        },
+        {
           name: 'features',
-          cmpType: 'FormList',
-          fields: [
-            {
-              cmpType: 'Autocomplete',
-              name: 'icon',
-              label: 'icon',
-              options: iconList,
-            },
-            {
-              cmpType: 'Autocomplete',
-              name: 'iconColor',
-              label: 'iconColor',
-              options: iconColorTypes,
-            },
-            {
-              name: 'text',
-              label: 'text',
-            },
-          ],
+          cmpType: 'FormObject',
         },
       ],
     },
