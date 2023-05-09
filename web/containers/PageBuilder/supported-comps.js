@@ -11,6 +11,7 @@ import { ItemTypes } from './ItemTypes';
 import HeaderEdit from './edits/Header';
 import HeroContentEdit from './edits/HeroContent';
 import LaunchTimerEdit from './edits/LaunchTimer';
+import CodeHighlightEdit from './edits/CodeHighlight';
 import PricingEdit from './edits/Pricing';
 import ContactUsInfoEdit from './edits/ContactUsInfo';
 import ImageWithSpotlightEdit from './edits/ImageWithSpotlight';
@@ -515,7 +516,7 @@ const compList = {
           text: 'Parking',
         },
       ],
-      
+
       items: [
         {
           header: 'Basic',
@@ -799,6 +800,15 @@ const compList = {
         'Laborum ex duis ut labore eiusmod amet fugiat. Qui ullamco exercitation eu sint laborum. Magna aliquip adipisicing laborum anim anim id dolore ea tempor. Do cupidatat velit exercitation cupidatat magna anim. Nisi nulla est ad duis consectetur officia incididunt nostrud enim veniam incididunt veniam labore eu. Non minim deserunt laborum ullamco esse fugiat mollit deserunt consectetur velit dolore exercitation pariatur. Ex elit sunt occaecat cupidatat cillum elit aliqua veniam cupidatat nulla adipisicing.',
     },
     editData: GetInTouchEdit,
+  },
+  CodeHighlight: {
+    group: 'Content',
+    Component: getMap().CodeHighlight,
+    sampleData: {
+      code: 'funciton(a, b) {\n return a + b; \n }',
+      language: 'javscript',
+    },
+    editData: CodeHighlightEdit,
   },
 
   Team: {
