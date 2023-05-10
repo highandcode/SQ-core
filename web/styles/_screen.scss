@@ -43,7 +43,7 @@
   &__sub-header {
     @media (min-width: $screen-sm) {
       position: absolute;
-      width: 50%;
+      width: auto;
     }
     right: 0;
     padding-right: 15px;
