@@ -154,6 +154,7 @@ export const GLOBAL_OPTIONS = {
   }),
   pageWrapperClasses: new GlobalOptions({
     'sq-content-page--full-width': 'sq-content-page--full-width',
+    'sq-content-page--h-100': 'sq-content-page--h-100',
     'sq-content-page--header-footer-body':
       'sq-content-page--header-footer-body',
   }),

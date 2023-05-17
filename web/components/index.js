@@ -5,6 +5,7 @@ import LinkButton from './ui/LinkButton';
 import HeroContent from './ui/HeroContent';
 import FeaturedContent from './ui/FeaturedContent';
 import Dialog from './Dialog';
+import Iframe from './Iframe';
 import Pricing from './ui/Pricing';
 import Icon from './Icon';
 import List from './ui/List';
@@ -90,6 +91,7 @@ let comps = {
   Dialog,
   Actions,
   MoreActions,
+  Iframe,
 };
 
 const getMap = () => {

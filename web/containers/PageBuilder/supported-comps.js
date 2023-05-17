@@ -2,6 +2,7 @@ import Form from '../../components/Form';
 import Progress from '../../components/Progress';
 import LaunchTimer from '../../components/LaunchTimer';
 import Wrapper from '../../components/Wrapper';
+import Iframe from '../../components/Iframe';
 import ImageWithSpotlight from '../../components/ImageWithSpotlight';
 // import Pricing from '../../components/ui/Pricing';
 import TextColumnWithLinks from '../../components/ui/TextColumnWithLinks';
@@ -10,6 +11,7 @@ import { ItemTypes } from './ItemTypes';
 
 import HeaderEdit from './edits/Header';
 import HeroContentEdit from './edits/HeroContent';
+import IframeEdit from './edits/Iframe';
 import LaunchTimerEdit from './edits/LaunchTimer';
 import CodeHighlightEdit from './edits/CodeHighlight';
 import PricingEdit from './edits/Pricing';
@@ -857,6 +859,14 @@ const compList = {
       imageUrl: 'https://w7.pngwing.com/pngs/691/585/png-transparent-computer-icons-business-mission-company-text-people-thumbnail.png',
     },
     editData: ImageWithHeaderBodyEdit,
+  },
+  Iframe: {
+    group: 'Content',
+    Component: Iframe,
+    sampleData: {
+      url: 'https://www.google.com'
+    },
+    editData: IframeEdit,
   },
   ImageWithSpotlight: {
     group: 'Content',
