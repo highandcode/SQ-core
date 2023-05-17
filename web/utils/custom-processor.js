@@ -1,5 +1,8 @@
 const object = require('../../server/src/utils/object');
 const common = require('../../server/src/utils/common');
+const _string = require('./string').default;
+const accent = require('./accent-colors').default;
+
 class CustomProcessor {
   constructor() {
     this.processor = {
@@ -29,6 +32,12 @@ class CustomProcessor {
         },
       },
       common: {
+        accentByChar: (value) => {
+          return accent.getColorByChar(_string.getTwoChars(value));
+        },
+        getTwoChars: (value) => {
+          return _string.getTwoChars(value);
+        },
         addClassName: (value, { oldValue = '' } = {}) => {
           return oldValue + ' ' + value;
         },
@@ -50,9 +59,7 @@ class CustomProcessor {
           return Array.isArray(value) ? value.join(',') : value;
         },
         extractByKey: (value, { key = 'code' } = {}) => {
-          return Array.isArray(value)
-            ? value.map((i) => i[key]).join(',')
-            : value;
+          return Array.isArray(value) ? value.map((i) => i[key]).join(',') : value;
         },
         extractDataArray: (result) => {
           if (result.status === CONSTANTS.STATUS.SUCCESS) {

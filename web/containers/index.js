@@ -10,6 +10,7 @@ import LayoutContent from './LayoutContent';
 import MultiView from './MultiView';
 import TocIndex from './TocIndex';
 import UsersList from './UsersList';
+import GenericListing from './GenericListing';
 import RolesList from './RolesList';
 import RoleDetails from './RoleDetails';
 import PageListing from './PageListing';
@@ -20,6 +21,7 @@ import templates from '../templates';
 
 export {
   ComponentDemo,
+  GenericListing,
   DynamicContent,
   PageBuilder,
   SiteMapBuilder,
@@ -43,6 +45,7 @@ export default {
   SiteMapBuilder: SiteMapBuilder.default,
   ContentWithSearch,
   MultiView,
+  GenericListing,
   Documentation,
   LayoutContent,
   ContentWithLeftNavigation,
