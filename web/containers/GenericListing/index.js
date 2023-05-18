@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getMap } from '../../components/ui';
 import { postApi, processParams } from '../../redux/content';
+import { Validator } from '../../utils/validator';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 const defaultPageSize = GLOBAL_OPTIONS.noOfResultsDropdown.toArray()[0].value;
@@ -16,6 +17,7 @@ class GenericListing extends Component {
     this.onFilterChange = this.onFilterChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleOnSortChange = this.handleOnSortChange.bind(this);
+    this.onGridAction = this.onGridAction.bind(this);
     this.onEditColumnChange = this.onEditColumnChange.bind(this);
     this.onFilterAction = this.onFilterAction.bind(this);
   }
@@ -35,7 +37,31 @@ class GenericListing extends Component {
 
   async componentDidMount() {
     const { pageData, userData, store } = this.props;
-    this.columns = pageData.columns.map((item) => {
+    if (pageData.defaultColumns) {
+      this.setState({
+        selectedColumns: pageData.defaultColumns,
+      });
+    }
+    this.filterFields = pageData.filterFields?.map((field) => {
+      return {
+        ...field,
+        ...processParams(userData, field, undefined, store),
+      };
+    });
+    this.topActions = pageData.topActions?.map((action) => {
+      return {
+        ...action,
+        beforeRender: (col, val, row) => {
+          if (action?.match) {
+            const valid = new Validator(action?.match);
+            valid.setValues(userData);
+            return valid.validateAll();
+          }
+          return true;
+        },
+      };
+    });
+    this.pageFields = this.columns = pageData.columns.map((item) => {
       return {
         ...item,
         beforeRender: (col, val, row) => {
@@ -56,12 +82,20 @@ class GenericListing extends Component {
                     };
                   })
                 : undefined,
+              actions: item.actions
+                ? item.actions.map((action) => {
+                    console.log(action, processParams({ ...userData, ...row }, action, undefined, store));
+                    return {
+                      ...action,
+                      ...processParams({ ...userData, ...row }, action, undefined, store),
+                    };
+                  })
+                : undefined,
             },
           };
         },
       };
     });
-    console.log(this.columns);
     if (pageData.currentSort) {
       await this.setState({
         currentSort: pageData.currentSort,
@@ -75,6 +109,7 @@ class GenericListing extends Component {
 
   async refreshData({ filter, sort, pageSize, pageNo } = {}) {
     const { pageData, data, userData, store, raiseAction } = this.props;
+
     if (pageData.apiConfig?.search) {
       this.setState({
         isLoading: true,
@@ -116,6 +151,7 @@ class GenericListing extends Component {
     await this.refreshData({ pageNo, pageSize });
   }
   async handleAction(data, action) {
+    const { onAction } = this.props;
     switch (action.actionType) {
       case 'edit-cols':
         this.setState({
@@ -127,11 +163,15 @@ class GenericListing extends Component {
           showFilter: true,
         });
         break;
+      default:
+        if (action.actionType) {
+          onAction && onAction(data, action);
+        }
     }
   }
 
   async onGridAction(row, action, _) {
-    switch (action.action) {
+    switch (action.actionType) {
       default:
         this.props.onAction && this.props.onAction(row, action);
     }
@@ -157,7 +197,6 @@ class GenericListing extends Component {
   }
   async handleOnSortChange(data) {
     await this.setState({ currentSort: data });
-    // setCurrentSort(data);
     const { currentPage } = this.props.userData[this.getKey('results')] || {};
     await this.refreshData({ pageNo: currentPage, sort: data });
   }
@@ -171,17 +210,17 @@ class GenericListing extends Component {
 
   render() {
     const { metaData = {}, pageData = {}, userData, store, ...rest } = this.props;
-    const { className = '', rows = [] } = pageData;
+    const { className = '' } = pageData;
     const { Actions, ButtonSelection, Dialog, Form, Grid, Skeleton } = getMap();
     return (
-      <div className="sq-generic-listing sq-v-screen sq-v-screen--fixed">
+      <div className={`sq-generic-listing sq-v-screen sq-v-screen--fixed ${className}`}>
         <div className="sq-v-screen__container">
           <div className="sq-v-screen__sub-header">
             <Actions
               className="w-auto"
               onAction={this.handleAction}
               actions={[
-                ...(pageData.topActions || []),
+                ...(this.topActions || []),
                 {
                   buttonText: 'Edit Columns',
                   iconName: 'edit',
@@ -261,7 +300,7 @@ class GenericListing extends Component {
             ]}
             title={'Filters'}
           >
-            <Form onChange={this.onFilterChange} className="mt-wide" value={this.state.currentFilter} fields={pageData.filterFields} />
+            <Form onChange={this.onFilterChange} className="mt-wide" value={this.state.currentFilter} fields={this.filterFields} />
           </Dialog>
         </>
       </div>

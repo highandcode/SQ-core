@@ -534,7 +534,7 @@ class DynamicContent extends Component {
         action.eventEmit !== false && events.emit('onPopupScreenCloseAction', action);
         break;
       case 'redirect':
-        redirectTo(action.to, processParams(this.props.store.content.userData, action.params), action.options);
+        redirectTo(action.to, processParams(this.props.store.content.userData, action.urlParams || action.params), action.options);
         break;
     }
   }
