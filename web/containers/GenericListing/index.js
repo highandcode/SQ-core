@@ -256,7 +256,7 @@ class GenericListing extends Component {
           <div className={`sq-v-screen__container`}>
             <div className="container-fluid">
               <div className="sq-v-screen__pagination-bar d-flex fl-a-items-center justify-content-between mb-2">
-                <h2 className="mb-1 mt-1">
+                <h2 className="mb-2 mt-2">
                   {this.props.pageData.title} {userData[this.getKey('results')]?.totalItems > 0 && `(${userData[this.getKey('results')].totalItems})`}
                 </h2>
                 <div className={'sq-generic-listing__quick'}>
