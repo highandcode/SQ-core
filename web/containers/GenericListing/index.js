@@ -4,6 +4,8 @@ import { postApi, processParams } from '../../redux/content';
 import { Validator } from '../../utils/validator';
 import { GLOBAL_OPTIONS } from '../../globals';
 
+import './_generic-listing.scss';
+
 const defaultPageSize = GLOBAL_OPTIONS.noOfResultsDropdown.toArray()[0].value;
 
 class GenericListing extends Component {
@@ -15,6 +17,7 @@ class GenericListing extends Component {
     };
     this.handleAction = this.handleAction.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
+    this.onQuickFilterChange = this.onQuickFilterChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleOnSortChange = this.handleOnSortChange.bind(this);
     this.onGridAction = this.onGridAction.bind(this);
@@ -43,6 +46,12 @@ class GenericListing extends Component {
       });
     }
     this.filterFields = pageData.filterFields?.map((field) => {
+      return {
+        ...field,
+        ...processParams(userData, field, undefined, store),
+      };
+    });
+    this.quickFilterFields = pageData.quickFilterFields?.map((field) => {
       return {
         ...field,
         ...processParams(userData, field, undefined, store),
@@ -106,6 +115,10 @@ class GenericListing extends Component {
   async onFilterChange(data, field) {
     this.setState({ __currentFilter: data.value });
   }
+  async onQuickFilterChange(data, field) {
+    await this.setState({ currentQuickFilter: data.value });
+    this.refreshData({ pageNo: 1 });
+  }
 
   async refreshData({ filter, sort, pageSize, pageNo } = {}) {
     const { pageData, data, userData, store, raiseAction } = this.props;
@@ -126,6 +139,7 @@ class GenericListing extends Component {
             params: {
               ...processParams(userData, pageData.apiConfig?.search.params, undefined, store),
               ...(filter || this.state.currentFilter),
+              ...(this.state.currentQuickFilter || {}),
             },
             query: pageData.apiConfig?.search.query
               ? processParams({ ...userData, sortBy: `${sortBy}|${sortDir}`, pageSize: pageSize, pageNo: pageNo }, pageData.apiConfig?.search.query)
@@ -240,11 +254,13 @@ class GenericListing extends Component {
           </div>
           <div className={`sq-v-screen__container`}>
             <div className="container-fluid">
-              <div className="sq-v-screen__pagination-bar d-flex justify-content-between mb-2">
-                <h2 className="my-2">
+              <div className="sq-v-screen__pagination-bar d-flex fl-a-items-center justify-content-between mb-2">
+                <h2 className="mb-1 mt-1">
                   {this.props.pageData.title} {userData[this.getKey('results')]?.totalItems > 0 && `(${userData[this.getKey('results')].totalItems})`}
                 </h2>
-                <div className={'re-categories__pagination-bar-add-project my-2'}>{/* <ButtonSelection className="left-selection ml-0 mt-2" onChange={this.onPipelineChange} options={GLOBAL_OPTIONS.pipelineType.toArray()} value={this.state.pipelineType} /> */}</div>
+                <div className={'sq-generic-listing__quick'}>
+                  <Form onChange={this.onQuickFilterChange} className="sq-form--inline-auto p-0" value={this.state.currentQuickFilter} fields={this.quickFilterFields} />
+                </div>
               </div>
             </div>
             <div className="sq-generic-listing__grid-wrapper sq-v-screen-grow">
