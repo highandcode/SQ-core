@@ -229,6 +229,23 @@ const _validators = {
       errors: valid.errors,
     };
   },
+  listValidator: (value, { validator, optional = false, ...options } = {}) => {
+    let isValid = true;
+    if (!optional && (!value || value.length === 0)) {
+      return false;
+    }
+    value &&
+      value.forEach((item, idx) => {
+        console.log(validator, item);
+        const result = _validators[validator](item, options);
+        console.log(result);
+        if (!result) {
+          isValid = result;
+        }
+      });
+
+    return isValid;
+  },
   ArrayValidator: (value, { validators, optional = false } = {}) => {
     let isValid = true;
     let errors = {};
@@ -300,6 +317,7 @@ const _messages = {
   path: () => `Path should be alphanumeric (-_ is allowed) without spaces separated with /`,
   compareField: () => `This field should match compare criteria`,
   emailphone: () => `Enter a valid email or phone`,
+  listValidator: () => `This field have one or more errors`,
   startsWith: (props) => `Should starts with ${props.startsWith}`,
   endsWith: (props) => `Should ends with ${props.endsWith}`,
   emailinternationalphone: () => `Enter a valid email or phone with international code e.g +91`,
