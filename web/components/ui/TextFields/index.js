@@ -13,12 +13,10 @@ const compMap = {
 };
 
 const TextFields = ({ className = '', fields = [], row }) => {
-  console.log('@@@@', fields);
   return (
     <div className={`sq-text-fields ${className}`}>
       {fields.map((itemField, index) => {
         const isRender = itemField.beforeRender ? itemField.beforeRender(field, row, row) : true;
-        console.log('@@@@', isRender);
         if (typeof(isRender) === 'object') {
           itemField = {
             ...itemField,
