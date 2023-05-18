@@ -32,7 +32,8 @@ export const parseCustomModule = (text) => {
     const str = fnMatch[0].substr(1, fnMatch[0].length - 2);
     const arrayParams = str.split(',');
     arrayParams.forEach((itemParam) => {
-      var arr = itemParam.trim().split(':');
+      const askVal = itemParam.trim();
+      var arr = [askVal.substr(0, askVal.indexOf(':')), askVal.substr(askVal.indexOf(':') + 1).trim()];
       if (arr[0]) {
         params[arr[0]] = arr[1]?.trim() || '';
       }
@@ -306,12 +307,7 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
   if (payload.method && payload.url) {
     let paramToProcess = { method: payload.method, url: payload.url };
     paramToProcess = processParams(getState().content.userData, paramToProcess, undefined, getState());
-    response = await apiBridge[paramToProcess.method.toLowerCase()](
-      paramToProcess.url,
-      processParams(getState().content.userData, payload.params, undefined, getState()),
-      processParams(getState().content.userData, payload.headers, undefined, getState()),
-      processParams(getState().content.userData, payload.query, undefined, getState())
-    );
+    response = await apiBridge[paramToProcess.method.toLowerCase()](paramToProcess.url, processParams(getState().content.userData, payload.params, undefined, getState()), processParams(getState().content.userData, payload.headers, undefined, getState()), processParams(getState().content.userData, payload.query, undefined, getState()));
   }
 
   if (payload.postHook) {
@@ -349,7 +345,6 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
   }
   response = object.extendData(finalObj, response);
 
-
   const { notification } = response || {};
   if (notification) {
     await dispatch(showNotificationMessage(notification));
@@ -384,11 +379,11 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
           let isValid = true;
           if (actionItem.match) {
             const vldtr = new Validator(actionItem.match);
-            vldtr.setValues(getState().content.userData)
+            vldtr.setValues(getState().content.userData);
             isValid = vldtr.validateAll();
           }
           isValid && events.emit('dynammicContent.onAction', {}, actionItem, {});
-        })
+        });
       } else {
         events.emit('dynammicContent.onAction', {}, payload?.finally?.successAction, {});
       }
@@ -491,7 +486,7 @@ export const uploadApi = (payload, pageResponse) => async (dispatch, getState) =
   let finalObj = {};
   if (payload.defaultResponse && payload.defaultResponse[response.status]) {
     if (Array.isArray(payload.defaultResponse[response.status])) {
-      console.log(payload.defaultResponse)
+      console.log(payload.defaultResponse);
       let isValid = false;
       payload.defaultResponse[response.status].forEach((item) => {
         if (item.match && !isValid) {
@@ -593,13 +588,7 @@ export const downloadApi = (payload, pageResponse) => async (dispatch, getState)
     };
     paramToProcess = processParams(getState().content.userData, paramToProcess, undefined, getState());
     const method = paramToProcess.method || 'get';
-    await apiBridge[method](
-      paramToProcess.href || paramToProcess.url,
-      processParams(getState().content.userData, payload.params, undefined, getState()),
-      processParams(getState().content.userData, payload.headers, undefined, getState()),
-      processParams(getState().content.userData, payload.query, undefined, getState()),
-      { plain: true }
-    )
+    await apiBridge[method](paramToProcess.href || paramToProcess.url, processParams(getState().content.userData, payload.params, undefined, getState()), processParams(getState().content.userData, payload.headers, undefined, getState()), processParams(getState().content.userData, payload.query, undefined, getState()), { plain: true })
       .then((res) => {
         return res.blob();
       })
@@ -639,7 +628,7 @@ export const downloadApi = (payload, pageResponse) => async (dispatch, getState)
   let finalObj = {};
   if (payload.defaultResponse && payload.defaultResponse[response.status]) {
     if (Array.isArray(payload.defaultResponse[response.status])) {
-      console.log(payload.defaultResponse)
+      console.log(payload.defaultResponse);
       let isValid = false;
       payload.defaultResponse[response.status].forEach((item) => {
         if (item.match && !isValid) {
