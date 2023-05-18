@@ -232,6 +232,7 @@ class GenericListing extends Component {
           <div className="sq-v-screen__sub-header">
             <Actions
               className="w-auto"
+              disabled={this.state.isLoading}
               onAction={this.handleAction}
               actions={[
                 ...(this.topActions || []),
@@ -259,7 +260,7 @@ class GenericListing extends Component {
                   {this.props.pageData.title} {userData[this.getKey('results')]?.totalItems > 0 && `(${userData[this.getKey('results')].totalItems})`}
                 </h2>
                 <div className={'sq-generic-listing__quick'}>
-                  <Form onChange={this.onQuickFilterChange} className="sq-form--inline-auto p-0" value={this.state.currentQuickFilter} fields={this.quickFilterFields} />
+                  <Form disabled={this.state.isLoading} onChange={this.onQuickFilterChange} className="sq-form--inline-auto p-0" value={this.state.currentQuickFilter} fields={this.quickFilterFields} />
                 </div>
               </div>
             </div>

@@ -5,7 +5,7 @@ import Dialog from '../Dialog';
 import { getValue } from '../../utils/properties';
 
 
-const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics, row, column, beforeRender }) => {
+const Actions = ({ actions = [], className = '', disabled, onClick, onAction, onAnalytics, row, column, beforeRender }) => {
   const compMap = getMap();
   const [showConfirm, setShowConfirm] = useState(false);
   const [currentAction, setCurrentAction] = useState(null);
@@ -68,6 +68,7 @@ const Actions = ({ actions = [], className = '', onClick, onAction, onAnalytics,
           <React.Fragment key={idx}>
             <div className={`sq-actions__action ${action.cmpType}`}>
               <ActionToRender
+                disabled={disabled}
                 {...overridingProps}
                 onClick={(event) => {
                   handleOnClick(event, action);

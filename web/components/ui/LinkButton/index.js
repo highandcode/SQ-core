@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { redirectTo } from '../../../utils/redirect';
+import Icon from '../../Icon';
 import Link from '../Link';
 import Button from '../Button';
 
@@ -18,6 +19,7 @@ const LinkButton = ({
   onClick,
   iconSize,
   iconName,
+  showOpenInNew,
   urlParams,
   buttonText,
   size = 'normal',
@@ -44,6 +46,7 @@ const LinkButton = ({
           }}
         ></LinkToRender>
       )}
+      {showOpenInNew && <Icon name={'OpenInNew'} size={'small'} className={'cur-pointer ml-2'} onClick={() => redirectTo(to, urlParams, { target: '_blank' })} />}
     </>
   );
 };
