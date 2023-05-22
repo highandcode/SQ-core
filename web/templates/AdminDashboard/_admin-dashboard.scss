@@ -43,7 +43,8 @@
   &__footer-text {
     text-align: center;
     color: $sq-color-gray;
-    padding: 10px 0;
+    padding: 4px 0;
+    min-height: 30px;
     background-color: $sq-color-gray-lightest;
   }
 }
