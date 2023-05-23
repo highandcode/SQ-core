@@ -279,7 +279,7 @@ const _validators = {
   postalCN: (value) => {
     return value
       ? _validators.regex(value, {
-          regex: /^((\d{5}-\d{4})|(\d{5})|([a-zA-Z]\d[a-zA-Z]\s\d[a-zA-Z]\d))$/,
+          regex: /^((\d{5}-\d{4})|(\d{5})|([a-zA-Z]\d[a-zA-Z]\s?\d[a-zA-Z]\d))$/,
         })
       : true;
   },
