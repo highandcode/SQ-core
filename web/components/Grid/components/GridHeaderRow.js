@@ -74,7 +74,7 @@ const GridHeaderRow = ({ allowResizeCols = true, columns = [], spacer = false, o
                     <Tooltip title={column.headerText}>
                       <span>{column.headerText}</span>
                     </Tooltip>
-                  )}
+                  )}{'\u00A0'}
                 </div>
                 {isColSortEnabled && <Icon variant={`${hasSortColumn ? 'black' : 'muted-light'}`} className="sq-grid__cell-sort" name={sortOrderIconName} />}
               </div>
