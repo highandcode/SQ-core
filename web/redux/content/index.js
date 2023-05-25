@@ -714,7 +714,15 @@ const content = createSlice({
     },
     clearWithFilter: (state, action) => {
       let data = {};
+      if (action.payload.keys) {
+        action.payload.keys.forEach((key) => {
+          data[key] = undefined;
+        });
+      }
+      console.log('@@@@', data);
       state.userData = {
+        ...state.userData,
+        ...data,
         ...state.protectedData,
         ...getSystem(),
       };

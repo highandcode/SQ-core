@@ -32,6 +32,7 @@ const transitionOptions = {
 };
 
 const SQDialog = ({ closeButton = true, hideBackdrop = false, backDropClick = true, disableEscapeKeyDown, headerTag, transitionDir = 'up', classes: overrideClasses = {}, fullScreen = false, open = false, isLoading = false, title, content, children, onClose, actions = [], onAction }) => {
+  console.log(overrideClasses.dialog?.root);
   const handleClose = (e, reason) => {
     if (reason === 'backdropClick' && backDropClick === false) {
       e.stopPropagation();

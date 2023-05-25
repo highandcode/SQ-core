@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getMap } from '../../components/ui';
 import { postApi, processParams } from '../../redux/content';
+import { getCurrentFilter, setCurrentFilter, getCurrentSort, setCurrentSort, getCustomKeyData, setCustomKeyData } from '../../redux/common';
 import { Validator } from '../../utils/validator';
 import { GLOBAL_OPTIONS } from '../../globals';
 
@@ -93,7 +94,6 @@ class GenericListing extends Component {
                 : undefined,
               actions: item.actions
                 ? item.actions.map((action) => {
-                    console.log(action, processParams({ ...userData, ...row }, action, undefined, store));
                     return {
                       ...action,
                       ...processParams({ ...userData, ...row }, action, undefined, store),
@@ -105,11 +105,11 @@ class GenericListing extends Component {
         },
       };
     });
-    if (pageData.currentSort) {
-      await this.setState({
-        currentSort: pageData.currentSort,
-      });
-    }
+    await this.setState({
+      currentSort: { ...(pageData.currentSort || {}), ...getCurrentSort() },
+      currentFilter: getCurrentFilter(),
+      currentQuickFilter: getCustomKeyData('quickFilter'),
+    });
     this.refreshData();
   }
   async onFilterChange(data, field) {
@@ -118,6 +118,7 @@ class GenericListing extends Component {
   async onQuickFilterChange(data, field) {
     await this.setState({ currentQuickFilter: data.value });
     this.refreshData({ pageNo: 1 });
+    setCustomKeyData('quickFilter', data.value);
   }
 
   async refreshData({ filter, sort, pageSize, pageNo } = {}) {
@@ -198,6 +199,7 @@ class GenericListing extends Component {
           currentFilter: {},
         });
         await this.refreshData({ filter: {}, pageNo: 1 });
+        setCurrentFilter({});
         break;
       case 'applyFilter':
         await this.setState({
@@ -205,6 +207,7 @@ class GenericListing extends Component {
           currentFilter: this.state.__currentFilter,
           __currentFilter: {},
         });
+        setCurrentFilter(this.state.currentFilter);
         await this.refreshData({});
         break;
     }
@@ -212,6 +215,7 @@ class GenericListing extends Component {
   async handleOnSortChange(data) {
     await this.setState({ currentSort: data });
     const { currentPage } = this.props.userData[this.getKey('results')] || {};
+    setCurrentSort(data);
     await this.refreshData({ pageNo: currentPage, sort: data });
   }
 

@@ -25,6 +25,19 @@
       height: 100%;
     }
   }
+
+  &--auto {
+    .sq-dialog__content-body {
+      min-height: auto;
+      min-width: auto;
+    }
+  }
+  &--standard-width {
+    .sq-dialog__content-body {
+      min-height: auto;
+      min-width: 400px;
+    }
+  }
  
   &__title {
     flex-grow: 1;
