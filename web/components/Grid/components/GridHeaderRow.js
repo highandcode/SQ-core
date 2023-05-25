@@ -11,7 +11,6 @@ const GridHeaderRow = ({ allowResizeCols = true, columns = [], spacer = false, o
     (e, col) => {
       let w = startX && e.clientX ? Math.round(startX.w + (e.clientX - startX.x)) : 0;
       if (w > 0 && (!width[col.name] || (width[col.name] && width[col.name] && w !== width[col.name].width))) {
-        console.log(w);
         const newWi = {
           ...width,
           [col.name]: {

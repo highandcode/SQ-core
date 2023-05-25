@@ -73,6 +73,14 @@ class CustomProcessor {
         options: (value) => {
           return this.globalOptions[value]?.toArray();
         },
+        optionsText: (value, { name } = {}) => {
+          const option = this.globalOptions[name]?.getText(value);
+          return option || '';
+        },
+        optionsKey: (value, { name, keyName } = {}) => {
+          const option = this.globalOptions[name].get(value);
+          return option && option[keyName] || '';
+        },
         filterOptions: (value, { optionsName, ...params }) => {
           if (this.globalOptions[optionsName]) {
             return this.globalOptions[optionsName].fromData(value, params);
