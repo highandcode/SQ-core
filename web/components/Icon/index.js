@@ -93,6 +93,7 @@ import { ReactComponent as SortDesc } from '../../assets/svg/sort-desc.svg';
 import {
   Email,
   Fullscreen,
+  Collections,
   FullscreenExit,
   OpenInFull,
   CloseFullscreen,
@@ -241,6 +242,7 @@ const types = {
     OpenInNew,
     DragHandle,
     Description,
+    Collections,
     DataObject,
     Computer,
     Laptop,
