@@ -27,7 +27,7 @@ function TagDropdown({ disabled, value, anchorOrigin = {}, transformOrigin = {},
           {(popupState) => (
             <>
               <div className="sq-tag-dropdown__wrapper" {...(!disabled ? bindTrigger(popupState) : {})}>
-                <TagLabel {...rest} {...valueFound} value={valueFound[textField] || value} disabled={disabled}></TagLabel>
+                <TagLabel {...rest} {...valueFound} value={valueFound[textField] || value || '--'} disabled={disabled}></TagLabel>
                 <Icon className={`sq-tag-dropdown__icon ${popupState.isOpen ? 'active' : ''}`} size="xs" name="arrow-down" />
               </div>
               <Menu
