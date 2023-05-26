@@ -49,13 +49,21 @@ class GenericListing extends Component {
     this.filterFields = pageData.filterFields?.map((field) => {
       return {
         ...field,
-        ...processParams(userData, field, undefined, store),
+        beforeRender: (field, val, row) => {
+          return {
+            ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
+          };
+        },
       };
     });
     this.quickFilterFields = pageData.quickFilterFields?.map((field) => {
       return {
         ...field,
-        ...processParams(userData, field, undefined, store),
+        beforeRender: (field, val, row) => {
+          return {
+            ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
+          };
+        },
       };
     });
     this.topActions = pageData.topActions?.map((action) => {

@@ -141,7 +141,7 @@ class Grid extends React.Component {
   }
 
   render() {
-    const { columns = [], paginationProps, editColumnPane = {}, showColSelection = false, addSpacer = true, data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default', viewType = 'default' } = this.props;
+    const { columns = [], enableViewSelection = true, paginationProps, editColumnPane = {}, showColSelection = false, addSpacer = true, data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default', viewType = 'default' } = this.props;
     const actionsClassName = this.hasActionClickRow() ? 'sq-grid--has-action' : '';
     const finalColumns = columns
       .sort((a, b) => {
@@ -185,7 +185,7 @@ class Grid extends React.Component {
         </Dialog>
         <div className="sq-grid__top-bar">
           <div className="sq-grid__switch-views">
-            {this.hasData() && <ButtonSelection options={this.viewOptions} value={this.state.viewType || viewType} onChange={this.onViewTypeChange} disabled={this.isLoading()} />}
+            {enableViewSelection && this.hasData() && <ButtonSelection options={this.viewOptions} value={this.state.viewType || viewType} onChange={this.onViewTypeChange} disabled={this.isLoading()} />}
           </div>
           {paginationProps?.value && this.hasData() && <div className="sq-grid__pagination-view">
             <Pagination {...paginationProps} value={paginationProps?.value} disabled={paginationProps.disabled || this.isLoading()} />
