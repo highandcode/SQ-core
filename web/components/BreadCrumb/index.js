@@ -38,13 +38,13 @@ const pathWithParamMatch = (itemHref, path) => {
   };
 };
 
-const findNode = (data, path, permissions, parents = [], userData) => {
+const findNode = (data, path, permissions, parents = [], userData, appStore) => {
   let returnItems = [];
   data.forEach((item) => {
     let newList;
     if (item.children) {
       parents.push(item);
-      newList = findNode(item.children, path, permissions, parents, userData);
+      newList = findNode(item.children, path, permissions, parents, userData, appStore);
     }
     if (newList?.length > 0) {
       returnItems = newList.concat(returnItems);
@@ -91,7 +91,7 @@ const BreadCrumb = ({ navigation, currentPath, permissions = [], breadcrumb, use
   if (breadcrumb && breadcrumb.root) {
     currentPath = breadcrumb.root;
   }
-  let finalData = findNode(navigation, currentPath, permissions, undefined, userData);
+  let finalData = findNode(navigation, currentPath, permissions, undefined, userData, appStore);
 
   finalData = finalData.map((dataItem) => {
     const override = breadcrumb?.map[dataItem.href] || null;
@@ -99,7 +99,7 @@ const BreadCrumb = ({ navigation, currentPath, permissions = [], breadcrumb, use
       ...dataItem,
       ...override,
       cmpType: override ? 'Link' : dataItem.cmpType,
-      title: override?.title || dataItem.title,
+      title: dataItem.dynamicTextField ? (processParams(userData, {buttonText: dataItem.dynamicTextField}, undefined, appStore)).buttonText :  override?.title || dataItem.title,
     };
   });
   if (breadcrumb?.items) {
