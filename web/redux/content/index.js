@@ -719,7 +719,6 @@ const content = createSlice({
           data[key] = undefined;
         });
       }
-      console.log('@@@@', data);
       state.userData = {
         ...state.userData,
         ...data,

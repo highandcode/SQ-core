@@ -45,6 +45,7 @@ class CustomProcessor {
           const arr = fields?.split('+');
           const values = arr
             ?.map((val) => {
+              val = val.trim().replace('&nbsp;', ' ');
               if (val.charAt(0) === '.') {
                 return object.getDataFromKey(userData, val.substr(1));
               }
