@@ -454,7 +454,7 @@ class EmailTemplateList extends React.Component {
                                 'Are you sure you want to delete this template?'
                               ),
                             },
-                            iconVariant: 'error',
+                            iconColor: 'error',
                             action: 'delete',
                             disabled: !deleteUserPerm,
                             buttonText: translate('Delete'),
@@ -465,7 +465,7 @@ class EmailTemplateList extends React.Component {
                           {
                             cmpType: 'LinkButton',
                             iconName: 'active',
-                            iconVariant: 'success',
+                            iconColor: 'success',
                             action: 'activate',
                             disabled: !createUserPerm,
                             buttonText: translate('Re-Activate'),

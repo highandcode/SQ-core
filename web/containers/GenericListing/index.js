@@ -70,8 +70,8 @@ class GenericListing extends Component {
       return {
         ...action,
         beforeRender: (col, val, row) => {
-          if (action?.match) {
-            const valid = new Validator(action?.match);
+          if (action?.renderMatch) {
+            const valid = new Validator(action?.renderMatch);
             valid.setValues(userData);
             return valid.validateAll();
           }
@@ -105,6 +105,16 @@ class GenericListing extends Component {
                     return {
                       ...action,
                       ...processParams({ ...userData, ...row }, action, undefined, store),
+                      render: (row) => {
+                        if (action.renderMatch) {
+                          const vald = new Validator(action.renderMatch);
+                          vald.setValues(row);
+                          if (!vald.validateAll()) {
+                            return false;
+                          }
+                        }
+                        return true;
+                      },
                     };
                   })
                 : undefined,
@@ -137,7 +147,7 @@ class GenericListing extends Component {
         isLoading: true,
       });
       const pagination = userData[this.getKey('pagination')] || {};
-      pageSize = pageSize || pageData.defaultPageSize || defaultPageSize || pagination.pageSize;
+      pageSize = pageSize || pagination.pageSize || pageData.defaultPageSize || defaultPageSize;
       pageNo = pageNo || pagination?.currentPage || 1;
       const sortBy = (sort || this.state.currentSort).sortColumn;
       const sortDir = (sort || this.state.currentSort).sortOrder;
@@ -196,7 +206,10 @@ class GenericListing extends Component {
   async onGridAction(row, action, _) {
     switch (action.actionType) {
       default:
-        this.props.onAction && this.props.onAction(row, action);
+        this.props.onAction && await this.props.onAction(row, action);
+        if (action.refreshAfter) {
+          await this.refreshData({ });
+        }
     }
   }
   async onFilterAction(data, action) {

@@ -127,7 +127,7 @@ const MoreActions = ({
                   <Icon
                     size="small"
                     className="sq-more-actions__icon"
-                    variant={action.iconVariant}
+                    variant={action.iconColor || action.iconVariant}
                     name={action.iconName}
                   />
                 </ListItemIcon>

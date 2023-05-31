@@ -304,7 +304,7 @@ class RoleDetails extends BaseContainer {
                               'Are you sure you want to remove this user?'
                             ),
                           },
-                          iconVariant: 'error',
+                          iconColor: 'error',
                           action: 'remove',
                           buttonText: translate('Remove'),
                         },
