@@ -265,7 +265,7 @@ class Grid extends React.Component {
   }
 
   isLoading() {
-    return this.props.data === undefined || this.props.isLoading === true;
+    return this.props.data === undefined || (this.props.isLoading === true && !this.props.data);
   }
 
   hasData() {

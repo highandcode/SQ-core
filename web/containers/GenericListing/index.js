@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { getMap } from '../../components/ui';
 import { postApi, processParams } from '../../redux/content';
-import { getCurrentFilter, setCurrentFilter, getCurrentSort, setCurrentSort, getCustomKeyData, setCustomKeyData } from '../../redux/common';
+import { startLoading, stopLoading, getCurrentFilter, setCurrentFilter, getCurrentSort, setCurrentSort, getCustomKeyData, setCustomKeyData } from '../../redux/common';
 import { Validator } from '../../utils/validator';
 import { GLOBAL_OPTIONS } from '../../globals';
 
@@ -24,6 +24,7 @@ class GenericListing extends Component {
     this.onGridAction = this.onGridAction.bind(this);
     this.onEditColumnChange = this.onEditColumnChange.bind(this);
     this.onFilterAction = this.onFilterAction.bind(this);
+    this.onGridChange = this.onGridChange.bind(this);
   }
 
   getKey(name) {
@@ -206,10 +207,23 @@ class GenericListing extends Component {
   async onGridAction(row, action, _) {
     switch (action.actionType) {
       default:
+        this.props.raiseAction(startLoading());
         this.props.onAction && await this.props.onAction(row, action);
         if (action.refreshAfter) {
           await this.refreshData({ });
         }
+        this.props.raiseAction(stopLoading());
+
+    }
+  }
+  async onGridChange(data, action, row) {
+    if (action.actionType) {
+        this.props.raiseAction(startLoading());
+        this.props.onAction && await this.props.onAction({...row, ...data}, action);
+      if (action.refreshAfter) {
+        await this.refreshData({ });
+      }
+      this.props.raiseAction(stopLoading());
     }
   }
   async onFilterAction(data, action) {
@@ -299,7 +313,7 @@ class GenericListing extends Component {
                 isLoading={this.state.isLoading}
                 className="sq-basic-grid sq-grid--fixed"
                 loader={<Skeleton styleName={`grid-tran`} rows={4} />}
-                // onChange={this.handleGridChange}
+                onChange={this.onGridChange}
                 onColFilterChange={this.onEditColumnChange}
                 selectedColumns={this.state.selectedColumns}
                 showColSelection={this.state.showEditColumns}

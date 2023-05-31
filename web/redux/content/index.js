@@ -275,6 +275,7 @@ export const executeHook = (payload) => async (dispatch, getState) => {
 };
 
 export const postApi = (payload, pageResponse) => async (dispatch, getState) => {
+  const currentData = payload.currentData || {};
   if (payload.match) {
     const validator = new Validator(payload.match);
     validator.setValues(selectUserData(getState()));
@@ -295,19 +296,19 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
       state: getState(),
       payload,
       data: {
-        params: processParams(getState().content.userData, payload.params, undefined, getState()),
-        headers: processParams(getState().content.userData, payload.headers, undefined, getState()),
-        query: processParams(getState().content.userData, payload.query, undefined, getState()),
+        params: processParams({...getState().content.userData, ...currentData}, payload.params, undefined, getState()),
+        headers: processParams({...getState().content.userData, ...currentData}, payload.headers, undefined, getState()),
+        query: processParams({...getState().content.userData, ...currentData}, payload.query, undefined, getState()),
       },
-      userData: getState().content.userData,
+      userData: {...getState().content.userData, ...currentData},
       dispatch,
       getState,
     });
   }
   if (payload.method && payload.url) {
     let paramToProcess = { method: payload.method, url: payload.url };
-    paramToProcess = processParams(getState().content.userData, paramToProcess, undefined, getState());
-    response = await apiBridge[paramToProcess.method.toLowerCase()](paramToProcess.url, processParams(getState().content.userData, payload.params, undefined, getState()), processParams(getState().content.userData, payload.headers, undefined, getState()), processParams(getState().content.userData, payload.query, undefined, getState()));
+    paramToProcess = processParams({...getState().content.userData, ...currentData}, paramToProcess, undefined, getState());
+    response = await apiBridge[paramToProcess.method.toLowerCase()](paramToProcess.url, processParams({...getState().content.userData, ...currentData}, payload.params, undefined, getState()), processParams({...getState().content.userData, ...currentData}, payload.headers, undefined, getState()), processParams({...getState().content.userData, ...currentData}, payload.query, undefined, getState()));
   }
 
   if (payload.postHook) {
@@ -315,11 +316,11 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
       state: getState(),
       payload,
       data: {
-        params: processParams(getState().content.userData, payload.params, undefined, getState()),
-        headers: processParams(getState().content.userData, payload.headers, undefined, getState()),
-        query: processParams(getState().content.userData, payload.query, undefined, getState()),
+        params: processParams({...getState().content.userData, ...currentData}, payload.params, undefined, getState()),
+        headers: processParams({...getState().content.userData, ...currentData}, payload.headers, undefined, getState()),
+        query: processParams({...getState().content.userData, ...currentData}, payload.query, undefined, getState()),
       },
-      userData: getState().content.userData,
+      userData: {...getState().content.userData, ...currentData},
       dispatch,
       getState,
     });
@@ -332,7 +333,7 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
       payload.defaultResponse[response.status].forEach((item) => {
         if (item.match && !isValid) {
           const valid = new Validator(item.match);
-          valid.setValues(getState().content.userData);
+          valid.setValues({...getState().content.userData, ...currentData});
           if (valid.validateAll()) {
             finalObj = item;
             isValid = true;
@@ -379,7 +380,7 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
           let isValid = true;
           if (actionItem.match) {
             const vldtr = new Validator(actionItem.match);
-            vldtr.setValues(getState().content.userData);
+            vldtr.setValues({...getState().content.userData, ...currentData});
             isValid = vldtr.validateAll();
           }
           isValid && events.emit('dynammicContent.onAction', {}, actionItem, {});
@@ -399,7 +400,7 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
           let isValid = true;
           if (actionItem.match) {
             const vldtr = new Validator(actionItem.match);
-            vldtr.setValues(getState().content.userData);
+            vldtr.setValues({...getState().content.userData, ...currentData});
             isValid = vldtr.validateAll();
           }
           isValid && events.emit('dynammicContent.onAction', {}, actionItem, {});
@@ -426,7 +427,6 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
 };
 
 export const uploadApi = (payload, pageResponse) => async (dispatch, getState) => {
-  console.log(payload);
   if (payload.match) {
     const validator = new Validator(payload.match);
     validator.setValues(selectUserData(getState()));

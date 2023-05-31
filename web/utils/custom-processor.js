@@ -21,6 +21,12 @@ class CustomProcessor {
         string: (value) => {
           return !common.isNullOrUndefined(value) ? value.toString() : value;
         },
+        code: (value) => {
+          return !common.isNullOrUndefined(value?.code) ? value.code.toString() : '';
+        },
+        name: (value) => {
+          return !common.isNullOrUndefined(value?.name) ? value.name.toString() : '';
+        },
         number: (value) => {
           return !common.isNullOrUndefined(value) ? value * 1 : value;
         },
