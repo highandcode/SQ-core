@@ -295,9 +295,9 @@ class GenericListing extends Component {
           <div className={`sq-v-screen__container`}>
             <div className="container-fluid">
               <div className="sq-v-screen__pagination-bar d-flex fl-a-items-center justify-content-between mb-2">
-                <div className={'sq-generic-listing__quick'}>
+                {this.quickFilterFields && <div className={'sq-generic-listing__quick mt-2'}>
                   <Form disabled={this.state.isLoading} onChange={this.onQuickFilterChange} className="sq-form--inline-auto p-0" value={this.state.currentQuickFilter} fields={this.quickFilterFields} />
-                </div>
+                </div>}
               </div>
             </div>
             <div className="sq-generic-listing__grid-wrapper sq-v-screen-grow">
