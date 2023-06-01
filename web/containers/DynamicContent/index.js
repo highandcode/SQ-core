@@ -381,7 +381,6 @@ class DynamicContent extends Component {
 
   async onAction(value, action, block) {
     const { onSubmit, onCancel } = this.props;
-    action.currentData = value;
     let result;
     let isValid = true;
     // action.nextAction = (action) => this.onAction(value, action, block); 

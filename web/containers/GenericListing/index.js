@@ -208,6 +208,7 @@ class GenericListing extends Component {
     switch (action.actionType) {
       default:
         this.props.raiseAction(startLoading());
+        action.currentData = row;
         this.props.onAction && await this.props.onAction(row, action);
         if (action.refreshAfter) {
           await this.refreshData({ });
@@ -264,7 +265,7 @@ class GenericListing extends Component {
   render() {
     const { metaData = {}, pageData = {}, userData, store, ...rest } = this.props;
     const { className = '' } = pageData;
-    const { Actions, ButtonSelection, Dialog, Form, Grid, Skeleton } = getMap();
+    const { Actions, ButtonSelection, Dialog, Form, Grid, Skeleton, Progress } = getMap();
     return (
       <div className={`sq-generic-listing sq-v-screen sq-v-screen--fixed ${className}`}>
         <div className="sq-v-screen__container">
@@ -293,6 +294,7 @@ class GenericListing extends Component {
             />
           </div>
           <div className={`sq-v-screen__container`}>
+            
             <div className="container-fluid">
               <div className="sq-v-screen__pagination-bar d-flex fl-a-items-center justify-content-between mb-2">
                 {this.quickFilterFields && <div className={'sq-generic-listing__quick mt-2'}>
