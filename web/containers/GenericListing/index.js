@@ -153,9 +153,9 @@ class GenericListing extends Component {
     });
     await this.setState({
       currentSort: { ...(pageData.currentSort || {}), ...getCurrentSort() },
-      currentFilter: {...getCurrentFilter(), ...overrideParams.filterParams},
-      currentQuickFilter: {...getCustomKeyData('quickFilter'), ...overrideParams.topFilterParams},
-      topFilter: {...getCustomKeyData('topFilter'), ...overrideParams.topFilterParams},
+      currentFilter: { ...getCurrentFilter(), ...overrideParams.filterParams },
+      currentQuickFilter: { ...getCustomKeyData('quickFilter'), ...overrideParams.topFilterParams },
+      topFilter: { ...getCustomKeyData('topFilter'), ...overrideParams.topFilterParams },
     });
     this.refreshData();
   }
@@ -184,7 +184,7 @@ class GenericListing extends Component {
   }
 
   async refreshData({ filter, sort, pageSize, pageNo } = {}) {
-    const { pageData, data, userData, store, raiseAction } = this.props;
+    const { pageData, data, userData, store, raiseAction, onAction } = this.props;
 
     if (pageData.apiConfig?.search) {
       this.setState({
@@ -195,6 +195,20 @@ class GenericListing extends Component {
       pageNo = pageNo || pagination?.currentPage || 1;
       const sortBy = (sort || this.state.currentSort).sortColumn;
       const sortDir = (sort || this.state.currentSort).sortOrder;
+      if (pageData.bookmarkable === true) {
+        onAction &&
+          onAction(
+            {},
+            {
+              actionType: 'self-redirect',
+              urlParams: {
+                ...(filter || this.state.currentFilter),
+                ...(this.state.currentQuickFilter || {}),
+                ...(this.state.topFilter || {}),
+              },
+            }
+          );
+      }
       await raiseAction(
         postApi(
           {
