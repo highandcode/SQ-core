@@ -18,6 +18,7 @@
     -webkit-box-orient: vertical;
   } @else {
     white-space: nowrap;
+    display: block !important;
   }
 }
 @mixin style2-header() {
