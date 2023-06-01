@@ -3,6 +3,7 @@ import { getMap } from '../../components/ui';
 import { postApi, processParams } from '../../redux/content';
 import { startLoading, stopLoading, getCurrentFilter, setCurrentFilter, getCurrentSort, setCurrentSort, getCustomKeyData, setCustomKeyData } from '../../redux/common';
 import { Validator } from '../../utils/validator';
+import { query } from '../../utils/query-string';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 import './_generic-listing.scss';
@@ -25,6 +26,7 @@ class GenericListing extends Component {
     this.onEditColumnChange = this.onEditColumnChange.bind(this);
     this.onFilterAction = this.onFilterAction.bind(this);
     this.onGridChange = this.onGridChange.bind(this);
+    this.onTopFilterChange = this.onTopFilterChange.bind(this);
   }
 
   getKey(name) {
@@ -47,7 +49,29 @@ class GenericListing extends Component {
         selectedColumns: pageData.defaultColumns,
       });
     }
+    const overrideParams = {
+      filterParams: {},
+      quickFilterParams: {},
+      topFilterParams: {},
+    };
+    const queryParams = query.get();
     this.filterFields = pageData.filterFields?.map((field) => {
+      if (queryParams[field.name]) {
+        overrideParams.filterParams[field.name] = queryParams[field.name];
+      }
+      return {
+        ...field,
+        beforeRender: (field, val, row) => {
+          return {
+            ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
+          };
+        },
+      };
+    });
+    this.topFilterFields = pageData.topFilterFields?.map((field) => {
+      if (queryParams[field.name]) {
+        overrideParams.topFilterParams[field.name] = queryParams[field.name];
+      }
       return {
         ...field,
         beforeRender: (field, val, row) => {
@@ -58,6 +82,9 @@ class GenericListing extends Component {
       };
     });
     this.quickFilterFields = pageData.quickFilterFields?.map((field) => {
+      if (queryParams[field.name]) {
+        overrideParams.quickFilterParams[field.name] = queryParams[field.name];
+      }
       return {
         ...field,
         beforeRender: (field, val, row) => {
@@ -126,18 +153,34 @@ class GenericListing extends Component {
     });
     await this.setState({
       currentSort: { ...(pageData.currentSort || {}), ...getCurrentSort() },
-      currentFilter: getCurrentFilter(),
-      currentQuickFilter: getCustomKeyData('quickFilter'),
+      currentFilter: {...getCurrentFilter(), ...overrideParams.filterParams},
+      currentQuickFilter: {...getCustomKeyData('quickFilter'), ...overrideParams.topFilterParams},
+      topFilter: {...getCustomKeyData('topFilter'), ...overrideParams.topFilterParams},
     });
     this.refreshData();
   }
   async onFilterChange(data, field) {
     this.setState({ __currentFilter: data.value });
   }
-  async onQuickFilterChange(data, field) {
+  async onQuickFilterChange(data, action) {
+    const { onAction } = this.props;
     await this.setState({ currentQuickFilter: data.value });
+    if (action.actionType) {
+      action.currentData = data.value;
+      onAction && onAction(data.value, action);
+    }
     this.refreshData({ pageNo: 1 });
     setCustomKeyData('quickFilter', data.value);
+  }
+  async onTopFilterChange(data, action) {
+    const { onAction } = this.props;
+    await this.setState({ topFilter: data.value });
+    if (action.actionType) {
+      action.currentData = data.value;
+      onAction && onAction(data.value, action);
+    }
+    this.refreshData({ pageNo: 1 });
+    setCustomKeyData('topFilter', data.value);
   }
 
   async refreshData({ filter, sort, pageSize, pageNo } = {}) {
@@ -160,6 +203,7 @@ class GenericListing extends Component {
               ...processParams(userData, pageData.apiConfig?.search.params, undefined, store),
               ...(filter || this.state.currentFilter),
               ...(this.state.currentQuickFilter || {}),
+              ...(this.state.topFilter || {}),
             },
             query: pageData.apiConfig?.search.query
               ? processParams({ ...userData, sortBy: `${sortBy}|${sortDir}`, pageSize: pageSize, pageNo: pageNo }, pageData.apiConfig?.search.query)
@@ -209,20 +253,19 @@ class GenericListing extends Component {
       default:
         this.props.raiseAction(startLoading());
         action.currentData = row;
-        this.props.onAction && await this.props.onAction(row, action);
+        this.props.onAction && (await this.props.onAction(row, action));
         if (action.refreshAfter) {
-          await this.refreshData({ });
+          await this.refreshData({});
         }
         this.props.raiseAction(stopLoading());
-
     }
   }
   async onGridChange(data, action, row) {
     if (action.actionType) {
-        this.props.raiseAction(startLoading());
-        this.props.onAction && await this.props.onAction({...row, ...data}, action);
+      this.props.raiseAction(startLoading());
+      this.props.onAction && (await this.props.onAction({ ...row, ...data }, action));
       if (action.refreshAfter) {
-        await this.refreshData({ });
+        await this.refreshData({});
       }
       this.props.raiseAction(stopLoading());
     }
@@ -270,6 +313,11 @@ class GenericListing extends Component {
       <div className={`sq-generic-listing sq-v-screen sq-v-screen--fixed ${className}`}>
         <div className="sq-v-screen__container">
           <div className="sq-v-screen__sub-header">
+            {this.topFilterFields && (
+              <div className={'sq-generic-listing__quick'}>
+                <Form disabled={this.state.isLoading} onChange={this.onTopFilterChange} className="sq-form--inline-auto p-0" value={this.state.topFilter} fields={this.topFilterFields} />
+              </div>
+            )}
             <Actions
               className="w-auto"
               disabled={this.state.isLoading}
@@ -294,12 +342,13 @@ class GenericListing extends Component {
             />
           </div>
           <div className={`sq-v-screen__container`}>
-            
             <div className="container-fluid">
               <div className="sq-v-screen__pagination-bar d-flex fl-a-items-center justify-content-between mb-2">
-                {this.quickFilterFields && <div className={'sq-generic-listing__quick mt-2'}>
-                  <Form disabled={this.state.isLoading} onChange={this.onQuickFilterChange} className="sq-form--inline-auto p-0" value={this.state.currentQuickFilter} fields={this.quickFilterFields} />
-                </div>}
+                {this.quickFilterFields && (
+                  <div className={'sq-generic-listing__quick mt-2'}>
+                    <Form disabled={this.state.isLoading} onChange={this.onQuickFilterChange} className="sq-form--inline-auto p-0" value={this.state.currentQuickFilter} fields={this.quickFilterFields} />
+                  </div>
+                )}
               </div>
             </div>
             <div className="sq-generic-listing__grid-wrapper sq-v-screen-grow">
