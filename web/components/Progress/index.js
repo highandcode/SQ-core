@@ -8,7 +8,7 @@ import Ripple from './ripple';
 
 const _types = {
   default: CircularProgress,
-  circle: LinearProgress,
+  line: LinearProgress,
   cube: CubeProgress,
   round: RoundProgress,
   ripple: Ripple

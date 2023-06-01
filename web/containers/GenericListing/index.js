@@ -265,7 +265,7 @@ class GenericListing extends Component {
   render() {
     const { metaData = {}, pageData = {}, userData, store, ...rest } = this.props;
     const { className = '' } = pageData;
-    const { Actions, ButtonSelection, Dialog, Form, Grid, Skeleton, Progress } = getMap();
+    const { Actions, Dialog, Form, Grid, Skeleton, Progress } = getMap();
     return (
       <div className={`sq-generic-listing sq-v-screen sq-v-screen--fixed ${className}`}>
         <div className="sq-v-screen__container">
