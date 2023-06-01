@@ -240,7 +240,9 @@ class GenericListing extends Component {
   async handlePageChange(data) {
     const pageNo = data.value.currentPage,
       pageSize = data.value.pageSize;
+    this.props.raiseAction(startLoading());
     await this.refreshData({ pageNo, pageSize });
+    this.props.raiseAction(stopLoading());
   }
   async handleAction(data, action) {
     const { onAction } = this.props;
@@ -291,7 +293,9 @@ class GenericListing extends Component {
           showFilter: !this.state.showFilter,
           currentFilter: {},
         });
+        this.props.raiseAction(startLoading());
         await this.refreshData({ filter: {}, pageNo: 1 });
+        this.props.raiseAction(stopLoading());
         setCurrentFilter({});
         break;
       case 'applyFilter':
@@ -301,15 +305,19 @@ class GenericListing extends Component {
           __currentFilter: {},
         });
         setCurrentFilter(this.state.currentFilter);
+        this.props.raiseAction(startLoading());
         await this.refreshData({});
-        break;
+        this.props.raiseAction(stopLoading());
+      break;
     }
   }
   async handleOnSortChange(data) {
     await this.setState({ currentSort: data });
     const { currentPage } = this.props.userData[this.getKey('results')] || {};
     setCurrentSort(data);
+    this.props.raiseAction(startLoading());
     await this.refreshData({ pageNo: currentPage, sort: data });
+    this.props.raiseAction(stopLoading());
   }
 
   onEditColumnChange(data) {
