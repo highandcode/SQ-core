@@ -310,6 +310,7 @@ class GenericListing extends Component {
                   defaultPageSize: pageData.defaultPageSize || defaultPageSize,
                   pageSizeOptions: GLOBAL_OPTIONS.noOfResultsDropdown.toArray(),
                 }}
+                disabled={this.state.isLoading}
                 className="sq-basic-grid sq-grid--fixed"
                 loader={<Skeleton styleName={`grid-tran`} rows={4} />}
                 onChange={this.onGridChange}

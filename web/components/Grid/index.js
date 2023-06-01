@@ -185,10 +185,10 @@ class Grid extends React.Component {
         </Dialog>
         <div className="sq-grid__top-bar">
           <div className="sq-grid__switch-views">
-            {enableViewSelection && this.hasData() && <ButtonSelection options={this.viewOptions} value={this.state.viewType || viewType} onChange={this.onViewTypeChange} disabled={this.isLoading()} />}
+            {enableViewSelection && this.hasData() && <ButtonSelection options={this.viewOptions} value={this.state.viewType || viewType} onChange={this.onViewTypeChange} disabled={this.isDisabled() || this.isLoading()} />}
           </div>
           {paginationProps?.value && this.hasData() && <div className="sq-grid__pagination-view">
-            <Pagination {...paginationProps} value={paginationProps?.value} disabled={paginationProps.disabled || this.isLoading()} />
+            <Pagination {...paginationProps} value={paginationProps?.value} disabled={paginationProps.disabled || this.isDisabled() ||  this.isLoading()} />
           </div>}
         </div>
         <div className="sq-grid__root">
@@ -266,6 +266,10 @@ class Grid extends React.Component {
 
   isLoading() {
     return this.props.data === undefined || (this.props.isLoading === true);
+  }
+
+  isDisabled() {
+    return !!this.props.disabled;
   }
 
   hasData() {
