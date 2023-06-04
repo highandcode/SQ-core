@@ -2,14 +2,19 @@ import Form from '../../components/Form';
 import Progress from '../../components/Progress';
 import LaunchTimer from '../../components/LaunchTimer';
 import Wrapper from '../../components/Wrapper';
+import Iframe from '../../components/Iframe';
 import ImageWithSpotlight from '../../components/ImageWithSpotlight';
+// import Pricing from '../../components/ui/Pricing';
 import TextColumnWithLinks from '../../components/ui/TextColumnWithLinks';
 import { getMap } from '../../components/ui';
 import { ItemTypes } from './ItemTypes';
 
 import HeaderEdit from './edits/Header';
 import HeroContentEdit from './edits/HeroContent';
+import IframeEdit from './edits/Iframe';
 import LaunchTimerEdit from './edits/LaunchTimer';
+import CodeHighlightEdit from './edits/CodeHighlight';
+import PricingEdit from './edits/Pricing';
 import ContactUsInfoEdit from './edits/ContactUsInfo';
 import ImageWithSpotlightEdit from './edits/ImageWithSpotlight';
 import ImageBlockWithTextEdit from './edits/ImageBlockWithText';
@@ -481,6 +486,162 @@ const compList = {
     },
     editData: HeroContentEdit,
   },
+  Pricing: {
+    group: 'Content',
+    Component: getMap().Pricing,
+    sampleData: {
+      header: 'Pricing Plan',
+      subHeader: 'Choose your own plan',
+      features: [
+        {
+          icon: 'person',
+          text: 'Users',
+        },
+        {
+          icon: 'Computer',
+          text: 'Websites ',
+        },
+        {
+          icon: 'CheckCircleOutline',
+          text: 'Dynamic Editing',
+        },
+        {
+          icon: 'Cloud',
+          text: 'Taken changes',
+        },
+        {
+          icon: 'Donwload',
+          text: 'Future updates',
+        },
+        {
+          icon: 'CheckCircleOutline',
+          text: 'Parking',
+        },
+      ],
+
+      items: [
+        {
+          header: 'Basic',
+          price: 'USD $25',
+          icon: 'calendar',
+          lastPrice: 'USD $49',
+          color: 'primary',
+          features: [
+            {
+              icon: 'CheckCircleOutline',
+              text: 'Ut pariatur',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'aliqua commodo elit mollit ullamco. ',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'Eiusmod ut dolor reprehenderit reprehenderit',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: ' tempor mollit et deserunt labore. Occaecat ',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'elit ea consectetur minim do officia',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'qui cillum minim veniam ea nostrud irure sit',
+            },
+          ],
+          actions: [
+            {
+              buttonText: 'Contact us',
+              type: 'Button',
+              variant: 'outlined',
+            },
+          ],
+        },
+        {
+          header: 'Professional',
+          price: 'USD $50',
+          icon: 'calendar',
+          color: 'success',
+          features: [
+            {
+              icon: 'CheckCircleOutline',
+              text: 'Ut pariatur',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'aliqua commodo elit mollit ullamco. ',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'Eiusmod ut dolor reprehenderit reprehenderit',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: ' tempor mollit et deserunt labore. Occaecat ',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'elit ea consectetur minim do officia',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'qui cillum minim veniam ea nostrud irure sit',
+            },
+          ],
+          actions: [
+            {
+              buttonText: 'Contact us',
+              type: 'Button',
+              variant: 'outlined',
+            },
+          ],
+        },
+        {
+          header: 'Enterprise',
+          price: 'USD $599',
+          color: 'info',
+          icon: 'calendar',
+          features: [
+            {
+              icon: 'CheckCircleOutline',
+              text: 'Ut pariatur',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'aliqua commodo elit mollit ullamco. ',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'Eiusmod ut dolor reprehenderit reprehenderit',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: ' tempor mollit et deserunt labore. Occaecat ',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'elit ea consectetur minim do officia',
+            },
+            {
+              icon: 'CheckCircleOutline',
+              text: 'qui cillum minim veniam ea nostrud irure sit',
+            },
+          ],
+          actions: [
+            {
+              buttonText: 'Contact us',
+              type: 'Button',
+              variant: 'outlined',
+            },
+          ],
+        },
+      ],
+    },
+    editData: PricingEdit,
+  },
   ImageWithSlide: {
     group: 'Content',
     Component: getMap().ImageWithSlide,
@@ -525,17 +686,20 @@ const compList = {
         {
           icon: 'call',
           title: 'ALL BRANDS',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
         },
         {
           icon: 'message',
           title: 'FREE SUPPORT',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
         },
         {
           icon: 'creditcard',
           title: 'AFFORDABLE',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
         },
       ],
     },
@@ -549,7 +713,8 @@ const compList = {
         {
           iconName: 'call',
           header: 'Header 1',
-          subHeader: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
+          subHeader:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed. Eget nulla facilisi etiam dignissim diam. Eu nisl nunc mi ipsum faucibus. Risus sed vulputate odio ut. Orci a scelerisque purus semper eget duis. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Ut faucibus pulvinar',
         },
         {
           iconName: 'location',
@@ -595,11 +760,13 @@ const compList = {
               iconName: 'facebook',
               to: 'http://example.com',
               iconColor: 'info',
+              target: '_blank',
             },
             {
               iconName: 'instagram',
               to: 'http://insta.com',
               iconColor: 'red',
+              target: '_blank',
             },
           ],
         },
@@ -635,6 +802,15 @@ const compList = {
         'Laborum ex duis ut labore eiusmod amet fugiat. Qui ullamco exercitation eu sint laborum. Magna aliquip adipisicing laborum anim anim id dolore ea tempor. Do cupidatat velit exercitation cupidatat magna anim. Nisi nulla est ad duis consectetur officia incididunt nostrud enim veniam incididunt veniam labore eu. Non minim deserunt laborum ullamco esse fugiat mollit deserunt consectetur velit dolore exercitation pariatur. Ex elit sunt occaecat cupidatat cillum elit aliqua veniam cupidatat nulla adipisicing.',
     },
     editData: GetInTouchEdit,
+  },
+  CodeHighlight: {
+    group: 'Content',
+    Component: getMap().CodeHighlight,
+    sampleData: {
+      code: 'funciton(a, b) {\n return a + b; \n }',
+      language: 'javscript',
+    },
+    editData: CodeHighlightEdit,
   },
 
   Team: {
@@ -684,12 +860,21 @@ const compList = {
     },
     editData: ImageWithHeaderBodyEdit,
   },
+  Iframe: {
+    group: 'Content',
+    Component: Iframe,
+    sampleData: {
+      url: 'https://www.google.com'
+    },
+    editData: IframeEdit,
+  },
   ImageWithSpotlight: {
     group: 'Content',
     Component: ImageWithSpotlight,
     sampleData: {
       header: 'Grow with us',
-      bgImageUrl: 'https://img.freepik.com/free-photo/new-york-city-central-park-panorama_649448-89.jpg?w=2000&t=st=1683292030~exp=1683292630~hmac=b87b9d4a48fea6a2b3ed84f236b7f9213fc24948ed32023d554ff3e9c31d4315',
+      bgImageUrl:
+        'https://img.freepik.com/free-photo/new-york-city-central-park-panorama_649448-89.jpg?w=2000&t=st=1683292030~exp=1683292630~hmac=b87b9d4a48fea6a2b3ed84f236b7f9213fc24948ed32023d554ff3e9c31d4315',
       actions: [
         {
           buttonText: 'Blogs',
@@ -705,7 +890,6 @@ const compList = {
           buttonText: 'Support',
           iconName: 'person',
           color: 'error',
-
         },
       ],
     },

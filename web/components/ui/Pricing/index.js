@@ -1,12 +1,14 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import Default from './templates/default';
+import BoxStyle from './templates/box-style';
 
 const templates = {
-  default: Default
+  default: Default,
+  'box-style': BoxStyle,
 };
 
-const HeroContent = ({ eyebrow, template = 'default', header, headerTag = 'h1', bodyTag = 'div', subHeader, className = '', ...rest }) => {
+const Pricing = ({ eyebrow, template = 'default', header, headerTag = 'h1', bodyTag = 'div', subHeader, className = '', ...rest }) => {
   const TemplateToRender = templates[template] || templates.default;
   const containerEl = useRef(null);
   return (
@@ -17,7 +19,7 @@ const HeroContent = ({ eyebrow, template = 'default', header, headerTag = 'h1', 
           header,
           subHeader,
           headerTag,
-          bodyTag
+          bodyTag,
         }}
         {...rest}
       />
@@ -25,10 +27,10 @@ const HeroContent = ({ eyebrow, template = 'default', header, headerTag = 'h1', 
   );
 };
 
-HeroContent.propTypes = {
+Pricing.propTypes = {
   className: PropTypes.string,
   header: PropTypes.string,
-  subHeader: PropTypes.string
+  subHeader: PropTypes.string,
 };
 
-export default HeroContent;
+export default Pricing;

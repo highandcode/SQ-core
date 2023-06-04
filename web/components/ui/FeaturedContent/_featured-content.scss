@@ -7,14 +7,15 @@
     display: flex;
     flex-wrap: wrap;
 
-    @media (min-width: $screen-sm) {
-      flex-wrap: nowrap;
-    }
+    // @media (min-width: $screen-sm) {
+    //   flex-wrap: nowrap;
+    // }
     &-item {
       flex-basis: 100%;
       @media (min-width: $screen-sm) {
         flex: 1 1;
         flex-basis: auto;
+        flex-basis: 33%;
       }
       padding: $spacing-x2;
       &__icon {

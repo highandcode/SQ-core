@@ -383,6 +383,10 @@ class DynamicContent extends Component {
     const { onSubmit, onCancel } = this.props;
     let result;
     let isValid = true;
+    const newUserData = {
+      ...this.props.store.content.userData,
+      ...(action.currentData || {}),
+    }
     // action.nextAction = (action) => this.onAction(value, action, block); 
     switch (action.actionType) {
       case 'file-upload':
@@ -499,25 +503,25 @@ class DynamicContent extends Component {
       case 'submit-event':
         isValid = this.validateForms(block.forms, action.validateGroup);
         if (isValid) {
-          onSubmit && onSubmit(processParams(this.props.store.content.userData, action.params));
+          onSubmit && onSubmit(processParams(newUserData, action.params));
         }
         break;
       case 'cancel-event':
-        onCancel && onCancel(processParams(this.props.store.content.userData, action.params));
+        onCancel && onCancel(processParams(newUserData, action.params));
         break;
       case 'user-store':
         await this.props.contentActions.mergeUserData({
-          ...processParams(this.props.store.content.userData, action.params),
+          ...processParams(newUserData, action.params),
         });
         break;
       case 'notify-message':
         await this.props.commonActions.showNotificationMessage({
-          ...processParams(this.props.store.content.userData, action.params),
+          ...processParams(newUserData, action.params),
         });
         break;
       case 'popup':
         await this.props.commonActions.showPopup({
-          ...processParams(this.props.store.content.userData, action.params),
+          ...processParams(newUserData, action.params),
         });
         break;
       case 'close-popup':
@@ -526,7 +530,7 @@ class DynamicContent extends Component {
         break;  
       case 'popup-screen':
         await this.props.commonActions.showPopupScreen({
-          ...processParams(this.props.store.content.userData, action.params),
+          ...processParams(newUserData, action.params),
         });
         break;
       case 'close-popup-screen':
@@ -534,7 +538,10 @@ class DynamicContent extends Component {
         action.eventEmit !== false && events.emit('onPopupScreenCloseAction', action);
         break;
       case 'redirect':
-        redirectTo(action.to, processParams(this.props.store.content.userData, action.params), action.options);
+        redirectTo(action.to, processParams(newUserData, action.urlParams || action.params), action.options);
+        break;
+      case 'self-redirect':
+        redirectTo(window.location.pathname, processParams(newUserData, action.urlParams || action.params), action.options);
         break;
     }
   }

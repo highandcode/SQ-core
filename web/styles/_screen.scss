@@ -35,15 +35,17 @@
   &__pagination-bar {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 8px;
     @media (min-width: $screen-sm) {
       flex-direction: row;
+      align-items: center;
     }
   }
   &__sub-header {
     @media (min-width: $screen-sm) {
       position: absolute;
-      width: 50%;
+      width: auto;
     }
     right: 0;
     padding-right: 15px;

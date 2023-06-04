@@ -141,7 +141,7 @@ export const withEditTabs = ({ classNames = [], pageData = {}, general = [], val
             },
           ],
         },
-        
+
         {
           component: 'FormObject',
           name: 'main',
@@ -156,7 +156,7 @@ export const withEditTabs = ({ classNames = [], pageData = {}, general = [], val
             },
           },
         },
-        
+
         {
           component: 'Form',
           name: 'main',
@@ -177,7 +177,7 @@ export const withEditTabs = ({ classNames = [], pageData = {}, general = [], val
                 },
               },
             },
-            
+
             ...createTabItems(finalGeneral, tabs.general.value),
             ...createTabItems(finalValidations, tabs.validations.value),
             ...createTabItems(actions, tabs.actions.value),
@@ -196,21 +196,27 @@ export const withEditTabs = ({ classNames = [], pageData = {}, general = [], val
         },
         ...(pageData.items ? pageData.items : []),
         {
-          component: 'Button',
-          actionType: 'submit-event',
-          buttonText: 'Save',
-          size: 'medium',
-          params: {
-            '...main': '.main',
-            ...saveParams,
-          },
-        },
-        {
-          component: 'Button',
-          actionType: 'cancel-event',
-          buttonText: 'Cancel',
-          variant: 'outlined',
-          size: 'medium'
+          component: 'Wrapper',
+          bodyClassName: '',
+          items: [
+            {
+              component: 'Button',
+              actionType: 'submit-event',
+              buttonText: 'Save',
+              size: 'medium',
+              params: {
+                '...main': '.main',
+                ...saveParams,
+              },
+            },
+            {
+              component: 'Button',
+              actionType: 'cancel-event',
+              buttonText: 'Cancel',
+              variant: 'outlined',
+              size: 'medium',
+            },
+          ],
         },
       ],
     },

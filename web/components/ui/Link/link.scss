@@ -9,6 +9,9 @@ a {
     align-items: center;
     justify-content: center;
   }
+  &__pointer {
+    display: inline-block;
+  }
   &__icon {
     display: flex;
     float: left;

@@ -18,6 +18,10 @@ export const GLOBAL_OPTIONS = {
     filled: 'Filled',
     default: 'Default',
   }),
+  pricingTemplates: new GlobalOptions({
+    default: 'default',
+    'box-style': 'box-style',
+  }),
   featureContentTemplates: new GlobalOptions({
     default: 'Default',
     'with-bg': 'With Background',
@@ -150,6 +154,7 @@ export const GLOBAL_OPTIONS = {
   }),
   pageWrapperClasses: new GlobalOptions({
     'sq-content-page--full-width': 'sq-content-page--full-width',
+    'sq-content-page--h-100': 'sq-content-page--h-100',
     'sq-content-page--header-footer-body':
       'sq-content-page--header-footer-body',
   }),
@@ -159,6 +164,7 @@ export const GLOBAL_OPTIONS = {
     large: 'large',
   }),
   colorTypes: new GlobalOptions({
+    inherit: 'inherit',
     primary: 'primary',
     secondary: 'secondary',
     success: 'success',
@@ -167,6 +173,7 @@ export const GLOBAL_OPTIONS = {
     warning: 'warning',
   }),
   iconColorTypes: new GlobalOptions({
+    inherit: 'inherit',
     primary: 'primary',
     secondary: 'secondary',
     success: 'success',

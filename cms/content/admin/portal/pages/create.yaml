@@ -54,15 +54,33 @@ items:
       url: /api/v1/admin/content/page
       method: post
       dataKey: createPage
-      postHook: admin.afterPageCreate
       rootErrorKey: page
-      # defaultResponse:
-      #   success:
-      #     data:
-      #       redirect:
-      #         to: editPage
-      #         urlParams:
-      #           path: .createPage.path
+      defaultResponse:
+        success:
+          - notification:
+              message: Page created succcessfully
+            data:
+              redirect:
+                to: editPage
+                urlParams:
+                  path: .createPage.path
+            match:
+              page.type:
+                validators:
+                  - type: equals
+                    matchValue: PAGE
+          - notification:
+              message: Sitemap created succcessfully
+            data:
+              redirect:
+                to: editSiteMap
+                urlParams:
+                  path: .createPage.path
+            match:
+              page.type:
+                validators:
+                  - type: equals
+                    matchValue: SITE_MAP
             
       params:
         pageData:

@@ -228,7 +228,7 @@ class PageListing extends BaseContainer {
                         {
                           cmpType: 'LinkButton',
                           iconName: 'deactivate',
-                          iconVariant: 'error',
+                          iconColor: 'error',
                           action: 'unpublish',
                           buttonText: translate('UnPublish'),
                           render: (row) => {
@@ -238,7 +238,7 @@ class PageListing extends BaseContainer {
                         {
                           cmpType: 'LinkButton',
                           iconName: 'active',
-                          iconVariant: 'success',
+                          iconColor: 'success',
                           action: 'publish',
                           buttonText: translate('Publish'),
                           render: (row) => {
@@ -248,14 +248,14 @@ class PageListing extends BaseContainer {
                         {
                           cmpType: 'LinkButton',
                           iconName: 'ContentCopy',
-                          iconVariant: 'info',
+                          iconColor: 'info',
                           action: 'clone',
                           buttonText: translate('Clone'),
                         },
                         {
                           cmpType: 'LinkButton',
                           iconName: 'Delete',
-                          iconVariant: 'error',
+                          iconColor: 'error',
                           action: 'delete',
                           buttonText: translate('Delete'),
                           confirm: {

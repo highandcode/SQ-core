@@ -1,5 +1,8 @@
 const object = require('../../server/src/utils/object');
 const common = require('../../server/src/utils/common');
+const _string = require('./string').default;
+const accent = require('./accent-colors').default;
+
 class CustomProcessor {
   constructor() {
     this.processor = {
@@ -18,6 +21,12 @@ class CustomProcessor {
         string: (value) => {
           return !common.isNullOrUndefined(value) ? value.toString() : value;
         },
+        code: (value) => {
+          return !common.isNullOrUndefined(value?.code) ? value.code.toString() : '';
+        },
+        name: (value) => {
+          return !common.isNullOrUndefined(value?.name) ? value.name.toString() : '';
+        },
         number: (value) => {
           return !common.isNullOrUndefined(value) ? value * 1 : value;
         },
@@ -29,6 +38,12 @@ class CustomProcessor {
         },
       },
       common: {
+        accentByChar: (value) => {
+          return accent.getColorByChar(_string.getTwoChars(value));
+        },
+        getTwoChars: (value) => {
+          return _string.getTwoChars(value);
+        },
         addClassName: (value, { oldValue = '' } = {}) => {
           return oldValue + ' ' + value;
         },
@@ -36,6 +51,7 @@ class CustomProcessor {
           const arr = fields?.split('+');
           const values = arr
             ?.map((val) => {
+              val = val.trim().replace(new RegExp('&nbsp;', 'g'), ' ');
               if (val.charAt(0) === '.') {
                 return object.getDataFromKey(userData, val.substr(1));
               }
@@ -50,9 +66,7 @@ class CustomProcessor {
           return Array.isArray(value) ? value.join(',') : value;
         },
         extractByKey: (value, { key = 'code' } = {}) => {
-          return Array.isArray(value)
-            ? value.map((i) => i[key]).join(',')
-            : value;
+          return Array.isArray(value) ? value.map((i) => i[key]).join(',') : value;
         },
         extractDataArray: (result) => {
           if (result.status === CONSTANTS.STATUS.SUCCESS) {
@@ -65,6 +79,14 @@ class CustomProcessor {
       globals: {
         options: (value) => {
           return this.globalOptions[value]?.toArray();
+        },
+        optionsText: (value, { name } = {}) => {
+          const option = this.globalOptions[name]?.getText(value);
+          return option || '';
+        },
+        optionsKey: (value, { name, keyName } = {}) => {
+          const option = this.globalOptions[name].get(value);
+          return option && option[keyName] || '';
         },
         filterOptions: (value, { optionsName, ...params }) => {
           if (this.globalOptions[optionsName]) {

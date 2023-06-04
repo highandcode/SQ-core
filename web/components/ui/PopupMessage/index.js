@@ -35,7 +35,7 @@ const variantIcon = {
 //   icon: {
 //     fontSize: 20
 //   },
-//   iconVariant: {
+//   iconColor: {
 //     opacity: 0.9,
 //     marginRight: theme.spacing(1)
 //   },

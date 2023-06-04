@@ -58,7 +58,7 @@ const formatters = {
     return value ? new DateTime(value).toString(format) : '';
   },
   time: (value, { format = 'hh:mm A' } = getDefaults().date?.dateFullTime || {}) => {
-    return value ? new DateTime(value).toString('hh:mm A') : '';
+    return value ? new DateTime(value).toString(format) : '';
   },
 };
 _setFormatters(formatters);

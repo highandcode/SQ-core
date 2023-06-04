@@ -11,6 +11,7 @@ import Add from '@mui/icons-material/Add';
 import Remove from '@mui/icons-material/Remove';
 import PlayCircleFilled from '@mui/icons-material/PlayCircleFilled';
 import PlayArrow from '@mui/icons-material/PlayArrow';
+import OpenInNew from '@mui/icons-material/OpenInNew';
 import VideogameAsset from '@mui/icons-material/VideogameAsset';
 import CalendarViewDay from '@mui/icons-material/CalendarViewDay';
 import ViewDay from '@mui/icons-material/ViewDay';
@@ -92,6 +93,7 @@ import { ReactComponent as SortDesc } from '../../assets/svg/sort-desc.svg';
 import {
   Email,
   Fullscreen,
+  Collections,
   FullscreenExit,
   OpenInFull,
   CloseFullscreen,
@@ -237,8 +239,10 @@ const types = {
     PlayCircleOutline,
     Tv,
     QueuePlayNext,
+    OpenInNew,
     DragHandle,
     Description,
+    Collections,
     DataObject,
     Computer,
     Laptop,

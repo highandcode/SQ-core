@@ -106,7 +106,7 @@ class Form extends React.Component {
   }
 
   renderComp(field, value, error, data, index) {
-    const { onAnalytics, userData = {} } = this.props;
+    const { onAnalytics, disabled, userData = {} } = this.props;
     const { cmpType, containerClass = '', beforeRender, ...options } = field;
     const supportedComponents = getMap();
     const Comp = supportedComponents[cmpType] || supportedComponents.Input;
@@ -139,6 +139,7 @@ class Form extends React.Component {
           {
             <ErrorBoundry>
               <Comp
+                disabled={disabled}
                 {...finalOptions}
                 value={value}
                 row={data}

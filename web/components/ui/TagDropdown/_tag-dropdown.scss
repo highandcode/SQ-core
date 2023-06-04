@@ -6,7 +6,10 @@
       flex-shrink: 0;
     }
   }
-
+  .sq-tag-label {
+    min-height: 23px;
+    min-width: 73px;
+  }
   &__menu {
     z-index: $z-index-level-2ndtopest !important;
     .MuiMenuItem-root.sq-tag-label--list-item-wrap {

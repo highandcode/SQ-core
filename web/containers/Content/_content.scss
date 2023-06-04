@@ -4,7 +4,8 @@
   display: flex;
   flex-direction: column;
 
-  &__body, .sq-global-navigation__wrapper {
+  &__body,
+  .sq-global-navigation__wrapper {
     max-width: $screen-max;
     margin: auto;
   }
@@ -13,15 +14,26 @@
       max-width: 100%;
     }
   }
+  &--h-100 {
+    .dynamic-content__body {
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .sq-content-page__body {
+      height: 100%;
+    }
+  }
   &--header-footer-body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     min-height: 300px;
-    .sq-content-page__body-wrapper, .dynamic-content__body {
+    .sq-content-page__body-wrapper,
+    .dynamic-content__body {
       flex-grow: 1;
       position: relative;
     }
-    
   }
 }

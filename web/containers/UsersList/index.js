@@ -93,10 +93,12 @@ class Users extends React.Component {
       });
     }
     await this.refreshUsers({ filter: { isActive: true } });
-    await this.props.userActions.loadRoles(
-      { userType: 'INTERNAL' },
-      pageData?.apiConfig?.getRoles
-    );
+    if (pageData?.apiConfig?.getRoles) {
+      await this.props.userActions.loadRoles(
+        { userType: 'INTERNAL' },
+        pageData?.apiConfig?.getRoles
+      );
+    }
   }
 
   async refreshUsers({ pageNo, pageSize, sort, filter, source } = {}) {
@@ -598,7 +600,7 @@ class Users extends React.Component {
                                 'Are you sure you want to deactivate this user?'
                               ),
                             },
-                            iconVariant: 'error',
+                            iconColor: 'error',
                             action: 'deactivate',
                             disabled: !editUserPerm,
                             buttonText: translate('Deactivate'),
@@ -615,7 +617,7 @@ class Users extends React.Component {
                                 'Are you sure you want to delete this user?'
                               ),
                             },
-                            iconVariant: 'error',
+                            iconColor: 'error',
                             action: 'delete',
                             disabled: !deleteUserPerm,
                             buttonText: translate('Delete'),
@@ -626,7 +628,7 @@ class Users extends React.Component {
                           {
                             cmpType: 'LinkButton',
                             iconName: 'active',
-                            iconVariant: 'success',
+                            iconColor: 'success',
                             action: 'activate',
                             disabled: !createUserPerm,
                             buttonText: translate('Re-Activate'),

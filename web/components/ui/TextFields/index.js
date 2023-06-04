@@ -1,24 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Link from '../Link';
+import LinkButton from '../LinkButton';
 import Text from '../Text';
 import { formatters } from '../../../utils/format';
 import { getValue, common } from '../../../utils/properties';
 
+const compMap = {
+  Text,
+  Link,
+  LinkButton
+};
+
 const TextFields = ({ className = '', fields = [], row }) => {
   return (
     <div className={`sq-text-fields ${className}`}>
-      {fields.map(({ defaultValue = '', formatter = {}, beforeRender, render, ...field }, index) => {
+      {fields.map((itemField, index) => {
+        const isRender = itemField.beforeRender ? itemField.beforeRender(field, row, row) : true;
+        if (typeof(isRender) === 'object') {
+          itemField = {
+            ...itemField,
+            ...isRender
+          }
+        }
+        const { type: cmpType, defaultValue = '', formatter = {}, component, render, ...field } = itemField;
         const { type, ...restFormatter } = formatter;
         const textValue = getValue(this, defaultValue, row);
         const valueRender = render && render(row, field);
-        const isRender = beforeRender ? beforeRender(field, row) : true;
+        const CompRender = compMap[cmpType] || compMap.Text;
         const newValue =
           (type && formatters[type] && formatters[type](row[field.name], { defaultValue: textValue, field, row, ...restFormatter }, row)) ||
           row[field.name] || valueRender ||
           textValue;
         const classValue = getValue(this, field.className, row);
         return !common.isNullOrUndefined(newValue) && isRender !== false ? (
-          <Text key={index} className={`${classValue}`} tag={field.tag} value={newValue} parentTag={field.parentTag}></Text>
+          <CompRender key={index} className={`${classValue}`} {...field} {...component} value={newValue} />
         ) : undefined;
       })}
     </div>

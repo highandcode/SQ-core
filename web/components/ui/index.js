@@ -8,6 +8,7 @@ import Input from './InputField';
 import FileUploader from './FileUploader';
 import ImageUploader from './ImageUploader';
 import Link from './Link';
+import Pricing from './Pricing';
 import Text from './Text';
 import HTML from './HTML';
 import FieldText from './FieldText';
@@ -58,6 +59,7 @@ import ImageWithHeaderBody from './ImageWithHeaderBody';
 import GetInTouch from './GetInTouch';
 import UsefulLinks from './UsefulLinks';
 import Disclaimer from './Disclaimer';
+import CodeHighlight from './CodeHighlight';
 import AutoCompleteValue from './AutoCompleteValue';
 // import ColorPicker from './ColorPicker';
 
@@ -124,6 +126,8 @@ let comps = {
   UsefulLinks,
   Disclaimer,
   AutoCompleteValue,
+  Pricing,
+  CodeHighlight,
   // ColorPicker,
 };
 

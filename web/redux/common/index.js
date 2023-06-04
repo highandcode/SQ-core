@@ -103,4 +103,36 @@ export const showPopupScreen = (payload) => async (dispatch) => {
   await dispatch(common.actions.setPopupScreen(payload));
 };
 
+export const getParseJSON = (obj) => {
+  try {
+    return typeof obj == 'string' ? JSON.parse(obj) : obj || {};
+  } catch (e) {
+    return obj || {};
+  }
+};
+
+const getFilterKey = (prefix) => `${ prefix || 'currentFilter'}_${ (window.location.pathname || "").split("/").join("_") }`;
+const getSortKey = (prefix) => `${prefix || 'currentSort'}_${ (window.location.pathname || "").split("/").join("_") }`;
+export const getCurrentFilter = () => getParseJSON(window.localStorage.getItem(getFilterKey()));
+export const setCurrentFilter = (data) => {
+  window.localStorage.setItem(getFilterKey(), JSON.stringify(data));
+};
+export const getCustomKeyData = (key) => getParseJSON(window.localStorage.getItem(getFilterKey(key)));
+export const setCustomKeyData = (key, data) => {
+  window.localStorage.setItem(getFilterKey(key), JSON.stringify(data));
+};
+export const getCurrentSort = () => getParseJSON(window.localStorage.getItem(getSortKey()));
+export const setCurrentSort = (data) => {
+  window.localStorage.setItem(getSortKey(), JSON.stringify(data));
+};
+export const clearCurrentFilter = () => window.localStorage.removeItem(getFilterKey());
+export const clearCurrentSort = () => window.localStorage.removeItem(getSortKey());
+export const clearAllFilters = () => async () => {
+  Object.keys(window.localStorage).forEach(key => {
+    if (key.includes("currentFilter_") || key.includes("currentSort_")) {
+      window.localStorage.removeItem(key);
+    }
+  });
+};
+
 export default common.reducer;

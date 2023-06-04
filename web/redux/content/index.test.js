@@ -1,4 +1,18 @@
-import reducer, { executeHook, customHooks, initApplication, downloadApi, postApi, clearAllUserData, resetLastError, resetUserData, updateUserData, updateProtectedUserData, mergeUserData, parseCustomModule, processParams } from './index';
+import reducer, {
+  executeHook,
+  customHooks,
+  initApplication,
+  downloadApi,
+  postApi,
+  clearAllUserData,
+  resetLastError,
+  resetUserData,
+  updateUserData,
+  updateProtectedUserData,
+  mergeUserData,
+  parseCustomModule,
+  processParams,
+} from './index';
 import { fake } from '../../../tests/ui';
 import * as utils from '../../utils';
 const { apiBridge, processor } = utils;
@@ -147,7 +161,7 @@ describe('reducer:content', () => {
           {
             newobj: {
               pace: 'pacer1',
-              fName: 'Deco'
+              fName: 'Deco',
             },
             user: {
               fName: 'John',
@@ -164,7 +178,7 @@ describe('reducer:content', () => {
         lName: 'Cena',
         dept: 'WWE',
         pace: 'pacer1',
-        fName: 'Deco'
+        fName: 'Deco',
       });
     });
     describe('match validator', () => {
@@ -273,26 +287,56 @@ describe('reducer:content', () => {
 
   describe('Reducer: updateUserData()', () => {
     test('should update data in userData', () => {
-      expect(reducer(undefined, updateUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 1 } } });
+      expect(reducer(undefined, updateUserData({ test: { nodata: 1 } }))).toEqual({
+        isContentLoading: false,
+        pageData: {},
+        metaData: {},
+        protectedData: {},
+        userData: { query: {}, test: { nodata: 1 } },
+      });
     });
     test('should override whole data in userData', () => {
       const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
-      expect(reducer(prevState, updateUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 1 } } });
+      expect(reducer(prevState, updateUserData({ test: { nodata: 1 } }))).toEqual({
+        isContentLoading: false,
+        pageData: {},
+        metaData: {},
+        protectedData: {},
+        userData: { query: {}, test: { nodata: 1 } },
+      });
     });
   });
   describe('Reducer: updateProtectedUserData()', () => {
     test('should update data in protectedData', () => {
-      expect(reducer(undefined, updateProtectedUserData({ test: { nodata: 1 } }))).toEqual({ isContentLoading: false, pageData: {}, metaData: {}, protectedData: { test: { nodata: 1 } }, userData: { query: {}, test: { nodata: 1 } } });
+      expect(reducer(undefined, updateProtectedUserData({ test: { nodata: 1 } }))).toEqual({
+        isContentLoading: false,
+        pageData: {},
+        metaData: {},
+        protectedData: { test: { nodata: 1 } },
+        userData: { query: {}, test: { nodata: 1 } },
+      });
     });
   });
   describe('Reducer: clearAllUserData()', () => {
     test('should clear data in userData and reset to initial state', () => {
       reducer(undefined, updateUserData({ test: { nodata: 1 } }));
-      expect(reducer(undefined, clearAllUserData({ type: 'clearAll' }))).toEqual({ isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {} } });
+      expect(reducer(undefined, clearAllUserData({ type: 'clearAll' }))).toEqual({
+        isContentLoading: false,
+        pageData: {},
+        metaData: {},
+        protectedData: {},
+        userData: { query: {} },
+      });
     });
     test('should clear the data except protected data', () => {
       const lastState = reducer(undefined, updateProtectedUserData({ protect: { nodata: 1 } }));
-      expect(reducer(lastState, clearAllUserData({ type: 'clearAll' }))).toEqual({ isContentLoading: false, pageData: {}, metaData: {}, protectedData: { protect: { nodata: 1 } }, userData: { protect: { nodata: 1 }, query: {} } });
+      expect(reducer(lastState, clearAllUserData({ type: 'clearAll' }))).toEqual({
+        isContentLoading: false,
+        pageData: {},
+        metaData: {},
+        protectedData: { protect: { nodata: 1 } },
+        userData: { protect: { nodata: 1 }, query: {} },
+      });
     });
   });
 
@@ -326,7 +370,13 @@ describe('reducer:content', () => {
 
   describe('Action: resetLastError()', () => {
     test('should append data in userData', () => {
-      const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { lastError: { p: { error: true, errorMessage: 'error' } }, query: {}, test: { nodata: 2 } } };
+      const prevState = {
+        isContentLoading: false,
+        pageData: {},
+        metaData: {},
+        protectedData: {},
+        userData: { lastError: { p: { error: true, errorMessage: 'error' } }, query: {}, test: { nodata: 2 } },
+      };
       const { store, invoke } = fake.thunk.create({
         content: {
           ...prevState,
@@ -389,6 +439,36 @@ describe('reducer:content', () => {
       });
     });
 
+    describe('postApi with defaultResponse array', () => {
+      let store;
+      let notification;
+      let notification2;
+      beforeEach(async () => {
+        notification = { notification: { message: 'Test notification' } };
+        notification2 = { notification: { message: 'Test notification 2' } };
+        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, userType : 'T2', test: { nodata: 2 } } };
+        const { store: _store, invoke } = fake.thunk.create({
+          content: {
+            ...prevState,
+          },
+          common: {
+            notification: notification2, // need to fake it get it from the store
+          },
+        });
+        apiBridge.post = jest.fn(() => Promise.resolve({ status: 'success', data: { prime: true } }));
+        const action = postApi({
+          method: 'post',
+          url: 'fake/api',
+          defaultResponse: { success: [{ notification, match: { userType: { validators: [{ type: 'equals', matchValue: 'T1' }] } } }, { notification: notification2, match: { userType: { validators: [{ type: 'equals', matchValue: 'T2' }] } } }] },
+        });
+        store = _store;
+        invoke(action);
+      });
+      test('should set notification2 notification', () => {
+        expect(store.dispatch).toHaveBeenCalledWith({ payload: notification2, type: 'common/setNotification' });
+      });
+    });
+
     describe('postApi with simple api call [error] + errors', () => {
       let store;
       beforeEach(async () => {
@@ -398,7 +478,9 @@ describe('reducer:content', () => {
             ...prevState,
           },
         });
-        apiBridge.post = jest.fn(() => Promise.resolve({ status: 'error', error: { test: { error: true, errorMessage: 'cont error', errors: { field1: { error: true, errorMessage: 'internal error' } } } } }));
+        apiBridge.post = jest.fn(() =>
+          Promise.resolve({ status: 'error', error: { test: { error: true, errorMessage: 'cont error', errors: { field1: { error: true, errorMessage: 'internal error' } } } } })
+        );
         const action = postApi({
           method: 'post',
           url: 'fake/api',
@@ -407,7 +489,10 @@ describe('reducer:content', () => {
         invoke(action);
       });
       test('should store error in lastError object in userData', () => {
-        expect(store.dispatch).toHaveBeenCalledWith({ payload: { test_errors: { field1: { error: true, errorMessage: 'internal error' } }, lastError: {} }, type: 'content/updateUserData' });
+        expect(store.dispatch).toHaveBeenCalledWith({
+          payload: { test_errors: { field1: { error: true, errorMessage: 'internal error' } }, lastError: {} },
+          type: 'content/updateUserData',
+        });
       });
     });
 
