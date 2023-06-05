@@ -79,6 +79,18 @@ class GenericListing extends Component {
             ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
           };
         },
+        fields: field.fields
+          ? field.fields.map((field) => {
+              return {
+                ...field,
+                beforeRender: (field, val, row) => {
+                  return {
+                    ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
+                  };
+                },
+              };
+            })
+          : undefined,
       };
     });
     this.quickFilterFields = pageData.quickFilterFields?.map((field) => {
@@ -308,7 +320,7 @@ class GenericListing extends Component {
         this.props.raiseAction(startLoading());
         await this.refreshData({});
         this.props.raiseAction(stopLoading());
-      break;
+        break;
     }
   }
   async handleOnSortChange(data) {
