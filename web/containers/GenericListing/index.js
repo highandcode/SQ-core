@@ -42,6 +42,23 @@ class GenericListing extends Component {
     }
   }
 
+  processField(field) {
+    const { userData, store } = this.props;
+    return {
+      ...field,
+      beforeRender: (field, val, row) => {
+        return {
+          ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
+        };
+      },
+      fields: field.fields
+        ? field.fields.map((field) => {
+            return this.processField(field);
+          })
+        : undefined,
+    };
+  }
+
   async componentDidMount() {
     const { pageData, userData, store } = this.props;
     if (pageData.defaultColumns) {
@@ -54,57 +71,24 @@ class GenericListing extends Component {
       quickFilterParams: {},
       topFilterParams: {},
     };
-    const queryParams = query.get();
+    const queryParams = { ...processParams(userData, pageData.initialValues || {}), ...query.get() };
     this.filterFields = pageData.filterFields?.map((field) => {
       if (queryParams[field.name]) {
         overrideParams.filterParams[field.name] = queryParams[field.name];
       }
-      return {
-        ...field,
-        beforeRender: (field, val, row) => {
-          return {
-            ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
-          };
-        },
-      };
+      return this.processField(field);
     });
     this.topFilterFields = pageData.topFilterFields?.map((field) => {
       if (queryParams[field.name]) {
         overrideParams.topFilterParams[field.name] = queryParams[field.name];
       }
-      return {
-        ...field,
-        beforeRender: (field, val, row) => {
-          return {
-            ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
-          };
-        },
-        fields: field.fields
-          ? field.fields.map((field) => {
-              return {
-                ...field,
-                beforeRender: (field, val, row) => {
-                  return {
-                    ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
-                  };
-                },
-              };
-            })
-          : undefined,
-      };
+      return this.processField(field);
     });
     this.quickFilterFields = pageData.quickFilterFields?.map((field) => {
       if (queryParams[field.name]) {
         overrideParams.quickFilterParams[field.name] = queryParams[field.name];
       }
-      return {
-        ...field,
-        beforeRender: (field, val, row) => {
-          return {
-            ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
-          };
-        },
-      };
+      return this.processField(field);
     });
     this.topActions = pageData.topActions?.map((action) => {
       return {
