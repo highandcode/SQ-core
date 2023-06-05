@@ -160,23 +160,27 @@ class GenericListing extends Component {
   }
   async onQuickFilterChange(data, action) {
     const { onAction } = this.props;
+    this.props.raiseAction(startLoading());
     await this.setState({ currentQuickFilter: data.value });
     if (action.actionType) {
       action.currentData = data.value;
       onAction && onAction(data.value, action);
     }
-    this.refreshData({ pageNo: 1 });
+    await this.refreshData({ pageNo: 1 });
     setCustomKeyData('quickFilter', data.value);
+    this.props.raiseAction(stopLoading());
   }
   async onTopFilterChange(data, action) {
     const { onAction } = this.props;
+    this.props.raiseAction(startLoading());
     await this.setState({ topFilter: data.value });
     if (action.actionType) {
       action.currentData = data.value;
       onAction && onAction(data.value, action);
     }
-    this.refreshData({ pageNo: 1 });
+    await this.refreshData({ pageNo: 1 });
     setCustomKeyData('topFilter', data.value);
+    this.props.raiseAction(stopLoading());
   }
 
   async refreshData({ filter, sort, pageSize, pageNo } = {}) {
