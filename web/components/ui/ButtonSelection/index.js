@@ -41,7 +41,7 @@ const ButtonSelection = ({
           {options?.map &&
             options.map((item, idx) => {
               const selectedProsp = {};
-              const isSelected = item.value === value;
+              const isSelected = item[valueField] === value;
               if (isSelected) {
                 selectedProsp.variant = 'contained';
               }

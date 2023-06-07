@@ -90,6 +90,7 @@ class GenericListing extends Component {
       }
       return this.processField(field);
     });
+    console.log(this.quickFilterFields);
     this.topActions = pageData.topActions?.map((action) => {
       return {
         ...action,
@@ -337,11 +338,12 @@ class GenericListing extends Component {
           <div className="sq-v-screen__sub-header">
             {this.topFilterFields && (
               <div className={'sq-generic-listing__quick'}>
-                <Form disabled={this.state.isLoading} onChange={this.onTopFilterChange} className="sq-form--inline-auto p-0" value={this.state.topFilter} fields={this.topFilterFields} />
+                <Form disabled={this.state.isLoading} userData={userData} onChange={this.onTopFilterChange} className="sq-form--inline-auto p-0" value={this.state.topFilter} fields={this.topFilterFields} />
               </div>
             )}
             <Actions
               className="w-auto"
+              userData={userData}
               disabled={this.state.isLoading}
               onAction={this.handleAction}
               actions={[
@@ -368,7 +370,7 @@ class GenericListing extends Component {
               <div className="sq-v-screen__pagination-bar d-flex fl-a-items-center justify-content-between mb-2">
                 {this.quickFilterFields && (
                   <div className={'sq-generic-listing__quick mt-2'}>
-                    <Form disabled={this.state.isLoading} onChange={this.onQuickFilterChange} className="sq-form--inline-auto p-0" value={this.state.currentQuickFilter} fields={this.quickFilterFields} />
+                    <Form disabled={this.state.isLoading} userData={userData} onChange={this.onQuickFilterChange} className="sq-form--inline-auto p-0" value={this.state.currentQuickFilter} fields={this.quickFilterFields} />
                   </div>
                 )}
               </div>
@@ -426,7 +428,7 @@ class GenericListing extends Component {
             ]}
             title={'Filters'}
           >
-            <Form onChange={this.onFilterChange} className="mt-wide" value={this.state.currentFilter} fields={this.filterFields} />
+            <Form onChange={this.onFilterChange} userData={userData} className="mt-wide" value={this.state.currentFilter} fields={this.filterFields} />
           </Dialog>
         </>
       </div>
