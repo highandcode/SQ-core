@@ -151,6 +151,7 @@ class GenericListing extends Component {
       topFilter: { ...getCustomKeyData('topFilter'), ...overrideParams.topFilterParams },
       selectedColumns: getCustomKeyData('selectedColumns', true) || pageData.defaultColumns,
     };
+    await this.setState(objToSave);
     await this.props.raiseAction(updateUserData({
       [`${this.getKey('currentSort')}`]: objToSave.currentSort,
       [`${this.getKey('currentFilter')}`]: objToSave.currentFilter,
@@ -158,7 +159,6 @@ class GenericListing extends Component {
       [`${this.getKey('topFilter')}`]: objToSave.topFilter,
       [`${this.getKey('selectedColumns')}`]: objToSave.selectedColumns,
     }));
-    await this.setState(objToSave);
 
     this.refreshData();
   }
