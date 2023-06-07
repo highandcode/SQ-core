@@ -411,11 +411,13 @@ class DynamicContent extends Component {
       case 'download-doc':
         await this.props.contentActions.updateUserData({
           isSubmitting: true,
+          isDownloadingFile: true,
         });
         result = await this.props.contentActions.downloadApi(action, this.state.pageData);
         await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
         await this.props.contentActions.updateUserData({
           isSubmitting: false,
+          isDownloadingFile: false,
         });
         if (result.status === 'success') {
           const data = action.dataKey ? { [action.dataKey]: result.data } : result.data;
