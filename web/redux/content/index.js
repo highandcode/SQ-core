@@ -397,10 +397,10 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
             vldtr.setValues({ ...getState().content.userData, ...currentData });
             isValid = vldtr.validateAll();
           }
-          isValid && events.emit('dynammicContent.onAction', {}, actionItem, {});
+          isValid && events.emit('dynammicContent.onAction', {}, {...actionItem, currentData}, {});
         });
       } else {
-        events.emit('dynammicContent.onAction', {}, payload?.finally?.successAction, {});
+        events.emit('dynammicContent.onAction', {}, { ...payload?.finally?.successAction, currentData}, {});
       }
     }
     if (payload.successAfterScript) {
@@ -417,10 +417,10 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
             vldtr.setValues({ ...getState().content.userData, ...currentData });
             isValid = vldtr.validateAll();
           }
-          isValid && events.emit('dynammicContent.onAction', {}, actionItem, {});
+          isValid && events.emit('dynammicContent.onAction', {},  {...actionItem, currentData}, {});
         });
       } else {
-        events.emit('dynammicContent.onAction', {}, payload?.finally?.errorAction, {});
+        events.emit('dynammicContent.onAction', {}, { ...payload?.finally?.errorAction, currentData }, {});
       }
     }
     if (payload.errorAfterScript) {
