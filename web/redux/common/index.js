@@ -103,11 +103,11 @@ export const showPopupScreen = (payload) => async (dispatch) => {
   await dispatch(common.actions.setPopupScreen(payload));
 };
 
-export const getParseJSON = (obj) => {
+export const getParseJSON = (obj, isNull) => {
   try {
-    return typeof obj == 'string' ? JSON.parse(obj) : obj || {};
+    return typeof obj == 'string' ? JSON.parse(obj) : obj || (isNull ? undefined : {});
   } catch (e) {
-    return obj || {};
+    return obj || (isNull ? undefined : {});
   }
 };
 
@@ -117,7 +117,7 @@ export const getCurrentFilter = () => getParseJSON(window.localStorage.getItem(g
 export const setCurrentFilter = (data) => {
   window.localStorage.setItem(getFilterKey(), JSON.stringify(data));
 };
-export const getCustomKeyData = (key) => getParseJSON(window.localStorage.getItem(getFilterKey(key)));
+export const getCustomKeyData = (key, isArray) => getParseJSON(window.localStorage.getItem(getFilterKey(key)), isArray);
 export const setCustomKeyData = (key, data) => {
   window.localStorage.setItem(getFilterKey(key), JSON.stringify(data));
 };

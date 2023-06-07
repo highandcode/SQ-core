@@ -61,11 +61,6 @@ class GenericListing extends Component {
 
   async componentDidMount() {
     const { pageData, userData, store } = this.props;
-    if (pageData.defaultColumns) {
-      this.setState({
-        selectedColumns: pageData.defaultColumns,
-      });
-    }
     const overrideParams = {
       filterParams: {},
       quickFilterParams: {},
@@ -153,6 +148,7 @@ class GenericListing extends Component {
       currentFilter: { ...getCurrentFilter(), ...overrideParams.filterParams },
       currentQuickFilter: { ...getCustomKeyData('quickFilter'), ...overrideParams.topFilterParams },
       topFilter: { ...getCustomKeyData('topFilter'), ...overrideParams.topFilterParams },
+      selectedColumns: getCustomKeyData('selectedCols', true) || pageData.defaultColumns,
     });
     this.refreshData();
   }
@@ -326,6 +322,7 @@ class GenericListing extends Component {
       selectedColumns: data.value,
       showEditColumns: !this.state.showEditColumns,
     });
+    setCustomKeyData('selectedCols', data.value);
   }
 
   render() {
