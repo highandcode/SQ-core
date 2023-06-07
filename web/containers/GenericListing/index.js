@@ -144,13 +144,22 @@ class GenericListing extends Component {
         },
       };
     });
-    await this.setState({
+    const objToSave = {
       currentSort: { ...(pageData.currentSort || {}), ...getCurrentSort() },
       currentFilter: { ...getCurrentFilter(), ...overrideParams.filterParams },
       currentQuickFilter: { ...getCustomKeyData('quickFilter'), ...overrideParams.topFilterParams },
       topFilter: { ...getCustomKeyData('topFilter'), ...overrideParams.topFilterParams },
-      selectedColumns: getCustomKeyData('selectedCols', true) || pageData.defaultColumns,
-    });
+      selectedColumns: getCustomKeyData('selectedColumns', true) || pageData.defaultColumns,
+    };
+    await this.props.raiseAction(updateUserData({
+      [`${this.getKey('currentSort')}`]: objToSave.currentSort,
+      [`${this.getKey('currentFilter')}`]: objToSave.currentFilter,
+      [`${this.getKey('currentQuickFilter')}`]: objToSave.currentQuickFilter,
+      [`${this.getKey('topFilter')}`]: objToSave.topFilter,
+      [`${this.getKey('selectedColumns')}`]: objToSave.selectedColumns,
+    }));
+    await this.setState(objToSave);
+
     this.refreshData();
   }
   async onFilterChange(data, field) {
@@ -335,13 +344,13 @@ class GenericListing extends Component {
 
   onEditColumnChange(data) {
     this.props.raiseAction(updateUserData({
-      [`${this.getKey('selectedCols')}`]: data,
+      [`${this.getKey('selectedColumns')}`]: data.value,
     }));
     this.setState({
       selectedColumns: data.value,
       showEditColumns: !this.state.showEditColumns,
     });
-    setCustomKeyData('selectedCols', data.value);
+    setCustomKeyData('selectedColumns', data.value);
   }
 
   render() {
