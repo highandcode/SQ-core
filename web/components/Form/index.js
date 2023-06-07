@@ -122,7 +122,6 @@ class Form extends React.Component {
 
     if (isRender && typeof beforeRender === 'function') {
       const result = beforeRender(field, value, { ...userData, ...data });
-      console.log('@@@@',field, userData, result)
       if (result === false) {
         isRender = result;
       } else {

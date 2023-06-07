@@ -166,7 +166,7 @@ class GenericListing extends Component {
     }
     await this.refreshData({ pageNo: 1 });
     await this.props.raiseAction(updateUserData({
-      [`${this.getKey()}_quickFilters`]: data.value,
+      [`${this.getKey('quickFilters')}`]: data.value,
     }));
     setCustomKeyData('quickFilter', data.value);
     this.props.raiseAction(stopLoading());
@@ -181,7 +181,7 @@ class GenericListing extends Component {
     }
     await this.refreshData({ pageNo: 1 });
     await this.props.raiseAction(updateUserData({
-      [`${this.getKey()}_topFilter`]: data.value,
+      [`${this.getKey('topFilter')}`]: data.value,
     }));
     setCustomKeyData('topFilter', data.value);
     this.props.raiseAction(stopLoading());
@@ -302,7 +302,7 @@ class GenericListing extends Component {
         this.props.raiseAction(stopLoading());
         setCurrentFilter({});
         await this.props.raiseAction(updateUserData({
-          [`${this.getKey()}_currentFilter`]: {},
+          [`${this.getKey('currentFilter')}`]: {},
         }));
         break;
       case 'applyFilter':
@@ -312,7 +312,7 @@ class GenericListing extends Component {
           __currentFilter: {},
         });
         await this.props.raiseAction(updateUserData({
-          [`${this.getKey()}_currentFilter`]: this.state.currentFilter,
+          [`${this.getKey('currentFilter')}`]: this.state.currentFilter,
         }));
         setCurrentFilter(this.state.currentFilter);
         this.props.raiseAction(startLoading());
@@ -326,7 +326,7 @@ class GenericListing extends Component {
     const { currentPage } = this.props.userData[this.getKey('results')] || {};
     setCurrentSort(data);
     await this.props.raiseAction(updateUserData({
-      [`${this.getKey()}_currentSort`]: data,
+      [`${this.getKey('currentSort')}`]: data,
     }));
     this.props.raiseAction(startLoading());
     await this.refreshData({ pageNo: currentPage, sort: data });
@@ -335,7 +335,7 @@ class GenericListing extends Component {
 
   onEditColumnChange(data) {
     this.props.raiseAction(updateUserData({
-      [`${this.getKey()}_selectedCols`]: data,
+      [`${this.getKey('selectedCols')}`]: data,
     }));
     this.setState({
       selectedColumns: data.value,
