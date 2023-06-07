@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getMap } from '../../components/ui';
 import { postApi, processParams } from '../../redux/content';
 import { startLoading, stopLoading, getCurrentFilter, setCurrentFilter, getCurrentSort, setCurrentSort, getCustomKeyData, setCustomKeyData } from '../../redux/common';
+import { updateUserData } from '../../redux/content';
 import { Validator } from '../../utils/validator';
 import { query } from '../../utils/query-string';
 import { GLOBAL_OPTIONS } from '../../globals';
@@ -164,6 +165,9 @@ class GenericListing extends Component {
       onAction && onAction(data.value, action);
     }
     await this.refreshData({ pageNo: 1 });
+    await this.props.raiseAction(updateUserData({
+      [`${this.getKey()}_quickFilters`]: data.value,
+    }));
     setCustomKeyData('quickFilter', data.value);
     this.props.raiseAction(stopLoading());
   }
@@ -176,6 +180,9 @@ class GenericListing extends Component {
       onAction && onAction(data.value, action);
     }
     await this.refreshData({ pageNo: 1 });
+    await this.props.raiseAction(updateUserData({
+      [`${this.getKey()}_topFilter`]: data.value,
+    }));
     setCustomKeyData('topFilter', data.value);
     this.props.raiseAction(stopLoading());
   }
@@ -294,6 +301,9 @@ class GenericListing extends Component {
         await this.refreshData({ filter: {}, pageNo: 1 });
         this.props.raiseAction(stopLoading());
         setCurrentFilter({});
+        await this.props.raiseAction(updateUserData({
+          [`${this.getKey()}_currentFilter`]: {},
+        }));
         break;
       case 'applyFilter':
         await this.setState({
@@ -301,6 +311,9 @@ class GenericListing extends Component {
           currentFilter: this.state.__currentFilter,
           __currentFilter: {},
         });
+        await this.props.raiseAction(updateUserData({
+          [`${this.getKey()}_currentFilter`]: this.state.currentFilter,
+        }));
         setCurrentFilter(this.state.currentFilter);
         this.props.raiseAction(startLoading());
         await this.refreshData({});
@@ -312,12 +325,18 @@ class GenericListing extends Component {
     await this.setState({ currentSort: data });
     const { currentPage } = this.props.userData[this.getKey('results')] || {};
     setCurrentSort(data);
+    await this.props.raiseAction(updateUserData({
+      [`${this.getKey()}_currentSort`]: data,
+    }));
     this.props.raiseAction(startLoading());
     await this.refreshData({ pageNo: currentPage, sort: data });
     this.props.raiseAction(stopLoading());
   }
 
   onEditColumnChange(data) {
+    this.props.raiseAction(updateUserData({
+      [`${this.getKey()}_selectedCols`]: data,
+    }));
     this.setState({
       selectedColumns: data.value,
       showEditColumns: !this.state.showEditColumns,
