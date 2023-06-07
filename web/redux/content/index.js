@@ -191,7 +191,9 @@ export const checkAndPostApi = (data, pageData, prevAction) => async (dispatch) 
         result.push(dispatch(postApi({ ...item, currentData: prevAction?.currentData }, pageData)));
       });
     } else {
-      data.currentData = prevAction?.currentData;
+      if (prevAction?.currentData) {
+        data.currentData = prevAction?.currentData;
+      }
       result.push(dispatch(postApi(data, pageData)));
     }
   }
