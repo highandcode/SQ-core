@@ -116,12 +116,12 @@ class Grid extends React.Component {
     const { onColFilterChange } = this.props;
     if (action.actionType === 'apply') {
       this.setState({
-        selectedColumns: this.state.tempColSelection || this.props.selectedColumns,
+        selectedColumns: this.state.tempColSelection || this.props.selectedColumns || this.props.columns.map((i) => i.name),
         colOrder: this.state.tempColOrder,
       });
       onColFilterChange &&
         onColFilterChange({
-          value: this.state.tempColSelection || this.props.selectedColumns,
+          value: this.state.tempColSelection || this.props.selectedColumns || this.props.columns.map((i) => i.name),
         });
     } else {
       this.setState({
@@ -143,6 +143,7 @@ class Grid extends React.Component {
   render() {
     const { columns = [], enableViewSelection = true, paginationProps, editColumnPane = {}, showColSelection = false, addSpacer = true, data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default', viewType = 'default' } = this.props;
     const actionsClassName = this.hasActionClickRow() ? 'sq-grid--has-action' : '';
+    console.log('@grid', this.props.selectedColumns)
     const finalColumns = columns
       .sort((a, b) => {
         return this.state.colOrder && (this.state.colOrder[a.name] > this.state.colOrder[b.name] ? 1 : this.state.colOrder[a.name] < this.state.colOrder[b.name] ? -1 : 0);

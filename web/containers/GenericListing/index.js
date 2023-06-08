@@ -149,7 +149,7 @@ class GenericListing extends Component {
       currentFilter: { ...getCurrentFilter(), ...overrideParams.filterParams },
       currentQuickFilter: { ...getCustomKeyData('quickFilter'), ...overrideParams.topFilterParams },
       topFilter: { ...getCustomKeyData('topFilter'), ...overrideParams.topFilterParams },
-      selectedColumns: getCustomKeyData('selectedColumns', true) || pageData.defaultColumns,
+      selectedColumns: getCustomKeyData('selectedColumns', true) || pageData.defaultColumns || undefined,
     };
     await this.setState(objToSave);
     await this.props.raiseAction(updateUserData({
@@ -346,6 +346,7 @@ class GenericListing extends Component {
     this.props.raiseAction(updateUserData({
       [`${this.getKey('selectedColumns')}`]: data.value,
     }));
+    console.log("@@@", data.value)
     this.setState({
       selectedColumns: data.value,
       showEditColumns: !this.state.showEditColumns,
@@ -392,7 +393,7 @@ class GenericListing extends Component {
           </div>
           <div className={`sq-v-screen__container`}>
             <div className="container-fluid">
-              <div className="sq-v-screen__pagination-bar d-flex fl-a-items-center justify-content-between mb-2">
+              <div className="sq-v-screen__pagination-bar d-flex fl-a-items-center justify-content-end mb-2">
                 {this.quickFilterFields && (
                   <div className={'sq-generic-listing__quick mt-2'}>
                     <Form disabled={this.state.isLoading} userData={userData} onChange={this.onQuickFilterChange} className="sq-form--inline-auto p-0" value={this.state.currentQuickFilter} fields={this.quickFilterFields} />
