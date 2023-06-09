@@ -292,6 +292,7 @@ class GenericListing extends Component {
   async onGridChange(data, action, row) {
     if (action.actionType) {
       this.props.raiseAction(startLoading());
+      action.currentData = { ...row, ...data };
       this.props.onAction && (await this.props.onAction({ ...row, ...data }, action));
       if (action.refreshAfter) {
         await this.refreshData({});
