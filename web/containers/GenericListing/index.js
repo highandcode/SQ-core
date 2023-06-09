@@ -164,6 +164,7 @@ class GenericListing extends Component {
   }
   async onFilterChange(data, field) {
     this.setState({ __currentFilter: data.value });
+    console.log(data);
   }
   async onQuickFilterChange(data, action) {
     const { onAction } = this.props;
@@ -319,7 +320,7 @@ class GenericListing extends Component {
         await this.setState({
           showFilter: !this.state.showFilter,
           currentFilter: this.state.__currentFilter,
-          __currentFilter: {},
+          __currentFilter: undefined,
         });
         await this.props.raiseAction(updateUserData({
           [`${this.getKey('currentFilter')}`]: this.state.currentFilter,
@@ -455,7 +456,7 @@ class GenericListing extends Component {
             ]}
             title={'Filters'}
           >
-            <Form onChange={this.onFilterChange} userData={userData} className="mt-wide" value={this.state.currentFilter} fields={this.filterFields} />
+            <Form onChange={this.onFilterChange} userData={userData} className="mt-wide" value={this.state.__currentFilter || this.state.currentFilter} fields={this.filterFields} />
           </Dialog>
         </>
       </div>
