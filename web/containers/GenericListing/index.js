@@ -145,6 +145,7 @@ class GenericListing extends Component {
       };
     });
     const objToSave = {
+      lastQuery: query.get(),
       currentSort: { ...(pageData.currentSort || {}), ...getCurrentSort() },
       currentFilter: { ...getCurrentFilter(), ...overrideParams.filterParams },
       currentQuickFilter: { ...getCustomKeyData('quickFilter'), ...overrideParams.topFilterParams },
@@ -153,6 +154,7 @@ class GenericListing extends Component {
     };
     await this.setState(objToSave);
     await this.props.raiseAction(updateUserData({
+      lastQuery: objToSave.lastQuery,
       [`${this.getKey('currentSort')}`]: objToSave.currentSort,
       [`${this.getKey('currentFilter')}`]: objToSave.currentFilter,
       [`${this.getKey('currentQuickFilter')}`]: objToSave.currentQuickFilter,

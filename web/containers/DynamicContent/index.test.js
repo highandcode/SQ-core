@@ -1385,7 +1385,7 @@ describe('DynamicContent', () => {
         buttonText: 'Module Execution',
         actionType: 'module',
         postHook: 'user.addUser',
-      });
+      }, pageResponse);
       // expect(mockProps.contentActions.updateUserData).toHaveBeenCalledWith({
       //   executionHook: 1,
       //   lastError: {},
@@ -1401,7 +1401,7 @@ describe('DynamicContent', () => {
         actionType: 'module',
         dataKey: 'test',
         postHook: 'user.addUser',
-      });
+      }, pageResponse);
       expect(mockProps.contentActions.updateUserData).toHaveBeenCalledWith({
         test: {
           executionHook: 1,
