@@ -147,6 +147,11 @@ export default ({ themes } = {}) => ({
                     label: 'globalNavigationLoggedIn',
                   },
                   {
+                    name: 'customNavigationLoggedIn',
+                    cmpType: 'FormObject',
+                    label: 'customNavigationLoggedIn',
+                  },
+                  {
                     name: 'logo',
                     cmpType: 'FormObject',
                     label: 'logo',
