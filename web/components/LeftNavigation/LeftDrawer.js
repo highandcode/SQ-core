@@ -120,7 +120,7 @@ const LeftDrawer = ({ items = [], onClick, permissions = [], roles = [], openDra
 const renderListItem = (item, idx, click, options, children) => {
   const isActive = hasActive(item, false);
   const isAllowed = hasPermission(item, options, children);
-  if (!isAllowed || item.hideInMenu) {
+  if (!isAllowed || item.hideInMenu || !item.href) {
     return undefined;
   }
   return (
