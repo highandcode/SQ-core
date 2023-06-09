@@ -433,7 +433,7 @@ class DynamicContent extends Component {
         await this.props.contentActions.updateUserData({
           isSubmitting: true,
         });
-        result = await this.props.contentActions.checkAndPostApi(action, this.state.pageData);
+        result = await this.props.contentActions.postApi(action, this.state.pageData);
         await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
         await this.props.contentActions.updateUserData({
           isSubmitting: false,
@@ -478,7 +478,7 @@ class DynamicContent extends Component {
           await this.props.contentActions.updateUserData({
             isSubmitting: true,
           });
-          result = await this.props.contentActions.checkAndPostApi(action, this.state.pageData);
+          result = await this.props.contentActions.postApi(action, this.state.pageData);
           await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
           await this.props.contentActions.updateUserData({
             isSubmitting: false,
@@ -493,7 +493,7 @@ class DynamicContent extends Component {
           await this.props.contentActions.updateUserData({
             isSubmitting: true,
           });
-          result = await this.props.contentActions.checkAndPostApi(action, this.state.pageData);
+          result = await this.props.contentActions.postApi(action, this.state.pageData);
           await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
           await this.props.contentActions.updateUserData({
             isSubmitting: false,
