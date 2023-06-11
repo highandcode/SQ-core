@@ -6,7 +6,7 @@ const common = {
     return value === undefined || value === null;
   },
   isNullOrUndefinedBlank: (value) => {
-    return commons.isNullOrUndefined(value) || value === '';
+    return common.isNullOrUndefined(value) || value === '';
   }
 };
 export default common;

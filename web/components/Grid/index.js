@@ -116,12 +116,12 @@ class Grid extends React.Component {
     const { onColFilterChange } = this.props;
     if (action.actionType === 'apply') {
       this.setState({
-        selectedColumns: this.state.tempColSelection || this.props.selectedColumns,
+        selectedColumns: this.state.tempColSelection || this.props.selectedColumns || this.props.columns.map((i) => i.name),
         colOrder: this.state.tempColOrder,
       });
       onColFilterChange &&
         onColFilterChange({
-          value: this.state.tempColSelection || this.props.selectedColumns,
+          value: this.state.tempColSelection || this.props.selectedColumns || this.props.columns.map((i) => i.name),
         });
     } else {
       this.setState({

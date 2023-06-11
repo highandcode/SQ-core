@@ -192,21 +192,6 @@ const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], role
   );
 };
 
-const renderListItem = (item, idx, click, options, children) => {
-  const isActive = hasActive(item, false);
-  const isAllowed = hasPermission(item, options, children);
-  if (!isAllowed || item.hideInMenu) {
-    return undefined;
-  }
-  return (
-    <ListItemButton selected={isActive} key={idx} sx={{ pl: 4 }} onClick={() => click(item)}>
-      <ListItemIcon>
-        <Icon name={item.iconName} />
-      </ListItemIcon>
-      <ListItemText primary={item.title} />
-    </ListItemButton>
-  );
-};
 
 const renderMenuItems = (items, click, options, children) => {
   return items.map((item, idx) => {
@@ -217,7 +202,7 @@ const renderMenuItems = (items, click, options, children) => {
 const renderMenuItem = (item, idx, click, options, children) => {
   const isActive = hasActive(item, false);
   const isAllowed = hasPermission(item, options, children);
-  if (!isAllowed || item.hideInMenu) {
+  if (!isAllowed || item.hideInMenu || !item.href) {
     return undefined;
   }
   return (

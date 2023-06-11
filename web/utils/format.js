@@ -39,25 +39,32 @@ const formatters = {
       ...rest,
     });
   },
-  dateFull: (value, { format = 'MMM, DD YYYY' } = getDefaults().date?.dateFull || {}) => {
+  dateFull: (value, options = {}) => {
+    const { format = 'MMM, DD YYYY' } = { ...(getDefaults().date?.dateFull || {}), ...options };
     return value ? new DateTime(value).toString(format) : '';
   },
-  dateForTimezone: (value, { timezone = 'America/New_York', format = 'MMM, DD YYYY hh:mm A zz' } = getDefaults().date?.dateForTimezone || {}) => {
+  dateForTimezone: (value, options = {}) => {
+    const { timezone = 'America/New_York', format = 'MMM, DD YYYY hh:mm A zz' } = { ...(getDefaults().date?.dateForTimezone || {}), ...options };
     return value ? new DateTime(value)._date.tz(timezone).format(format) : '';
   },
-  shortDate: (value, { format = 'MM/DD/YY (ddd)' } = getDefaults().date?.shortDate || {}) => {
+  shortDate: (value, options = {}) => {
+    const { format = 'MM/DD/YY (ddd)' } = { ...(getDefaults().date?.shortDate || {}), ...options };
     return value ? new DateTime(value).toString(format) : '';
   },
-  dateOnly: (value, { format = 'DD/MM' } = getDefaults().date?.dateOnly || {}) => {
+  dateOnly: (value, options = {}) => {
+    const { format = 'DD/MM' } = { ...(getDefaults().date?.dateOnly || {}), ...options };
     return value ? new DateTime(value).toString(format) : '';
   },
-  monthYear: (value, { format = 'MMM YYYY' } = getDefaults().date?.monthYear || {}) => {
+  monthYear: (value, options = {}) => {
+    const { format = 'MMM YYYY' } = { ...(getDefaults().date?.monthYear || {}), ...options };
     return value ? new DateTime(value).toString(format) : '';
   },
-  dateFullTime: (value, { format = 'MMM, DD YYYY hh:mm A' } = getDefaults().date?.dateFullTime || {}) => {
+  dateFullTime: (value, options = {}) => {
+    const { format = 'MMM, DD YYYY hh:mm A' } = { ...(getDefaults().date?.dateFullTime || {}), ...options };
     return value ? new DateTime(value).toString(format) : '';
   },
-  time: (value, { format = 'hh:mm A' } = getDefaults().date?.dateFullTime || {}) => {
+  time: (value, options = {}) => {
+    const { format = 'MMM, DD YYYY hh:mm A' } = { ...(getDefaults().date?.time || {}), ...options };
     return value ? new DateTime(value).toString(format) : '';
   },
 };

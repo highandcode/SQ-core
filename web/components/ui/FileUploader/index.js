@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Tooltip from '@mui/material/Tooltip';
 import { FileUploader } from 'react-drag-drop-files';
 import Button from '../Button';
-import Tooltip from '@mui/material/Tooltip';
 import Icon from '../../Icon';
 import Alert from '../../Alert';
 import Progress from '../../Progress';

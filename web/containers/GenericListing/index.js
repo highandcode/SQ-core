@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getMap } from '../../components/ui';
 import { postApi, processParams } from '../../redux/content';
 import { startLoading, stopLoading, getCurrentFilter, setCurrentFilter, getCurrentSort, setCurrentSort, getCustomKeyData, setCustomKeyData } from '../../redux/common';
+import { updateUserData } from '../../redux/content';
 import { Validator } from '../../utils/validator';
 import { query } from '../../utils/query-string';
 import { GLOBAL_OPTIONS } from '../../globals';
@@ -42,58 +43,50 @@ class GenericListing extends Component {
     }
   }
 
+  processField(field) {
+    const { userData, store } = this.props;
+    return {
+      ...field,
+      beforeRender: (field, val, row) => {
+        return {
+          ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
+        };
+      },
+      fields: field.fields
+        ? field.fields.map((field) => {
+            return this.processField(field);
+          })
+        : undefined,
+    };
+  }
+
   async componentDidMount() {
     const { pageData, userData, store } = this.props;
-    if (pageData.defaultColumns) {
-      this.setState({
-        selectedColumns: pageData.defaultColumns,
-      });
-    }
     const overrideParams = {
       filterParams: {},
       quickFilterParams: {},
       topFilterParams: {},
     };
-    const queryParams = query.get();
+    const queryParams = { ...processParams(userData, pageData.initialValues || {}), ...query.get() };
     this.filterFields = pageData.filterFields?.map((field) => {
       if (queryParams[field.name]) {
         overrideParams.filterParams[field.name] = queryParams[field.name];
       }
-      return {
-        ...field,
-        beforeRender: (field, val, row) => {
-          return {
-            ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
-          };
-        },
-      };
+      return this.processField(field);
     });
     this.topFilterFields = pageData.topFilterFields?.map((field) => {
       if (queryParams[field.name]) {
         overrideParams.topFilterParams[field.name] = queryParams[field.name];
       }
-      return {
-        ...field,
-        beforeRender: (field, val, row) => {
-          return {
-            ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
-          };
-        },
-      };
+      return this.processField(field);
     });
     this.quickFilterFields = pageData.quickFilterFields?.map((field) => {
       if (queryParams[field.name]) {
         overrideParams.quickFilterParams[field.name] = queryParams[field.name];
       }
-      return {
-        ...field,
-        beforeRender: (field, val, row) => {
-          return {
-            ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
-          };
-        },
-      };
+      return this.processField(field);
     });
+    console.log(this.quickFilterFields);
     this.topActions = pageData.topActions?.map((action) => {
       return {
         ...action,
@@ -151,36 +144,59 @@ class GenericListing extends Component {
         },
       };
     });
-    await this.setState({
+    const objToSave = {
+      lastQuery: query.get(),
       currentSort: { ...(pageData.currentSort || {}), ...getCurrentSort() },
       currentFilter: { ...getCurrentFilter(), ...overrideParams.filterParams },
       currentQuickFilter: { ...getCustomKeyData('quickFilter'), ...overrideParams.topFilterParams },
       topFilter: { ...getCustomKeyData('topFilter'), ...overrideParams.topFilterParams },
-    });
+      selectedColumns: getCustomKeyData('selectedColumns', true) || pageData.defaultColumns || undefined,
+    };
+    await this.setState(objToSave);
+    await this.props.raiseAction(updateUserData({
+      lastQuery: objToSave.lastQuery,
+      [`${this.getKey('currentSort')}`]: objToSave.currentSort,
+      [`${this.getKey('currentFilter')}`]: objToSave.currentFilter,
+      [`${this.getKey('currentQuickFilter')}`]: objToSave.currentQuickFilter,
+      [`${this.getKey('topFilter')}`]: objToSave.topFilter,
+      [`${this.getKey('selectedColumns')}`]: objToSave.selectedColumns,
+    }));
+
     this.refreshData();
   }
   async onFilterChange(data, field) {
     this.setState({ __currentFilter: data.value });
+    console.log(data);
   }
   async onQuickFilterChange(data, action) {
     const { onAction } = this.props;
+    this.props.raiseAction(startLoading());
     await this.setState({ currentQuickFilter: data.value });
     if (action.actionType) {
       action.currentData = data.value;
       onAction && onAction(data.value, action);
     }
-    this.refreshData({ pageNo: 1 });
+    await this.refreshData({ pageNo: 1 });
+    await this.props.raiseAction(updateUserData({
+      [`${this.getKey('quickFilters')}`]: data.value,
+    }));
     setCustomKeyData('quickFilter', data.value);
+    this.props.raiseAction(stopLoading());
   }
   async onTopFilterChange(data, action) {
     const { onAction } = this.props;
+    this.props.raiseAction(startLoading());
     await this.setState({ topFilter: data.value });
     if (action.actionType) {
       action.currentData = data.value;
       onAction && onAction(data.value, action);
     }
-    this.refreshData({ pageNo: 1 });
+    await this.refreshData({ pageNo: 1 });
+    await this.props.raiseAction(updateUserData({
+      [`${this.getKey('topFilter')}`]: data.value,
+    }));
     setCustomKeyData('topFilter', data.value);
+    this.props.raiseAction(stopLoading());
   }
 
   async refreshData({ filter, sort, pageSize, pageNo } = {}) {
@@ -279,6 +295,7 @@ class GenericListing extends Component {
   async onGridChange(data, action, row) {
     if (action.actionType) {
       this.props.raiseAction(startLoading());
+      action.currentData = { ...row, ...data };
       this.props.onAction && (await this.props.onAction({ ...row, ...data }, action));
       if (action.refreshAfter) {
         await this.refreshData({});
@@ -297,34 +314,48 @@ class GenericListing extends Component {
         await this.refreshData({ filter: {}, pageNo: 1 });
         this.props.raiseAction(stopLoading());
         setCurrentFilter({});
+        await this.props.raiseAction(updateUserData({
+          [`${this.getKey('currentFilter')}`]: {},
+        }));
         break;
       case 'applyFilter':
         await this.setState({
           showFilter: !this.state.showFilter,
           currentFilter: this.state.__currentFilter,
-          __currentFilter: {},
+          __currentFilter: undefined,
         });
+        await this.props.raiseAction(updateUserData({
+          [`${this.getKey('currentFilter')}`]: this.state.currentFilter,
+        }));
         setCurrentFilter(this.state.currentFilter);
         this.props.raiseAction(startLoading());
         await this.refreshData({});
         this.props.raiseAction(stopLoading());
-      break;
+        break;
     }
   }
   async handleOnSortChange(data) {
     await this.setState({ currentSort: data });
     const { currentPage } = this.props.userData[this.getKey('results')] || {};
     setCurrentSort(data);
+    await this.props.raiseAction(updateUserData({
+      [`${this.getKey('currentSort')}`]: data,
+    }));
     this.props.raiseAction(startLoading());
     await this.refreshData({ pageNo: currentPage, sort: data });
     this.props.raiseAction(stopLoading());
   }
 
   onEditColumnChange(data) {
+    this.props.raiseAction(updateUserData({
+      [`${this.getKey('selectedColumns')}`]: data.value,
+    }));
+    console.log("@@@", data.value)
     this.setState({
       selectedColumns: data.value,
       showEditColumns: !this.state.showEditColumns,
     });
+    setCustomKeyData('selectedColumns', data.value);
   }
 
   render() {
@@ -337,11 +368,12 @@ class GenericListing extends Component {
           <div className="sq-v-screen__sub-header">
             {this.topFilterFields && (
               <div className={'sq-generic-listing__quick'}>
-                <Form disabled={this.state.isLoading} onChange={this.onTopFilterChange} className="sq-form--inline-auto p-0" value={this.state.topFilter} fields={this.topFilterFields} />
+                <Form disabled={this.state.isLoading} userData={userData} onChange={this.onTopFilterChange} className="sq-form--inline-auto p-0" value={this.state.topFilter} fields={this.topFilterFields} />
               </div>
             )}
             <Actions
               className="w-auto"
+              userData={userData}
               disabled={this.state.isLoading}
               onAction={this.handleAction}
               actions={[
@@ -365,10 +397,10 @@ class GenericListing extends Component {
           </div>
           <div className={`sq-v-screen__container`}>
             <div className="container-fluid">
-              <div className="sq-v-screen__pagination-bar d-flex fl-a-items-center justify-content-between mb-2">
+              <div className="sq-v-screen__pagination-bar d-flex fl-a-items-center justify-content-end mb-2">
                 {this.quickFilterFields && (
                   <div className={'sq-generic-listing__quick mt-2'}>
-                    <Form disabled={this.state.isLoading} onChange={this.onQuickFilterChange} className="sq-form--inline-auto p-0" value={this.state.currentQuickFilter} fields={this.quickFilterFields} />
+                    <Form disabled={this.state.isLoading} userData={userData} onChange={this.onQuickFilterChange} className="sq-form--inline-auto p-0" value={this.state.currentQuickFilter} fields={this.quickFilterFields} />
                   </div>
                 )}
               </div>
@@ -426,7 +458,7 @@ class GenericListing extends Component {
             ]}
             title={'Filters'}
           >
-            <Form onChange={this.onFilterChange} className="mt-wide" value={this.state.currentFilter} fields={this.filterFields} />
+            <Form onChange={this.onFilterChange} userData={userData} className="mt-wide" value={this.state.__currentFilter || this.state.currentFilter} fields={this.filterFields} />
           </Dialog>
         </>
       </div>

@@ -179,14 +179,23 @@ export const updateErrorData = (data) => (dispatch) => {
   dispatch(updateUserData(errors));
 };
 
-export const checkAndPostApi = (data, pageData) => async (dispatch) => {
+export const checkAndPostApi = (data, pageData, prevAction) => async (dispatch) => {
   const result = [];
-  if (Array.isArray(data)) {
-    data.forEach((item) => {
-      result.push(dispatch(postApi(item, pageData)));
+  if (data.bulk && Array.isArray(data.bulk)) {
+    data.bulk.forEach((item) => {
+      result.push(dispatch(postApi({ ...item, currentData: prevAction?.currentData }, pageData)));
     });
   } else {
-    result.push(dispatch(postApi(data, pageData)));
+    if (Array.isArray(data)) {
+      data.forEach((item) => {
+        result.push(dispatch(postApi({ ...item, currentData: prevAction?.currentData }, pageData)));
+      });
+    } else {
+      if (prevAction?.currentData) {
+        data.currentData = prevAction?.currentData;
+      }
+      result.push(dispatch(postApi(data, pageData)));
+    }
   }
   return Promise.all(result);
 };
@@ -210,10 +219,10 @@ export const initApplication = (data) => async (dispatch) => {
       await dispatch(mergeUserData(pageData.merge));
     }
     if (pageData.hook?.load) {
-      await dispatch(checkAndPostApi(pageData.hook.load));
+      await dispatch(checkAndPostApi(pageData.hook.load, pageData));
     }
     if (pageData.hook?.afterLoad) {
-      await dispatch(checkAndPostApi(pageData.hook.afterLoad));
+      await dispatch(checkAndPostApi(pageData.hook.afterLoad, pageData));
     }
   } else {
     await dispatch(
@@ -226,7 +235,7 @@ export const initApplication = (data) => async (dispatch) => {
   return response;
 };
 
-export const executeHook = (payload) => async (dispatch, getState) => {
+export const executeHook = (payload, pageData) => async (dispatch, getState) => {
   let response = {};
   if (payload.preCall) {
     await dispatch(
@@ -268,7 +277,7 @@ export const executeHook = (payload) => async (dispatch, getState) => {
     await dispatch(updateErrorData(response.error));
   }
   if (payload.after) {
-    dispatch(checkAndPostApi(payload.after));
+    dispatch(checkAndPostApi(payload.after, pageData, payload));
   }
 
   return response;
@@ -296,19 +305,24 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
       state: getState(),
       payload,
       data: {
-        params: processParams({...getState().content.userData, ...currentData}, payload.params, undefined, getState()),
-        headers: processParams({...getState().content.userData, ...currentData}, payload.headers, undefined, getState()),
-        query: processParams({...getState().content.userData, ...currentData}, payload.query, undefined, getState()),
+        params: processParams({ ...getState().content.userData, ...currentData }, payload.params, undefined, getState()),
+        headers: processParams({ ...getState().content.userData, ...currentData }, payload.headers, undefined, getState()),
+        query: processParams({ ...getState().content.userData, ...currentData }, payload.query, undefined, getState()),
       },
-      userData: {...getState().content.userData, ...currentData},
+      userData: { ...getState().content.userData, ...currentData },
       dispatch,
       getState,
     });
   }
   if (payload.method && payload.url) {
     let paramToProcess = { method: payload.method, url: payload.url };
-    paramToProcess = processParams({...getState().content.userData, ...currentData}, paramToProcess, undefined, getState());
-    response = await apiBridge[paramToProcess.method.toLowerCase()](paramToProcess.url, processParams({...getState().content.userData, ...currentData}, payload.params, undefined, getState()), processParams({...getState().content.userData, ...currentData}, payload.headers, undefined, getState()), processParams({...getState().content.userData, ...currentData}, payload.query, undefined, getState()));
+    paramToProcess = processParams({ ...getState().content.userData, ...currentData }, paramToProcess, undefined, getState());
+    response = await apiBridge[paramToProcess.method.toLowerCase()](
+      paramToProcess.url,
+      processParams({ ...getState().content.userData, ...currentData }, payload.params, undefined, getState()),
+      processParams({ ...getState().content.userData, ...currentData }, payload.headers, undefined, getState()),
+      processParams({ ...getState().content.userData, ...currentData }, payload.query, undefined, getState())
+    );
   }
 
   if (payload.postHook) {
@@ -316,11 +330,11 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
       state: getState(),
       payload,
       data: {
-        params: processParams({...getState().content.userData, ...currentData}, payload.params, undefined, getState()),
-        headers: processParams({...getState().content.userData, ...currentData}, payload.headers, undefined, getState()),
-        query: processParams({...getState().content.userData, ...currentData}, payload.query, undefined, getState()),
+        params: processParams({ ...getState().content.userData, ...currentData }, payload.params, undefined, getState()),
+        headers: processParams({ ...getState().content.userData, ...currentData }, payload.headers, undefined, getState()),
+        query: processParams({ ...getState().content.userData, ...currentData }, payload.query, undefined, getState()),
       },
-      userData: {...getState().content.userData, ...currentData},
+      userData: { ...getState().content.userData, ...currentData },
       dispatch,
       getState,
     });
@@ -333,7 +347,7 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
       payload.defaultResponse[response.status].forEach((item) => {
         if (item.match && !isValid) {
           const valid = new Validator(item.match);
-          valid.setValues({...getState().content.userData, ...currentData});
+          valid.setValues({ ...getState().content.userData, ...currentData });
           if (valid.validateAll()) {
             finalObj = item;
             isValid = true;
@@ -380,13 +394,13 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
           let isValid = true;
           if (actionItem.match) {
             const vldtr = new Validator(actionItem.match);
-            vldtr.setValues({...getState().content.userData, ...currentData});
+            vldtr.setValues({ ...getState().content.userData, ...currentData });
             isValid = vldtr.validateAll();
           }
-          isValid && events.emit('dynammicContent.onAction', {}, actionItem, {});
+          isValid && events.emit('dynammicContent.onAction', {}, {...actionItem, currentData}, {});
         });
       } else {
-        events.emit('dynammicContent.onAction', {}, payload?.finally?.successAction, {});
+        events.emit('dynammicContent.onAction', {}, { ...payload?.finally?.successAction, currentData}, {});
       }
     }
     if (payload.successAfterScript) {
@@ -400,13 +414,13 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
           let isValid = true;
           if (actionItem.match) {
             const vldtr = new Validator(actionItem.match);
-            vldtr.setValues({...getState().content.userData, ...currentData});
+            vldtr.setValues({ ...getState().content.userData, ...currentData });
             isValid = vldtr.validateAll();
           }
-          isValid && events.emit('dynammicContent.onAction', {}, actionItem, {});
+          isValid && events.emit('dynammicContent.onAction', {},  {...actionItem, currentData}, {});
         });
       } else {
-        events.emit('dynammicContent.onAction', {}, payload?.finally?.errorAction, {});
+        events.emit('dynammicContent.onAction', {}, { ...payload?.finally?.errorAction, currentData }, {});
       }
     }
     if (payload.errorAfterScript) {
@@ -420,7 +434,7 @@ export const postApi = (payload, pageResponse) => async (dispatch, getState) => 
     dispatch(mergeUserData(pageResponse?.pageData?.merge));
   }
   if (payload.after) {
-    dispatch(checkAndPostApi(payload.after, pageResponse));
+    dispatch(checkAndPostApi(payload.after, pageResponse, payload));
   }
 
   return response;
@@ -544,7 +558,7 @@ export const uploadApi = (payload, pageResponse) => async (dispatch, getState) =
     dispatch(mergeUserData(pageResponse?.pageData?.merge));
   }
   if (payload.after) {
-    dispatch(checkAndPostApi(payload.after, pageResponse));
+    dispatch(checkAndPostApi(payload.after, pageResponse, payload));
   }
 
   return response;
@@ -676,7 +690,7 @@ export const downloadApi = (payload, pageResponse) => async (dispatch, getState)
     dispatch(mergeUserData(pageResponse?.pageData?.merge));
   }
   if (payload.after) {
-    dispatch(checkAndPostApi(payload.after, pageResponse));
+    dispatch(checkAndPostApi(payload.after, pageResponse, payload));
   }
   return response;
 };

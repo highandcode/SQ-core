@@ -11,7 +11,7 @@ import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
 import { events } from '../../utils/app-events';
 import { query } from '../../utils/query-string';
-import { fetchContentPage, uploadApi, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
+import { fetchContentPage, uploadApi, postApi, checkAndPostApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
 
 import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, closePopupScreen, closePopup, showPopup, setError, clearError } from '../../redux/common';
 
@@ -411,11 +411,13 @@ class DynamicContent extends Component {
       case 'download-doc':
         await this.props.contentActions.updateUserData({
           isSubmitting: true,
+          isDownloadingFile: true,
         });
         result = await this.props.contentActions.downloadApi(action, this.state.pageData);
         await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
         await this.props.contentActions.updateUserData({
           isSubmitting: false,
+          isDownloadingFile: false,
         });
         if (result.status === 'success') {
           const data = action.dataKey ? { [action.dataKey]: result.data } : result.data;
@@ -454,7 +456,7 @@ class DynamicContent extends Component {
           await this.props.contentActions.updateUserData({
             isSubmitting: true,
           });
-          result = await this.props.contentActions.executeHook(action);
+          result = await this.props.contentActions.executeHook(action, this.state.pageData);
           await this.props.contentActions.mergeUserData(this.state.pageData.pageData.merge);
           await this.props.contentActions.updateUserData({
             isSubmitting: false,
@@ -650,10 +652,11 @@ const mapDispatchToProps = (dispatch) => {
   return {
     contentActions: {
       postApi: (data, pageData) => dispatch(postApi(data, pageData)),
+      checkAndPostApi: (data, pageData) => dispatch(checkAndPostApi(data, pageData)),
       downloadApi: (data, pageData) => dispatch(downloadApi(data, pageData)),
       uploadApi: (data, pageData) => dispatch(uploadApi(data, pageData)),
       updateMetaData: (data) => dispatch(updateMetaData(data)),
-      executeHook: (data) => dispatch(executeHook(data)),
+      executeHook: (data, pageData) => dispatch(executeHook(data, pageData)),
       fetchContentPage: (data) => dispatch(fetchContentPage(data)),
       resetUserData: (data) => dispatch(resetUserData(data)),
       updateUserData: (data) => dispatch(updateUserData(data)),
