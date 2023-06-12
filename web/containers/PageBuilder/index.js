@@ -470,11 +470,13 @@ class PageBuilder extends Component {
                       enableFullScreen={true}
                       onClose={this.toggleProps}
                     >
-                      <Switch
-                        label="Advanced"
-                        value={this.state.advancedPageConfig}
-                        onChange={this.toggleAdvPageConfig}
-                      />
+                      <div className="d-flex j-content-fl-end">
+                        <Switch
+                          label="Advanced"
+                          value={this.state.advancedPageConfig}
+                          onChange={this.toggleAdvPageConfig}
+                        />
+                      </div>
                       {this.state.advancedPageConfig && <Form
                         fields={[
                           {
