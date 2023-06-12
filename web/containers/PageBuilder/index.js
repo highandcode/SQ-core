@@ -10,16 +10,7 @@ import Switch from '../../components/ui/Switch';
 import { ComponentList } from './ComponentList';
 import Panel from './Panel';
 import { withEditTabsConfig } from './edits/Common';
-import {
-  startLoading,
-  showNotificationMessage,
-  closeNotification,
-  stopLoading,
-  showPopupScreen,
-  showPopup,
-  setError,
-  clearError,
-} from '../../redux/common';
+import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
 import { getFieldsMeta, createPage, getPage, savePageDraft } from '../../redux/admin';
 import ContentEditor from './ContentEditor';
 import { getSupportedComps, addComponent } from './supported-comps';
@@ -28,18 +19,7 @@ import * as utils from '../../utils';
 import ErrorBoundry from '../../components/ErrorBoundry';
 import { GLOBAL_OPTIONS } from '../../globals';
 
-import {
-  fetchContentPage,
-  postApi,
-  downloadApi,
-  executeHook,
-  updateUserData,
-  updateMetaData,
-  mergeUserData,
-  updateErrorData,
-  resetUserData,
-  sendContact,
-} from '../../redux/content';
+import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, sendContact } from '../../redux/content';
 
 const config = {
   templates: [
@@ -90,6 +70,7 @@ class PageBuilder extends Component {
     super();
     this.state = {
       enableMenu: true,
+      advancedPageConfig: false,
       autoSave: !!utils.queryString.query.get().path,
       enableProps: false,
       pageFetched: false,
@@ -108,10 +89,12 @@ class PageBuilder extends Component {
     this.onContentChange = this.onContentChange.bind(this);
     this.onContentDelete = this.onContentDelete.bind(this);
     this.savePageAsDraft = this.savePageAsDraft.bind(this);
+    this.toggleAdvPageConfig = this.toggleAdvPageConfig.bind(this);
     this.formOnChange = this.formOnChange.bind(this);
     this.onMoveItemDown = this.onMoveItemDown.bind(this);
     this.onMoveItemUp = this.onMoveItemUp.bind(this);
     this.savePageAsNew = this.savePageAsNew.bind(this);
+    this.advFormOnChange = this.advFormOnChange.bind(this);
   }
 
   async componentDidUpdate() {
@@ -139,7 +122,7 @@ class PageBuilder extends Component {
     } else {
       await this.props.raiseAction(createPage());
     }
-    pageData.fieldsMetaConfig && await this.props.raiseAction(getFieldsMeta({}, pageData.fieldsMetaConfig));
+    pageData.fieldsMetaConfig && (await this.props.raiseAction(getFieldsMeta({}, pageData.fieldsMetaConfig)));
     this.setState({
       contentData: this.props.store.admin.contentData,
     });
@@ -151,15 +134,16 @@ class PageBuilder extends Component {
   }
   async savePageAsNew() {
     const { pageData } = this.props;
-    pageData.createPopupScreen && this.props.commonActions.showPopupScreen({
-      ...pageData.createPopupScreen,
-      initialData: {
-        current: {
-          ...this.state.contentData,
-          ...pageData.createPopupScreen?.initialData,
-        }
-      }
-    });
+    pageData.createPopupScreen &&
+      this.props.commonActions.showPopupScreen({
+        ...pageData.createPopupScreen,
+        initialData: {
+          current: {
+            ...this.state.contentData,
+            ...pageData.createPopupScreen?.initialData,
+          },
+        },
+      });
   }
   async savePageAsDraft(autoSave) {
     const { pageData } = this.props;
@@ -177,9 +161,7 @@ class PageBuilder extends Component {
       ...(this.state.contentData.pageData.items || []),
       {
         component: item.name,
-        name:
-          item.name.toLowerCase() +
-          (this.state.contentData.pageData.items?.length || 1),
+        name: item.name.toLowerCase() + (this.state.contentData.pageData.items?.length || 1),
         ...item.metaData.sampleData,
       },
     ];
@@ -190,12 +172,15 @@ class PageBuilder extends Component {
         ...this.state.contentData,
         pageData: {
           ...this.state.contentData.pageData,
-          items: idx !== undefined ? update(newItems, {
-            $splice: [
-              [dragIndex, 1],
-              [idx, 0, newItems[dragIndex]],
-            ],
-          }) : newItems,
+          items:
+            idx !== undefined
+              ? update(newItems, {
+                  $splice: [
+                    [dragIndex, 1],
+                    [idx, 0, newItems[dragIndex]],
+                  ],
+                })
+              : newItems,
         },
       },
     });
@@ -206,6 +191,16 @@ class PageBuilder extends Component {
   }
   toggleElements() {
     this.setState({ enableMenu: !this.state.enableMenu });
+  }
+
+  advFormOnChange(data) {
+    this.setState({
+      contentData: {
+        ...this.state.contentData,
+        ...data.value,
+      },
+    });
+    this.checkAutoSave();
   }
 
   formOnChange(data) {
@@ -270,12 +265,13 @@ class PageBuilder extends Component {
       autoSave: !this.state.autoSave,
     });
   }
+  toggleAdvPageConfig() {
+    this.setState({
+      advancedPageConfig: !this.state.advancedPageConfig,
+    });
+  }
   showPreview() {
-    utils.redirect.redirectTo(
-      utils.queryString.query.get().path,
-      {  },
-      { target: '_blank' }
-    );
+    utils.redirect.redirectTo(utils.queryString.query.get().path, {}, { target: '_blank' });
   }
 
   onMoveItemDown(index) {
@@ -361,41 +357,47 @@ class PageBuilder extends Component {
     const { className = '', pageData, store } = this.props;
     const compList = getSupportedComps();
     return (
-      <div
-        className={`sq-page-builder sq-v-screen sq-v-screen--fixed ${className}`}
-      >
+      <div className={`sq-page-builder sq-v-screen sq-v-screen--fixed ${className}`}>
         <div className="sq-v-screen__container">
           <div className="sq-page-builder__top-actions mb-wide">
-            {utils.queryString.query.get().path && <Switch
-              label="Autosave"
-              value={this.state.autoSave}
-              onChange={this.toggleAutoSave}
-            />}
+            {utils.queryString.query.get().path && (
+              <Switch
+                label="Autosave"
+                value={this.state.autoSave}
+                onChange={this.toggleAutoSave}
+              />
+            )}
             <Switch
               label="Quick Preview"
               value={this.state.preview}
               onChange={this.toggleQuickPreview}
             />
-            {!utils.queryString.query.get().path && <Button
-              iconName={'Save'}
-              variant="outlined"
-              disabled={!pageData.createPopupScreen}
-              buttonText="Save"
-              onClick={() => this.savePageAsNew()}
-            />}
-            {utils.queryString.query.get().path && <Button
-              iconName={'Save'}
-              variant="outlined"
-              buttonText="Save"
-              onClick={() => this.savePageAsDraft()}
-            />}
-            {<Button
-              iconName={'Preview'}
-              variant="outlined"
-              disabled={!utils.queryString.query.get().path}
-              buttonText="Full Preview"
-              onClick={this.showPreview}
-            />}
+            {!utils.queryString.query.get().path && (
+              <Button
+                iconName={'Save'}
+                variant="outlined"
+                disabled={!pageData.createPopupScreen}
+                buttonText="Save"
+                onClick={() => this.savePageAsNew()}
+              />
+            )}
+            {utils.queryString.query.get().path && (
+              <Button
+                iconName={'Save'}
+                variant="outlined"
+                buttonText="Save"
+                onClick={() => this.savePageAsDraft()}
+              />
+            )}
+            {
+              <Button
+                iconName={'Preview'}
+                variant="outlined"
+                disabled={!utils.queryString.query.get().path}
+                buttonText="Full Preview"
+                onClick={this.showPreview}
+              />
+            }
             {/* <Button iconName={'Publish'} buttonText="Publish" /> */}
           </div>
           <div className="sq-page-builder__content sq-v-screen-grow">
@@ -426,7 +428,10 @@ class PageBuilder extends Component {
                       onClose={this.toggleElements}
                     >
                       <div className="row">
-                        <ComponentList compList={compList} filter={pageData.compListFilter} />
+                        <ComponentList
+                          compList={compList}
+                          filter={pageData.compListFilter}
+                        />
                       </div>
                     </Panel>
                   )}
@@ -434,7 +439,10 @@ class PageBuilder extends Component {
                 <div className="sq-page-builder__center">
                   {this.state.preview && (
                     <ErrorBoundry>
-                      <DynamicContent mode="preview" pageConfig={this.state.contentData} />
+                      <DynamicContent
+                        mode="preview"
+                        pageConfig={this.state.contentData}
+                      />
                     </ErrorBoundry>
                   )}
                   {!this.state.preview && (
@@ -457,8 +465,28 @@ class PageBuilder extends Component {
                 </div>
                 <div className="sq-page-builder__right">
                   {this.state.enableProps && (
-                    <Panel header="Page Properties" enableFullScreen={true} onClose={this.toggleProps}>
-                      <Form
+                    <Panel
+                      header="Page Properties"
+                      enableFullScreen={true}
+                      onClose={this.toggleProps}
+                    >
+                      <Switch
+                        label="Advanced"
+                        value={this.state.advancedPageConfig}
+                        onChange={this.toggleAdvPageConfig}
+                      />
+                      {this.state.advancedPageConfig && <Form
+                        fields={[
+                          {
+                            name: 'pageData',
+                            cmpType: 'FormObject',
+                            label: 'Page Data',
+                          },
+                        ]}
+                        onChange={this.advFormOnChange}
+                        value={this.state.contentData}
+                      />}
+                     {!this.state.advancedPageConfig && <Form
                         value={this.state.contentData.pageData}
                         onChange={this.formOnChange}
                         fields={[
@@ -525,8 +553,7 @@ class PageBuilder extends Component {
                             name: 'wrapperClassName',
                             cmpType: 'InputWithOptions',
                             label: 'wrapperClassName',
-                            options:
-                              GLOBAL_OPTIONS.pageWrapperClasses.toArray(),
+                            options: GLOBAL_OPTIONS.pageWrapperClasses.toArray(),
                           },
                           {
                             cmpType: 'Autocomplete',
@@ -552,7 +579,7 @@ class PageBuilder extends Component {
                           },
                           ...(pageData.customProps || []),
                         ]}
-                      />
+                      />}
                     </Panel>
                   )}
                 </div>
@@ -591,8 +618,7 @@ const mapDispatchToProps = (dispatch) => {
       updateErrorData: (data) => dispatch(updateErrorData(data)),
     },
     commonActions: {
-      showNotificationMessage: (data) =>
-        dispatch(showNotificationMessage(data)),
+      showNotificationMessage: (data) => dispatch(showNotificationMessage(data)),
       closeNotification: (data) => dispatch(closeNotification(data)),
       startLoading: (data) => dispatch(startLoading(data)),
       showPopup: (data) => dispatch(showPopup(data)),
