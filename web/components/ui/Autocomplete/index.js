@@ -98,6 +98,7 @@ const SQAutocomplete = ({
         inputValue={inputValue}
         onBlur={handleBlur}
         freeSolo={freeSolo || multiple}
+        forcePopupIcon={true}
         autoSelect={multiple}
         multiple={multiple}
         options={finalOptions}
@@ -139,6 +140,7 @@ const SQAutocomplete = ({
         )}
         value={optionFound || value || (multiple ? [] : null)}
         onInputChange={(event, newInputValue, reason, test) => {
+          console.log(newInputValue);
           setInputValue(newInputValue);
           if (
             rest.typeAction &&
