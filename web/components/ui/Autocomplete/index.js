@@ -140,7 +140,6 @@ const SQAutocomplete = ({
         )}
         value={optionFound || value || (multiple ? [] : null)}
         onInputChange={(event, newInputValue, reason, test) => {
-          console.log(newInputValue);
           setInputValue(newInputValue);
           if (
             rest.typeAction &&
