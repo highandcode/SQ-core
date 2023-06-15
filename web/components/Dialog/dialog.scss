@@ -38,6 +38,13 @@
       min-width: 400px;
     }
   }
+  &--standard-screen {
+    .sq-dialog__content-body {
+      min-height: auto;
+      min-width: 600px;
+      min-height: 400px;
+    }
+  }
  
   &__title {
     flex-grow: 1;

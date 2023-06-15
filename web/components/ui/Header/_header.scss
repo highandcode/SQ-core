@@ -1,17 +1,11 @@
 .sq-header {
   &__eyebrow {
     margin-bottom: 16px;
-    animation-duration: 1s;
-    animation-name: slidein;
   }
   &__header {
     margin-bottom: 16px;
-    animation-duration: 1s;
-    animation-name: slidein;
   }
   &__sub-header {
-    animation-duration: 1s;
-    animation-name: slideout;
   }
   &__image {
     max-width: 150px;

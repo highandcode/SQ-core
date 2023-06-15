@@ -236,9 +236,7 @@ const _validators = {
     }
     value &&
       value.forEach((item, idx) => {
-        console.log(validator, item);
         const result = _validators[validator](item, options);
-        console.log(result);
         if (!result) {
           isValid = result;
         }

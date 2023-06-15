@@ -79,7 +79,7 @@ export class ApiBridge {
   }
 
   get(url, params, headers = {}, query = {}, { plain = false } = {}) {
-    const promisObj = fetch(this.getPrefix({ url, body: params }) + url + new QueryString({ ...params, ...query }).toString(), {
+    const promisObj = fetch(this.getPrefix({ url, body: params }) + encodeURI(url) + new QueryString({ ...params, ...query }).toString(), {
       method: 'GET',
       headers: {
         ...defaultHeaders,
@@ -94,7 +94,7 @@ export class ApiBridge {
   }
 
   rawPost(url, body, headers = {}, query = {}, { method = 'POST', plain = false } = {}) {
-    const promisObj = fetch(this.getPrefix({ url, body }) + url + new QueryString(query).toString(), {
+    const promisObj = fetch(this.getPrefix({ url, body }) + encodeURI(url) + new QueryString(query).toString(), {
       method: method,
       headers: {
         ...this.getCustomHeaders(),
@@ -109,7 +109,7 @@ export class ApiBridge {
   }
 
   post(url, body, headers = {}, query = {}, { plain = false } = {}) {
-    const promisObj = fetch(this.getPrefix({ url, body }) + url + new QueryString(query).toString(), {
+    const promisObj = fetch(this.getPrefix({ url, body }) + encodeURI(url) + new QueryString(query).toString(), {
       method: 'POST',
       headers: {
         ...defaultHeaders,
@@ -125,7 +125,7 @@ export class ApiBridge {
   }
 
   update(url, body, headers = {}, query = {}, { plain = false } = {}) {
-    const promisObj = fetch(this.getPrefix({ url, body }) + url + new QueryString(query).toString(), {
+    const promisObj = fetch(this.getPrefix({ url, body }) + encodeURI(url) + new QueryString(query).toString(), {
       method: 'PUT',
       headers: {
         ...defaultHeaders,
@@ -141,7 +141,7 @@ export class ApiBridge {
   }
 
   patch(url, body, headers = {}, query = {}, { plain = false } = {}) {
-    const promisObj = fetch(this.getPrefix({ url, body }) + url + new QueryString(query).toString(), {
+    const promisObj = fetch(this.getPrefix({ url, body }) + encodeURI(url) + new QueryString(query).toString(), {
       method: 'PATCH',
       headers: {
         ...defaultHeaders,
@@ -157,7 +157,7 @@ export class ApiBridge {
   }
 
   delete(url, body, headers = {}, query, { plain = false } = {}) {
-    const promisObj = fetch(this.getPrefix({ url, body }) + url + new QueryString(query).toString(), {
+    const promisObj = fetch(this.getPrefix({ url, body }) + encodeURI(url) + new QueryString(query).toString(), {
       method: 'DELETE',
       headers: {
         ...defaultHeaders,
