@@ -5,7 +5,7 @@ import { startLoading, stopLoading, getCurrentFilter, setCurrentFilter, getCurre
 import { updateUserData } from '../../redux/content';
 import { Validator } from '../../utils/validator';
 import { query } from '../../utils/query-string';
-import utils from '../../utils';
+import { object } from '../../utils';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 import './_generic-listing.scss';
