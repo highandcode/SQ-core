@@ -5,6 +5,7 @@ import { startLoading, stopLoading, getCurrentFilter, setCurrentFilter, getCurre
 import { updateUserData } from '../../redux/content';
 import { Validator } from '../../utils/validator';
 import { query } from '../../utils/query-string';
+import utils from '../../utils';
 import { GLOBAL_OPTIONS } from '../../globals';
 
 import './_generic-listing.scss';
@@ -86,7 +87,6 @@ class GenericListing extends Component {
       }
       return this.processField(field);
     });
-    console.log(this.quickFilterFields);
     this.topActions = pageData.topActions?.map((action) => {
       return {
         ...action,
@@ -166,7 +166,6 @@ class GenericListing extends Component {
   }
   async onFilterChange(data, field) {
     this.setState({ __currentFilter: data.value });
-    console.log(data);
   }
   async onQuickFilterChange(data, action) {
     const { onAction } = this.props;
@@ -229,12 +228,11 @@ class GenericListing extends Component {
         postApi(
           {
             ...pageData.apiConfig?.search,
-            params: {
-              ...processParams(userData, pageData.apiConfig?.search.params, undefined, store),
+            params: object.extendData(processParams(userData, pageData.apiConfig?.search.params, undefined, store), {
               ...(filter || this.state.currentFilter),
               ...(this.state.currentQuickFilter || {}),
               ...(this.state.topFilter || {}),
-            },
+            }),
             query: pageData.apiConfig?.search.query
               ? processParams({ ...userData, sortBy: `${sortBy}|${sortDir}`, pageSize: pageSize, pageNo: pageNo }, pageData.apiConfig?.search.query)
               : {
