@@ -20,6 +20,7 @@ const SQFileUploader = ({
   uploadButtonText = 'Upload',
   clearButtonText = 'Clear',
   uploadOnChange = false,
+  allowRename = true,
   onChange,
   uploadSuccessMessage,
   uploadFailedMessage,
@@ -46,7 +47,6 @@ const SQFileUploader = ({
           name: i.name,
         })),
       ];
-      console.log(newFileNames);
       await setFileNames(newFileNames);
       uploadOnChange && handleAction({ files: newFiles });
     }
@@ -147,13 +147,14 @@ const SQFileUploader = ({
                   />
                 </div>
                 <div className="sq-file-uploader__file-name pt-2">
-                  <Input
+                  {allowRename && <Input
                     helperText={file.name}
                     label="Name"
                     type="text"
                     value={fileNames[idx]?.name}
                     onKeyPress={(data) => handleFileChange(data, file, idx)}
-                  />
+                  />}
+                  {!allowRename && file.name}
                 </div>
                 <div
                   className="sq-file-uploader__file-delete"

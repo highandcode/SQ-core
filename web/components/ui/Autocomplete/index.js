@@ -98,6 +98,7 @@ const SQAutocomplete = ({
         inputValue={inputValue}
         onBlur={handleBlur}
         freeSolo={freeSolo || multiple}
+        forcePopupIcon={true}
         autoSelect={multiple}
         multiple={multiple}
         options={finalOptions}
