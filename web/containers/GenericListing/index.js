@@ -337,11 +337,11 @@ class GenericListing extends Component {
             [`${this.getKey('tempCurrentFilter')}`]: this.state.__currentFilter,
           })
         );
+        setCurrentFilter(this.state.__currentFilter);
         await this.setState({
           showFilter: !this.state.showFilter,
           __currentFilter: undefined,
         });
-        setCurrentFilter(this.state.currentFilter);
         this.props.raiseAction(startLoading());
         await this.refreshData({});
         this.props.raiseAction(stopLoading());
@@ -381,6 +381,7 @@ class GenericListing extends Component {
     const currentFilter = userData[this.getKey('currentFilter')];
     const currentQuickFilter = userData[this.getKey('currentQuickFilter')];
     const topFilter = userData[this.getKey('topFilter')];
+    const selectedColumns = userData[this.getKey('selectedColumns')];
     return (
       <div className={`sq-generic-listing sq-v-screen sq-v-screen--fixed ${className}`}>
         <div className="sq-v-screen__container">
@@ -458,7 +459,7 @@ class GenericListing extends Component {
                 }
                 onChange={this.onGridChange}
                 onColFilterChange={this.onEditColumnChange}
-                selectedColumns={this.state.selectedColumns}
+                selectedColumns={selectedColumns}
                 showColSelection={this.state.showEditColumns}
                 onAction={this.onGridAction}
                 sortColumn={currentSort?.sortColumn}
