@@ -195,16 +195,16 @@ class GenericListing extends Component {
   async onTopFilterChange(data, action) {
     const { onAction } = this.props;
     this.props.raiseAction(startLoading());
-    if (action.actionType) {
-      action.currentData = data.value;
-      onAction && onAction(data.value, action);
-    }
-    await this.refreshData({ pageNo: 1 });
     await this.props.raiseAction(
       updateUserData({
         [`${this.getKey('topFilter')}`]: data.value,
       })
     );
+    if (action.actionType) {
+      action.currentData = data.value;
+      onAction && onAction(data.value, action);
+    }
+    await this.refreshData({ pageNo: 1 });
     setCustomKeyData('topFilter', data.value);
     this.props.raiseAction(stopLoading());
   }
@@ -285,6 +285,7 @@ class GenericListing extends Component {
         break;
       default:
         if (action.actionType) {
+          action.currentData = data;
           onAction && onAction(data, action);
         }
     }
