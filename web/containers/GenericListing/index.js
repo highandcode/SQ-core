@@ -502,7 +502,7 @@ class GenericListing extends Component {
               onChange={this.onFilterChange}
               userData={userData}
               className="mt-wide"
-              value={currentFilter}
+              value={this.state.__currentFilter || currentFilter}
               fields={this.filterFields}
             />
           </Dialog>
