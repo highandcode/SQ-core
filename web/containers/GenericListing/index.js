@@ -147,20 +147,22 @@ class GenericListing extends Component {
     const objToSave = {
       lastQuery: query.get(),
       currentSort: { ...(pageData.currentSort || {}), ...getCurrentSort() },
-      currentFilter: { ...getCurrentFilter(), ...overrideParams.filterParams },
-      currentQuickFilter: { ...getCustomKeyData('quickFilter'), ...overrideParams.topFilterParams },
-      topFilter: { ...getCustomKeyData('topFilter'), ...overrideParams.topFilterParams },
+      currentFilter: { ...(queryParams.savedFilter === undefined ? getCurrentFilter() : {}), ...overrideParams.filterParams },
+      currentQuickFilter: { ...(queryParams.savedFilter === undefined ? getCustomKeyData('quickFilter') : {}), ...overrideParams.topFilterParams },
+      topFilter: { ...(queryParams.savedFilter === undefined ? getCustomKeyData('topFilter') : {}), ...overrideParams.topFilterParams },
       selectedColumns: getCustomKeyData('selectedColumns', true) || pageData.defaultColumns || undefined,
     };
     await this.setState(objToSave);
-    await this.props.raiseAction(updateUserData({
-      lastQuery: objToSave.lastQuery,
-      [`${this.getKey('currentSort')}`]: objToSave.currentSort,
-      [`${this.getKey('currentFilter')}`]: objToSave.currentFilter,
-      [`${this.getKey('currentQuickFilter')}`]: objToSave.currentQuickFilter,
-      [`${this.getKey('topFilter')}`]: objToSave.topFilter,
-      [`${this.getKey('selectedColumns')}`]: objToSave.selectedColumns,
-    }));
+    await this.props.raiseAction(
+      updateUserData({
+        lastQuery: objToSave.lastQuery,
+        [`${this.getKey('currentSort')}`]: objToSave.currentSort,
+        [`${this.getKey('currentFilter')}`]: objToSave.currentFilter,
+        [`${this.getKey('currentQuickFilter')}`]: objToSave.currentQuickFilter,
+        [`${this.getKey('topFilter')}`]: objToSave.topFilter,
+        [`${this.getKey('selectedColumns')}`]: objToSave.selectedColumns,
+      })
+    );
 
     this.refreshData();
   }
@@ -176,9 +178,11 @@ class GenericListing extends Component {
       onAction && onAction(data.value, action);
     }
     await this.refreshData({ pageNo: 1 });
-    await this.props.raiseAction(updateUserData({
-      [`${this.getKey('quickFilters')}`]: data.value,
-    }));
+    await this.props.raiseAction(
+      updateUserData({
+        [`${this.getKey('quickFilters')}`]: data.value,
+      })
+    );
     setCustomKeyData('quickFilter', data.value);
     this.props.raiseAction(stopLoading());
   }
@@ -191,9 +195,11 @@ class GenericListing extends Component {
       onAction && onAction(data.value, action);
     }
     await this.refreshData({ pageNo: 1 });
-    await this.props.raiseAction(updateUserData({
-      [`${this.getKey('topFilter')}`]: data.value,
-    }));
+    await this.props.raiseAction(
+      updateUserData({
+        [`${this.getKey('topFilter')}`]: data.value,
+      })
+    );
     setCustomKeyData('topFilter', data.value);
     this.props.raiseAction(stopLoading());
   }
@@ -312,9 +318,11 @@ class GenericListing extends Component {
         await this.refreshData({ filter: {}, pageNo: 1 });
         this.props.raiseAction(stopLoading());
         setCurrentFilter({});
-        await this.props.raiseAction(updateUserData({
-          [`${this.getKey('currentFilter')}`]: {},
-        }));
+        await this.props.raiseAction(
+          updateUserData({
+            [`${this.getKey('currentFilter')}`]: {},
+          })
+        );
         break;
       case 'applyFilter':
         await this.setState({
@@ -322,9 +330,11 @@ class GenericListing extends Component {
           currentFilter: this.state.__currentFilter,
           __currentFilter: undefined,
         });
-        await this.props.raiseAction(updateUserData({
-          [`${this.getKey('currentFilter')}`]: this.state.currentFilter,
-        }));
+        await this.props.raiseAction(
+          updateUserData({
+            [`${this.getKey('currentFilter')}`]: this.state.currentFilter,
+          })
+        );
         setCurrentFilter(this.state.currentFilter);
         this.props.raiseAction(startLoading());
         await this.refreshData({});
@@ -336,19 +346,23 @@ class GenericListing extends Component {
     await this.setState({ currentSort: data });
     const { currentPage } = this.props.userData[this.getKey('results')] || {};
     setCurrentSort(data);
-    await this.props.raiseAction(updateUserData({
-      [`${this.getKey('currentSort')}`]: data,
-    }));
+    await this.props.raiseAction(
+      updateUserData({
+        [`${this.getKey('currentSort')}`]: data,
+      })
+    );
     this.props.raiseAction(startLoading());
     await this.refreshData({ pageNo: currentPage, sort: data });
     this.props.raiseAction(stopLoading());
   }
 
   onEditColumnChange(data) {
-    this.props.raiseAction(updateUserData({
-      [`${this.getKey('selectedColumns')}`]: data.value,
-    }));
-    console.log("@@@", data.value)
+    this.props.raiseAction(
+      updateUserData({
+        [`${this.getKey('selectedColumns')}`]: data.value,
+      })
+    );
+    console.log('@@@', data.value);
     this.setState({
       selectedColumns: data.value,
       showEditColumns: !this.state.showEditColumns,
