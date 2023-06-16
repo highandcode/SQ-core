@@ -330,6 +330,9 @@ class GenericListing extends Component {
             [`${this.getKey('tempCurrentFilter')}`]: {},
           })
         );
+        await this.setState({
+          __currentFilter: undefined,
+        });
         break;
       case 'applyFilter':
         await this.props.raiseAction(

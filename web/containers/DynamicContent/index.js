@@ -408,6 +408,9 @@ class DynamicContent extends Component {
         this.checkForInlineErrors(result, action);
         this.validateResults(result);
         break;
+      case 'reset':
+        await this.props.contentAction.resetUserData(action);
+        break;
       case 'download-doc':
         await this.props.contentActions.updateUserData({
           isSubmitting: true,
