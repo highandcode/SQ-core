@@ -14,6 +14,9 @@ class QueryString {
             str +=
             (str ? '&' : '') + key + '=' + encodeURIComponent(itemVal);
           })
+        } else if (typeof this.input[key] === 'object') {
+          str +=
+            (str ? '&' : '') + key + '=o:' + encodeURIComponent(JSON.stringify(this.input[key]));
         } else if (typeof this.input[key] !== 'undefined') {
           str +=
             (str ? '&' : '') + key + '=' + encodeURIComponent(this.input[key]);
@@ -29,7 +32,11 @@ class QueryString {
       const runInput = this.input.substr(this.input.indexOf('?') + 1);
       runInput.split('&').forEach((keyValue) => {
         const split = keyValue.split('=');
-        obj[split[0]] = decodeURIComponent(split[1]);
+        if (split[1].substr(0,2) === 'o:') {
+           obj[split[0]] = JSON.parse(decodeURIComponent(split[1].substr(2)));
+        } else {
+          obj[split[0]] = decodeURIComponent(split[1]);
+        }
       });
     }
     return obj;
