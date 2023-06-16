@@ -202,7 +202,7 @@ class GenericListing extends Component {
     );
     if (action.actionType) {
       action.currentData = data.value;
-      onAction && onAction(data.value, action);
+      await onAction && onAction(data.value, action);
     }
     await this.refreshData({ pageNo: 1 });
     setCustomKeyData('topFilter', data.value);

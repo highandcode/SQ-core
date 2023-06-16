@@ -409,7 +409,7 @@ class DynamicContent extends Component {
         this.validateResults(result);
         break;
       case 'reset':
-        await this.props.contentAction.resetUserData(action);
+        await this.props.contentActions.resetUserData(action);
         break;
       case 'download-doc':
         await this.props.contentActions.updateUserData({
