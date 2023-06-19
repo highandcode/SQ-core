@@ -186,7 +186,7 @@ class GenericListing extends Component {
     await this.refreshData({ pageNo: 1 });
     await this.props.raiseAction(
       updateUserData({
-        [`${this.getKey('quickFilters')}`]: data.value,
+        [`${this.getKey('currentQuickFilter')}`]: data.value,
       })
     );
     setCustomKeyData('quickFilter', data.value);
