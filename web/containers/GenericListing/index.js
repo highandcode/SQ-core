@@ -248,7 +248,7 @@ class GenericListing extends Component {
             query: pageData.apiConfig?.search.query
               ? processParams({ ...userData, sortBy: `${sortBy}|${sortDir}`, pageSize: pageSize, pageNo: pageNo }, pageData.apiConfig?.search.query)
               : {
-                  sortBy: `${sortBy}|${sortDir}`,
+                  sortBy: sortBy && sortDir ? `${sortBy}|${sortDir}` : undefined,
                   pageSize: pageSize,
                   pageNo: pageNo,
                 },
