@@ -321,18 +321,18 @@ class GenericListing extends Component {
           showFilter: !this.state.showFilter,
         });
         this.props.raiseAction(startLoading());
-        await this.refreshData({ filter: {}, pageNo: 1 });
-        this.props.raiseAction(stopLoading());
-        setCurrentFilter({});
         await this.props.raiseAction(
           updateUserData({
             [`${this.getKey('currentFilter')}`]: {},
             [`${this.getKey('tempCurrentFilter')}`]: {},
           })
         );
+        setCurrentFilter({});
         await this.setState({
           __currentFilter: undefined,
         });
+        await this.refreshData({ filter: {}, pageNo: 1 });
+        this.props.raiseAction(stopLoading());
         break;
       case 'applyFilter':
         await this.props.raiseAction(
