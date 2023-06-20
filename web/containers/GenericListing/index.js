@@ -183,12 +183,12 @@ class GenericListing extends Component {
       action.currentData = data.value;
       onAction && onAction(data.value, action);
     }
-    await this.refreshData({ pageNo: 1 });
     await this.props.raiseAction(
       updateUserData({
         [`${this.getKey('currentQuickFilter')}`]: data.value,
       })
     );
+    await this.refreshData({ pageNo: 1 });
     setCustomKeyData('quickFilter', data.value);
     this.props.raiseAction(stopLoading());
   }
