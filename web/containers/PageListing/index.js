@@ -7,13 +7,13 @@ import { updateUserData } from '../../redux/content';
 import BaseContainer from '../BaseContainer';
 import Dialog from '../../components/Dialog';
 import clonePageConfig from './ClonePage';
-// import { GLOBAL_OPTIONS } from '../../globals';
+import { GLOBAL_OPTIONS } from '../../globals';
 
 import PathTree from './PathTree';
 import DynamicContent from '../DynamicContent';
 
 // const { Grid, Tabs, Form, Pagination, Link, Dialog, Actions } = root;
-const { formatters } = utils.format;
+// const { formatters } = utils.format;
 const { translate } = utils.translate;
 
 class PageListing extends BaseContainer {
@@ -39,10 +39,11 @@ class PageListing extends BaseContainer {
     this.refreshPages();
   }
 
-  async refreshPages({ parentPath = this.state.parentPath } = {}) {
-    const { pageData, store } = this.props;
+  async refreshPages(options = {}) {
+    const { parentPath = this.state.parentPath, pageNo = 1, pageSize = GLOBAL_OPTIONS.noOfResultsDropdown.toArray()[0].value } = options;
+    const { pageData } = this.props;
     this.props.commonActions.startLoading();
-      await this.props.raiseAction(loadPagesByPath({ parentPath }, pageData.getPagesConfig));
+    await this.props.raiseAction(loadPagesByPath({ parentPath }, pageData.getPagesConfig, { pageNo, pageSize }));
     this.props.commonActions.stopLoading();
   }
 
@@ -61,8 +62,16 @@ class PageListing extends BaseContainer {
     }
   }
 
+  getCurrentPage() {
+    const { store } = this.props;
+    return {
+      pageNo: store.admin?.contentPagesPagination.currentPage,
+      pageSize: store.admin?.contentPagesPagination.pageSize,
+    };
+  }
+
   async onGridAction(row, value, column) {
-    const { pageData } = this.props;
+    const { pageData, store } = this.props;
     switch (value.action) {
       case 'clone':
         this.setState({
@@ -73,7 +82,8 @@ class PageListing extends BaseContainer {
       case 'delete':
         this.props.commonActions.startLoading();
         await this.props.raiseAction(deletePage(row, pageData.contentPageConfig));
-        this.refreshPages();
+        const currentPage = this.getCurrentPage();
+        this.refreshPages({ ...currentPage });
         break;
       case 'edit':
         utils.redirect.redirectTo(
@@ -96,7 +106,8 @@ class PageListing extends BaseContainer {
     await this.props.raiseAction(
       clonePage(data, pageData.clonePageConfig, {
         success: () => {
-          this.refreshPages();
+          const currentPage = this.getCurrentPage();
+          this.refreshPages({...currentPage});
           this.setState({
             openClone: false,
           });
@@ -137,11 +148,7 @@ class PageListing extends BaseContainer {
       <div className="sq-page-listing sq-v-screen sq-v-screen--fixed">
         <div className="sq-v-screen__container">
           <div className="container-fluid mt-wide mb-wide">
-            <Dialog
-              open={this.state.openClone}
-              onClose={this.toggleEditForm}
-              title={`Clone page`}
-            >
+            <Dialog open={this.state.openClone} onClose={this.toggleEditForm} title={`Clone page`}>
               <div className="mt-wide">
                 <DynamicContent
                   className={`sq-page-listing__clone`}
@@ -169,15 +176,23 @@ class PageListing extends BaseContainer {
             <div className="sq-v-screen-grow mb-wide sq-page-listing__container">
               {pageData.enableTree !== false && (
                 <div className="sq-page-listing__left">
-                  <PathTree
-                    data={store.admin.contentTree}
-                    onChange={this.onTreeSelect}
-                    value={this.state.parentPath}
-                  />
+                  <PathTree data={store.admin.contentTree} onChange={this.onTreeSelect} value={this.state.parentPath} />
                 </div>
               )}
               <Grid
                 className="sq-basic-grid sq-page-listing__right sq-basic-grid--rounded sq-grid--fixed"
+                paginationProps={{
+                  disabled: isLoading,
+                  count: store.admin?.contentPagesPagination?.totalPages,
+                  value: store.admin?.contentPagesPagination,
+                  onChange: (data) =>
+                    this.refreshPages({
+                      pageNo: data?.value?.currentPage,
+                      pageSize: data?.value?.pageSize,
+                    }),
+                  enablePageSize: true,
+                  pageSizeOptions: GLOBAL_OPTIONS.noOfResultsDropdown.toArray(),
+                }}
                 // loader={<Skeleton styleName={`grid-tran`} rows={8} />}
                 onAction={this.onGridAction}
                 columns={[

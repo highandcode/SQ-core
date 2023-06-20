@@ -27,6 +27,9 @@ const admin = createSlice({
     setContentPages: (state, action) => {
       state.contentPages = action.payload;
     },
+    setContentPagination: (state, action) => {
+      state.contentPagesPagination = action.payload;
+    },
     setFieldsMeta: (state, action) => {
       state.fieldsMeta = action.payload;
     },
@@ -104,19 +107,27 @@ export const loadPageTree =
   };
 
 export const loadPagesByPath =
-  (payload, { url, method = 'post', params, hook, query } = {}) =>
+  (payload, { url, method = 'post', params, hook, query } = {}, query2) =>
   async (dispatch, getState) => {
     const result = await utils.apiBridge[method](
       url || adminConfig.apis.getPageByPath,
       params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload,
       undefined,
-      processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
+      {...processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()), ...query2}
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {
         result.data = await customHooks.execute(hook, result);
       }
+      const pageData = {
+        total: result.data?.total || result.data?.totalItems,
+        pageSize: result.data.pageSize,
+        currentPage: result.data.currentPage,
+        isLast: result.data.last,
+        totalPages: result.data.totalPages
+      };
       await dispatch(setContentPages(result.data.pages));
+      await dispatch(setContentPagination(pageData));
     }
   };
 
@@ -400,6 +411,6 @@ customHooks.add('admin', {
   },
 });
 
-export const { setRoot, setContentPage, setContentTree, setContentPages, setFieldsMeta, setMedia, setMediaPage } = admin.actions;
+export const { setRoot, setContentPage, setContentTree, setContentPages, setContentPagination, setFieldsMeta, setMedia, setMediaPage } = admin.actions;
 
 export default admin.reducer;
