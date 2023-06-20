@@ -92,6 +92,7 @@ import { ReactComponent as SortDesc } from '../../assets/svg/sort-desc.svg';
 
 import {
   Email,
+  GridView,
   Fullscreen,
   Collections,
   FullscreenExit,
@@ -165,10 +166,13 @@ import {
   AcUnit,
   AddToQueue,
   AddComment,
+  Inventory,
+  SupportAgent,
   AccountCircle,
   Save,
   SaveAs,
   LibraryAdd,
+  Workspaces,
   PowerSettingsNew,
   AddCircleOutline,
   AddCircle,
@@ -177,6 +181,16 @@ import {
   AddTask,
   AddToPhotos,
   Analytics,
+  Drafts,
+  Subject,
+  Send,
+  LocalPostOffice,
+  ScheduleSend,
+  SendAndArchive,
+  MarkEmailRead,
+  AttachEmail,
+  AlternateEmail,
+  ForwardToInbox,
   Apps,
   Assistant,
   Build,
@@ -223,6 +237,7 @@ import {
   DataObject,
   DataArray,
   Shield,
+  FindInPage,
   Tv,
 } from '@mui/icons-material';
 
@@ -324,12 +339,13 @@ const types = {
     NoIcon: Article,
     expand: ExpandMore,
     collapse: ExpandLess,
-    close: HighlightOff,
+    HighlightOff,
     radiouncheck: RadioButtonUnchecked,
     radiochecked: RadioButtonChecked,
     adduser: PersonAdd,
     cancel: Cancel,
     info: InfoIcon,
+    Workspaces,
     close: Close,
     verifieduser: VerifiedUser,
     checkcircle: CheckCircle,
@@ -352,6 +368,16 @@ const types = {
     focus: CenterFocusWeak,
     'email-outline': MailOutline,
     email: Email,
+    Drafts,
+    Subject,
+    Send,
+    LocalPostOffice,
+    ScheduleSend,
+    SendAndArchive,
+    MarkEmailRead,
+    AttachEmail,
+    AlternateEmail,
+    ForwardToInbox,
     youtube: YouTube,
     adjust: Adjust,
     facebook: Facebook,
@@ -405,6 +431,7 @@ const types = {
     login: Login,
     Pages,
     mail: MailIcon,
+    FindInPage,
     theatres: TheatreIcon,
     power: OfflineBolt,
     shopping: LocalMall,
@@ -430,12 +457,15 @@ const types = {
     remove: Remove,
     transactions: Receipt,
     expenses: MonetizationOn,
+    Inventory,
+    SupportAgent,
     money: Money,
     loan: Loan,
     account: AccountBalance,
     chart: BarChart,
     donutchart: DonutLarge,
     barchartfilled: Assessment,
+    GridView,
     bubblechart: BubbleChart,
     CloudUpload,
     Upload,
@@ -474,13 +504,7 @@ const Icon = ({ className = '', img, textIcon, name, variant = 'default', color,
   const finalVariant = getValue(this, variant, row);
   const IconToRender = list()[finalName] || (textIcon ? undefined : !img ? list().NoIcon : undefined);
   return (
-    <div
-      className={`sq-icon ${finalIconClass} ${!finalName && textIcon ? 'sq-icon--text-icon' : ''} sq-icon--${finalVariant} ${
-        finalColor ? `sq-icon--${finalColor}` : ''
-      } sq-icon--${size} ${className}`}
-      data-icon-name={finalName}
-      onClick={onClick}
-    >
+    <div className={`sq-icon ${finalIconClass} ${!finalName && textIcon ? 'sq-icon--text-icon' : ''} sq-icon--${finalVariant} ${finalColor ? `sq-icon--${finalColor}` : ''} sq-icon--${size} ${className}`} data-icon-name={finalName} onClick={onClick}>
       {!finalName && textIcon && <span className="sq-icon__text">{getValue(this, textIcon, row)}</span>}
       {svg || (IconToRender && <IconToRender />)}
       {img && <img src={img} />}
