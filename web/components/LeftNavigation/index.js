@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 // import { root } from 'qubejs-core/web';
 import Dialog from '../Dialog';
 import Icon from '../Icon';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -78,7 +76,6 @@ export const checkChildren = (children, path, userData) => {
 };
 
 const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], roles = [], rightItems, openDrawer = false, onCloseDrawer, userData = {} }) => {
-  const [openItems, setOpenItems] = React.useState({});
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [menuItems, setMenuItems] = React.useState([]);
   const [currentItem, setCurrentItem] = React.useState();
@@ -97,7 +94,6 @@ const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], role
     setCurrentItem(null);
   };
   const handleDialogClose = () => {
-    setOpenItems({});
     onCloseDrawer && onCloseDrawer();
   };
 
@@ -144,7 +140,8 @@ const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], role
               <div key={idx} className={`sq-global-left-navigation__nav-item ${hasActive(item, userData) ? 'active' : ''}`}>
                 <Tooltip key={idx} title={item.tooltip || item.title}>
                   <IconButton size='small' onClick={(e) => handleClick(e, item)}>
-                    <Icon name={item.iconName} />
+                    {item.rootIcon && <Icon.default name={item.rootIcon} />}
+                    {!item.rootIcon && <Icon.default name={item.iconName} />}
                     {item.children?.length > 0 && (
                       <div className="sq-global-left-navigation__extend-wrapper">
                         <div className="sq-global-left-navigation__nav-extend"></div>
