@@ -2,7 +2,7 @@ import React, { useState, memo, useCallback, useRef } from 'react';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
 import { useDrag, useDrop } from 'react-dnd';
-import { CheckboxField } from '../../ui/Checkbox';
+import CheckboxField from '../../ui/CheckboxField';
 import Icon from '../../Icon';
 
 const ItemTypes = {

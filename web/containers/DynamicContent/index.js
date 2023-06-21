@@ -11,7 +11,7 @@ import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
 import { events } from '../../utils/app-events';
 import { query } from '../../utils/query-string';
-import { fetchContentPage, uploadApi, postApi, checkAndPostApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
+import { fetchContentPage, uploadApi, postApi, checkAndPostApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, sendContact, processParams } from '../../redux/content';
 
 import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, closePopupScreen, closePopup, showPopup, setError, clearError } from '../../redux/common';
 
@@ -641,7 +641,7 @@ DynamicContent.propTypes = {
   raiseAction: PropTypes.func,
 };
 
-export { DynamicContent, customHooks, registerContainers };
+export { DynamicContent, registerContainers };
 
 const mapStateToProps = (state) => {
   return {
