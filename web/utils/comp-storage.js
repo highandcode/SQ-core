@@ -29,6 +29,7 @@ class GroupStorage {
     let newObj = {};
     Object.keys(this.components).forEach((a) => {
       newObj = {
+        ...newObj,
         ...this.components[a],
       };
     });
@@ -40,7 +41,7 @@ class GroupStorage {
       ...this.components,
       [group]: {
         ...(this.components[group] || {}),
-        newComps,
+        ...newComps,
       },
     };
   }
