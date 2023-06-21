@@ -140,8 +140,8 @@ const LeftNavigation = ({ logo = {}, items = [], onClick, permissions = [], role
               <div key={idx} className={`sq-global-left-navigation__nav-item ${hasActive(item, userData) ? 'active' : ''}`}>
                 <Tooltip key={idx} title={item.tooltip || item.title}>
                   <IconButton size='small' onClick={(e) => handleClick(e, item)}>
-                    {item.rootIcon && <Icon.default name={item.rootIcon} />}
-                    {!item.rootIcon && <Icon.default name={item.iconName} />}
+                    {item.rootIcon && <Icon name={item.rootIcon} />}
+                    {!item.rootIcon && <Icon name={item.iconName} />}
                     {item.children?.length > 0 && (
                       <div className="sq-global-left-navigation__extend-wrapper">
                         <div className="sq-global-left-navigation__nav-extend"></div>

@@ -1,5 +1,5 @@
-import * as Chart from './Chart';
-import * as Icon from './Icon';
+import Icon from './Icon';
+import Chart from './Chart';
 import Actions from './Actions';
 import Alert from './Alert';
 import BottomNavigation from './BottomNavigation';

@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getValue } from '../../utils/properties';
-import Icon, { getIconList } from '../Icon';
+import { icons } from '../../utils/storage';
+import Icon from '../Icon';
+
 
 const IconSelector = ({ label, value, iconSet, className = '', variant = 'default', size = 'normal', iconClass = '', row, onChange }) => {
   const finalIconClass = getValue(this, iconClass, row);
-  const list = getIconList(iconSet);
+  const list = icons.getAll(iconSet);
   const handleOnChange = (icon) => {
     onChange &&
       onChange({

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { icons } from '../../utils/storage';
+
 import ListIcon from '@mui/icons-material/List';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import HighlightOff from '@mui/icons-material/HighlightOff';
@@ -243,9 +245,8 @@ import {
 
 import { getValue } from '../../utils/properties';
 
-const types = {
-  app: {},
-  system: {
+icons.set(
+  {
     'add-circle-outline': AddCircleOutline,
     'remove-circle-outline': RemoveCircleOutline,
     'add-circle': AddCircle,
@@ -394,7 +395,10 @@ const types = {
     OpenInFull,
     CloseFullscreen,
   },
-  basic: {
+  'system'
+);
+icons.set(
+  {
     code: Code,
     star: Star,
     shared: FolderShared,
@@ -488,23 +492,21 @@ const types = {
     'sort-desc': SortDesc,
     Move,
   },
-};
+  'basic'
+);
 
-const list = () => {
-  return {
-    ...types.basic,
-    ...types.system,
-    ...types.app,
-  };
-};
 const Icon = ({ className = '', img, textIcon, name, variant = 'default', color, size = 'normal', iconClass = '', row, svg, onClick }) => {
   const finalName = getValue(this, name, row);
   const finalIconClass = getValue(this, iconClass, row);
   const finalColor = getValue(this, color, row);
   const finalVariant = getValue(this, variant, row);
-  const IconToRender = list()[finalName] || (textIcon ? undefined : !img ? list().NoIcon : undefined);
+  const IconToRender = icons.getAll()[finalName] || (textIcon ? undefined : !img ? icons.getAll().NoIcon : undefined);
   return (
-    <div className={`sq-icon ${finalIconClass} ${!finalName && textIcon ? 'sq-icon--text-icon' : ''} sq-icon--${finalVariant} ${finalColor ? `sq-icon--${finalColor}` : ''} sq-icon--${size} ${className}`} data-icon-name={finalName} onClick={onClick}>
+    <div
+      className={`sq-icon ${finalIconClass} ${!finalName && textIcon ? 'sq-icon--text-icon' : ''} sq-icon--${finalVariant} ${finalColor ? `sq-icon--${finalColor}` : ''} sq-icon--${size} ${className}`}
+      data-icon-name={finalName}
+      onClick={onClick}
+    >
       {!finalName && textIcon && <span className="sq-icon__text">{getValue(this, textIcon, row)}</span>}
       {svg || (IconToRender && <IconToRender />)}
       {img && <img src={img} />}
@@ -525,13 +527,3 @@ Icon.propTypes = {
 };
 
 export default Icon;
-
-export const getIconList = (name) => {
-  return types[name] || list();
-};
-
-export const registerIcon = (name, icon, group = 'app') => {
-  if (types[group] && name && icon) {
-    types[group][name] = icon;
-  }
-};
