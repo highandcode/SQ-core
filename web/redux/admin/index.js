@@ -97,9 +97,9 @@ export const loadPageTree =
   async (dispatch, getState) => {
     const result = await utils.apiBridge[method](
       url || adminConfig.apis.getContentTree,
-      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload,
+      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()), ...payload }, params, undefined, getState()) : payload,
       undefined,
-      processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState())
+      processParams({ ...selectContentData(getState()), ...selectUserData(getState()), ...payload }, query, undefined, getState())
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       await dispatch(setContentTree(result.data));
@@ -111,9 +111,9 @@ export const loadPagesByPath =
   async (dispatch, getState) => {
     const result = await utils.apiBridge[method](
       url || adminConfig.apis.getPageByPath,
-      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, params, undefined, getState()) : payload,
+      params ? processParams({ ...selectContentData(getState()), ...selectUserData(getState()), ...payload }, params, undefined, getState()) : payload,
       undefined,
-      {...processParams({ ...selectContentData(getState()), ...selectUserData(getState()) }, query, undefined, getState()), ...query2}
+      {...processParams({ ...selectContentData(getState()), ...selectUserData(getState()), ...payload }, query, undefined, getState()), ...query2}
     );
     if (result.status === CONSTANTS.STATUS.SUCCESS) {
       if (hook) {

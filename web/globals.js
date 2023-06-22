@@ -18,6 +18,16 @@ export const GLOBAL_OPTIONS = {
     filled: 'Filled',
     default: 'Default',
   }),
+  contentType: new GlobalOptions({
+    PAGE: {
+      text: 'Page',
+      size: 'small',
+    },
+    SITE_MAP: {
+      text: 'Site Map',
+      size: 'small',
+    },
+  }),
   pricingTemplates: new GlobalOptions({
     default: 'default',
     'box-style': 'box-style',
@@ -155,8 +165,7 @@ export const GLOBAL_OPTIONS = {
   pageWrapperClasses: new GlobalOptions({
     'sq-content-page--full-width': 'sq-content-page--full-width',
     'sq-content-page--h-100': 'sq-content-page--h-100',
-    'sq-content-page--header-footer-body':
-      'sq-content-page--header-footer-body',
+    'sq-content-page--header-footer-body': 'sq-content-page--header-footer-body',
   }),
   buttonSize: new GlobalOptions({
     small: 'small',
@@ -223,12 +232,12 @@ export const GLOBAL_OPTIONS = {
     'sq-image-block-with-text--left-aligned': 'sq-image-block-with-text--left-aligned',
   }),
   imageWithHeaderBody: new GlobalOptions({
-    'bordered': 'bordered',
-    'shadow': 'shadow',
+    bordered: 'bordered',
+    shadow: 'shadow',
   }),
   imageAlign: new GlobalOptions({
-    'left': 'left',
-    'right': 'right',
+    left: 'left',
+    right: 'right',
   }),
   heroTemplates: new GlobalOptions({
     'without-image': 'without-image',
