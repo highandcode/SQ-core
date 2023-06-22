@@ -12,7 +12,7 @@ import {
   setError,
   clearError,
 } from '../../redux/common';
-import { getFieldsMeta, getPage, savePageDraft } from '../../redux/admin';
+import { getPage, savePageDraft } from '../../redux/admin';
 import DynamicContent from '../DynamicContent';
 
 import Button from '../../components/ui/Button';
@@ -29,11 +29,9 @@ import {
   mergeUserData,
   updateErrorData,
   resetUserData,
-  customHooks,
   sendContact,
-  processParams,
 } from '../../redux/content';
-import { getConfig } from '../PageBuilder';
+
 class SiteMapBuilder extends Component {
   constructor() {
     super();
@@ -93,8 +91,8 @@ class SiteMapBuilder extends Component {
     this.state.autoSave && this.savePageAsDraft(data, this.state.autoSave);
   }
   render() {
-    const { className = '', pageData, store } = this.props;
-    const editfinalData = editData(getConfig());
+    const { className = '' } = this.props;
+    const editfinalData = editData(utils.storage.pageBuilder.get());
     return (
       <div
         className={`sq-sitemap-builder sq-v-screen sq-v-screen--fixed ${className}`}

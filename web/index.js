@@ -23,7 +23,7 @@ import adminConifg from './admin.config';
 
 import './styles/index.scss';
 
-containers.DynamicContent.registerContainers({
+utils.storage.containers.set({
   ...containers.default,
 });
 

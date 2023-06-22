@@ -4,8 +4,9 @@ import React from 'react';
 import { render, screen, act, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { fake } from 'config_ui';
-import { DynamicContent, registerContainers } from './index';
+import { DynamicContent } from './index';
 import { redirectTo } from '../../utils/redirect';
+import { containers } from '../../utils/storage';
 
 describe('DynamicContent', () => {
   describe('Loading page from server', () => {
@@ -1459,7 +1460,7 @@ describe('DynamicContent', () => {
 
   describe('Register Custom Containers', () => {
     test('should be able to register custom container', () => {
-      registerContainers({
+      containers.set({
         newCOntainer: () => <div>hello</div>,
       });
     });

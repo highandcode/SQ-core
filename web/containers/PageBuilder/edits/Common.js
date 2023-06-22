@@ -1,6 +1,5 @@
 import { GLOBAL_OPTIONS } from '../../../globals';
 import { icons } from '../../../utils/storage';
-// import { getIconList } from '../../../components/Icon';
 import validators from './c-validators';
 const tabs = {
   general: {

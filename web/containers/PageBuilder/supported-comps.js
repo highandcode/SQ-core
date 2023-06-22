@@ -4,11 +4,9 @@ import LaunchTimer from '../../components/LaunchTimer';
 import Wrapper from '../../components/Wrapper';
 import Iframe from '../../components/Iframe';
 import ImageWithSpotlight from '../../components/ImageWithSpotlight';
-// import Pricing from '../../components/ui/Pricing';
 import TextColumnWithLinks from '../../components/ui/TextColumnWithLinks';
 import { getMap } from '../../components/ui';
 import { ItemTypes } from './ItemTypes';
-
 import HeaderEdit from './edits/Header';
 import HeroContentEdit from './edits/HeroContent';
 import IframeEdit from './edits/Iframe';
@@ -47,7 +45,7 @@ import DateSelectorEdit from './edits/DateSelector';
 import AutocompleteEdit from './edits/Autocomplete';
 import AlertEdit from './edits/Alert';
 import { GLOBAL_OPTIONS } from '../../globals';
-
+import { dynamicComponents } from '../../utils/storage';
 const compList = {
   Form: {
     Component: Form,
@@ -823,15 +821,13 @@ const compList = {
           profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
           header: 'John Peter',
           designation: 'Software Engineer',
-          subHeader:
-            'Officia nulla elit do eu pariatur in esse amet. Ex est fugiat pariatur veniam laboris occaecat ad reprehenderit consequat nisi tempor do do ea. Proident non nostrud elit irure incididunt ea in eu qui incididunt pariatur reprehenderit eiusmod. Adipisicing elit voluptate adipisicing voluptate aliqua nisi sit.',
+          subHeader: 'Officia nulla elit do eu pariatur in esse amet. Ex est fugiat pariatur veniam laboris occaecat ad reprehenderit consequat nisi tempor do do ea. Proident non nostrud elit irure incididunt ea in eu qui incididunt pariatur reprehenderit eiusmod. Adipisicing elit voluptate adipisicing voluptate aliqua nisi sit.',
         },
         {
           profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
           header: 'John Peter',
           designation: 'Software Engineer',
-          subHeader:
-            'Officia nulla elit do eu pariatur in esse amet. Ex est fugiat pariatur veniam laboris occaecat ad reprehenderit consequat nisi tempor do do ea. Proident non nostrud elit irure incididunt ea in eu qui incididunt pariatur reprehenderit eiusmod. Adipisicing elit voluptate adipisicing voluptate aliqua nisi sit.',
+          subHeader: 'Officia nulla elit do eu pariatur in esse amet. Ex est fugiat pariatur veniam laboris occaecat ad reprehenderit consequat nisi tempor do do ea. Proident non nostrud elit irure incididunt ea in eu qui incididunt pariatur reprehenderit eiusmod. Adipisicing elit voluptate adipisicing voluptate aliqua nisi sit.',
         },
       ],
     },
@@ -842,8 +838,7 @@ const compList = {
     Component: getMap().ImageBlockWithText,
     sampleData: {
       header: 'Meet the team',
-      subHeader:
-        'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
+      subHeader: 'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
       imageUrl: 'https://st.depositphotos.com/2309453/3447/i/600/depositphotos_34479387-stock-photo-group-of-young-business-people.jpg',
     },
     editData: ImageBlockWithTextEdit,
@@ -854,8 +849,7 @@ const compList = {
     sampleData: {
       header: 'Mission',
       styleName: 'shadow',
-      subHeader:
-        'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
+      subHeader: 'Ipsum eu consequat nostrud nisi ut commodo anim labore labore exercitation dolore qui amet consequat. Anim amet laborum occaecat est aute occaecat. Velit anim adipisicing nostrud dolore quis. Laborum labore eu ad nisi est duis Lorem nulla aliquip tempor nisi.',
       imageUrl: 'https://w7.pngwing.com/pngs/691/585/png-transparent-computer-icons-business-mission-company-text-people-thumbnail.png',
     },
     editData: ImageWithHeaderBodyEdit,
@@ -864,7 +858,7 @@ const compList = {
     group: 'Content',
     Component: Iframe,
     sampleData: {
-      url: 'https://www.google.com'
+      url: 'https://www.google.com',
     },
     editData: IframeEdit,
   },
@@ -873,8 +867,7 @@ const compList = {
     Component: ImageWithSpotlight,
     sampleData: {
       header: 'Grow with us',
-      bgImageUrl:
-        'https://img.freepik.com/free-photo/new-york-city-central-park-panorama_649448-89.jpg?w=2000&t=st=1683292030~exp=1683292630~hmac=b87b9d4a48fea6a2b3ed84f236b7f9213fc24948ed32023d554ff3e9c31d4315',
+      bgImageUrl: 'https://img.freepik.com/free-photo/new-york-city-central-park-panorama_649448-89.jpg?w=2000&t=st=1683292030~exp=1683292630~hmac=b87b9d4a48fea6a2b3ed84f236b7f9213fc24948ed32023d554ff3e9c31d4315',
       actions: [
         {
           buttonText: 'Blogs',
@@ -905,6 +898,4 @@ const compList = {
   },
 };
 
-export const getSupportedComps = () => compList;
-
-export const addComponent = (name, comp) => (compList[name] = comp);
+dynamicComponents.set(compList);

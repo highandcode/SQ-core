@@ -1,7 +1,6 @@
-
-import * as DynamicContent from './DynamicContent';
-import * as PageBuilder from './PageBuilder';
-import * as SiteMapBuilder from './SiteMapBuilder';
+import SiteMapBuilder from './SiteMapBuilder';
+import PageBuilder from './PageBuilder';
+import DynamicContent from './DynamicContent';
 import LayoutContent from './LayoutContent';
 import ComponentDemo from './ComponentDemo';
 import Content from './Content';
@@ -20,30 +19,13 @@ import EmailTemplateList from './EmailTemplateList';
 
 import templates from '../templates';
 
-export {
-  ComponentDemo,
-  GenericListing,
-  DynamicContent,
-  PageBuilder,
-  SiteMapBuilder,
-  ContentWithSearch,
-  MultiView,
-  Documentation,
-  LayoutContent,
-  ContentWithLeftNavigation,
-  Content,
-  TocIndex,
-  UsersList,
-  PageListing,
-  MediaGallery,
-  EmailTemplateList,
-};
+export { ComponentDemo, GenericListing, DynamicContent, PageBuilder, SiteMapBuilder, ContentWithSearch, MultiView, Documentation, LayoutContent, ContentWithLeftNavigation, Content, TocIndex, UsersList, PageListing, MediaGallery, EmailTemplateList };
 
 export default {
   ComponentDemo,
-  DynamicContent: DynamicContent.default,
-  PageBuilder: PageBuilder.default,
-  SiteMapBuilder: SiteMapBuilder.default,
+  DynamicContent,
+  PageBuilder,
+  SiteMapBuilder,
   ContentWithSearch,
   MultiView,
   GenericListing,

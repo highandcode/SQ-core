@@ -1,10 +1,22 @@
 class Storage {
   constructor(components = {}) {
     this.components = components;
+    this.helpers = {};
+  }
+
+  setHelpers(helpers) {
+    this.helpers = {
+      ...this.helpers,
+      ...helpers,
+    };
   }
 
   get() {
     return this.components;
+  }
+
+  remove(key) {
+    delete this.components[key];
   }
 
   set(newComps) {
@@ -14,15 +26,28 @@ class Storage {
     };
   }
 }
+
 class GroupStorage {
   constructor(components) {
     this.components = {
       default: components,
     };
+    this.fns = {};
   }
-
+  
+  setHelpers(helpers) {
+    this.helpers = {
+      ...this.helpers,
+      ...helpers,
+    };
+  }
+  
   get(group) {
     return this.components[group] || this.components.default;
+  }
+
+  remove(group) {
+    delete this.components[group];
   }
 
   getAll() {

@@ -2,5 +2,8 @@ import { GroupStorage, Storage } from './comp-storage';
 
 const icons = new GroupStorage();
 const components = new Storage();
+const containers = new Storage();
+const dynamicComponents = new Storage();
+const pageBuilder = new Storage();
 
-export { icons, components };
+export { icons, components, containers, dynamicComponents, pageBuilder };
