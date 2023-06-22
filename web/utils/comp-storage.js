@@ -11,6 +11,10 @@ class Storage {
     };
   }
 
+  add(name, data) {
+    this.components[name] = data;
+  }
+
   get() {
     return this.components;
   }
@@ -34,7 +38,7 @@ class GroupStorage {
     };
     this.fns = {};
   }
-  
+
   setHelpers(helpers) {
     this.helpers = {
       ...this.helpers,
@@ -42,6 +46,10 @@ class GroupStorage {
     };
   }
   
+  add(name, data) {
+    this.components[name] = data;
+  }
+
   get(group) {
     return this.components[group] || this.components.default;
   }
