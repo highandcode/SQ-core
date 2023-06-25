@@ -1,3 +1,5 @@
+import EventManager from './event-manager';
+
 class Storage {
   constructor(components = {}) {
     this.components = components;
@@ -45,7 +47,7 @@ class GroupStorage {
       ...helpers,
     };
   }
-  
+
   add(name, data) {
     this.components[name] = data;
   }
@@ -79,4 +81,55 @@ class GroupStorage {
     };
   }
 }
-export { Storage, GroupStorage };
+
+export const getParseJSON = (obj, isNull) => {
+  try {
+    return typeof obj == 'string' ? JSON.parse(obj) : obj || (isNull ? undefined : {});
+  } catch (e) {
+    return obj || (isNull ? undefined : {});
+  }
+};
+
+class PreferenceStorage {
+  constructor() {
+    this.helpers = {};
+    this.prefData = null;
+    this._win = window;
+    this.events = new EventManager();
+  }
+
+  getKey(prefix) {
+    return `${prefix || 'default'}_${(this._win.location.pathname || '').split('/').join('_')}`;
+  }
+
+  read(key, isNull) {
+    if (this.prefData) {
+      return this.prefData[key];
+    }
+    return getParseJSON(this._win.localStorage.getItem(this.getKey(key)), isNull);
+  }
+
+  write(key, data) {
+    if (this.prefData) {
+      this.prefData[key] = data;
+      this.events.emit('onWrite', key, data);
+      return;
+    }
+    data && this._win.localStorage.setItem(this.getKey(key), JSON.stringify(data));
+  }
+
+  setHelpers(helpers) {
+    this.helpers = {
+      ...this.helpers,
+      ...helpers,
+    };
+  }
+
+  clearAll() {
+    if (this.prefData) {
+      this.prefData = null;
+    }
+  }
+}
+
+export { Storage, GroupStorage, PreferenceStorage };
