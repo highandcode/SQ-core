@@ -152,6 +152,7 @@ class GenericListing extends Component {
       currentQuickFilter: { ...(queryParams.savedFilter === undefined ? preference.read('quickFilter') : {}), ...overrideParams.topFilterParams },
       topFilter: { ...(queryParams.savedFilter === undefined ? preference.read('topFilter') : {}), ...overrideParams.topFilterParams },
       selectedColumns: preference.read('selectedColumns', true) || pageData.defaultColumns || undefined,
+      columnsOrder: preference.read('columnsOrder', true),
     };
     // this.setState({
     //   currentSort: objToSave.currentSort,
@@ -164,6 +165,7 @@ class GenericListing extends Component {
         [`${this.getKey('currentQuickFilter')}`]: objToSave.currentQuickFilter,
         [`${this.getKey('topFilter')}`]: objToSave.topFilter,
         [`${this.getKey('selectedColumns')}`]: objToSave.selectedColumns,
+        [`${this.getKey('columnsOrder')}`]: objToSave.columnsOrder,
       })
     );
 
@@ -241,8 +243,8 @@ class GenericListing extends Component {
           ...(filter || userData[this.getKey('currentFilter')] || {}),
           ...(userData[this.getKey('currentQuickFilter')] || {}),
           ...(userData[this.getKey('topFilter')] || {}),
-        })
-          onAction &&
+        });
+        onAction &&
           onAction(
             {},
             {
@@ -381,19 +383,28 @@ class GenericListing extends Component {
   }
 
   onEditColumnChange(data) {
+    const { userData } = this.props;
     this.props.raiseAction(
       updateUserData({
         [`${this.getKey('selectedColumns')}`]: data.value,
+        [`${this.getKey('columnsOrder')}`]: data.columnsOrder ? data.columnsOrder : userData[this.getKey('columnsOrder')],
       })
     );
     this.setState({
       showEditColumns: !this.state.showEditColumns,
     });
-    preference.write('selectedColumns', data.value);
+    console.log(data);
+    const objToSave = {
+      selectedColumns: data.value,
+    };
+    if (data.columnsOrder) {
+      objToSave.columnsOrder = data.columnsOrder;
+    }
+    preference.writeAll(objToSave);
   }
 
   render() {
-    const { pageData = {}, userData, store } = this.props;
+    const { pageData = {}, userData } = this.props;
     const { className = '' } = pageData;
     const { Actions, Dialog, Form, Grid, Skeleton } = getMap();
     const currentSort = userData[this.getKey('currentSort')];
@@ -401,6 +412,8 @@ class GenericListing extends Component {
     const currentQuickFilter = userData[this.getKey('currentQuickFilter')];
     const topFilter = userData[this.getKey('topFilter')];
     const selectedColumns = userData[this.getKey('selectedColumns')];
+    const columnsOrder = userData[this.getKey('columnsOrder')];
+    console.log(columnsOrder);
     return (
       <div className={`sq-generic-listing sq-v-screen sq-v-screen--fixed ${className}`}>
         <div className="sq-v-screen__container">
@@ -460,6 +473,7 @@ class GenericListing extends Component {
                 onChange={this.onGridChange}
                 onColFilterChange={this.onEditColumnChange}
                 selectedColumns={selectedColumns}
+                columnsOrder={columnsOrder}
                 showColSelection={this.state.showEditColumns}
                 onAction={this.onGridAction}
                 sortColumn={currentSort?.sortColumn}

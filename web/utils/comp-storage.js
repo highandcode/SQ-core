@@ -108,18 +108,32 @@ class PreferenceStorage {
 
   read(key, isNull) {
     if (this.prefData) {
-      return this.prefData[this.getKey(key)];
+      return this.prefData[this.getKey(key)] || (isNull ? undefined : {});
     }
     return getParseJSON(this._win.localStorage.getItem(this.getKey(key)), isNull);
   }
 
   write(key, data) {
     if (this.prefData) {
-      this.prefData[key] = data;
+      this.prefData[this.getKey(key)] = data;
       this.events.emit('onWrite', key, data);
       return;
     }
     data && this._win.localStorage.setItem(this.getKey(key), JSON.stringify(data));
+  }
+  
+  writeAll(obj) {
+    if (this.prefData) {
+      Object.keys(obj).forEach((itemKey) => {
+        this.prefData[this.getKey(itemKey)] = obj[itemKey];
+      });
+      this.events.emit('onWriteAll', obj);
+      return;
+    }
+    obj && Object.keys(obj).forEach((itemKey) => {
+      const data = obj[itemKey] || {};
+      this._win.localStorage.setItem(this.getKey(itemKey), JSON.stringify(data));
+    });
   }
 
   setHelpers(helpers) {
