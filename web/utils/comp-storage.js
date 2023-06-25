@@ -98,13 +98,17 @@ class PreferenceStorage {
     this.events = new EventManager();
   }
 
+  setData(data) {
+    this.prefData = data;
+  }
+
   getKey(prefix) {
     return `${prefix || 'default'}_${(this._win.location.pathname || '').split('/').join('_')}`;
   }
 
   read(key, isNull) {
     if (this.prefData) {
-      return this.prefData[key];
+      return this.prefData[this.getKey(key)];
     }
     return getParseJSON(this._win.localStorage.getItem(this.getKey(key)), isNull);
   }
@@ -125,7 +129,7 @@ class PreferenceStorage {
     };
   }
 
-  clearAll() {
+  clearData() {
     if (this.prefData) {
       this.prefData = null;
     }

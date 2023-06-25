@@ -210,6 +210,19 @@ class GenericListing extends Component {
     this.props.raiseAction(stopLoading());
   }
 
+  getBookmarkableFields(keys, data) {
+    if (!keys) {
+      return data;
+    }
+    const obj = {};
+    Object.keys(data).forEach((itemKey) => {
+      if (keys?.indexOf(itemKey) > -1) {
+        obj[itemKey] = data[itemKey];
+      }
+    });
+    return obj;
+  }
+
   async refreshData({ filter, sort, pageSize, pageNo } = {}) {
     const { pageData, data, userData, store, raiseAction, onAction } = this.props;
 
@@ -224,16 +237,17 @@ class GenericListing extends Component {
       const sortBy = (sort || currentSort).sortColumn;
       const sortDir = (sort || currentSort).sortOrder;
       if (pageData.bookmarkable === true) {
-        onAction &&
+        const fields = this.getBookmarkableFields(pageData.bookmarkableFields, {
+          ...(filter || userData[this.getKey('currentFilter')] || {}),
+          ...(userData[this.getKey('currentQuickFilter')] || {}),
+          ...(userData[this.getKey('topFilter')] || {}),
+        })
+          onAction &&
           onAction(
             {},
             {
               actionType: 'self-redirect',
-              urlParams: {
-                ...(filter || userData[this.getKey('currentFilter')] || {}),
-                ...(userData[this.getKey('currentQuickFilter')] || {}),
-                ...(userData[this.getKey('topFilter')] || {}),
-              },
+              urlParams: fields,
             }
           );
       }
