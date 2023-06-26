@@ -4,7 +4,6 @@ import { Grid, Actions } from '../../components/root';
 import * as utils from '../../utils';
 import { loadPageTree, loadPagesByPath, deletePage, clonePage } from '../../redux/admin';
 import { updateUserData, processParams } from '../../redux/content';
-import { getCurrentFilter, setCurrentFilter } from '../../redux/common';
 import BaseContainer from '../BaseContainer';
 import Dialog from '../../components/Dialog';
 import Form from '../../components/Form';
@@ -58,7 +57,7 @@ class PageListing extends BaseContainer {
       });
     }
     await this.setState({
-      currentFilter: getCurrentFilter(),
+      currentFilter: utils.storage.preference.read('currentFilter'),
     });
     this.filterFields = [
       {
@@ -201,7 +200,7 @@ class PageListing extends BaseContainer {
         await this.setState({
           currentFilter: this.state.__currentFilter,
         });
-        setCurrentFilter(this.state.__currentFilter)
+        utils.storage.preference.write('currentFilter', this.state.__currentFilter)
         await this.setState({
           showFilter: !this.state.showFilter,
           __currentFilter: undefined,
