@@ -154,9 +154,6 @@ class GenericListing extends Component {
       selectedColumns: preference.read('selectedColumns', true) || pageData.defaultColumns || undefined,
       columnsOrder: preference.read('columnsOrder', true),
     };
-    // this.setState({
-    //   currentSort: objToSave.currentSort,
-    // });
     await this.props.raiseAction(
       updateUserData({
         lastQuery: objToSave.lastQuery,
@@ -413,7 +410,6 @@ class GenericListing extends Component {
     const topFilter = userData[this.getKey('topFilter')];
     const selectedColumns = userData[this.getKey('selectedColumns')];
     const columnsOrder = userData[this.getKey('columnsOrder')];
-    console.log(columnsOrder);
     return (
       <div className={`sq-generic-listing sq-v-screen sq-v-screen--fixed ${className}`}>
         <div className="sq-v-screen__container">
