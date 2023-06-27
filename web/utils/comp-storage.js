@@ -149,7 +149,7 @@ class PreferenceStorage {
   writeAll(obj) {
     const objToSend = {};
     Object.keys(obj).forEach((itemKey) => {
-      objToSend[this.getKey(itemKey)] = obj[itemKey] || {};
+      objToSend[this.getKey(itemKey)] = obj[itemKey] || "";
     });
     if (this.defaultPrefData) {
       Object.keys(objToSend).forEach((itemKey) => {

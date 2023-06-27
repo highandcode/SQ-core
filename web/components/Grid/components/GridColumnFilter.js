@@ -19,7 +19,7 @@ const fixedStyles = {
 
 const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColumReorder }) => {
   const [internalColumns, setInternalColumns] = useState([...columns].sort((a, b) => colOrder && (colOrder[a.name] > colOrder[b.name] ? 1 : colOrder[a.name] < colOrder[b.name] ? -1 : 0)));
-  const hasAllSelection = columns.map((i) => value.indexOf(i.name) > -1 || i.customize === false).filter((a) => a === false).length === 0;
+  const hasAllSelection = columns.map((i) => (Array.isArray(value) && value.indexOf(i.name) > -1) || i.customize === false).filter((a) => a === false).length === 0;
   const handleSelectAll = (data) => {
     if (data.checked) {
       onChange &&

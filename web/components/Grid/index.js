@@ -150,7 +150,7 @@ class Grid extends React.Component {
         return colOrder && (colOrder[a.name] > colOrder[b.name] ? 1 : colOrder[a.name] < colOrder[b.name] ? -1 : 0);
       })
       .filter((col) => {
-        return col.customize === false || !this.props.selectedColumns ? true : this.props.selectedColumns.indexOf(col.name) > -1;
+        return col.customize === false || !Array.isArray(this.props.selectedColumns) ? true : this.props.selectedColumns.indexOf(col.name) > -1;
       });
     const fixedLeftColumns = finalColumns.filter((i) => i.fixed === true && (!i.direction || i.direction === 'left'));
     const fixedRightColumns = finalColumns.filter((i) => i.fixed === true && i.direction === 'right');
