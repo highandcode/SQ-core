@@ -93,46 +93,67 @@ export const getParseJSON = (obj, isNull) => {
 class PreferenceStorage {
   constructor() {
     this.helpers = {};
-    this.prefData = null;
+    this.defaultPrefData = null;
+    this.namedPrefData = {};
     this._win = window;
     this.events = new EventManager();
   }
 
   setData(data) {
-    this.prefData = data;
+    this.defaultPrefData = data;
+  }
+
+  ensureNoSlashStart(url) {
+    if (url?.substr(0, 1) === '/') {
+      return url.substr(1);
+    } else {
+      return url;
+    }
+  }
+
+  preferenceKey() {
+    return this.nameString(this.ensureNoSlashStart(this._win.location.pathname));
+  }
+
+  nameString(name) {
+    return (name || '').split(' ').join('_').split('/').join('_') || '';
   }
 
   getKey(prefix) {
-    return `${prefix || 'default'}_${(this._win.location.pathname || '').split('/').join('_')}`;
+    return `${prefix || 'default'}_${(this.preferenceKey() || '').split('/').join('_')}`;
   }
 
   read(key, isNull) {
-    if (this.prefData) {
-      return this.prefData[this.getKey(key)] || (isNull ? undefined : {});
+    if (this.defaultPrefData) {
+      return this.defaultPrefData[this.getKey(key)] || (isNull ? undefined : {});
     }
     return getParseJSON(this._win.localStorage.getItem(this.getKey(key)), isNull);
   }
 
   write(key, data) {
-    if (this.prefData) {
-      this.prefData[this.getKey(key)] = data;
-      this.events.emit('onWrite', key, data);
+    if (this.defaultPrefData) {
+      this.defaultPrefData[this.getKey(key)] = data;
+      this.events.emit('onWrite', this.getKey(key), data, this.preferenceKey(), 'default');
       return;
     }
     data && this._win.localStorage.setItem(this.getKey(key), JSON.stringify(data));
   }
-  
+
   writeAll(obj) {
-    if (this.prefData) {
-      Object.keys(obj).forEach((itemKey) => {
-        this.prefData[this.getKey(itemKey)] = obj[itemKey];
+    const objToSend = {};
+    Object.keys(obj).forEach((itemKey) => {
+      objToSend[this.getKey(itemKey)] = obj[itemKey] || {};
+    });
+    if (this.defaultPrefData) {
+      Object.keys(objToSend).forEach((itemKey) => {
+        this.defaultPrefData[itemKey] = objToSend[itemKey];
       });
-      this.events.emit('onWriteAll', obj);
+      this.events.emit('onWriteAll', objToSend, this.preferenceKey(), 'default');
       return;
     }
-    obj && Object.keys(obj).forEach((itemKey) => {
+    Object.keys(objToSend).forEach((itemKey) => {
       const data = obj[itemKey] || {};
-      this._win.localStorage.setItem(this.getKey(itemKey), JSON.stringify(data));
+      this._win.localStorage.setItem(itemKey, JSON.stringify(data));
     });
   }
 
@@ -144,8 +165,8 @@ class PreferenceStorage {
   }
 
   clearData() {
-    if (this.prefData) {
-      this.prefData = null;
+    if (this.defaultPrefData) {
+      this.defaultPrefData = null;
     }
   }
 }

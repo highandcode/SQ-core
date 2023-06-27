@@ -33,6 +33,10 @@ Object.defineProperty(window.location, 'href', {
   get: () => _url,
   set: (u) => (_url = u),
 });
+Object.defineProperty(window.location, 'pathname', {
+  get: () => _url,
+  set: (u) => (_url = u),
+});
 
 let __cookies;
 Object.defineProperty(window.document, 'cookie', {

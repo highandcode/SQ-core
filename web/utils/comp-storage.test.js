@@ -1,0 +1,127 @@
+import { GroupStorage, Storage, PreferenceStorage } from './comp-storage';
+
+describe('utils:comp-storage', () => {
+  describe('classess', function () {
+    test('should have .PreferenceStorage', async () => {
+      expect(PreferenceStorage).toBeDefined();
+    });
+    test('should have .Storage', async () => {
+      expect(Storage).toBeDefined();
+    });
+    test('should have .GroupStorage', async () => {
+      expect(GroupStorage).toBeDefined();
+    });
+  });
+  describe('Storage.get() should return all', function () {
+    test('Storage.get() should return all object', async () => {
+      const storage = new Storage({
+        test: 123,
+      });
+      storage.set({
+        a: 1,
+        b: 3,
+      });
+      expect(storage.get()).toEqual({
+        test: 123,
+        a: 1,
+        b: 3,
+      });
+    });
+    test('Storage.add() should add 1 item', async () => {
+      const storage = new Storage({
+        test: 123,
+      });
+      storage.add('take', 2);
+      expect(storage.get()).toEqual({
+        test: 123,
+        take: 2,
+      });
+    });
+    test('Storage.remove(take) should add 1 item', async () => {
+      const storage = new Storage({
+        test: 123,
+      });
+      storage.add('take', 2);
+      storage.remove('take');
+      expect(storage.get()).toEqual({
+        test: 123,
+      });
+    });
+  });
+  describe('GroupStorage.get() group is not matched', function () {
+    let storage;
+    beforeEach(() => {
+      storage = new GroupStorage();
+      storage.set({
+        a: 1,
+      });
+    });
+    test('GroupStorage.get("a") should return all object', async () => {
+      expect(storage.get('a')).toEqual({ a: 1 });
+    });
+  });
+  describe('GroupStorage.get("style") group is matched', function () {
+    let storage;
+    beforeEach(() => {
+      storage = new GroupStorage({
+        test: 1,
+      });
+      storage.set(
+        {
+          a: 1,
+        },
+        'style'
+      );
+    });
+    test('GroupStorage.get("style") should return specific object', async () => {
+      expect(storage.get('style')).toEqual({ a: 1 });
+    });
+  });
+  describe('PreferenceStorage for default saving', function () {
+    let storage;
+    beforeEach(() => {
+      storage = new PreferenceStorage();
+      storage.setData({});
+    });
+    test('PreferenceStorage.read() should return blank object key if not matched', async () => {
+      expect(storage.read('currentFilter')).toEqual({});
+    });
+    test('PreferenceStorage.read() should return undefined if not matched matched', async () => {
+      expect(storage.read('currentFilter', true)).not.toBeDefined();
+    });
+    test('PreferenceStorage.write("abc", obj) should save preference in object', async () => {
+      storage.write('abc', { a: 'b1' });
+      expect(storage.read('abc')).toEqual({ a: 'b1' });
+    });
+    test('PreferenceStorage.write("abc", obj) should raise onWrite event', async () => {
+      window.location.pathname = '/content/en/super';
+      const fakeSpy = jest.fn();
+      storage.events.subscribe('onWrite', fakeSpy);
+      storage.write('current', { a: 'b1' });
+      expect(fakeSpy).toHaveBeenCalledWith(`current_content_en_super`, { a: 'b1' }, 'content_en_super', 'default');
+      storage.events.unsubscribe('onWrite');
+      expect(storage.read('current')).toEqual({ a: 'b1' });
+    });
+    test('PreferenceStorage.writeAll(obj) should able to write multiple preference', async () => {
+      window.location.pathname = '/content/en/parking';
+      storage.writeAll({ current: { a: 'b1' }, b: ['a', 'b'] });
+      expect(storage.read('current')).toEqual({ a: 'b1' });
+    });
+    test('PreferenceStorage.writeAll(obj) should raise onWriteAll event', async () => {
+      window.location.pathname = '/content/en/event';
+      const fakeSpy = jest.fn();
+      storage.events.subscribe('onWriteAll', fakeSpy);
+      storage.writeAll({ current: { a: 'b1' }, b: ['a', 'b'] });
+      expect(fakeSpy).toHaveBeenCalledWith({ current_content_en_event: { a: 'b1' }, b_content_en_event: ['a', 'b'] }, 'content_en_event', 'default');
+      storage.events.unsubscribe('onWriteAll');
+    });
+  });
+  describe('PreferenceStorage for named views', function () {
+    let storage;
+    beforeEach(() => {
+      storage = new PreferenceStorage();
+      storage.setData({});
+    });
+    
+  });
+});
