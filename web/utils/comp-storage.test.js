@@ -119,9 +119,113 @@ describe('utils:comp-storage', () => {
   describe('PreferenceStorage for named views', function () {
     let storage;
     beforeEach(() => {
+      window.location.pathname = '/content/task';
       storage = new PreferenceStorage();
-      storage.setData({});
+      storage.setNamedData({
+        content_task: {
+          'Park Users': {
+            stored_content_task: {
+              v: 1,
+            },
+          },
+        },
+      });
     });
-    
+
+    afterEach(() => {
+      window.location.pathname = 'test';
+    });
+
+    test('PreferenceStorage.readNamed(key, viewName) should return (blank object) key if not matched', async () => {
+      window.location.pathname = '/uknown';
+      expect(storage.readNamed('parkingviwe', 'Lowes Users')).toEqual({});
+    });
+    test('PreferenceStorage.readNamed(key, viewName, true) should return (undefined) key if not matched', async () => {
+      window.location.pathname = '/uknown2';
+      expect(storage.readNamed('parkingviwe', 'Lowes Users', true)).not.toBeDefined();
+    });
+    test('PreferenceStorage.readNamed(key, viewName) return preloaded data', async () => {
+      expect(storage.readNamed('stored', 'Park Users')).toEqual({ v: 1 });
+    });
+    test('PreferenceStorage.readNamed(key, viewName) return blank data if not found', async () => {
+      expect(storage.readNamed('stored2', 'Park Users')).toEqual({});
+    });
+    test('PreferenceStorage.readNamed(key, viewName) return undefined if not found', async () => {
+      expect(storage.readNamed('stored2', 'Park Users', true)).not.toBeDefined();
+    });
+    test('PreferenceStorage.setNamed(key, data, viewName) should set to named object', async () => {
+      storage.writeNamed('currentFilter', { t: 1 }, 'CA Users');
+      expect(storage.readNamed('currentFilter', 'CA Users')).toEqual({ t: 1 });
+    });
+    test('PreferenceStorage.writeNamed(key, data, viewName) should set to named object', async () => {
+      window.location.pathname = '/new/route';
+      storage.writeNamed('park', { t: 1 }, 'View Users');
+      expect(storage.readNamed('park', 'View Users')).toEqual({ t: 1 });
+    });
+    test('PreferenceStorage.writeAllNamed(data, viewName) should set to named object', async () => {
+      window.location.pathname = '/content/parking';
+      storage.writeAllNamed(
+        {
+          taken: {
+            p1: 1,
+          },
+          taken2: {
+            p1: 1,
+          },
+        },
+        'CA Users'
+      );
+      expect(storage.readNamed('taken', 'CA Users')).toEqual({ p1: 1 });
+    });
+    test('PreferenceStorage.getAllNames() should return all views', async () => {
+      window.location.pathname = '/content/parking';
+      storage.writeAllNamed(
+        {
+          taken2: {
+            p1: 1,
+          },
+        },
+        'CA Users'
+      );
+      storage.writeAllNamed(
+        {
+          taken2: {
+            p1: 1,
+          },
+          taken: undefined,
+        },
+        'Barkley Users'
+      );
+      expect(storage.getAllNames()).toEqual(['CA Users', 'Barkley Users']);
+    });
+    test('PreferenceStorage.writeAllNamed(data, viewName) should raise event', async () => {
+      window.location.pathname = '/content/parking22/state';
+      const fakeFn = jest.fn();
+      storage.events.subscribe('onWriteAllNamed', fakeFn);
+      storage.writeAllNamed(
+        {
+          taken: {
+            p1: 1,
+          },
+          taken2: {
+            p1: 1,
+          },
+        },
+        'CA Users'
+      );
+      expect(fakeFn).toBeCalledWith(
+        {
+          taken_content_parking22_state: {
+            p1: 1,
+          },
+          taken2_content_parking22_state: {
+            p1: 1,
+          },
+        },
+        'content_parking22_state',
+        'CA Users'
+      );
+      storage.events.unsubscribe('onWriteAllNamed');
+    });
   });
 });

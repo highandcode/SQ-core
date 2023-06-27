@@ -103,6 +103,10 @@ class PreferenceStorage {
     this.defaultPrefData = data;
   }
 
+  setNamedData(data) {
+    this.namedPrefData = data;
+  }
+
   ensureNoSlashStart(url) {
     if (url?.substr(0, 1) === '/') {
       return url.substr(1);
@@ -111,16 +115,20 @@ class PreferenceStorage {
     }
   }
 
+  getAllNames() {
+    return Object.keys(this.namedPrefData[this.preferenceKey()] || {});
+  }
+
   preferenceKey() {
     return this.nameString(this.ensureNoSlashStart(this._win.location.pathname));
   }
 
   nameString(name) {
-    return (name || '').split(' ').join('_').split('/').join('_') || '';
+    return (name || '').split(' ').join('_').split('/').join('_');
   }
 
   getKey(prefix) {
-    return `${prefix || 'default'}_${(this.preferenceKey() || '').split('/').join('_')}`;
+    return `${prefix || 'default'}_${this.preferenceKey().split('/').join('_')}`;
   }
 
   read(key, isNull) {
@@ -138,7 +146,6 @@ class PreferenceStorage {
     }
     data && this._win.localStorage.setItem(this.getKey(key), JSON.stringify(data));
   }
-
   writeAll(obj) {
     const objToSend = {};
     Object.keys(obj).forEach((itemKey) => {
@@ -155,6 +162,43 @@ class PreferenceStorage {
       const data = obj[itemKey] || {};
       this._win.localStorage.setItem(itemKey, JSON.stringify(data));
     });
+  }
+
+  readNamed(key, name, isNull) {
+    if (this.namedPrefData[this.preferenceKey()] && this.namedPrefData[this.preferenceKey()][name]) {
+      return this.namedPrefData[this.preferenceKey()][name][this.getKey(key)] || (isNull ? undefined : {});
+    }
+    return isNull ? undefined : {};
+  }
+
+  writeNamed(key, data, name) {
+    if (!this.namedPrefData[this.preferenceKey()]) {
+      this.namedPrefData[this.preferenceKey()] = {};
+    }
+    if (!this.namedPrefData[this.preferenceKey()][name]) {
+      this.namedPrefData[this.preferenceKey()][name] = {};
+    }
+    this.namedPrefData[this.preferenceKey()][name][this.getKey(key)] = data;
+    this.events.emit('onWriteNamed', this.getKey(key), data, this.preferenceKey(), name);
+  }
+
+  writeAllNamed(obj, name) {
+    const objToSend = {};
+    Object.keys(obj).forEach((itemKey) => {
+      objToSend[this.getKey(itemKey)] = obj[itemKey] || {};
+    });
+    if (!this.namedPrefData[this.preferenceKey()]) {
+      this.namedPrefData[this.preferenceKey()] = {};
+    }
+    if (!this.namedPrefData[this.preferenceKey()][name]) {
+      this.namedPrefData[this.preferenceKey()][name] = {};
+    }
+
+    Object.keys(objToSend).forEach((itemKey) => {
+      this.namedPrefData[this.preferenceKey()][name][itemKey] = objToSend[itemKey];
+    });
+    this.events.emit('onWriteAllNamed', objToSend, this.preferenceKey(), name);
+    return;
   }
 
   setHelpers(helpers) {
