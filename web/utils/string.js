@@ -2,7 +2,7 @@ import common from './common';
 
 const string = {
   getFirstChar: (val) => {
-    return !common.isNullOrUndefined(val) ? val[0] : '';
+    return !common.isNullOrUndefined(val) ? val.trim()[0] : '';
   },
   getTwoChars: (val) => {
     if (!common.isNullOrUndefined(val)) {
