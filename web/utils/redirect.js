@@ -67,12 +67,13 @@ export const redirectTo = (screen, params = {}, { target = '', ...options } = {}
         });
       }
     } else {
+      console.log('okkk');
       if (target === '_top') {
         window.top.location.href = screen + query;
       } else if (target === '_blank') {
         window.open(screen + query);
       } else {
-        location.href = screen + query;
+        window.location.href = screen + query;
       }
     }
   }

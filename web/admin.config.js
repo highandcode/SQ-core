@@ -35,9 +35,9 @@ module.exports = {
     editSiteMap: '/content/admin/portal/pages/editmap',
     addNewPage: '/content/admin/portal/pages/create',
     previewDraftPage: '/content/admin/portal/pages/previewdraft',
-    '/content/(.*)': {
+    '/content/admin(.*)': {
       type: 'regex',
-      target: '/content/$1',
+      target: '/content/admin/$1',
     },
   },
 };
