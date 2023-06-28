@@ -90,9 +90,9 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
       <div className="sq-grid__col-filters__body">
         <div ref={drop} className={`sq-grid__col-filters__list`}>
           {internalColumns.map((col, i) => (
-            <Card key={col.name} id={col.name} fixed={col.fixed || col.customize === false} index={i} name={`${col.name}`} text={col.headerText} moveCard={moveCard} findCard={findCard}>
+            <Card key={col.name} id={col.name} fixed={col.fixed || col.customize === false} index={i} name={`${col.name}`} text={col.headerText || col.name} moveCard={moveCard} findCard={findCard}>
               <div className={`sq-grid__col-filters__item`} key={`col-${col.name}`}>
-                <Icon name="DragHandle" /> <CheckboxField className="sq-grid__col-filters__checkbox" onChange={(value) => handleChange(value, col)} disabled={col.customize === false} checked={col.customize === false || (Array.isArray(value) && value.indexOf(col.name) > -1)} text={col.headerText || 'No Name'} />
+                <Icon name="DragHandle" /> <CheckboxField className="sq-grid__col-filters__checkbox" onChange={(value) => handleChange(value, col)} disabled={col.customize === false} checked={col.customize === false || (Array.isArray(value) && value.indexOf(col.name) > -1)} text={col.headerText || col.name || 'No Name'} />
               </div>
             </Card>
           ))}
