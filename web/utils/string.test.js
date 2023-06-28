@@ -22,4 +22,16 @@ describe('utils:string', () => {
   test('string.getTwoChars() should return blank in case of undefined', async () => {
     expect(string.getTwoChars()).toBe('');
   });
+  test('string.titleCase(ROCK) should return Rock', async () => {
+    expect(string.titleCase('ROCK')).toBe('Rock');
+  });
+  test('string.titleCase(rock) should return Rock', async () => {
+    expect(string.titleCase('rock')).toBe('Rock');
+  });
+  test('string.titleCase() should return blank', async () => {
+    expect(string.titleCase()).toBe('');
+  });
+  test('string.titleCase(null) should return blank', async () => {
+    expect(string.titleCase(null)).toBe('');
+  });
 });

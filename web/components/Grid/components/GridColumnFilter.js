@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useDrag, useDrop } from 'react-dnd';
 import CheckboxField from '../../ui/CheckboxField';
 import Icon from '../../Icon';
+import string from '../../../utils/string';
 
 const ItemTypes = {
   CARD: 'CARD',
@@ -12,6 +13,7 @@ const ItemTypes = {
 const style = {
   cursor: 'move',
 };
+
 
 const fixedStyles = {
   cursor: 'not-allowed',
@@ -92,7 +94,7 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
           {internalColumns.map((col, i) => (
             <Card key={col.name} id={col.name} fixed={col.fixed || col.customize === false} index={i} name={`${col.name}`} text={col.headerText || col.name} moveCard={moveCard} findCard={findCard}>
               <div className={`sq-grid__col-filters__item`} key={`col-${col.name}`}>
-                <Icon name="DragHandle" /> <CheckboxField className="sq-grid__col-filters__checkbox" onChange={(value) => handleChange(value, col)} disabled={col.customize === false} checked={col.customize === false || (Array.isArray(value) && value.indexOf(col.name) > -1)} text={col.headerText || col.name || 'No Name'} />
+                <Icon name="DragHandle" /> <CheckboxField className="sq-grid__col-filters__checkbox" onChange={(value) => handleChange(value, col)} disabled={col.customize === false} checked={col.customize === false || (Array.isArray(value) && value.indexOf(col.name) > -1)} text={col.headerText || string.titleCase(col.name) || 'No Name'} />
               </div>
             </Card>
           ))}
