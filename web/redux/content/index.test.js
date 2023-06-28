@@ -1,18 +1,4 @@
-import reducer, {
-  executeHook,
-  customHooks,
-  initApplication,
-  downloadApi,
-  postApi,
-  clearAllUserData,
-  resetLastError,
-  resetUserData,
-  updateUserData,
-  updateProtectedUserData,
-  mergeUserData,
-  parseCustomModule,
-  processParams,
-} from './index';
+import reducer, { executeHook, customHooks, initApplication, downloadApi, postApi, clearAllUserData, resetLastError, resetUserData, updateUserData, updateProtectedUserData, mergeUserData, parseCustomModule, processParams } from './index';
 import { fake } from '../../../tests/ui';
 import * as utils from '../../utils';
 const { apiBridge, processor } = utils;
@@ -414,6 +400,7 @@ describe('reducer:content', () => {
     describe('postApi with notification [success]', () => {
       let store;
       let notification;
+      let result;
       beforeEach(async () => {
         notification = { notification: { message: 'Test notification' } };
         const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, test: { nodata: 2 } } };
@@ -432,10 +419,17 @@ describe('reducer:content', () => {
           defaultResponse: { success: { notification } },
         });
         store = _store;
-        invoke(action);
+        result = await invoke(action);
       });
       test('should set notification notification', () => {
         expect(store.dispatch).toHaveBeenCalledWith({ payload: notification, type: 'common/setNotification' });
+      });
+      test('should return object', () => {
+        expect(result).toEqual({
+          notification: { notification: { message: 'Test notification' } },
+          status: 'success',
+          data: { prime: true },
+        });
       });
     });
 
@@ -446,7 +440,7 @@ describe('reducer:content', () => {
       beforeEach(async () => {
         notification = { notification: { message: 'Test notification' } };
         notification2 = { notification: { message: 'Test notification 2' } };
-        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, userType : 'T2', test: { nodata: 2 } } };
+        const prevState = { isContentLoading: false, pageData: {}, metaData: {}, protectedData: {}, userData: { query: {}, userType: 'T2', test: { nodata: 2 } } };
         const { store: _store, invoke } = fake.thunk.create({
           content: {
             ...prevState,
@@ -459,7 +453,12 @@ describe('reducer:content', () => {
         const action = postApi({
           method: 'post',
           url: 'fake/api',
-          defaultResponse: { success: [{ notification, match: { userType: { validators: [{ type: 'equals', matchValue: 'T1' }] } } }, { notification: notification2, match: { userType: { validators: [{ type: 'equals', matchValue: 'T2' }] } } }] },
+          defaultResponse: {
+            success: [
+              { notification, match: { userType: { validators: [{ type: 'equals', matchValue: 'T1' }] } } },
+              { notification: notification2, match: { userType: { validators: [{ type: 'equals', matchValue: 'T2' }] } } },
+            ],
+          },
         });
         store = _store;
         invoke(action);
@@ -478,9 +477,7 @@ describe('reducer:content', () => {
             ...prevState,
           },
         });
-        apiBridge.post = jest.fn(() =>
-          Promise.resolve({ status: 'error', error: { test: { error: true, errorMessage: 'cont error', errors: { field1: { error: true, errorMessage: 'internal error' } } } } })
-        );
+        apiBridge.post = jest.fn(() => Promise.resolve({ status: 'error', error: { test: { error: true, errorMessage: 'cont error', errors: { field1: { error: true, errorMessage: 'internal error' } } } } }));
         const action = postApi({
           method: 'post',
           url: 'fake/api',

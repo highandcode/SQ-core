@@ -1,12 +1,13 @@
-jest.mock('../../utils/redirect');
-import '../../index';
 import React from 'react';
 import { render, screen, act, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { fake } from 'config_ui';
+import '../../index';
 import { DynamicContent } from './index';
 import { redirectTo } from '../../utils/redirect';
 import { containers } from '../../utils/storage';
+import { apiBridge } from '../../utils';
+jest.mock('../../utils/redirect');
 
 describe('DynamicContent', () => {
   describe('Loading page from server', () => {
@@ -715,7 +716,7 @@ describe('DynamicContent', () => {
     });
   });
 
-  describe('Form validation with fields .match ', () => {
+  describe('Form validation with fields .match', () => {
     let mockProps;
     let _container;
     const pageResponse = {
@@ -848,7 +849,7 @@ describe('DynamicContent', () => {
     });
   });
 
-  describe('Form validation with .match ', () => {
+  describe('Form validation with .match', () => {
     let mockProps;
     let _container;
     const pageResponse = {
@@ -963,7 +964,7 @@ describe('DynamicContent', () => {
     });
   });
 
-  describe('Parsing errors from results ', () => {
+  describe('Parsing errors from results', () => {
     let mockProps;
     let _container;
     beforeEach(async () => {
@@ -1073,7 +1074,7 @@ describe('DynamicContent', () => {
     });
   });
 
-  describe('redirection to page for "success" ', () => {
+  describe('redirection to page for "success"', () => {
     let mockProps;
     let _container;
     beforeEach(async () => {
@@ -1142,7 +1143,7 @@ describe('DynamicContent', () => {
     });
   });
 
-  describe('redirection to page for "error" ', () => {
+  describe('redirection to page for "error"', () => {
     let mockProps;
     let _container;
     beforeEach(async () => {
@@ -1319,6 +1320,12 @@ describe('DynamicContent', () => {
               executionHook: 1,
             },
           },
+          checkAndPostApi: {
+            status: 'success',
+            data: {
+              executionHook: 1,
+            },
+          },
         }),
         store: fake.store.create({
           userData: {},
@@ -1381,12 +1388,15 @@ describe('DynamicContent', () => {
       await act(() => {
         fireEvent.click(screen.getByTestId('module_execution_button'));
       });
-      expect(mockProps.contentActions.executeHook).toHaveBeenCalledWith({
-        component: 'Button',
-        buttonText: 'Module Execution',
-        actionType: 'module',
-        postHook: 'user.addUser',
-      }, pageResponse);
+      expect(mockProps.contentActions.executeHook).toHaveBeenCalledWith(
+        {
+          component: 'Button',
+          buttonText: 'Module Execution',
+          actionType: 'module',
+          postHook: 'user.addUser',
+        },
+        pageResponse
+      );
       // expect(mockProps.contentActions.updateUserData).toHaveBeenCalledWith({
       //   executionHook: 1,
       //   lastError: {},
@@ -1396,13 +1406,16 @@ describe('DynamicContent', () => {
       await act(() => {
         fireEvent.click(screen.getByTestId('module_with_data_key_button'));
       });
-      expect(mockProps.contentActions.executeHook).toHaveBeenCalledWith({
-        component: 'Button',
-        buttonText: 'Module With Data Key',
-        actionType: 'module',
-        dataKey: 'test',
-        postHook: 'user.addUser',
-      }, pageResponse);
+      expect(mockProps.contentActions.executeHook).toHaveBeenCalledWith(
+        {
+          component: 'Button',
+          buttonText: 'Module With Data Key',
+          actionType: 'module',
+          dataKey: 'test',
+          postHook: 'user.addUser',
+        },
+        pageResponse
+      );
       expect(mockProps.contentActions.updateUserData).toHaveBeenCalledWith({
         test: {
           executionHook: 1,
