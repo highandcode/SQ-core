@@ -6,7 +6,6 @@ import '../../index';
 import { DynamicContent } from './index';
 import { redirectTo } from '../../utils/redirect';
 import { containers } from '../../utils/storage';
-import { apiBridge } from '../../utils';
 jest.mock('../../utils/redirect');
 
 describe('DynamicContent', () => {
