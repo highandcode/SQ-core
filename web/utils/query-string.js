@@ -35,7 +35,13 @@ class QueryString {
         if (split[1].substr(0,2) === 'o:') {
            obj[split[0]] = JSON.parse(decodeURIComponent(split[1].substr(2)));
         } else {
-          obj[split[0]] = decodeURIComponent(split[1]);
+          if (Array.isArray(obj[split[0]])) {
+            obj[split[0]].push(decodeURIComponent(split[1]))
+          } else if (obj[split[0]]) {
+            obj[split[0]] = [obj[split[0]], decodeURIComponent(split[1])];
+          } else {
+            obj[split[0]] = decodeURIComponent(split[1]);
+          }
         }
       });
     }
