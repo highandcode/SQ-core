@@ -98,7 +98,7 @@ describe('utils:comp-storage', () => {
       const fakeSpy = jest.fn();
       storage.events.subscribe('onWrite', fakeSpy);
       storage.write('current', { a: 'b1' });
-      expect(fakeSpy).toHaveBeenCalledWith(`current_content_en_super`, { a: 'b1' }, 'content_en_super', 'default');
+      expect(fakeSpy).toHaveBeenCalledWith(`current_content_en_super`, { a: 'b1' }, '/content/en/super', 'default');
       storage.events.unsubscribe('onWrite');
       expect(storage.read('current')).toEqual({ a: 'b1' });
     });
@@ -112,7 +112,7 @@ describe('utils:comp-storage', () => {
       const fakeSpy = jest.fn();
       storage.events.subscribe('onWriteAll', fakeSpy);
       storage.writeAll({ current: { a: 'b1' }, b: ['a', 'b'] });
-      expect(fakeSpy).toHaveBeenCalledWith({ current_content_en_event: { a: 'b1' }, b_content_en_event: ['a', 'b'] }, 'content_en_event', 'default');
+      expect(fakeSpy).toHaveBeenCalledWith({ current_content_en_event: { a: 'b1' }, b_content_en_event: ['a', 'b'] }, '/content/en/event', 'default');
       storage.events.unsubscribe('onWriteAll');
     });
   });
@@ -122,7 +122,7 @@ describe('utils:comp-storage', () => {
       window.location.pathname = '/content/task';
       storage = new PreferenceStorage();
       storage.setNamedData({
-        content_task: {
+        '/content/task': {
           'Park Users': {
             stored_content_task: {
               v: 1,
@@ -222,7 +222,7 @@ describe('utils:comp-storage', () => {
             p1: 1,
           },
         },
-        'content_parking22_state',
+        '/content/parking22/state',
         'CA Users'
       );
       storage.events.unsubscribe('onWriteAllNamed');

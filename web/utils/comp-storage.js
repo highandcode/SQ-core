@@ -120,7 +120,7 @@ class PreferenceStorage {
   }
 
   preferenceKey() {
-    return this.nameString(this.ensureNoSlashStart(this._win.location.pathname));
+    return this._win.location.pathname;
   }
 
   nameString(name) {
@@ -128,7 +128,7 @@ class PreferenceStorage {
   }
 
   getKey(prefix) {
-    return `${prefix || 'default'}_${this.preferenceKey().split('/').join('_')}`;
+    return `${prefix || 'default'}_${this.nameString(this.ensureNoSlashStart(this.preferenceKey()))}`;
   }
 
   read(key, isNull) {
