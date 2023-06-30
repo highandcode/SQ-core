@@ -30,6 +30,15 @@ class GenericListing extends Component {
     this.onFilterAction = this.onFilterAction.bind(this);
     this.onGridChange = this.onGridChange.bind(this);
     this.onTopFilterChange = this.onTopFilterChange.bind(this);
+    this.filterActions = [
+      {
+        actionType: 'edit-filter',
+        iconName: 'filter-list',
+        variant: 'outlined',
+        cmpType: 'Button',
+        buttonText: 'Filters',
+      },
+    ];
   }
 
   getKey(name) {
@@ -416,7 +425,14 @@ class GenericListing extends Component {
           <div className="sq-v-screen__sub-header">
             {this.topFilterFields && (
               <div className={'sq-generic-listing__quick'}>
-                <Form disabled={this.state.isLoading} userData={userData} onChange={this.onTopFilterChange} className="sq-form--inline-auto p-0" value={topFilter} fields={this.topFilterFields} />
+                <Form
+                  disabled={this.state.isLoading}
+                  userData={userData}
+                  onChange={this.onTopFilterChange}
+                  className="sq-form--inline-auto p-0"
+                  value={topFilter}
+                  fields={this.topFilterFields}
+                />
               </div>
             )}
             <Actions
@@ -433,13 +449,7 @@ class GenericListing extends Component {
                   cmpType: 'Button',
                   actionType: 'edit-cols',
                 },
-                {
-                  actionType: 'edit-filter',
-                  iconName: 'filter-list',
-                  variant: 'outlined',
-                  cmpType: 'Button',
-                  buttonText: 'Filters',
-                },
+                ...(this.filterFields ? this.filterActions : []),
               ]}
             />
           </div>
@@ -448,7 +458,14 @@ class GenericListing extends Component {
               <div className="sq-v-screen__pagination-bar d-flex fl-a-items-center justify-content-end mb-2">
                 {this.quickFilterFields && (
                   <div className={'sq-generic-listing__quick mt-2'}>
-                    <Form disabled={this.state.isLoading} userData={userData} onChange={this.onQuickFilterChange} className="sq-form--inline-auto p-0" value={currentQuickFilter} fields={this.quickFilterFields} />
+                    <Form
+                      disabled={this.state.isLoading}
+                      userData={userData}
+                      onChange={this.onQuickFilterChange}
+                      className="sq-form--inline-auto p-0"
+                      value={currentQuickFilter}
+                      fields={this.quickFilterFields}
+                    />
                   </div>
                 )}
               </div>
@@ -465,7 +482,12 @@ class GenericListing extends Component {
                 }}
                 disabled={this.state.isLoading}
                 className="sq-basic-grid sq-grid--fixed"
-                loader={<Skeleton styleName={`grid-tran`} rows={4} />}
+                loader={
+                  <Skeleton
+                    styleName={`grid-tran`}
+                    rows={4}
+                  />
+                }
                 onChange={this.onGridChange}
                 onColFilterChange={this.onEditColumnChange}
                 selectedColumns={selectedColumns}
@@ -507,7 +529,13 @@ class GenericListing extends Component {
             ]}
             title={'Filters'}
           >
-            <Form onChange={this.onFilterChange} userData={userData} className="mt-wide" value={this.state.__currentFilter || currentFilter} fields={this.filterFields} />
+            <Form
+              onChange={this.onFilterChange}
+              userData={userData}
+              className="mt-wide"
+              value={this.state.__currentFilter || currentFilter}
+              fields={this.filterFields}
+            />
           </Dialog>
         </>
       </div>
