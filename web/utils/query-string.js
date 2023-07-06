@@ -1,3 +1,5 @@
+import common from "./common";
+
 class QueryString {
   constructor(params) {
     this.input = params;
@@ -14,10 +16,10 @@ class QueryString {
             str +=
             (str ? '&' : '') + key + '=' + encodeURIComponent(itemVal);
           })
-        } else if (typeof this.input[key] === 'object') {
+        } else if (typeof this.input[key] === 'object' && this.input[key] !== null) {
           str +=
             (str ? '&' : '') + key + '=o:' + encodeURIComponent(JSON.stringify(this.input[key]));
-        } else if (typeof this.input[key] !== 'undefined') {
+        } else if (!common.isNullOrUndefinedBlank(this.input[key])) {
           str +=
             (str ? '&' : '') + key + '=' + encodeURIComponent(this.input[key]);
         }
