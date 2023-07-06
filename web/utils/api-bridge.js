@@ -219,7 +219,7 @@ function parseJSON(response) {
       resp = response.json();
     } catch (ex) {
       resp = {
-        error: {},
+        error: response || {},
       };
     }
     return resp;
