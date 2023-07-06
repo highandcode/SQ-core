@@ -13,15 +13,18 @@ import { withEditTabsConfig } from './edits/Common';
 import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, showPopup, setError, clearError } from '../../redux/common';
 import { getFieldsMeta, createPage, getPage, savePageDraft } from '../../redux/admin';
 import ContentEditor from './ContentEditor';
-import { getSupportedComps, addComponent } from './supported-comps';
 import DynamicContent from '../DynamicContent';
 import * as utils from '../../utils';
 import ErrorBoundry from '../../components/ErrorBoundry';
 import { GLOBAL_OPTIONS } from '../../globals';
 
-import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, sendContact } from '../../redux/content';
+import './supported-comps';
 
-const config = {
+import { fetchContentPage, postApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, sendContact } from '../../redux/content';
+utils.storage.pageBuilder.setHelpers({
+  withEditTabsConfig,
+});
+utils.storage.pageBuilder.set({
   templates: [
     {
       text: 'apps/core/templates/page',
@@ -40,30 +43,19 @@ const config = {
       value: 'Default',
     },
   ],
+  containerTemplates: [
+    {
+      text: 'Default',
+      value: 'Default',
+    },
+  ],
   themes: [
     {
       text: 'Main',
       value: 'main',
     },
   ],
-};
-
-export const getConfig = () => config;
-
-export const updateConfig = ({ templates, layouts, containers, themes }) => {
-  if (templates) {
-    config.templates = templates;
-  }
-  if (layouts) {
-    config.layouts = layouts;
-  }
-  if (containers) {
-    config.containers = containers;
-  }
-  if (themes) {
-    config.themes = themes;
-  }
-};
+});
 
 class PageBuilder extends Component {
   constructor() {
@@ -166,7 +158,6 @@ class PageBuilder extends Component {
       },
     ];
     const dragIndex = newItems.length - 1;
-    console.log(item, idx, newItems);
     this.setState({
       contentData: {
         ...this.state.contentData,
@@ -355,66 +346,23 @@ class PageBuilder extends Component {
 
   render() {
     const { className = '', pageData, store } = this.props;
-    const compList = getSupportedComps();
+    const compList = utils.storage.dynamicComponents.get();
     return (
       <div className={`sq-page-builder sq-v-screen sq-v-screen--fixed ${className}`}>
         <div className="sq-v-screen__container">
           <div className="sq-page-builder__top-actions mb-wide">
-            {utils.queryString.query.get().path && (
-              <Switch
-                label="Autosave"
-                value={this.state.autoSave}
-                onChange={this.toggleAutoSave}
-              />
-            )}
-            <Switch
-              label="Quick Preview"
-              value={this.state.preview}
-              onChange={this.toggleQuickPreview}
-            />
-            {!utils.queryString.query.get().path && (
-              <Button
-                iconName={'Save'}
-                variant="outlined"
-                disabled={!pageData.createPopupScreen}
-                buttonText="Save"
-                onClick={() => this.savePageAsNew()}
-              />
-            )}
-            {utils.queryString.query.get().path && (
-              <Button
-                iconName={'Save'}
-                variant="outlined"
-                buttonText="Save"
-                onClick={() => this.savePageAsDraft()}
-              />
-            )}
-            {
-              <Button
-                iconName={'Preview'}
-                variant="outlined"
-                disabled={!utils.queryString.query.get().path}
-                buttonText="Full Preview"
-                onClick={this.showPreview}
-              />
-            }
+            {utils.queryString.query.get().path && <Switch label="Autosave" value={this.state.autoSave} onChange={this.toggleAutoSave} />}
+            <Switch label="Quick Preview" value={this.state.preview} onChange={this.toggleQuickPreview} />
+            {!utils.queryString.query.get().path && <Button iconName={'Save'} variant="outlined" disabled={!pageData.createPopupScreen} buttonText="Save" onClick={() => this.savePageAsNew()} />}
+            {utils.queryString.query.get().path && <Button iconName={'Save'} variant="outlined" buttonText="Save" onClick={() => this.savePageAsDraft()} />}
+            {<Button iconName={'Preview'} variant="outlined" disabled={!utils.queryString.query.get().path} buttonText="Full Preview" onClick={this.showPreview} />}
             {/* <Button iconName={'Publish'} buttonText="Publish" /> */}
           </div>
           <div className="sq-page-builder__content sq-v-screen-grow">
             <DndProvider backend={HTML5Backend}>
               <div className="sq-page-builder__l-options">
-                <IconButton
-                  title="Elements"
-                  iconName="code"
-                  variant={!this.state.enableMenu ? 'default' : 'primary'}
-                  onClick={this.toggleElements}
-                />
-                <IconButton
-                  title="Page Properties"
-                  iconName="default"
-                  variant={!this.state.enableProps ? 'default' : 'primary'}
-                  onClick={this.toggleProps}
-                />
+                <IconButton title="Elements" iconName="code" variant={!this.state.enableMenu ? 'default' : 'primary'} onClick={this.toggleElements} />
+                <IconButton title="Page Properties" iconName="default" variant={!this.state.enableProps ? 'default' : 'primary'} onClick={this.toggleProps} />
               </div>
               {/* <div className="sq-page-builder__r-options">
               </div> */}
@@ -422,16 +370,9 @@ class PageBuilder extends Component {
               <div className="sq-page-builder__container">
                 <div className="sq-page-builder__left">
                   {this.state.enableMenu && (
-                    <Panel
-                      header="Elements"
-                      theme="dark"
-                      onClose={this.toggleElements}
-                    >
+                    <Panel header="Elements" theme="dark" onClose={this.toggleElements}>
                       <div className="row">
-                        <ComponentList
-                          compList={compList}
-                          filter={pageData.compListFilter}
-                        />
+                        <ComponentList compList={compList} filter={pageData.compListFilter} />
                       </div>
                     </Panel>
                   )}
@@ -439,10 +380,7 @@ class PageBuilder extends Component {
                 <div className="sq-page-builder__center">
                   {this.state.preview && (
                     <ErrorBoundry>
-                      <DynamicContent
-                        mode="preview"
-                        pageConfig={this.state.contentData}
-                      />
+                      <DynamicContent mode="preview" pageConfig={this.state.contentData} />
                     </ErrorBoundry>
                   )}
                   {!this.state.preview && (
@@ -465,123 +403,119 @@ class PageBuilder extends Component {
                 </div>
                 <div className="sq-page-builder__right">
                   {this.state.enableProps && (
-                    <Panel
-                      header="Page Properties"
-                      enableFullScreen={true}
-                      onClose={this.toggleProps}
-                    >
+                    <Panel header="Page Properties" enableFullScreen={true} onClose={this.toggleProps}>
                       <div className="d-flex j-content-fl-end">
-                        <Switch
-                          label="Advanced"
-                          value={this.state.advancedPageConfig}
-                          onChange={this.toggleAdvPageConfig}
-                        />
+                        <Switch label="Advanced" value={this.state.advancedPageConfig} onChange={this.toggleAdvPageConfig} />
                       </div>
-                      {this.state.advancedPageConfig && <Form
-                        fields={[
-                          {
-                            name: 'pageData',
-                            cmpType: 'FormObject',
-                            label: 'Page Data',
-                          },
-                        ]}
-                        onChange={this.advFormOnChange}
-                        value={this.state.contentData}
-                      />}
-                     {!this.state.advancedPageConfig && <Form
-                        value={this.state.contentData.pageData}
-                        onChange={this.formOnChange}
-                        fields={[
-                          {
-                            name: 'title',
-                            cmpType: 'Input',
-                            label: 'Title',
-                          },
-                          {
-                            name: 'headScript',
-                            cmpType: 'Textarea',
-                            label: 'Dynamic Script',
-                          },
-                          // {
-                          //   name: 'pageBackground',
-                          //   cmpType: 'ColorPicker',
-                          //   label: 'Page background',
-                          // },
-                          {
-                            name: 'updatePageTitle',
-                            cmpType: 'Switch',
-                            label: 'updatePageTitle',
-                          },
-                          {
-                            name: 'init',
-                            cmpType: 'FormObject',
-                            label: 'init',
-                          },
-                          {
-                            name: 'hook',
-                            cmpType: 'FormObject',
-                            label: 'hook',
-                          },
-                          {
-                            name: 'merge',
-                            cmpType: 'FormObject',
-                            label: 'merge',
-                          },
-                          {
-                            name: 'template',
-                            cmpType: 'Autocomplete',
-                            label: 'Template',
-                            options: pageData.templates || config.templates,
-                          },
-                          {
-                            name: 'layout',
-                            cmpType: 'Autocomplete',
-                            label: 'Layout',
-                            options: pageData.layouts || config.layouts,
-                          },
-                          {
-                            name: 'theme',
-                            cmpType: 'Autocomplete',
-                            label: 'Theme',
-                            options: pageData.themes || config.themes,
-                          },
-                          {
-                            name: 'className',
-                            cmpType: 'InputWithOptions',
-                            label: 'className',
-                            options: GLOBAL_OPTIONS.bodyContainers.toArray(),
-                          },
-                          {
-                            name: 'wrapperClassName',
-                            cmpType: 'InputWithOptions',
-                            label: 'wrapperClassName',
-                            options: GLOBAL_OPTIONS.pageWrapperClasses.toArray(),
-                          },
-                          {
-                            cmpType: 'Autocomplete',
-                            name: 'container',
-                            label: 'container',
-                            options: pageData.containers || config.containers,
-                          },
-                          {
-                            cmpType: 'Input',
-                            name: 'bodyClassName',
-                            label: 'bodyClassName',
-                          },
-                          {
-                            cmpType: 'Autocomplete',
-                            name: 'containerTemplate',
-                            label: 'containerTemplate',
-                            options: pageData.containers || config.containers,
-                          },
-                          {
-                            cmpType: 'FormObject',
-                            name: 'custom',
-                            label: 'custom',
-                          },
-                          ...(pageData.customProps || []),
-                        ]}
-                      />}
+                      {this.state.advancedPageConfig && (
+                        <Form
+                          fields={[
+                            {
+                              name: 'pageData',
+                              cmpType: 'FormObject',
+                              label: 'Page Data',
+                            },
+                          ]}
+                          onChange={this.advFormOnChange}
+                          value={this.state.contentData}
+                        />
+                      )}
+                      {!this.state.advancedPageConfig && (
+                        <Form
+                          value={this.state.contentData.pageData}
+                          onChange={this.formOnChange}
+                          fields={[
+                            {
+                              name: 'title',
+                              cmpType: 'Input',
+                              label: 'Title',
+                            },
+                            {
+                              name: 'headScript',
+                              cmpType: 'Textarea',
+                              label: 'Dynamic Script',
+                            },
+                            // {
+                            //   name: 'pageBackground',
+                            //   cmpType: 'ColorPicker',
+                            //   label: 'Page background',
+                            // },
+                            {
+                              name: 'updatePageTitle',
+                              cmpType: 'Switch',
+                              label: 'updatePageTitle',
+                            },
+                            {
+                              name: 'init',
+                              cmpType: 'FormObject',
+                              label: 'init',
+                            },
+                            {
+                              name: 'hook',
+                              cmpType: 'FormObject',
+                              label: 'hook',
+                            },
+                            {
+                              name: 'merge',
+                              cmpType: 'FormObject',
+                              label: 'merge',
+                            },
+                            {
+                              name: 'template',
+                              cmpType: 'Autocomplete',
+                              label: 'Template',
+                              options: pageData.templates || utils.storage.pageBuilder.get().templates,
+                            },
+                            {
+                              name: 'layout',
+                              cmpType: 'Autocomplete',
+                              label: 'Layout',
+                              options: pageData.layouts || utils.storage.pageBuilder.get().layouts,
+                            },
+                            {
+                              name: 'theme',
+                              cmpType: 'Autocomplete',
+                              label: 'Theme',
+                              options: pageData.themes || utils.storage.pageBuilder.get().themes,
+                            },
+                            {
+                              name: 'className',
+                              cmpType: 'InputWithOptions',
+                              label: 'className',
+                              options: GLOBAL_OPTIONS.bodyContainers.toArray(),
+                            },
+                            {
+                              name: 'wrapperClassName',
+                              cmpType: 'InputWithOptions',
+                              label: 'wrapperClassName',
+                              options: GLOBAL_OPTIONS.pageWrapperClasses.toArray(),
+                            },
+                            {
+                              cmpType: 'Autocomplete',
+                              name: 'container',
+                              label: 'container',
+                              options: pageData.containers || utils.storage.pageBuilder.get().containers,
+                            },
+                            {
+                              cmpType: 'Input',
+                              name: 'bodyClassName',
+                              label: 'bodyClassName',
+                            },
+                            {
+                              cmpType: 'Autocomplete',
+                              name: 'containerTemplate',
+                              label: 'containerTemplate',
+                              options: pageData.containerTemplates || utils.storage.pageBuilder.get().containerTemplates,
+                            },
+                            {
+                              cmpType: 'FormObject',
+                              name: 'custom',
+                              label: 'custom',
+                            },
+                            ...(pageData.customProps || []),
+                          ]}
+                        />
+                      )}
                     </Panel>
                   )}
                 </div>
@@ -634,4 +568,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageBuilder);
-export { PageBuilder, addComponent, withEditTabsConfig };

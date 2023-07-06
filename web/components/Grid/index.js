@@ -122,6 +122,7 @@ class Grid extends React.Component {
       onColFilterChange &&
         onColFilterChange({
           value: this.state.tempColSelection || this.props.selectedColumns || this.props.columns.map((i) => i.name),
+          columnsOrder: this.state.tempColOrder,
         });
     } else {
       this.setState({
@@ -143,12 +144,13 @@ class Grid extends React.Component {
   render() {
     const { columns = [], enableViewSelection = true, paginationProps, editColumnPane = {}, showColSelection = false, addSpacer = true, data = [], className = '', showAdd = false, showHeader = true, rowConfig = {}, onRowClick, gridStyle = 'default', viewType = 'default' } = this.props;
     const actionsClassName = this.hasActionClickRow() ? 'sq-grid--has-action' : '';
+    const colOrder = this.props.columnsOrder || this.state.colOrder;
     const finalColumns = columns
       .sort((a, b) => {
-        return this.state.colOrder && (this.state.colOrder[a.name] > this.state.colOrder[b.name] ? 1 : this.state.colOrder[a.name] < this.state.colOrder[b.name] ? -1 : 0);
+        return colOrder && (colOrder[a.name] > colOrder[b.name] ? 1 : colOrder[a.name] < colOrder[b.name] ? -1 : 0);
       })
       .filter((col) => {
-        return col.customize === false || !this.props.selectedColumns ? true : this.props.selectedColumns.indexOf(col.name) > -1;
+        return col.customize === false || !Array.isArray(this.props.selectedColumns) ? true : this.props.selectedColumns.indexOf(col.name) > -1;
       });
     const fixedLeftColumns = finalColumns.filter((i) => i.fixed === true && (!i.direction || i.direction === 'left'));
     const fixedRightColumns = finalColumns.filter((i) => i.fixed === true && i.direction === 'right');
@@ -184,12 +186,12 @@ class Grid extends React.Component {
           </DndProvider>
         </Dialog>
         <div className="sq-grid__top-bar">
-          <div className="sq-grid__switch-views">
-            {enableViewSelection && this.hasData() && <ButtonSelection options={this.viewOptions} value={this.state.viewType || viewType} onChange={this.onViewTypeChange} disabled={this.isDisabled() || this.isLoading()} />}
-          </div>
-          {paginationProps?.value && this.hasData() && <div className="sq-grid__pagination-view">
-            <Pagination {...paginationProps} value={paginationProps?.value} disabled={paginationProps.disabled || this.isDisabled() ||  this.isLoading()} />
-          </div>}
+          <div className="sq-grid__switch-views">{enableViewSelection && this.hasData() && <ButtonSelection options={this.viewOptions} value={this.state.viewType || viewType} onChange={this.onViewTypeChange} disabled={this.isDisabled() || this.isLoading()} />}</div>
+          {paginationProps?.value && this.hasData() && (
+            <div className="sq-grid__pagination-view">
+              <Pagination {...paginationProps} value={paginationProps?.value} disabled={paginationProps.disabled || this.isDisabled() || this.isLoading()} />
+            </div>
+          )}
         </div>
         <div className="sq-grid__root">
           <div className={`sq-grid__left-fixed ${this.state.hasLeftScrolled > 0 ? 'has-scrolled' : ''}`}>
@@ -251,7 +253,7 @@ class Grid extends React.Component {
     if (this.bodyRef?.current) {
       scrollbarWidth = this.bodyRef.current.offsetWidth - this.bodyRef.current.clientWidth;
     }
-    return <GridHeaderRow allowResizeCols={allowResizeCols} onColResize={(w) => this.onColResize(w, name)} spacer={spacer} columns={columns} sortColumn={sortColumn} sortOrder={sortOrder} enableSort={enableSort} spacerWidth={scrollbarWidth} onSort={this.handleSort} />;
+    return <GridHeaderRow allowResizeCols={allowResizeCols} onColResize={(w) => this.onColResize(w, name)} spacer={spacer} columns={columns} sortColumn={sortColumn} dynamicWidth={this.state.dynamicWidth} sortOrder={sortOrder} enableSort={enableSort} spacerWidth={scrollbarWidth} onSort={this.handleSort} />;
   }
 
   renderData(name, columns, data, rowConfig, spacer, disableLoader) {
@@ -265,7 +267,7 @@ class Grid extends React.Component {
   }
 
   isLoading() {
-    return this.props.data === undefined || (this.props.isLoading === true);
+    return this.props.data === undefined || this.props.isLoading === true;
   }
 
   isDisabled() {
@@ -335,6 +337,7 @@ class Grid extends React.Component {
     onAction && onAction(row, action, column);
   }
   renderRow(name, columns, data, rowConfig = {}, index, spacer) {
+    const { dynamicWidth } = this.props;
     const { rowType, className = '', wrapperClassName = '' } = rowConfig;
     const RowComp = RowTypes[rowType] || RowTypes.GridRow;
     const finalClassName = getValue(this, className, data, columns);

@@ -10,7 +10,10 @@ utils.errorMessages.addMessages({
 
 function setUpFakeData(url, data, status, plain) {
   if (plain) {
-    fakeData[url] = data;
+    fakeData[url] = {
+      status: status || 200,
+      data,
+    };
   } else {
     fakeData[url] = {
       status: status || 200,
@@ -217,20 +220,22 @@ describe('Api Bridge', () => {
       );
       response = await apiBridge.delete('/login/try', {}, {}, {}, { plain: true });
       expect(response).toEqual({
-        status: 'error',
-
-        error: {
-          error: true,
-          key: 'LOGIN_FAILED',
-          errors: {
-            g1: { error: true, key: 'K1' },
-            g2: {
-              errors: {
-                e1: { error: true, key: 'K2' },
+        data: {
+          status: 'error',
+          error: {
+            error: true,
+            key: 'LOGIN_FAILED',
+            errors: {
+              g1: { error: true, key: 'K1' },
+              g2: {
+                errors: {
+                  e1: { error: true, key: 'K2' },
+                },
               },
             },
           },
         },
+        status: 401,
       });
     });
   });
@@ -273,9 +278,9 @@ describe('Api Bridge', () => {
       apiBridge.reset();
     });
     test('should return the parsed response', async () => {
-      setUpFakeData('/login/try', 'talk no more', 400, true);
+      setUpFakeData('/login/try', { message: 'task force' }, 502);
       response = await apiBridge.delete('/login/try');
-      expect(response).toEqual({ error: {} });
+      expect(response).toEqual({ error: { code: 502, message: 'task force', status: 'success' } });
     });
     test('should call onUnRecognizedError() if failed to parse the response', async () => {
       const onUnRecognizedError = jest.fn();
@@ -283,7 +288,15 @@ describe('Api Bridge', () => {
       setUpFakeData('/login/try', 'talk no more', 400, true);
       response = await apiBridge.post('/login/try');
       expect(onUnRecognizedError).toHaveBeenCalledTimes(1);
-      expect(onUnRecognizedError).toHaveBeenCalledWith({ error: {} });
+      expect(onUnRecognizedError).toHaveBeenCalledWith({ error: { data: 'talk no more', status: 400 } });
+    });
+    test('should call onUnRecognizedError() if failed with different error code', async () => {
+      const onUnRecognizedError = jest.fn();
+      apiBridge.events.subscribe('onUnRecognizedError', onUnRecognizedError);
+      setUpFakeData('/login/try', { message: 'server busy' }, 502, true);
+      response = await apiBridge.post('/login/try');
+      expect(onUnRecognizedError).toHaveBeenCalledTimes(1);
+      expect(onUnRecognizedError).toHaveBeenCalledWith({ error: { code: 502, message: 'server busy', status: 'success' } });
     });
   });
   describe('error: 500 server error', function () {

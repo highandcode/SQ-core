@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Tooltip } from '@mui/material';
 import Icon from '../../Icon';
 
-const GridHeaderRow = ({ allowResizeCols = true, columns = [], spacer = false, onColResize, sortColumn, sortOrder = 'asc', sortSeparator = '|', onSort, enableSort, spacerWidth = 0 }) => {
+const GridHeaderRow = ({ allowResizeCols = true, columns = [], spacer = false, dynamicWidth = {}, onColResize, sortColumn, sortOrder = 'asc', sortSeparator = '|', onSort, enableSort, spacerWidth = 0 }) => {
   const isSortEnabled = enableSort && sortColumn && sortOrder;
-  const [width, setWidth] = useState({});
+  const [width, setWidth] = useState(dynamicWidth);
   const [startX, setStartX] = useState();
   const dragHandler = useCallback(
     (e, col) => {

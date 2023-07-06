@@ -1,3 +1,5 @@
+import common from "./common";
+
 class QueryString {
   constructor(params) {
     this.input = params;
@@ -14,7 +16,10 @@ class QueryString {
             str +=
             (str ? '&' : '') + key + '=' + encodeURIComponent(itemVal);
           })
-        } else if (typeof this.input[key] !== 'undefined') {
+        } else if (typeof this.input[key] === 'object' && this.input[key] !== null) {
+          str +=
+            (str ? '&' : '') + key + '=o:' + encodeURIComponent(JSON.stringify(this.input[key]));
+        } else if (!common.isNullOrUndefinedBlank(this.input[key])) {
           str +=
             (str ? '&' : '') + key + '=' + encodeURIComponent(this.input[key]);
         }
@@ -29,7 +34,17 @@ class QueryString {
       const runInput = this.input.substr(this.input.indexOf('?') + 1);
       runInput.split('&').forEach((keyValue) => {
         const split = keyValue.split('=');
-        obj[split[0]] = decodeURIComponent(split[1]);
+        if (split[1].substr(0,2) === 'o:') {
+           obj[split[0]] = JSON.parse(decodeURIComponent(split[1].substr(2)));
+        } else {
+          if (Array.isArray(obj[split[0]])) {
+            obj[split[0]].push(decodeURIComponent(split[1]))
+          } else if (obj[split[0]]) {
+            obj[split[0]] = [obj[split[0]], decodeURIComponent(split[1])];
+          } else {
+            obj[split[0]] = decodeURIComponent(split[1]);
+          }
+        }
       });
     }
     return obj;

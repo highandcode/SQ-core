@@ -4,6 +4,7 @@ import browser from './browser';
 
 import common from './common';
 import * as currency from './currency';
+import * as storage from './storage';
 import * as datetime from './datetime';
 import * as errorMessages from './error-messages';
 import EventManager from './event-manager';
@@ -51,6 +52,7 @@ export {
   translate,
   validator,
   processor,
+  storage,
   string,
   setErrorCodes,
   getParsers,

@@ -1,5 +1,5 @@
 import { GLOBAL_OPTIONS } from '../../../globals';
-import { getIconList } from '../../../components/Icon';
+import { icons } from '../../../utils/storage';
 import validators from './c-validators';
 const tabs = {
   general: {
@@ -74,7 +74,7 @@ const defaultMatch = [
 ];
 
 const getIconListMap = () => {
-  return Object.keys(getIconList()).map((name) => ({
+  return Object.keys(icons.getAll()).map((name) => ({
     text: name,
     value: name,
   }));

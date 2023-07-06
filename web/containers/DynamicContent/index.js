@@ -11,22 +11,15 @@ import { redirectTo } from '../../utils/redirect';
 import { Validator } from '../../utils/validator';
 import { events } from '../../utils/app-events';
 import { query } from '../../utils/query-string';
-import { fetchContentPage, uploadApi, postApi, checkAndPostApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, customHooks, sendContact, processParams } from '../../redux/content';
+import { containers } from '../../utils/storage';
+import { fetchContentPage, uploadApi, postApi, checkAndPostApi, downloadApi, executeHook, updateUserData, updateMetaData, mergeUserData, updateErrorData, resetUserData, sendContact, processParams } from '../../redux/content';
 
 import { startLoading, showNotificationMessage, closeNotification, stopLoading, showPopupScreen, closePopupScreen, closePopup, showPopup, setError, clearError } from '../../redux/common';
 
 const _window = window;
-let containers = {
+containers.set({
   Default,
-  // ...Containers,
-};
-
-const registerContainers = (newContainers) => {
-  containers = {
-    ...containers,
-    ...newContainers,
-  };
-};
+});
 
 class DynamicContent extends Component {
   constructor() {
@@ -59,7 +52,7 @@ class DynamicContent extends Component {
     events.subscribe('afterRedirect', this.onAfterRedirect);
     events.subscribe('dynammicContent.onAction', this.onAction);
   }
-  
+
   async componentWillUnmount() {
     window.removeEventListener('scroll', this.handlePageScroll);
     window.removeEventListener('resize', this.handlePageScroll);
@@ -386,8 +379,8 @@ class DynamicContent extends Component {
     const newUserData = {
       ...this.props.store.content.userData,
       ...(action.currentData || {}),
-    }
-    // action.nextAction = (action) => this.onAction(value, action, block); 
+    };
+    // action.nextAction = (action) => this.onAction(value, action, block);
     switch (action.actionType) {
       case 'file-upload':
         await this.props.contentActions.updateUserData({
@@ -407,6 +400,9 @@ class DynamicContent extends Component {
         }
         this.checkForInlineErrors(result, action);
         this.validateResults(result);
+        break;
+      case 'reset':
+        await this.props.contentActions.resetUserData(action);
         break;
       case 'download-doc':
         await this.props.contentActions.updateUserData({
@@ -529,7 +525,7 @@ class DynamicContent extends Component {
       case 'close-popup':
         await this.props.commonActions.closePopup();
         action.eventEmit !== false && events.emit('onPopupCloseAction', action);
-        break;  
+        break;
       case 'popup-screen':
         await this.props.commonActions.showPopupScreen({
           ...processParams(newUserData, action.params),
@@ -601,8 +597,8 @@ class DynamicContent extends Component {
     const { classes = {}, ...restDynamic } = dynamicParams;
     const updatedPageData = { ...pageData, ...restDynamic };
     const { container, containerTemplate, contentBodyClass = '', rootClassName = '', transition = {} } = updatedPageData;
-    const ContentTemplateContainer = mode === 'actual' ? containers[overrideContainerTemplate || containerTemplate] || containers.Default : containers.Default;
-    const ContentContainer = containers[container] || DefaultContent;
+    const ContentTemplateContainer = mode === 'actual' ? containers.get()[overrideContainerTemplate || containerTemplate] || containers.get().Default : containers.get().Default;
+    const ContentContainer = containers.get()[container] || DefaultContent;
     const { out: tranOut = 'out-up', in: tranIn = 'out-in', loading = 'loading', loadingColor = 'primary' } = rootTransition || transition;
     const classState = this.state.isOut ? `transition transition-page--${tranOut}` : this.state.isIn ? `transition transition-page--${tranIn}` : '';
     const loadingState = this.state.isLoading ? `transition transition-page--${loading}` : '';
@@ -638,7 +634,7 @@ DynamicContent.propTypes = {
   raiseAction: PropTypes.func,
 };
 
-export { DynamicContent, customHooks, registerContainers };
+export { DynamicContent };
 
 const mapStateToProps = (state) => {
   return {

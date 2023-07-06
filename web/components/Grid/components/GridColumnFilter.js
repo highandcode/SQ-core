@@ -2,8 +2,9 @@ import React, { useState, memo, useCallback, useRef } from 'react';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
 import { useDrag, useDrop } from 'react-dnd';
-import { CheckboxField } from '../../ui/Checkbox';
+import CheckboxField from '../../ui/CheckboxField';
 import Icon from '../../Icon';
+import string from '../../../utils/string';
 
 const ItemTypes = {
   CARD: 'CARD',
@@ -13,13 +14,14 @@ const style = {
   cursor: 'move',
 };
 
+
 const fixedStyles = {
   cursor: 'not-allowed',
 };
 
 const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColumReorder }) => {
   const [internalColumns, setInternalColumns] = useState([...columns].sort((a, b) => colOrder && (colOrder[a.name] > colOrder[b.name] ? 1 : colOrder[a.name] < colOrder[b.name] ? -1 : 0)));
-  const hasAllSelection = columns.map((i) => value.indexOf(i.name) > -1 || i.customize === false).filter((a) => a === false).length === 0;
+  const hasAllSelection = columns.map((i) => (Array.isArray(value) && value.indexOf(i.name) > -1) || i.customize === false).filter((a) => a === false).length === 0;
   const handleSelectAll = (data) => {
     if (data.checked) {
       onChange &&
@@ -52,7 +54,6 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
       }
     }
   };
-  
 
   const findCard = useCallback(
     (name) => {
@@ -79,7 +80,7 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
     onColumReorder && onColumReorder(colOrder);
     onChange &&
       onChange({
-        value: updatedCols.filter((col) => value.indexOf(col.name) > -1).map((i) => i.name),
+        value: updatedCols.filter((col) => Array.isArray(value) && value.indexOf(col.name) > -1).map((i) => i.name),
       });
   };
   const [, drop] = useDrop(() => ({ accept: ItemTypes.CARD }));
@@ -91,9 +92,9 @@ const GridColumnFilter = ({ columns = [], value = [], colOrder, onChange, onColu
       <div className="sq-grid__col-filters__body">
         <div ref={drop} className={`sq-grid__col-filters__list`}>
           {internalColumns.map((col, i) => (
-            <Card key={col.name} id={col.name} fixed={col.fixed || col.customize === false} index={i} name={`${col.name}`} text={col.headerText} moveCard={moveCard} findCard={findCard}>
+            <Card key={col.name} id={col.name} fixed={col.fixed || col.customize === false} index={i} name={`${col.name}`} text={col.headerText || col.name} moveCard={moveCard} findCard={findCard}>
               <div className={`sq-grid__col-filters__item`} key={`col-${col.name}`}>
-                <Icon name="DragHandle" /> <CheckboxField className="sq-grid__col-filters__checkbox" onChange={(value) => handleChange(value, col)} disabled={col.customize === false} checked={col.customize === false || value.indexOf(col.name) > -1} text={col.headerText || 'No Name'} />
+                <Icon name="DragHandle" /> <CheckboxField className="sq-grid__col-filters__checkbox" onChange={(value) => handleChange(value, col)} disabled={col.customize === false} checked={col.customize === false || (Array.isArray(value) && value.indexOf(col.name) > -1)} text={col.headerText || string.titleCase(col.name) || 'No Name'} />
               </div>
             </Card>
           ))}

@@ -14,7 +14,18 @@ customHooks.add('data', {
       }
     }
     return null;
-  }
+  },
+});
+
+customHooks.add('contentPages', {
+  extractDataArray: (result) => {
+    if (result.status === CONSTANTS.STATUS.SUCCESS) {
+      return {
+        ...result.data,
+        pages: result.data.data,
+      };
+    }
+  },
 });
 
 export { customHooks };

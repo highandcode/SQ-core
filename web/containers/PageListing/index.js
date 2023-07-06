@@ -3,28 +3,48 @@ import PropTypes from 'prop-types';
 import { Grid, Actions } from '../../components/root';
 import * as utils from '../../utils';
 import { loadPageTree, loadPagesByPath, deletePage, clonePage } from '../../redux/admin';
-import { updateUserData } from '../../redux/content';
+import { updateUserData, processParams } from '../../redux/content';
 import BaseContainer from '../BaseContainer';
 import Dialog from '../../components/Dialog';
+import Form from '../../components/Form';
 import clonePageConfig from './ClonePage';
-// import { GLOBAL_OPTIONS } from '../../globals';
+import { GLOBAL_OPTIONS } from '../../globals';
 
 import PathTree from './PathTree';
 import DynamicContent from '../DynamicContent';
 
-// const { Grid, Tabs, Form, Pagination, Link, Dialog, Actions } = root;
-const { formatters } = utils.format;
 const { translate } = utils.translate;
 
 class PageListing extends BaseContainer {
   constructor() {
     super();
-    this.state = {};
-    this.onFilterChange = this.onFilterChange.bind(this);
+    this.state = {
+      showFilter: false,
+      currentQuickFilter: {},
+    };
     this.onGridAction = this.onGridAction.bind(this);
     this.toggleEditForm = this.toggleEditForm.bind(this);
     this.onCloneFormSubmit = this.onCloneFormSubmit.bind(this);
+    this.handleAction = this.handleAction.bind(this);
     this.onTreeSelect = this.onTreeSelect.bind(this);
+    this.onFilterAction = this.onFilterAction.bind(this);
+  }
+
+  processField(field) {
+    const { userData, store } = this.props;
+    return {
+      ...field,
+      beforeRender: (field, val, row) => {
+        return {
+          ...(field.componentProps ? processParams({ ...userData, ...row }, field.componentProps, undefined, store) : {}),
+        };
+      },
+      fields: field.fields
+        ? field.fields.map((field) => {
+            return this.processField(field);
+          })
+        : undefined,
+    };
   }
 
   async componentDidMount() {
@@ -36,21 +56,38 @@ class PageListing extends BaseContainer {
         parentPath: store.admin.contentTree?.path,
       });
     }
+    await this.setState({
+      currentFilter: utils.storage.preference.read('currentFilter'),
+    });
+    this.filterFields = [
+      {
+        name: 'pageName',
+        label: 'Name',
+      },
+      {
+        name: 'path',
+        label: 'Path',
+      },
+      {
+        name: 'type',
+        cmpType: 'ButtonSelection',
+        label: 'Page Type',
+        options: GLOBAL_OPTIONS.contentType.toArray(),
+      },
+    ].concat(
+      (pageData.filterFields || []).map((field) => {
+        return this.processField(field);
+      })
+    );
     this.refreshPages();
   }
 
-  async refreshPages({ parentPath = this.state.parentPath } = {}) {
-    const { pageData, store } = this.props;
+  async refreshPages(options = {}) {
+    const { parentPath = this.state.parentPath, pageNo = 1, pageSize = GLOBAL_OPTIONS.noOfResultsDropdown.toArray()[0].value } = options;
+    const { pageData } = this.props;
     this.props.commonActions.startLoading();
-      await this.props.raiseAction(loadPagesByPath({ parentPath }, pageData.getPagesConfig));
+    await this.props.raiseAction(loadPagesByPath({ ...this.state.currentFilter, parentPath }, pageData.getPagesConfig, { pageNo, pageSize }));
     this.props.commonActions.stopLoading();
-  }
-
-  onFilterChange(data) {
-    Object.keys(data.value).forEach((key) => (data.value[key] == null || data.value[key] == '') && delete data.value[key]);
-    this.setState({
-      currentFilter: data.value,
-    });
   }
 
   componentDidUpdate(prevProps) {
@@ -61,8 +98,16 @@ class PageListing extends BaseContainer {
     }
   }
 
+  getCurrentPage() {
+    const { store } = this.props;
+    return {
+      pageNo: store.admin?.contentPagesPagination.currentPage,
+      pageSize: store.admin?.contentPagesPagination.pageSize,
+    };
+  }
+
   async onGridAction(row, value, column) {
-    const { pageData } = this.props;
+    const { pageData, store } = this.props;
     switch (value.action) {
       case 'clone':
         this.setState({
@@ -73,7 +118,8 @@ class PageListing extends BaseContainer {
       case 'delete':
         this.props.commonActions.startLoading();
         await this.props.raiseAction(deletePage(row, pageData.contentPageConfig));
-        this.refreshPages();
+        const currentPage = this.getCurrentPage();
+        this.refreshPages({ ...currentPage });
         break;
       case 'edit':
         utils.redirect.redirectTo(
@@ -96,7 +142,8 @@ class PageListing extends BaseContainer {
     await this.props.raiseAction(
       clonePage(data, pageData.clonePageConfig, {
         success: () => {
-          this.refreshPages();
+          const currentPage = this.getCurrentPage();
+          this.refreshPages({ ...currentPage });
           this.setState({
             openClone: false,
           });
@@ -129,42 +176,134 @@ class PageListing extends BaseContainer {
     await this.props.raiseAction(loadPagesByPath({ parentPath: data.value }, pageData.getPagesConfig));
     this.props.commonActions.stopLoading();
   }
+  onQuickFilterChange = async (data, action) => {
+    await this.setState({
+      __currentFilter: data.value,
+    });
+  };
+
+  async onFilterAction(data, action) {
+    switch (action.actionType) {
+      case 'resetFilter':
+        await this.setState({
+          showFilter: !this.state.showFilter,
+        });
+        this.setState({
+          currentFilter: {},
+        });
+        await this.setState({
+          __currentFilter: {},
+        });
+        await this.refreshPages();
+        break;
+      case 'applyFilter':
+        await this.setState({
+          currentFilter: this.state.__currentFilter,
+        });
+        utils.storage.preference.write('currentFilter', this.state.__currentFilter)
+        await this.setState({
+          showFilter: !this.state.showFilter,
+          __currentFilter: undefined,
+        });
+        await this.refreshPages();
+        break;
+    }
+  }
+
+  async handleAction(data, action) {
+    const { onAction } = this.props;
+    switch (action.actionType) {
+      case 'edit-filter':
+        this.setState({
+          showFilter: true,
+        });
+        break;
+      default:
+        if (action.actionType) {
+          action.currentData = data;
+          onAction && onAction(data, action);
+        }
+    }
+  }
 
   render() {
-    const { store, pageData = {} } = this.props;
+    const { store, pageData = {}, userData } = this.props;
     const { isLoading } = this.state;
     return (
       <div className="sq-page-listing sq-v-screen sq-v-screen--fixed">
-        <div className="sq-v-screen__container">
-          <div className="container-fluid mt-wide mb-wide">
-            <Dialog
-              open={this.state.openClone}
-              onClose={this.toggleEditForm}
-              title={`Clone page`}
-            >
-              <div className="mt-wide">
-                <DynamicContent
-                  className={`sq-page-listing__clone`}
-                  onSubmit={this.onCloneFormSubmit}
-                  pageConfig={clonePageConfig({
-                    formData: this.state.cloneFrom,
-                    ...pageData.cloneConfig,
-                  })}
-                ></DynamicContent>
-              </div>
-            </Dialog>
-            <Actions
-              actions={[
-                {
-                  type: 'Button',
-                  iconName: 'add',
-                  size: 'small',
-                  to: pageData.addNewPage || 'addNewPage',
-                  buttonText: 'Add New',
-                },
-              ].filter((i) => i)}
+        <>
+          <Dialog
+            open={this.state.showFilter}
+            transitionDir="left"
+            classes={{
+              dialog: {
+                root: 'sq-dialog--fixed-right',
+              },
+            }}
+            onClose={() => this.setState({ showFilter: false })}
+            onAction={this.onFilterAction}
+            actions={[
+              {
+                actionType: 'applyFilter',
+                buttonText: 'Apply',
+              },
+              {
+                actionType: 'resetFilter',
+                buttonText: 'Reset',
+                variant: 'outlined',
+              },
+            ]}
+            title={'Filters'}
+          >
+            <Form
+              onChange={this.onQuickFilterChange}
+              userData={userData}
+              className="mt-wide"
+              value={this.state.__currentFilter || this.state.currentFilter}
+              fields={this.filterFields}
             />
-          </div>
+          </Dialog>
+        </>
+        <div className={`container-fluid ${pageData.actionInBreadCrumb === true ? 'sq-v-screen__sub-header' : 'mt-wide'}`}>
+          <Actions
+            onAction={this.handleAction}
+            actions={[
+              {
+                type: 'Button',
+                iconName: 'add',
+                to: pageData.addNewPage || 'addNewPage',
+                buttonText: 'Add New',
+              },
+              {
+                actionType: 'edit-filter',
+                iconName: 'filter-list',
+                variant: 'outlined',
+                cmpType: 'Button',
+                buttonText: 'Filters',
+              },
+            ].filter((i) => i)}
+          />
+        </div>
+        <div className="sq-v-screen__container mt-wide">
+          {/* <div className="container-fluid">
+            <Form disabled={userData.isLoading} userData={userData} onChange={this.onQuickFilterChange} className="sq-form--inline-auto p-0" value={this.state.currentQuickFilter} fields={this.quickFilterFields} />
+          </div> */}
+          <Dialog
+            open={this.state.openClone}
+            onClose={this.toggleEditForm}
+            title={`Clone page`}
+          >
+            <div className="mt-wide">
+              <DynamicContent
+                className={`sq-page-listing__clone`}
+                onSubmit={this.onCloneFormSubmit}
+                pageConfig={clonePageConfig({
+                  formData: this.state.cloneFrom,
+                  ...pageData.cloneConfig,
+                })}
+              ></DynamicContent>
+            </div>
+          </Dialog>
           <div className={`container-fluid  sq-v-screen__body-container`}>
             <div className="sq-v-screen-grow mb-wide sq-page-listing__container">
               {pageData.enableTree !== false && (
@@ -178,6 +317,18 @@ class PageListing extends BaseContainer {
               )}
               <Grid
                 className="sq-basic-grid sq-page-listing__right sq-basic-grid--rounded sq-grid--fixed"
+                paginationProps={{
+                  disabled: isLoading,
+                  count: store.admin?.contentPagesPagination?.totalPages,
+                  value: store.admin?.contentPagesPagination,
+                  onChange: (data) =>
+                    this.refreshPages({
+                      pageNo: data?.value?.currentPage,
+                      pageSize: data?.value?.pageSize,
+                    }),
+                  enablePageSize: true,
+                  pageSizeOptions: GLOBAL_OPTIONS.noOfResultsDropdown.toArray(),
+                }}
                 // loader={<Skeleton styleName={`grid-tran`} rows={8} />}
                 onAction={this.onGridAction}
                 columns={[

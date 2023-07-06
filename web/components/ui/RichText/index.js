@@ -107,7 +107,7 @@ class RichTextField extends React.Component {
       this.setState({
         value: this.props.value,
       });
-      this.editor.setContent(this.props.value);
+      this.editor.setContent(this.props.value || '');
     }
   }
 

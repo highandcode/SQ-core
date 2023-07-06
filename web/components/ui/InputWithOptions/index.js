@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Input from '../InputField';
-import CheckboxList from '../Checkbox';
+import CheckboxList from '../CheckboxList';
 import Autocomplete from '../Autocomplete';
 
 const map = {

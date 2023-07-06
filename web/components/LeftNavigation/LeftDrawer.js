@@ -57,7 +57,8 @@ const LeftDrawer = ({ items = [], onClick, permissions = [], roles = [], openDra
                     >
                       {item.iconName && (
                         <ListItemIcon>
-                          <Icon name={item.iconName} />
+                          {item.rootIcon && <Icon name={item.rootIcon} />}
+                          {!item.rootIcon && <Icon name={item.iconName} />}
                         </ListItemIcon>
                       )}
                       <ListItemText primary={item.header || item.title} />

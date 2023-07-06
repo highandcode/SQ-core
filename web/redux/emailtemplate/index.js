@@ -1,17 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  processParams,
-  selectUserData,
-  updateUserData,
-  updateProtectedUserData,
   customHooks,
 } from '../content';
 import _ from 'lodash';
-import { GLOBAL_OPTIONS, CONSTANTS } from '../../globals';
+import {  CONSTANTS } from '../../globals';
 import * as utils from '../../utils';
-import domain from '../../domain';
 import adminConfig from '../../admin.config';
-import { showNotificationMessage } from '../common';
 const initialState = {
   currentUser: null,
 };

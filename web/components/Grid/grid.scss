@@ -397,6 +397,18 @@
       justify-content: flex-start;
       flex-grow: 1;
     }
+    .col-xl {
+      flex-basis: 380px;
+      min-width: 380px;
+      justify-content: flex-start;
+      flex-grow: 0;
+    }
+    .col-xl-grow {
+      flex-basis: 380px;
+      min-width: 380px;
+      justify-content: flex-start;
+      flex-grow: 1;
+    }
 
     .col-initial {
       flex-grow: 1;

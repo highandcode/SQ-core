@@ -206,7 +206,7 @@ function checkStatus(response) {
       resolve({
         code: response.status,
         status: CONSTANTS.STATUS.SUCCESS,
-        data: {},
+        ...(response?.data || {})
       });
     });
   }
@@ -219,7 +219,7 @@ function parseJSON(response) {
       resp = response.json();
     } catch (ex) {
       resp = {
-        error: {},
+        error: response || {},
       };
     }
     return resp;
