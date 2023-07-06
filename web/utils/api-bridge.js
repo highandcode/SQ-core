@@ -206,7 +206,7 @@ function checkStatus(response) {
       resolve({
         code: response.status,
         status: CONSTANTS.STATUS.SUCCESS,
-        data: {},
+        ...(response?.data || {})
       });
     });
   }
